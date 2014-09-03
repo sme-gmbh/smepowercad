@@ -21,6 +21,20 @@ public:
 
     void setup(QPoint translationOffset, qreal zoomFactor, QVector3D centerOfViewInScene, QPoint displayCenter, CuttingPlane cuttingplane, qreal height_of_intersection, qreal depth_of_view, qreal rot_x, qreal rot_y, qreal rot_z);
 
+    // Overlay
+    void moveCursor(QPoint pos);
+    void hideCursor();
+    void pickStart();
+    void pickEnd();
+    bool isPickActive();
+    QRect selection();
+    Qt::ItemSelectionMode selectionMode();
+
+    enum SnapMode{SnapNo, SnapEndpoint, SnapCenter, SnapBasepoint};
+    void snap_enable(bool on);
+    void set_snap_mode(SnapMode mode);
+    void set_snapPos(QPoint snapPos);
+
 private:
     ItemDB* itemDB;
     CuttingPlane cuttingplane;
@@ -35,6 +49,16 @@ private:
 
     GLuint tile_list;
 
+    // Overlay
+    QPoint mousePos;
+    QPoint pickStartPos;
+    bool pickActive;
+    bool cursorShown;
+    SnapMode snapMode;
+    QPoint snapPos;
+
+
+    // OpenGL
     void saveGLState();
     void restoreGLState();
 

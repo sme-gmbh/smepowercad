@@ -72,6 +72,7 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, QWidget *parent) :
 GeometryDisplay::~GeometryDisplay()
 {
     delete this->overlay;
+    delete this->glwidget;
     if (framebufferImage != NULL)
         delete framebufferImage;
 
@@ -356,16 +357,19 @@ void GeometryDisplay::mouseMoveEvent(QMouseEvent *event)
     {
         QPointF snapPoint = snapEngine->snap_vertex_points.at(0);
 //        overlay->set_snap_mode(Overlay::SnapEndpoint);
+        glwidget->set_snap_mode(GLWidget::SnapEndpoint);
 //        overlay->set_snapPos(snapPoint.toPoint());
-        //overlay->set_snapPos(mousePos);
+        glwidget->set_snapPos(snapPoint.toPoint());
     }
     else
     {
 //        overlay->set_snap_mode(Overlay::SnapNo);
+        glwidget->set_snap_mode(GLWidget::SnapNo);
 //        overlay->set_snapPos(mousePos);
     }
 
     //this->overlay->moveCursor(mousePos);
+    glwidget->moveCursor(mousePos);
     slot_redrawScene();
 
     event->accept();
@@ -383,6 +387,7 @@ void GeometryDisplay::leaveEvent(QEvent *event)
 {
     QDockWidget::leaveEvent(event);
     //this->overlay->hideCursor();
+    glwidget->hideCursor();
 
     event->accept();
 }
@@ -416,6 +421,8 @@ void GeometryDisplay::mousePressEvent(QMouseEvent *event)
         // Pickbox
         if (!this->overlay->isPickActive())
             this->overlay->pickStart();
+        if (!this->glwidget->isPickActive())
+            this->glwidget->pickStart();
         else
         {
             // Selection of items finished
@@ -437,7 +444,8 @@ void GeometryDisplay::mousePressEvent(QMouseEvent *event)
 //                    this->selection_selectSingleItem(new_selectedItem);
 //            }
 
-            this->overlay->pickEnd();
+//            this->overlay->pickEnd();
+            this->glwidget->pickEnd();
             return;
         }
 
@@ -463,9 +471,11 @@ void GeometryDisplay::keyPressEvent(QKeyEvent *event)
     switch (event->key())
     {
         case Qt::Key_Escape:
-        if (this->overlay->isPickActive())
+//        if (this->overlay->isPickActive())
+        if (this->glwidget->isPickActive())
         {
-            this->overlay->pickEnd();
+//            this->overlay->pickEnd();
+            this->glwidget->pickEnd();
             break;
         }
 //        if (this->selectedItems.count() > 0)
@@ -488,9 +498,11 @@ void GeometryDisplay::resizeEvent(QResizeEvent *event)
     displayCenter = QPoint(this->width(), this->height()) / 2;
 
     QDockWidget::resizeEvent(event);
-    if (this->overlay != NULL)
+//    if (this->overlay != NULL)
+    if (this->glwidget!= NULL)
     {
-        this->overlay->resize(event->size());
+//        this->overlay->resize(event->size());
+        this->glwidget->resize(event->size());
     }
 
     if (this->glwidget != NULL)
