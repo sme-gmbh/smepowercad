@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>LayerManager</class>
+ <widget class="QDockWidget" name="LayerManager">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1000</width>
+    <height>632</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QDockWidget
+{
+	background-color: rgb(129, 128, 124);
+	color: rgb(20, 20, 20);
+}
+
+QTreeView
+{
+	border: 0;
+	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, 
+		stop:0.0 rgb(82, 84, 84), 
+		stop:1.0 rgb(50, 53, 57));
+	color: rgb(255, 255, 255);
+}</string>
+  </property>
+  <property name="floating">
+   <bool>true</bool>
+  </property>
+  <property name="allowedAreas">
+   <set>Qt::AllDockWidgetAreas</set>
+  </property>
+  <property name="windowTitle">
+   <string>Layermanager</string>
+  </property>
+  <widget class="QWidget" name="dockWidgetContents">
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="margin">
+     <number>0</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="QTreeWidget" name="treeWidget_layer">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="showDropIndicator" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::NoSelection</enum>
+      </property>
+      <property name="animated">
+       <bool>true</bool>
+      </property>
+      <attribute name="headerHighlightSections">
+       <bool>false</bool>
+      </attribute>
+      <column>
+       <property name="text">
+        <string>Layer</string>
+       </property>
+       <property name="toolTip">
+        <string>Datei- und Layername</string>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Ein</string>
+       </property>
+       <property name="toolTip">
+        <string>Sichtbarkeit des Layers im Designfenster und im Druck</string>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>R/W</string>
+       </property>
+       <property name="toolTip">
+        <string>Berechtigung, Objekte auf dem Layer zu ändern</string>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Füllfarbe</string>
+       </property>
+       <property name="toolTip">
+        <string>Füllfarbe innerhalb von Umrandungsobjekten, z.B. Rechtecken</string>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Linienfarbe</string>
+       </property>
+       <property name="toolTip">
+        <string>Umrandungsfarbe von Objekten, z.B. Rechtecken, Farbe von Linienobjekten</string>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Linienstärke</string>
+       </property>
+       <property name="toolTip">
+        <string>Vorgabestärke von Linien und Umrandungen</string>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Linientyp</string>
+       </property>
+       <property name="toolTip">
+        <string>Muster von Linien oder Umrandungen</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Cantarell</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+      </column>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

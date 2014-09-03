@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/Linie.svg</file>
+        <file>icons/Bogen.svg</file>
+        <file>icons/Kreis.svg</file>
+    </qresource>
+</RCC>

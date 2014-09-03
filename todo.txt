@@ -1,0 +1,3 @@
+Interessant:
+
+QFramebufferObject::toImage()  holt von der GPU einen gerenderten Buffer
