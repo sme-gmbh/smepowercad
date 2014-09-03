@@ -12,3 +12,8 @@ GeometryDisplayTitle::~GeometryDisplayTitle()
 {
     delete ui;
 }
+
+void GeometryDisplayTitle::slot_sceneCoordinatesChanged(QVector3D coords)
+{
+
+}

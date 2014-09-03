@@ -27,6 +27,7 @@
 #include "geometryrenderengine.h"
 #include "snapengine.h"
 #include "glwidget.h"
+#include "geometrydisplaytitle.h"
 
 class GeometryDisplay : public QDockWidget
 {
@@ -43,6 +44,7 @@ public:
     QPointF mapFromScene(QVector3D scenePoint);
 
 private:
+    GeometryDisplayTitle *titleWidget;
     ItemDB* itemDB;
     Overlay* overlay;
     QPoint mousePosOld;

@@ -6,7 +6,7 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemdb) :
     this->itemDB = itemDB;
     rot_x = rot_y = rot_z = 0.0f;
 
-    this->setMouseTracking(true);
+    //this->setMouseTracking(true);
     //this->setPalette(Qt::transparent);
     this->setAttribute(Qt::WA_TransparentForMouseEvents);
 

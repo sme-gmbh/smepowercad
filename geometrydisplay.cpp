@@ -18,7 +18,9 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, QWidget *parent) :
     depth_of_view = 0.0;
     repaintNeeded = true;
 
-    this->setTitleBarWidget(new QLabel("moep", this));
+    titleWidget = new GeometryDisplayTitle();
+    connect(this, SIGNAL(signal_sceneCoordinateChanged(QVector3D)), titleWidget, SLOT(slot_sceneCoordinatesChanged(QVector3D)));
+    this->setTitleBarWidget(titleWidget);
 
     mousePosOld = QPoint();
 

@@ -2,6 +2,7 @@
 #define GEOMETRYDISPLAYTITLE_H
 
 #include <QWidget>
+#include <QVector3D>
 
 namespace Ui {
 class GeometryDisplayTitle;
@@ -17,6 +18,9 @@ public:
 
 private:
     Ui::GeometryDisplayTitle *ui;
+
+public slots:
+    void slot_sceneCoordinatesChanged(QVector3D coords);
 };
 
 #endif // GEOMETRYDISPLAYTITLE_H
