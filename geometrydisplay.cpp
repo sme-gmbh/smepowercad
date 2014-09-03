@@ -18,6 +18,8 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, QWidget *parent) :
     depth_of_view = 0.0;
     repaintNeeded = true;
 
+    this->setTitleBarWidget(new QLabel("moep", this));
+
     mousePosOld = QPoint();
 
     zoomFactor = 1.0;

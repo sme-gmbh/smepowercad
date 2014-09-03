@@ -19,6 +19,7 @@
 #include <QToolButton>
 #include <QColor>
 #include <QImage>
+#include <QLabel>
 
 
 #include "overlay.h"

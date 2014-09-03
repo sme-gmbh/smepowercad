@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     math/m3dbox.cpp \
     snapengine.cpp \
     items/cad3Dface.cpp \
-    glwidget.cpp
+    glwidget.cpp \
+    geometrydisplaytitle.cpp
 
 HEADERS  += mainwindow.h \
     overlay.h \
@@ -58,10 +59,12 @@ HEADERS  += mainwindow.h \
     math/m3dbox.h \
     snapengine.h \
     items/cad3Dface.h \
-    glwidget.h
+    glwidget.h \
+    geometrydisplaytitle.h
 
 FORMS    += mainwindow.ui \
-    layermanager.ui
+    layermanager.ui \
+    geometrydisplaytitle.ui
 
 RESOURCES += \
     icons.qrc

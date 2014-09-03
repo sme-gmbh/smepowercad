@@ -28,13 +28,13 @@ QPlainTextEdit
 
 QMainWindow
 {
-	background-color: rgb(49, 49, 41)
+	background-color: rgb(49, 49, 41);
 }
 
 QMainWindow::separator
 {
 	/*background-color: rgb(102, 132, 86);*/
-	background-color: rgb(0, 0, 0);
+	background-color: rgb(49, 49, 41);
 	width: 3px;
 	height: 3px;
 }
@@ -152,14 +152,14 @@ QDockWidget::float-button
   <widget class="QDockWidget" name="dockWidgetPrompt">
    <property name="minimumSize">
     <size>
-     <width>123</width>
-     <height>196</height>
+     <width>0</width>
+     <height>175</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
      <width>524287</width>
-     <height>196</height>
+     <height>175</height>
     </size>
    </property>
    <property name="features">
