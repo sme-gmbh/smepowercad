@@ -4,15 +4,18 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemdb) :
     QGLWidget(parent)
 {
     this->itemDB = itemDB;
+    this->mousePos = QPoint();
     rot_x = rot_y = rot_z = 0.0f;
+
+    this->pickActive = false;
+    this->cursorShown = true;
+    this->snapMode = SnapCenter;
 
     this->setMouseTracking(true);
     //this->setPalette(Qt::transparent);
     this->setAttribute(Qt::WA_TransparentForMouseEvents);
 
     makeCurrent();
-
-
 
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat mat_shininess[] = { 50.0 };
@@ -95,6 +98,78 @@ void GLWidget::setup(QPoint translationOffset, qreal zoomFactor, QVector3D cente
     this->rot_z = rot_z;
 }
 
+void GLWidget::moveCursor(QPoint pos)
+{
+//    qDebug() << "Overlay: moveCursor " << pos.x() << " " << pos.y();
+    this->mousePos = pos;
+    this->cursorShown = true;
+    this->repaint();
+}
+
+void GLWidget::hideCursor()
+{
+    this->cursorShown = false;
+    this->repaint();
+}
+
+void GLWidget::pickStart()
+{
+    this->pickActive = true;
+    this->pickStartPos = this->mousePos;
+}
+
+void GLWidget::pickEnd()
+{
+    this->pickActive = false;
+    this->repaint();
+}
+
+bool GLWidget::isPickActive()
+{
+    return this->pickActive;
+}
+
+QRect GLWidget::selection()
+{
+    // Selection rect muss immer von topleft noch bottomright gehen
+
+    QPoint topLeft;
+    topLeft.setX(qMin(this->pickStartPos.x(), this->mousePos.x()));
+    topLeft.setY(qMin(this->pickStartPos.y(), this->mousePos.y()));
+
+    QPoint bottomRight;
+    bottomRight.setX(qMax(this->pickStartPos.x(), this->mousePos.x()));
+    bottomRight.setY(qMax(this->pickStartPos.y(), this->mousePos.y()));
+
+    return QRect(topLeft, bottomRight - QPoint(1, 1));
+    //return QRect(this->pickStartPos.x(), this->pickStartPos.y(), this->mousePos.x() - this->pickStartPos.x(), this->mousePos.y() - this->pickStartPos.y());
+}
+
+Qt::ItemSelectionMode GLWidget::selectionMode()
+{
+    if (this->mousePos.x() - this->pickStartPos.x() > 0)
+        return Qt::ContainsItemShape;
+        //return Qt::ContainsItemBoundingRect;
+    else
+        return Qt::IntersectsItemShape;
+        //return Qt::IntersectsItemBoundingRect;
+}
+
+void GLWidget::snap_enable(bool on)
+{
+
+}
+
+void GLWidget::set_snap_mode(SnapMode mode)
+{
+    this->snapMode = mode;
+}
+
+void GLWidget::set_snapPos(QPoint snapPos)
+{
+    this->snapPos = snapPos;
+}
+
 void GLWidget::paintEvent(QPaintEvent *event)
 {
     saveGLState();
@@ -159,6 +234,20 @@ void GLWidget::paintEvent(QPaintEvent *event)
 
     restoreGLState();
 
+    // Overlay
+/*
+    QPainter painter(this);
+
+    QPen pen(Qt::white);
+    pen.setWidth(1);
+
+    painter.setRenderHint(QPainter::Antialiasing, false);
+    painter.setPen(pen);
+    painter.drawLine(QPoint(0, this->mousePos.y()), QPoint(this->width() - 1, this->mousePos.y()));
+    painter.drawLine(QPoint(this->mousePos.x(), 0), QPoint(this->mousePos.x(), this->height() - 1));
+
+    painter.end();
+*/
     event->accept();
 }
 
