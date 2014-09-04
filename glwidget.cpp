@@ -5,11 +5,21 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
 {
     this->itemDB = itemDB;
     this->mousePos = QPoint();
-    rot_x = rot_y = rot_z = 0.0f;
+
+    this->translationOffset = QPoint();
+    this->zoomFactor = 1.0;
+    this->centerOfViewInScene = QVector3D();
+    this->displayCenter = QPoint();
+    this->cuttingplane = CuttingPlane_nZ;
+    this->height_of_intersection = 0.0;
+    this->depth_of_view = 1000000.0;
+    this->rot_x = 0.0;
+    this->rot_y = 0.0;
+    this->rot_z = 0.0;
+
 
 
     makeCurrent();
-    this->setMouseTracking(false);
 
     this->pickActive = false;
     this->cursorShown = true;
@@ -19,9 +29,10 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
 
     this->setPalette(Qt::transparent);
     this->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-    //this->setAttribute(Qt::WA_OpaquePaintEvent);
+//    this->setAttribute(Qt::WA_OpaquePaintEvent);
 
-
+    // Create a SnapEngine
+//    this->snapEngine = new SnapEngine(itemDB, this);
 
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat mat_shininess[] = { 50.0 };
@@ -106,16 +117,18 @@ void GLWidget::setup(QPoint translationOffset, qreal zoomFactor, QVector3D cente
 
 void GLWidget::moveCursor(QPoint pos)
 {
-//    qDebug() << "Overlay: moveCursor " << pos.x() << " " << pos.y();
+//    qDebug() << "GLWidget: moveCursor " << pos.x() << " " << pos.y();
     this->mousePos = pos;
     this->cursorShown = true;
-    this->repaint();
+    repaint();
+    updateGL();
 }
 
 void GLWidget::hideCursor()
 {
     this->cursorShown = false;
-    this->repaint();
+    repaint();
+    updateGL();
 }
 
 void GLWidget::pickStart()
@@ -127,7 +140,8 @@ void GLWidget::pickStart()
 void GLWidget::pickEnd()
 {
     this->pickActive = false;
-    this->repaint();
+    repaint();
+    updateGL();
 }
 
 bool GLWidget::isPickActive()
@@ -148,7 +162,6 @@ QRect GLWidget::selection()
     bottomRight.setY(qMax(this->pickStartPos.y(), this->mousePos.y()));
 
     return QRect(topLeft, bottomRight - QPoint(1, 1));
-    //return QRect(this->pickStartPos.x(), this->pickStartPos.y(), this->mousePos.x() - this->pickStartPos.x(), this->mousePos.y() - this->pickStartPos.y());
 }
 
 Qt::ItemSelectionMode GLWidget::selectionMode()
@@ -176,10 +189,220 @@ void GLWidget::set_snapPos(QPoint snapPos)
     this->snapPos = snapPos;
 }
 
+void GLWidget::wheelEvent(QWheelEvent* event)
+{
+    qreal zoomStep = 1.15;
+
+//    centerOfViewInScene = mapToScene(event->pos());
+//    displayCenter = event->pos();
+
+    QPointF cursorPosF_normal = QPointF((qreal)event->pos().x() / (this->width() - 1), (qreal)event->pos().y() / (this->height() - 1));
+
+    int steps = abs(event->delta() / 8 / 15);
+
+    // Scale the view
+    if(event->delta() > 0)
+    {
+
+    }
+    else
+    {
+        zoomStep = 1.0 / zoomStep;
+    }
+
+    zoomStep = qPow(zoomStep, steps);
+    zoomFactor *= zoomStep;
+
+//    frameBufferSourceRect.adjust(- frameBufferSourceRect.width() * cursorPosF_normal.x() * (1.0 / zoomStep - 1.0),
+//                                 - frameBufferSourceRect.height() * cursorPosF_normal.y() * (1.0 / zoomStep - 1.0),
+//                                   frameBufferSourceRect.width() * (1.0 - cursorPosF_normal.x()) * (1.0 / zoomStep - 1.0),
+//                                   frameBufferSourceRect.height() * (1.0 - cursorPosF_normal.y()) * (1.0 / zoomStep - 1.0));
+
+
+    event->accept();
+
+    // todo: Map to scene
+//    emit signal_sceneCoordinateChanged(mapToScene(event->pos()));
+    repaint();
+    updateGL();
+}
+
+void GLWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    mousePos = event->pos();// - QPoint(1, 1);
+    mousePos.setY((this->height() - 1) - mousePos.y());
+    QPoint mouseMoveDelta = event->pos() - mousePosOld;
+    mousePosOld = mousePos;
+
+    // Update mouse coordinates and scene coordinates
+    //todo
+//    if (!(event->buttons() & Qt::MidButton))
+//        emit signal_sceneCoordinateChanged(mapToScene(mousePos));
+
+    if (event->buttons() == Qt::LeftButton)
+    {
+
+    }
+
+//    if (event->buttons() == Qt::MidButton)
+//    {
+//        centerOfViewInScene = mapToScene(displayCenter - (mouseMoveDelta));
+
+//        qreal deltaZoom_inv = zoomFactor_atCurrentFrame / zoomFactor;         // Fraction of zoom of last rendered frame in relation to current zoom
+//        frameBufferSourceRect.translate(- mouseMoveDelta.x() * deltaZoom_inv, - mouseMoveDelta.y() * deltaZoom_inv);
+//        repaint();
+//        //slot_redrawScene();
+//    }
+
+    if (event->buttons() == Qt::RightButton)
+    {
+        rot_x += mouseMoveDelta.y()/50.0f;
+        rot_y += mouseMoveDelta.x()/50.0f;
+    }
+/*
+    snapEngine->setUp(zoomFactor, centerOfViewInScene, displayCenter, (SnapEngine::CuttingPlane)cuttingplane, height_of_intersection, depth_of_view);
+    snapEngine->snapProcessing(itemDB->layers, mousePos);
+    if (!snapEngine->snap_vertex_points.isEmpty())
+    {
+        QPointF snapPoint = snapEngine->snap_vertex_points.at(0);
+        this->set_snap_mode(GLWidget::SnapEndpoint);
+        this->set_snapPos(snapPoint.toPoint());
+    }
+    else
+    {
+        this->set_snap_mode(GLWidget::SnapNo);
+    }
+*/
+    this->cursorShown = true;
+
+    repaint();
+    updateGL();
+
+    event->accept();
+}
+
+void GLWidget::enterEvent(QEvent *event)
+{
+    this->setCursor(Qt::BlankCursor);
+    this->cursorShown = true;
+
+    event->accept();
+}
+
+void GLWidget::leaveEvent(QEvent *event)
+{
+    this->hideCursor();
+
+    event->accept();
+}
+
+void GLWidget::mousePressEvent(QMouseEvent *event)
+{
+    if (event->buttons() == Qt::MidButton)
+    {
+        this->setCursor(Qt::OpenHandCursor);
+    }
+    else
+        this->setCursor(Qt::BlankCursor);
+
+
+    if (event->buttons() == Qt::RightButton)
+    {
+
+    }
+
+    // Object drawing and manipulation
+    if (event->buttons() == Qt::LeftButton)
+    {
+        // Check if there is a currently active command
+        if (false)
+        {
+
+        }
+
+        // Pickbox
+//        if (!this->overlay->isPickActive())
+//            this->overlay->pickStart();
+        if (!this->isPickActive())
+            this->pickStart();
+        else
+        {
+            // Selection of items finished
+//            QList<QGraphicsItem*> new_selectedItems = this->items(this->overlay->selection(), this->overlay->selectionMode());
+//            qDebug() << QString("Selection finished: ") + QString().setNum(new_selectedItems.count()) + " items found.";
+
+//            foreach (QGraphicsItem* new_selectedItem, new_selectedItems)
+//            {
+//                // Ignore items that have been selected already
+//                if (this->selectedItems.contains(new_selectedItem))
+//                {
+//                    // Check if user wants to deselect it using the shift button
+//                    if (event->modifiers() & Qt::ShiftModifier)
+//                        this->selection_deselectSingleItem(new_selectedItem);
+//                    continue;
+//                }
+
+//                if (!(event->modifiers() & Qt::ShiftModifier))
+//                    this->selection_selectSingleItem(new_selectedItem);
+//            }
+
+//            this->overlay->pickEnd();
+            this->pickEnd();
+            return;
+        }
+
+    }
+    event->accept();
+}
+
+void GLWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    this->setCursor(Qt::BlankCursor);
+
+    if (event->button() == Qt::MidButton)
+    {
+        this->setCursor(Qt::BlankCursor);
+        //slot_redrawScene();
+        repaint();
+        updateGL();
+    }
+
+    event->accept();
+}
+
+void GLWidget::keyPressEvent(QKeyEvent *event)
+{
+    switch (event->key())
+    {
+        case Qt::Key_Escape:
+        if (this->pickActive)
+        {
+            this->pickEnd();
+            break;
+        }
+//        if (this->selectedItems.count() > 0)
+//        {
+//            this->selection_deselectAllItems();
+//        }
+        break;
+    }
+
+    event->accept();
+}
+
+void GLWidget::resizeEvent(QResizeEvent *event)
+{
+    displayCenter = QPoint(this->width(), this->height()) / 2;
+
+//    slot_redrawScene();
+    repaint();
+    updateGL();
+    event->accept();
+}
+
+
 void GLWidget::paintEvent(QPaintEvent *event)
 {
-    QPainter painter(this);
-
     saveGLState();
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -202,7 +425,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glRotatef(rot_z, 0.0f, 0.0f, 1.0f);
     glScaled(this->zoomFactor, this->zoomFactor, this->zoomFactor);
 
-    glDepthFunc(GL_LESS);
+    glDepthFunc(GL_LEQUAL);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_ALPHA_TEST);
 
@@ -214,57 +437,125 @@ void GLWidget::paintEvent(QPaintEvent *event)
 
 //    glCallList(tile_list);
 
-//    glColor4ub(0, 255, 255, 255);
-
-//    glLineWidth(2.0);
-//    glBegin(GL_LINES);
-//    glVertex3f(-30000.0, 0.0, 0.0);
-//    glVertex3f(30000.0, 0.0, 0.0);
-//    glEnd();
-
-//    QVector3D p1 = QVector3D(-30000.0, 2.0, 0.0);
-//    QVector3D p2 = QVector3D(30000.0, 2.0, 0.0);
-
-
-//    for (int i = 0; i < 3; i++)
-//    {
-//        glBegin(GL_LINES);
-//        glVertex3f((GLfloat)p1.x(), (GLfloat)p1.y(), (GLfloat)p1.z());
-//        glVertex3f((GLfloat)p2.x(), (GLfloat)p2.y(), (GLfloat)p2.z());
-//        glEnd();
-
-//        p1 += QVector3D(0.0, 2.0, 0.0);
-//        p2 += QVector3D(0.0, 2.0, 0.0);
-//    }
 
     paintContent(itemDB->layers);
 
     restoreGLState();
+
 //    glFlush();
 
     // Overlay
+    saveGLState();
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0, this->width(), 0, this->height(), -1.0, 1.0);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glViewport(0, 0, width(), height());
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    if (this->cursorShown)
+    {
+        glDisable(GL_DEPTH_TEST);
+        glLineWidth(2);
+        glColor4ub(255, 255, 255, 255);
+        glBegin(GL_LINES);
+        glVertex3i(0, mousePos.y(), 0);
+        glVertex3i(this->width() - 1, mousePos.y(), 0);
+//        glEnd();
+//        glBegin(GL_LINES);
+        glVertex3i(mousePos.x(), 0, 0);
+        glVertex3i(mousePos.x(), this->height() - 1, 0);
+        glEnd();
 
 
-    QPen pen(Qt::white);
-    pen.setWidth(1);
+        if (this->pickActive)
+        {
+            if (this->pickStartPos.x() < this->mousePos.x())
+            {
+//                painter.setPen(Qt::blue);
+//                painter.setBrush(QBrush(QColor(40, 40, 255, 80), Qt::SolidPattern));
+                glColor4ub(127, 127, 255, 127);
+            }
+            else
+            {
+//                pen.setColor(Qt::white);
+//                pen.setStyle(Qt::DashLine);
+//                painter.setPen(pen);
+//                painter.setBrush(QBrush(QColor(40, 255, 40, 80), Qt::SolidPattern));
+                glColor4ub(127, 255, 127, 127);
 
-//    mousePos.setX(500);
-//    mousePos.setY(500);
+            }
+//            painter.drawRect(this->selection());
+            QRect rect = this->selection();
+            glBegin(GL_QUADS);
+            glVertex3i(rect.bottomLeft().x(), rect.bottomLeft().y(), 0);
+            glVertex3i(rect.bottomRight().x(), rect.bottomRight().y(), 0);
+            glVertex3i(rect.topRight().x(), rect.topRight().y(), 0);
+            glVertex3i(rect.topLeft().x(), rect.topLeft().y(), 0);
+            glEnd();
+        }
 
-//    painter.setRenderHint(QPainter::Antialiasing, false);
-//    painter.setPen(pen);
-//    painter.drawLine(QPoint(0, this->mousePos.y()), QPoint(this->width() - 1, this->mousePos.y()));
-//    painter.drawLine(QPoint(this->mousePos.x(), 0), QPoint(this->mousePos.x(), this->height() - 1));
+        if (snapMode != SnapNo)
+        {
+//            pen.setColor(Qt::red);
+//            pen.setStyle(Qt::SolidLine);
+//            pen.setWidth(2);
+//            painter.setPen(pen);
+//            painter.setBrush(Qt::NoBrush);
 
-//    painter.end();
+            glColor4ub(255, 0, 0, 255);
 
-    glBegin(GL_LINES);
-    glVertex3i(0, mousePos.y(), 0);
-    glVertex3i(this->width() - 1, mousePos.y(), 0);
-    glVertex3i(mousePos.x(), 0, 0);
-    glVertex3i(mousePos.x(), this->height() - 1, 0);
-    glEnd();
+            switch (snapMode)
+            {
+            case SnapBasepoint:
+            {
+//                QRect focusRect = QRect(0, 0, 3, 3);
+//                focusRect.moveCenter(this->snapPos);
+//                painter.drawRect(focusRect);
 
+//                painter.drawLine(this->snapPos, this->snapPos + QPoint(5, -5));
+//                painter.drawText(this->snapPos + QPoint(7, -7), "Basepoint");
+                break;
+            }
+            case SnapEndpoint:
+            {
+                QRect focusRect = QRect(0, 0, 11, 11);
+                focusRect.moveCenter(this->snapPos);
+//                painter.drawRect(focusRect);
+//                painter.drawText(this->snapPos + QPoint(7, -7), "Endpoint/Vertex");
+
+                glBegin(GL_LINE_STRIP);
+                glVertex3i(focusRect.bottomLeft().x(), focusRect.bottomLeft().y(), 0);
+                glVertex3i(focusRect.bottomRight().x(), focusRect.bottomRight().y(), 0);
+                glVertex3i(focusRect.topRight().x(), focusRect.topRight().y(), 0);
+                glVertex3i(focusRect.topLeft().x(), focusRect.topLeft().y(), 0);
+                break;
+            }
+            case SnapCenter:
+            {
+//                QRect focusRect = QRect(0, 0, 3, 3);
+//                focusRect.moveCenter(this->snapPos);
+//                painter.drawRect(focusRect);
+
+//                painter.drawLine(this->snapPos - QPoint(5, -5), this->snapPos + QPoint(5, -5));
+//                painter.drawText(this->snapPos + QPoint(7, -7), "Center");
+
+
+                break;
+            }
+            case SnapNo:
+            {
+                break;
+            }
+            }
+
+            glEnd();
+        }
+
+    }
+    restoreGLState();
     event->accept();
 }
 

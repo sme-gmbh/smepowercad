@@ -138,7 +138,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     foreach (GeometryDisplay* gd, geometryDisplays)
     {
-        gd->slot_changeCuttingplane();
+//        gd->slot_changeCuttingplane();
     }
 //    QMainWindow::keyPressEvent(event);
     event->accept();

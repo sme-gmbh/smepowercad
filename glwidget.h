@@ -6,7 +6,10 @@
 #include <QEvent>
 #include <QPaintEvent>
 
+#include <qmath.h>
+
 #include "itemdb.h"
+#include "snapengine.h"
 
 
 class GLWidget : public QGLWidget
@@ -37,6 +40,7 @@ public:
 
 private:
     ItemDB* itemDB;
+    QPoint mousePosOld;
     CuttingPlane cuttingplane;
     qreal height_of_intersection;
     qreal depth_of_view;
@@ -57,6 +61,8 @@ private:
     SnapMode snapMode;
     QPoint snapPos;
 
+    SnapEngine* snapEngine;
+
 
     // OpenGL
     void saveGLState();
@@ -67,9 +73,20 @@ private:
     void paintPolyLine(Layer *layer, CADpolyline *item);
     void paintFace(Layer *layer, CAD3Dface *item);
 
-
 protected:
-    void paintEvent(QPaintEvent* event);
+    virtual void wheelEvent(QWheelEvent *event);
+    virtual void mouseMoveEvent(QMouseEvent *event);
+
+    virtual void enterEvent(QEvent *event);
+    virtual void leaveEvent(QEvent *event);
+    virtual void mousePressEvent(QMouseEvent *event);
+    virtual void mouseReleaseEvent(QMouseEvent *event);
+
+    virtual void keyPressEvent(QKeyEvent *event);
+
+    virtual void resizeEvent(QResizeEvent *event);
+    virtual void paintEvent(QPaintEvent *event);
+
 
 signals:
 
