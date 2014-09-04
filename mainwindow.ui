@@ -325,6 +325,9 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonIconOnly</enum>
+   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
@@ -337,6 +340,28 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <addaction name="actionAussparung"/>
    <addaction name="actionFenster"/>
    <addaction name="actionTuer"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QToolBar" name="toolBar_2">
+   <property name="windowTitle">
+    <string>toolBar_2</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
   </widget>
   <action name="actionLaden">
    <property name="icon">
@@ -487,6 +512,10 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
   </action>
   <action name="actionDecke_Boden">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/boden_decke.svg</normaloff>:/icons/boden_decke.svg</iconset>
+   </property>
    <property name="text">
     <string>Decke/Boden</string>
    </property>
@@ -501,11 +530,19 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
   </action>
   <action name="actionFenster">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/fenster.svg</normaloff>:/icons/fenster.svg</iconset>
+   </property>
    <property name="text">
     <string>Fenster</string>
    </property>
   </action>
   <action name="actionTuer">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/tuer.svg</normaloff>:/icons/tuer.svg</iconset>
+   </property>
    <property name="text">
     <string>Tür</string>
    </property>

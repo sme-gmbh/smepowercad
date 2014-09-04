@@ -16,7 +16,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="Verschiedene.svg">
+   sodipodi:docname="Stütze.svg">
   <defs
      id="defs4">
     <linearGradient
@@ -896,10 +896,10 @@
      objecttolerance="10000"
      guidetolerance="10000"
      gridtolerance="10000"
-     inkscape:window-width="1920"
-     inkscape:window-height="1114"
-     inkscape:window-x="-4"
-     inkscape:window-y="-4"
+     inkscape:window-width="1600"
+     inkscape:window-height="834"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
      inkscape:snap-grids="true">
     <inkscape:grid
@@ -920,7 +920,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -930,14 +930,13 @@
      id="layer1"
      transform="translate(0,-988.36217)">
     <rect
-       style="fill:url(#linearGradient5365);fill-opacity:1;fill-rule:evenodd;stroke:#b3b3b3;stroke-width:0.25000000000000000;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:0;stroke-opacity:1;stroke-dasharray:none"
-       id="rect3767"
-       width="64"
-       height="64"
-       x="0"
-       y="0"
        rx="0"
-       transform="translate(0,988.36217)" />
+       y="988.36218"
+       x="0"
+       height="64"
+       width="64"
+       id="rect3767"
+       style="fill:#f2f2f2;fill-opacity:1;fill-rule:evenodd;stroke:#b3b3b3;stroke-width:0.25;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:0;stroke-opacity:1;stroke-dasharray:none" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot3041"

@@ -506,6 +506,9 @@ QComboBox QAbstractItemView {
      <property name="maximum">
       <double>214748365.000000000000000</double>
      </property>
+     <property name="singleStep">
+      <double>500.000000000000000</double>
+     </property>
     </widget>
    </item>
    <item>
@@ -722,6 +725,9 @@ QComboBox QAbstractItemView {
      </property>
      <property name="maximum">
       <double>214748365.000000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>500.000000000000000</double>
      </property>
     </widget>
    </item>
