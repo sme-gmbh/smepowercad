@@ -321,7 +321,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     </layout>
    </widget>
   </widget>
-  <widget class="QToolBar" name="toolBarArchitecture">
+  <widget class="QToolBar" name="toolBarArchitektur">
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -341,7 +341,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <addaction name="actionFenster"/>
    <addaction name="actionTuer"/>
   </widget>
-  <widget class="QToolBar" name="toolBar">
+  <widget class="QToolBar" name="toolBarLuft">
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -508,7 +508,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <string>Wand</string>
    </property>
    <property name="toolTip">
-    <string>Wand hinzufügen</string>
+    <string>Wand</string>
    </property>
   </action>
   <action name="actionDecke_Boden">
