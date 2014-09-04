@@ -66,18 +66,56 @@ QComboBox
     <number>3</number>
    </property>
    <item>
-    <widget class="QLabel" name="labelSceneCoordinates">
-     <property name="font">
-      <font>
-       <family>DejaVu Sans Mono</family>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>2</number>
      </property>
-     <property name="text">
-      <string>[000000.000, 000000.000, 000000.000]</string>
-     </property>
-    </widget>
+     <item>
+      <widget class="QLabel" name="labelSceneCoordinates_x">
+       <property name="font">
+        <font>
+         <family>DejaVu Sans Mono</family>
+         <pointsize>7</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>x: 000000.000</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="labelSceneCoordinates_y">
+       <property name="font">
+        <font>
+         <family>DejaVu Sans Mono</family>
+         <pointsize>7</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>y: 000000.000</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="labelSceneCoordinates_z">
+       <property name="font">
+        <font>
+         <family>DejaVu Sans Mono</family>
+         <pointsize>7</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>z: 000000.000</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QLabel" name="label">
@@ -128,7 +166,7 @@ QComboBox
    <item>
     <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>HeightOfIntersection: </string>
+      <string>Height: </string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -145,7 +183,7 @@ QComboBox
    <item>
     <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>DepthOfView: </string>
+      <string>Depth: </string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -154,16 +192,6 @@ QComboBox
    </item>
    <item>
     <widget class="QDoubleSpinBox" name="spinBoxDepthOfView"/>
-   </item>
-   <item>
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>Ansicht: </string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
    </item>
    <item>
     <widget class="QComboBox" name="comboBox">
