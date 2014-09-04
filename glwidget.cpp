@@ -402,7 +402,8 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     //glFrustum(-(double)this->width(), (double)this->width(), -(double)this->height(), (double)this->height(), this->width(), 1000000);
-    glOrtho(-100000, 100000, -100000, 100000, -100000, 100000);
+    qreal screenRatio = (qreal)this->width() / (qreal)this->height();
+    glOrtho(-100000 * screenRatio, 100000, -100000 * screenRatio, 100000, -100000, 100000);
     glTranslatef(cameraPosition.x(), cameraPosition.y(), cameraPosition.z());
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
