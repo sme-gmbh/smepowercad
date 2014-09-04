@@ -52,8 +52,11 @@ QPushButton#pushButtonSolid {
 QPushButton:hover {
 	background-color: rgb(110, 110, 95);
 }
-QPushButton:pressed, QPushButton:checked {
+QPushButton:pressed {
 	background-color: rgb(150, 150, 130);
+}
+QPushButton:checked {
+	background-color: rgb(19, 156, 39);
 }
 
 QDoubleSpinBox {
@@ -813,7 +816,7 @@ QComboBox QAbstractItemView {
     </spacer>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="layoutViewStyleButtons">
      <property name="spacing">
       <number>0</number>
      </property>
@@ -843,8 +846,8 @@ QComboBox QAbstractItemView {
        </property>
        <property name="iconSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>24</width>
+         <height>24</height>
         </size>
        </property>
        <property name="checkable">
@@ -878,8 +881,8 @@ QComboBox QAbstractItemView {
        </property>
        <property name="iconSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>24</width>
+         <height>24</height>
         </size>
        </property>
        <property name="checkable">
