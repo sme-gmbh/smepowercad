@@ -1,14 +1,14 @@
 #include "glwidget.h"
 
 GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
-    QGLWidget(parent)
+    QGLWidget(QGLFormat(QGL::SampleBuffers|QGL::AlphaChannel), parent)
 {
     this->itemDB = itemDB;
     this->mousePos = QPoint();
     rot_x = rot_y = rot_z = 0.0f;
 
-
-    //this->setMouseTracking(true);
+    makeCurrent();
+    this->setMouseTracking(false);
 
     this->pickActive = false;
     this->cursorShown = true;
@@ -16,11 +16,11 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
 
     this->setMouseTracking(true);
 
-    //this->setPalette(Qt::transparent);
-    this->setAttribute(Qt::WA_TransparentForMouseEvents);
-    this->setAttribute(Qt::WA_OpaquePaintEvent);
+    this->setPalette(Qt::transparent);
+    this->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+    //this->setAttribute(Qt::WA_OpaquePaintEvent);
 
-    makeCurrent();
+
 
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat mat_shininess[] = { 50.0 };
@@ -177,6 +177,8 @@ void GLWidget::set_snapPos(QPoint snapPos)
 
 void GLWidget::paintEvent(QPaintEvent *event)
 {
+    QPainter painter(this);
+
     saveGLState();
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -238,21 +240,31 @@ void GLWidget::paintEvent(QPaintEvent *event)
     paintContent(itemDB->layers);
 
     restoreGLState();
+//    glFlush();
 
     // Overlay
-/*
-    QPainter painter(this);
+
 
     QPen pen(Qt::white);
     pen.setWidth(1);
+
+//    mousePos.setX(500);
+//    mousePos.setY(500);
 
     painter.setRenderHint(QPainter::Antialiasing, false);
     painter.setPen(pen);
     painter.drawLine(QPoint(0, this->mousePos.y()), QPoint(this->width() - 1, this->mousePos.y()));
     painter.drawLine(QPoint(this->mousePos.x(), 0), QPoint(this->mousePos.x(), this->height() - 1));
 
-    painter.end();
-*/
+//    painter.end();
+
+    glBegin(GL_LINES);
+    glVertex3i(0, mousePos.y(), 0);
+    glVertex3i(this->width() - 1, mousePos.y(), 0);
+    glVertex3i(mousePos.x(), 0, 0);
+    glVertex3i(mousePos.x(), this->height() - 1, 0);
+    glEnd();
+
     event->accept();
 }
 
