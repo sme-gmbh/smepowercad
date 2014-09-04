@@ -111,6 +111,7 @@ protected:
 signals:
     void signal_sceneCoordinateChanged(QVector3D sceneCoord);
     void signal_aboutToClose(QAction *action);
+    void signal_repaintNeeded();
 
 };
 

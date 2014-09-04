@@ -272,7 +272,7 @@ void GeometryRenderengine::paintLine(QPainter* painter, Layer* layer, CADline* i
 {
     QPen pen;
     pen.setCapStyle(Qt::FlatCap);
-    QColor color = item->color;
+    QColor color = item->color_pen;
     if (color == Qt::transparent)   // BYLAYER
     {
         color = layer->pen.color();
@@ -331,7 +331,7 @@ void GeometryRenderengine::paintLine2(QPainter* painter, Layer* layer, CADline* 
 {
     QPen pen;
     pen.setCapStyle(Qt::FlatCap);
-    QColor color = item->color;
+    QColor color = item->color_pen;
     if (color == Qt::transparent)   // BYLAYER
     {
         color = layer->pen.color();
@@ -455,7 +455,7 @@ void GeometryRenderengine::paintPolyLine(QPainter *painter, Layer *layer, CADpol
     QPen pen;
     pen.setCapStyle(Qt::FlatCap);
     pen.setJoinStyle(Qt::BevelJoin);
-    QColor color = item->color;
+    QColor color = item->color_pen;
     if (color == Qt::transparent)   // BYLAYER
     {
         color = layer->pen.color();
@@ -597,7 +597,7 @@ void GeometryRenderengine::paintFace(QPainter *painter, Layer *layer, CAD3Dface 
     QPen pen;
     pen.setCapStyle(Qt::FlatCap);
     pen.setJoinStyle(Qt::BevelJoin);
-    QColor color = item->color;
+    QColor color = item->color_pen;
     if (color == Qt::transparent)   // BYLAYER
     {
         color = layer->pen.color();

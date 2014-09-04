@@ -37,7 +37,8 @@ public:
     // data types tbd.
     ItemType getType();
     QString layer;
-    QColor color;       // Transparent means "BYLAYER"
+    QColor color_pen;       // Transparent means "BYLAYER"
+    QColor color_brush;       // Transparent means "BYLAYER"
     QMap<QString, QString> attributes;
     QVector3D position;
     M3dBox boundingBox;
