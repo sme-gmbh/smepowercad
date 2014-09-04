@@ -3,23 +3,41 @@
 GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
     QGLWidget(QGLFormat(QGL::SampleBuffers|QGL::AlphaChannel), parent)
 {
-    this->itemDB = itemDB;
+    this->itemDB = itemdb;
     this->mousePos = QPoint();
     rot_x = rot_y = rot_z = 0.0f;
 
+<<<<<<< HEAD
     makeCurrent();
     this->setMouseTracking(false);
+=======
+<<<<<<< HEAD
+    //this->setMouseTracking(true);
+=======
 
+    //this->setMouseTracking(true);
+>>>>>>> dc9e913ff7852b2f7eaacb68a6f9f95752cda18f
+
+>>>>>>> e046e22f0ea7bd4d4d4aa496ff886807ec542447
     this->pickActive = false;
     this->cursorShown = true;
     this->snapMode = SnapCenter;
 
     this->setMouseTracking(true);
+<<<<<<< HEAD
+=======
 
+<<<<<<< HEAD
     this->setPalette(Qt::transparent);
     this->setAttribute(Qt::WA_TransparentForMouseEvents, false);
     //this->setAttribute(Qt::WA_OpaquePaintEvent);
 
+=======
+>>>>>>> e046e22f0ea7bd4d4d4aa496ff886807ec542447
+    //this->setPalette(Qt::transparent);
+    this->setAttribute(Qt::WA_TransparentForMouseEvents);
+    this->setAttribute(Qt::WA_OpaquePaintEvent);
+>>>>>>> dc9e913ff7852b2f7eaacb68a6f9f95752cda18f
 
 
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
@@ -205,7 +223,10 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_ALPHA_TEST);
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> e046e22f0ea7bd4d4d4aa496ff886807ec542447
 
 //    glEnable(GL_LIGHTING);
 //    glEnable(GL_LIGHT0);

@@ -86,8 +86,10 @@ MainWindow::MainWindow(QWidget *parent) :
     mainGeometryDisplay = new GeometryDisplay(itemDB, this);
     //mainGeometryDisplay->setTitleBarWidget(new QWidget());
     connect(mainGeometryDisplay, SIGNAL(signal_sceneCoordinateChanged(QVector3D)), this, SLOT(slot_sceneCoordinateChanged(QVector3D)));
-    //this->addDockWidget(Qt::TopDockWidgetArea, geometryDisplay);
+    connect(this, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SLOT(slot_redrawScene()));
+    connect(layerManager, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SLOT(slot_redrawScene()));
     mainGeometryDisplay->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    mainGeometryDisplay->setAllowedAreas(Qt::NoDockWidgetArea);
     this->setCentralWidget(this->mainGeometryDisplay);
 
     // **** CAD window (2nd version) *****
