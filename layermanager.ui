@@ -28,6 +28,35 @@
     titlebar-normal-icon: url(:/icons/float.svg);
 }
 
+QHeaderView::section {
+	background-color: rgb(89, 89, 81);
+    color: white;
+    padding-left: 4px;
+	border: 0;
+	border-left: 1px solid rgb(200, 200, 200);
+	padding: 2px 5px;
+ }
+QHeaderView::section:first {
+	border-left: 0;
+}
+
+QTreeWidget::item {
+	border: 0;
+	border-left: 1px solid rgb(120, 120, 120);
+}
+QTreeWidget::item:first {
+	border-left: 0;
+}
+
+ /* style the sort indicator */
+ QHeaderView::down-arrow {
+     image: url(down_arrow.png);
+ }
+
+ QHeaderView::up-arrow {
+     image: url(up_arrow.png);
+ }
+
 QDockWidget::title {
     text-align: left; /* align the text to the left */
     background: rgb(49, 49, 41);
@@ -88,9 +117,6 @@ QTreeView {
     </property>
     <item row="0" column="0">
      <widget class="QTreeWidget" name="treeWidget_layer">
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
       <property name="showDropIndicator" stdset="0">
        <bool>false</bool>
       </property>

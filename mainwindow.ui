@@ -14,84 +14,72 @@
    <string>SME PowerCAD</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QLineEdit
-{
+   <string notr="true">QLineEdit {
 	background-color: rgb(92, 221, 206);
 }
 
-QPlainTextEdit
-{
+QPlainTextEdit {
 	background-color: rgb(40, 40, 40);
 	color: rgb(80, 255, 80);
 	border:none;
 }
 
-QMainWindow
-{
+QMainWindow {
 	background-color: rgb(49, 49, 41);
 }
 
-QMainWindow::separator
-{
-	background-color: rgb(49, 49, 41);
-	width: 3px;
-	height: 3px;
+QMainWindow::separator {
+	background-color: rgb(110, 110, 95);
+	width: 2px;
+	height: 2px;
 }
 
-QDockWidget
-{
-     border: 1px solid lightgray;
-     /*titlebar-close-icon: url();
-     titlebar-normal-icon: url();*/
- }
+QDockWidget {
+	background-color: rgb(49, 49, 41);
+	color: white;
+	border: 1px solid rgb(200, 200, 200);
+	titlebar-close-icon: url(:/icons/close.svg);
+    titlebar-normal-icon: url(:/icons/float.svg);
+}
 
- QDockWidget::title
-{
-    text-align: left;
-	padding: 0px;
+QDockWidget::title {
+    text-align: left; /* align the text to the left */
+    background: rgb(49, 49, 41);
     padding-left: 5px;
-	margin: 0px;
-	background: rgb(129, 128, 124);
 }
 
- QDockWidget::close-button, QDockWidget::float-button
-{
+ QDockWidget::close-button, QDockWidget::float-button {
 	border: 0;
 	/*border-left: 1px solid white;*/
-    /*background: darkgray;*/
 	padding: 0px;
 	icon-size: 30px; /* maximum icon size */
 }
-
-QDockWidget::close-button
-{
+QDockWidget::close-button {
 	subcontrol-position: top right;
     subcontrol-origin: margin;
     position: absolute;
     top: 0px; right: 0px; bottom: 0px;
     width: 20px;
-	margin: 8px;
+	margin: 0 8px;
 }
 
-QDockWidget::float-button
-{
+QDockWidget::float-button {
 	subcontrol-position: top right;
     subcontrol-origin: margin;
     position: absolute;
     top: 0px; right: 36px; bottom: 0px;
     width: 20px;
-	margin: 8px;
+	margin: 0 8px;
 }
 
- QDockWidget::close-button:hover, QDockWidget::float-button:hover
-{
-     background: white;
+QDockWidget::close-button:hover, QDockWidget::float-button:hover {
+     background-color: rgb(110, 110, 95);
 }
 
- QDockWidget::close-button:pressed, QDockWidget::float-button:pressed
-{
-     padding: 1px -1px -1px 1px;
-}</string>
+QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
+     background-color: rgb(150, 150, 130);
+}
+</string>
   </property>
   <property name="iconSize">
    <size>
@@ -137,16 +125,43 @@ QDockWidget::float-button
    <property name="nativeMenuBar">
     <bool>true</bool>
    </property>
-  </widget>
-  <widget class="QStatusBar" name="statusBar">
-   <property name="font">
-    <font>
-     <family>DejaVu Sans Mono</family>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(189, 255, 195);</string>
-   </property>
+   <widget class="QMenu" name="menuDatei">
+    <property name="title">
+     <string>Datei</string>
+    </property>
+    <addaction name="actionLaden"/>
+    <addaction name="actionSpeichern"/>
+    <addaction name="actionSpeichern_unter"/>
+    <addaction name="separator"/>
+    <addaction name="actionPlotten"/>
+    <addaction name="actionPDF"/>
+    <addaction name="separator"/>
+    <addaction name="actionZeichnungClose"/>
+    <addaction name="actionBeenden"/>
+   </widget>
+   <widget class="QMenu" name="menuZeichnen">
+    <property name="title">
+     <string>Zeichnen</string>
+    </property>
+    <addaction name="actionLinie"/>
+    <addaction name="actionBogen"/>
+    <addaction name="actionKreis"/>
+   </widget>
+   <widget class="QMenu" name="menuFormat">
+    <property name="title">
+     <string>Format</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuFenster">
+    <property name="title">
+     <string>Fenster</string>
+    </property>
+    <addaction name="actionNeues_Schnittfenster"/>
+   </widget>
+   <addaction name="menuDatei"/>
+   <addaction name="menuZeichnen"/>
+   <addaction name="menuFormat"/>
+   <addaction name="menuFenster"/>
   </widget>
   <widget class="QDockWidget" name="dockWidgetPrompt">
    <property name="minimumSize">
@@ -297,8 +312,146 @@ QDockWidget::float-button
     </layout>
    </widget>
   </widget>
+  <action name="actionLaden">
+   <property name="icon">
+    <iconset theme="document-open"/>
+   </property>
+   <property name="text">
+    <string>Laden...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionSpeichern">
+   <property name="icon">
+    <iconset theme="document-save"/>
+   </property>
+   <property name="text">
+    <string>Speichern</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionSpeichern_unter">
+   <property name="icon">
+    <iconset theme="document-save-as"/>
+   </property>
+   <property name="text">
+    <string>Speichern unter...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionPlotten">
+   <property name="icon">
+    <iconset theme="document-print"/>
+   </property>
+   <property name="text">
+    <string>Plotten...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionPDF">
+   <property name="icon">
+    <iconset theme="gnome-mime-application-pdf"/>
+   </property>
+   <property name="text">
+    <string>Pdf...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionZeichnungClose">
+   <property name="icon">
+    <iconset theme="window-close"/>
+   </property>
+   <property name="text">
+    <string>Zeichnung schließen</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionBeenden">
+   <property name="icon">
+    <iconset theme="gtk-quit"/>
+   </property>
+   <property name="text">
+    <string>Beenden</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionLinie">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/Linie.svg</normaloff>:/icons/Linie.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Linie</string>
+   </property>
+   <property name="shortcut">
+    <string>L</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionBogen">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/Bogen.svg</normaloff>:/icons/Bogen.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Bogen</string>
+   </property>
+   <property name="shortcut">
+    <string>B</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionKreis">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/Kreis.svg</normaloff>:/icons/Kreis.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Kreis</string>
+   </property>
+   <property name="shortcut">
+    <string>K</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionNeues_Schnittfenster">
+   <property name="text">
+    <string>Neues Schnittfenster</string>
+   </property>
+   <property name="shortcut">
+    <string>Q</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

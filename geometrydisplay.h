@@ -43,6 +43,8 @@ public:
     QVector3D mapToScene(QPoint displayPoint);
     QPointF mapFromScene(QVector3D scenePoint);
 
+    void hideButtons();
+
 private:
     GeometryDisplayTitle *titleWidget;
     ItemDB* itemDB;
@@ -88,6 +90,7 @@ public slots:
 
 private slots:
 //    void slot_timer_50ms_fired();
+    void slot_float();
 
 
 protected:

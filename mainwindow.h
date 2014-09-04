@@ -35,11 +35,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
-
-    QList<QAction*> actionList_Fenster;
-
     ItemDB* itemDB;
-
     CADcommand* cadcommand;
 //    QGraphicsScene* scene;
     LayerManager* layerManager;
@@ -57,10 +53,6 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 
 public slots:
-    void slot_sceneCoordinateChanged(QVector3D pos);
-    void slot_selectionCountChanged(int num);
-    void slot_update_statusBar();
-
     void slot_file_open_action();
     void slot_file_save_action();
     void slot_file_save_as_action();

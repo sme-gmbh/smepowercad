@@ -18,7 +18,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     current_cadline = NULL;
 
-    ui->dockWidgetPrompt->setTitleBarWidget(new QWidget());
+    QWidget *promptTitle = new QWidget(ui->dockWidgetPrompt);
+    promptTitle->setMaximumWidth(0);
+    promptTitle->setMaximumHeight(0);
+    ui->dockWidgetPrompt->setTitleBarWidget(promptTitle);
 
     // **** CAD Item Database *****
     itemDB = new ItemDB(this);
@@ -37,75 +40,38 @@ MainWindow::MainWindow(QWidget *parent) :
 //    connect(cadcommand, SIGNAL(signal_finishLine(QPointF)), cadview, SLOT(slot_finishLine(QPointF)));
 //    connect(cadcommand, SIGNAL(signal_abort()), cadview, SLOT(slot_abort()));
 
-    // **** Main Menu Bar ****
-    QMenu* menu_file = new QMenu("Datei");
-    QMenu* menu_draw = new QMenu("Zeichnen");
-    QMenu* menu_format = new QMenu("Format");
-    QMenu* menu_fenster = new QMenu("Fenster");
+    connect(ui->actionLaden, SIGNAL(triggered()),           this, SLOT(slot_file_open_action()));
+    connect(ui->actionSpeichern, SIGNAL(triggered()),       this, SLOT(slot_file_save_action()));
+    connect(ui->actionSpeichern_unter, SIGNAL(triggered()), this, SLOT(slot_file_save_as_action()));
+    connect(ui->actionPlotten, SIGNAL(triggered()),         this, SLOT(slot_file_print_action()));
+    connect(ui->actionPDF, SIGNAL(triggered()),             this, SLOT(slot_file_pdf_export_action()));
+    connect(ui->actionZeichnungClose, SIGNAL(triggered()),  this, SLOT(slot_file_close_action()));
+    connect(ui->actionBeenden, SIGNAL(triggered()),         qApp, SLOT(quit()));
 
+    connect(ui->actionLinie, SIGNAL(triggered()), this, SLOT(slot_draw_line_action()));
+    connect(ui->actionBogen, SIGNAL(triggered()), this, SLOT(slot_draw_arc_action()));
+    connect(ui->actionKreis, SIGNAL(triggered()), this, SLOT(slot_draw_circle_action()));
 
-    // **** File Menu ****
-    // test QIcon::fromTheme("document-save");
-    menu_file->addAction(QIcon::fromTheme("document-open"), "Laden...", this, SLOT(slot_file_open_action()), QKeySequence::Open)->setIconVisibleInMenu(true);
-    menu_file->addAction(QIcon::fromTheme("document-save"), "Speichern", this, SLOT(slot_file_save_action()), QKeySequence::Save)->setIconVisibleInMenu(true);
-    menu_file->addAction(QIcon::fromTheme("document-save-as"), "Speichern unter...", this, SLOT(slot_file_save_as_action()), QKeySequence::SaveAs)->setIconVisibleInMenu(true);
-    menu_file->addSeparator();
-    menu_file->addAction(QIcon::fromTheme("document-print"), "Plotten...", this, SLOT(slot_file_print_action()), QKeySequence::Print)->setIconVisibleInMenu(true);
-    menu_file->addAction(QIcon::fromTheme("gnome-mime-application-pdf"), "Pdf...", this, SLOT(slot_file_pdf_export_action()))->setIconVisibleInMenu(true);
-    menu_file->addSeparator();
-    menu_file->addAction(QIcon::fromTheme("window-close"), "Zeichnung schließen", this, SLOT(slot_file_close_action()), QKeySequence::Close)->setIconVisibleInMenu(true);
-    menu_file->addAction(QIcon::fromTheme("gtk-quit"), "Beenden", qApp, SLOT(quit()), QKeySequence::Quit)->setIconVisibleInMenu(true);
-
-    // **** Draw Menu ****
-    menu_draw->addAction(QIcon("://icons/Linie.svg"), "Linie", this, SLOT(slot_draw_line_action()), QKeySequence("L"))->setIconVisibleInMenu(true);
-    menu_draw->addAction(QIcon("://icons/Bogen.svg"), "Bogen", this, SLOT(slot_draw_arc_action()), QKeySequence("B"))->setIconVisibleInMenu(true);
-    menu_draw->addAction(QIcon("://icons/Kreis.svg"), "Kreis", this, SLOT(slot_draw_circle_action()), QKeySequence("K"))->setIconVisibleInMenu(true);
-
-    // **** Format Menu ****
-
-    // **** Fenster Menu ****
-    menu_fenster->addAction(QIcon(), "Neues Schnittfenster", this, SLOT(slot_newGeometryDisplay()), QKeySequence("G"))->setIconVisibleInMenu(true);
-    menu_fenster->addActions(actionList_Fenster);
+    connect(ui->actionNeues_Schnittfenster, SIGNAL(triggered()), this, SLOT(slot_newGeometryDisplay()));
 
     // ** Layer Manager **
-
     this->layerManager = new LayerManager(this, topLevelLayer);
     QAction* action_layerManager = this->layerManager->toggleViewAction();
     action_layerManager->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
     connect(itemDB, SIGNAL(signal_layerAdded(Layer*,Layer*)), layerManager, SLOT(slot_layerAdded(Layer*,Layer*)));
+    ui->menuFormat->addAction(action_layerManager);
 
-    menu_format->addAction(action_layerManager);
-
-    // **** CAD window *****
-
-//    this->cadview = new CADview();
-//    connect(cadview, SIGNAL(signal_sceneCoordinateChanged(QPointF)), this, SLOT(slot_sceneCoordinateChanged(QPointF)));
-//    connect(cadview, SIGNAL(signal_selectionCountChanged(int)), this, SLOT(slot_selectionCountChanged(int)));
 
     // **** CAD window (2nd version) *****
     mainGeometryDisplay = new GeometryDisplay(itemDB, this);
     //mainGeometryDisplay->setTitleBarWidget(new QWidget());
     connect(mainGeometryDisplay, SIGNAL(signal_sceneCoordinateChanged(QVector3D)), this, SLOT(slot_sceneCoordinateChanged(QVector3D)));
-    connect(this, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SLOT(slot_redrawScene()));
-    connect(layerManager, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SLOT(slot_redrawScene()));
+//    connect(this, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SLOT(slot_redrawScene()));
+//    connect(layerManager, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SLOT(slot_redrawScene()));
     mainGeometryDisplay->setFeatures(QDockWidget::NoDockWidgetFeatures);
     mainGeometryDisplay->setAllowedAreas(Qt::NoDockWidgetArea);
+    mainGeometryDisplay->hideButtons();
     this->setCentralWidget(this->mainGeometryDisplay);
-
-    // **** CAD window (2nd version) *****
-//    this->geometryDisplay = new GeometryDisplay(itemDB, this);
-//    connect(geometryDisplay, SIGNAL(signal_sceneCoordinateChanged(QVector3D)), this, SLOT(slot_sceneCoordinateChanged(QVector3D)));
-//    this->addDockWidget(Qt::TopDockWidgetArea, geometryDisplay);
-//    this->actionList_Fenster.append(geometryDisplay->toggleViewAction());
-    //slot_newGeometryDisplay();
-
-
-
-    // **** Main Menu fillup ****
-    ui->menuBar->addMenu(menu_file);
-    ui->menuBar->addMenu(menu_draw);
-    ui->menuBar->addMenu(menu_format);
-    ui->menuBar->addMenu(menu_fenster);
 
 
 
@@ -136,34 +102,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    foreach (GeometryDisplay* gd, geometryDisplays)
-    {
+//    foreach (GeometryDisplay* gd, geometryDisplays)
+//    {
 //        gd->slot_changeCuttingplane();
-    }
+//    }
 //    QMainWindow::keyPressEvent(event);
+
     event->accept();
-}
-
-// **** Status bar functions ****
-
-void MainWindow::slot_sceneCoordinateChanged(QVector3D pos)
-{
-    this->statusBar_sceneCoordinate = pos;
-    this->slot_update_statusBar();
-}
-
-void MainWindow::slot_selectionCountChanged(int num)
-{
-    this->statusBar_selectionCount = num;
-    this->slot_update_statusBar();
-}
-
-void MainWindow::slot_update_statusBar()
-{
-    QString statusString = QString().sprintf("[%010.3lf, %010.3lf, %010.3lf]  |  ", this->statusBar_sceneCoordinate.x(), this->statusBar_sceneCoordinate.y(), this->statusBar_sceneCoordinate.z());
-    statusString += QString().sprintf("%i selektiert", this->statusBar_selectionCount);
-
-    this->statusBar()->showMessage(statusString);
 }
 
 // **** File functions ****
@@ -275,16 +220,11 @@ void MainWindow::slot_newGeometryDisplay()
 {
     GeometryDisplay* newGeometryDisplay = new GeometryDisplay(itemDB, this);
     connect(newGeometryDisplay, SIGNAL(signal_sceneCoordinateChanged(QVector3D)), this, SLOT(slot_sceneCoordinateChanged(QVector3D)));
-    connect(this, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SLOT(slot_redrawScene()));
-    connect(layerManager, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SLOT(slot_redrawScene()));
-    this->addDockWidget(Qt::TopDockWidgetArea, newGeometryDisplay);
-    this->actionList_Fenster.append(newGeometryDisplay->toggleViewAction());
+//    connect(this, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SLOT(slot_redrawScene()));
+//    connect(layerManager, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SLOT(slot_redrawScene()));
+    this->addDockWidget(Qt::LeftDockWidgetArea, newGeometryDisplay);
+    ui->menuFenster->addAction(newGeometryDisplay->toggleViewAction());
+
     newGeometryDisplay->setFocusPolicy(Qt::StrongFocus);
     geometryDisplays.append(newGeometryDisplay);
 }
-
-/*void MainWindow::on_doubleSpinBox_heightOfIntersection_valueChanged(double arg1)
-{
-    foreach (GeometryDisplay* gd, geometryDisplays)
-        gd->slot_setHeightOfIntersection(arg1);
-}*/

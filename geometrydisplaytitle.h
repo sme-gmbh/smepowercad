@@ -23,6 +23,14 @@ private:
 
 public slots:
     void slot_sceneCoordinatesChanged(QVector3D coords);
+
+private slots:
+    void on_pushButtonFloat_clicked();
+    void on_pushButtonClose_clicked();
+
+signals:
+    void signal_float();
+    void signal_close();
 };
 
 #endif // GEOMETRYDISPLAYTITLE_H

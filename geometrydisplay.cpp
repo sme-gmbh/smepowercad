@@ -15,7 +15,11 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, QWidget *parent) :
 
     titleWidget = new GeometryDisplayTitle();
     connect(this, SIGNAL(signal_sceneCoordinateChanged(QVector3D)), titleWidget, SLOT(slot_sceneCoordinatesChanged(QVector3D)));
+    connect(titleWidget, SIGNAL(signal_float()), this, SLOT(slot_float()));
+    connect(titleWidget, SIGNAL(signal_close()), this, SLOT(close()));
     this->setTitleBarWidget(titleWidget);
+
+    this->setWindowTitle("Zeichnung x");
 
 
     glwidget = new GLWidget(this, itemDB);
@@ -35,6 +39,11 @@ GeometryDisplay::~GeometryDisplay()
     delete this->glwidget;
 
     qDebug() << "GeometryDisplay destroyed";
+}
+
+void GeometryDisplay::hideButtons()
+{
+    titleWidget->hideButtons();
 }
 
 void GeometryDisplay::paintEvent(QPaintEvent *event)
@@ -152,4 +161,9 @@ void GeometryDisplay::paintAnchor(QPainter *painter, CuttingPlane cuttingplane)
             break;
         }
     }
+}
+
+void GeometryDisplay::slot_float()
+{
+    this->setFloating(true);
 }
