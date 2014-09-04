@@ -126,7 +126,7 @@ void CreationInterface::addLine(const DL_LineData& data) {
 
     if (attributes.getColor()==256)     // BYLAYER
     {
-        current_cadline->color = Qt::transparent;
+        current_cadline->color_pen = Qt::transparent;
     }
     else if (attributes.getColor()==0)  // BYBLOCK
     {
@@ -134,7 +134,7 @@ void CreationInterface::addLine(const DL_LineData& data) {
     }
     else
     {
-        attributes.getColor();  //tbd. convert color number to rgba
+        current_cadline->color_pen = getColorFromDXFcolorNumber(attributes.getColor());
     }
 
     if (attributes.getWidth() == -1)    // BYLAYER
@@ -223,7 +223,8 @@ void CreationInterface::addPolyline(const DL_PolylineData& data) {
 
     if (attributes.getColor()==256)     // BYLAYER
     {
-        item->color = Qt::transparent;
+        item->color_pen = Qt::transparent;
+        item->color_brush = Qt::transparent;
     }
     else if (attributes.getColor()==0)  // BYBLOCK
     {
@@ -231,7 +232,8 @@ void CreationInterface::addPolyline(const DL_PolylineData& data) {
     }
     else
     {
-        attributes.getColor();  //tbd. convert color number to rgba
+        item->color_pen = getColorFromDXFcolorNumber(attributes.getColor());
+        item->color_brush = getColorFromDXFcolorNumber(attributes.getColor());
     }
 
     if (activeBlock.isEmpty())
@@ -378,7 +380,7 @@ void CreationInterface::add3dFace(const DL_3dFaceData& data) {
 
     if (attributes.getColor()==256)     // BYLAYER
     {
-        item->color = Qt::transparent;
+        item->color_pen = Qt::transparent;
     }
     else if (attributes.getColor()==0)  // BYBLOCK
     {

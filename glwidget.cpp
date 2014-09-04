@@ -16,6 +16,8 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
     this->rot_x = 0.0;
     this->rot_y = 0.0;
     this->rot_z = 0.0;
+    this->render_solid = true;
+    this->render_outline = true;
 
 
 
@@ -120,16 +122,13 @@ void GLWidget::moveCursor(QPoint pos)
 //    qDebug() << "GLWidget: moveCursor " << pos.x() << " " << pos.y();
     this->mousePos = pos;
     this->cursorShown = true;
-    repaint();
-    updateGL();
+    slot_repaint();
 }
 
 void GLWidget::hideCursor()
 {
     this->cursorShown = false;
-//    repaint();
-    updateGL();
-    update();
+    slot_repaint();
 }
 
 void GLWidget::pickStart()
@@ -141,8 +140,7 @@ void GLWidget::pickStart()
 void GLWidget::pickEnd()
 {
     this->pickActive = false;
-    repaint();
-    updateGL();
+    slot_repaint();
 }
 
 bool GLWidget::isPickActive()
@@ -224,8 +222,7 @@ void GLWidget::wheelEvent(QWheelEvent* event)
 
     // todo: Map to scene
 //    emit signal_sceneCoordinateChanged(mapToScene(event->pos()));
-    repaint();
-    updateGL();
+    slot_repaint();
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
@@ -251,8 +248,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
 //        qreal deltaZoom_inv = zoomFactor_atCurrentFrame / zoomFactor;         // Fraction of zoom of last rendered frame in relation to current zoom
 //        frameBufferSourceRect.translate(- mouseMoveDelta.x() * deltaZoom_inv, - mouseMoveDelta.y() * deltaZoom_inv);
-//        repaint();
-//        //slot_redrawScene();
+//    slot_repaint();
 //    }
 
     if (event->buttons() == Qt::RightButton)
@@ -276,8 +272,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 */
     this->cursorShown = true;
 
-    repaint();
-    updateGL();
+    slot_repaint();
 
     event->accept();
 }
@@ -363,9 +358,7 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *event)
     if (event->button() == Qt::MidButton)
     {
         this->setCursor(Qt::BlankCursor);
-        //slot_redrawScene();
-        repaint();
-        updateGL();
+        slot_repaint();
     }
 
     event->accept();
@@ -395,9 +388,7 @@ void GLWidget::resizeEvent(QResizeEvent *event)
 {
     displayCenter = QPoint(this->width(), this->height()) / 2;
 
-//    slot_redrawScene();
-    repaint();
-    updateGL();
+    slot_repaint();
     event->accept();
 }
 
@@ -561,6 +552,12 @@ void GLWidget::paintEvent(QPaintEvent *event)
     event->accept();
 }
 
+void GLWidget::slot_repaint()
+{
+    repaint();
+    updateGL();
+}
+
 void GLWidget::saveGLState()
 {
     glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -655,7 +652,7 @@ void GLWidget::paintLine(Layer* layer, CADline* item)
 {
     QPen pen;
     pen.setCapStyle(Qt::FlatCap);
-    QColor color = item->color;
+    QColor color = item->color_pen;
     if (color == Qt::transparent)   // BYLAYER
     {
         color = layer->pen.color();
@@ -722,7 +719,7 @@ void GLWidget::paintPolyLine(Layer *layer, CADpolyline *item)
     QPen pen;
     pen.setCapStyle(Qt::FlatCap);
     pen.setJoinStyle(Qt::BevelJoin);
-    QColor color = item->color;
+    QColor color = item->color_pen;
     if (color == Qt::transparent)   // BYLAYER
     {
         color = layer->pen.color();
@@ -793,36 +790,43 @@ void GLWidget::paintPolyLine(Layer *layer, CADpolyline *item)
 
 void GLWidget::paintFace(Layer *layer, CAD3Dface *item)
 {
-    QPen pen;
-    pen.setCapStyle(Qt::FlatCap);
-    pen.setJoinStyle(Qt::BevelJoin);
-    QColor color = item->color;
-    if (color == Qt::transparent)   // BYLAYER
-    {
-        color = layer->pen.color();
-    }
-    else if (color.value() < 50)
-        color = Qt::white;
-    pen.setColor(color);
-//    painter->setPen(pen);
+    QColor color_pen = item->color_pen;
+    QColor color_brush = item->color_brush;
 
-//    QVector3D p1 = QVector3D();
-//    QVector3D p2 = QVector3D();
-    glBegin(GL_POLYGON);
-    glColor4f(color.redF(), color.greenF(), color.blueF(), color.alphaF());
-    foreach (CAD3Dface::Vertex vertex, item->vertices)
+    if (color_pen == Qt::transparent)   // BYLAYER
     {
+        color_pen = layer->pen.color();
+    }
+    else if (color_pen.value() < 50)
+        color_pen = Qt::white;
+
+    if (color_brush == Qt::transparent)   // BYLAYER
+    {
+        color_brush = layer->brush.color();
+    }
+    else if (color_brush.value() < 50)
+        color_brush = Qt::white;
+
+
+    if (this->render_solid)
+    {
+        glBegin(GL_POLYGON);
+        glColor4f(color_brush.redF(), color_brush.greenF(), color_brush.blueF(), color_brush.alphaF());
+        foreach (CAD3Dface::Vertex vertex, item->vertices)
+        {
             glVertex3f((GLfloat)vertex.pos.x(), (GLfloat)vertex.pos.y(), (GLfloat)vertex.pos.z());
-
-//        if (p1 == p2)
-//        {
-//            p1 = vertex.pos;
-//        }
-//        else
-//        {
-//            p2 = vertex.pos;
-
-//        }
+        }
+        glEnd();
     }
-    glEnd();
+
+    if (this->render_outline)
+    {
+        glBegin(GL_LINE_LOOP);
+        glColor4f(color_pen.redF(), color_pen.greenF(), color_pen.blueF(), color_pen.alphaF());
+        foreach (CAD3Dface::Vertex vertex, item->vertices)
+        {
+            glVertex3f((GLfloat)vertex.pos.x(), (GLfloat)vertex.pos.y(), (GLfloat)vertex.pos.z());
+        }
+        glEnd();
+    }
 }

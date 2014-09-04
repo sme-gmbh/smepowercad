@@ -52,6 +52,9 @@ private:
     QVector3D cameraPosition;
     float rot_x, rot_y, rot_z;
 
+    bool render_solid;
+    bool render_outline;
+
     GLuint tile_list;
 
     // Overlay
@@ -92,6 +95,7 @@ protected:
 signals:
 
 public slots:
+    void slot_repaint();
 
 };
 

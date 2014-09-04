@@ -24,6 +24,7 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, QWidget *parent) :
 
     glwidget = new GLWidget(this, itemDB);
     this->setWidget(glwidget);
+    connect(this, SIGNAL(signal_repaintNeeded()), glwidget, SLOT(slot_repaint()));
 
     this->resize(400, 250);
     this->setFloating(false);
