@@ -3,7 +3,7 @@
 GLWidget::GLWidget(QWidget *parent, ItemDB *itemdb) :
     QGLWidget(parent)
 {
-    this->itemDB = itemDB;
+    this->itemDB = itemdb;
     this->mousePos = QPoint();
     rot_x = rot_y = rot_z = 0.0f;
 
@@ -175,6 +175,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
 {
     saveGLState();
 
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -197,8 +198,6 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_ALPHA_TEST);
-
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 
 //    glEnable(GL_LIGHTING);
@@ -231,7 +230,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
 //        p2 += QVector3D(0.0, 2.0, 0.0);
 //    }
 
-    //paintContent(itemDB->layers);
+    paintContent(itemDB->layers);
 
     restoreGLState();
 

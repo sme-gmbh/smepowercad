@@ -67,6 +67,13 @@ QComboBox
    </property>
    <item>
     <widget class="QLabel" name="labelSceneCoordinates">
+     <property name="font">
+      <font>
+       <family>DejaVu Sans Mono</family>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
      <property name="text">
       <string>[000000.000, 000000.000, 000000.000]</string>
      </property>
@@ -80,9 +87,28 @@ QComboBox
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="labelSelectionCount">
+    <widget class="QLabel" name="label_5">
+     <property name="font">
+      <font>
+       <family>DejaVu Sans Mono</family>
+      </font>
+     </property>
      <property name="text">
-      <string>0 selektiert</string>
+      <string>0</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelSelectionCount">
+     <property name="font">
+      <font>
+       <family>DejaVu Sans Mono</family>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>selektiert</string>
      </property>
     </widget>
    </item>
