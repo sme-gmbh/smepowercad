@@ -91,6 +91,7 @@ public slots:
 private slots:
 //    void slot_timer_50ms_fired();
     void slot_float();
+    void slot_close();
 
 
 protected:
@@ -109,6 +110,7 @@ protected:
 
 signals:
     void signal_sceneCoordinateChanged(QVector3D sceneCoord);
+    void signal_aboutToClose(QAction *action);
 
 };
 

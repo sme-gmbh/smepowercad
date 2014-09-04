@@ -16,7 +16,7 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, QWidget *parent) :
     titleWidget = new GeometryDisplayTitle();
     connect(this, SIGNAL(signal_sceneCoordinateChanged(QVector3D)), titleWidget, SLOT(slot_sceneCoordinatesChanged(QVector3D)));
     connect(titleWidget, SIGNAL(signal_float()), this, SLOT(slot_float()));
-    connect(titleWidget, SIGNAL(signal_close()), this, SLOT(close()));
+    connect(titleWidget, SIGNAL(signal_close()), this, SLOT(slot_close()));
     this->setTitleBarWidget(titleWidget);
 
     this->setWindowTitle("Zeichnung x");
@@ -166,4 +166,10 @@ void GeometryDisplay::paintAnchor(QPainter *painter, CuttingPlane cuttingplane)
 void GeometryDisplay::slot_float()
 {
     this->setFloating(true);
+}
+
+void GeometryDisplay::slot_close()
+{
+    emit signal_aboutToClose(this->toggleViewAction());
+    this->close();
 }

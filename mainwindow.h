@@ -67,6 +67,7 @@ public slots:
     void slot_draw_circle_action();
 
     void slot_newGeometryDisplay();
+    void slot_geometryDisplayAboutToClose(QAction *action);
 private slots:
     void on_prompt_input_returnPressed();
 

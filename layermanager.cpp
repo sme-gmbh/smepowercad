@@ -13,7 +13,7 @@ LayerManager::LayerManager(QWidget *parent, Layer* topLevelLayer) :
     QDesktopWidget desktopWidget;
     QRect rightScreenRect = desktopWidget.screenGeometry(desktopWidget.numScreens() - 1);
     this->move(rightScreenRect.topLeft());
-    this->resize(this->width(), rightScreenRect.height());
+    if (desktopWidget.screenCount() > 1) this->resize(this->width(), rightScreenRect.height());
 }
 
 LayerManager::~LayerManager()

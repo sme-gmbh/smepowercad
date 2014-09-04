@@ -164,6 +164,12 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <addaction name="menuFenster"/>
   </widget>
   <widget class="QDockWidget" name="dockWidgetPrompt">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="minimumSize">
     <size>
      <width>73</width>

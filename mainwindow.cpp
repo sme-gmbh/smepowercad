@@ -220,6 +220,7 @@ void MainWindow::slot_newGeometryDisplay()
 {
     GeometryDisplay* newGeometryDisplay = new GeometryDisplay(itemDB, this);
     connect(newGeometryDisplay, SIGNAL(signal_sceneCoordinateChanged(QVector3D)), this, SLOT(slot_sceneCoordinateChanged(QVector3D)));
+    connect(newGeometryDisplay, SIGNAL(signal_aboutToClose(QAction*)), this, SLOT(slot_geometryDisplayAboutToClose(QAction*)));
 //    connect(this, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SLOT(slot_redrawScene()));
 //    connect(layerManager, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SLOT(slot_redrawScene()));
     this->addDockWidget(Qt::LeftDockWidgetArea, newGeometryDisplay);
@@ -227,4 +228,9 @@ void MainWindow::slot_newGeometryDisplay()
 
     newGeometryDisplay->setFocusPolicy(Qt::StrongFocus);
     geometryDisplays.append(newGeometryDisplay);
+}
+
+void MainWindow::slot_geometryDisplayAboutToClose(QAction *action)
+{
+    ui->menuFenster->removeAction(action);
 }

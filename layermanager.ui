@@ -9,15 +9,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>804</width>
+    <width>809</width>
     <height>574</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>200</width>
+    <height>105</height>
+   </size>
   </property>
   <property name="styleSheet">
    <string notr="true">QDockWidget {
@@ -40,13 +46,13 @@ QHeaderView::section:first {
 	border-left: 0;
 }
 
-QTreeWidget::item {
+/*QTreeWidget::item {
 	border: 0;
 	border-left: 1px solid rgb(120, 120, 120);
 }
 QTreeWidget::item:first {
 	border-left: 0;
-}
+}*/
 
  /* style the sort indicator */
  QHeaderView::down-arrow {
