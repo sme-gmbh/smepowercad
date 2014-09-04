@@ -49,6 +49,7 @@ private:
     qreal zoomFactor;
     QVector3D centerOfViewInScene;  // in coordsOnScene
     QPoint displayCenter;           // The Center of the widget in PixelsOnScreen, related to bottomLeft of Widget
+    QVector3D cameraPosition;
     float rot_x, rot_y, rot_z;
 
     GLuint tile_list;
