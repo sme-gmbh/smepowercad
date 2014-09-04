@@ -7,7 +7,7 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
     this->mousePos = QPoint();
 
     this->translationOffset = QPoint();
-    this->zoomFactor = 1.0;
+    this->zoomFactor = 10.0;
     this->centerOfViewInScene = QVector3D();
     this->displayCenter = QPoint();
     this->cuttingplane = CuttingPlane_nZ;
@@ -162,7 +162,7 @@ QRect GLWidget::selection()
     bottomRight.setX(qMax(this->pickStartPos.x(), this->mousePos.x()));
     bottomRight.setY(qMax(this->pickStartPos.y(), this->mousePos.y()));
 
-    return QRect(topLeft, bottomRight - QPoint(1, 1));
+    return QRect(topLeft, bottomRight);
 }
 
 Qt::ItemSelectionMode GLWidget::selectionMode()
@@ -232,7 +232,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
     mousePos = event->pos();// - QPoint(1, 1);
     mousePos.setY((this->height() - 1) - mousePos.y());
-    QPoint mouseMoveDelta = event->pos() - mousePosOld;
+    QPoint mouseMoveDelta = mousePos - mousePosOld;
     mousePosOld = mousePos;
 
     // Update mouse coordinates and scene coordinates
@@ -257,8 +257,8 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
     if (event->buttons() == Qt::RightButton)
     {
-        rot_x += mouseMoveDelta.y()/50.0f;
-        rot_y += mouseMoveDelta.x()/50.0f;
+        rot_x += mouseMoveDelta.y()/5.0f;
+        rot_y += mouseMoveDelta.x()/5.0f;
     }
 /*
     snapEngine->setUp(zoomFactor, centerOfViewInScene, displayCenter, (SnapEngine::CuttingPlane)cuttingplane, height_of_intersection, depth_of_view);
@@ -410,8 +410,9 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glFrustum(-(double)this->width(), (double)this->width(), -(double)this->height(), (double)this->height(), this->width(), 1000000);
-    glTranslatef(0.0f, 0.0f, -500000.0f);
+    //glFrustum(-(double)this->width(), (double)this->width(), -(double)this->height(), (double)this->height(), this->width(), 1000000);
+    glOrtho(-100000, 100000, -100000, 100000, -100000, 100000);
+    glTranslatef(cameraPosition.x(), cameraPosition.y(), cameraPosition.z());
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glViewport(0, 0, width(), height());
@@ -464,8 +465,6 @@ void GLWidget::paintEvent(QPaintEvent *event)
         glBegin(GL_LINES);
         glVertex3i(0, mousePos.y(), 0);
         glVertex3i(this->width() - 1, mousePos.y(), 0);
-//        glEnd();
-//        glBegin(GL_LINES);
         glVertex3i(mousePos.x(), 0, 0);
         glVertex3i(mousePos.x(), this->height() - 1, 0);
         glEnd();
@@ -474,23 +473,23 @@ void GLWidget::paintEvent(QPaintEvent *event)
         if (this->pickActive)
         {
             if (this->pickStartPos.x() < this->mousePos.x())
-            {
-//                painter.setPen(Qt::blue);
-//                painter.setBrush(QBrush(QColor(40, 40, 255, 80), Qt::SolidPattern));
                 glColor4ub(127, 127, 255, 127);
-            }
             else
-            {
-//                pen.setColor(Qt::white);
-//                pen.setStyle(Qt::DashLine);
-//                painter.setPen(pen);
-//                painter.setBrush(QBrush(QColor(40, 255, 40, 80), Qt::SolidPattern));
                 glColor4ub(127, 255, 127, 127);
-
-            }
-//            painter.drawRect(this->selection());
+            glLineWidth(2);
             QRect rect = this->selection();
             glBegin(GL_QUADS);
+            glVertex3i(rect.bottomLeft().x(), rect.bottomLeft().y(), 0);
+            glVertex3i(rect.bottomRight().x(), rect.bottomRight().y(), 0);
+            glVertex3i(rect.topRight().x(), rect.topRight().y(), 0);
+            glVertex3i(rect.topLeft().x(), rect.topLeft().y(), 0);
+            glEnd();
+
+            if (this->pickStartPos.x() < this->mousePos.x())
+                glColor4ub(40, 40, 255, 255);
+            else
+                glColor4ub(40, 255, 40, 255);
+            glBegin(GL_LINE_LOOP);
             glVertex3i(rect.bottomLeft().x(), rect.bottomLeft().y(), 0);
             glVertex3i(rect.bottomRight().x(), rect.bottomRight().y(), 0);
             glVertex3i(rect.topRight().x(), rect.topRight().y(), 0);
@@ -556,6 +555,8 @@ void GLWidget::paintEvent(QPaintEvent *event)
         }
 
     }
+
+
     restoreGLState();
     event->accept();
 }
