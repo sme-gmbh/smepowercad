@@ -68,14 +68,21 @@ QComboBox
    <item>
     <widget class="QLabel" name="labelSceneCoordinates">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;[000000.000, 000000.000, 000000.000]  |  0 selektiert&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>[000000.000, 000000.000, 000000.000]</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>|</string>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QLabel" name="labelSelectionCount">
      <property name="text">
-      <string>TextLabel</string>
+      <string>0 selektiert</string>
      </property>
     </widget>
    </item>

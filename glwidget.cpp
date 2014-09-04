@@ -7,15 +7,12 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemdb) :
     this->mousePos = QPoint();
     rot_x = rot_y = rot_z = 0.0f;
 
-<<<<<<< HEAD
     //this->setMouseTracking(true);
-=======
     this->pickActive = false;
     this->cursorShown = true;
     this->snapMode = SnapCenter;
 
     this->setMouseTracking(true);
->>>>>>> 783b62b6f2fa426973f3826586545f9a1801bfa5
     //this->setPalette(Qt::transparent);
     this->setAttribute(Qt::WA_TransparentForMouseEvents);
 
