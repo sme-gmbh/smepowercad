@@ -16,7 +16,7 @@ public:
     enum CuttingPlane{CuttingPlane_pX = 0, CuttingPlane_nX = 1, CuttingPlane_pY = 2, CuttingPlane_nY = 3, CuttingPlane_pZ = 4, CuttingPlane_nZ = 5, CuttingPlane_ISO_001 = 6};
 
 
-    explicit GLWidget(QWidget *parent, ItemDB *itemdb);
+    explicit GLWidget(QWidget *parent, ItemDB *itemDB);
     ~GLWidget();
 
     void setup(QPoint translationOffset, qreal zoomFactor, QVector3D centerOfViewInScene, QPoint displayCenter, CuttingPlane cuttingplane, qreal height_of_intersection, qreal depth_of_view, qreal rot_x, qreal rot_y, qreal rot_z);

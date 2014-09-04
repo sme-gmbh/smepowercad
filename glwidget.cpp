@@ -1,23 +1,24 @@
 #include "glwidget.h"
 
-GLWidget::GLWidget(QWidget *parent, ItemDB *itemdb) :
+GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
     QGLWidget(parent)
 {
     this->itemDB = itemDB;
     this->mousePos = QPoint();
     rot_x = rot_y = rot_z = 0.0f;
 
-<<<<<<< HEAD
+
     //this->setMouseTracking(true);
-=======
+
     this->pickActive = false;
     this->cursorShown = true;
     this->snapMode = SnapCenter;
 
     this->setMouseTracking(true);
->>>>>>> 783b62b6f2fa426973f3826586545f9a1801bfa5
+
     //this->setPalette(Qt::transparent);
     this->setAttribute(Qt::WA_TransparentForMouseEvents);
+    this->setAttribute(Qt::WA_OpaquePaintEvent);
 
     makeCurrent();
 
@@ -28,8 +29,8 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemdb) :
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
 
-    GLfloat specular[] = { 1.0f, 1.0f, 1.0f, 1.0f};
-    GLfloat diffuseLight[] = { 1.0, 1.0, 1.0, 1.0};
+    GLfloat specular[] = { 0.2f, 0.2f, 0.2f, 1.0f};
+    GLfloat diffuseLight[] = { 0.8, 0.8, 0.8, 1.0};
     GLfloat light_position[] = { -5.0, 15.0, 25.0, 0.0 };
 
     glLightfv(GL_LIGHT0, GL_DIFFUSE,diffuseLight);
@@ -178,6 +179,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
 {
     saveGLState();
 
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -201,7 +203,6 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_ALPHA_TEST);
 
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 
 //    glEnable(GL_LIGHTING);
@@ -234,7 +235,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
 //        p2 += QVector3D(0.0, 2.0, 0.0);
 //    }
 
-    //paintContent(itemDB->layers);
+    paintContent(itemDB->layers);
 
     restoreGLState();
 
