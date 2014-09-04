@@ -40,9 +40,6 @@ private:
 //    QGraphicsScene* scene;
     LayerManager* layerManager;
 
-    QVector3D statusBar_sceneCoordinate;
-    int statusBar_selectionCount;
-
     // Current drawing objects
     CADline* current_cadline;
 

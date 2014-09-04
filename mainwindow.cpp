@@ -13,25 +13,22 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     // **** Global Variables ****
-    statusBar_sceneCoordinate = QVector3D();
-    statusBar_selectionCount = 0;
-
     current_cadline = NULL;
 
+    // **** Command prompt ****
     QWidget *promptTitle = new QWidget(ui->dockWidgetPrompt);
     promptTitle->setMaximumWidth(0);
     promptTitle->setMaximumHeight(0);
     ui->dockWidgetPrompt->setTitleBarWidget(promptTitle);
+
 
     // **** CAD Item Database *****
     itemDB = new ItemDB(this);
     Layer* topLevelLayer = itemDB->getTopLevelLayer();
 
 
-
     // **** CAD command interpreter ****
     this->cadcommand = new CADcommand(this);
-
     connect(this, SIGNAL(signal_command_prompt_input(QString)), cadcommand, SLOT(slot_prompt_input(QString)));
     connect(cadcommand, SIGNAL(signal_prompt_output(QString)), ui->prompt_output, SLOT(appendPlainText(QString)));
 
@@ -40,6 +37,8 @@ MainWindow::MainWindow(QWidget *parent) :
 //    connect(cadcommand, SIGNAL(signal_finishLine(QPointF)), cadview, SLOT(slot_finishLine(QPointF)));
 //    connect(cadcommand, SIGNAL(signal_abort()), cadview, SLOT(slot_abort()));
 
+
+    // **** Menubar actions ****
     connect(ui->actionLaden, SIGNAL(triggered()),           this, SLOT(slot_file_open_action()));
     connect(ui->actionSpeichern, SIGNAL(triggered()),       this, SLOT(slot_file_save_action()));
     connect(ui->actionSpeichern_unter, SIGNAL(triggered()), this, SLOT(slot_file_save_as_action()));
@@ -47,12 +46,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionPDF, SIGNAL(triggered()),             this, SLOT(slot_file_pdf_export_action()));
     connect(ui->actionZeichnungClose, SIGNAL(triggered()),  this, SLOT(slot_file_close_action()));
     connect(ui->actionBeenden, SIGNAL(triggered()),         qApp, SLOT(quit()));
-
     connect(ui->actionLinie, SIGNAL(triggered()), this, SLOT(slot_draw_line_action()));
     connect(ui->actionBogen, SIGNAL(triggered()), this, SLOT(slot_draw_arc_action()));
     connect(ui->actionKreis, SIGNAL(triggered()), this, SLOT(slot_draw_circle_action()));
-
     connect(ui->actionNeues_Schnittfenster, SIGNAL(triggered()), this, SLOT(slot_newGeometryDisplay()));
+
 
     // ** Layer Manager **
     this->layerManager = new LayerManager(this, topLevelLayer);
@@ -64,7 +62,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // **** CAD window (2nd version) *****
     mainGeometryDisplay = new GeometryDisplay(itemDB, this);
-    //mainGeometryDisplay->setTitleBarWidget(new QWidget());
     connect(mainGeometryDisplay, SIGNAL(signal_sceneCoordinateChanged(QVector3D)), this, SLOT(slot_sceneCoordinateChanged(QVector3D)));
 //    connect(this, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SLOT(slot_redrawScene()));
 //    connect(layerManager, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SLOT(slot_redrawScene()));
@@ -95,6 +92,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete mainGeometryDisplay;
     delete layerManager;
     delete itemDB;
     delete ui;

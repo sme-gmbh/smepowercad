@@ -127,8 +127,9 @@ void GLWidget::moveCursor(QPoint pos)
 void GLWidget::hideCursor()
 {
     this->cursorShown = false;
-    repaint();
+//    repaint();
     updateGL();
+    update();
 }
 
 void GLWidget::pickStart()

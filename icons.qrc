@@ -7,5 +7,8 @@
         <file>icons/arrow_up.svg</file>
         <file>icons/close.svg</file>
         <file>icons/float.svg</file>
+        <file>icons/Wand.svg</file>
+        <file>icons/Aussparung.svg</file>
+        <file>icons/Stütze.svg</file>
     </qresource>
 </RCC>
