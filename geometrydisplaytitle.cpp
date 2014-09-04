@@ -1,6 +1,8 @@
 #include "geometrydisplaytitle.h"
 #include "ui_geometrydisplaytitle.h"
 
+#include <QDebug>
+
 GeometryDisplayTitle::GeometryDisplayTitle(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::GeometryDisplayTitle)
@@ -11,6 +13,13 @@ GeometryDisplayTitle::GeometryDisplayTitle(QWidget *parent) :
 GeometryDisplayTitle::~GeometryDisplayTitle()
 {
     delete ui;
+}
+
+void GeometryDisplayTitle::hideButtons()
+{
+    ui->pushButtonFloat->setHidden(true);
+    ui->pushButtonClose->setHidden(true);
+    this->layout()->removeItem(ui->horizontalSpacerButtons);
 }
 
 void GeometryDisplayTitle::slot_sceneCoordinatesChanged(QVector3D coords)

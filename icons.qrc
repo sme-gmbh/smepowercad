@@ -3,5 +3,9 @@
         <file>icons/Linie.svg</file>
         <file>icons/Bogen.svg</file>
         <file>icons/Kreis.svg</file>
+        <file>icons/arrow_down.svg</file>
+        <file>icons/arrow_up.svg</file>
+        <file>icons/close.svg</file>
+        <file>icons/float.svg</file>
     </qresource>
 </RCC>

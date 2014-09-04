@@ -33,7 +33,6 @@ QMainWindow
 
 QMainWindow::separator
 {
-	/*background-color: rgb(102, 132, 86);*/
 	background-color: rgb(49, 49, 41);
 	width: 3px;
 	height: 3px;
@@ -152,7 +151,7 @@ QDockWidget::float-button
   <widget class="QDockWidget" name="dockWidgetPrompt">
    <property name="minimumSize">
     <size>
-     <width>0</width>
+     <width>73</width>
      <height>175</height>
     </size>
    </property>
@@ -267,7 +266,7 @@ QDockWidget::float-button
         </font>
        </property>
        <property name="cursor" stdset="0">
-        <cursorShape>IBeamCursor</cursorShape>
+        <cursorShape>ArrowCursor</cursorShape>
        </property>
        <property name="focusPolicy">
         <enum>Qt::NoFocus</enum>

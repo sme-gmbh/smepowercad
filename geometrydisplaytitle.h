@@ -16,6 +16,8 @@ public:
     explicit GeometryDisplayTitle(QWidget *parent = 0);
     ~GeometryDisplayTitle();
 
+    void hideButtons();
+
 private:
     Ui::GeometryDisplayTitle *ui;
 
