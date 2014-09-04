@@ -44,7 +44,7 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, QWidget *parent) :
     // Create a SnapEngine
     this->snapEngine = new SnapEngine(itemDB, this);
 
-    glwidget = new GLWidget(0, itemDB);
+    glwidget = new GLWidget(this, itemDB);
     //glwidget->resize(100, 100);
     this->setWidget(glwidget);
 
@@ -71,7 +71,7 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, QWidget *parent) :
 
 GeometryDisplay::~GeometryDisplay()
 {
-    delete this->overlay;
+    //delete this->overlay;
     delete this->glwidget;
     if (framebufferImage != NULL)
         delete framebufferImage;
@@ -419,8 +419,8 @@ void GeometryDisplay::mousePressEvent(QMouseEvent *event)
         }
 
         // Pickbox
-        if (!this->overlay->isPickActive())
-            this->overlay->pickStart();
+//        if (!this->overlay->isPickActive())
+//            this->overlay->pickStart();
         if (!this->glwidget->isPickActive())
             this->glwidget->pickStart();
         else

@@ -1,20 +1,31 @@
 #include "glwidget.h"
 
-GLWidget::GLWidget(QWidget *parent, ItemDB *itemdb) :
+GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
     QGLWidget(parent)
 {
     this->itemDB = itemdb;
     this->mousePos = QPoint();
     rot_x = rot_y = rot_z = 0.0f;
 
+<<<<<<< HEAD
     //this->setMouseTracking(true);
+=======
+
+    //this->setMouseTracking(true);
+
+>>>>>>> e046e22f0ea7bd4d4d4aa496ff886807ec542447
     this->pickActive = false;
     this->cursorShown = true;
     this->snapMode = SnapCenter;
 
     this->setMouseTracking(true);
+<<<<<<< HEAD
+=======
+
+>>>>>>> e046e22f0ea7bd4d4d4aa496ff886807ec542447
     //this->setPalette(Qt::transparent);
     this->setAttribute(Qt::WA_TransparentForMouseEvents);
+    this->setAttribute(Qt::WA_OpaquePaintEvent);
 
     makeCurrent();
 
@@ -25,8 +36,8 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemdb) :
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
 
-    GLfloat specular[] = { 1.0f, 1.0f, 1.0f, 1.0f};
-    GLfloat diffuseLight[] = { 1.0, 1.0, 1.0, 1.0};
+    GLfloat specular[] = { 0.2f, 0.2f, 0.2f, 1.0f};
+    GLfloat diffuseLight[] = { 0.8, 0.8, 0.8, 1.0};
     GLfloat light_position[] = { -5.0, 15.0, 25.0, 0.0 };
 
     glLightfv(GL_LIGHT0, GL_DIFFUSE,diffuseLight);
@@ -199,6 +210,10 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_ALPHA_TEST);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> e046e22f0ea7bd4d4d4aa496ff886807ec542447
 
 //    glEnable(GL_LIGHTING);
 //    glEnable(GL_LIGHT0);
