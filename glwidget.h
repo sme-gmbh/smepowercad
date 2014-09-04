@@ -37,6 +37,7 @@ public:
     void snap_enable(bool on);
     void set_snap_mode(SnapMode mode);
     void set_snapPos(QPoint snapPos);
+    void set_WorldRotation(float rot_x, float rot_y, float rot_z);
 
 private:
     ItemDB* itemDB;
@@ -96,7 +97,8 @@ signals:
 
 public slots:
     void slot_repaint();
-
+    void slot_wireframe(bool on);
+    void slot_solid(bool on);
 };
 
 #endif // GLWIDGET_H

@@ -188,6 +188,14 @@ void GLWidget::set_snapPos(QPoint snapPos)
     this->snapPos = snapPos;
 }
 
+void GLWidget::set_WorldRotation(float rot_x, float rot_y, float rot_z)
+{
+    this->rot_x = rot_x;
+    this->rot_y = rot_y;
+    this->rot_z = rot_z;
+    slot_repaint();
+}
+
 void GLWidget::wheelEvent(QWheelEvent* event)
 {
     qreal zoomStep = 1.15;
@@ -403,7 +411,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glLoadIdentity();
     //glFrustum(-(double)this->width(), (double)this->width(), -(double)this->height(), (double)this->height(), this->width(), 1000000);
     qreal screenRatio = (qreal)this->width() / (qreal)this->height();
-    glOrtho(-100000 * screenRatio, 100000, -100000 * screenRatio, 100000, -100000, 100000);
+    glOrtho(-100000 * screenRatio, 100000 * screenRatio, -100000, 100000, -100000, 100000);
     glTranslatef(cameraPosition.x(), cameraPosition.y(), cameraPosition.z());
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -559,6 +567,18 @@ void GLWidget::slot_repaint()
     updateGL();
 }
 
+void GLWidget::slot_wireframe(bool on)
+{
+    this->render_outline = on;
+    slot_repaint();
+}
+
+void GLWidget::slot_solid(bool on)
+{
+    this->render_solid = on;
+    slot_repaint();
+}
+
 void GLWidget::saveGLState()
 {
     glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -611,10 +631,12 @@ void GLWidget::paintContent(QList<Layer*> layers)
             case CADitem::Point:
                 break;
             case CADitem::Line:
-                paintLine(layer, (CADline*)item);
+                if (this->render_outline)
+                    paintLine(layer, (CADline*)item);
                 break;
             case CADitem::Polyline:
-                paintPolyLine(layer, (CADpolyline*)item);
+                if (this->render_outline)
+                    paintPolyLine(layer, (CADpolyline*)item);
                 break;
             case CADitem::Circle:
                 break;

@@ -17,6 +17,7 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, QWidget *parent) :
     connect(this, SIGNAL(signal_sceneCoordinateChanged(QVector3D)), titleWidget, SLOT(slot_sceneCoordinatesChanged(QVector3D)));
     connect(titleWidget, SIGNAL(signal_float()), this, SLOT(slot_float()));
     connect(titleWidget, SIGNAL(signal_close()), this, SLOT(slot_close()));
+    connect(titleWidget, SIGNAL(signal_cuttingplane_changed(QString)), this, SLOT(slot_changeCuttingplane(QString)));
     this->setTitleBarWidget(titleWidget);
 
     this->setWindowTitle("Zeichnung x");
@@ -25,6 +26,8 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, QWidget *parent) :
     glwidget = new GLWidget(this, itemDB);
     this->setWidget(glwidget);
     connect(this, SIGNAL(signal_repaintNeeded()), glwidget, SLOT(slot_repaint()));
+    connect(titleWidget, SIGNAL(signal_wireframe(bool)), glwidget, SLOT(slot_wireframe(bool)));
+    connect(titleWidget, SIGNAL(signal_solid(bool)), glwidget, SLOT(slot_solid(bool)));
 
     this->resize(400, 250);
     this->setFloating(false);
@@ -161,6 +164,34 @@ void GeometryDisplay::paintAnchor(QPainter *painter, CuttingPlane cuttingplane)
             painter->drawText(anchorPoint + QPoint(55, -55), "-y");
             break;
         }
+    }
+}
+
+void GeometryDisplay::slot_changeCuttingplane(QString directionOfView)
+{
+    if (directionOfView == "X+")
+    {
+        glwidget->set_WorldRotation(-90.0, 0.0, 90.0);
+    }
+    else if (directionOfView == "X-")
+    {
+        glwidget->set_WorldRotation(-90.0, 0.0, -90.0);
+    }
+    else if (directionOfView == "Y+")
+    {
+        glwidget->set_WorldRotation(-90.0, 0.0, 0.0);   // richtig
+    }
+    else if (directionOfView == "Y-")
+    {
+        glwidget->set_WorldRotation(90.0, 180.0, 0.0);
+    }
+    else if (directionOfView == "Z+")
+    {
+        glwidget->set_WorldRotation(0.0, 180.0, 0.0);   // richtig
+    }
+    else if (directionOfView == "Z-")
+    {
+        glwidget->set_WorldRotation(0.0, 0.0, 0.0); // richtig
     }
 }
 
