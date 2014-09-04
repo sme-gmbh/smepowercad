@@ -13,5 +13,7 @@
         <file>icons/fenster.svg</file>
         <file>icons/Stütze.svg</file>
         <file>icons/Wand.svg</file>
+        <file>icons/solid.svg</file>
+        <file>icons/wireframe.svg</file>
     </qresource>
 </RCC>
