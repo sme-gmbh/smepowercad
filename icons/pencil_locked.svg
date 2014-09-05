@@ -18,7 +18,7 @@
    sodipodi:docname="pencil.svg"><metadata
      id="metadata9"><rdf:RDF><cc:Work
          rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title /></cc:Work></rdf:RDF></metadata><defs
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
      id="defs7" /><sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -39,7 +39,7 @@
      inkscape:window-y="27"
      inkscape:window-maximized="1"
      inkscape:current-layer="Layer_1" /><path
-     style="fill:#ffff00;fill-opacity:1;stroke:none"
+     style="fill:#ff0000;fill-opacity:1;stroke:none"
      d="M 31.862161,8.77327 12.383369,28.175674 9.4042599,38.258813 19.258237,35.661641 39.042578,15.724525 z"
      id="path3754"
      inkscape:connector-curvature="0" /><path

@@ -62,13 +62,32 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // **** CAD window (2nd version) *****
     mainGeometryDisplay = new GeometryDisplay(itemDB, this);
-    connect(mainGeometryDisplay, SIGNAL(signal_sceneCoordinateChanged(QVector3D)), this, SLOT(slot_sceneCoordinateChanged(QVector3D)));
     connect(this, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(layerManager, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     mainGeometryDisplay->setFeatures(QDockWidget::NoDockWidgetFeatures);
     mainGeometryDisplay->setAllowedAreas(Qt::NoDockWidgetArea);
     mainGeometryDisplay->hideButtons();
     this->setCentralWidget(this->mainGeometryDisplay);
+
+
+    // **** Toolbar toggles ****
+    ui->menuWerkzeugleisten->addAction(ui->toolBarArchitektur->toggleViewAction());
+    ui->menuWerkzeugleisten->addAction(ui->toolBarLuft->toggleViewAction());
+
+
+
+    // **** Recent files ****
+    QAction *last = ui->menuDatei->actions().at(4);
+    for (int i = 0; i < MAX_RECENT_FILES; i++)
+    {
+        QAction *action = new QAction(this);
+        recentFileActs.prepend(action);
+        action->setVisible(false);
+        connect(action, SIGNAL(triggered()), this, SLOT(slot_openRecentFile()));
+        ui->menuDatei->insertAction(last, action);
+        last = action;
+    }
+    updateRecentFileActions();
 
 
 
@@ -96,6 +115,32 @@ MainWindow::~MainWindow()
     delete layerManager;
     delete itemDB;
     delete ui;
+}
+
+void MainWindow::updateRecentFileActions()
+{
+    QSettings settings;
+    QStringList files = settings.value("recentFileList").toStringList();
+
+    int numRecentFiles = qMin(files.size(), (int)MAX_RECENT_FILES);
+
+    for (int i = 0; i < numRecentFiles; i++)
+    {
+        QString text = QString("%1 %2").arg(i + 1).arg(strippedName(files[i]));
+        recentFileActs.at(i)->setText(text);
+        recentFileActs.at(i)->setData(files[i]);
+        recentFileActs.at(i)->setVisible(true);
+    }
+    for (int i = numRecentFiles; i < MAX_RECENT_FILES; i++)
+        recentFileActs.at(i)->setVisible(false);
+
+    QAction *sep = ui->menuDatei->actions().at(ui->menuDatei->actions().length() - 6);
+    sep->setVisible(numRecentFiles > 0);
+}
+
+QString MainWindow::strippedName(QString fullName)
+{
+    return QFileInfo(fullName).fileName();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -134,6 +179,16 @@ void MainWindow::slot_file_open_action()
 
     delete dxf;
     delete creationInterface;
+
+    QSettings settings;
+    QStringList files = settings.value("recentFileList").toStringList();
+    files.removeAll(filename);
+    files.prepend(filename);
+    while (files.size() > MAX_RECENT_FILES)
+        files.removeLast();
+
+    settings.setValue("recentFileList", files);
+    updateRecentFileActions();
 
     this->layerManager->updateAllLayers();
     emit signal_repaintNeeded();
@@ -212,12 +267,51 @@ void MainWindow::on_prompt_input_returnPressed()
     emit signal_command_prompt_input(str);
 }
 
+void MainWindow::slot_openRecentFile()
+{
+    qDebug() << "slot_openRecentFile()";
+
+    QString filename;
+    QAction *action = qobject_cast<QAction *>(sender());
+    if (action)
+        filename = action->data().toString();
+
+    if (filename.isEmpty())
+        return;
+
+    qDebug() << "loading file: " + filename;
+
+    // Load DXF file into memory:
+    CreationInterface* creationInterface = new CreationInterface(this->itemDB);
+    DL_Dxf* dxf = new DL_Dxf();
+    if (!dxf->in(filename.toStdString(), creationInterface))
+    {
+        qDebug() << "unable to open file";
+        return;
+    }
+
+    delete dxf;
+    delete creationInterface;
+
+    QSettings settings;
+    QStringList files = settings.value("recentFileList").toStringList();
+    files.removeAll(filename);
+    files.prepend(filename);
+    while (files.size() > MAX_RECENT_FILES)
+        files.removeLast();
+
+    settings.setValue("recentFileList", files);
+    updateRecentFileActions();
+
+    this->layerManager->updateAllLayers();
+    emit signal_repaintNeeded();
+}
+
 // **** Window functions ****
 
 void MainWindow::slot_newGeometryDisplay()
 {
     GeometryDisplay* newGeometryDisplay = new GeometryDisplay(itemDB, this);
-    connect(newGeometryDisplay, SIGNAL(signal_sceneCoordinateChanged(QVector3D)), this, SLOT(slot_sceneCoordinateChanged(QVector3D)));
     connect(newGeometryDisplay, SIGNAL(signal_aboutToClose(QAction*)), this, SLOT(slot_geometryDisplayAboutToClose(QAction*)));
     connect(this, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(layerManager, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));

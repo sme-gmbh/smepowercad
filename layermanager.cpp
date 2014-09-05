@@ -12,16 +12,19 @@ LayerManager::LayerManager(QWidget *parent, Layer* topLevelLayer) :
     // Move to right screen
     QDesktopWidget desktopWidget;
     QRect rightScreenRect = desktopWidget.screenGeometry(desktopWidget.numScreens() - 1);
-    this->move(rightScreenRect.topLeft());
-    if (desktopWidget.screenCount() > 1) this->resize(this->width(), rightScreenRect.height());
+    if (desktopWidget.screenCount() > 1)
+    {
+        this->resize(this->width(), rightScreenRect.height());
+        this->move(rightScreenRect.topLeft());
+    }
 
-    ui->treeWidget_layer->setColumnWidth(1, 35);
-    ui->treeWidget_layer->setColumnWidth(2, 35);
+    ui->treeWidget_layer->setColumnWidth(1, 24);
+    ui->treeWidget_layer->setColumnWidth(2, 24);
 
-    icon_layerOn = QPixmap(":/icons/check.svg").scaledToWidth(35, Qt::SmoothTransformation);
-    icon_layerOff = QPixmap(":/icons/hide_layer.svg").scaledToWidth(35, Qt::SmoothTransformation);
-    icon_pencilOn = QPixmap(":/icons/pencil.svg").scaledToWidth(35, Qt::SmoothTransformation);
-    icon_pencilOff = QPixmap(":/icons/pencil_off.svg").scaledToWidth(35, Qt::SmoothTransformation);
+    icon_layerOn = QPixmap(":/icons/check.svg").scaledToWidth(24, Qt::SmoothTransformation);
+    icon_layerOff = QPixmap(":/icons/hide_layer.svg").scaledToWidth(24, Qt::SmoothTransformation);
+    icon_pencilOn = QPixmap(":/icons/pencil.svg").scaledToWidth(24, Qt::SmoothTransformation);
+    icon_pencilOff = QPixmap(":/icons/pencil_off.svg").scaledToWidth(24, Qt::SmoothTransformation);
 }
 
 LayerManager::~LayerManager()
@@ -58,32 +61,48 @@ void LayerManager::updateLayer(Layer *layer)
     QTreeWidgetItem *item = layerMap.value(layer);
     if (layer->on)
     {
-        QLabel *label = new QLabel();
+        QLabel *label = static_cast<QLabel *>(ui->treeWidget_layer->itemWidget(item, 1));
+        if (label == NULL)
+        {
+            label = new QLabel();
+            ui->treeWidget_layer->setItemWidget(item, 1, label);
+        }
         label->setPixmap(icon_layerOn);
-        item->setBackgroundColor(1, QColor(19, 156, 39));
-        ui->treeWidget_layer->setItemWidget(item, 1, label);
+        item->setBackgroundColor(1, QColor(0, 105, 0));
     }
     else
     {
-        QLabel *label = new QLabel();
+        QLabel *label = static_cast<QLabel *>(ui->treeWidget_layer->itemWidget(item, 1));
+        if (label == NULL)
+        {
+            label = new QLabel();
+            ui->treeWidget_layer->setItemWidget(item, 1, label);
+        }
         label->setPixmap(icon_layerOff);
         item->setBackgroundColor(1, QColor(49, 49, 41));
-        ui->treeWidget_layer->setItemWidget(item, 1, label);
     }
 
     if (layer->writable)
     {
-        QLabel *label = new QLabel();
+        QLabel *label = static_cast<QLabel *>(ui->treeWidget_layer->itemWidget(item, 2));
+        if (label == NULL)
+        {
+            label = new QLabel();
+            ui->treeWidget_layer->setItemWidget(item, 2, label);
+        }
         label->setPixmap(icon_pencilOn);
-        item->setBackgroundColor(2, QColor(19, 156, 39));
-        ui->treeWidget_layer->setItemWidget(item, 2, label);
+        item->setBackgroundColor(2, QColor(0, 105, 0));
     }
     else
     {
-        QLabel *label = new QLabel();
+        QLabel *label = static_cast<QLabel *>(ui->treeWidget_layer->itemWidget(item, 2));
+        if (label == NULL)
+        {
+            label = new QLabel();
+            ui->treeWidget_layer->setItemWidget(item, 2, label);
+        }
         label->setPixmap(icon_pencilOff);
         item->setBackgroundColor(2, QColor(49, 49, 41));
-        ui->treeWidget_layer->setItemWidget(item, 2, label);
     }
 
     item->setText(3, layer->brush.color().name());

@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="Aussparung.svg">
+   sodipodi:docname="layerOnHeader.svg">
   <defs
      id="defs4">
     <inkscape:perspective
@@ -33,7 +33,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="7.919596"
-     inkscape:cx="34.178944"
+     inkscape:cx="31.969235"
      inkscape:cy="31.678317"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -66,7 +66,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -75,37 +75,15 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-988.36217)">
-    <rect
-       style="fill:#f2f2f2;fill-opacity:1;fill-rule:evenodd;stroke:#b3b3b3;stroke-width:0.25000000000000000;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:0;stroke-opacity:1;stroke-dasharray:none"
-       id="rect3767"
-       width="64"
-       height="64"
-       x="0"
-       y="0"
-       rx="0"
-       transform="translate(0,988.36217)" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="m 8,16 c 48,0 48,0 48,0"
-       id="path3794"
-       inkscape:connector-curvature="0"
-       transform="translate(0,988.36217)" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="m 8,48 c 48,0 48,0 48,0"
-       id="path3796"
-       inkscape:connector-curvature="0"
-       transform="translate(0,988.36217)" />
-    <path
-       style="fill:#008000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.04500000000000000;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
-       d="m 16.290929,31.960815 c 0,-14.190931 0.008,-14.955357 0.156449,-14.955357 0.08831,0 3.422654,3.266378 7.65605,7.499999 l 7.499601,7.5 -7.454957,7.455357 c -5.467192,5.467487 -7.508575,7.455358 -7.65605,7.455358 l -0.201093,0 0,-14.955357 z"
-       id="path3806"
-       inkscape:connector-curvature="0"
-       transform="translate(0,988.36217)" />
-    <path
-       style="fill:#008000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.04464286;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
-       d="m 39.098211,1027.8977 -7.454957,-7.4553 7.499601,-7.5 c 4.233396,-4.2337 7.567737,-7.5 7.65605,-7.5 0.148453,0 0.156449,0.7644 0.156449,14.9553 l 0,14.9554 -0.201093,0 c -0.147474,0 -2.188857,-1.9879 -7.65605,-7.4554 z"
-       id="path3808"
-       inkscape:connector-curvature="0" />
+       sodipodi:type="arc"
+       style="fill:#28cc0e;fill-opacity:1;stroke:#ffffff;stroke-opacity:1"
+       id="path3062"
+       sodipodi:cx="20"
+       sodipodi:cy="24"
+       sodipodi:rx="12"
+       sodipodi:ry="12"
+       d="M 32,24 A 12,12 0 1 1 8,24 12,12 0 1 1 32,24 z"
+       transform="matrix(2.0799997,0,0,2.0799997,-15.599998,972.44218)" />
   </g>
 </svg>
