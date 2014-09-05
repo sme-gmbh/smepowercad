@@ -260,12 +260,14 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
         qreal dx = mouseMoveDelta.x()/5.0f;
         qreal dy = mouseMoveDelta.y()/5.0f;
 
-        rot_x += dx + dy;
-        rot_y += dx + dy;
-        rot_z += dx + dy;
+        #define PI 3.14159265
 
+//        rot_x += dx * cos(rot_y*PI/180.0) - dy;
+//        rot_y += dx * cos(rot_x*PI/180.0) * cos(rot_z*PI/180.0) + dy * sin(rot_z*PI/180.0);
+        //rot_z += dx + dy;
 
-
+        rot_x += -dy;
+        rot_y += -dx;
     }
 /*
     snapEngine->setUp(zoomFactor, centerOfViewInScene, displayCenter, (SnapEngine::CuttingPlane)cuttingplane, height_of_intersection, depth_of_view);
@@ -425,6 +427,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glTranslatef(cameraPosition.x(), cameraPosition.y(), cameraPosition.z());
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+    //glLoadMatrixd();
     glViewport(0, 0, width(), height());
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -453,8 +456,6 @@ void GLWidget::paintEvent(QPaintEvent *event)
     paintContent(itemDB->layers);
 
     restoreGLState();
-
-//    glFlush();
 
     // Overlay
     saveGLState();
