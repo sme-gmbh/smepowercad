@@ -5,8 +5,11 @@
 #include <QDebug>
 #include <QEvent>
 #include <QPaintEvent>
+#include <QMatrix4x4>
 
 #include <qmath.h>
+#include <qgl.h>
+#include <GL/glu.h>
 
 #include "itemdb.h"
 #include "snapengine.h"
@@ -58,6 +61,8 @@ private:
 
     GLuint tile_list;
 
+    QMap<GLuint, CADitem*> glNameMap;
+
     // Overlay
     QPoint mousePos;
     QPoint pickStartPos;
@@ -77,6 +82,9 @@ private:
     void paintLine(Layer* layer, CADline* item);
     void paintPolyLine(Layer *layer, CADpolyline *item);
     void paintFace(Layer *layer, CAD3Dface *item);
+    CADitem *itemAtPosition(QPoint pos);
+    void highlightItemAtPosition(QPoint pos);
+    void highlightClear();
 
 protected:
     virtual void wheelEvent(QWheelEvent *event);

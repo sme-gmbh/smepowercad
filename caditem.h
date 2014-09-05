@@ -48,6 +48,10 @@ public:
     QVector3D snap_center;
     QList<QVector3D> snap_vertices;
 
+    // Highlighting
+    bool highlight;
+    quint32 index;
+
 private:
     ItemType type;
 };
