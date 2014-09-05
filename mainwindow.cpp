@@ -70,6 +70,11 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setCentralWidget(this->mainGeometryDisplay);
 
 
+    // **** Toolbar toggles ****
+    ui->menuWerkzeugleisten->addAction(ui->toolBarArchitektur->toggleViewAction());
+    ui->menuWerkzeugleisten->addAction(ui->toolBarLuft->toggleViewAction());
+
+
 
 
 
