@@ -7,6 +7,7 @@
 #include <QDesktopWidget>
 #include <QColorDialog>
 #include <QMap>
+#include <QLabel>
 #include "layer.h"
 
 namespace Ui {

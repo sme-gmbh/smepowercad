@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>809</width>
+    <width>817</width>
     <height>574</height>
    </rect>
   </property>
@@ -46,21 +46,13 @@ QHeaderView::section:first {
 	border-left: 0;
 }
 
-/*QTreeWidget::item {
-	border: 0;
-	border-left: 1px solid rgb(120, 120, 120);
-}
-QTreeWidget::item:first {
-	border-left: 0;
-}*/
-
  /* style the sort indicator */
  QHeaderView::down-arrow {
-     image: url(down_arrow.png);
+     image: url(:/icons/arrow_down.svg);
  }
 
  QHeaderView::up-arrow {
-     image: url(up_arrow.png);
+     image: url(:/icons/arrow_up.svg);
  }
 
 QDockWidget::title {
@@ -123,6 +115,12 @@ QTreeView {
     </property>
     <item row="0" column="0">
      <widget class="QTreeWidget" name="treeWidget_layer">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <property name="showDropIndicator" stdset="0">
        <bool>false</bool>
       </property>

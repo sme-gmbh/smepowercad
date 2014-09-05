@@ -15,5 +15,9 @@
         <file>icons/Wand.svg</file>
         <file>icons/solid.svg</file>
         <file>icons/wireframe.svg</file>
+        <file>icons/check.svg</file>
+        <file>icons/pencil_off.svg</file>
+        <file>icons/hide_layer.svg</file>
+        <file>icons/pencil.svg</file>
     </qresource>
 </RCC>
