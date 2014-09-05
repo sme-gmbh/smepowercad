@@ -29,6 +29,11 @@ private:
     Layer* topLevelLayer;
     QMap<Layer*, QTreeWidgetItem*> layerMap;
 
+    QPixmap icon_layerOn;
+    QPixmap icon_layerOff;
+    QPixmap icon_pencilOn;
+    QPixmap icon_pencilOff;
+
 public slots:
     void slot_layerAdded(Layer* newLayer, Layer* parentLayer);
 private slots:

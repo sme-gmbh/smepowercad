@@ -17,6 +17,11 @@ LayerManager::LayerManager(QWidget *parent, Layer* topLevelLayer) :
 
     ui->treeWidget_layer->setColumnWidth(1, 35);
     ui->treeWidget_layer->setColumnWidth(2, 35);
+
+    icon_layerOn = QPixmap(":/icons/check.svg").scaledToWidth(35, Qt::SmoothTransformation);
+    icon_layerOff = QPixmap(":/icons/hide_layer.svg").scaledToWidth(35, Qt::SmoothTransformation);
+    icon_pencilOn = QPixmap(":/icons/pencil.svg").scaledToWidth(35, Qt::SmoothTransformation);
+    icon_pencilOff = QPixmap(":/icons/pencil_off.svg").scaledToWidth(35, Qt::SmoothTransformation);
 }
 
 LayerManager::~LayerManager()
@@ -54,14 +59,14 @@ void LayerManager::updateLayer(Layer *layer)
     if (layer->on)
     {
         QLabel *label = new QLabel();
-        label->setPixmap(QPixmap(":/icons/check.svg").scaledToWidth(35, Qt::SmoothTransformation));
+        label->setPixmap(icon_layerOn);
         item->setBackgroundColor(1, QColor(19, 156, 39));
         ui->treeWidget_layer->setItemWidget(item, 1, label);
     }
     else
     {
         QLabel *label = new QLabel();
-        label->setPixmap(QPixmap(":/icons/hide_layer.svg").scaledToWidth(35, Qt::SmoothTransformation));
+        label->setPixmap(icon_layerOff);
         item->setBackgroundColor(1, QColor(49, 49, 41));
         ui->treeWidget_layer->setItemWidget(item, 1, label);
     }
@@ -69,14 +74,14 @@ void LayerManager::updateLayer(Layer *layer)
     if (layer->writable)
     {
         QLabel *label = new QLabel();
-        label->setPixmap(QPixmap(":/icons/pencil.svg").scaledToWidth(35, Qt::SmoothTransformation));
+        label->setPixmap(icon_pencilOn);
         item->setBackgroundColor(2, QColor(19, 156, 39));
         ui->treeWidget_layer->setItemWidget(item, 2, label);
     }
     else
     {
         QLabel *label = new QLabel();
-        label->setPixmap(QPixmap(":/icons/pencil_off.svg").scaledToWidth(35, Qt::SmoothTransformation));
+        label->setPixmap(icon_pencilOff);
         item->setBackgroundColor(2, QColor(49, 49, 41));
         ui->treeWidget_layer->setItemWidget(item, 2, label);
     }
@@ -90,9 +95,6 @@ void LayerManager::updateLayer(Layer *layer)
     item->setIcon(4, QIcon(colorPixmap));
     item->setText(5, QString().sprintf("%i", layer->width));
     item->setText(6, layer->lineType);
-
-    //ui->treeWidget_layer->resizeColumnToContents(1);
-    //ui->treeWidget_layer->resizeColumnToContents(2);
 }
 
 void LayerManager::on_treeWidget_layer_itemClicked(QTreeWidgetItem *item, int column)
