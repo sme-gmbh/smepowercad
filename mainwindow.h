@@ -11,6 +11,7 @@
 #include <QPointF>
 #include <QEvent>
 #include <QKeyEvent>
+#include <QSettings>
 
 #include "cadcommand.h"
 #include "layermanager.h"
@@ -20,6 +21,8 @@
 
 #include "itemdb.h"
 #include "geometrydisplay.h"
+
+#define MAX_RECENT_FILES 5
 
 namespace Ui {
 class MainWindow;
@@ -46,6 +49,11 @@ private:
     GeometryDisplay* mainGeometryDisplay;
     QList<GeometryDisplay*> geometryDisplays;
 
+    // recent files
+    QList<QAction *> recentFileActs;
+    void updateRecentFileActions();
+    QString strippedName(QString fullName);
+
 protected:
     void keyPressEvent(QKeyEvent *event);
 
@@ -67,8 +75,7 @@ public slots:
     void slot_geometryDisplayAboutToClose(QAction *action);
 private slots:
     void on_prompt_input_returnPressed();
-
-    //void on_doubleSpinBox_heightOfIntersection_valueChanged(double arg1);
+    void slot_openRecentFile();
 
 signals:
     void signal_command_prompt_input(QString str);

@@ -133,6 +133,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <addaction name="actionSpeichern"/>
     <addaction name="actionSpeichern_unter"/>
     <addaction name="separator"/>
+    <addaction name="separator"/>
     <addaction name="actionPlotten"/>
     <addaction name="actionPDF"/>
     <addaction name="separator"/>
