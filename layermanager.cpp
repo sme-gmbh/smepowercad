@@ -14,6 +14,14 @@ LayerManager::LayerManager(QWidget *parent, Layer* topLevelLayer) :
     QRect rightScreenRect = desktopWidget.screenGeometry(desktopWidget.numScreens() - 1);
     this->move(rightScreenRect.topLeft());
     if (desktopWidget.screenCount() > 1) this->resize(this->width(), rightScreenRect.height());
+
+    ui->treeWidget_layer->setColumnWidth(1, 35);
+    ui->treeWidget_layer->setColumnWidth(2, 35);
+
+    icon_layerOn = QPixmap(":/icons/check.svg").scaledToWidth(35, Qt::SmoothTransformation);
+    icon_layerOff = QPixmap(":/icons/hide_layer.svg").scaledToWidth(35, Qt::SmoothTransformation);
+    icon_pencilOn = QPixmap(":/icons/pencil.svg").scaledToWidth(35, Qt::SmoothTransformation);
+    icon_pencilOff = QPixmap(":/icons/pencil_off.svg").scaledToWidth(35, Qt::SmoothTransformation);
 }
 
 LayerManager::~LayerManager()
@@ -47,27 +55,35 @@ void LayerManager::updateAllLayers()
 
 void LayerManager::updateLayer(Layer *layer)
 {
-    QTreeWidgetItem* item = layerMap.value(layer);
+    QTreeWidgetItem *item = layerMap.value(layer);
     if (layer->on)
     {
-        item->setText(1, "true");
-        item->setBackgroundColor(1, QColor(0, 255, 0, 80));
+        QLabel *label = new QLabel();
+        label->setPixmap(icon_layerOn);
+        item->setBackgroundColor(1, QColor(19, 156, 39));
+        ui->treeWidget_layer->setItemWidget(item, 1, label);
     }
     else
     {
-        item->setText(1, "false");
-        item->setBackgroundColor(1, QColor(255, 0, 0, 80));
+        QLabel *label = new QLabel();
+        label->setPixmap(icon_layerOff);
+        item->setBackgroundColor(1, QColor(49, 49, 41));
+        ui->treeWidget_layer->setItemWidget(item, 1, label);
     }
 
     if (layer->writable)
     {
-        item->setText(2, "true");
-        item->setBackgroundColor(2, QColor(0, 0, 255, 80));
+        QLabel *label = new QLabel();
+        label->setPixmap(icon_pencilOn);
+        item->setBackgroundColor(2, QColor(19, 156, 39));
+        ui->treeWidget_layer->setItemWidget(item, 2, label);
     }
     else
     {
-        item->setText(2, "false");
-        item->setBackgroundColor(2, QColor(255, 0, 0, 80));
+        QLabel *label = new QLabel();
+        label->setPixmap(icon_pencilOff);
+        item->setBackgroundColor(2, QColor(49, 49, 41));
+        ui->treeWidget_layer->setItemWidget(item, 2, label);
     }
 
     item->setText(3, layer->brush.color().name());

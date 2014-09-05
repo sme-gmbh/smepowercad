@@ -840,6 +840,9 @@ QComboBox QAbstractItemView {
          <height>0</height>
         </size>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -874,6 +877,9 @@ QComboBox QAbstractItemView {
          <width>36</width>
          <height>0</height>
         </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
        </property>
        <property name="text">
         <string/>
@@ -939,6 +945,9 @@ QComboBox QAbstractItemView {
          <height>0</height>
         </size>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -967,6 +976,9 @@ QComboBox QAbstractItemView {
          <width>36</width>
          <height>0</height>
         </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
        </property>
        <property name="text">
         <string/>

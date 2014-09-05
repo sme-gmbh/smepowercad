@@ -7,6 +7,7 @@
 #include <QDesktopWidget>
 #include <QColorDialog>
 #include <QMap>
+#include <QLabel>
 #include "layer.h"
 
 namespace Ui {
@@ -27,6 +28,11 @@ private:
     Ui::LayerManager *ui;
     Layer* topLevelLayer;
     QMap<Layer*, QTreeWidgetItem*> layerMap;
+
+    QPixmap icon_layerOn;
+    QPixmap icon_layerOff;
+    QPixmap icon_pencilOn;
+    QPixmap icon_pencilOff;
 
 public slots:
     void slot_layerAdded(Layer* newLayer, Layer* parentLayer);
