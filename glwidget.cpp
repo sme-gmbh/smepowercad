@@ -257,8 +257,15 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
     if (event->buttons() == Qt::RightButton)
     {
-        rot_x += mouseMoveDelta.y()/5.0f;
-        rot_y += mouseMoveDelta.x()/5.0f;
+        qreal dx = mouseMoveDelta.x()/5.0f;
+        qreal dy = mouseMoveDelta.y()/5.0f;
+
+        rot_x += dx + dy;
+        rot_y += dx + dy;
+        rot_z += dx + dy;
+
+
+
     }
 /*
     snapEngine->setUp(zoomFactor, centerOfViewInScene, displayCenter, (SnapEngine::CuttingPlane)cuttingplane, height_of_intersection, depth_of_view);
@@ -274,6 +281,12 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
         this->set_snap_mode(GLWidget::SnapNo);
     }
 */
+
+    // Item highlighting (experimental)
+    //highlightClear();
+//    highlightItemAtPosition(mousePos);
+
+
     this->cursorShown = true;
 
     slot_repaint();
@@ -407,7 +420,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     //glFrustum(-(double)this->width(), (double)this->width(), -(double)this->height(), (double)this->height(), this->width(), 1000000);
-    qreal screenRatio = (qreal)this->width() / (qreal)this->height();
+    GLfloat screenRatio = (qreal)this->width() / (qreal)this->height();
     glOrtho(-100000 * screenRatio, 100000 * screenRatio, -100000, 100000, -100000, 100000);
     glTranslatef(cameraPosition.x(), cameraPosition.y(), cameraPosition.z());
     glMatrixMode(GL_MODELVIEW);
@@ -597,7 +610,7 @@ void GLWidget::restoreGLState()
 
 void GLWidget::paintContent(QList<Layer*> layers)
 {
-
+    quint32 glName = 0;
 
 //    glBegin(GL_TRIANGLES);
 //    glVertex3f(-30000.0, -2.0, 0.0);
@@ -621,6 +634,10 @@ void GLWidget::paintContent(QList<Layer*> layers)
 //            QVector3D p2 = item->boundingBox.p0 + item->boundingBox.a1 + item->boundingBox.a2 + item->boundingBox.a3;
 //            if (!paintWindow.contains(QRectF(mapFromScene(p1), mapFromScene(p2)).toRect()))
 //                continue;
+
+            item->index = glName;
+            glLoadName(glName);
+            glName++;
 
             // Paint it
             switch (item->getType())
@@ -828,6 +845,13 @@ void GLWidget::paintFace(Layer *layer, CAD3Dface *item)
         color_brush = Qt::white;
 
 
+    if (item->highlight)
+    {
+        color_brush = QColor(Qt::white);
+        color_pen = QColor(Qt::black);
+    }
+
+
     if (this->render_solid)
     {
         glBegin(GL_POLYGON);
@@ -848,5 +872,103 @@ void GLWidget::paintFace(Layer *layer, CAD3Dface *item)
             glVertex3f((GLfloat)vertex.pos.x(), (GLfloat)vertex.pos.y(), (GLfloat)vertex.pos.z());
         }
         glEnd();
+    }
+}
+
+CADitem* GLWidget::itemAtPosition(QPoint pos)
+{
+    GLuint buffer[512000];
+    GLint viewport[4];
+
+    saveGLState();
+
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    glSelectBuffer(512000, buffer);
+    glRenderMode(GL_SELECT);
+
+    glInitNames();
+    glPushName(0);
+
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    gluPickMatrix((GLdouble)pos.x(), (GLdouble)pos.y(), 50.0, 50.0, viewport);
+
+    GLfloat screenRatio = (qreal)this->width() / (qreal)this->height();
+    glOrtho(-100000 * screenRatio, 100000 * screenRatio, -100000, 100000, -100000, 100000);
+    glTranslatef(cameraPosition.x(), cameraPosition.y(), cameraPosition.z());
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glViewport(0, 0, width(), height());
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glEnable(GL_MULTISAMPLE);
+    glEnable(GL_CULL_FACE);
+
+    glRotatef(rot_x, 1.0f, 0.0f, 0.0f);
+    glRotatef(rot_y, 0.0f, 1.0f, 0.0f);
+    glRotatef(rot_z, 0.0f, 0.0f, 1.0f);
+    glScaled(this->zoomFactor, this->zoomFactor, this->zoomFactor);
+
+    glDepthFunc(GL_LEQUAL);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_ALPHA_TEST);
+
+
+    paintContent(itemDB->layers);
+
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+
+    if (glRenderMode(GL_RENDER) == 0)
+    {
+        return NULL;
+    }
+
+
+    restoreGLState();
+
+    GLuint glName = buffer[3];
+
+    qDebug() << "*******************FOUND*******************" << glName;
+
+    foreach (Layer* layer, layers)
+    {
+        if (!layer->on)
+            continue;
+
+        foreach (CADitem* item, layer->items)
+        {
+            if (item->index == glName)
+            {
+                qDebug() << "*******************HIT*******************" << glName;
+                return item;
+            }
+        }
+    }
+
+    return NULL;
+}
+
+void GLWidget::highlightItemAtPosition(QPoint pos)
+{
+    CADitem* item = this->itemAtPosition(pos);
+
+    if (item == NULL)
+        return;
+
+    item->highlight = true;
+    qDebug() << "Highlight";
+}
+
+void GLWidget::highlightClear()
+{
+    foreach (Layer* layer, itemDB->layers)
+    {
+        foreach (CADitem* item, layer->items)
+        {
+            item->highlight = false;
+        }
     }
 }
