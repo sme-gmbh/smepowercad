@@ -86,7 +86,7 @@ public slots:
 //    void slot_redrawScene();
 //    void slot_renderEngineFinished(QImage* frameBufferImage);
 //    void slot_setHeightOfIntersection(qreal height);
-//    void slot_changeCuttingplane();
+    void slot_changeCuttingplane(QString directionOfView);
 
 private slots:
 //    void slot_timer_50ms_fired();

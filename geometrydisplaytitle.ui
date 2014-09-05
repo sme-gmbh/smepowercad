@@ -767,6 +767,9 @@ QComboBox QAbstractItemView {
        <height>16777215</height>
       </size>
      </property>
+     <property name="currentIndex">
+      <number>5</number>
+     </property>
      <item>
       <property name="text">
        <string>X+</string>
@@ -857,7 +860,7 @@ QComboBox QAbstractItemView {
         <bool>true</bool>
        </property>
        <property name="checked">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -895,7 +898,7 @@ QComboBox QAbstractItemView {
         <bool>true</bool>
        </property>
        <property name="checked">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
       </widget>
      </item>
