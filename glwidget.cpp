@@ -19,10 +19,6 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
     this->render_solid = true;
     this->render_outline = true;
 
-
-
-    makeCurrent();
-
     this->pickActive = false;
     this->cursorShown = true;
     this->snapMode = SnapCenter;
@@ -403,6 +399,7 @@ void GLWidget::resizeEvent(QResizeEvent *event)
 
 void GLWidget::paintEvent(QPaintEvent *event)
 {
+    makeCurrent();
     saveGLState();
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
