@@ -62,7 +62,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // **** CAD window (2nd version) *****
     mainGeometryDisplay = new GeometryDisplay(itemDB, this);
-    connect(mainGeometryDisplay, SIGNAL(signal_sceneCoordinateChanged(QVector3D)), this, SLOT(slot_sceneCoordinateChanged(QVector3D)));
     connect(this, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(layerManager, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     mainGeometryDisplay->setFeatures(QDockWidget::NoDockWidgetFeatures);
@@ -217,7 +216,6 @@ void MainWindow::on_prompt_input_returnPressed()
 void MainWindow::slot_newGeometryDisplay()
 {
     GeometryDisplay* newGeometryDisplay = new GeometryDisplay(itemDB, this);
-    connect(newGeometryDisplay, SIGNAL(signal_sceneCoordinateChanged(QVector3D)), this, SLOT(slot_sceneCoordinateChanged(QVector3D)));
     connect(newGeometryDisplay, SIGNAL(signal_aboutToClose(QAction*)), this, SLOT(slot_geometryDisplayAboutToClose(QAction*)));
     connect(this, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(layerManager, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));

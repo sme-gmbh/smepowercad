@@ -6,7 +6,6 @@
         <file>icons/arrow_down.svg</file>
         <file>icons/arrow_up.svg</file>
         <file>icons/close.svg</file>
-        <file>icons/float.svg</file>
         <file>icons/Aussparung.svg</file>
         <file>icons/tuer.svg</file>
         <file>icons/boden_decke.svg</file>
@@ -18,6 +17,10 @@
         <file>icons/check.svg</file>
         <file>icons/pencil_off.svg</file>
         <file>icons/hide_layer.svg</file>
+        <file>icons/float.svg</file>
+        <file>icons/layerOnHeader.svg</file>
+        <file>icons/layerLockHeader.svg</file>
         <file>icons/pencil.svg</file>
+        <file>icons/pencil_locked.svg</file>
     </qresource>
 </RCC>

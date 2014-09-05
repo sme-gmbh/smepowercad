@@ -148,7 +148,7 @@ QTreeView {
       </column>
       <column>
        <property name="text">
-        <string>Ein</string>
+        <string/>
        </property>
        <property name="toolTip">
         <string>Sichtbarkeit des Layers im Designfenster und im Druck</string>
@@ -158,10 +158,14 @@ QTreeView {
          <pointsize>9</pointsize>
         </font>
        </property>
+       <property name="icon">
+        <iconset resource="icons.qrc">
+         <normaloff>:/icons/layerOnHeader.svg</normaloff>:/icons/layerOnHeader.svg</iconset>
+       </property>
       </column>
       <column>
        <property name="text">
-        <string>R/W</string>
+        <string/>
        </property>
        <property name="toolTip">
         <string>Berechtigung, Objekte auf dem Layer zu ändern</string>
@@ -170,6 +174,10 @@ QTreeView {
         <font>
          <pointsize>9</pointsize>
         </font>
+       </property>
+       <property name="icon">
+        <iconset resource="icons.qrc">
+         <normaloff>:/icons/layerLockHeader.svg</normaloff>:/icons/layerLockHeader.svg</iconset>
        </property>
       </column>
       <column>
@@ -230,6 +238,8 @@ QTreeView {
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections/>
 </ui>
