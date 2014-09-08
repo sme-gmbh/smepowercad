@@ -1,12 +1,12 @@
-#include "../items/cad3Dface.h"
+#include "cad_basic_polyline.h"
 #include <QDebug>
 #include <QPen>
 
-CAD3Dface::CAD3Dface() : CADitem(CADitem::Face)
+CAD_basic_polyline::CAD_basic_polyline() : CADitem(CADitem::Polyline)
 {
 }
 
-void CAD3Dface::calculate()
+void CAD_basic_polyline::calculate()
 {
     qreal min_x;
     qreal min_y;

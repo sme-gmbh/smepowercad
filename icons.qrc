@@ -1,8 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>icons/Linie.svg</file>
-        <file>icons/Bogen.svg</file>
-        <file>icons/Kreis.svg</file>
         <file>icons/arrow_down.svg</file>
         <file>icons/arrow_up.svg</file>
         <file>icons/close.svg</file>
@@ -22,5 +19,15 @@
         <file>icons/layerLockHeader.svg</file>
         <file>icons/pencil.svg</file>
         <file>icons/pencil_locked.svg</file>
+    </qresource>
+    <qresource prefix="/grundobjekte">
+        <file>icons/Bogen.svg</file>
+        <file>icons/box.svg</file>
+        <file>icons/cylinder.svg</file>
+        <file>icons/Kreis.svg</file>
+        <file>icons/Linie.svg</file>
+        <file>icons/point.svg</file>
+        <file>icons/polyline.svg</file>
+        <file>icons/sphere.svg</file>
     </qresource>
 </RCC>

@@ -1,12 +1,12 @@
-#ifndef CADLINE_H
-#define CADLINE_H
+#ifndef CAD_BASIC_LINE_H
+#define CAD_BASIC_LINE_H
 
 #include "caditem.h"
 
-class CADline : public CADitem
+class CAD_basic_line : public CADitem
 {
 public:
-    CADline();
+    CAD_basic_line();
     virtual void calculate();
 
     QVector3D p1;

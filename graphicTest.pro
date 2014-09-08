@@ -26,20 +26,26 @@ SOURCES += main.cpp\
     geometrydisplay.cpp \
     itemdb.cpp \
     caditem.cpp \
-    items/cadline.cpp \
-    items/cadpolyline.cpp \
     geometryrenderengine.cpp \
     math/m3dbox.cpp \
     snapengine.cpp \
-    items/cad3Dface.cpp \
     glwidget.cpp \
     geometrydisplaytitle.cpp \
-    items/cadarc.cpp \
-    items/cadcircle.cpp \
-    items/cadplane.cpp \
-    items/cadbox.cpp \
-    items/cadsphere.cpp \
-    items/cadcylinder.cpp
+    items/cad_basic_point.cpp \
+    items/cad_basic_line.cpp \
+    items/cad_basic_polyline.cpp \
+    items/cad_basic_circle.cpp \
+    items/cad_basic_arc.cpp \
+    items/cad_basic_3Dface.cpp \
+    items/cad_basic_box.cpp \
+    items/cad_basic_cylinder.cpp \
+    items/cad_basic_sphere.cpp \
+    items/cad_arch_door.cpp \
+    items/cad_arch_levelslab.cpp \
+    items/cad_arch_plane.cpp \
+    items/cad_arch_wall_loadbearing.cpp \
+    items/cad_arch_wall_nonloadbearing.cpp \
+    items/cad_arch_window.cpp
 
 HEADERS  += mainwindow.h \
     overlay.h \
@@ -61,20 +67,26 @@ HEADERS  += mainwindow.h \
     geometrydisplay.h \
     itemdb.h \
     caditem.h \
-    items/cadline.h \
-    items/cadpolyline.h \
     geometryrenderengine.h \
     math/m3dbox.h \
     snapengine.h \
-    items/cad3Dface.h \
     glwidget.h \
     geometrydisplaytitle.h \
-    items/cadarc.h \
-    items/cadcircle.h \
-    items/cadplane.h \
-    items/cadbox.h \
-    items/cadsphere.h \
-    items/cadcylinder.h
+    items/cad_basic_point.h \
+    items/cad_basic_line.h \
+    items/cad_basic_polyline.h \
+    items/cad_basic_arc.h \
+    items/cad_basic_box.h \
+    items/cad_basic_circle.h \
+    items/cad_basic_cylinder.h \
+    items/cad_basic_sphere.h \
+    items/cad_basic_3Dface.h \
+    items/cad_arch_door.h \
+    items/cad_arch_levelslab.h \
+    items/cad_arch_plane.h \
+    items/cad_arch_wall_loadbearing.h \
+    items/cad_arch_wall_nonloadbearing.h \
+    items/cad_arch_window.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

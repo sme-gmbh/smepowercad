@@ -49,10 +49,10 @@ private:
 
      void paintContent(QPainter *painter, QList<Layer*> layers);
      inline void paintPixel(int &x, int &y, qreal &depth, QRgb &color);
-     void paintLine(QPainter* painter, Layer* layer, CADline* item);
-     void paintLine2(QPainter* painter, Layer* layer, CADline* item);
-     void paintPolyLine(QPainter *painter, Layer *layer, CADpolyline *item);
-     void paintFace(QPainter *painter, Layer *layer, CAD3Dface *item);
+     void paintLine(QPainter* painter, Layer* layer, CAD_basic_line* item);
+     void paintLine2(QPainter* painter, Layer* layer, CAD_basic_line* item);
+     void paintPolyLine(QPainter *painter, Layer *layer, CAD_basic_polyline *item);
+     void paintFace(QPainter *painter, Layer *layer, CAD_basic_3Dface *item);
      void renderTriangle(int x0, int x1, int x2, int y0, int y1, int y2, qreal d0, qreal d1, qreal d2, QRgb &colorPen, QRgb &colorBrush);
 
 signals:

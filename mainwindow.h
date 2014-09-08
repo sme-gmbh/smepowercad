@@ -44,7 +44,7 @@ private:
     LayerManager* layerManager;
 
     // Current drawing objects
-    CADline* current_cadline;
+    CAD_basic_line* current_cadline;
 
     GeometryDisplay* mainGeometryDisplay;
     QList<GeometryDisplay*> geometryDisplays;

@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <QDebug>
 
-#include "items/cadline.h"
+#include "items/cad_basic_line.h"
 
 CreationInterface::CreationInterface(ItemDB *itemDB)
 {
@@ -119,7 +119,7 @@ void CreationInterface::addLine(const DL_LineData& data) {
     printAttributes();
     // readout complete
 
-    CADline* current_cadline = new CADline();
+    CAD_basic_line* current_cadline = new CAD_basic_line();
     current_cadline->p1 = QVector3D(data.x1, data.y1, data.z1);
     current_cadline->p2 = QVector3D(data.x2, data.y2, data.z2);
     current_cadline->calculate();
@@ -207,14 +207,14 @@ void CreationInterface::addPolyline(const DL_PolylineData& data) {
     if (!data.flags & DL_PFACE_MESH)
     {
         activeCommand = CMD_POLYLINE;
-        item = new CADpolyline();
+        item = new CAD_basic_polyline();
 //        printf("PLine3D");
         // meshes [mxn] not supported yet
     }
     else
     {
         activeCommand = CMD_3DFACE;
-        item = new CAD3Dface();
+        item = new CAD_basic_3Dface();
 //        printf("PFaceMesh");
     }
 
@@ -268,8 +268,8 @@ void CreationInterface::addVertex(const DL_VertexData& data) {
             //printf("CreationInterface::addVertex: activeItem == NULL\n");
             return;
         }
-        CADpolyline* item = (CADpolyline*) activeItem;
-        CADpolyline::Vertex vertex;
+        CAD_basic_polyline* item = (CAD_basic_polyline*) activeItem;
+        CAD_basic_polyline::Vertex vertex;
         vertex.pos = QVector3D(data.x, data.y, data.z);
         vertex.widthStart = attributes.getWidth();
         vertex.widthEnd = attributes.getWidth();        // TBD. Endwidth...
@@ -287,8 +287,8 @@ void CreationInterface::addVertex(const DL_VertexData& data) {
             //printf("CreationInterface::addVertex: activeItem == NULL\n");
             return;
         }
-        CAD3Dface* item = (CAD3Dface*) activeItem;
-        CAD3Dface::Vertex vertex;
+        CAD_basic_3Dface* item = (CAD_basic_3Dface*) activeItem;
+        CAD_basic_3Dface::Vertex vertex;
         vertex.pos = QVector3D(data.x, data.y, data.z);
         vertex.widthStart = attributes.getWidth();
         vertex.widthEnd = attributes.getWidth();        // TBD. Endwidth...
@@ -375,7 +375,7 @@ void CreationInterface::add3dFace(const DL_3dFaceData& data) {
 
     activeCommand = CMD_3DFACE;
 
-    CAD3Dface* item = new CAD3Dface();
+    CAD_basic_3Dface* item = new CAD_basic_3Dface();
     // meshes [mxn] not supported yet
 
     if (attributes.getColor()==256)     // BYLAYER
@@ -690,7 +690,7 @@ void CreationInterface::endEntity()
             //printf("CreationInterface::addVertex: activeItem == NULL\n");
             return;
         }
-        CADpolyline* item = (CADpolyline*) activeItem;
+        CAD_basic_polyline* item = (CAD_basic_polyline*) activeItem;
         item->calculate();
         break;
     }
@@ -705,7 +705,7 @@ void CreationInterface::endEntity()
             //printf("CreationInterface::addVertex: activeItem == NULL\n");
             return;
         }
-        CAD3Dface* item = (CAD3Dface*) activeItem;
+        CAD_basic_3Dface* item = (CAD_basic_3Dface*) activeItem;
         item->calculate();
         break;
     }
