@@ -9,8 +9,11 @@ public:
     CAD_basic_circle();
     virtual void calculate();
 
-    QVector3D pos;
+    QVector3D center;
     qreal radius;
+    qreal width;
+    bool widthByLayer;
+    bool widthByBlock;
 };
 
 #endif // CAD_BASIC_CIRCLE_H

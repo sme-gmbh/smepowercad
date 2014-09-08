@@ -115,13 +115,17 @@ MainWindow::MainWindow(QWidget *parent) :
     // ***** Spielwiese *****
 
     Layer* layer = itemDB->addLayer("Testlayer");
-    layer->pen.setColor(Qt::white);
-    layer->brush.setColor(Qt::white);
+    layer->pen.setColor(Qt::gray);
+    layer->brush.setColor(Qt::yellow);
     layer->lineType = "Continuos";
     layer->width = 1;
 
     CAD_basic_box* box = new CAD_basic_box();
     itemDB->addItem(box, "Testlayer");
+
+    CAD_basic_circle* circle = new CAD_basic_circle();
+    circle->center = QVector3D(-2.0, 0.0, 0.0);
+    itemDB->addItem(circle, "Testlayer");
 }
 
 MainWindow::~MainWindow()

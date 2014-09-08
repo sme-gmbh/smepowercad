@@ -1,5 +1,7 @@
 #include "glwidget.h"
 
+#define PI 3.1415926535897
+
 GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
     QGLWidget(QGLFormat(QGL::SampleBuffers|QGL::AlphaChannel), parent)
 {
@@ -285,7 +287,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 */
 
     // Item highlighting (experimental)
-    //highlightClear();
+    highlightClear();
     highlightItemAtPosition(mousePos);
 
 
@@ -470,6 +472,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
 
     if (this->cursorShown)
     {
+        // Cursor lines
         glDisable(GL_DEPTH_TEST);
         glLineWidth(2);
         glColor4ub(255, 255, 255, 255);
@@ -480,6 +483,17 @@ void GLWidget::paintEvent(QPaintEvent *event)
         glVertex3i(mousePos.x(), this->height() - 1, 0);
         glEnd();
 
+        // Cursor Pickbox
+        glLineWidth(1);
+        glColor4ub(200, 255, 200, 150);
+        QRect pickRect = QRect(0, 0, 11, 11);
+        pickRect.moveCenter(mousePos);
+        glBegin(GL_LINE_LOOP);
+        glVertex3i(pickRect.bottomLeft().x(), pickRect.bottomLeft().y(), 0);
+        glVertex3i(pickRect.bottomRight().x(), pickRect.bottomRight().y(), 0);
+        glVertex3i(pickRect.topRight().x(), pickRect.topRight().y(), 0);
+        glVertex3i(pickRect.topLeft().x(), pickRect.topLeft().y(), 0);
+        glEnd();
 
         if (this->pickActive)
         {
@@ -537,7 +551,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
 //                painter.drawRect(focusRect);
 //                painter.drawText(this->snapPos + QPoint(7, -7), "Endpoint/Vertex");
 
-                glBegin(GL_LINE_STRIP);
+                glBegin(GL_LINE_LOOP);
                 glVertex3i(focusRect.bottomLeft().x(), focusRect.bottomLeft().y(), 0);
                 glVertex3i(focusRect.bottomRight().x(), focusRect.bottomRight().y(), 0);
                 glVertex3i(focusRect.topRight().x(), focusRect.topRight().y(), 0);
@@ -654,6 +668,8 @@ void GLWidget::paintContent(QList<Layer*> layers)
                     paintPolyLine(layer, (CAD_basic_polyline*)item);
                 break;
             case CADitem::Basic_Circle:
+                if (this->render_outline)
+                    paintBasicCircle(layer, (CAD_basic_circle*)item);
                 break;
             case CADitem::Basic_Arc:
                 break;
@@ -663,6 +679,7 @@ void GLWidget::paintContent(QList<Layer*> layers)
             case CADitem::Basic_Plane:
                 break;
             case CADitem::Basic_Box:
+                paintBasicBox(layer, (CAD_basic_box*)item);
                 break;
             case CADitem::Basic_Cylinder:
                 break;
@@ -876,6 +893,181 @@ void GLWidget::paintFace(Layer *layer, CAD_basic_3Dface *item)
     }
 }
 
+void GLWidget::paintBasicCircle(Layer *layer, CAD_basic_circle *item)
+{
+    QColor color_pen = item->color_pen;
+    QColor color_brush = item->color_brush;
+
+    if (color_pen == Qt::transparent)   // BYLAYER
+    {
+        color_pen = layer->pen.color();
+    }
+    else if (color_pen.value() < 50)
+        color_pen = Qt::white;
+
+    if (color_brush == Qt::transparent)   // BYLAYER
+    {
+        color_brush = layer->brush.color();
+    }
+    else if (color_brush.value() < 50)
+        color_brush = Qt::white;
+
+    qreal penWidth = 1.0;
+    if (item->widthByLayer)
+    {
+        penWidth = layer->width / 100.0 / zoomFactor;
+    }
+    else if (item->widthByBlock)
+    {
+
+    }
+    else
+    {
+        penWidth = item->width / zoomFactor;
+    }
+
+    // Default width setting
+    if (penWidth < 1.0)
+        penWidth = 1.0;
+
+    if (item->highlight)
+    {
+        if (color_pen.lightnessF() > 0.5)
+            color_pen = color_pen.darker();
+        else
+            color_pen = color_pen.lighter();
+    }
+
+    glColor4f(color_pen.redF(), color_pen.greenF(), color_pen.blueF(), color_pen.alphaF());
+    glLineWidth(penWidth);
+    glBegin(GL_LINE_LOOP);
+    for (qreal i=0.0; i < 1.0; i += 0.01)    // 100 edges
+    {
+        qreal angle = 2 * PI * i;
+        QVector3D linePos;
+        linePos = item->center;
+
+        linePos += QVector3D(sin(angle) * item->radius, cos(angle) * item->radius, 0.0);
+
+        glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
+    }
+    glEnd();
+}
+
+void GLWidget::paintBasicBox(Layer *layer, CAD_basic_box *item)
+{
+    QColor color_pen = item->color_pen;
+    QColor color_brush = item->color_brush;
+
+    if (color_pen == Qt::transparent)   // BYLAYER
+    {
+        color_pen = layer->pen.color();
+    }
+    else if (color_pen.value() < 50)
+        color_pen = Qt::white;
+
+    if (color_brush == Qt::transparent)   // BYLAYER
+    {
+        color_brush = layer->brush.color();
+    }
+    else if (color_brush.value() < 50)
+        color_brush = Qt::white;
+
+    if (item->highlight)
+    {
+        if (color_pen.lightnessF() > 0.5)
+            color_pen = color_pen.darker();
+        else
+            color_pen = color_pen.lighter();
+
+        if (color_brush.lightnessF() > 0.5)
+            color_brush = color_brush.darker();
+        else
+            color_brush = color_brush.lighter();
+    }
+
+    if (this->render_solid)
+    {
+        glBegin(GL_QUADS);
+        glColor4f(color_brush.redF(), color_brush.greenF(), color_brush.blueF(), color_brush.alphaF());
+
+        // Bottom face
+        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
+        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
+        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
+        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
+
+        // Top face
+        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
+        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
+        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
+        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
+
+        // Front face
+        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
+        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
+        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
+        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
+
+        // Left face
+        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
+        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
+        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
+        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
+
+        // Right face
+        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
+        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
+        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
+        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
+
+        // Back face
+        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
+        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
+        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
+        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
+
+        glEnd();
+    }
+
+    if (this->render_outline)
+    {
+        glColor4f(color_pen.redF(), color_pen.greenF(), color_pen.blueF(), color_pen.alphaF());
+        glLineWidth(1.0);
+
+        // Bottom face
+        glBegin(GL_LINE_LOOP);
+        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
+        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
+        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
+        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
+        glEnd();
+
+        // Top face
+        glBegin(GL_LINE_LOOP);
+        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
+        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
+        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
+        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
+        glEnd();
+
+        // Vertical edges
+        glBegin(GL_LINES);
+        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
+        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
+
+        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
+        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
+
+        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
+        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
+
+        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
+        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
+        glEnd();
+    }
+}
+
 CADitem* GLWidget::itemAtPosition(QPoint pos)
 {
     GLuint buffer[512000];
@@ -893,7 +1085,7 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
-    gluPickMatrix((GLdouble)pos.x(), (GLdouble)pos.y(), 50.0, 50.0, viewport);
+    gluPickMatrix((GLdouble)pos.x(), (GLdouble)pos.y(), 11.0, 11.0, viewport);
 
     GLfloat screenRatio = (qreal)this->width() / (qreal)this->height();
     glOrtho(-100000 * screenRatio, 100000 * screenRatio, -100000, 100000, -100000, 100000);
@@ -934,19 +1126,47 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
 
     qDebug() << "*******************FOUND*******************" << glName;
 
+    CADitem* item = itemAtPosition_processLayers(itemDB->layers, glName);
+    if (item)
+        return item;
+
+    return NULL;
+}
+
+CADitem *GLWidget::itemAtPosition_processLayers(QList<Layer *> layers, GLuint glName)
+{
     foreach (Layer* layer, layers)
     {
+        qDebug() << "Processing Layer " << layer->name << layer->items.count();
         if (!layer->on)
             continue;
 
-        foreach (CADitem* item, layer->items)
+        CADitem* item = itemAtPosition_processItems(layer->items, glName);
+        if (item)
+            return item;
+
+
+        item = itemAtPosition_processLayers(layer->subLayers, glName);
+        if (item)
+            return item;
+    }
+
+    return NULL;
+}
+
+CADitem *GLWidget::itemAtPosition_processItems(QList<CADitem *> items, GLuint glName)
+{
+    foreach (CADitem* item, items)
+    {
+        if (item->index == glName)
         {
-            if (item->index == glName)
-            {
-                qDebug() << "*******************HIT*******************" << glName;
-                return item;
-            }
+            qDebug() << "*******************HIT*******************" << glName;
+            return item;
         }
+
+        item = itemAtPosition_processItems(item->subItems, glName);
+        if (item)
+            return item;
     }
 
     return NULL;
@@ -965,11 +1185,24 @@ void GLWidget::highlightItemAtPosition(QPoint pos)
 
 void GLWidget::highlightClear()
 {
-    foreach (Layer* layer, itemDB->layers)
+    highlightClear_processLayers(itemDB->layers);
+}
+
+void GLWidget::highlightClear_processLayers(QList<Layer *> layers)
+{
+    foreach (Layer* layer, layers)
     {
-        foreach (CADitem* item, layer->items)
-        {
-            item->highlight = false;
-        }
+        highlightClear_processItems(layer->items);
+        highlightClear_processLayers(layer->subLayers);
     }
+}
+
+void GLWidget::highlightClear_processItems(QList<CADitem *> items)
+{
+    foreach (CADitem* item, items)
+    {
+        item->highlight = false;
+        highlightClear_processItems(item->subItems);
+    }
+
 }

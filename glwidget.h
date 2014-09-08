@@ -48,7 +48,7 @@ private:
     CuttingPlane cuttingplane;
     qreal height_of_intersection;
     qreal depth_of_view;
-    QList<Layer*> layers;
+//    QList<Layer*> layers;
     QPoint translationOffset;
     qreal zoomFactor;
     QVector3D centerOfViewInScene;  // in coordsOnScene
@@ -82,9 +82,15 @@ private:
     void paintLine(Layer* layer, CAD_basic_line* item);
     void paintPolyLine(Layer *layer, CAD_basic_polyline *item);
     void paintFace(Layer *layer, CAD_basic_3Dface *item);
+    void paintBasicCircle(Layer *layer, CAD_basic_circle *item);
+    void paintBasicBox(Layer *layer, CAD_basic_box *item);
     CADitem *itemAtPosition(QPoint pos);
+    CADitem *itemAtPosition_processLayers(QList<Layer*> layers, GLuint glName);
+    CADitem *itemAtPosition_processItems(QList<CADitem*> items, GLuint glName);
     void highlightItemAtPosition(QPoint pos);
     void highlightClear();
+    void highlightClear_processLayers(QList<Layer*> layers);
+    void highlightClear_processItems(QList<CADitem*> items);
 
 protected:
     virtual void wheelEvent(QWheelEvent *event);
