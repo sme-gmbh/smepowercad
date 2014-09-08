@@ -79,9 +79,9 @@ private:
     void restoreGLState();
 
     void paintContent(QList<Layer*> layers);
-    void paintLine(Layer* layer, CADline* item);
-    void paintPolyLine(Layer *layer, CADpolyline *item);
-    void paintFace(Layer *layer, CAD3Dface *item);
+    void paintLine(Layer* layer, CAD_basic_line* item);
+    void paintPolyLine(Layer *layer, CAD_basic_polyline *item);
+    void paintFace(Layer *layer, CAD_basic_3Dface *item);
     CADitem *itemAtPosition(QPoint pos);
     void highlightItemAtPosition(QPoint pos);
     void highlightClear();

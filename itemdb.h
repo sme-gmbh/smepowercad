@@ -6,9 +6,9 @@
 
 #include "layer.h"
 
-#include "items/cadline.h"
-#include "items/cadpolyline.h"
-#include "items/cad3Dface.h"
+#include "items/cad_basic_line.h"
+#include "items/cad_basic_polyline.h"
+#include "items/cad_basic_3Dface.h"
 
 class ItemDB : public QObject
 {

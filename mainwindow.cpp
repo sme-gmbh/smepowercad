@@ -71,6 +71,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // **** Toolbar toggles ****
+    ui->menuWerkzeugleisten->addAction(ui->toolBarPrimitiv->toggleViewAction());
     ui->menuWerkzeugleisten->addAction(ui->toolBarArchitektur->toggleViewAction());
     ui->menuWerkzeugleisten->addAction(ui->toolBarLuft->toggleViewAction());
 

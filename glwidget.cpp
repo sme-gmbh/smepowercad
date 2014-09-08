@@ -647,18 +647,18 @@ void GLWidget::paintContent(QList<Layer*> layers)
                 break;
             case CADitem::Line:
                 if (this->render_outline)
-                    paintLine(layer, (CADline*)item);
+                    paintLine(layer, (CAD_basic_line*)item);
                 break;
             case CADitem::Polyline:
                 if (this->render_outline)
-                    paintPolyLine(layer, (CADpolyline*)item);
+                    paintPolyLine(layer, (CAD_basic_polyline*)item);
                 break;
             case CADitem::Circle:
                 break;
             case CADitem::Arc:
                 break;
             case CADitem::Face:
-                paintFace(layer, (CAD3Dface*)item);
+                paintFace(layer, (CAD_basic_3Dface*)item);
                 break;
             case CADitem::Plane:
                 break;
@@ -686,7 +686,7 @@ void GLWidget::paintContent(QList<Layer*> layers)
     }
 }
 
-void GLWidget::paintLine(Layer* layer, CADline* item)
+void GLWidget::paintLine(Layer* layer, CAD_basic_line *item)
 {
     QPen pen;
     pen.setCapStyle(Qt::FlatCap);
@@ -752,7 +752,7 @@ void GLWidget::paintLine(Layer* layer, CADline* item)
     glEnd();
 }
 
-void GLWidget::paintPolyLine(Layer *layer, CADpolyline *item)
+void GLWidget::paintPolyLine(Layer *layer, CAD_basic_polyline *item)
 {
     QPen pen;
     pen.setCapStyle(Qt::FlatCap);
@@ -770,7 +770,7 @@ void GLWidget::paintPolyLine(Layer *layer, CADpolyline *item)
     QVector3D p1 = QVector3D();
     QVector3D p2 = QVector3D();
     glBegin(GL_LINES);
-    foreach (CADpolyline::Vertex vertex, item->vertices)
+    foreach (CAD_basic_polyline::Vertex vertex, item->vertices)
     {
         if (p1 == p2)
         {
@@ -826,7 +826,7 @@ void GLWidget::paintPolyLine(Layer *layer, CADpolyline *item)
     //    qDebug() << "GeometryRenderengine: Painting a polyline";
 }
 
-void GLWidget::paintFace(Layer *layer, CAD3Dface *item)
+void GLWidget::paintFace(Layer *layer, CAD_basic_3Dface *item)
 {
     QColor color_pen = item->color_pen;
     QColor color_brush = item->color_brush;
@@ -857,7 +857,7 @@ void GLWidget::paintFace(Layer *layer, CAD3Dface *item)
     {
         glBegin(GL_POLYGON);
         glColor4f(color_brush.redF(), color_brush.greenF(), color_brush.blueF(), color_brush.alphaF());
-        foreach (CAD3Dface::Vertex vertex, item->vertices)
+        foreach (CAD_basic_3Dface::Vertex vertex, item->vertices)
         {
             glVertex3f((GLfloat)vertex.pos.x(), (GLfloat)vertex.pos.y(), (GLfloat)vertex.pos.z());
         }
@@ -868,7 +868,7 @@ void GLWidget::paintFace(Layer *layer, CAD3Dface *item)
     {
         glBegin(GL_LINE_LOOP);
         glColor4f(color_pen.redF(), color_pen.greenF(), color_pen.blueF(), color_pen.alphaF());
-        foreach (CAD3Dface::Vertex vertex, item->vertices)
+        foreach (CAD_basic_3Dface::Vertex vertex, item->vertices)
         {
             glVertex3f((GLfloat)vertex.pos.x(), (GLfloat)vertex.pos.y(), (GLfloat)vertex.pos.z());
         }

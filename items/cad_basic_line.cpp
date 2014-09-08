@@ -1,14 +1,14 @@
-#include "../items/cadline.h"
+#include "cad_basic_line.h"
 #include <QDebug>
 #include <QPen>
 
-CADline::CADline() : CADitem(CADitem::Line)
+CAD_basic_line::CAD_basic_line() : CADitem(CADitem::Line)
 {
     widthByLayer = false;
     widthByBlock = false;
 }
 
-void CADline::calculate()
+void CAD_basic_line::calculate()
 {
     this->boundingBox.p0 = this->p1;
     this->boundingBox.a1 = QVector3D(p2.x() - p1.x(), 0.0, 0.0);

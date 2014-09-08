@@ -210,10 +210,10 @@ void GeometryRenderengine::paintContent(QPainter *painter, QList<Layer*> layers)
             case CADitem::Point:
                 break;
             case CADitem::Line:
-                paintLine2(painter, layer, (CADline*)item);
+                paintLine2(painter, layer, (CAD_basic_line*)item);
                 break;
             case CADitem::Polyline:
-                paintPolyLine(painter, layer, (CADpolyline*)item);
+                paintPolyLine(painter, layer, (CAD_basic_polyline*)item);
                 break;
             case CADitem::Circle:
                 break;
@@ -268,7 +268,7 @@ void GeometryRenderengine::paintPixel(int &x, int &y, qreal &depth, QRgb &color)
 //    qDebug() << "paintPixel";
 }
 
-void GeometryRenderengine::paintLine(QPainter* painter, Layer* layer, CADline* item)
+void GeometryRenderengine::paintLine(QPainter* painter, Layer* layer, CAD_basic_line* item)
 {
     QPen pen;
     pen.setCapStyle(Qt::FlatCap);
@@ -327,7 +327,7 @@ void GeometryRenderengine::paintLine(QPainter* painter, Layer* layer, CADline* i
 }
 
 // Direct painting version with depth buffering
-void GeometryRenderengine::paintLine2(QPainter* painter, Layer* layer, CADline* item)
+void GeometryRenderengine::paintLine2(QPainter* painter, Layer* layer, CAD_basic_line* item)
 {
     QPen pen;
     pen.setCapStyle(Qt::FlatCap);
@@ -450,7 +450,7 @@ void GeometryRenderengine::paintLine2(QPainter* painter, Layer* layer, CADline* 
 }
 
 
-void GeometryRenderengine::paintPolyLine(QPainter *painter, Layer *layer, CADpolyline *item)
+void GeometryRenderengine::paintPolyLine(QPainter *painter, Layer *layer, CAD_basic_polyline *item)
 {
     QPen pen;
     pen.setCapStyle(Qt::FlatCap);
@@ -467,7 +467,7 @@ void GeometryRenderengine::paintPolyLine(QPainter *painter, Layer *layer, CADpol
 
     QVector3D p1 = QVector3D();
     QVector3D p2 = QVector3D();
-    foreach (CADpolyline::Vertex vertex, item->vertices)
+    foreach (CAD_basic_polyline::Vertex vertex, item->vertices)
     {
         if (p1 == p2)
         {
@@ -592,7 +592,7 @@ void GeometryRenderengine::paintPolyLine(QPainter *painter, Layer *layer, CADpol
     //    qDebug() << "GeometryRenderengine: Painting a polyline";
 }
 
-void GeometryRenderengine::paintFace(QPainter *painter, Layer *layer, CAD3Dface *item)
+void GeometryRenderengine::paintFace(QPainter *painter, Layer *layer, CAD_basic_3Dface *item)
 {
     QPen pen;
     pen.setCapStyle(Qt::FlatCap);
@@ -609,7 +609,7 @@ void GeometryRenderengine::paintFace(QPainter *painter, Layer *layer, CAD3Dface 
 
     QVector3D p1 = QVector3D();
     QVector3D p2 = QVector3D();
-    foreach (CAD3Dface::Vertex vertex, item->vertices)
+    foreach (CAD_basic_3Dface::Vertex vertex, item->vertices)
     {
         if (p1 == p2)
         {

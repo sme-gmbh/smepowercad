@@ -1,12 +1,12 @@
-#ifndef CAD3DFACE_H
-#define CAD3DFACE_H
+#ifndef CAD_BASIC_POLYLINE_H
+#define CAD_BASICPOLYLINE_H
 
 #include "caditem.h"
 
-class CAD3Dface : public CADitem
+class CAD_basic_polyline : public CADitem
 {
 public:
-    CAD3Dface();
+    CAD_basic_polyline();
     virtual void calculate();
 
     class Vertex{
@@ -23,4 +23,4 @@ private:
 
 };
 
-#endif // CAD3DFACE_H
+#endif // CAD_BASIC_POLYLINE_H
