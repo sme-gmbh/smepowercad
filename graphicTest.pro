@@ -34,7 +34,12 @@ SOURCES += main.cpp\
     items/cad3Dface.cpp \
     glwidget.cpp \
     geometrydisplaytitle.cpp \
-    items/cadarc.cpp
+    items/cadarc.cpp \
+    items/cadcircle.cpp \
+    items/cadplane.cpp \
+    items/cadbox.cpp \
+    items/cadsphere.cpp \
+    items/cadcylinder.cpp
 
 HEADERS  += mainwindow.h \
     overlay.h \
@@ -64,7 +69,12 @@ HEADERS  += mainwindow.h \
     items/cad3Dface.h \
     glwidget.h \
     geometrydisplaytitle.h \
-    items/cadarc.h
+    items/cadarc.h \
+    items/cadcircle.h \
+    items/cadplane.h \
+    items/cadbox.h \
+    items/cadsphere.h \
+    items/cadcylinder.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
