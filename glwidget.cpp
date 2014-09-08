@@ -20,6 +20,7 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
     this->rot_z = 0.0;
     this->render_solid = true;
     this->render_outline = true;
+    this->cameraPosition = QVector3D();
 
     this->pickActive = false;
     this->cursorShown = true;
@@ -705,20 +706,27 @@ void GLWidget::paintContent(QList<Layer*> layers)
 
 void GLWidget::paintLine(Layer* layer, CAD_basic_line *item)
 {
-    QPen pen;
-    pen.setCapStyle(Qt::FlatCap);
-    QColor color = item->color_pen;
-    if (color == Qt::transparent)   // BYLAYER
+    QColor color_pen = item->color_pen;
+    QColor color_brush = item->color_brush;
+
+    if (color_pen == Qt::transparent)   // BYLAYER
     {
-        color = layer->pen.color();
+        color_pen = layer->pen.color();
     }
-    else if (color.value() < 50)
-        color = Qt::white;
-    pen.setColor(color);
+    else if (color_pen.value() < 50)
+        color_pen = Qt::white;
+
+    if (color_brush == Qt::transparent)   // BYLAYER
+    {
+        color_brush = layer->brush.color();
+    }
+    else if (color_brush.value() < 50)
+        color_brush = Qt::white;
+
     qreal penWidth = 1.0;
     if (item->widthByLayer)
     {
-        penWidth = layer->width / 100.0 * zoomFactor;
+        penWidth = layer->width / 100.0 / zoomFactor;
     }
     else if (item->widthByBlock)
     {
@@ -726,16 +734,20 @@ void GLWidget::paintLine(Layer* layer, CAD_basic_line *item)
     }
     else
     {
-        penWidth = item->width * zoomFactor;
+        penWidth = item->width / zoomFactor;
     }
 
     // Default width setting
     if (penWidth < 1.0)
-        pen.setWidth(1);
-    else
-        pen.setWidthF(penWidth);
+        penWidth = 1.0;
 
-//    painter->setPen(pen);
+    if (item->highlight)
+    {
+        if (color_pen.lightnessF() > 0.5)
+            color_pen = color_pen.darker();
+        else
+            color_pen = color_pen.lighter();
+    }
 
     //  Crop lines that exceed the paint area (heightOfIntersection to depthOfView)
     QVector3D p1 = item->p1;
@@ -760,8 +772,8 @@ void GLWidget::paintLine(Layer* layer, CAD_basic_line *item)
 //    painter->drawLine(mapFromScene(p1), mapFromScene(p2));
 //    qDebug() << "GeometryRenderengine: Painting a line";
 
-    glLineWidth(pen.width());
-    glColor4f(color.redF(), color.greenF(), color.blueF(), color.alphaF());
+    glLineWidth(penWidth);
+    glColor4f(color_pen.redF(), color_pen.greenF(), color_pen.blueF(), color_pen.alphaF());
     glBegin(GL_LINES);
     glVertex3f((GLfloat)p1.x(), (GLfloat)p1.y(), (GLfloat)p1.z());
     glVertex3f((GLfloat)p2.x(), (GLfloat)p2.y(), (GLfloat)p2.z());
@@ -771,18 +783,32 @@ void GLWidget::paintLine(Layer* layer, CAD_basic_line *item)
 
 void GLWidget::paintPolyLine(Layer *layer, CAD_basic_polyline *item)
 {
-    QPen pen;
-    pen.setCapStyle(Qt::FlatCap);
-    pen.setJoinStyle(Qt::BevelJoin);
-    QColor color = item->color_pen;
-    if (color == Qt::transparent)   // BYLAYER
+    QColor color_pen = item->color_pen;
+    QColor color_brush = item->color_brush;
+
+    if (color_pen == Qt::transparent)   // BYLAYER
     {
-        color = layer->pen.color();
+        color_pen = layer->pen.color();
     }
-    else if (color.value() < 50)
-        color = Qt::white;
-    pen.setColor(color);
-//    painter->setPen(pen);
+    else if (color_pen.value() < 50)
+        color_pen = Qt::white;
+
+    if (color_brush == Qt::transparent)   // BYLAYER
+    {
+        color_brush = layer->brush.color();
+    }
+    else if (color_brush.value() < 50)
+        color_brush = Qt::white;
+
+
+
+    if (item->highlight)
+    {
+        if (color_pen.lightnessF() > 0.5)
+            color_pen = color_pen.darker();
+        else
+            color_pen = color_pen.lighter();
+    }
 
     QVector3D p1 = QVector3D();
     QVector3D p2 = QVector3D();
@@ -824,10 +850,26 @@ void GLWidget::paintPolyLine(Layer *layer, CAD_basic_polyline *item)
             // Points in buffer coords (screenpoints)
 //            QPoint sp1 = mapFromScene(p1).toPoint() + this->translationOffset;
 //            QPoint sp2 = mapFromScene(p2).toPoint() + this->translationOffset;
+            qreal penWidth = 1.0;
+            if (item->widthByLayer)
+            {
+                penWidth = layer->width / 100.0 / zoomFactor;
+            }
+            else if (item->widthByBlock)
+            {
 
+            }
+            else
+            {
+                penWidth = vertex.widthStart / zoomFactor;
+            }
 
-            glLineWidth(pen.width());
-            glColor4f(color.redF(), color.greenF(), color.blueF(), color.alphaF());
+            // Default width setting
+            if (penWidth < 1.0)
+                penWidth = 1.0;
+
+            glLineWidth(penWidth);
+            glColor4f(color_pen.redF(), color_pen.greenF(), color_pen.blueF(), color_pen.alphaF());
 
             glVertex3f((GLfloat)p1.x(), (GLfloat)p1.y(), (GLfloat)p1.z());
             glVertex3f((GLfloat)p2.x(), (GLfloat)p2.y(), (GLfloat)p2.z());
@@ -865,8 +907,15 @@ void GLWidget::paintFace(Layer *layer, CAD_basic_3Dface *item)
 
     if (item->highlight)
     {
-        color_brush = QColor(Qt::white);
-        color_pen = QColor(Qt::black);
+        if (color_pen.lightnessF() > 0.5)
+            color_pen = color_pen.darker();
+        else
+            color_pen = color_pen.lighter();
+
+        if (color_brush.lightnessF() > 0.5)
+            color_brush = color_brush.darker();
+        else
+            color_brush = color_brush.lighter();
     }
 
 
@@ -1070,13 +1119,15 @@ void GLWidget::paintBasicBox(Layer *layer, CAD_basic_box *item)
 
 CADitem* GLWidget::itemAtPosition(QPoint pos)
 {
-    GLuint buffer[512000];
+#define HITBUFFER_SIZE 512000
+    GLuint buffer[HITBUFFER_SIZE];
     GLint viewport[4];
 
     saveGLState();
 
+    glViewport(0, 0, width(), height());
     glGetIntegerv(GL_VIEWPORT, viewport);
-    glSelectBuffer(512000, buffer);
+    glSelectBuffer(HITBUFFER_SIZE, buffer);
     glRenderMode(GL_SELECT);
 
     glInitNames();
@@ -1092,7 +1143,7 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
     glTranslatef(cameraPosition.x(), cameraPosition.y(), cameraPosition.z());
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    glViewport(0, 0, width(), height());
+//    glViewport(0, 0, width(), height());
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -1104,7 +1155,7 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
     glRotatef(rot_z, 0.0f, 0.0f, 1.0f);
     glScaled(this->zoomFactor, this->zoomFactor, this->zoomFactor);
 
-    glDepthFunc(GL_LEQUAL);
+    glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_ALPHA_TEST);
 
@@ -1114,17 +1165,41 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();
 
-    if (glRenderMode(GL_RENDER) == 0)
-    {
-        return NULL;
-    }
-
-
+    GLint hits = glRenderMode(GL_RENDER);   // Number of hits is returned by glRenderMode
     restoreGLState();
 
-    GLuint glName = buffer[3];
+    if (hits == 0)
+        return NULL;
 
-    qDebug() << "*******************FOUND*******************" << glName;
+    int i = 0;
+    GLint hit = 1;
+    GLuint globalMinDepth = 0xffffffff;
+    GLuint glName;
+    while (i < HITBUFFER_SIZE)
+    {
+        GLuint numberOfNames = buffer[i];
+        GLuint minDepth = buffer[i + 1];
+        GLuint maxDepth = buffer[i + 2];
+
+        if (numberOfNames > 0)
+        {
+            if (minDepth < globalMinDepth)
+            {
+                glName = buffer[i + 3];
+                globalMinDepth = minDepth;
+            }
+        }
+
+        i += 3;
+        i += numberOfNames;
+
+        hit++;
+        if (hit > hits)
+            break;
+    }
+
+    if (i >= HITBUFFER_SIZE)
+        QMessageBox::warning(this, "GLWidget::itemAtPosition()", "HITBUFFER_SIZE too small - too many objects in findbox!");
 
     CADitem* item = itemAtPosition_processLayers(itemDB->layers, glName);
     if (item)
@@ -1137,7 +1212,6 @@ CADitem *GLWidget::itemAtPosition_processLayers(QList<Layer *> layers, GLuint gl
 {
     foreach (Layer* layer, layers)
     {
-        qDebug() << "Processing Layer " << layer->name << layer->items.count();
         if (!layer->on)
             continue;
 
@@ -1160,7 +1234,6 @@ CADitem *GLWidget::itemAtPosition_processItems(QList<CADitem *> items, GLuint gl
     {
         if (item->index == glName)
         {
-            qDebug() << "*******************HIT*******************" << glName;
             return item;
         }
 
@@ -1180,7 +1253,6 @@ void GLWidget::highlightItemAtPosition(QPoint pos)
         return;
 
     item->highlight = true;
-    qDebug() << "Highlight";
 }
 
 void GLWidget::highlightClear()

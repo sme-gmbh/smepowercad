@@ -18,6 +18,8 @@ public:
     };
 
     QList<Vertex> vertices;
+    bool widthByLayer;
+    bool widthByBlock;
 
 private:
 

@@ -6,6 +6,7 @@
 #include <QEvent>
 #include <QPaintEvent>
 #include <QMatrix4x4>
+#include <QMessageBox>
 
 #include <qmath.h>
 #include <qgl.h>
