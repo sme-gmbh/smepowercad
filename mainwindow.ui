@@ -130,9 +130,9 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
      <string>Datei</string>
     </property>
     <addaction name="actionLaden"/>
+    <addaction name="actionLastEditedProjects"/>
     <addaction name="actionSpeichern"/>
     <addaction name="actionSpeichern_unter"/>
-    <addaction name="separator"/>
     <addaction name="separator"/>
     <addaction name="actionPlotten"/>
     <addaction name="actionPDF"/>
@@ -564,6 +564,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
    <property name="text">
     <string>Aussparung</string>
+   </property>
+  </action>
+  <action name="actionLastEditedProjects">
+   <property name="text">
+    <string>Zuletzt bearbeitete Projekte</string>
    </property>
   </action>
  </widget>

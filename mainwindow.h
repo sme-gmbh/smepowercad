@@ -76,6 +76,7 @@ public slots:
 private slots:
     void on_prompt_input_returnPressed();
     void slot_openRecentFile();
+    void slot_clearRecentFiles();
 
 signals:
     void signal_command_prompt_input(QString str);

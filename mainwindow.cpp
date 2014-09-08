@@ -77,7 +77,23 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // **** Recent files ****
-    QAction *last = ui->menuDatei->actions().at(4);
+    QMenu *recentFilesMenu = new QMenu();
+    for (int i = 0; i < MAX_RECENT_FILES; i++)
+    {
+        QAction *action = new QAction(this);
+        recentFileActs.append(action);
+        action->setVisible(false);
+        connect(action, SIGNAL(triggered()), this, SLOT(slot_openRecentFile()));
+        recentFilesMenu->addAction(action);
+    }
+    recentFilesMenu->addSeparator();
+    QAction *clear = recentFilesMenu->addAction("Menü leeren");
+    connect(clear, SIGNAL(triggered()), this, SLOT(slot_clearRecentFiles()));
+    ui->menuDatei->actions().at(1)->setMenu(recentFilesMenu);
+    updateRecentFileActions();
+
+
+    /*QAction *last = ui->menuDatei->actions().at(4);
     for (int i = 0; i < MAX_RECENT_FILES; i++)
     {
         QAction *action = new QAction(this);
@@ -87,7 +103,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->menuDatei->insertAction(last, action);
         last = action;
     }
-    updateRecentFileActions();
+    updateRecentFileActions();*/
 
 
 
@@ -124,18 +140,25 @@ void MainWindow::updateRecentFileActions()
 
     int numRecentFiles = qMin(files.size(), (int)MAX_RECENT_FILES);
 
+    qDebug() << numRecentFiles;
+
+    if (numRecentFiles < 1)
+    {
+        ui->menuDatei->actions().at(1)->setEnabled(false);
+        return;
+    }
+    else
+        ui->menuDatei->actions().at(1)->setEnabled(true);
+
     for (int i = 0; i < numRecentFiles; i++)
     {
-        QString text = QString("%1 %2").arg(i + 1).arg(strippedName(files[i]));
+        QString text = strippedName(files[i]);
         recentFileActs.at(i)->setText(text);
         recentFileActs.at(i)->setData(files[i]);
         recentFileActs.at(i)->setVisible(true);
     }
     for (int i = numRecentFiles; i < MAX_RECENT_FILES; i++)
         recentFileActs.at(i)->setVisible(false);
-
-    QAction *sep = ui->menuDatei->actions().at(ui->menuDatei->actions().length() - 6);
-    sep->setVisible(numRecentFiles > 0);
 }
 
 QString MainWindow::strippedName(QString fullName)
@@ -305,6 +328,13 @@ void MainWindow::slot_openRecentFile()
 
     this->layerManager->updateAllLayers();
     emit signal_repaintNeeded();
+}
+
+void MainWindow::slot_clearRecentFiles()
+{
+    QSettings settings;
+    settings.setValue("recentFileList", QStringList());
+    updateRecentFileActions();
 }
 
 // **** Window functions ****
