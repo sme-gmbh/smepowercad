@@ -1,27 +1,6 @@
 <RCC>
-    <qresource prefix="/">
-        <file>icons/arrow_down.svg</file>
-        <file>icons/arrow_up.svg</file>
-        <file>icons/close.svg</file>
-        <file>icons/Aussparung.svg</file>
-        <file>icons/tuer.svg</file>
-        <file>icons/boden_decke.svg</file>
-        <file>icons/fenster.svg</file>
-        <file>icons/Stütze.svg</file>
-        <file>icons/Wand.svg</file>
-        <file>icons/solid.svg</file>
-        <file>icons/wireframe.svg</file>
-        <file>icons/check.svg</file>
-        <file>icons/pencil_off.svg</file>
-        <file>icons/hide_layer.svg</file>
-        <file>icons/float.svg</file>
-        <file>icons/layerOnHeader.svg</file>
-        <file>icons/layerLockHeader.svg</file>
-        <file>icons/pencil.svg</file>
-        <file>icons/pencil_locked.svg</file>
-    </qresource>
-    <qresource prefix="/grundobjekte">
-        <file>icons/Bogen.svg</file>
+    <qresource prefix="/"/>
+    <qresource prefix="/objekte/grundobjekte">
         <file>icons/box.svg</file>
         <file>icons/cylinder.svg</file>
         <file>icons/Kreis.svg</file>
@@ -29,5 +8,34 @@
         <file>icons/point.svg</file>
         <file>icons/polyline.svg</file>
         <file>icons/sphere.svg</file>
+        <file>icons/Face.svg</file>
+        <file>icons/Bogen.svg</file>
+    </qresource>
+    <qresource prefix="/objekte/architektur">
+        <file>icons/Aussparung.svg</file>
+        <file>icons/boden_decke.svg</file>
+        <file>icons/fenster.svg</file>
+        <file>icons/Stütze.svg</file>
+        <file>icons/tuer.svg</file>
+        <file>icons/Wand.svg</file>
+    </qresource>
+    <qresource prefix="/ui/layermanager">
+        <file>icons/layerLockHeader.svg</file>
+        <file>icons/layerOnHeader.svg</file>
+        <file>icons/pencil.svg</file>
+        <file>icons/pencil_locked.svg</file>
+        <file>icons/pencil_off.svg</file>
+        <file>icons/check.svg</file>
+        <file>icons/hide_layer.svg</file>
+    </qresource>
+    <qresource prefix="/ui/dockwidget">
+        <file>icons/close.svg</file>
+        <file>icons/float.svg</file>
+    </qresource>
+    <qresource prefix="/ui/3Dcontrols">
+        <file>icons/arrow_down.svg</file>
+        <file>icons/arrow_up.svg</file>
+        <file>icons/solid.svg</file>
+        <file>icons/wireframe.svg</file>
     </qresource>
 </RCC>

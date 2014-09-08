@@ -21,10 +21,10 @@ LayerManager::LayerManager(QWidget *parent, Layer* topLevelLayer) :
     ui->treeWidget_layer->setColumnWidth(1, 24);
     ui->treeWidget_layer->setColumnWidth(2, 24);
 
-    icon_layerOn = QPixmap(":/icons/check.svg").scaledToWidth(24, Qt::SmoothTransformation);
-    icon_layerOff = QPixmap(":/icons/hide_layer.svg").scaledToWidth(24, Qt::SmoothTransformation);
-    icon_pencilOn = QPixmap(":/icons/pencil.svg").scaledToWidth(24, Qt::SmoothTransformation);
-    icon_pencilOff = QPixmap(":/icons/pencil_off.svg").scaledToWidth(24, Qt::SmoothTransformation);
+    icon_layerOn = QPixmap(":/ui/layermanager/icons/check.svg").scaledToWidth(24, Qt::SmoothTransformation);
+    icon_layerOff = QPixmap(":/ui/layermanager/icons/hide_layer.svg").scaledToWidth(24, Qt::SmoothTransformation);
+    icon_pencilOn = QPixmap(":/ui/layermanager/icons/pencil.svg").scaledToWidth(24, Qt::SmoothTransformation);
+    icon_pencilOff = QPixmap(":/ui/layermanager/icons/pencil_off.svg").scaledToWidth(24, Qt::SmoothTransformation);
 }
 
 LayerManager::~LayerManager()

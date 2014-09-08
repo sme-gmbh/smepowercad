@@ -105,10 +105,10 @@ QDoubleSpinBox::up-arrow, QDoubleSpinBox::down-arrow {
 }
 QDoubleSpinBox::up-arrow
 {
-	image: url(:/icons/arrow_up.svg);
+	image: url(:/ui/3Dcontrols/icons/arrow_up.svg);
 }
 QDoubleSpinBox::down-arrow {
-	image: url(:/icons/arrow_down.svg);
+	image: url(:/ui/3Dcontrols/icons/arrow_down.svg);
 }
 QDoubleSpinBox::up-arrow:disabled, QDoubleSpinBox::up-arrow:off,
 QDoubleSpinBox::down-arrow:disabled, QDoubleSpinBox::down-arrow:off {
@@ -146,7 +146,7 @@ QComboBox::drop-down:on {
 }
 
 QComboBox::down-arrow {
-	image: url(:/icons/arrow_down.svg);
+	image: url(:/ui/3Dcontrols/icons/arrow_down.svg);
 	width: 17px;
 	height: 17px;
 	border: 0;
@@ -848,7 +848,7 @@ QComboBox QAbstractItemView {
        </property>
        <property name="icon">
         <iconset resource="icons.qrc">
-         <normaloff>:/icons/wireframe.svg</normaloff>:/icons/wireframe.svg</iconset>
+         <normaloff>:/ui/3Dcontrols/icons/wireframe.svg</normaloff>:/ui/3Dcontrols/icons/wireframe.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -886,7 +886,7 @@ QComboBox QAbstractItemView {
        </property>
        <property name="icon">
         <iconset resource="icons.qrc">
-         <normaloff>:/icons/solid.svg</normaloff>:/icons/solid.svg</iconset>
+         <normaloff>:/ui/3Dcontrols/icons/solid.svg</normaloff>:/ui/3Dcontrols/icons/solid.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -953,7 +953,7 @@ QComboBox QAbstractItemView {
        </property>
        <property name="icon">
         <iconset resource="icons.qrc">
-         <normaloff>:/icons/float.svg</normaloff>:/icons/float.svg</iconset>
+         <normaloff>:/ui/dockwidget/icons/float.svg</normaloff>:/ui/dockwidget/icons/float.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -985,7 +985,7 @@ QComboBox QAbstractItemView {
        </property>
        <property name="icon">
         <iconset resource="icons.qrc">
-         <normaloff>:/icons/close.svg</normaloff>:/icons/close.svg</iconset>
+         <normaloff>:/ui/dockwidget/icons/close.svg</normaloff>:/ui/dockwidget/icons/close.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
