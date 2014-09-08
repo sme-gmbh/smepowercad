@@ -1,6 +1,6 @@
 #include "cad_basic_box.h"
 
-CAD_basic_box::CAD_basic_box() : CADitem(CADitem::Box)
+CAD_basic_box::CAD_basic_box() : CADitem(CADitem::Basic_Box)
 {
     pos_bot_1 = QVector3D(-1, -1,  1);
     pos_bot_2 = QVector3D( 1, -1,  1);

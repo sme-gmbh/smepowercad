@@ -207,39 +207,39 @@ void GeometryRenderengine::paintContent(QPainter *painter, QList<Layer*> layers)
             // Paint it
             switch (item->getType())
             {
-            case CADitem::Point:
+            case CADitem::Basic_Point:
                 break;
-            case CADitem::Line:
+            case CADitem::Basic_Line:
                 paintLine2(painter, layer, (CAD_basic_line*)item);
                 break;
-            case CADitem::Polyline:
+            case CADitem::Basic_Polyline:
                 paintPolyLine(painter, layer, (CAD_basic_polyline*)item);
                 break;
-            case CADitem::Circle:
+            case CADitem::Basic_Circle:
                 break;
-            case CADitem::Arc:
+            case CADitem::Basic_Arc:
                 break;
-            case CADitem::Face:
+            case CADitem::Basic_Face:
                 break;
-            case CADitem::Plane:
+            case CADitem::Basic_Plane:
                 break;
-            case CADitem::Box:
+            case CADitem::Basic_Box:
                 break;
-            case CADitem::Cylinder:
+            case CADitem::Basic_Cylinder:
                 break;
-            case CADitem::Sphere:
+            case CADitem::Basic_Sphere:
                 break;
-            case CADitem::LevelSlab:
+            case CADitem::Arch_LevelSlab:
                 break;
-            case CADitem::Wall_loadBearing:
+            case CADitem::Arch_Wall_loadBearing:
                 break;
-            case CADitem::Wall_nonLoadBearing:
+            case CADitem::Arch_Wall_nonLoadBearing:
                 break;
-            case CADitem::BlockOut:
+            case CADitem::Arch_BlockOut:
                 break;
-            case CADitem::Door:
+            case CADitem::Arch_Door:
                 break;
-            case CADitem::Window:
+            case CADitem::Arch_Window:
                 break;
             }
         }

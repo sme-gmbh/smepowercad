@@ -42,10 +42,10 @@ SOURCES += main.cpp\
     items/cad_basic_sphere.cpp \
     items/cad_arch_door.cpp \
     items/cad_arch_levelslab.cpp \
-    items/cad_arch_plane.cpp \
     items/cad_arch_wall_loadbearing.cpp \
     items/cad_arch_wall_nonloadbearing.cpp \
-    items/cad_arch_window.cpp
+    items/cad_arch_window.cpp \
+    items/cad_basic_plane.cpp
 
 HEADERS  += mainwindow.h \
     overlay.h \
@@ -83,10 +83,10 @@ HEADERS  += mainwindow.h \
     items/cad_basic_3Dface.h \
     items/cad_arch_door.h \
     items/cad_arch_levelslab.h \
-    items/cad_arch_plane.h \
     items/cad_arch_wall_loadbearing.h \
     items/cad_arch_wall_nonloadbearing.h \
-    items/cad_arch_window.h
+    items/cad_arch_window.h \
+    items/cad_basic_plane.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

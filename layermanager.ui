@@ -30,8 +30,8 @@
 	background-color: rgb(49, 49, 41);
 	color: white;
 	border: 1px solid rgb(200, 200, 200);
-	titlebar-close-icon: url(:/icons/close.svg);
-    titlebar-normal-icon: url(:/icons/float.svg);
+	titlebar-close-icon: url(:/ui/dockwidget/icons/close.svg);
+    titlebar-normal-icon: url(:/ui/dockwidget/icons/float.svg);
 }
 
 QHeaderView::section {
@@ -48,11 +48,11 @@ QHeaderView::section:first {
 
  /* style the sort indicator */
  QHeaderView::down-arrow {
-     image: url(:/icons/arrow_down.svg);
+     image: url(:/ui/3Dcontrols/icons/arrow_down.svg);
  }
 
  QHeaderView::up-arrow {
-     image: url(:/icons/arrow_up.svg);
+     image: url(:/ui/3Dcontrols/icons/arrow_up.svg);
  }
 
 QDockWidget::title {
@@ -160,7 +160,7 @@ QTreeView {
        </property>
        <property name="icon">
         <iconset resource="icons.qrc">
-         <normaloff>:/icons/layerOnHeader.svg</normaloff>:/icons/layerOnHeader.svg</iconset>
+         <normaloff>:/ui/layermanager/icons/layerOnHeader.svg</normaloff>:/ui/layermanager/icons/layerOnHeader.svg</iconset>
        </property>
       </column>
       <column>
@@ -177,7 +177,7 @@ QTreeView {
        </property>
        <property name="icon">
         <iconset resource="icons.qrc">
-         <normaloff>:/icons/layerLockHeader.svg</normaloff>:/icons/layerLockHeader.svg</iconset>
+         <normaloff>:/ui/layermanager/icons/layerLockHeader.svg</normaloff>:/ui/layermanager/icons/layerLockHeader.svg</iconset>
        </property>
       </column>
       <column>

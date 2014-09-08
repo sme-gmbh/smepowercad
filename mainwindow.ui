@@ -38,8 +38,8 @@ QDockWidget {
 	background-color: rgb(49, 49, 41);
 	color: white;
 	border: 1px solid rgb(200, 200, 200);
-	titlebar-close-icon: url(:/icons/close.svg);
-    titlebar-normal-icon: url(:/icons/float.svg);
+	titlebar-close-icon: url(:/ui/dockwidget/icons/close.svg);
+    titlebar-normal-icon: url(:/ui/dockwidget/icons/float.svg);
 }
 
 QDockWidget::title {
@@ -478,7 +478,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="actionLinie">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/grundobjekte/icons/Linie.svg</normaloff>:/grundobjekte/icons/Linie.svg</iconset>
+     <normaloff>:/objekte/grundobjekte/icons/Linie.svg</normaloff>:/objekte/grundobjekte/icons/Linie.svg</iconset>
    </property>
    <property name="text">
     <string>Linie</string>
@@ -493,7 +493,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="actionBogen">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/grundobjekte/icons/Bogen.svg</normaloff>:/grundobjekte/icons/Bogen.svg</iconset>
+     <normaloff>:/objekte/grundobjekte/icons/Bogen.svg</normaloff>:/objekte/grundobjekte/icons/Bogen.svg</iconset>
    </property>
    <property name="text">
     <string>Bogen</string>
@@ -508,7 +508,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="actionKreis">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/grundobjekte/icons/Kreis.svg</normaloff>:/grundobjekte/icons/Kreis.svg</iconset>
+     <normaloff>:/objekte/grundobjekte/icons/Kreis.svg</normaloff>:/objekte/grundobjekte/icons/Kreis.svg</iconset>
    </property>
    <property name="text">
     <string>Kreis</string>
@@ -534,7 +534,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="actionWand">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/icons/Wand.svg</normaloff>:/icons/Wand.svg</iconset>
+     <normaloff>:/objekte/architektur/icons/Wand.svg</normaloff>:/objekte/architektur/icons/Wand.svg</iconset>
    </property>
    <property name="text">
     <string>Wand</string>
@@ -546,7 +546,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="actionDecke_Boden">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/icons/boden_decke.svg</normaloff>:/icons/boden_decke.svg</iconset>
+     <normaloff>:/objekte/architektur/icons/boden_decke.svg</normaloff>:/objekte/architektur/icons/boden_decke.svg</iconset>
    </property>
    <property name="text">
     <string>Decke/Boden</string>
@@ -555,7 +555,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="actionSaeule">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/icons/Stütze.svg</normaloff>:/icons/Stütze.svg</iconset>
+     <normaloff>:/objekte/architektur/icons/Stütze.svg</normaloff>:/objekte/architektur/icons/Stütze.svg</iconset>
    </property>
    <property name="text">
     <string>Säule</string>
@@ -564,7 +564,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="actionFenster">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/icons/fenster.svg</normaloff>:/icons/fenster.svg</iconset>
+     <normaloff>:/objekte/architektur/icons/fenster.svg</normaloff>:/objekte/architektur/icons/fenster.svg</iconset>
    </property>
    <property name="text">
     <string>Fenster</string>
@@ -573,7 +573,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="actionTuer">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/icons/tuer.svg</normaloff>:/icons/tuer.svg</iconset>
+     <normaloff>:/objekte/architektur/icons/tuer.svg</normaloff>:/objekte/architektur/icons/tuer.svg</iconset>
    </property>
    <property name="text">
     <string>Tür</string>
@@ -582,7 +582,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="actionAussparung">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/icons/Aussparung.svg</normaloff>:/icons/Aussparung.svg</iconset>
+     <normaloff>:/objekte/architektur/icons/Aussparung.svg</normaloff>:/objekte/architektur/icons/Aussparung.svg</iconset>
    </property>
    <property name="text">
     <string>Aussparung</string>
@@ -596,7 +596,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="actionPunkt">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/grundobjekte/icons/point.svg</normaloff>:/grundobjekte/icons/point.svg</iconset>
+     <normaloff>:/objekte/grundobjekte/icons/point.svg</normaloff>:/objekte/grundobjekte/icons/point.svg</iconset>
    </property>
    <property name="text">
     <string>Punkt</string>
@@ -605,7 +605,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="actionPolylinie">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/grundobjekte/icons/polyline.svg</normaloff>:/grundobjekte/icons/polyline.svg</iconset>
+     <normaloff>:/objekte/grundobjekte/icons/polyline.svg</normaloff>:/objekte/grundobjekte/icons/polyline.svg</iconset>
    </property>
    <property name="text">
     <string>Polylinie</string>
@@ -614,7 +614,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="actionBox">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/grundobjekte/icons/box.svg</normaloff>:/grundobjekte/icons/box.svg</iconset>
+     <normaloff>:/objekte/grundobjekte/icons/box.svg</normaloff>:/objekte/grundobjekte/icons/box.svg</iconset>
    </property>
    <property name="text">
     <string>Box</string>
@@ -623,7 +623,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="actionZylinder">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/grundobjekte/icons/cylinder.svg</normaloff>:/grundobjekte/icons/cylinder.svg</iconset>
+     <normaloff>:/objekte/grundobjekte/icons/cylinder.svg</normaloff>:/objekte/grundobjekte/icons/cylinder.svg</iconset>
    </property>
    <property name="text">
     <string>Zylinder</string>
@@ -632,7 +632,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="actionKugel">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/grundobjekte/icons/sphere.svg</normaloff>:/grundobjekte/icons/sphere.svg</iconset>
+     <normaloff>:/objekte/grundobjekte/icons/sphere.svg</normaloff>:/objekte/grundobjekte/icons/sphere.svg</iconset>
    </property>
    <property name="text">
     <string>Kugel</string>

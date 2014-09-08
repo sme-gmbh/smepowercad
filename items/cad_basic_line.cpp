@@ -2,7 +2,7 @@
 #include <QDebug>
 #include <QPen>
 
-CAD_basic_line::CAD_basic_line() : CADitem(CADitem::Line)
+CAD_basic_line::CAD_basic_line() : CADitem(CADitem::Basic_Line)
 {
     widthByLayer = false;
     widthByBlock = false;

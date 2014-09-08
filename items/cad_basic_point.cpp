@@ -1,6 +1,6 @@
 #include "cad_basic_point.h"
 
-CAD_basic_point::CAD_basic_point() : CADitem(CADitem::Point)
+CAD_basic_point::CAD_basic_point() : CADitem(CADitem::Basic_Point)
 {
 }
 

@@ -1,6 +1,6 @@
 #include "cad_basic_circle.h"
 
-CAD_basic_circle::CAD_basic_circle() : CADitem(CADitem::Circle)
+CAD_basic_circle::CAD_basic_circle() : CADitem(CADitem::Basic_Circle)
 {
 }
 

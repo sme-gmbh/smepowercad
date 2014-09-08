@@ -2,7 +2,7 @@
 #include <QDebug>
 #include <QPen>
 
-CAD_basic_3Dface::CAD_basic_3Dface() : CADitem(CADitem::Face)
+CAD_basic_3Dface::CAD_basic_3Dface() : CADitem(CADitem::Basic_Face)
 {
 }
 
