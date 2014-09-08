@@ -436,7 +436,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glEnable(GL_MULTISAMPLE);
-    glEnable(GL_CULL_FACE);
+    glDisable(GL_CULL_FACE);
 
     glRotatef(rot_x, 1.0f, 0.0f, 0.0f);
     glRotatef(rot_y, 0.0f, 1.0f, 0.0f);
@@ -683,6 +683,7 @@ void GLWidget::paintContent(QList<Layer*> layers)
                 paintBasicBox(layer, (CAD_basic_box*)item);
                 break;
             case CADitem::Basic_Cylinder:
+                paintBasicCylinder(layer, (CAD_basic_cylinder*)item);
                 break;
             case CADitem::Basic_Sphere:
                 break;
@@ -1113,6 +1114,116 @@ void GLWidget::paintBasicBox(Layer *layer, CAD_basic_box *item)
 
         glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
         glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
+        glEnd();
+    }
+}
+
+void GLWidget::paintBasicCylinder(Layer *layer, CAD_basic_cylinder *item)
+{
+    QColor color_pen = item->color_pen;
+    QColor color_brush = item->color_brush;
+
+    if (color_pen == Qt::transparent)   // BYLAYER
+    {
+        color_pen = layer->pen.color();
+    }
+    else if (color_pen.value() < 50)
+        color_pen = Qt::white;
+
+    if (color_brush == Qt::transparent)   // BYLAYER
+    {
+        color_brush = layer->brush.color();
+    }
+    else if (color_brush.value() < 50)
+        color_brush = Qt::white;
+
+    if (item->highlight)
+    {
+        if (color_pen.lightnessF() > 0.5)
+            color_pen = color_pen.darker();
+        else
+            color_pen = color_pen.lighter();
+
+        if (color_brush.lightnessF() > 0.5)
+            color_brush = color_brush.darker();
+        else
+            color_brush = color_brush.lighter();
+    }
+
+    if (this->render_solid)
+    {
+        QList<QVector3D> vertices_bottom;
+
+        // Bottom circle
+        for (qreal i=0.0; i < 1.0; i += 0.02)    // 50 edges
+        {
+            qreal angle = 2 * PI * i;
+            QVector3D linePos;
+            linePos = item->center_base;
+
+            linePos += QVector3D(sin(angle) * item->radius, cos(angle) * item->radius, 0.0);
+            vertices_bottom.append(linePos);
+        }
+
+        // Vertical connections (faces)
+        glColor4f(color_brush.redF(), color_brush.greenF(), color_brush.blueF(), color_brush.alphaF());
+        glBegin(GL_QUADS);
+        QVector3D last_vertex_bottom = vertices_bottom.at(vertices_bottom.count() - 1);
+        for (int i = 0; i < vertices_bottom.count(); i++)
+        {
+            QVector3D vertex_bottom = vertices_bottom.at(i);
+            glVertex3f((GLfloat)last_vertex_bottom.x(), (GLfloat)last_vertex_bottom.y(), (GLfloat)last_vertex_bottom.z());
+            glVertex3f((GLfloat)last_vertex_bottom.x(), (GLfloat)last_vertex_bottom.y(), (GLfloat)last_vertex_bottom.z() + item->height);
+            glVertex3f((GLfloat)vertex_bottom.x(), (GLfloat)vertex_bottom.y(), (GLfloat)vertex_bottom.z() + item->height);
+            glVertex3f((GLfloat)vertex_bottom.x(), (GLfloat)vertex_bottom.y(), (GLfloat)vertex_bottom.z());
+            last_vertex_bottom = vertex_bottom;
+        }
+
+        glEnd();
+    }
+
+    if (this->render_outline)
+    {
+        QList<QVector3D> vertices_bottom;
+        glColor4f(color_pen.redF(), color_pen.greenF(), color_pen.blueF(), color_pen.alphaF());
+        glLineWidth(1.0);
+        // Bottom circle
+        glBegin(GL_LINE_LOOP);
+        for (qreal i=0.0; i < 1.0; i += 0.02)    // 50 edges
+        {
+            qreal angle = 2 * PI * i;
+            QVector3D linePos;
+            linePos = item->center_base;
+
+            linePos += QVector3D(sin(angle) * item->radius, cos(angle) * item->radius, 0.0);
+            vertices_bottom.append(linePos);
+
+            glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
+        }
+        glEnd();
+
+        // Top circle
+        glBegin(GL_LINE_LOOP);
+        for (qreal i=0.0; i < 1.0; i += 0.02)    // 50 edges
+        {
+            qreal angle = 2 * PI * i;
+            QVector3D linePos;
+            linePos = item->center_base + QVector3D(0.0, 0.0, item->height);
+
+            linePos += QVector3D(sin(angle) * item->radius, cos(angle) * item->radius, 0.0);
+
+            glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
+        }
+        glEnd();
+
+        // Vertical connections
+        glBegin(GL_LINES);
+        foreach (QVector3D vertex_bottom, vertices_bottom)
+        {
+            glVertex3f((GLfloat)vertex_bottom.x(), (GLfloat)vertex_bottom.y(), (GLfloat)vertex_bottom.z());
+            glVertex3f((GLfloat)vertex_bottom.x(), (GLfloat)vertex_bottom.y(), (GLfloat)vertex_bottom.z() + item->height);
+        }
+
         glEnd();
     }
 }

@@ -85,6 +85,7 @@ private:
     void paintFace(Layer *layer, CAD_basic_3Dface *item);
     void paintBasicCircle(Layer *layer, CAD_basic_circle *item);
     void paintBasicBox(Layer *layer, CAD_basic_box *item);
+    void paintBasicCylinder(Layer *layer, CAD_basic_cylinder *item);
     CADitem *itemAtPosition(QPoint pos);
     CADitem *itemAtPosition_processLayers(QList<Layer*> layers, GLuint glName);
     CADitem *itemAtPosition_processItems(QList<CADitem*> items, GLuint glName);

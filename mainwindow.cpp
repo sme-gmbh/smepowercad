@@ -126,6 +126,13 @@ MainWindow::MainWindow(QWidget *parent) :
     CAD_basic_circle* circle = new CAD_basic_circle();
     circle->center = QVector3D(-2.0, 0.0, 0.0);
     itemDB->addItem(circle, "Testlayer");
+
+    CAD_basic_cylinder* cylinder = new CAD_basic_cylinder();
+    cylinder->center_base = QVector3D(3.0, 0.0, 0.0);
+    itemDB->addItem(cylinder, "Testlayer");
+
+    this->layerManager->updateAllLayers();
+    emit signal_repaintNeeded();
 }
 
 MainWindow::~MainWindow()
