@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     snapengine.cpp \
     items/cad3Dface.cpp \
     glwidget.cpp \
-    geometrydisplaytitle.cpp
+    geometrydisplaytitle.cpp \
+    items/cadarc.cpp
 
 HEADERS  += mainwindow.h \
     overlay.h \
@@ -62,7 +63,8 @@ HEADERS  += mainwindow.h \
     snapengine.h \
     items/cad3Dface.h \
     glwidget.h \
-    geometrydisplaytitle.h
+    geometrydisplaytitle.h \
+    items/cadarc.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
