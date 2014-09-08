@@ -114,16 +114,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // ***** Spielwiese *****
 
-    // Text
-//    CADtext* cadtext = new CADtext("SME PowerCAD");
-//    this->scene->addItem(cadtext);
-//    cadtext->setScale(5.0);
+    Layer* layer = itemDB->addLayer("Testlayer");
+    layer->pen.setColor(Qt::white);
+    layer->brush.setColor(Qt::white);
+    layer->lineType = "Continuos";
+    layer->width = 1;
 
-
-    // Linie
-//    CADline* cadline = new CADline();
-//    this->scene->addItem(cadline);
-//    cadline->setLine(0, 0, 300, 300);
+    CAD_basic_box* box = new CAD_basic_box();
+    itemDB->addItem(box, "Testlayer");
 }
 
 MainWindow::~MainWindow()
