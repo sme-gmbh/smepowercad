@@ -11,7 +11,7 @@ Layer* ItemDB::addLayer(QString layerName, QString parentLayerName)
 {
     // First: check if layer already exists
     if (layerMap.contains(layerName))
-        return NULL;
+        return layerMap.value(layerName);
 
     // Second: Find parent layer
     Layer* parentLayer = getLayerByName(parentLayerName);

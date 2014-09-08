@@ -286,7 +286,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
     // Item highlighting (experimental)
     //highlightClear();
-//    highlightItemAtPosition(mousePos);
+    highlightItemAtPosition(mousePos);
 
 
     this->cursorShown = true;
