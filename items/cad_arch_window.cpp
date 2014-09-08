@@ -1,6 +1,6 @@
 #include "cad_arch_window.h"
 
-CAD_arch_window::CAD_arch_window() : CADitem(CADitem::Window)
+CAD_arch_window::CAD_arch_window() : CADitem(CADitem::Arch_Window)
 {
 }
 

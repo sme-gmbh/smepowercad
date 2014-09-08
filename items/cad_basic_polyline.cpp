@@ -2,7 +2,7 @@
 #include <QDebug>
 #include <QPen>
 
-CAD_basic_polyline::CAD_basic_polyline() : CADitem(CADitem::Polyline)
+CAD_basic_polyline::CAD_basic_polyline() : CADitem(CADitem::Basic_Polyline)
 {
 }
 

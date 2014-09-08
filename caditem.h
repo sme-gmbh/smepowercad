@@ -13,22 +13,22 @@ class CADitem
 public:
     enum ItemType
     {
-        Point,
-        Line,
-        Polyline,
-        Circle,
-        Arc,
-        Face,
-        Plane,
-        Box,
-        Cylinder,
-        Sphere,
-        LevelSlab,              // Decke
-        Wall_loadBearing,       // Tagende Wand
-        Wall_nonLoadBearing,    // Nicht tragende Wand
-        BlockOut,
-        Door,
-        Window
+        Basic_Point,
+        Basic_Line,
+        Basic_Polyline,
+        Basic_Circle,
+        Basic_Arc,
+        Basic_Face,
+        Basic_Plane,
+        Basic_Box,
+        Basic_Cylinder,
+        Basic_Sphere,
+        Arch_LevelSlab,              // Decke
+        Arch_Wall_loadBearing,       // Tagende Wand
+        Arch_Wall_nonLoadBearing,    // Nicht tragende Wand
+        Arch_BlockOut,
+        Arch_Door,
+        Arch_Window
     };
 
     CADitem(ItemType type);

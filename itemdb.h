@@ -6,9 +6,22 @@
 
 #include "layer.h"
 
+#include "items/cad_basic_point.h"
 #include "items/cad_basic_line.h"
 #include "items/cad_basic_polyline.h"
+#include "items/cad_basic_circle.h"
+#include "items/cad_basic_arc.h"
 #include "items/cad_basic_3Dface.h"
+#include "items/cad_basic_plane.h"
+#include "items/cad_basic_box.h"
+#include "items/cad_basic_cylinder.h"
+#include "items/cad_basic_sphere.h"
+
+#include "items/cad_arch_door.h"
+#include "items/cad_arch_window.h"
+#include "items/cad_arch_wall_loadbearing.h"
+#include "items/cad_arch_wall_nonloadbearing.h"
+#include "items/cad_arch_window.h"
 
 class ItemDB : public QObject
 {

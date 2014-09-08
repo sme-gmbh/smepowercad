@@ -1,6 +1,6 @@
 #include "cad_basic_arc.h"
 
-CAD_basic_arc::CAD_basic_arc() : CADitem(CADitem::Arc)
+CAD_basic_arc::CAD_basic_arc() : CADitem(CADitem::Basic_Arc)
 {
 }
 
