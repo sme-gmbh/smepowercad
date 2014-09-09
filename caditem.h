@@ -29,8 +29,12 @@ public:
         Arch_BlockOut,
         Arch_Door,
         Arch_Window,
-        Air_DuctRect,
-        Air_DuctRound,
+        Air_Duct,
+        Air_Pipe,
+        Air_DuctTurn,
+        Air_PipeTurn,
+        Air_PipeReducer,
+        Air_TeeConnector,
         HeatCool_Pipe,
         HeatCool_Chiller,
         HeatCool_CoolingTower,
@@ -38,7 +42,19 @@ public:
         HeatCool_Pump,
         HeatCool_Controlvalve,
         HeatCool_Adjustvalve,
-        HeatCool_Sensor
+        HeatCool_Sensor,
+        Sprinkler_Pipe,
+        Sprinkler_Head,
+        Sprinkler_Pump,
+        Sprinkler_Valve,
+        Sprinkler_Distribution,
+        Sprinkler_TeeConnector,
+        Sprinkler_ZoneCheck,
+        Sprinkler_WetAlarmValve,
+        Sprinkler_CompressedAirWaterContainer,
+        Electrical_CableTray,
+        Electrical_Cabinet,
+
 
     };
 
