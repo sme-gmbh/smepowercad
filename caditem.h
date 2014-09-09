@@ -60,6 +60,11 @@ public:
         Air_EmptyCabinet,                       // Leergerät
         Air_EquipmentFrame,                     // Geräterahmen
         HeatCool_Pipe,                          // Rohr
+        HeatCool_PipeTurn,                      // Rohrbogen
+        HeatCool_PipeReducer,                   // Reduzierung
+        HeatCool_PipeTeeConnector,              // T-Stück
+        HeatCool_PipeEndCap,                    // Endkappe / Klöpperboden
+        HeatCool_Flange,                        // Flansch
         HeatCool_Chiller,                       // Kältemaschine
         HeatCool_CoolingTower,                  // Kühlturm
         HeatCool_ExpansionChamber,              // Ausdehnungsgefäß
@@ -68,8 +73,12 @@ public:
         HeatCool_StorageBoiler,                 // Speicherkessel / Schichtspeicher
         HeatCool_HeatExchanger,                 // Wärmetauscher
         HeatCool_Pump,                          // Pumpe
+        HeatCool_Filter,                        // Filter
         HeatCool_Controlvalve,                  // Regelventil
         HeatCool_Adjustvalve,                   // Regulierventil
+        HeatCool_BallValve,                     // Kugelhahn
+        HeatCool_ButterflyValve,                // Absperrklappe
+        HeatCool_SafetyValve,                   // Sicherheitsventil
         HeatCool_Sensor,                        // Sensor
         Sprinkler_Pipe,
         Sprinkler_Head,
