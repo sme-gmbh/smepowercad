@@ -1501,7 +1501,7 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glEnable(GL_MULTISAMPLE);
-    glEnable(GL_CULL_FACE);
+    glDisable(GL_CULL_FACE);
 
     glRotatef(rot_x, 1.0f, 0.0f, 0.0f);
     glRotatef(rot_y, 0.0f, 1.0f, 0.0f);
