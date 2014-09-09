@@ -688,6 +688,7 @@ void GLWidget::paintContent(QList<Layer*> layers)
             case CADitem::Basic_Sphere:
                 paintBasicSphere(layer, (CAD_basic_sphere*)item);
                 break;
+
             case CADitem::Arch_LevelSlab:
                 paintArchLevelSlab(layer, (CAD_arch_levelSlab*)item);
                 break;
@@ -700,17 +701,24 @@ void GLWidget::paintContent(QList<Layer*> layers)
             case CADitem::Arch_BlockOut:
                 paintArchBlockOut(layer, (CAD_arch_blockOut*)item);
                 break;
+            case CADitem::Arch_Support:
+                break;
+            case CADitem::Arch_Beam:
+                break;
             case CADitem::Arch_Door:
                 paintArchDoor(layer, (CAD_arch_door*)item);
                 break;
             case CADitem::Arch_Window:
                 paintArchWindow(layer, (CAD_arch_window*)item);
                 break;
+
             case CADitem::Air_Duct:
                 paintAirDuct(layer, (CAD_air_duct*)item);
                 break;
             case CADitem::Air_Pipe:
                 paintAirPipe(layer, (CAD_air_pipe*)item);
+                break;                
+            case CADitem::Air_DuctFireResistant:
                 break;
             case CADitem::Air_DuctTurn:
                 paintAirDuctTurn(layer, (CAD_air_ductTurn*)item);
@@ -724,6 +732,55 @@ void GLWidget::paintContent(QList<Layer*> layers)
             case CADitem::Air_PipeTeeConnector:
                 paintAirPipeTeeConnector(layer, (CAD_air_pipeTeeConnector*)item);
                 break;
+            case CADitem::Air_DuctTeeConnector:
+                break;
+            case CADitem::Air_DuctTransition:
+                break;
+            case CADitem::Air_DuctTransitionRectRound:
+                break;
+            case CADitem::Air_DuctYpiece:
+                break;
+            case CADitem::Air_DuctEndPlate:
+                break;
+            case CADitem::Air_DuctEndPlate:
+                break;
+            case CADitem::Air_PipeEndCap:
+                break;
+            case CADitem::Air_ThrottleValve:
+                break;
+            case CADitem::Air_MultiLeafDamper:
+                break;
+            case CADitem::Air_PressureReliefDamper:
+                break;
+            case CADitem::Air_PipeFireDamper:
+                break;
+            case CADitem::Air_DuctFireDamper:
+                break;
+            case CADitem::Air_DuctVolumetricFlowController:
+                break;
+            case CADitem::Air_PipeVolumetricFlowController:
+                break;
+            case CADitem::Air_HeatExchangerWaterAir:
+                break;
+            case CADitem::Air_HeatExchangerAirAir:
+                break;
+            case CADitem::Air_CanvasFlange:
+                break;
+            case CADitem::Air_Filter:
+                break;
+            case CADitem::Air_PipeSilencer:
+                break;
+            case CADitem::Air_DuctBaffleSilencer:
+                break;
+            case CADitem::Air_Fan:
+                break;
+            case CADitem::Air_Humidifier:
+                break;
+            case CADitem::Air_EmptyCabinet:
+                break;
+            case CADitem::Air_EquipmentFrame:
+                break;
+
             case CADitem::HeatCool_Adjustvalve:
                 paintHeatCoolAdjustvalve(layer, (CAD_heatcool_adjustvalve*)item);
                 break;
@@ -748,6 +805,37 @@ void GLWidget::paintContent(QList<Layer*> layers)
             case CADitem::HeatCool_Sensor:
                 paintHeatCoolSensor(layer, (CAD_heatcool_sensor*)item);
                 break;
+            case CADitem::HeatCool_PipeTurn:
+                break;
+            case CADitem::HeatCool_PipeReducer:
+                break;
+            case CADitem::HeatCool_PipeTeeConnector:
+                break;
+            case CADitem::HeatCool_PipeEndCap:
+                break;
+            case CADitem::HeatCool_Flange:
+                break;
+            case CADitem::HeatCool_ExpansionChamber:
+                break;
+            case CADitem::HeatCool_Boiler:
+                break;
+            case CADitem::HeatCool_WaterHeater:
+                break;
+            case CADitem::HeatCool_StorageBoiler:
+                break;
+            case CADitem::HeatCool_Radiator:
+                break;
+            case CADitem::HeatCool_Filter:
+                break;
+            case CADitem::HeatCool_BallValve:
+                break;
+            case CADitem::HeatCool_ButterflyValve:
+                break;
+            case CADitem::HeatCool_SafetyValve:
+                break;
+            case CADitem::HeatCool_Flowmeter:
+                break;
+
             case CADitem::Sprinkler_CompressedAirWaterContainer:
                 paintSprinklerCompressedAirWaterContainer(layer, (CAD_sprinkler_compressedAirWaterContainer*)item);
                 break;
@@ -775,6 +863,7 @@ void GLWidget::paintContent(QList<Layer*> layers)
             case CADitem::Sprinkler_ZoneCheck:
                 paintSprinklerZoneCheck(layer, (CAD_sprinkler_zoneCheck*)item);
                 break;
+
             case CADitem::Electrical_Cabinet:
                 paintElectricalCabinet(layer, (CAD_electrical_cabinet*)item);
                 break;
