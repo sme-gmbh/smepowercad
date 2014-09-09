@@ -113,6 +113,19 @@ private:
     void paintHeatCoolPump(Layer *layer, CAD_heatcool_pump *item);
     void paintHeatCoolSensor(Layer *layer, CAD_heatcool_sensor *item);
 
+    void paintSprinklerCompressedAirWaterContainer(Layer *layer, CAD_sprinkler_compressedAirWaterContainer *item);
+    void paintSprinklerDistribution(Layer *layer, CAD_sprinkler_distribution *item);
+    void paintSprinklerHead(Layer *layer, CAD_sprinkler_head *item);
+    void paintSprinklerPipe(Layer *layer, CAD_sprinkler_pipe *item);
+    void paintSprinklerPump(Layer *layer, CAD_sprinkler_pump *item);
+    void paintSprinklerTeeConnector(Layer *layer, CAD_sprinkler_teeConnector *item);
+    void paintSprinklerValve(Layer *layer, CAD_sprinkler_valve *item);
+    void paintSprinklerWetAlarmValve(Layer *layer, CAD_sprinkler_wetAlarmValve *item);
+    void paintSprinklerZoneCheck(Layer *layer, CAD_sprinkler_zoneCheck *item);
+
+    void paintElectricalCabinet(Layer *layer, CAD_electrical_cabinet *item);
+    void paintElectricalCabletray(Layer *layer, CAD_electrical_cableTray *item);
+
 
 
     CADitem *itemAtPosition(QPoint pos);

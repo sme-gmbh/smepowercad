@@ -40,6 +40,19 @@
 #include "items/cad_heatcool_pump.h"
 #include "items/cad_heatcool_sensor.h"
 
+#include "items/cad_sprinkler_compressedairwatercontainer.h"
+#include "items/cad_sprinkler_distribution.h"
+#include "items/cad_sprinkler_head.h"
+#include "items/cad_sprinkler_pipe.h"
+#include "items/cad_sprinkler_pump.h"
+#include "items/cad_sprinkler_teeconnector.h"
+#include "items/cad_sprinkler_valve.h"
+#include "items/cad_sprinkler_wetalarmvalve.h"
+#include "items/cad_sprinkler_zonecheck.h"
+
+#include "items/cad_electrical_cabinet.h"
+#include "items/cad_electrical_cabletray.h"
+
 class ItemDB : public QObject
 {
     Q_OBJECT

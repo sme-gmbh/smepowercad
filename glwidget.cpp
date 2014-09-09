@@ -1362,6 +1362,61 @@ void GLWidget::paintHeatCoolSensor(Layer *layer, CAD_heatcool_sensor *item)
 
 }
 
+void GLWidget::paintSprinklerCompressedAirWaterContainer(Layer *layer, CAD_sprinkler_compressedAirWaterContainer *item)
+{
+
+}
+
+void GLWidget::paintSprinklerDistribution(Layer *layer, CAD_sprinkler_distribution *item)
+{
+
+}
+
+void GLWidget::paintSprinklerHead(Layer *layer, CAD_sprinkler_head *item)
+{
+
+}
+
+void GLWidget::paintSprinklerPipe(Layer *layer, CAD_sprinkler_pipe *item)
+{
+
+}
+
+void GLWidget::paintSprinklerPump(Layer *layer, CAD_sprinkler_pump *item)
+{
+
+}
+
+void GLWidget::paintSprinklerTeeConnector(Layer *layer, CAD_sprinkler_teeConnector *item)
+{
+
+}
+
+void GLWidget::paintSprinklerValve(Layer *layer, CAD_sprinkler_valve *item)
+{
+
+}
+
+void GLWidget::paintSprinklerWetAlarmValve(Layer *layer, CAD_sprinkler_wetAlarmValve *item)
+{
+
+}
+
+void GLWidget::paintSprinklerZoneCheck(Layer *layer, CAD_sprinkler_zoneCheck *item)
+{
+
+}
+
+void GLWidget::paintElectricalCabinet(Layer *layer, CAD_electrical_cabinet *item)
+{
+
+}
+
+void GLWidget::paintElectricalCabletray(Layer *layer, CAD_electrical_cableTray *item)
+{
+
+}
+
 CADitem* GLWidget::itemAtPosition(QPoint pos)
 {
 #define HITBUFFER_SIZE 512000
