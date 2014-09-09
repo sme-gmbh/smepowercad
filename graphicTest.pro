@@ -71,7 +71,35 @@ SOURCES += main.cpp\
     items/cad_sprinkler_compressedairwatercontainer.cpp \
     items/cad_electrical_cabletray.cpp \
     items/cad_electrical_cabinet.cpp \
-    items/cad_sprinkler_zonecheck.cpp
+    items/cad_sprinkler_zonecheck.cpp \
+    items/cad_air_ductfireresistant.cpp \
+    items/cad_air_ductteeconnector.cpp \
+    items/cad_air_ducttransition.cpp \
+    items/cad_air_ducttransitionrectround.cpp \
+    items/cad_air_ductypiece.cpp \
+    items/cad_air_ductendplate.cpp \
+    items/cad_air_throttlevalve.cpp \
+    items/cad_air_multileafdamper.cpp \
+    items/cad_air_pressurereliefdamper.cpp \
+    items/cad_air_pipefiredamper.cpp \
+    items/cad_air_ductfiredamper.cpp \
+    items/cad_air_pipevolumetricflowcontroller.cpp \
+    items/cad_air_heatexchangerwaterair.cpp \
+    items/cad_air_heatexchangerairair.cpp \
+    items/cad_air_canvasflange.cpp \
+    items/cad_air_filter.cpp \
+    items/cad_air_pipesilencer.cpp \
+    items/cad_air_ductbafflesilencer.cpp \
+    items/cad_air_fan.cpp \
+    items/cad_air_humidifier.cpp \
+    items/cad_air_emptycabinet.cpp \
+    items/cad_air_equipmentframe.cpp \
+    items/cad_air_pipeendcap.cpp \
+    items/cad_heatcool_expansionchamber.cpp \
+    items/cad_heatcool_boiler.cpp \
+    items/cad_heatcool_waterheater.cpp \
+    items/cad_heatcool_storageboiler.cpp \
+    items/cad_air_ductvolumetricflowcontroller.cpp
 
 HEADERS  += mainwindow.h \
     overlay.h \
@@ -138,7 +166,35 @@ HEADERS  += mainwindow.h \
     items/cad_sprinkler_compressedairwatercontainer.h \
     items/cad_electrical_cabletray.h \
     items/cad_electrical_cabinet.h \
-    items/cad_sprinkler_zonecheck.h
+    items/cad_sprinkler_zonecheck.h \
+    items/cad_air_ductfireresistant.h \
+    items/cad_air_ductteeconnector.h \
+    items/cad_air_ducttransition.h \
+    items/cad_air_ducttransitionrectround.h \
+    items/cad_air_ductypiece.h \
+    items/cad_air_ductendplate.h \
+    items/cad_air_throttlevalve.h \
+    items/cad_air_multileafdamper.h \
+    items/cad_air_pressurereliefdamper.h \
+    items/cad_air_pipefiredamper.h \
+    items/cad_air_ductfiredamper.h \
+    items/cad_air_pipevolumetricflowcontroller.h \
+    items/cad_air_heatexchangerwaterair.h \
+    items/cad_air_heatexchangerairair.h \
+    items/cad_air_canvasflange.h \
+    items/cad_air_filter.h \
+    items/cad_air_pipesilencer.h \
+    items/cad_air_ductbafflesilencer.h \
+    items/cad_air_fan.h \
+    items/cad_air_humidifier.h \
+    items/cad_air_emptycabinet.h \
+    items/cad_air_equipmentframe.h \
+    items/cad_air_pipeendcap.h \
+    items/cad_heatcool_expansionchamber.h \
+    items/cad_heatcool_boiler.h \
+    items/cad_heatcool_waterheater.h \
+    items/cad_heatcool_storageboiler.h \
+    items/cad_air_ductvolumetricflowcontroller.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
