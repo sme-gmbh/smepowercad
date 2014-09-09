@@ -3,10 +3,10 @@
 
 #include "caditem.h"
 
-class CAD_air_DuctRound : public CADitem
+class CAD_air_pipe : public CADitem
 {
 public:
-    CAD_air_DuctRound();
+    CAD_air_pipe();
     virtual void calculate();
 };
 

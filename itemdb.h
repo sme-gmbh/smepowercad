@@ -23,8 +23,8 @@
 #include "items/cad_arch_wall_nonloadbearing.h"
 #include "items/cad_arch_window.h"
 
-#include "items/cad_air_ductrect.h"
-#include "items/cad_air_ductround.h"
+#include "items/cad_air_duct.h"
+#include "items/cad_air_pipe.h"
 
 #include "items/cad_heatcool_adjustvalve.h"
 #include "items/cad_heatcool_chiller.h"

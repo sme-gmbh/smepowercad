@@ -46,8 +46,6 @@ SOURCES += main.cpp\
     items/cad_arch_wall_nonloadbearing.cpp \
     items/cad_arch_window.cpp \
     items/cad_basic_plane.cpp \
-    items/cad_air_ductrect.cpp \
-    items/cad_air_ductround.cpp \
     items/cad_heatcool_pipe.cpp \
     items/cad_heatcool_chiller.cpp \
     items/cad_heatcool_coolingtower.cpp \
@@ -55,7 +53,9 @@ SOURCES += main.cpp\
     items/cad_heatcool_pump.cpp \
     items/cad_heatcool_controlvalve.cpp \
     items/cad_heatcool_adjustvalve.cpp \
-    items/cad_heatcool_sensor.cpp
+    items/cad_heatcool_sensor.cpp \
+    items/cad_air_duct.cpp \
+    items/cad_air_pipe.cpp
 
 HEADERS  += mainwindow.h \
     overlay.h \
@@ -97,8 +97,6 @@ HEADERS  += mainwindow.h \
     items/cad_arch_wall_nonloadbearing.h \
     items/cad_arch_window.h \
     items/cad_basic_plane.h \
-    items/cad_air_ductrect.h \
-    items/cad_air_ductround.h \
     items/cad_heatcool_pipe.h \
     items/cad_heatcool_chiller.h \
     items/cad_heatcool_coolingtower.h \
@@ -106,7 +104,9 @@ HEADERS  += mainwindow.h \
     items/cad_heatcool_pump.h \
     items/cad_heatcool_controlvalve.h \
     items/cad_heatcool_adjustvalve.h \
-    items/cad_heatcool_sensor.h
+    items/cad_heatcool_sensor.h \
+    items/cad_air_duct.h \
+    items/cad_air_pipe.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
