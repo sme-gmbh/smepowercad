@@ -23,6 +23,18 @@
 #include "items/cad_arch_wall_nonloadbearing.h"
 #include "items/cad_arch_window.h"
 
+#include "items/cad_air_ductrect.h"
+#include "items/cad_air_ductround.h"
+
+#include "items/cad_heatcool_adjustvalve.h"
+#include "items/cad_heatcool_chiller.h"
+#include "items/cad_heatcool_controlvalve.h"
+#include "items/cad_heatcool_coolingtower.h"
+#include "items/cad_heatcool_heatexchanger.h"
+#include "items/cad_heatcool_pipe.h"
+#include "items/cad_heatcool_pump.h"
+#include "items/cad_heatcool_sensor.h"
+
 class ItemDB : public QObject
 {
     Q_OBJECT
