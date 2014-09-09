@@ -742,8 +742,6 @@ void GLWidget::paintContent(QList<Layer*> layers)
                 break;
             case CADitem::Air_DuctEndPlate:
                 break;
-            case CADitem::Air_DuctEndPlate:
-                break;
             case CADitem::Air_PipeEndCap:
                 break;
             case CADitem::Air_ThrottleValve:
