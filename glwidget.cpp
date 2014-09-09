@@ -686,6 +686,7 @@ void GLWidget::paintContent(QList<Layer*> layers)
                 paintBasicCylinder(layer, (CAD_basic_cylinder*)item);
                 break;
             case CADitem::Basic_Sphere:
+                paintBasicSphere(layer, (CAD_basic_sphere*)item);
                 break;
             case CADitem::Arch_LevelSlab:
                 break;
@@ -698,6 +699,34 @@ void GLWidget::paintContent(QList<Layer*> layers)
             case CADitem::Arch_Door:
                 break;
             case CADitem::Arch_Window:
+                break;
+            case CADitem::Air_Duct:
+                break;
+            case CADitem::Air_Pipe:
+                break;
+            case CADitem::Air_DuctTurn:
+                break;
+            case CADitem::Air_PipeTurn:
+                break;
+            case CADitem::Air_PipeReducer:
+                break;
+            case CADitem::Air_PipeTeeConnector:
+                break;
+            case CADitem::HeatCool_Adjustvalve:
+                break;
+            case CADitem::HeatCool_Chiller:
+                break;
+            case CADitem::HeatCool_Controlvalve:
+                break;
+            case CADitem::HeatCool_CoolingTower:
+                break;
+            case CADitem::HeatCool_HeatExchanger:
+                break;
+            case CADitem::HeatCool_Pipe:
+                break;
+            case CADitem::HeatCool_Pump:
+                break;
+            case CADitem::HeatCool_Sensor:
                 break;
             }
         }
@@ -1226,6 +1255,166 @@ void GLWidget::paintBasicCylinder(Layer *layer, CAD_basic_cylinder *item)
 
         glEnd();
     }
+}
+
+void GLWidget::paintBasicSphere(Layer *layer, CAD_basic_sphere *item)
+{
+
+}
+
+void GLWidget::paintArchLevelSlab(Layer *layer, CAD_arch_levelSlab *item)
+{
+
+}
+
+void GLWidget::paintArchWallLoadBearing(Layer *layer, CAD_arch_wall_loadBearing *item)
+{
+
+}
+
+void GLWidget::paintArchWallNonLoadBearing(Layer *layer, CAD_arch_wall_nonLoadBearing *item)
+{
+
+}
+
+void GLWidget::paintArchBlockOut(Layer *layer, CAD_arch_blockOut *item)
+{
+
+}
+
+void GLWidget::paintArchDoor(Layer *layer, CAD_arch_door *item)
+{
+
+}
+
+void GLWidget::paintArchWindow(Layer *layer, CAD_arch_window *item)
+{
+
+}
+
+void GLWidget::paintAirDuct(Layer *layer, CAD_air_duct *item)
+{
+
+}
+
+void GLWidget::paintAirPipe(Layer *layer, CAD_air_pipe *item)
+{
+
+}
+
+void GLWidget::paintAirDuctTurn(Layer *layer, CAD_air_ductTurn *item)
+{
+
+}
+
+void GLWidget::paintAirPipeTurn(Layer *layer, CAD_air_pipeTurn *item)
+{
+
+}
+
+void GLWidget::paintAirPipeReducer(Layer *layer, CAD_air_pipeReducer *item)
+{
+
+}
+
+void GLWidget::paintAirPipeTeeConnector(Layer *layer, CAD_air_pipeTeeConnector *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolAdjustvalve(Layer *layer, CAD_heatcool_adjustvalve *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolChiller(Layer *layer, CAD_heatcool_chiller *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolControlvalve(Layer *layer, CAD_heatcool_controlvalve *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolCoolingTower(Layer *layer, CAD_heatcool_coolingTower *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolHeatExchanger(Layer *layer, CAD_heatcool_heatExchanger *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolPipe(Layer *layer, CAD_heatcool_pipe *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolPump(Layer *layer, CAD_heatcool_pump *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolSensor(Layer *layer, CAD_heatcool_sensor *item)
+{
+
+}
+
+void GLWidget::paintSprinklerCompressedAirWaterContainer(Layer *layer, CAD_sprinkler_compressedAirWaterContainer *item)
+{
+
+}
+
+void GLWidget::paintSprinklerDistribution(Layer *layer, CAD_sprinkler_distribution *item)
+{
+
+}
+
+void GLWidget::paintSprinklerHead(Layer *layer, CAD_sprinkler_head *item)
+{
+
+}
+
+void GLWidget::paintSprinklerPipe(Layer *layer, CAD_sprinkler_pipe *item)
+{
+
+}
+
+void GLWidget::paintSprinklerPump(Layer *layer, CAD_sprinkler_pump *item)
+{
+
+}
+
+void GLWidget::paintSprinklerTeeConnector(Layer *layer, CAD_sprinkler_teeConnector *item)
+{
+
+}
+
+void GLWidget::paintSprinklerValve(Layer *layer, CAD_sprinkler_valve *item)
+{
+
+}
+
+void GLWidget::paintSprinklerWetAlarmValve(Layer *layer, CAD_sprinkler_wetAlarmValve *item)
+{
+
+}
+
+void GLWidget::paintSprinklerZoneCheck(Layer *layer, CAD_sprinkler_zoneCheck *item)
+{
+
+}
+
+void GLWidget::paintElectricalCabinet(Layer *layer, CAD_electrical_cabinet *item)
+{
+
+}
+
+void GLWidget::paintElectricalCabletray(Layer *layer, CAD_electrical_cableTray *item)
+{
+
 }
 
 CADitem* GLWidget::itemAtPosition(QPoint pos)

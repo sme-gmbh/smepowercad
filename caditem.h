@@ -81,7 +81,7 @@ public:
         Sprinkler_WetAlarmValve,
         Sprinkler_CompressedAirWaterContainer,
         Electrical_CableTray,
-        Electrical_Cabinet,
+        Electrical_Cabinet
 
 
     };

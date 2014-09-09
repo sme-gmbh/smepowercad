@@ -17,14 +17,19 @@
 #include "items/cad_basic_cylinder.h"
 #include "items/cad_basic_sphere.h"
 
+#include "items/cad_arch_levelslab.h"
 #include "items/cad_arch_door.h"
 #include "items/cad_arch_window.h"
 #include "items/cad_arch_wall_loadbearing.h"
 #include "items/cad_arch_wall_nonloadbearing.h"
-#include "items/cad_arch_window.h"
+#include "items/cad_arch_blockout.h"
 
 #include "items/cad_air_duct.h"
 #include "items/cad_air_pipe.h"
+#include "items/cad_air_ductturn.h"
+#include "items/cad_air_pipeturn.h"
+#include "items/cad_air_pipereducer.h"
+#include "items/cad_air_pipeteeconnector.h"
 
 #include "items/cad_heatcool_adjustvalve.h"
 #include "items/cad_heatcool_chiller.h"
@@ -34,6 +39,19 @@
 #include "items/cad_heatcool_pipe.h"
 #include "items/cad_heatcool_pump.h"
 #include "items/cad_heatcool_sensor.h"
+
+#include "items/cad_sprinkler_compressedairwatercontainer.h"
+#include "items/cad_sprinkler_distribution.h"
+#include "items/cad_sprinkler_head.h"
+#include "items/cad_sprinkler_pipe.h"
+#include "items/cad_sprinkler_pump.h"
+#include "items/cad_sprinkler_teeconnector.h"
+#include "items/cad_sprinkler_valve.h"
+#include "items/cad_sprinkler_wetalarmvalve.h"
+#include "items/cad_sprinkler_zonecheck.h"
+
+#include "items/cad_electrical_cabinet.h"
+#include "items/cad_electrical_cabletray.h"
 
 class ItemDB : public QObject
 {
