@@ -99,7 +99,20 @@ SOURCES += main.cpp\
     items/cad_heatcool_boiler.cpp \
     items/cad_heatcool_waterheater.cpp \
     items/cad_heatcool_storageboiler.cpp \
-    items/cad_air_ductvolumetricflowcontroller.cpp
+    items/cad_air_ductvolumetricflowcontroller.cpp \
+    items/cad_heatcool_pipeturn.cpp \
+    items/cad_heatcool_pipereducer.cpp \
+    items/cad_heatcool_pipeteeconnector.cpp \
+    items/cad_heatcool_pipeendcap.cpp \
+    items/cad_heatcool_flange.cpp \
+    items/cad_heatcool_filter.cpp \
+    items/cad_heatcool_ballvalve.cpp \
+    items/cad_heatcool_butterflyvalve.cpp \
+    items/cad_heatcool_safetyvalve.cpp \
+    items/cad_arch_support.cpp \
+    items/cad_arch_beam.cpp \
+    items/cad_heatcool_radiator.cpp \
+    items/cad_heatcool_flowmeter.cpp
 
 HEADERS  += mainwindow.h \
     overlay.h \
@@ -194,7 +207,20 @@ HEADERS  += mainwindow.h \
     items/cad_heatcool_boiler.h \
     items/cad_heatcool_waterheater.h \
     items/cad_heatcool_storageboiler.h \
-    items/cad_air_ductvolumetricflowcontroller.h
+    items/cad_air_ductvolumetricflowcontroller.h \
+    items/cad_heatcool_pipeturn.h \
+    items/cad_heatcool_pipereducer.h \
+    items/cad_heatcool_pipeteeconnector.h \
+    items/cad_heatcool_pipeendcap.h \
+    items/cad_heatcool_flange.h \
+    items/cad_heatcool_filter.h \
+    items/cad_heatcool_ballvalve.h \
+    items/cad_heatcool_butterflyvalve.h \
+    items/cad_heatcool_safetyvalve.h \
+    items/cad_arch_support.h \
+    items/cad_arch_beam.h \
+    items/cad_heatcool_radiator.h \
+    items/cad_heatcool_flowmeter.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
