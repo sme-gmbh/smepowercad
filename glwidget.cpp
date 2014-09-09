@@ -1460,6 +1460,121 @@ void GLWidget::paintAirPipeTeeConnector(Layer *layer, CAD_air_pipeTeeConnector *
 
 }
 
+void GLWidget::paintAirDuctTeeConnector(Layer *layer, CAD_air_ductTeeConnector *item)
+{
+
+}
+
+void GLWidget::paintAirDuctTransiton(Layer *layer, CAD_air_ductTransition *item)
+{
+
+}
+
+void GLWidget::paintAirDuctTransitionRectRound(Layer *layer, CAD_air_ductTransitionRectRound *item)
+{
+
+}
+
+void GLWidget::paintAirDuctYpiece(Layer *layer, CAD_air_ductYpiece *item)
+{
+
+}
+
+void GLWidget::paintAirDuctEndPlate(Layer *layer, CAD_air_ductEndPlate *item)
+{
+
+}
+
+void GLWidget::paintAirPipeEndCap(Layer *layer, CAD_air_pipeEndCap *item)
+{
+
+}
+
+void GLWidget::paintAirThrottleValve(Layer *layer, CAD_air_throttleValve *item)
+{
+
+}
+
+void GLWidget::paintAirMultiLeafDamper(Layer *layer, CAD_air_multiLeafDamper *item)
+{
+
+}
+
+void GLWidget::paintAirPressureReliefDamper(Layer *layer, CAD_air_pressureReliefDamper *item)
+{
+
+}
+
+void GLWidget::paintAirPipeFireDamper(Layer *layer, CAD_air_pipeFireDamper *item)
+{
+
+}
+
+void GLWidget::paintAirDuctFireDamper(Layer *layer, CAD_air_ductFireDamper *item)
+{
+
+}
+
+void GLWidget::paintAirDuctVolumetricFlowController(Layer *layer, CAD_air_ductVolumetricFlowController *item)
+{
+
+}
+
+void GLWidget::paintAirPipeVolumetricFlowController(Layer *layer, CAD_air_pipeVolumetricFlowController *item)
+{
+
+}
+
+void GLWidget::paintAirHeatExchangerWaterAir(Layer *layer, CAD_air_heatExchangerWaterAir *item)
+{
+
+}
+
+void GLWidget::paintAirHeatExchangerAirAir(Layer *layer, CAD_air_heatExchangerAirAir *item)
+{
+
+}
+
+void GLWidget::paintAirCanvasFlange(Layer *layer, CAD_air_canvasFlange *item)
+{
+
+}
+
+void GLWidget::paintAirFilter(Layer *layer, CAD_air_filter *item)
+{
+
+}
+
+void GLWidget::paintAirPipeSilencer(Layer *layer, CAD_air_pipeSilencer *item)
+{
+
+}
+
+void GLWidget::paintAirDuctBaffleSilencer(Layer *layer, CAD_air_ductBaffleSilencer *item)
+{
+
+}
+
+void GLWidget::paintAirFan(Layer *layer, CAD_air_fan *item)
+{
+
+}
+
+void GLWidget::paintAirHumidifier(Layer *layer, CAD_air_humidifier *item)
+{
+
+}
+
+void GLWidget::paintAirEmptyCabinet(Layer *layer, CAD_air_emptyCabinet *item)
+{
+
+}
+
+void GLWidget::paintAirEquipmentFrame(Layer *layer, CAD_air_equipmentFrame *item)
+{
+
+}
+
 void GLWidget::paintHeatCoolAdjustvalve(Layer *layer, CAD_heatcool_adjustvalve *item)
 {
 
@@ -1496,6 +1611,81 @@ void GLWidget::paintHeatCoolPump(Layer *layer, CAD_heatcool_pump *item)
 }
 
 void GLWidget::paintHeatCoolSensor(Layer *layer, CAD_heatcool_sensor *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolPipeTurn(Layer *layer, CAD_heatcool_pipeTurn *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolPipeReducer(Layer *layer, CAD_heatcool_pipeReducer *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolPipeTeeConnector(Layer *layer, CAD_heatcool_pipeTeeConnector *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolPipeEndCap(Layer *layer, CAD_heatcool_pipeEndCap *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolFlange(Layer *layer, CAD_heatcool_flange *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolExpansionChamber(Layer *layer, CAD_heatcool_expansionChamber *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolBoiler(Layer *layer, CAD_heatcool_boiler *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolWaterHeater(Layer *layer, CAD_heatcool_waterHeater *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolStorageBoiler(Layer *layer, CAD_heatcool_storageBoiler *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolRadiator(Layer *layer, CAD_heatcool_radiator *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolFilter(Layer *layer, CAD_heatcool_filter *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolBallValve(Layer *layer, CAD_heatcool_ballValve *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolButterflyValve(Layer *layer, CAD_heatcool_butterflyValve *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolSafteyValve(Layer *layer, CAD_heatcool_safetyValve *item)
+{
+
+}
+
+void GLWidget::paintHeatCoolFlowmeter(Layer *layer, CAD_heatcool_flowmeter *item)
 {
 
 }

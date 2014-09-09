@@ -26,7 +26,6 @@ SOURCES += main.cpp\
     geometrydisplay.cpp \
     itemdb.cpp \
     caditem.cpp \
-    geometryrenderengine.cpp \
     math/m3dbox.cpp \
     snapengine.cpp \
     glwidget.cpp \
@@ -134,7 +133,6 @@ HEADERS  += mainwindow.h \
     geometrydisplay.h \
     itemdb.h \
     caditem.h \
-    geometryrenderengine.h \
     math/m3dbox.h \
     snapengine.h \
     glwidget.h \

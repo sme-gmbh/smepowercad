@@ -24,7 +24,6 @@
 
 #include "overlay.h"
 #include "itemdb.h"
-#include "geometryrenderengine.h"
 #include "snapengine.h"
 #include "glwidget.h"
 #include "geometrydisplaytitle.h"
