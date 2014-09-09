@@ -27,6 +27,8 @@ public:
         Arch_Wall_loadBearing,                  // Tagende Wand
         Arch_Wall_nonLoadBearing,               // Nicht tragende Wand
         Arch_BlockOut,
+        Arch_Support,                           // Stütze
+        Arch_Beam,                              // Unterzug
         Arch_Door,
         Arch_Window,
         Air_Duct,                               // Kanal (eckig)
@@ -72,6 +74,7 @@ public:
         HeatCool_WaterHeater,                   // Warmwasserboiler
         HeatCool_StorageBoiler,                 // Speicherkessel / Schichtspeicher
         HeatCool_HeatExchanger,                 // Wärmetauscher
+        HeatCool_Radiator,                      // Heizkörper
         HeatCool_Pump,                          // Pumpe
         HeatCool_Filter,                        // Filter
         HeatCool_Controlvalve,                  // Regelventil
@@ -79,6 +82,7 @@ public:
         HeatCool_BallValve,                     // Kugelhahn
         HeatCool_ButterflyValve,                // Absperrklappe
         HeatCool_SafetyValve,                   // Sicherheitsventil
+        HeatCool_Flowmeter,                     // Durchflussmesser
         HeatCool_Sensor,                        // Sensor
         Sprinkler_Pipe,
         Sprinkler_Head,
