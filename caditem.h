@@ -13,19 +13,22 @@ class CADitem
 public:
     enum ItemType
     {
-        Basic_Point,
-        Basic_Line,
-        Basic_Polyline,
-        Basic_Circle,
-        Basic_Arc,
-        Basic_Face,
-        Basic_Plane,
-        Basic_Box,
-        Basic_Cylinder,
-        Basic_Sphere,
+        Basic_Point,                            // Basisgeometrie: Punkt
+        Basic_Line,                             // Basisgeometrie: Linie
+        Basic_Polyline,                         // Basisgeometrie: Polylinie
+        Basic_Circle,                           // Basisgeometrie: Kreis
+        Basic_Arc,                              // Basisgeometrie: Bogen
+        Basic_Face,                             // Basisgeometrie: Fläche
+        Basic_Plane,                            // Basisgeometrie: Ebene
+        Basic_Box,                              // Basisgeometrie: Box
+        Basic_Cylinder,                         // Basisgeometrie: Zylinder
+        Basic_Sphere,                           // Basisgeometrie: Kugel
+        Arch_Foundation,                        // Fundament
+        Arch_BoredPile,                         // Bohrpfahl
         Arch_LevelSlab,                         // Decke
         Arch_Wall_loadBearing,                  // Tagende Wand
         Arch_Wall_nonLoadBearing,               // Nicht tragende Wand
+        Arch_Grating,                           // Gitterrost
         Arch_BlockOut,
         Arch_Support,                           // Stütze
         Arch_Beam,                              // Unterzug
@@ -84,17 +87,33 @@ public:
         HeatCool_SafetyValve,                   // Sicherheitsventil
         HeatCool_Flowmeter,                     // Durchflussmesser
         HeatCool_Sensor,                        // Sensor
-        Sprinkler_Pipe,
-        Sprinkler_Head,
-        Sprinkler_Pump,
-        Sprinkler_Valve,
-        Sprinkler_Distribution,
-        Sprinkler_TeeConnector,
-        Sprinkler_ZoneCheck,
-        Sprinkler_WetAlarmValve,
-        Sprinkler_CompressedAirWaterContainer,
-        Electrical_CableTray,
-        Electrical_Cabinet
+        Sprinkler_Pipe,                         // Sprinklerrohr
+        Sprinkler_PipeTurn,                     // Rohrbogen
+        Sprinkler_PipeReducer,                  // Reduzierung
+        Sprinkler_PipeEndCap,                   // Rohr-Endkappe
+        Sprinkler_Head,                         // Sprinklerkopf
+        Sprinkler_Pump,                         // Sprinklerpumpe
+        Sprinkler_Valve,                        // Ventil
+        Sprinkler_Distribution,                 // Verteiler
+        Sprinkler_TeeConnector,                 // T-Stück
+        Sprinkler_ZoneCheck,                    // Zone-Check
+        Sprinkler_WetAlarmValve,                // Nassalarmventil
+        Sprinkler_CompressedAirWaterContainer,  // Druckluftwasserbehälter
+        Sanitary_Pipe,                          // Rohr (allgemein)
+        Sanitary_PipeTurn,                      // Rohrbogen
+        Sanitary_PipeReducer,                   // Reduzierung
+        Sanitary_PipeTeeConnector,              // T-Stück
+        Sanitary_PipeEndCap,                    // Endkappe
+        Sanitary_Flange,                        // Flansch
+        Sanitary_ElectricWaterHeater,           // Elektrischer Wasserboiler
+        Sanitary_WashBasin,                     // Waschbecken
+        Sanitary_Sink,                          // Ausgussbecken
+        Sanitary_Shower,                        // Dusche
+        Sanitary_EmergencyShower,               // Notdusche
+        Sanitary_EmergencyEyeShower,            // Augendusche
+        Sanitary_LiftingUnit,                   // Hebeanlage
+        Electrical_CableTray,                   // Kabeltrasse
+        Electrical_Cabinet                      // Schaltschrank
 
 
     };
