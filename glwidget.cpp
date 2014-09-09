@@ -9,7 +9,7 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
     this->mousePos = QPoint();
 
     this->translationOffset = QPoint();
-    this->zoomFactor = 10.0;
+    this->zoomFactor = 1000.0;
     this->centerOfViewInScene = QVector3D();
     this->displayCenter = QPoint();
     this->cuttingplane = CuttingPlane_nZ;
@@ -219,11 +219,7 @@ void GLWidget::wheelEvent(QWheelEvent* event)
     zoomStep = qPow(zoomStep, steps);
     zoomFactor *= zoomStep;
 
-//    frameBufferSourceRect.adjust(- frameBufferSourceRect.width() * cursorPosF_normal.x() * (1.0 / zoomStep - 1.0),
-//                                 - frameBufferSourceRect.height() * cursorPosF_normal.y() * (1.0 / zoomStep - 1.0),
-//                                   frameBufferSourceRect.width() * (1.0 - cursorPosF_normal.x()) * (1.0 / zoomStep - 1.0),
-//                                   frameBufferSourceRect.height() * (1.0 - cursorPosF_normal.y()) * (1.0 / zoomStep - 1.0));
-
+    translationOffset += (mousePos - QPoint(this->width() / 2, this->height() / 2) - translationOffset) * (1.0 - zoomStep);
 
     event->accept();
 
@@ -249,14 +245,16 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
     }
 
-//    if (event->buttons() == Qt::MidButton)
-//    {
+    if (event->buttons() == Qt::MidButton)
+    {
+        translationOffset += mouseMoveDelta;
+
 //        centerOfViewInScene = mapToScene(displayCenter - (mouseMoveDelta));
 
 //        qreal deltaZoom_inv = zoomFactor_atCurrentFrame / zoomFactor;         // Fraction of zoom of last rendered frame in relation to current zoom
 //        frameBufferSourceRect.translate(- mouseMoveDelta.x() * deltaZoom_inv, - mouseMoveDelta.y() * deltaZoom_inv);
 //    slot_repaint();
-//    }
+    }
 
     if (event->buttons() == Qt::RightButton)
     {
@@ -431,7 +429,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     //glLoadMatrixd();
-    glViewport(0, 0, width(), height());
+    glViewport(translationOffset.x(), translationOffset.y(), width(), height());
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -1565,7 +1563,7 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
 
     saveGLState();
 
-    glViewport(0, 0, width(), height());
+    glViewport(translationOffset.x(), translationOffset.y(), width(), height());
     glGetIntegerv(GL_VIEWPORT, viewport);
     glSelectBuffer(HITBUFFER_SIZE, buffer);
     glRenderMode(GL_SELECT);
