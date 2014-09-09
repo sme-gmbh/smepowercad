@@ -3,7 +3,7 @@
 
 #include "caditem.h"
 
-class CAD_arch_beam : public CADitems
+class CAD_arch_beam : public CADitem
 {
 public:
     CAD_arch_beam();
