@@ -28,7 +28,18 @@ public:
         Arch_Wall_nonLoadBearing,    // Nicht tragende Wand
         Arch_BlockOut,
         Arch_Door,
-        Arch_Window
+        Arch_Window,
+        Air_DuctRect,
+        Air_DuctRound,
+        HeatCool_Pipe,
+        HeatCool_Chiller,
+        HeatCool_CoolingTower,
+        HeatCool_HeatExchanger,
+        HeatCool_Pump,
+        HeatCool_Controlvalve,
+        HeatCool_Adjustvalve,
+        HeatCool_Sensor
+
     };
 
     CADitem(ItemType type);
