@@ -689,44 +689,97 @@ void GLWidget::paintContent(QList<Layer*> layers)
                 paintBasicSphere(layer, (CAD_basic_sphere*)item);
                 break;
             case CADitem::Arch_LevelSlab:
+                paintArchLevelSlab(layer, (CAD_arch_levelSlab*)item);
                 break;
             case CADitem::Arch_Wall_loadBearing:
+                paintArchWallLoadBearing(layer, (CAD_arch_wall_loadBearing*)item);
                 break;
             case CADitem::Arch_Wall_nonLoadBearing:
+                paintArchWallNonLoadBearing(layer, (CAD_arch_wall_nonLoadBearing*)item);
                 break;
             case CADitem::Arch_BlockOut:
+                paintArchBlockOut(layer, (CAD_arch_blockOut*)item);
                 break;
             case CADitem::Arch_Door:
+                paintArchDoor(layer, (CAD_arch_door*)item);
                 break;
             case CADitem::Arch_Window:
+                paintArchWindow(layer, (CAD_arch_window*)item);
                 break;
             case CADitem::Air_Duct:
+                paintAirDuct(layer, (CAD_air_duct*)item);
                 break;
             case CADitem::Air_Pipe:
+                paintAirPipe(layer, (CAD_air_pipe*)item);
                 break;
             case CADitem::Air_DuctTurn:
+                paintAirDuctTurn(layer, (CAD_air_ductTurn*)item);
                 break;
             case CADitem::Air_PipeTurn:
+                paintAirPipeTurn(layer, (CAD_air_pipeTurn*)item);
                 break;
             case CADitem::Air_PipeReducer:
+                paintAirPipeReducer(layer, (CAD_air_pipeReducer*)item);
                 break;
             case CADitem::Air_PipeTeeConnector:
+                paintAirPipeTeeConnector(layer, (CAD_air_pipeTeeConnector*)item);
                 break;
             case CADitem::HeatCool_Adjustvalve:
+                paintHeatCoolAdjustvalve(layer, (CAD_heatcool_adjustvalve*)item);
                 break;
             case CADitem::HeatCool_Chiller:
+                paintHeatCoolChiller(layer, (CAD_heatcool_chiller*)item);
                 break;
             case CADitem::HeatCool_Controlvalve:
+                paintHeatCoolControlvalve(layer, (CAD_heatcool_controlvalve*)item);
                 break;
             case CADitem::HeatCool_CoolingTower:
+                paintHeatCoolCoolingTower(layer, (CAD_heatcool_coolingTower*)item);
                 break;
             case CADitem::HeatCool_HeatExchanger:
+                paintHeatCoolHeatExchanger(layer, (CAD_heatcool_heatExchanger*)item);
                 break;
             case CADitem::HeatCool_Pipe:
+                paintHeatCoolPipe(layer, (CAD_heatcool_pipe*)item);
                 break;
             case CADitem::HeatCool_Pump:
+                paintHeatCoolPump(layer, (CAD_heatcool_pump*)item);
                 break;
             case CADitem::HeatCool_Sensor:
+                paintHeatCoolSensor(layer, (CAD_heatcool_sensor*)item);
+                break;
+            case CADitem::Sprinkler_CompressedAirWaterContainer:
+                paintSprinklerCompressedAirWaterContainer(layer, (CAD_sprinkler_compressedAirWaterContainer*)item);
+                break;
+            case CADitem::Sprinkler_Distribution:
+                paintSprinklerDistribution(layer, (CAD_sprinkler_distribution*)item);
+                break;
+            case CADitem::Sprinkler_Head:
+                paintSprinklerHead(layer, (CAD_sprinkler_head*)item);
+                break;
+            case CADitem::Sprinkler_Pipe:
+                paintSprinklerPipe(layer, (CAD_sprinkler_pipe*)item);
+                break;
+            case CADitem::Sprinkler_Pump:
+                paintSprinklerPump(layer, (CAD_sprinkler_pump*)item);
+                break;
+            case CADitem::Sprinkler_TeeConnector:
+                paintSprinklerTeeConnector(layer, (CAD_sprinkler_teeConnector*)item);
+                break;
+            case CADitem::Sprinkler_Valve:
+                paintSprinklerValve(layer, (CAD_sprinkler_valve*)item);
+                break;
+            case CADitem::Sprinkler_WetAlarmValve:
+                paintSprinklerWetAlarmValve(layer, (CAD_sprinkler_wetAlarmValve*)item);
+                break;
+            case CADitem::Sprinkler_ZoneCheck:
+                paintSprinklerZoneCheck(layer, (CAD_sprinkler_zoneCheck*)item);
+                break;
+            case CADitem::Electrical_Cabinet:
+                paintElectricalCabinet(layer, (CAD_electrical_cabinet*)item);
+                break;
+            case CADitem::Electrical_CableTray:
+                paintElectricalCabletray(layer, (CAD_electrical_cableTray*)item);
                 break;
             }
         }
