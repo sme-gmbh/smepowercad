@@ -80,12 +80,41 @@ private:
     void restoreGLState();
 
     void paintContent(QList<Layer*> layers);
+
+
     void paintLine(Layer* layer, CAD_basic_line* item);
     void paintPolyLine(Layer *layer, CAD_basic_polyline *item);
     void paintFace(Layer *layer, CAD_basic_3Dface *item);
     void paintBasicCircle(Layer *layer, CAD_basic_circle *item);
     void paintBasicBox(Layer *layer, CAD_basic_box *item);
     void paintBasicCylinder(Layer *layer, CAD_basic_cylinder *item);
+    void paintBasicSphere(Layer *layer, CAD_basic_sphere *item);
+
+    void paintArchLevelSlab(Layer *layer, CAD_arch_levelSlab *item);
+    void paintArchWallLoadBearing(Layer *layer, CAD_arch_wall_loadBearing *item);
+    void paintArchWallNonLoadBearing(Layer *layer, CAD_arch_wall_nonLoadBearing *item);
+    void paintArchBlockOut(Layer *layer, CAD_arch_blockOut *item);
+    void paintArchDoor(Layer *layer, CAD_arch_door *item);
+    void paintArchWindow(Layer *layer, CAD_arch_window *item);
+
+    void paintAirDuct(Layer *layer, CAD_air_duct *item);
+    void paintAirPipe(Layer *layer, CAD_air_pipe *item);
+    void paintAirDuctTurn(Layer *layer, CAD_air_ductTurn *item);
+    void paintAirPipeTurn(Layer *layer, CAD_air_pipeTurn *item);
+    void paintAirPipeReducer(Layer *layer, CAD_air_pipeReducer *item);
+    void paintAirPipeTeeConnector(Layer *layer, CAD_air_pipeTeeConnector *item);
+
+    void paintHeatCoolAdjustvalve(Layer *layer, CAD_heatcool_adjustvalve *item);
+    void paintHeatCoolChiller(Layer *layer, CAD_heatcool_chiller *item);
+    void paintHeatCoolControlvalve(Layer *layer, CAD_heatcool_controlvalve *item);
+    void paintHeatCoolCoolingTower(Layer *layer, CAD_heatcool_coolingTower *item);
+    void paintHeatCoolHeatExchanger(Layer *layer, CAD_heatcool_heatExchanger *item);
+    void paintHeatCoolPipe(Layer *layer, CAD_heatcool_pipe *item);
+    void paintHeatCoolPump(Layer *layer, CAD_heatcool_pump *item);
+    void paintHeatCoolSensor(Layer *layer, CAD_heatcool_sensor *item);
+
+
+
     CADitem *itemAtPosition(QPoint pos);
     CADitem *itemAtPosition_processLayers(QList<Layer*> layers, GLuint glName);
     CADitem *itemAtPosition_processItems(QList<CADitem*> items, GLuint glName);

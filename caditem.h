@@ -34,7 +34,7 @@ public:
         Air_DuctTurn,
         Air_PipeTurn,
         Air_PipeReducer,
-        Air_TeeConnector,
+        Air_PipeTeeConnector,
         HeatCool_Pipe,
         HeatCool_Chiller,
         HeatCool_CoolingTower,

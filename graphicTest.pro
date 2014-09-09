@@ -55,7 +55,12 @@ SOURCES += main.cpp\
     items/cad_heatcool_adjustvalve.cpp \
     items/cad_heatcool_sensor.cpp \
     items/cad_air_duct.cpp \
-    items/cad_air_pipe.cpp
+    items/cad_air_pipe.cpp \
+    items/cad_arch_blockout.cpp \
+    items/cad_air_ductturn.cpp \
+    items/cad_air_pipeturn.cpp \
+    items/cad_air_pipereducer.cpp \
+    items/cad_air_pipeteeconnector.cpp
 
 HEADERS  += mainwindow.h \
     overlay.h \
@@ -106,7 +111,12 @@ HEADERS  += mainwindow.h \
     items/cad_heatcool_adjustvalve.h \
     items/cad_heatcool_sensor.h \
     items/cad_air_duct.h \
-    items/cad_air_pipe.h
+    items/cad_air_pipe.h \
+    items/cad_arch_blockout.h \
+    items/cad_air_ductturn.h \
+    items/cad_air_pipeturn.h \
+    items/cad_air_pipereducer.h \
+    items/cad_air_pipeteeconnector.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

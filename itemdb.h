@@ -17,14 +17,19 @@
 #include "items/cad_basic_cylinder.h"
 #include "items/cad_basic_sphere.h"
 
+#include "items/cad_arch_levelslab.h"
 #include "items/cad_arch_door.h"
 #include "items/cad_arch_window.h"
 #include "items/cad_arch_wall_loadbearing.h"
 #include "items/cad_arch_wall_nonloadbearing.h"
-#include "items/cad_arch_window.h"
+#include "items/cad_arch_blockout.h"
 
 #include "items/cad_air_duct.h"
 #include "items/cad_air_pipe.h"
+#include "items/cad_air_ductturn.h"
+#include "items/cad_air_pipeturn.h"
+#include "items/cad_air_pipereducer.h"
+#include "items/cad_air_pipeteeconnector.h"
 
 #include "items/cad_heatcool_adjustvalve.h"
 #include "items/cad_heatcool_chiller.h"
