@@ -319,6 +319,8 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
     this->cursorShown = true;
 
+    emit signal_mouseMoved(QVector3D(mousePos.x(), mousePos.y(), 0));
+
     slot_repaint();
     event->accept();
 }

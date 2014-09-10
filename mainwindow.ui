@@ -127,7 +127,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
    <widget class="QMenu" name="menuDatei">
     <property name="title">
-     <string>Datei</string>
+     <string>File</string>
     </property>
     <addaction name="actionLaden"/>
     <addaction name="actionLastEditedProjects"/>
@@ -142,7 +142,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </widget>
    <widget class="QMenu" name="menuZeichnen">
     <property name="title">
-     <string>Zeichnen</string>
+     <string>Draw</string>
     </property>
     <addaction name="actionLinie"/>
     <addaction name="actionBogen"/>
@@ -155,13 +155,13 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </widget>
    <widget class="QMenu" name="menuFenster">
     <property name="title">
-     <string>Fenster</string>
+     <string>Window</string>
     </property>
     <addaction name="actionNeues_Schnittfenster"/>
    </widget>
    <widget class="QMenu" name="menuWerkzeugleisten">
     <property name="title">
-     <string>Werkzeugleisten</string>
+     <string>Toolbars</string>
     </property>
    </widget>
    <addaction name="menuDatei"/>
@@ -305,9 +305,6 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
        <property name="acceptDrops">
         <bool>false</bool>
        </property>
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
        <property name="frameShadow">
         <enum>QFrame::Plain</enum>
        </property>
@@ -321,7 +318,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
         <bool>true</bool>
        </property>
        <property name="plainText">
-        <string>&gt;&gt;promt</string>
+        <string notr="true">&gt;&gt;promt</string>
        </property>
       </widget>
      </item>
@@ -330,7 +327,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   </widget>
   <widget class="QToolBar" name="toolBarArchitektur">
    <property name="windowTitle">
-    <string>Architektur</string>
+    <string>Architecture</string>
    </property>
    <property name="toolButtonStyle">
     <enum>Qt::ToolButtonIconOnly</enum>
@@ -350,7 +347,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   </widget>
   <widget class="QToolBar" name="toolBarLuft">
    <property name="windowTitle">
-    <string>Luft</string>
+    <string>Air</string>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -361,7 +358,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   </widget>
   <widget class="QToolBar" name="toolBarPrimitiv">
    <property name="windowTitle">
-    <string>Grundobjekte</string>
+    <string>Basic objects</string>
    </property>
    <property name="toolButtonStyle">
     <enum>Qt::ToolButtonIconOnly</enum>
@@ -388,7 +385,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     </iconset>
    </property>
    <property name="text">
-    <string>Laden...</string>
+    <string>Load...</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
@@ -401,7 +398,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     </iconset>
    </property>
    <property name="text">
-    <string>Speichern</string>
+    <string>Save</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
@@ -414,7 +411,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     </iconset>
    </property>
    <property name="text">
-    <string>Speichern unter...</string>
+    <string>Save as...</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
@@ -427,7 +424,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     </iconset>
    </property>
    <property name="text">
-    <string>Plotten...</string>
+    <string>Plot...</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
@@ -453,7 +450,10 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     </iconset>
    </property>
    <property name="text">
-    <string>Zeichnung schließen</string>
+    <string>Close drawing</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
@@ -466,7 +466,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     </iconset>
    </property>
    <property name="text">
-    <string>Beenden</string>
+    <string>Quit</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
@@ -481,7 +481,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
      <normaloff>:/objekte/grundobjekte/icons/Linie.svg</normaloff>:/objekte/grundobjekte/icons/Linie.svg</iconset>
    </property>
    <property name="text">
-    <string>Linie</string>
+    <string>Line</string>
    </property>
    <property name="shortcut">
     <string>L</string>
@@ -496,7 +496,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
      <normaloff>:/objekte/grundobjekte/icons/Bogen.svg</normaloff>:/objekte/grundobjekte/icons/Bogen.svg</iconset>
    </property>
    <property name="text">
-    <string>Bogen</string>
+    <string>Arc</string>
    </property>
    <property name="shortcut">
     <string>B</string>
@@ -511,7 +511,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
      <normaloff>:/objekte/grundobjekte/icons/Kreis.svg</normaloff>:/objekte/grundobjekte/icons/Kreis.svg</iconset>
    </property>
    <property name="text">
-    <string>Kreis</string>
+    <string>Circle</string>
    </property>
    <property name="shortcut">
     <string>K</string>
@@ -522,7 +522,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   </action>
   <action name="actionNeues_Schnittfenster">
    <property name="text">
-    <string>Neues Schnittfenster</string>
+    <string>New window</string>
    </property>
    <property name="shortcut">
     <string>Q</string>
@@ -537,7 +537,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
      <normaloff>:/objekte/architektur/icons/Wand.svg</normaloff>:/objekte/architektur/icons/Wand.svg</iconset>
    </property>
    <property name="text">
-    <string>Wand</string>
+    <string>Wall</string>
    </property>
    <property name="toolTip">
     <string>Wand</string>
@@ -549,7 +549,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
      <normaloff>:/objekte/architektur/icons/boden_decke.svg</normaloff>:/objekte/architektur/icons/boden_decke.svg</iconset>
    </property>
    <property name="text">
-    <string>Decke/Boden</string>
+    <string>Ceiling/Floor</string>
    </property>
   </action>
   <action name="actionSaeule">
@@ -558,7 +558,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
      <normaloff>:/objekte/architektur/icons/Stütze.svg</normaloff>:/objekte/architektur/icons/Stütze.svg</iconset>
    </property>
    <property name="text">
-    <string>Säule</string>
+    <string>Pillar</string>
    </property>
   </action>
   <action name="actionFenster">
@@ -567,7 +567,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
      <normaloff>:/objekte/architektur/icons/fenster.svg</normaloff>:/objekte/architektur/icons/fenster.svg</iconset>
    </property>
    <property name="text">
-    <string>Fenster</string>
+    <string>Window</string>
    </property>
   </action>
   <action name="actionTuer">
@@ -576,7 +576,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
      <normaloff>:/objekte/architektur/icons/tuer.svg</normaloff>:/objekte/architektur/icons/tuer.svg</iconset>
    </property>
    <property name="text">
-    <string>Tür</string>
+    <string>Door</string>
    </property>
   </action>
   <action name="actionAussparung">
@@ -585,12 +585,12 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
      <normaloff>:/objekte/architektur/icons/Aussparung.svg</normaloff>:/objekte/architektur/icons/Aussparung.svg</iconset>
    </property>
    <property name="text">
-    <string>Aussparung</string>
+    <string>Block out</string>
    </property>
   </action>
   <action name="actionLastEditedProjects">
    <property name="text">
-    <string>Zuletzt bearbeitete Projekte</string>
+    <string>Recent projects</string>
    </property>
   </action>
   <action name="actionPunkt">
@@ -599,7 +599,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
      <normaloff>:/objekte/grundobjekte/icons/point.svg</normaloff>:/objekte/grundobjekte/icons/point.svg</iconset>
    </property>
    <property name="text">
-    <string>Punkt</string>
+    <string>Dot</string>
    </property>
   </action>
   <action name="actionPolylinie">
@@ -608,7 +608,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
      <normaloff>:/objekte/grundobjekte/icons/polyline.svg</normaloff>:/objekte/grundobjekte/icons/polyline.svg</iconset>
    </property>
    <property name="text">
-    <string>Polylinie</string>
+    <string>Ployline</string>
    </property>
   </action>
   <action name="actionBox">
@@ -626,7 +626,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
      <normaloff>:/objekte/grundobjekte/icons/cylinder.svg</normaloff>:/objekte/grundobjekte/icons/cylinder.svg</iconset>
    </property>
    <property name="text">
-    <string>Zylinder</string>
+    <string>Cylinder</string>
    </property>
   </action>
   <action name="actionKugel">
@@ -635,7 +635,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
      <normaloff>:/objekte/grundobjekte/icons/sphere.svg</normaloff>:/objekte/grundobjekte/icons/sphere.svg</iconset>
    </property>
    <property name="text">
-    <string>Kugel</string>
+    <string>Sphere</string>
    </property>
   </action>
  </widget>

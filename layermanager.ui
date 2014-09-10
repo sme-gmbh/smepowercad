@@ -138,7 +138,7 @@ QTreeView {
         <string>Layer</string>
        </property>
        <property name="toolTip">
-        <string>Datei- und Layername</string>
+        <string>Name of the layer</string>
        </property>
        <property name="font">
         <font>
@@ -151,7 +151,7 @@ QTreeView {
         <string/>
        </property>
        <property name="toolTip">
-        <string>Sichtbarkeit des Layers im Designfenster und im Druck</string>
+        <string>Visibility of the Layer</string>
        </property>
        <property name="font">
         <font>
@@ -168,7 +168,7 @@ QTreeView {
         <string/>
        </property>
        <property name="toolTip">
-        <string>Berechtigung, Objekte auf dem Layer zu ändern</string>
+        <string>Permission to edit objects contained by the layer</string>
        </property>
        <property name="font">
         <font>
@@ -182,10 +182,10 @@ QTreeView {
       </column>
       <column>
        <property name="text">
-        <string>Füllfarbe</string>
+        <string>Fill color</string>
        </property>
        <property name="toolTip">
-        <string>Füllfarbe innerhalb von Umrandungsobjekten, z.B. Rechtecken</string>
+        <string>Fill color inside of outlined objects, e.g. rectangles</string>
        </property>
        <property name="font">
         <font>
@@ -195,10 +195,11 @@ QTreeView {
       </column>
       <column>
        <property name="text">
-        <string>Linienfarbe</string>
+        <string>Outline color</string>
        </property>
        <property name="toolTip">
-        <string>Umrandungsfarbe von Objekten, z.B. Rechtecken, Farbe von Linienobjekten</string>
+        <string>Outline color for objects, e.g. rectangles,
+Color of line objects</string>
        </property>
        <property name="font">
         <font>
@@ -208,10 +209,10 @@ QTreeView {
       </column>
       <column>
        <property name="text">
-        <string>Linienstärke</string>
+        <string>Line width</string>
        </property>
        <property name="toolTip">
-        <string>Vorgabestärke von Linien und Umrandungen</string>
+        <string>Default width for lines and outlines</string>
        </property>
        <property name="font">
         <font>
@@ -221,10 +222,10 @@ QTreeView {
       </column>
       <column>
        <property name="text">
-        <string>Linientyp</string>
+        <string>Line type</string>
        </property>
        <property name="toolTip">
-        <string>Muster von Linien oder Umrandungen</string>
+        <string>Pattern of lines or outlines</string>
        </property>
        <property name="font">
         <font>

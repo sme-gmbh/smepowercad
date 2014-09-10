@@ -11,8 +11,13 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = graphicTest
 TEMPLATE = app
 
+OBJECTS_DIR = .obj/
+MOC_DIR = .moc/
+
 LIBS += -lGLU
 
+TRANSLATIONS =  powercad-de_DE.ts \
+                powercad-ru_RU.ts
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -228,4 +233,6 @@ RESOURCES += \
     icons.qrc
 
 OTHER_FILES += \
-    todo.txt
+    todo.txt \
+    powercad-de_DE.ts \
+    powercad-ru_RU.ts
