@@ -296,10 +296,6 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
         {
             if ((mapFromScene(snap_vertex) - mousePos).manhattanLength() < 10)
                 snap_vertex_points.append(mapFromScene(snap_vertex));
-
-            qDebug() << "snap hit; Pos:" << mapFromScene(snap_vertex);
-            qDebug() << "matrix modelview:" << this->matrix_modelview;
-            qDebug() << "matrix projection:" << this->matrix_projection;
         }
 
         if (!snap_vertex_points.isEmpty())
@@ -450,6 +446,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
     }
 
     makeCurrent();
+
     saveGLState();
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -477,8 +474,6 @@ void GLWidget::paintEvent(QPaintEvent *event)
     GLfloat glMatrix_modelview[16];
     GLfloat glMatrix_projection[16];
 
-//    glGetFloatv(GL_MODELVIEW_MATRIX, (GLfloat*)this->matrix_modelview.data());
-//    glGetFloatv(GL_PROJECTION_MATRIX, (GLfloat*)this->matrix_projection.data());
     glGetFloatv(GL_MODELVIEW_MATRIX, glMatrix_modelview);
     glGetFloatv(GL_PROJECTION_MATRIX, glMatrix_projection);
 
@@ -536,6 +531,32 @@ void GLWidget::paintEvent(QPaintEvent *event)
 //    glCallList(tile_list);
 
 
+
+
+    QGLFramebufferObjectFormat format;
+    format.setSamples(4);
+    //format.setAttachment(QGLFramebufferObject::CombinedDepthStencil);
+    QGLFramebufferObject* fbo = new QGLFramebufferObject(512, 512, format);
+
+    QPainter fbo_painter(fbo);
+    fbo_painter.setPen(Qt::cyan);
+    fbo_painter.drawText(30, 30, "Hello World");
+    fbo_painter.end();
+
+    glBindTexture(GL_TEXTURE_2D, fbo->texture());
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glEnable(GL_TEXTURE_2D);
+
+    glColor4ub(255, 0, 0, 255);
+    glCallList(tile_list);
+
+
+
+
+
     paintContent(itemDB->layers);
 
     restoreGLState();
@@ -550,6 +571,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glViewport(0, 0, width(), height());
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 
 
     if (this->cursorShown)
@@ -635,7 +657,8 @@ void GLWidget::paintEvent(QPaintEvent *event)
             {
                 QRect focusRect = QRect(0, 0, 21, 21);
                 focusRect.moveCenter(this->snapPos);
-//                painter.drawRect(focusRect);
+//                painter.setPen(Qt::cyan);
+//                painter.drawRect(focusRect.adjusted(5, 0, 5, 0));
 //                painter.drawText(this->snapPos + QPoint(7, -7), "Endpoint/Vertex");
 
                 glBegin(GL_LINE_LOOP);
@@ -643,6 +666,10 @@ void GLWidget::paintEvent(QPaintEvent *event)
                 glVertex3i(focusRect.bottomRight().x(), focusRect.bottomRight().y(), 0);
                 glVertex3i(focusRect.topRight().x(), focusRect.topRight().y(), 0);
                 glVertex3i(focusRect.topLeft().x(), focusRect.topLeft().y(), 0);
+
+                this->renderText(this->snapPos.x(), this->height() - 1 - this->snapPos.y(),
+                                 "Endpoint/Vertex");
+
                 break;
             }
             case SnapCenter:
@@ -668,6 +695,9 @@ void GLWidget::paintEvent(QPaintEvent *event)
 
     }
 
+
+//    glColor4ub(200, 255, 200, 150);
+//    this->renderText(40, 40, "test");
 
     restoreGLState();
     event->accept();
@@ -1281,6 +1311,8 @@ void GLWidget::paintBasicBox(Layer *layer, CAD_basic_box *item)
             color_brush = color_brush.darker();
         else
             color_brush = color_brush.lighter();
+
+        color_brush.setAlphaF(0.2);
     }
 
     if (this->render_solid)

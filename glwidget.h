@@ -2,6 +2,7 @@
 #define GLWIDGET_H
 
 #include <QGLWidget>
+#include <QGLFramebufferObject>
 #include <QDebug>
 #include <QEvent>
 #include <QPaintEvent>
