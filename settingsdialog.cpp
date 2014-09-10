@@ -142,7 +142,7 @@ void SettingsDialog::loadCategorys()
 
 
     QDomDocument doc;
-    QFile file("../../settings.xml");
+    QFile file("../../src/settings.xml");
     if (!file.open(QFile::ReadOnly))
         return;
 
