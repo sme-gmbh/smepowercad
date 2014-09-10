@@ -16,6 +16,8 @@ MOC_DIR = .moc/
 
 LIBS += -lGLU
 
+TRANSLATIONS =  powercad-de_DE.ts \
+                powercad-ru_RU.ts
 
 SOURCES += main.cpp\
         mainwindow.cpp \

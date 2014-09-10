@@ -88,26 +88,10 @@ MainWindow::MainWindow(QWidget *parent) :
         recentFilesMenu->addAction(action);
     }
     recentFilesMenu->addSeparator();
-    QAction *clear = recentFilesMenu->addAction("Menü leeren");
+    QAction *clear = recentFilesMenu->addAction(tr("Clear menu"));
     connect(clear, SIGNAL(triggered()), this, SLOT(slot_clearRecentFiles()));
     ui->menuDatei->actions().at(1)->setMenu(recentFilesMenu);
     updateRecentFileActions();
-
-
-    /*QAction *last = ui->menuDatei->actions().at(4);
-    for (int i = 0; i < MAX_RECENT_FILES; i++)
-    {
-        QAction *action = new QAction(this);
-        recentFileActs.prepend(action);
-        action->setVisible(false);
-        connect(action, SIGNAL(triggered()), this, SLOT(slot_openRecentFile()));
-        ui->menuDatei->insertAction(last, action);
-        last = action;
-    }
-    updateRecentFileActions();*/
-
-
-
 
 
 
@@ -194,7 +178,7 @@ void MainWindow::slot_file_open_action()
     qDebug() << "slot_file_open_action()";
 
     QString filename;
-    filename = QFileDialog::getOpenFileName(this, "Zeichnung laden", QString(), "dxf-Datei (*.dxf)");
+    filename = QFileDialog::getOpenFileName(this, tr("Load drawing"), QString(), tr("dxf-Datei (*.dxf)"));
 
     if (filename.isEmpty())
         return;

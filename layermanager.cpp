@@ -141,8 +141,8 @@ void LayerManager::on_treeWidget_layer_itemClicked(QTreeWidgetItem *item, int co
     case 3:     // Fillcolor
     {
         QColorDialog colorDialog(layer->brush.color(), this);
-        colorDialog.setWindowTitle("Fillcolor of layer " + layer->name);
-        colorDialog.setStyleSheet("color: rgb(150,150,150);");
+        colorDialog.setWindowTitle(tr("Fillcolor of layer %1").arg(layer->name));
+        //colorDialog.setStyleSheet("color: rgb(150,150,150);");
         colorDialog.setModal(true);
         colorDialog.setOption(QColorDialog::ShowAlphaChannel, true);
         if (colorDialog.exec() == QDialog::Rejected)
@@ -153,7 +153,7 @@ void LayerManager::on_treeWidget_layer_itemClicked(QTreeWidgetItem *item, int co
     case 4:     // Linecolor
     {
         QColorDialog colorDialog(layer->pen.color(), this);
-        colorDialog.setWindowTitle("Linecolor of layer " + layer->name);
+        colorDialog.setWindowTitle(tr("Linecolor of layer %1").arg(layer->name));
         colorDialog.setStyleSheet("color: rgb(150,150,150);");
         colorDialog.setModal(true);
         colorDialog.setOption(QColorDialog::ShowAlphaChannel, true);

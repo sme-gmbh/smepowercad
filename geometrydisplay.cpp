@@ -20,7 +20,7 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, QWidget *parent) :
     connect(titleWidget, SIGNAL(signal_cuttingplane_changed(QString)), this, SLOT(slot_changeCuttingplane(QString)));
     this->setTitleBarWidget(titleWidget);
 
-    this->setWindowTitle("Zeichnung x");
+    this->setWindowTitle(tr("Drawing %1").arg("x"));
 
 
     glwidget = new GLWidget(this, itemDB);
