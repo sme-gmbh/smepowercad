@@ -53,6 +53,5 @@ void GeometryDisplayTitle::on_comboBox_view_currentIndexChanged(const QString &a
 {
     QString str = arg1;
     str.replace(QChar(18, 32), '-');
-    qDebug() << arg1.at(1).row() << arg1.at(1).cell();
     emit signal_cuttingplane_changed(str);
 }

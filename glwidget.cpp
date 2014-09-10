@@ -5,11 +5,12 @@
 GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
     QGLWidget(QGLFormat(QGL::SampleBuffers|QGL::AlphaChannel), parent)
 {
+//    qDebug() << "Created GLWidget";
     this->itemDB = itemDB;
     this->mousePos = QPoint();
 
     this->translationOffset = QPoint();
-    this->zoomFactor = 1000.0;
+    this->zoomFactor = 1.0;
     this->centerOfViewInScene = QVector3D();
     this->displayCenter = QPoint();
     this->cuttingplane = CuttingPlane_nZ;
@@ -21,6 +22,8 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
     this->render_solid = true;
     this->render_outline = true;
     this->cameraPosition = QVector3D();
+    this->matrix_modelview.setToIdentity();
+    this->matrix_projection.setToIdentity();
 
     this->pickActive = false;
     this->cursorShown = true;
@@ -31,9 +34,6 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
     this->setPalette(Qt::transparent);
     this->setAttribute(Qt::WA_TransparentForMouseEvents, false);
 //    this->setAttribute(Qt::WA_OpaquePaintEvent);
-
-    // Create a SnapEngine
-//    this->snapEngine = new SnapEngine(itemDB, this);
 
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat mat_shininess[] = { 50.0 };
@@ -55,9 +55,6 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
     glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.5);
 
     glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
-
-
-
 
     tile_list = glGenLists(1);
     glNewList(tile_list, GL_COMPILE);
@@ -99,21 +96,23 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
 
 GLWidget::~GLWidget()
 {
+//    qDebug() << "GLWidget destroyed";
+
     glDeleteLists(tile_list, 1);
 }
 
-void GLWidget::setup(QPoint translationOffset, qreal zoomFactor, QVector3D centerOfViewInScene, QPoint displayCenter, GLWidget::CuttingPlane cuttingplane, qreal height_of_intersection, qreal depth_of_view, qreal rot_x, qreal rot_y, qreal rot_z)
+QPointF GLWidget::mapFromScene(QVector3D scenePoint)
 {
-    this->translationOffset = translationOffset;
-    this->zoomFactor = zoomFactor;
-    this->centerOfViewInScene = centerOfViewInScene;
-    this->displayCenter = displayCenter;
-    this->cuttingplane = cuttingplane;
-    this->height_of_intersection = height_of_intersection;
-    this->depth_of_view = depth_of_view;
-    this->rot_x = rot_x;
-    this->rot_y = rot_y;
-    this->rot_z = rot_z;
+    QVector4D sceneCoords = QVector4D(scenePoint, 1.0);
+    QVector4D screenCoords;
+
+    screenCoords = matrix_modelview * matrix_projection * sceneCoords;
+    QPointF pixelCoords = screenCoords.toPointF() ;
+
+    pixelCoords.setX(((pixelCoords.x() / 2.0) + 0.5) * this->width());
+    pixelCoords.setY(((pixelCoords.y() / 2.0) + 0.5) * this->height());
+
+    return pixelCoords;
 }
 
 void GLWidget::moveCursor(QPoint pos)
@@ -289,11 +288,38 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     highlightClear();
     highlightItemAtPosition(mousePos);
 
+    // Object Snap
+    if (item_lastHighlight != NULL)
+    {
+        QList<QPointF> snap_vertex_points;
+        foreach (QVector3D snap_vertex, item_lastHighlight->snap_vertices)
+        {
+            if ((mapFromScene(snap_vertex) - mousePos).manhattanLength() < 10)
+                snap_vertex_points.append(mapFromScene(snap_vertex));
+
+            qDebug() << "snap hit; Pos:" << mapFromScene(snap_vertex);
+            qDebug() << "matrix modelview:" << this->matrix_modelview;
+            qDebug() << "matrix projection:" << this->matrix_projection;
+        }
+
+        if (!snap_vertex_points.isEmpty())
+        {
+            this->set_snap_mode(GLWidget::SnapEndpoint);
+            this->set_snapPos(snap_vertex_points.at(0).toPoint());
+        }
+        else
+        {
+            this->set_snap_mode(GLWidget::SnapNo);
+        }
+    }
+    else
+    {
+        this->set_snap_mode(GLWidget::SnapNo);
+    }
 
     this->cursorShown = true;
 
     slot_repaint();
-
     event->accept();
 }
 
@@ -415,6 +441,12 @@ void GLWidget::resizeEvent(QResizeEvent *event)
 
 void GLWidget::paintEvent(QPaintEvent *event)
 {
+    if (event->rect().isNull())
+    {
+        event->accept();
+        return;
+    }
+
     makeCurrent();
     saveGLState();
 
@@ -422,14 +454,14 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    //glFrustum(-(double)this->width(), (double)this->width(), -(double)this->height(), (double)this->height(), this->width(), 1000000);
     GLfloat screenRatio = (qreal)this->width() / (qreal)this->height();
-    glOrtho(-100000 * screenRatio, 100000 * screenRatio, -100000, 100000, -100000, 100000);
-    glTranslatef(cameraPosition.x(), cameraPosition.y(), cameraPosition.z());
+    //glOrtho(-10 * screenRatio, 10 * screenRatio, -10, 10, -100000, 100000);
+    //glTranslatef(cameraPosition.x(), cameraPosition.y(), cameraPosition.z());
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    //glLoadMatrixd();
-    glViewport(translationOffset.x(), translationOffset.y(), width(), height());
+    glViewport(0.0, 0.0, width(), height());
+    glTranslatef((qreal)translationOffset.x() / (qreal)this->width() * 2, (qreal)translationOffset.y() / (qreal)this->height() * 2, 0);
+    glScalef(this->zoomFactor / screenRatio, this->zoomFactor, this->zoomFactor);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -439,7 +471,55 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glRotatef(rot_x, 1.0f, 0.0f, 0.0f);
     glRotatef(rot_y, 0.0f, 1.0f, 0.0f);
     glRotatef(rot_z, 0.0f, 0.0f, 1.0f);
-    glScaled(this->zoomFactor, this->zoomFactor, this->zoomFactor);
+
+    GLfloat glMatrix_modelview[16];
+    GLfloat glMatrix_projection[16];
+
+//    glGetFloatv(GL_MODELVIEW_MATRIX, (GLfloat*)this->matrix_modelview.data());
+//    glGetFloatv(GL_PROJECTION_MATRIX, (GLfloat*)this->matrix_projection.data());
+    glGetFloatv(GL_MODELVIEW_MATRIX, glMatrix_modelview);
+    glGetFloatv(GL_PROJECTION_MATRIX, glMatrix_projection);
+
+    this->matrix_modelview = QMatrix4x4(
+            glMatrix_modelview[0],
+            glMatrix_modelview[1],
+            glMatrix_modelview[2],
+            glMatrix_modelview[3],
+            glMatrix_modelview[4],
+            glMatrix_modelview[5],
+            glMatrix_modelview[6],
+            glMatrix_modelview[7],
+            glMatrix_modelview[8],
+            glMatrix_modelview[9],
+            glMatrix_modelview[10],
+            glMatrix_modelview[11],
+            glMatrix_modelview[12],
+            glMatrix_modelview[13],
+            glMatrix_modelview[14],
+            glMatrix_modelview[15]
+            );
+    this->matrix_modelview = this->matrix_modelview.transposed();
+
+    this->matrix_projection = QMatrix4x4(
+            glMatrix_projection[0],
+            glMatrix_projection[1],
+            glMatrix_projection[2],
+            glMatrix_projection[3],
+            glMatrix_projection[4],
+            glMatrix_projection[5],
+            glMatrix_projection[6],
+            glMatrix_projection[7],
+            glMatrix_projection[8],
+            glMatrix_projection[9],
+            glMatrix_projection[10],
+            glMatrix_projection[11],
+            glMatrix_projection[12],
+            glMatrix_projection[13],
+            glMatrix_projection[14],
+            glMatrix_projection[15]
+            );
+
+    this->matrix_projection = this->matrix_projection.transposed();
 
     glDepthFunc(GL_LEQUAL);
     glEnable(GL_DEPTH_TEST);
@@ -468,6 +548,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glViewport(0, 0, width(), height());
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 
     if (this->cursorShown)
     {
@@ -535,6 +616,11 @@ void GLWidget::paintEvent(QPaintEvent *event)
             {
             case SnapBasepoint:
             {
+
+
+
+
+
 //                QRect focusRect = QRect(0, 0, 3, 3);
 //                focusRect.moveCenter(this->snapPos);
 //                painter.drawRect(focusRect);
@@ -545,7 +631,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
             }
             case SnapEndpoint:
             {
-                QRect focusRect = QRect(0, 0, 11, 11);
+                QRect focusRect = QRect(0, 0, 21, 21);
                 focusRect.moveCenter(this->snapPos);
 //                painter.drawRect(focusRect);
 //                painter.drawText(this->snapPos + QPoint(7, -7), "Endpoint/Vertex");
@@ -621,19 +707,11 @@ void GLWidget::restoreGLState()
     glPopAttrib();
 }
 
-
 void GLWidget::paintContent(QList<Layer*> layers)
 {
     quint32 glName = 0;
 
-//    glBegin(GL_TRIANGLES);
-//    glVertex3f(-30000.0, -2.0, 0.0);
-//    glVertex3f( 30000.0, -2.0, 0.0);
-//    glVertex3f( 0000.0, 2000.0, 0.0);
-//    glEnd();
-
-
-//    qDebug() << "GeometryRenderengine::paintContent: painting"<< layers.count() << "layers...";
+//    qDebug() << "GLWidget::paintContent: painting"<< layers.count() << "layers...";
     foreach (Layer* layer, layers)
     {
         if (!layer->on)
@@ -1753,7 +1831,8 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
 
     saveGLState();
 
-    glViewport(translationOffset.x(), translationOffset.y(), width(), height());
+    //    glViewport(translationOffset.x(), translationOffset.y(), width(), height());
+    glViewport(0, 0, width(), height());
     glGetIntegerv(GL_VIEWPORT, viewport);
     glSelectBuffer(HITBUFFER_SIZE, buffer);
     glRenderMode(GL_SELECT);
@@ -1767,21 +1846,20 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
     gluPickMatrix((GLdouble)pos.x(), (GLdouble)pos.y(), 11.0, 11.0, viewport);
 
     GLfloat screenRatio = (qreal)this->width() / (qreal)this->height();
-    glOrtho(-100000 * screenRatio, 100000 * screenRatio, -100000, 100000, -100000, 100000);
-    glTranslatef(cameraPosition.x(), cameraPosition.y(), cameraPosition.z());
+//    glTranslatef(cameraPosition.x(), cameraPosition.y(), cameraPosition.z());
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-//    glViewport(0, 0, width(), height());
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glEnable(GL_MULTISAMPLE);
     glDisable(GL_CULL_FACE);
 
+    glTranslatef((qreal)translationOffset.x() / (qreal)this->width() * 2, (qreal)translationOffset.y() / (qreal)this->height() * 2, 0);
+    glScaled(this->zoomFactor / screenRatio, this->zoomFactor, this->zoomFactor);
     glRotatef(rot_x, 1.0f, 0.0f, 0.0f);
     glRotatef(rot_y, 0.0f, 1.0f, 0.0f);
     glRotatef(rot_z, 0.0f, 0.0f, 1.0f);
-    glScaled(this->zoomFactor, this->zoomFactor, this->zoomFactor);
 
     glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
@@ -1880,11 +1958,13 @@ void GLWidget::highlightItemAtPosition(QPoint pos)
     if (item == NULL)
         return;
 
+    this->item_lastHighlight = item;
     item->highlight = true;
 }
 
 void GLWidget::highlightClear()
 {
+    this->item_lastHighlight = NULL;
     highlightClear_processLayers(itemDB->layers);
 }
 

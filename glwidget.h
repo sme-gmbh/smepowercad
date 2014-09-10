@@ -26,7 +26,7 @@ public:
     explicit GLWidget(QWidget *parent, ItemDB *itemDB);
     ~GLWidget();
 
-    void setup(QPoint translationOffset, qreal zoomFactor, QVector3D centerOfViewInScene, QPoint displayCenter, CuttingPlane cuttingplane, qreal height_of_intersection, qreal depth_of_view, qreal rot_x, qreal rot_y, qreal rot_z);
+    QPointF mapFromScene(QVector3D scenePoint);
 
     // Overlay
     void moveCursor(QPoint pos);
@@ -57,6 +57,9 @@ private:
     QVector3D cameraPosition;
     float rot_x, rot_y, rot_z;
 
+    QMatrix4x4 matrix_projection;
+    QMatrix4x4 matrix_modelview;
+
     bool render_solid;
     bool render_outline;
 
@@ -73,6 +76,7 @@ private:
     QPoint snapPos;
 
     SnapEngine* snapEngine;
+    CADitem* item_lastHighlight;
 
 
     // OpenGL

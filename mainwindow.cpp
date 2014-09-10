@@ -121,14 +121,17 @@ MainWindow::MainWindow(QWidget *parent) :
     layer->width = 1;
 
     CAD_basic_box* box = new CAD_basic_box();
+    box->calculate();
     itemDB->addItem(box, "Testlayer");
 
     CAD_basic_circle* circle = new CAD_basic_circle();
     circle->center = QVector3D(-2.0, 0.0, 0.0);
+    circle->calculate();
     itemDB->addItem(circle, "Testlayer");
 
     CAD_basic_cylinder* cylinder = new CAD_basic_cylinder();
     cylinder->center_base = QVector3D(3.0, 0.0, 0.0);
+    cylinder->calculate();
     itemDB->addItem(cylinder, "Testlayer");
 
     this->layerManager->updateAllLayers();

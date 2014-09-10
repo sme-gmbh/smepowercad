@@ -40,7 +40,7 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, QWidget *parent) :
 
 GeometryDisplay::~GeometryDisplay()
 {
-    delete this->glwidget;
+    //delete this->glwidget;
 
     qDebug() << "GeometryDisplay destroyed";
 }

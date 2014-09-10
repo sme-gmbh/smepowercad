@@ -14,5 +14,12 @@ CAD_basic_box::CAD_basic_box() : CADitem(CADitem::Basic_Box)
 
 void CAD_basic_box::calculate()
 {
-
+    this->snap_vertices.append(pos_bot_1);
+    this->snap_vertices.append(pos_bot_2);
+    this->snap_vertices.append(pos_bot_3);
+    this->snap_vertices.append(pos_bot_4);
+    this->snap_vertices.append(pos_top_1);
+    this->snap_vertices.append(pos_top_2);
+    this->snap_vertices.append(pos_top_3);
+    this->snap_vertices.append(pos_top_4);
 }
