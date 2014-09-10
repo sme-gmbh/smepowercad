@@ -123,6 +123,7 @@ public:
 
     // data types tbd.
     ItemType getType();
+    QString description;
     QString layer;
     QColor color_pen;       // Transparent means "BYLAYER"
     QColor color_brush;       // Transparent means "BYLAYER"
@@ -134,6 +135,7 @@ public:
     // Object Snap
     QList<QVector3D> snap_center;
     QList<QVector3D> snap_vertices;
+    QVector3D snap_basepoint;
 
     // Highlighting
     bool highlight;

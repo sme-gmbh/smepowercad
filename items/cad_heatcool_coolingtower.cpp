@@ -2,6 +2,7 @@
 
 CAD_heatcool_coolingTower::CAD_heatcool_coolingTower() : CADitem(CADitem::HeatCool_CoolingTower)
 {
+    this->description = "Heat/Cool|Coolingtower";
 }
 
 void CAD_heatcool_coolingTower::calculate()

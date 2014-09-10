@@ -4,6 +4,8 @@
 
 CAD_basic_3Dface::CAD_basic_3Dface() : CADitem(CADitem::Basic_Face)
 {
+    this->description = "Basic|3D face";
+
 }
 
 void CAD_basic_3Dface::calculate()
@@ -28,6 +30,7 @@ void CAD_basic_3Dface::calculate()
             max_y = vertex.pos.y();
             max_z = vertex.pos.z();
             this->position = vertex.pos;
+            this->snap_basepoint = vertex.pos;
         }
         else
         {

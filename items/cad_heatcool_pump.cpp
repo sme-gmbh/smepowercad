@@ -2,6 +2,8 @@
 
 CAD_heatcool_pump::CAD_heatcool_pump() : CADitem(CADitem::HeatCool_Pump)
 {
+    this->description = "Heat/Cool|Pump";
+
 }
 
 void CAD_heatcool_pump::calculate()

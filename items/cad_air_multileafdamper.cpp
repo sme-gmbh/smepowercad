@@ -2,6 +2,8 @@
 
 CAD_air_multiLeafDamper::CAD_air_multiLeafDamper() : CADitem(CADitem::Air_MultiLeafDamper)
 {
+    this->description = "Air|Mulit leaf damper";
+
 }
 
 void CAD_air_multiLeafDamper::calculate()

@@ -2,6 +2,8 @@
 
 CAD_electrical_cableTray::CAD_electrical_cableTray() : CADitem(CADitem::Electrical_CableTray)
 {
+    this->description = "Electrical|Cabletray";
+
 }
 
 void CAD_electrical_cableTray::calculate()

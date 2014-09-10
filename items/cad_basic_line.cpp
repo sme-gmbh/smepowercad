@@ -4,6 +4,8 @@
 
 CAD_basic_line::CAD_basic_line() : CADitem(CADitem::Basic_Line)
 {
+    this->description = "Basic|Line";
+
     widthByLayer = false;
     widthByBlock = false;
 }
@@ -18,4 +20,6 @@ void CAD_basic_line::calculate()
 //    this->snap_center = ((M3dVector)(M3dVector(p1) *0.5 + M3dVector(p2) * 0,5)).toM3dPoint();
     this->snap_vertices.append(p1);
     this->snap_vertices.append(p2);
+
+    this->snap_center.append((p1 + p2) / 2.0);
 }
