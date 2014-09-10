@@ -298,10 +298,22 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
                 snap_vertex_points.append(mapFromScene(snap_vertex));
         }
 
+        QList<QPointF> snap_center_points;
+        foreach (QVector3D snap_center, item_lastHighlight->snap_center)
+        {
+            if ((mapFromScene(snap_center) - mousePos).manhattanLength() < 10)
+                snap_center_points.append(mapFromScene(snap_center));
+        }
+
         if (!snap_vertex_points.isEmpty())
         {
             this->set_snap_mode(GLWidget::SnapEndpoint);
             this->set_snapPos(snap_vertex_points.at(0).toPoint());
+        }
+        else if (!snap_center_points.isEmpty())
+        {
+            this->set_snap_mode(GLWidget::SnapCenter);
+            this->set_snapPos(snap_center_points.at(0).toPoint());
         }
         else
         {
@@ -657,31 +669,29 @@ void GLWidget::paintEvent(QPaintEvent *event)
             {
                 QRect focusRect = QRect(0, 0, 21, 21);
                 focusRect.moveCenter(this->snapPos);
-//                painter.setPen(Qt::cyan);
-//                painter.drawRect(focusRect.adjusted(5, 0, 5, 0));
-//                painter.drawText(this->snapPos + QPoint(7, -7), "Endpoint/Vertex");
-
                 glBegin(GL_LINE_LOOP);
                 glVertex3i(focusRect.bottomLeft().x(), focusRect.bottomLeft().y(), 0);
                 glVertex3i(focusRect.bottomRight().x(), focusRect.bottomRight().y(), 0);
                 glVertex3i(focusRect.topRight().x(), focusRect.topRight().y(), 0);
                 glVertex3i(focusRect.topLeft().x(), focusRect.topLeft().y(), 0);
-
-                this->renderText(this->snapPos.x(), this->height() - 1 - this->snapPos.y(),
+                glEnd();
+                this->renderText(focusRect.right() + 5, this->height() - 1 - (focusRect.bottom() + 5),
                                  "Endpoint/Vertex");
-
                 break;
             }
             case SnapCenter:
             {
-//                QRect focusRect = QRect(0, 0, 3, 3);
-//                focusRect.moveCenter(this->snapPos);
-//                painter.drawRect(focusRect);
+                QRect focusRect = QRect(0, 0, 21, 21);
+                focusRect.moveCenter(this->snapPos);
 
-//                painter.drawLine(this->snapPos - QPoint(5, -5), this->snapPos + QPoint(5, -5));
-//                painter.drawText(this->snapPos + QPoint(7, -7), "Center");
-
-
+                glBegin(GL_LINES);
+                glVertex2i(focusRect.left(), focusRect.top());
+                glVertex2i(focusRect.right(), focusRect.bottom());
+                glVertex2i(this->snapPos.x() - 5, this->snapPos.y() + 5);
+                glVertex2i(this->snapPos.x() + 5, this->snapPos.y() - 5);
+                glEnd();
+                this->renderText(focusRect.right() + 5, this->height() - 1 - (focusRect.bottom() + 5),
+                                 "Center");
                 break;
             }
             case SnapNo:
@@ -690,14 +700,10 @@ void GLWidget::paintEvent(QPaintEvent *event)
             }
             }
 
-            glEnd();
+
         }
 
     }
-
-
-//    glColor4ub(200, 255, 200, 150);
-//    this->renderText(40, 40, "test");
 
     restoreGLState();
     event->accept();

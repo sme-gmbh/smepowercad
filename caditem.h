@@ -132,7 +132,7 @@ public:
     QList<CADitem*> subItems;
 
     // Object Snap
-    QVector3D snap_center;
+    QList<QVector3D> snap_center;
     QList<QVector3D> snap_vertices;
 
     // Highlighting

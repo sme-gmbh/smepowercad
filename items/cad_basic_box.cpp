@@ -22,4 +22,20 @@ void CAD_basic_box::calculate()
     this->snap_vertices.append(pos_top_2);
     this->snap_vertices.append(pos_top_3);
     this->snap_vertices.append(pos_top_4);
+
+    // Bottom edge centers
+    this->snap_center.append((pos_bot_1 + pos_bot_2) / 2.0);
+    this->snap_center.append((pos_bot_2 + pos_bot_3) / 2.0);
+    this->snap_center.append((pos_bot_3 + pos_bot_4) / 2.0);
+    this->snap_center.append((pos_bot_4 + pos_bot_1) / 2.0);
+    // Top edge centers
+    this->snap_center.append((pos_top_1 + pos_top_2) / 2.0);
+    this->snap_center.append((pos_top_2 + pos_top_3) / 2.0);
+    this->snap_center.append((pos_top_3 + pos_top_4) / 2.0);
+    this->snap_center.append((pos_top_4 + pos_top_1) / 2.0);
+    // Connection edge centers
+    this->snap_center.append((pos_bot_1 + pos_top_1) / 2.0);
+    this->snap_center.append((pos_bot_2 + pos_top_2) / 2.0);
+    this->snap_center.append((pos_bot_3 + pos_top_3) / 2.0);
+    this->snap_center.append((pos_bot_4 + pos_top_4) / 2.0);
 }
