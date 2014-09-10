@@ -441,6 +441,11 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glRotatef(rot_z, 0.0f, 0.0f, 1.0f);
     glScaled(this->zoomFactor, this->zoomFactor, this->zoomFactor);
 
+    QMatrix4x4 view, proj;
+    GLfloat moep[16];
+    glGetFloatv(GL_MODELVIEW_MATRIX, moep);
+    qDebug() << moep[15];
+
     glDepthFunc(GL_LEQUAL);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_ALPHA_TEST);

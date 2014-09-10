@@ -11,6 +11,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = graphicTest
 TEMPLATE = app
 
+OBJECTS_DIR = .obj/
+MOC_DIR = .moc/
+
 LIBS += -lGLU
 
 
