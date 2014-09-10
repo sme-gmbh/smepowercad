@@ -18,8 +18,8 @@ RCC_DIR = .rcc/
 
 LIBS += -lGLU
 
-TRANSLATIONS =  powercad-de_DE.ts \
-                powercad-ru_RU.ts
+TRANSLATIONS =  lang/powercad-de_DE.ts \
+                lang/powercad-ru_RU.ts
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -236,5 +236,7 @@ RESOURCES += \
 
 OTHER_FILES += \
     todo.txt \
-    powercad-de_DE.ts \
-    powercad-ru_RU.ts
+    lang/powercad-de_DE.ts \
+    lang/powercad-ru_RU.ts \
+    lang/powercad-de_DE.qm \
+    lang/powercad-ru_RU.qm
