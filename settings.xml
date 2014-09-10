@@ -9,7 +9,7 @@
 			<attribute name="cursorSize" desc="" type="int" value="4500" min="20" max="4500" />
 			<attribute name="cursorPickboxSize" desc="" type="int" value="2" min="2" max="20" />
 		</page>
-		<page name="Fang">
+		<page name="Snap">
 			<attribute name="fangIndikatorSize" desc="" type="int" value="10" min="5" max="15" />
 		</page>
 	</category>
