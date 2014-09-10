@@ -561,7 +561,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
     QGLFramebufferObjectFormat format;
     format.setSamples(4);
     //format.setAttachment(QGLFramebufferObject::CombinedDepthStencil);
-    QGLFramebufferObject* fbo = new QGLFramebufferObject(512, 512, format);
+    QGLFramebufferObject* fbo = new QGLFramebufferObject(50, 50, format);
 
     QPainter fbo_painter(fbo);
     fbo_painter.setPen(Qt::cyan);
@@ -575,8 +575,8 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glEnable(GL_TEXTURE_2D);
 
-    glColor4ub(255, 0, 0, 255);
-    glCallList(tile_list);
+//    glColor4ub(255, 0, 0, 255);
+//    glCallList(tile_list);
 
 
 
