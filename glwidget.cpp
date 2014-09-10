@@ -723,11 +723,6 @@ void GLWidget::paintEvent(QPaintEvent *event)
 
     }
 
-<<<<<<< HEAD
-    this->renderText(40, 40, 0, "gugu");
-
-=======
->>>>>>> 51c9941fd1db8a9afa906ea44d3026005bc4037d
     restoreGLState();
     event->accept();
 }
