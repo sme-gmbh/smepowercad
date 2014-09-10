@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     QString locale = QLocale::system().name();
-    qDebug() << locale; // de_DE , en_US, ru_RU
+    qDebug("Locale: " + locale.toUtf8()); // de_DE , en_US, ru_RU
 
     QTranslator translator;
     translator.load("powercad-de_DE");
