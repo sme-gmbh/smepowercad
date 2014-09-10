@@ -233,4 +233,6 @@ RESOURCES += \
     icons.qrc
 
 OTHER_FILES += \
-    todo.txt
+    todo.txt \
+    powercad-de_DE.ts \
+    powercad-ru_RU.ts
