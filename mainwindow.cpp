@@ -353,3 +353,30 @@ void MainWindow::slot_geometryDisplayAboutToClose(QAction *action)
 {
     ui->menuFenster->removeAction(action);
 }
+
+void MainWindow::on_actionAbout_OpenGL_triggered()
+{
+    ModalDialog *dialog = new ModalDialog(tr("About OpenGL"), mainGeometryDisplay->getOpenGLinfo(), this);
+    dialog->exec();
+    delete dialog;
+}
+
+void MainWindow::on_actionAbout_triggered()
+{
+    QMap<QString, QString> about;
+    about.insert("moep", "gugugugugug");
+    about.insert("foo", "gugugugugug");
+    about.insert("bar", "gugugugugug");
+    about.insert("asdf", "gugugugugug");
+
+    ModalDialog *dialog = new ModalDialog(tr("About SME-PowerCAD"), about, this);
+    dialog->exec();
+    delete dialog;
+}
+
+void MainWindow::on_actionSettings_triggered()
+{
+    SettingsDialog *dialog = new SettingsDialog(this);
+    dialog->exec();
+    delete dialog;
+}

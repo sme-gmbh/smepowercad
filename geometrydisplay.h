@@ -43,6 +43,7 @@ public:
     QPointF mapFromScene(QVector3D scenePoint);
 
     void hideButtons();
+    QMap<QString, QString> getOpenGLinfo();
 
 private:
     GeometryDisplayTitle *titleWidget;

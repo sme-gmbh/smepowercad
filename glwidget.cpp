@@ -35,6 +35,8 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
     this->setAttribute(Qt::WA_TransparentForMouseEvents, false);
 //    this->setAttribute(Qt::WA_OpaquePaintEvent);
 
+    makeCurrent();
+
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat mat_shininess[] = { 50.0 };
     glShadeModel (GL_FLAT);
@@ -192,6 +194,20 @@ void GLWidget::set_WorldRotation(float rot_x, float rot_y, float rot_z)
     this->rot_y = rot_y;
     this->rot_z = rot_z;
     slot_repaint();
+}
+
+QMap<QString, QString> GLWidget::getOpenGLinfo()
+{
+    makeCurrent();
+
+    // get OpenGL info
+    QMap<QString, QString> ret;
+    ret.insert("Vendor", QString((const char*)glGetString(GL_VENDOR)));
+    ret.insert("Renderer", QString((const char*)glGetString(GL_RENDERER)));
+    ret.insert("Version", QString((const char*)glGetString(GL_VERSION)));
+    ret.insert("GLSL Version", QString((const char*)glGetString(GL_SHADING_LANGUAGE_VERSION)));
+
+    return ret;
 }
 
 void GLWidget::wheelEvent(QWheelEvent* event)
@@ -668,6 +684,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
 
     }
 
+    this->renderText(40, 40, 0, "gugu");
 
     restoreGLState();
     event->accept();

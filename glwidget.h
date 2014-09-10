@@ -43,6 +43,8 @@ public:
     void set_snapPos(QPoint snapPos);
     void set_WorldRotation(float rot_x, float rot_y, float rot_z);
 
+    QMap<QString, QString> getOpenGLinfo();
+
 private:
     ItemDB* itemDB;
     QPoint mousePosOld;

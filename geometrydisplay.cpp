@@ -51,6 +51,11 @@ void GeometryDisplay::hideButtons()
     titleWidget->hideButtons();
 }
 
+QMap<QString, QString> GeometryDisplay::getOpenGLinfo()
+{
+    return glwidget->getOpenGLinfo();
+}
+
 void GeometryDisplay::paintEvent(QPaintEvent *event)
 {
     event->accept();

@@ -22,6 +22,9 @@
 #include "itemdb.h"
 #include "geometrydisplay.h"
 
+#include "modaldialog.h"
+#include "settingsdialog.h"
+
 #define MAX_RECENT_FILES 5
 
 namespace Ui {
@@ -77,6 +80,12 @@ private slots:
     void on_prompt_input_returnPressed();
     void slot_openRecentFile();
     void slot_clearRecentFiles();
+
+    void on_actionAbout_OpenGL_triggered();
+
+    void on_actionAbout_triggered();
+
+    void on_actionSettings_triggered();
 
 signals:
     void signal_command_prompt_input(QString str);

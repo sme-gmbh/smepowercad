@@ -38,4 +38,5 @@
         <file>icons/solid.svg</file>
         <file>icons/wireframe.svg</file>
     </qresource>
+    <qresource prefix="/settings"/>
 </RCC>

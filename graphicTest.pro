@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl svg
+QT       += core gui opengl svg xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -118,7 +118,9 @@ SOURCES += main.cpp\
     items/cad_arch_support.cpp \
     items/cad_arch_beam.cpp \
     items/cad_heatcool_radiator.cpp \
-    items/cad_heatcool_flowmeter.cpp
+    items/cad_heatcool_flowmeter.cpp \
+    modaldialog.cpp \
+    settingsdialog.cpp
 
 HEADERS  += mainwindow.h \
     overlay.h \
@@ -225,11 +227,15 @@ HEADERS  += mainwindow.h \
     items/cad_arch_support.h \
     items/cad_arch_beam.h \
     items/cad_heatcool_radiator.h \
-    items/cad_heatcool_flowmeter.h
+    items/cad_heatcool_flowmeter.h \
+    modaldialog.h \
+    settingsdialog.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
-    geometrydisplaytitle.ui
+    geometrydisplaytitle.ui \
+    modaldialog.ui \
+    settingsdialog.ui
 
 RESOURCES += \
     icons.qrc
