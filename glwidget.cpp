@@ -292,6 +292,8 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
     this->cursorShown = true;
 
+    emit signal_mouseMoved(QVector3D(mousePos.x(), mousePos.y(), 0));
+
     slot_repaint();
 
     event->accept();
@@ -440,11 +442,6 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glRotatef(rot_y, 0.0f, 1.0f, 0.0f);
     glRotatef(rot_z, 0.0f, 0.0f, 1.0f);
     glScaled(this->zoomFactor, this->zoomFactor, this->zoomFactor);
-
-    QMatrix4x4 view, proj;
-    GLfloat moep[16];
-    glGetFloatv(GL_MODELVIEW_MATRIX, moep);
-    qDebug() << moep[15];
 
     glDepthFunc(GL_LEQUAL);
     glEnable(GL_DEPTH_TEST);

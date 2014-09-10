@@ -190,6 +190,7 @@ protected:
 
 
 signals:
+    void signal_mouseMoved(QVector3D coords);
 
 public slots:
     void slot_repaint();

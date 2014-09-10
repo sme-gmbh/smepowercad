@@ -28,11 +28,12 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, QWidget *parent) :
     connect(this, SIGNAL(signal_repaintNeeded()), glwidget, SLOT(slot_repaint()));
     connect(titleWidget, SIGNAL(signal_wireframe(bool)), glwidget, SLOT(slot_wireframe(bool)));
     connect(titleWidget, SIGNAL(signal_solid(bool)), glwidget, SLOT(slot_solid(bool)));
+    connect(glwidget, SIGNAL(signal_mouseMoved(QVector3D)), titleWidget, SLOT(slot_sceneCoordinatesChanged(QVector3D)));
 
     this->resize(400, 250);
     this->setFloating(false);
     this->setMinimumSize(400, 250);
-    this->setMaximumSize(4096, 3072);   // 4k ultra hd
+    this->setMaximumSize(4096, 3072);   // 4k
     this->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 
     this->setMouseTracking(true);
