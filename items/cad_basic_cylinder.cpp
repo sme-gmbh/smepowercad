@@ -2,6 +2,7 @@
 
 CAD_basic_cylinder::CAD_basic_cylinder() : CADitem(CADitem::Basic_Cylinder)
 {
+    this->description = "Basic|Cylinder";
     radius = 1.0;
     center_base = QVector3D();
     height = 1.0;
@@ -12,5 +13,5 @@ CAD_basic_cylinder::CAD_basic_cylinder() : CADitem(CADitem::Basic_Cylinder)
 
 void CAD_basic_cylinder::calculate()
 {
-
+    this->snap_basepoint = this->center_base;
 }

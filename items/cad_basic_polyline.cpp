@@ -4,6 +4,8 @@
 
 CAD_basic_polyline::CAD_basic_polyline() : CADitem(CADitem::Basic_Polyline)
 {
+    this->description = "Basic|Polyline";
+
     this->widthByBlock = false;
     this->widthByLayer = true;
 }

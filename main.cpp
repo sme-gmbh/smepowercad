@@ -5,6 +5,7 @@
 
 int main(int argc, char *argv[])
 {
+    QGL::setPreferredPaintEngine(QPaintEngine::OpenGL);
     QApplication a(argc, argv);
 
     QString locale = QLocale::system().name();

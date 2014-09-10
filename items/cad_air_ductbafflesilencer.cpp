@@ -2,6 +2,8 @@
 
 CAD_air_ductBaffleSilencer::CAD_air_ductBaffleSilencer() : CADitem(CADitem::Air_DuctBaffleSilencer)
 {
+    this->description = "Air|Duct baffle silencer";
+
 }
 
 void CAD_air_ductBaffleSilencer::calculate()

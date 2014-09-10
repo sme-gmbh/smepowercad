@@ -2,11 +2,14 @@
 #define GLWIDGET_H
 
 #include <QGLWidget>
+#include <QGLFramebufferObject>
 #include <QDebug>
 #include <QEvent>
 #include <QPaintEvent>
 #include <QMatrix4x4>
 #include <QMessageBox>
+#include <QFont>
+#include <QFontMetrics>
 
 #include <qmath.h>
 #include <qgl.h>
@@ -40,7 +43,7 @@ public:
     enum SnapMode{SnapNo, SnapEndpoint, SnapCenter, SnapBasepoint};
     void snap_enable(bool on);
     void set_snap_mode(SnapMode mode);
-    void set_snapPos(QPoint snapPos);
+    void set_snapPos(QVector3D snapPos_screen);
     void set_WorldRotation(float rot_x, float rot_y, float rot_z);
 
     QMap<QString, QString> getOpenGLinfo();
@@ -75,7 +78,8 @@ private:
     bool pickActive;
     bool cursorShown;
     SnapMode snapMode;
-    QPoint snapPos;
+    QPoint snapPos_screen;
+    QVector3D snapPos_scene;
 
     SnapEngine* snapEngine;
     CADitem* item_lastHighlight;
@@ -88,6 +92,7 @@ private:
     void paintContent(QList<Layer*> layers);
 
 
+    void paintTextInfoBox(QPoint pos, QString text, QFont font = QFont(), QColor colorText = QColor(Qt::red), QColor colorBackground = QColor(0, 0, 0, 150), QColor colorOutline = QColor(200, 200, 200, 150));
     void paintLine(Layer* layer, CAD_basic_line* item);
     void paintPolyLine(Layer *layer, CAD_basic_polyline *item);
     void paintFace(Layer *layer, CAD_basic_3Dface *item);

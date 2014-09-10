@@ -2,6 +2,8 @@
 
 CAD_air_filter::CAD_air_filter() : CADitem(CADitem::Air_Filter)
 {
+    this->description = "Air|Filter";
+
 }
 
 void CAD_air_filter::calculate()

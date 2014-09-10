@@ -28,6 +28,7 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
     this->pickActive = false;
     this->cursorShown = true;
     this->snapMode = SnapCenter;
+    this->item_lastHighlight = NULL;
 
     this->setMouseTracking(true);
 
@@ -183,9 +184,10 @@ void GLWidget::set_snap_mode(SnapMode mode)
     this->snapMode = mode;
 }
 
-void GLWidget::set_snapPos(QPoint snapPos)
+void GLWidget::set_snapPos(QVector3D snapPos)
 {
-    this->snapPos = snapPos;
+    this->snapPos_screen = this->mapFromScene(snapPos).toPoint();
+    this->snapPos_scene = snapPos;
 }
 
 void GLWidget::set_WorldRotation(float rot_x, float rot_y, float rot_z)
@@ -263,12 +265,6 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     if (event->buttons() == Qt::MidButton)
     {
         translationOffset += mouseMoveDelta;
-
-//        centerOfViewInScene = mapToScene(displayCenter - (mouseMoveDelta));
-
-//        qreal deltaZoom_inv = zoomFactor_atCurrentFrame / zoomFactor;         // Fraction of zoom of last rendered frame in relation to current zoom
-//        frameBufferSourceRect.translate(- mouseMoveDelta.x() * deltaZoom_inv, - mouseMoveDelta.y() * deltaZoom_inv);
-//    slot_repaint();
     }
 
     if (event->buttons() == Qt::RightButton)
@@ -282,23 +278,12 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 //        rot_y += dx * cos(rot_x*PI/180.0) * cos(rot_z*PI/180.0) + dy * sin(rot_z*PI/180.0);
         //rot_z += dx + dy;
 
+        // Todo: calculate arcball math here
+
         rot_x += -dy;
         rot_y += -dx;
     }
-/*
-    snapEngine->setUp(zoomFactor, centerOfViewInScene, displayCenter, (SnapEngine::CuttingPlane)cuttingplane, height_of_intersection, depth_of_view);
-    snapEngine->snapProcessing(itemDB->layers, mousePos);
-    if (!snapEngine->snap_vertex_points.isEmpty())
-    {
-        QPointF snapPoint = snapEngine->snap_vertex_points.at(0);
-        this->set_snap_mode(GLWidget::SnapEndpoint);
-        this->set_snapPos(snapPoint.toPoint());
-    }
-    else
-    {
-        this->set_snap_mode(GLWidget::SnapNo);
-    }
-*/
+
 
     // Item highlighting (experimental)
     highlightClear();
@@ -307,21 +292,41 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     // Object Snap
     if (item_lastHighlight != NULL)
     {
-        QList<QPointF> snap_vertex_points;
+        // Basepoint snap
+        QList<QVector3D> snap_basepoints;
+        if ((mapFromScene(item_lastHighlight->snap_basepoint) - mousePos).manhattanLength() < 50)
+            snap_basepoints.append(item_lastHighlight->snap_basepoint);
+
+        // Endpoint / Vertex snap
+        QList<QVector3D> snap_vertex_points;
         foreach (QVector3D snap_vertex, item_lastHighlight->snap_vertices)
         {
             if ((mapFromScene(snap_vertex) - mousePos).manhattanLength() < 10)
-                snap_vertex_points.append(mapFromScene(snap_vertex));
-
-            qDebug() << "snap hit; Pos:" << mapFromScene(snap_vertex);
-            qDebug() << "matrix modelview:" << this->matrix_modelview;
-            qDebug() << "matrix projection:" << this->matrix_projection;
+                snap_vertex_points.append(snap_vertex);
         }
 
-        if (!snap_vertex_points.isEmpty())
+        // Center Snap
+        QList<QVector3D> snap_center_points;
+        foreach (QVector3D snap_center, item_lastHighlight->snap_center)
+        {
+            if ((mapFromScene(snap_center) - mousePos).manhattanLength() < 10)
+                snap_center_points.append(snap_center);
+        }
+
+        if (!snap_basepoints.isEmpty())
+        {
+            this->set_snap_mode(GLWidget::SnapBasepoint);
+            this->set_snapPos(snap_basepoints.at(0));
+        }
+        else if (!snap_vertex_points.isEmpty())
         {
             this->set_snap_mode(GLWidget::SnapEndpoint);
-            this->set_snapPos(snap_vertex_points.at(0).toPoint());
+            this->set_snapPos(snap_vertex_points.at(0));
+        }
+        else if (!snap_center_points.isEmpty())
+        {
+            this->set_snap_mode(GLWidget::SnapCenter);
+            this->set_snapPos(snap_center_points.at(0));
         }
         else
         {
@@ -466,6 +471,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
     }
 
     makeCurrent();
+
     saveGLState();
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -493,8 +499,6 @@ void GLWidget::paintEvent(QPaintEvent *event)
     GLfloat glMatrix_modelview[16];
     GLfloat glMatrix_projection[16];
 
-//    glGetFloatv(GL_MODELVIEW_MATRIX, (GLfloat*)this->matrix_modelview.data());
-//    glGetFloatv(GL_PROJECTION_MATRIX, (GLfloat*)this->matrix_projection.data());
     glGetFloatv(GL_MODELVIEW_MATRIX, glMatrix_modelview);
     glGetFloatv(GL_PROJECTION_MATRIX, glMatrix_projection);
 
@@ -552,6 +556,32 @@ void GLWidget::paintEvent(QPaintEvent *event)
 //    glCallList(tile_list);
 
 
+
+
+    QGLFramebufferObjectFormat format;
+    format.setSamples(4);
+    //format.setAttachment(QGLFramebufferObject::CombinedDepthStencil);
+    QGLFramebufferObject* fbo = new QGLFramebufferObject(512, 512, format);
+
+    QPainter fbo_painter(fbo);
+    fbo_painter.setPen(Qt::cyan);
+    fbo_painter.drawText(30, 30, "Hello World");
+    fbo_painter.end();
+
+    glBindTexture(GL_TEXTURE_2D, fbo->texture());
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glEnable(GL_TEXTURE_2D);
+
+    glColor4ub(255, 0, 0, 255);
+    glCallList(tile_list);
+
+
+
+
+
     paintContent(itemDB->layers);
 
     restoreGLState();
@@ -566,6 +596,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glViewport(0, 0, width(), height());
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 
 
     if (this->cursorShown)
@@ -620,56 +651,64 @@ void GLWidget::paintEvent(QPaintEvent *event)
             glEnd();
         }
 
-        if (snapMode != SnapNo)
+        if ((snapMode != SnapNo) && (item_lastHighlight != NULL))
         {
-//            pen.setColor(Qt::red);
-//            pen.setStyle(Qt::SolidLine);
-//            pen.setWidth(2);
-//            painter.setPen(pen);
-//            painter.setBrush(Qt::NoBrush);
+            QString snapText;
+            QString itemDescription = "[" + item_lastHighlight->description + "]";
+            QString itemPosition = QString().sprintf(" @{%.3lf|%.3lf|%.3lf}", this->snapPos_scene.x(), this->snapPos_scene.y(), this->snapPos_scene.z());
+            snapText = " of " + itemDescription + itemPosition;
 
-            glColor4ub(255, 0, 0, 255);
+            QFont font;
+
+            QRect focusRect = QRect(0, 0, 21, 21);
+            focusRect.moveCenter(this->snapPos_screen);
+
+
 
             switch (snapMode)
             {
             case SnapBasepoint:
             {
+                glColor4ub(255, 0, 0, 255);
+                glBegin(GL_LINE_LOOP);
+                glVertex2i(focusRect.bottomLeft().x(), focusRect.bottomLeft().y());
+                glVertex2i(focusRect.bottomRight().x(), focusRect.bottomRight().y());
+                glVertex2i(focusRect.topLeft().x(), focusRect.topLeft().y());
+                glVertex2i(focusRect.topRight().x(), focusRect.topRight().y());
+                glEnd();
+                snapText.prepend("Basepoint");
 
+                paintTextInfoBox(focusRect.bottomRight(), snapText);
 
-
-
-
-//                QRect focusRect = QRect(0, 0, 3, 3);
-//                focusRect.moveCenter(this->snapPos);
-//                painter.drawRect(focusRect);
-
-//                painter.drawLine(this->snapPos, this->snapPos + QPoint(5, -5));
-//                painter.drawText(this->snapPos + QPoint(7, -7), "Basepoint");
                 break;
             }
             case SnapEndpoint:
             {
-                QRect focusRect = QRect(0, 0, 21, 21);
-                focusRect.moveCenter(this->snapPos);
-//                painter.drawRect(focusRect);
-//                painter.drawText(this->snapPos + QPoint(7, -7), "Endpoint/Vertex");
-
+                glColor4ub(255, 0, 0, 255);
                 glBegin(GL_LINE_LOOP);
-                glVertex3i(focusRect.bottomLeft().x(), focusRect.bottomLeft().y(), 0);
-                glVertex3i(focusRect.bottomRight().x(), focusRect.bottomRight().y(), 0);
-                glVertex3i(focusRect.topRight().x(), focusRect.topRight().y(), 0);
-                glVertex3i(focusRect.topLeft().x(), focusRect.topLeft().y(), 0);
+                glVertex2i(focusRect.bottomLeft().x(), focusRect.bottomLeft().y());
+                glVertex2i(focusRect.bottomRight().x(), focusRect.bottomRight().y());
+                glVertex2i(focusRect.topRight().x(), focusRect.topRight().y());
+                glVertex2i(focusRect.topLeft().x(), focusRect.topLeft().y());
+                glEnd();
+                snapText.prepend("Endpoint/Vertex");
+
+                paintTextInfoBox(focusRect.bottomRight(), snapText);
+
                 break;
             }
             case SnapCenter:
             {
-//                QRect focusRect = QRect(0, 0, 3, 3);
-//                focusRect.moveCenter(this->snapPos);
-//                painter.drawRect(focusRect);
+                glColor4ub(255, 0, 0, 255);
+                glBegin(GL_LINES);
+                glVertex2i(focusRect.left(), focusRect.top());
+                glVertex2i(focusRect.right(), focusRect.bottom());
+                glVertex2i(this->snapPos_screen.x() - 5, this->snapPos_screen.y() + 5);
+                glVertex2i(this->snapPos_screen.x() + 5, this->snapPos_screen.y() - 5);
+                glEnd();
+                snapText.prepend("Center");
 
-//                painter.drawLine(this->snapPos - QPoint(5, -5), this->snapPos + QPoint(5, -5));
-//                painter.drawText(this->snapPos + QPoint(7, -7), "Center");
-
+                paintTextInfoBox(focusRect.bottomRight(), snapText);
 
                 break;
             }
@@ -679,13 +718,16 @@ void GLWidget::paintEvent(QPaintEvent *event)
             }
             }
 
-            glEnd();
+
         }
 
     }
 
+<<<<<<< HEAD
     this->renderText(40, 40, 0, "gugu");
 
+=======
+>>>>>>> 51c9941fd1db8a9afa906ea44d3026005bc4037d
     restoreGLState();
     event->accept();
 }
@@ -724,6 +766,42 @@ void GLWidget::restoreGLState()
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
     glPopAttrib();
+}
+
+void GLWidget::paintTextInfoBox(QPoint pos, QString text, QFont font, QColor colorText, QColor colorBackground, QColor colorOutline)
+{
+    // Calculate text box size
+    QFontMetrics fm(font);
+    QRect boundingRect = fm.boundingRect(text);
+    boundingRect.moveTopLeft(pos + QPoint(5, 2));
+    boundingRect.adjust(-5, -5, 5, 5);
+
+    // Draw background
+//    glColor4ub(0, 0, 0, 150);
+    qglColor(colorBackground);
+    glBegin(GL_QUADS);
+    glVertex2i(boundingRect.bottomLeft().x(), boundingRect.bottomLeft().y());
+    glVertex2i(boundingRect.bottomRight().x(), boundingRect.bottomRight().y());
+    glVertex2i(boundingRect.topRight().x(), boundingRect.topRight().y());
+    glVertex2i(boundingRect.topLeft().x(), boundingRect.topLeft().y());
+    glEnd();
+
+    // Draw outline
+//    glColor4ub(200, 200, 200, 150);
+    qglColor(colorOutline);
+    glLineWidth(1.0);
+    glBegin(GL_LINE_LOOP);
+    glVertex2i(boundingRect.bottomLeft().x(), boundingRect.bottomLeft().y());
+    glVertex2i(boundingRect.bottomRight().x(), boundingRect.bottomRight().y());
+    glVertex2i(boundingRect.topRight().x(), boundingRect.topRight().y());
+    glVertex2i(boundingRect.topLeft().x(), boundingRect.topLeft().y());
+    glEnd();
+
+    // Draw text
+//    glColor4ub(255, 0, 0, 255);
+    qglColor(colorText);
+    this->renderText(pos.x() + 5, this->height() - 1 - (pos.y() + 5),
+                     text, font);
 }
 
 void GLWidget::paintContent(QList<Layer*> layers)
@@ -1298,6 +1376,8 @@ void GLWidget::paintBasicBox(Layer *layer, CAD_basic_box *item)
             color_brush = color_brush.darker();
         else
             color_brush = color_brush.lighter();
+
+        color_brush.setAlphaF(0.2);
     }
 
     if (this->render_solid)
