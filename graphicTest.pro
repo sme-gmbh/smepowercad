@@ -13,6 +13,8 @@ TEMPLATE = app
 
 OBJECTS_DIR = .obj/
 MOC_DIR = .moc/
+UI_DIR = .ui/
+RCC_DIR = .rcc/
 
 LIBS += -lGLU
 
