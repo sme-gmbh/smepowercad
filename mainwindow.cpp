@@ -94,6 +94,14 @@ MainWindow::MainWindow(QWidget *parent) :
     updateRecentFileActions();
 
 
+    // **** 3D mouse ****
+    magellanThread = new QMagellanThread;
+    connect(magellanThread, SIGNAL(signal_mouseCoords(int,int,int,int,int,int)), mainGeometryDisplay, SIGNAL(signal_mouse3Dcoords(int,int,int,int,int,int)));
+    //connect(magellanThread, SIGNAL(signal_buttonPressed(int)), this, SLOT());
+    //connect(magellanThread, SIGNAL(signal_buttonReleased(int)), this, SLOT());
+    magellanThread->start();
+
+
 
 
     // ***** Spielwiese *****
@@ -124,6 +132,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    magellanThread->terminate();
+    delete magellanThread;
     delete mainGeometryDisplay;
     delete layerManager;
     delete itemDB;
@@ -333,6 +343,15 @@ void MainWindow::slot_clearRecentFiles()
     settings.setValue("recentFileList", QStringList());
     updateRecentFileActions();
 }
+
+/*void MainWindow::slot_mouse3Dtimer_fired()
+{
+    SpaceMouseData data = magellanThread->getData();
+    QString string = QString().sprintf("x=%+04d y=%+04d z=%+04d a=%+04d b=%+04d c=%+04d",
+                                           data.x, data.y, data.z, data.a, data.b, data.c);
+    qDebug(string.toUtf8());
+    mainGeometryDisplay->glwidget->mouse3Dmoved();
+}*/
 
 // **** Window functions ****
 

@@ -112,6 +112,7 @@ signals:
     void signal_sceneCoordinateChanged(QVector3D sceneCoord);
     void signal_aboutToClose(QAction *action);
     void signal_repaintNeeded();
+    void signal_mouse3Dcoords(int x, int y, int z, int a, int b, int c);
 
 };
 

@@ -207,6 +207,7 @@ public slots:
     void slot_repaint();
     void slot_wireframe(bool on);
     void slot_solid(bool on);
+    void slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c);
 };
 
 #endif // GLWIDGET_H

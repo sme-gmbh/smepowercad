@@ -13,6 +13,8 @@
 #include <QKeyEvent>
 #include <QSettings>
 
+#include "3Dmouse/qmagellan.h"
+
 #include "cadcommand.h"
 #include "layermanager.h"
 #include "layer.h"
@@ -41,6 +43,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QMagellanThread *magellanThread;
     ItemDB* itemDB;
     CADcommand* cadcommand;
 //    QGraphicsScene* scene;

@@ -212,6 +212,39 @@ QMap<QString, QString> GLWidget::getOpenGLinfo()
     return ret;
 }
 
+void GLWidget::slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c)
+{
+    if (!cursorShown)
+        return;
+
+    //QString string = QString().sprintf("x=%+04d y=%+04d z=%+04d a=%+04d b=%+04d c=%+04d", x, y, z, a, b, c);
+    //qDebug(string.toUtf8());
+
+    // move
+    translationOffset += QPoint(x/2, y/2);
+
+    // zoom
+    qreal zoomStep = 0.10;
+    zoomStep = -(z * zoomStep / 8.0 / 20.0);
+    if ((zoomFactor + zoomStep) <= 0)
+    {
+        zoomFactor += zoomStep / 100.0;
+        if (zoomFactor < 0.0) zoomFactor = 0.0;
+    }
+    else
+        zoomFactor += zoomStep;
+
+    //qDebug() << zoomFactor;
+
+    // rot
+    rot_x += -((float)a / 15.0);
+    rot_y += -((float)b / 15.0);
+    rot_z += -((float)c / 15.0);
+
+
+    slot_repaint();
+}
+
 void GLWidget::wheelEvent(QWheelEvent* event)
 {
     qreal zoomStep = 1.15;

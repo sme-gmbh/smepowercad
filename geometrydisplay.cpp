@@ -29,6 +29,7 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, QWidget *parent) :
     connect(titleWidget, SIGNAL(signal_wireframe(bool)), glwidget, SLOT(slot_wireframe(bool)));
     connect(titleWidget, SIGNAL(signal_solid(bool)), glwidget, SLOT(slot_solid(bool)));
     connect(glwidget, SIGNAL(signal_mouseMoved(QVector3D)), titleWidget, SLOT(slot_sceneCoordinatesChanged(QVector3D)));
+    connect(this, SIGNAL(signal_mouse3Dcoords(int,int,int,int,int,int)), glwidget, SLOT(slot_mouse3Dmoved(int,int,int,int,int,int)));
 
     this->resize(400, 250);
     this->setFloating(false);
