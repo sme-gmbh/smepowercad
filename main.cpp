@@ -5,6 +5,10 @@
 
 int main(int argc, char *argv[])
 {
+    QCoreApplication::setOrganizationName("SME GmbH");
+    QCoreApplication::setOrganizationDomain("sme-gmbh.net");
+    QCoreApplication::setApplicationName("SME PowerCAD");
+
     QGL::setPreferredPaintEngine(QPaintEngine::OpenGL);
     QApplication a(argc, argv);
 

@@ -14,6 +14,7 @@
 #include <QDebug>
 #include <QColorDialog>
 #include <QSettings>
+#include <QObject>
 
 namespace Ui {
 class SettingsDialog;
@@ -22,10 +23,11 @@ class SettingsDialog;
 class Attribute
 {
 public:
+    QString displayName;
     QString name;
     QString desc;
     QString type;
-    QString value;
+    QVariant value;
     QString min;
     QString max;
 };
@@ -37,6 +39,8 @@ class OptionsPage : public QObject
 public:
     QWidget *widget;
     QString displayName;
+    QString name;
+    QMap<QString, Attribute> attributes;
 
     static OptionsPage* newPage(QString displayName, QList<Attribute> attributes);
 
@@ -48,6 +52,7 @@ class Category
 {
 public:
     QString displayName;
+    QString name;
     QTabWidget *tabWidget;
     QList<OptionsPage *> pages;
     QIcon icon;
@@ -83,6 +88,8 @@ private:
     void showCategory(int category = 0);
     void ensureCategoryWidget(Category *category);
     void showPage(int category = 0, int page = 0);
+
+    void save();
 };
 
 #endif // SETTINGSDIALOG_H
