@@ -1405,7 +1405,7 @@ void GLWidget::paintBasicBox(Layer *layer, CAD_basic_box *item)
         else
             color_brush = color_brush.lighter();
 
-        color_brush.setAlphaF(0.2);
+//        color_brush.setAlphaF(0.2);
     }
 
     if (this->render_solid)
