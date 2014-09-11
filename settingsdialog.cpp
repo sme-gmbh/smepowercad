@@ -112,35 +112,6 @@ void SettingsDialog::loadCategorys()
         delete categories.takeFirst();
     categories.clear();
 
-    /*QList<OptionsPage *> pages;
-    Category *cat1 = new Category;
-    cat1->tabWidget = 0;
-    cat1->displayName = "Design";
-    cat1->icon = QIcon();
-    OptionsPage *page = new OptionsPage;
-    page->displayName = "Colors";
-    page->widget = new QLabel("testpage1");
-    pages.append(page);
-    cat1->pages = pages;
-    categories.append(cat1);
-
-    Category *cat2 = new Category;
-    cat2->tabWidget = 0;
-    cat2->displayName = "Userinterface";
-    cat2->icon = QIcon();
-    pages.clear();
-    page = new OptionsPage;
-    page->displayName = "Cursor";
-    page->widget = new QLabel("testpage1");
-    pages.append(page);
-    page = new OptionsPage;
-    page->displayName = "Fang";
-    page->widget = new QLabel("testpage1");
-    pages.append(page);
-    cat2->pages = pages;
-    categories.append(cat2);*/
-
-
     QDomDocument doc;
     QFile file("../../src/settings.xml");
     if (!file.open(QFile::ReadOnly))

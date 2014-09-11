@@ -13,6 +13,7 @@
 #include <QSpinBox>
 #include <QDebug>
 #include <QColorDialog>
+#include <QSettings>
 
 namespace Ui {
 class SettingsDialog;
@@ -70,6 +71,7 @@ private slots:
 
 private:
     Ui::SettingsDialog *ui;
+    QSettings settings;
 
     QList<Category *> categories;
 

@@ -344,15 +344,6 @@ void MainWindow::slot_clearRecentFiles()
     updateRecentFileActions();
 }
 
-/*void MainWindow::slot_mouse3Dtimer_fired()
-{
-    SpaceMouseData data = magellanThread->getData();
-    QString string = QString().sprintf("x=%+04d y=%+04d z=%+04d a=%+04d b=%+04d c=%+04d",
-                                           data.x, data.y, data.z, data.a, data.b, data.c);
-    qDebug(string.toUtf8());
-    mainGeometryDisplay->glwidget->mouse3Dmoved();
-}*/
-
 // **** Window functions ****
 
 void MainWindow::slot_newGeometryDisplay()
@@ -361,6 +352,7 @@ void MainWindow::slot_newGeometryDisplay()
     connect(newGeometryDisplay, SIGNAL(signal_aboutToClose(QAction*)), this, SLOT(slot_geometryDisplayAboutToClose(QAction*)));
     connect(this, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(layerManager, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
+    connect(magellanThread, SIGNAL(signal_mouseCoords(int,int,int,int,int,int)), newGeometryDisplay, SIGNAL(signal_mouse3Dcoords(int,int,int,int,int,int)));
     this->addDockWidget(Qt::LeftDockWidgetArea, newGeometryDisplay);
     ui->menuFenster->addAction(newGeometryDisplay->toggleViewAction());
 
