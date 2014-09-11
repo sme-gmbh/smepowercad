@@ -73,10 +73,6 @@ public slots:
 
     void slot_file_close_action();
 
-    void slot_draw_line_action();
-    void slot_draw_arc_action();
-    void slot_draw_circle_action();
-
     void slot_newGeometryDisplay();
     void slot_geometryDisplayAboutToClose(QAction *action);
 private slots:

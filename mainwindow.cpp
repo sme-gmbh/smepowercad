@@ -109,22 +109,14 @@ MainWindow::MainWindow(QWidget *parent) :
     layer->lineType = "Continuos";
     layer->width = 1;
 
-    CAD_basic_box* box = new CAD_basic_box();
-    box->calculate();
-    itemDB->addItem(box, "Testlayer");
 
-    CAD_basic_circle* circle = new CAD_basic_circle();
-    circle->center = QVector3D(-2.0, 0.0, 0.0);
-    circle->calculate();
-    itemDB->addItem(circle, "Testlayer");
 
-    CAD_basic_cylinder* cylinder = new CAD_basic_cylinder();
-    cylinder->center_base = QVector3D(3.0, 0.0, 0.0);
-    cylinder->calculate();
-    itemDB->addItem(cylinder, "Testlayer");
+
+
+
 
     this->layerManager->updateAllLayers();
-    emit signal_repaintNeeded();
+//    emit signal_repaintNeeded();
 }
 
 MainWindow::~MainWindow()
@@ -244,45 +236,6 @@ void MainWindow::slot_file_pdf_export_action()
 void MainWindow::slot_file_close_action()
 {
     qDebug() << "slot_file_close_action()";
-}
-
-// **** Drawing functions ****
-
-void MainWindow::slot_draw_line_action()
-{
-    qDebug() << "slot_draw_line_action()";
-
-    // Linie
-
-
-    //connect(cadview, SIGNAL(signal_sceneCoordinateChanged(QPointF)), current_cadline, SLOT(slot_setStopPoint(QPointF)));
-
-//    cadview->slot_startLine(QPointF(0,0));
-//    cadview->slot_finishLine(QPointF(300,300));
-}
-
-void MainWindow::slot_draw_arc_action()
-{
-//    qDebug() << "slot_draw_arc_action()";
-
-//    // Bogen
-//    CADarc* cadarc = new CADarc();
-//    this->scene->addItem(cadarc);
-//    cadarc->setCenter(QPointF(10.0, 20.0));
-//    cadarc->setRadius(20.0);
-//    cadarc->setStartAngle(0.0);
-//    cadarc->setSpanAngle(360.0);
-}
-
-void MainWindow::slot_draw_circle_action()
-{
-//    qDebug() << "slot_draw_circle_action()";
-
-//    // Kreis
-//    CADcircle* cadcircle = new CADcircle();
-//    this->scene->addItem(cadcircle);
-//    cadcircle->setCenter(QPointF(10.0, 0.0));
-//    cadcircle->setRadius(20.0);
 }
 
 void MainWindow::on_prompt_input_returnPressed()
@@ -411,6 +364,9 @@ void MainWindow::on_action_basic_box_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CAD_basic_box* box = new CAD_basic_box();
+    box->calculate();
+    itemDB->addItem(box, "Testlayer");
 }
 
 void MainWindow::on_action_basic_circle_triggered()
@@ -418,6 +374,10 @@ void MainWindow::on_action_basic_circle_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CAD_basic_circle* circle = new CAD_basic_circle();
+    circle->center = QVector3D(-2.0, 0.0, 0.0);
+    circle->calculate();
+    itemDB->addItem(circle, "Testlayer");
 }
 
 void MainWindow::on_action_basic_cylinder_triggered()
@@ -425,6 +385,10 @@ void MainWindow::on_action_basic_cylinder_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CAD_basic_cylinder* cylinder = new CAD_basic_cylinder();
+    cylinder->center_base = QVector3D(3.0, 0.0, 0.0);
+    cylinder->calculate();
+    itemDB->addItem(cylinder, "Testlayer");
 }
 
 void MainWindow::on_action_basic_linie_triggered()
