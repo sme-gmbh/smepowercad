@@ -388,6 +388,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <addaction name="action_air_pipe_volumetric_flow_controller"/>
    <addaction name="action_air_pressure_relief_damper"/>
    <addaction name="action_air_throttle_valve"/>
+   <addaction name="separator"/>
   </widget>
   <widget class="QToolBar" name="toolBarBasic">
    <property name="windowTitle">

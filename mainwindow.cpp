@@ -46,9 +46,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionPDF, SIGNAL(triggered()),             this, SLOT(slot_file_pdf_export_action()));
     connect(ui->actionZeichnungClose, SIGNAL(triggered()),  this, SLOT(slot_file_close_action()));
     connect(ui->actionBeenden, SIGNAL(triggered()),         qApp, SLOT(quit()));
-    connect(ui->actionLinie, SIGNAL(triggered()), this, SLOT(slot_draw_line_action()));
-    connect(ui->actionBogen, SIGNAL(triggered()), this, SLOT(slot_draw_arc_action()));
-    connect(ui->actionKreis, SIGNAL(triggered()), this, SLOT(slot_draw_circle_action()));
     connect(ui->actionNeues_Schnittfenster, SIGNAL(triggered()), this, SLOT(slot_newGeometryDisplay()));
 
 
@@ -71,9 +68,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // **** Toolbar toggles ****
-    ui->menuWerkzeugleisten->addAction(ui->toolBarPrimitiv->toggleViewAction());
-    ui->menuWerkzeugleisten->addAction(ui->toolBarArchitektur->toggleViewAction());
-    ui->menuWerkzeugleisten->addAction(ui->toolBarLuft->toggleViewAction());
+    ui->menuWerkzeugleisten->addAction(ui->toolBarBasic->toggleViewAction());
+    ui->menuWerkzeugleisten->addAction(ui->toolBarArchitecture->toggleViewAction());
+    ui->menuWerkzeugleisten->addAction(ui->toolBarAir->toggleViewAction());
 
 
 
@@ -375,10 +372,13 @@ void MainWindow::on_actionAbout_OpenGL_triggered()
 void MainWindow::on_actionAbout_triggered()
 {
     QMap<QString, QString> about;
-    about.insert("moep", "gugugugugug");
-    about.insert("foo", "gugugugugug");
-    about.insert("bar", "gugugugugug");
-    about.insert("asdf", "gugugugugug");
+    about.insert("Authors", "Peter Diener, Moritz Sternemann");
+    about.insert("Build", QString(__DATE__) + " " + QString(__TIME__));
+    about.insert("SME GmbH", "Rudolf-Diesel-Str. 17");
+    about.insert("", "82205 Gilching");
+    about.insert("Tel.", "+49 8105 2713 -0");
+    about.insert("Email", "diener@sme-gmbh.com");
+    about.insert("Email", "moritz.sternemann@web.de");
 
     ModalDialog *dialog = new ModalDialog(tr("About SME-PowerCAD"), about, this);
     dialog->exec();
@@ -394,240 +394,336 @@ void MainWindow::on_actionSettings_triggered()
 
 void MainWindow::on_action_basic_face_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_basic_arc_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_basic_box_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_basic_circle_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_basic_cylinder_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_basic_linie_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_basic_plane_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_basic_point_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_basic_polylinie_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_basic_sphere_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_arch_beam_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_arch_blockout_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_arch_door_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_arch_levelSlab_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_arch_support_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_arch_wall_loadbearing_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_arch_wall_nonloadbearing_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_arch_window_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_canvas_flange_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_duct_baffle_silencer_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_duct_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_duct_end_plate_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_duct_fire_damper_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_duct_fire_resistant_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_duct_T_Connector_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_duct_transition_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_duct_transition_rect_round_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_duct_turn_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_duct_volumetric_flow_controller_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_duct_Y_piece_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_empty_cabinet_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_equipment_frame_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_fan_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_filter_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_heat_exchanger_air_air_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_heat_exchanger_water_air_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_Humidifier_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_multi_leaf_damper_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_pipe_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_pipe_end_cap_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_pipe_fire_damper_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_pipe_reducer_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_pipe_silencer_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_pipe_T_Connector_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_pipe_turn_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_pipe_volumetric_flow_controller_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_pressure_relief_damper_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
 
 void MainWindow::on_action_air_throttle_valve_triggered()
 {
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
 
 }
