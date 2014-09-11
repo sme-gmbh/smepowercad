@@ -9,6 +9,17 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QT_TR_NOOP("Design");
+    QT_TR_NOOP("Colors");
+    QT_TR_NOOP("backgroundColor");
+    QT_TR_NOOP("Userinterface");
+    QT_TR_NOOP("Cursor");
+    QT_TR_NOOP("cursorSize");
+    QT_TR_NOOP("cursorPickboxSize");
+    QT_TR_NOOP("Snap");
+    QT_TR_NOOP("snapIndicatorSize");
+
+
     stackedLayout->setMargin(0);
     stackedLayout->addWidget(new QWidget(this));
 
@@ -36,7 +47,7 @@ SettingsDialog::~SettingsDialog()
 
 void SettingsDialog::on_buttonBox_accepted()
 {
-    // save
+    this->save();
     this->accept();
 }
 
@@ -47,7 +58,7 @@ void SettingsDialog::on_buttonBox_rejected()
 
 void SettingsDialog::on_buttonBox_apply()
 {
-    // save
+    this->save();
 }
 
 void SettingsDialog::showCategory(int category)
@@ -78,9 +89,8 @@ void SettingsDialog::ensureCategoryWidget(Category *category)
     for (int j = 0; j < category->pages.size(); j++)
     {
         OptionsPage *page = category->pages.at(j);
-        qDebug() << "for" << page->displayName;
         QWidget *widget = page->widget;
-        tabWidget->addTab(widget, page->displayName);
+        tabWidget->addTab(widget, tr(page->name.toStdString().c_str()));
     }
 
     category->tabWidget = tabWidget;
@@ -96,6 +106,42 @@ void SettingsDialog::showPage(int category, int page)
         if (page < cat->pages.size())
         {
 
+        }
+    }
+}
+
+void SettingsDialog::save()
+{
+    qDebug() << "save";
+    foreach (Category *cat, categories)
+    {
+        qDebug() << "saving cat" << cat->name;
+        foreach (OptionsPage *page, cat->pages)
+        {
+            qDebug() << "saving page" << page->name;
+            QFormLayout *layout = (QFormLayout *)page->widget->layout();
+            for (int r = 0; r < layout->rowCount(); r++)
+            {
+                //QString label = ((QLabel *)layout->itemAt(r, QFormLayout::LabelRole)->widget())->text();
+                QWidget *wdg = layout->itemAt(r, QFormLayout::FieldRole)->widget();
+                QString name = wdg->objectName();
+                qDebug() << "saving wdg" << name;
+
+
+                Attribute at = page->attributes.value(name);
+                QString key = cat->name + "_" + page->name + "_" + at.name;
+                if (at.type == "int")
+                {
+                    settings.setValue(key, QVariant::fromValue(((QSpinBox *)wdg)->value()));
+                }
+                else if (at.type == "color")
+                {
+                    QColor col = ((QPushButton *)wdg)->icon().pixmap(1, 1).toImage().pixel(0, 0);
+                    settings.setValue(key, QVariant::fromValue(col));
+                    qDebug() << key << col;
+                    qDebug() << settings.value(key);
+                }
+            }
         }
     }
 }
@@ -134,7 +180,8 @@ void SettingsDialog::loadCategorys()
         QDomNode category = root.childNodes().at(c);
         Category *cat = new Category;
         cat->tabWidget = 0;
-        cat->displayName = category.attributes().namedItem("name").nodeValue();
+        cat->name = category.attributes().namedItem("name").nodeValue();
+        cat->displayName = tr(cat->name.toStdString().c_str());
         cat->icon = QIcon(":/settings/icons/" + category.attributes().namedItem("icon").nodeValue());
 
         QList<OptionsPage *> pages;
@@ -147,15 +194,26 @@ void SettingsDialog::loadCategorys()
                 QDomNode attr = page.childNodes().at(a);
                 Attribute at;
                 at.name = attr.attributes().namedItem("name").nodeValue();
+                at.displayName = tr(at.name.toStdString().c_str());
                 at.desc = attr.attributes().namedItem("desc").nodeValue();
                 at.type = attr.attributes().namedItem("type").nodeValue();
-                at.value = attr.attributes().namedItem("value").nodeValue();
+                QVariant defaultVal;
+                QString dflt = attr.attributes().namedItem("default").nodeValue();
+                if (at.type == "int")
+                    defaultVal = QVariant::fromValue(dflt.toInt());
+                else if (at.type == "color")
+                {
+                    QStringList parts = dflt.split(",");
+                    QColor col = QColor(parts.at(0).toInt(), parts.at(1).toInt(), parts.at(2).toInt(), parts.at(3).toInt());
+                    defaultVal = QVariant::fromValue(col);
+                }
+                at.value = settings.value(cat->name + "_" + page.attributes().namedItem("name").nodeValue() + "_" + at.name, defaultVal);
+                qDebug() << cat->name + "_" + page.attributes().namedItem("name").nodeValue() + "_" + at.name << at.value;
                 at.min = attr.attributes().namedItem("min").nodeValue();
                 at.max = attr.attributes().namedItem("max").nodeValue();
                 attributes.append(at);
             }
-            OptionsPage *npage = OptionsPage::newPage(page.attributes().namedItem("name").nodeValue(),
-                                                      attributes);
+            OptionsPage *npage = OptionsPage::newPage(page.attributes().namedItem("name").nodeValue(), attributes);
             pages.append(npage);
         }
         cat->pages = pages;
@@ -164,37 +222,40 @@ void SettingsDialog::loadCategorys()
 }
 
 
-OptionsPage* OptionsPage::newPage(QString displayName, QList<Attribute> attributes)
+OptionsPage* OptionsPage::newPage(QString name, QList<Attribute> attributes)
 {
     OptionsPage *page = new OptionsPage;
 
-    page->displayName = displayName;
+    page->displayName = tr(name.toStdString().c_str());
+    page->name = name;
 
     QFormLayout *layout = new QFormLayout();
 
+    QMap<QString, Attribute> attrs;
     foreach (Attribute attr, attributes)
     {
+        attrs.insert(attr.name, attr);
         if (attr.type == "int")
         {
             QSpinBox *box = new QSpinBox;
+            box->setObjectName(attr.name);
             box->setMinimum(attr.min.toInt());
             box->setMaximum(attr.max.toInt());
             box->setValue(attr.value.toInt());
             box->setMaximumWidth(150);
-            layout->addRow(attr.name, box);
+            layout->addRow(attr.displayName, box);
         }
         else if (attr.type == "color")
         {
-            QColor col;
-            QStringList parts = attr.value.split(",");
-            col = QColor(parts.at(0).toInt(), parts.at(1).toInt(), parts.at(2).toInt(), parts.at(3).toInt());
-
+            QColor col = attr.value.value<QColor>();
+            qDebug() << col;
             QPixmap pxmp = QPixmap(24, 24);
             pxmp.fill(col);
             QPushButton *btn = new QPushButton(QIcon(pxmp), "");
+            btn->setObjectName(attr.name);
             btn->setMaximumWidth(34);
             connect(btn, SIGNAL(clicked()), page, SLOT(slot_showColorDialog()));
-            layout->addRow(attr.name, btn);
+            layout->addRow(attr.displayName, btn);
 
 
         }
@@ -202,6 +263,7 @@ OptionsPage* OptionsPage::newPage(QString displayName, QList<Attribute> attribut
     QWidget *widget = new QWidget();
     widget->setLayout(layout);
     page->widget = widget;
+    page->attributes = attrs;
 
     return page;
 }
