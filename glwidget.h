@@ -10,6 +10,7 @@
 #include <QMessageBox>
 #include <QFont>
 #include <QFontMetrics>
+#include <QSettings>
 
 #include <qmath.h>
 #include <qgl.h>
@@ -46,10 +47,11 @@ public:
     void set_snapPos(QVector3D snapPos_screen);
     void set_WorldRotation(float rot_x, float rot_y, float rot_z);
 
-    QMap<QString, QString> getOpenGLinfo();
+    QStringList getOpenGLinfo();
 
 private:
     ItemDB* itemDB;
+    QSettings settings;
     QPoint mousePosOld;
     CuttingPlane cuttingplane;
     qreal height_of_intersection;
@@ -83,6 +85,8 @@ private:
 
     SnapEngine* snapEngine;
     CADitem* item_lastHighlight;
+
+    QColor _backgroundColor;
 
 
     // OpenGL
@@ -208,6 +212,8 @@ public slots:
     void slot_wireframe(bool on);
     void slot_solid(bool on);
     void slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c);
+
+    void slot_update_settings();
 };
 
 #endif // GLWIDGET_H

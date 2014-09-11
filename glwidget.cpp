@@ -30,6 +30,8 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
     this->snapMode = SnapCenter;
     this->item_lastHighlight = NULL;
 
+    slot_update_settings();
+
     this->setMouseTracking(true);
 
     this->setPalette(Qt::transparent);
@@ -198,16 +200,23 @@ void GLWidget::set_WorldRotation(float rot_x, float rot_y, float rot_z)
     slot_repaint();
 }
 
-QMap<QString, QString> GLWidget::getOpenGLinfo()
+QStringList GLWidget::getOpenGLinfo()
 {
     makeCurrent();
 
     // get OpenGL info
-    QMap<QString, QString> ret;
-    ret.insert("Vendor", QString((const char*)glGetString(GL_VENDOR)));
-    ret.insert("Renderer", QString((const char*)glGetString(GL_RENDERER)));
-    ret.insert("Version", QString((const char*)glGetString(GL_VERSION)));
-    ret.insert("GLSL Version", QString((const char*)glGetString(GL_SHADING_LANGUAGE_VERSION)));
+    QStringList ret;
+    ret.append("Vendor");
+    ret.append(QString((const char*)glGetString(GL_VENDOR)));
+
+    ret.append("Renderer");
+    ret.append(QString((const char*)glGetString(GL_RENDERER)));
+
+    ret.append("Version");
+    ret.append(QString((const char*)glGetString(GL_VERSION)));
+
+    ret.append("GLSL Version");
+    ret.append(QString((const char*)glGetString(GL_SHADING_LANGUAGE_VERSION)));
 
     return ret;
 }
@@ -243,6 +252,11 @@ void GLWidget::slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c)
 
 
     slot_repaint();
+}
+
+void GLWidget::slot_update_settings()
+{
+    _backgroundColor = settings.value("Design_Colors_backgroundColor", QVariant::fromValue(QColor().black())).value<QColor>();
 }
 
 void GLWidget::wheelEvent(QWheelEvent* event)
@@ -507,6 +521,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
 
     saveGLState();
 
+    qglClearColor(_backgroundColor);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);

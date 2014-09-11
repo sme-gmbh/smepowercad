@@ -14,7 +14,7 @@ class ModalDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ModalDialog(QString title, QMap<QString, QString> data, QWidget *parent = 0);
+    explicit ModalDialog(QString title, QStringList data, QWidget *parent = 0);
     ~ModalDialog();
 
     virtual void resizeEvent(QResizeEvent *event);
