@@ -16,8 +16,6 @@
   <property name="styleSheet">
    <string notr="true">QDialog {
 	background: rgb(0, 0, 0);
-
-	border-radius: 10px;
 }
 
 QLabel {

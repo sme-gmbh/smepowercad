@@ -317,7 +317,7 @@ void MainWindow::slot_geometryDisplayAboutToClose(QAction *action)
 
 void MainWindow::on_actionAbout_OpenGL_triggered()
 {
-    ModalDialog *dialog = new ModalDialog(tr("About OpenGL"), mainGeometryDisplay->getOpenGLinfo(), this);
+    ModalDialog *dialog = new ModalDialog(tr("About %1").arg("OpenGL"), mainGeometryDisplay->getOpenGLinfo(), this);
     dialog->exec();
     delete dialog;
 }
@@ -325,23 +325,15 @@ void MainWindow::on_actionAbout_OpenGL_triggered()
 void MainWindow::on_actionAbout_triggered()
 {
     QStringList about;
-    about.append("Authors");
-    about.append("Peter Diener, Moritz Sternemann");
+    about << tr("Authors") << "Peter Diener, Moritz Sternemann";
+    about << "Build" << QString(__DATE__) + " " + QString(__TIME__);
+    about << QCoreApplication::organizationName() << "Rudolf-Diesel-Str. 17";
+    about << "" << "82205 Gilching";
+    about << tr("Tel.") << "+49 8105 2713 -0";
+    about << "Email" << "diener@sme-gmbh.com";
+    about << "Email" << "moritz.sternemann@web.de";
 
-    about.append("Build");
-    about.append(QString(__DATE__) + " " + QString(__TIME__));
-    about.append("SME GmbH");
-    about.append("Rudolf-Diesel-Str. 17");
-    about.append("");
-    about.append("82205 Gilching");
-    about.append("Tel.");
-    about.append("+49 8105 2713 -0");
-    about.append("Email");
-    about.append("diener@sme-gmbh.com");
-    about.append("Email");
-    about.append("moritz.sternemann@web.de");
-
-    ModalDialog *dialog = new ModalDialog(tr("About SME-PowerCAD"), about, this);
+    ModalDialog *dialog = new ModalDialog(tr("About %1").arg(QCoreApplication::applicationName()), about, this);
     dialog->exec();
     delete dialog;
 }

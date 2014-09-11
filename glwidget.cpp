@@ -206,17 +206,10 @@ QStringList GLWidget::getOpenGLinfo()
 
     // get OpenGL info
     QStringList ret;
-    ret.append("Vendor");
-    ret.append(QString((const char*)glGetString(GL_VENDOR)));
-
-    ret.append("Renderer");
-    ret.append(QString((const char*)glGetString(GL_RENDERER)));
-
-    ret.append("Version");
-    ret.append(QString((const char*)glGetString(GL_VERSION)));
-
-    ret.append("GLSL Version");
-    ret.append(QString((const char*)glGetString(GL_SHADING_LANGUAGE_VERSION)));
+    ret << tr("Vendor") << QString((const char*)glGetString(GL_VENDOR));
+    ret << "Renderer" << QString((const char*)glGetString(GL_RENDERER));
+    ret << "Version" << QString((const char*)glGetString(GL_VERSION));
+    ret << "GLSL Version" << QString((const char*)glGetString(GL_SHADING_LANGUAGE_VERSION));
 
     return ret;
 }

@@ -7,7 +7,8 @@ ModalDialog::ModalDialog(QString title, QStringList data, QWidget *parent) :
 {
     ui->setupUi(this);
 
-    //this->setAttribute(Qt::WA_TranslucentBackground);
+    this->setAttribute(Qt::WA_OpaquePaintEvent);
+    this->setAttribute(Qt::WA_TranslucentBackground);
     this->setWindowOpacity(0.8);
 
     ui->labelTitle->setText(title);
@@ -15,7 +16,7 @@ ModalDialog::ModalDialog(QString title, QStringList data, QWidget *parent) :
     if (data.length() % 2 != 0) return;
     for (int i = 0; i < data.length(); i = i+2)
     {
-        QLabel *labelVal = new QLabel(data.at(i+1));
+        QLabel *labelVal = new QLabel(data.at(i+1), this);
         ui->formLayout->addRow(data.at(i), labelVal);
     }
     this->adjustSize();
@@ -26,15 +27,17 @@ ModalDialog::~ModalDialog()
     delete ui;
 }
 
-void ModalDialog::resizeEvent(QResizeEvent *event)
+void ModalDialog::paintEvent(QPaintEvent *event)
 {
-    Q_UNUSED(event);
-    QBitmap bmp(this->size());
-    bmp.fill(Qt::color0);
-    QPainter painter(&bmp);
-    painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.setBrush(Qt::color1);
-    painter.drawRoundedRect(this->rect(), 20, 20);
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHint(QPainter::TextAntialiasing);
+    QPen pen = QPen(QColor(255, 255, 255, 200));
+    pen.setWidth(2);
+    painter.setPen(pen);
+    painter.setBrush(QColor(0, 0, 0));
+    QRectF rect = QRectF(this->rect());
+    painter.drawRoundedRect(rect.adjusted(1.0, 1.0, -1.0, -1.0), 20, 20);
     painter.end();
-    setMask(bmp);
+    event->accept();
 }

@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="de_DE">
+<TS version="2.1" language="de_DE">
+<context>
+    <name>GLWidget</name>
+    <message>
+        <location filename="../glwidget.cpp" line="209"/>
+        <source>Vendor</source>
+        <translation>Hersteller</translation>
+    </message>
+</context>
 <context>
     <name>GeometryDisplay</name>
     <message>
@@ -157,7 +165,7 @@ Default width for lines and outlines</oldsource>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="152"/>
-        <location filename="../mainwindow.ui" line="571"/>
+        <location filename="../mainwindow.ui" line="606"/>
         <source>Window</source>
         <translation>Fenster</translation>
     </message>
@@ -183,195 +191,433 @@ Default width for lines and outlines</oldsource>
         <translation>Architektur</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="351"/>
+        <location filename="../mainwindow.ui" line="353"/>
         <source>Air</source>
         <translation>Luft</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="362"/>
+        <location filename="../mainwindow.ui" line="395"/>
         <source>Basic objects</source>
         <translation>Grundobjekte</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="389"/>
+        <location filename="../mainwindow.ui" line="424"/>
         <source>Load...</source>
         <translation>Laden...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="402"/>
+        <location filename="../mainwindow.ui" line="437"/>
         <source>Save</source>
         <translation>Speichern</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="415"/>
+        <location filename="../mainwindow.ui" line="450"/>
         <source>Save as...</source>
         <translation>Speichern unter...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="428"/>
+        <location filename="../mainwindow.ui" line="463"/>
         <source>Plot...</source>
         <translation>Plotten...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="441"/>
+        <location filename="../mainwindow.ui" line="476"/>
         <source>Pdf...</source>
         <translation>Pdf...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="454"/>
+        <location filename="../mainwindow.ui" line="489"/>
         <source>Close drawing</source>
         <translation>Zeichnung schließen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="457"/>
+        <location filename="../mainwindow.ui" line="492"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="470"/>
+        <location filename="../mainwindow.ui" line="505"/>
         <source>Quit</source>
         <translation>Beenden</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="473"/>
+        <location filename="../mainwindow.ui" line="508"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="485"/>
+        <location filename="../mainwindow.ui" line="520"/>
         <source>Line</source>
         <translation>Linie</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="488"/>
+        <location filename="../mainwindow.ui" line="523"/>
         <source>L</source>
         <translation>L</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="500"/>
+        <location filename="../mainwindow.ui" line="535"/>
         <source>Arc</source>
         <translation>Bogen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="503"/>
+        <location filename="../mainwindow.ui" line="538"/>
         <source>B</source>
         <translation>B</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="515"/>
+        <location filename="../mainwindow.ui" line="550"/>
         <source>Circle</source>
         <translation>Kreis</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="518"/>
+        <location filename="../mainwindow.ui" line="553"/>
         <source>K</source>
         <translation>K</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="526"/>
+        <location filename="../mainwindow.ui" line="561"/>
         <source>New window</source>
         <translation>Neues schnittfenster</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="529"/>
+        <location filename="../mainwindow.ui" line="564"/>
         <source>Q</source>
         <translation>Q</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="541"/>
+        <location filename="../mainwindow.ui" line="576"/>
+        <location filename="../mainwindow.ui" line="579"/>
+        <source>Wall loadbearing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="588"/>
+        <source>Level slab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="597"/>
+        <source>Support</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="638"/>
+        <source>Point</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="694"/>
+        <source>Beam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="697"/>
+        <source>action_arch_beam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="702"/>
+        <location filename="../mainwindow.ui" line="705"/>
+        <source>Wall non loadbearing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="710"/>
+        <location filename="../mainwindow.ui" line="713"/>
+        <source>Plane</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="718"/>
+        <location filename="../mainwindow.ui" line="721"/>
+        <source>Face</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="726"/>
+        <location filename="../mainwindow.ui" line="729"/>
+        <source>Canvas flange</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="734"/>
+        <location filename="../mainwindow.ui" line="737"/>
+        <source>Duct baffle silencer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="742"/>
+        <location filename="../mainwindow.ui" line="745"/>
+        <source>Duct</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="750"/>
+        <location filename="../mainwindow.ui" line="753"/>
+        <source>Duct end plate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="758"/>
+        <location filename="../mainwindow.ui" line="761"/>
+        <source>Duct fire damper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="766"/>
+        <location filename="../mainwindow.ui" line="769"/>
+        <source>Duct fire resistant</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="774"/>
+        <location filename="../mainwindow.ui" line="777"/>
+        <source>Duct T-Connector</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="782"/>
+        <location filename="../mainwindow.ui" line="785"/>
+        <source>Duct Transition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="790"/>
+        <location filename="../mainwindow.ui" line="793"/>
+        <source>Duct Transition (rect/round)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="798"/>
+        <location filename="../mainwindow.ui" line="801"/>
+        <source>Duct Turn</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="806"/>
+        <location filename="../mainwindow.ui" line="809"/>
+        <source>Duct Volumetric Flow controller</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="814"/>
+        <location filename="../mainwindow.ui" line="817"/>
+        <source>Duct Y-Piece</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="822"/>
+        <location filename="../mainwindow.ui" line="825"/>
+        <source>Empty Cabinet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="830"/>
+        <location filename="../mainwindow.ui" line="833"/>
+        <source>Equipment frame</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="838"/>
+        <location filename="../mainwindow.ui" line="841"/>
+        <source>Fan</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="846"/>
+        <location filename="../mainwindow.ui" line="849"/>
+        <source>Filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="854"/>
+        <location filename="../mainwindow.ui" line="857"/>
+        <source>Heat Exchanger (air/air)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="862"/>
+        <location filename="../mainwindow.ui" line="865"/>
+        <source>Heat Exchanger (water/air)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="870"/>
+        <location filename="../mainwindow.ui" line="873"/>
+        <source>Humidifier</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="878"/>
+        <location filename="../mainwindow.ui" line="881"/>
+        <source>Multi Leaf Damper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="886"/>
+        <location filename="../mainwindow.ui" line="889"/>
+        <source>Pipe</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="894"/>
+        <location filename="../mainwindow.ui" line="897"/>
+        <source>Pipe End Cap</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="902"/>
+        <location filename="../mainwindow.ui" line="905"/>
+        <source>Pipe Fire Damper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="910"/>
+        <location filename="../mainwindow.ui" line="913"/>
+        <source>Pipe Reducer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="918"/>
+        <location filename="../mainwindow.ui" line="921"/>
+        <source>Pipe Silencer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="926"/>
+        <location filename="../mainwindow.ui" line="929"/>
+        <source>Pipe T-Connector</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="934"/>
+        <location filename="../mainwindow.ui" line="937"/>
+        <source>Pipe Turn</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="942"/>
+        <location filename="../mainwindow.ui" line="945"/>
+        <source>Pipe Volumetric Flow Controller</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="950"/>
+        <location filename="../mainwindow.ui" line="953"/>
+        <source>Pressure Relief Damper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="958"/>
+        <location filename="../mainwindow.ui" line="961"/>
+        <source>Throttle Valve</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Wall</source>
-        <translation>Wand</translation>
+        <translation type="obsolete">Wand</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="544"/>
         <source>Wand</source>
-        <translation>Wand</translation>
+        <translation type="obsolete">Wand</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="553"/>
         <source>Ceiling/Floor</source>
-        <translation>Decke/Boden</translation>
+        <translation type="obsolete">Decke/Boden</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="562"/>
         <source>Pillar</source>
-        <translation>Säule</translation>
+        <translation type="obsolete">Säule</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="580"/>
+        <location filename="../mainwindow.ui" line="615"/>
         <source>Door</source>
         <translation>Tür</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="589"/>
+        <location filename="../mainwindow.ui" line="624"/>
         <source>Block out</source>
         <translation>Aussparung</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="594"/>
+        <location filename="../mainwindow.ui" line="629"/>
         <source>Recent projects</source>
         <translation>Zuletzt verwendete Projekte</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="603"/>
         <source>Dot</source>
-        <translation>Punkt</translation>
+        <translation type="obsolete">Punkt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="612"/>
+        <location filename="../mainwindow.ui" line="647"/>
         <source>Ployline</source>
         <translation>Polylinie</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="621"/>
+        <location filename="../mainwindow.ui" line="656"/>
         <source>Box</source>
         <translation>Box</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="630"/>
+        <location filename="../mainwindow.ui" line="665"/>
         <source>Cylinder</source>
         <translation>Zylinder</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="639"/>
+        <location filename="../mainwindow.ui" line="674"/>
         <source>Sphere</source>
         <translation>Kugel</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="644"/>
+        <location filename="../mainwindow.ui" line="679"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="649"/>
-        <location filename="../mainwindow.cpp" line="370"/>
+        <location filename="../mainwindow.ui" line="684"/>
         <source>About OpenGL</source>
         <translation>Über OpenGL</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="654"/>
+        <location filename="../mainwindow.ui" line="689"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="91"/>
+        <location filename="../mainwindow.cpp" line="88"/>
         <source>Clear menu</source>
         <translation>Menü leeren</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="194"/>
+        <location filename="../mainwindow.cpp" line="191"/>
         <source>Load drawing</source>
         <translation>Zeichnung laden</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="194"/>
+        <location filename="../mainwindow.cpp" line="191"/>
         <source>dxf-Datei (*.dxf)</source>
         <translation>dxf-Datei (*.dxf)</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="367"/>
         <location filename="../mainwindow.cpp" line="383"/>
+        <source>About %1</source>
+        <translation>Über %1</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="375"/>
+        <source>Authors</source>
+        <translation>Entwickler</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="379"/>
+        <source>Tel.</source>
+        <translation>Tel.</translation>
+    </message>
+    <message>
         <source>About SME-PowerCAD</source>
-        <translation>Über SME-PowerCAD</translation>
+        <translation type="obsolete">Über SME-PowerCAD</translation>
     </message>
 </context>
 <context>
