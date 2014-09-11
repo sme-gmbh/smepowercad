@@ -1,7 +1,7 @@
 #include "modaldialog.h"
 #include "ui_modaldialog.h"
 
-ModalDialog::ModalDialog(QString title, QMap<QString, QString> data, QWidget *parent) :
+ModalDialog::ModalDialog(QString title, QStringList data, QWidget *parent) :
     QDialog(parent, Qt::FramelessWindowHint),
     ui(new Ui::ModalDialog)
 {
@@ -12,12 +12,11 @@ ModalDialog::ModalDialog(QString title, QMap<QString, QString> data, QWidget *pa
 
     ui->labelTitle->setText(title);
 
-    QMap<QString, QString>::iterator i;
-    for (i = data.begin(); i != data.end(); i++)
+    if (data.length() % 2 != 0) return;
+    for (int i = 0; i < data.length(); i = i+2)
     {
-        QLabel *labelKey = new QLabel(i.key());
-        QLabel *labelVal = new QLabel(i.value());
-        ui->formLayout->addRow(labelKey, labelVal);
+        QLabel *labelVal = new QLabel(data.at(i+1));
+        ui->formLayout->addRow(data.at(i), labelVal);
     }
     this->adjustSize();
 }

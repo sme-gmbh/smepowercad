@@ -30,6 +30,8 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
     this->snapMode = SnapCenter;
     this->item_lastHighlight = NULL;
 
+    slot_update_settings();
+
     this->setMouseTracking(true);
 
     this->setPalette(Qt::transparent);
@@ -243,6 +245,11 @@ void GLWidget::slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c)
 
 
     slot_repaint();
+}
+
+void GLWidget::slot_update_settings()
+{
+    _backgroundColor = settings.value("Design_Colors_backgroundColor", QVariant::fromValue(QColor().black())).value<QColor>();
 }
 
 void GLWidget::wheelEvent(QWheelEvent* event)
@@ -507,6 +514,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
 
     saveGLState();
 
+    qglClearColor(_backgroundColor);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
