@@ -371,14 +371,22 @@ void MainWindow::on_actionAbout_OpenGL_triggered()
 
 void MainWindow::on_actionAbout_triggered()
 {
-    QMap<QString, QString> about;
-    about.insert("Authors", "Peter Diener, Moritz Sternemann");
-    about.insert("Build", QString(__DATE__) + " " + QString(__TIME__));
-    about.insert("SME GmbH", "Rudolf-Diesel-Str. 17");
-    about.insert("", "82205 Gilching");
-    about.insert("Tel.", "+49 8105 2713 -0");
-    about.insert("Email", "diener@sme-gmbh.com");
-    about.insert("Email", "moritz.sternemann@web.de");
+    QStringList about;
+    about.append("Authors");
+    about.append("Peter Diener, Moritz Sternemann");
+
+    about.append("Build");
+    about.append(QString(__DATE__) + " " + QString(__TIME__));
+    about.append("SME GmbH");
+    about.append("Rudolf-Diesel-Str. 17");
+    about.append("");
+    about.append("82205 Gilching");
+    about.append("Tel.");
+    about.append("+49 8105 2713 -0");
+    about.append("Email");
+    about.append("diener@sme-gmbh.com");
+    about.append("Email");
+    about.append("moritz.sternemann@web.de");
 
     ModalDialog *dialog = new ModalDialog(tr("About SME-PowerCAD"), about, this);
     dialog->exec();
