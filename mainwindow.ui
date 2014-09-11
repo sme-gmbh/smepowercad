@@ -326,7 +326,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     </layout>
    </widget>
   </widget>
-  <widget class="QToolBar" name="toolBarArchitektur">
+  <widget class="QToolBar" name="toolBarArchitecture">
    <property name="windowTitle">
     <string>Architecture</string>
    </property>
@@ -339,14 +339,16 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionSaeule"/>
-   <addaction name="actionDecke_Boden"/>
-   <addaction name="actionWand"/>
-   <addaction name="actionAussparung"/>
-   <addaction name="actionFenster"/>
-   <addaction name="actionTuer"/>
+   <addaction name="action_arch_levelSlab"/>
+   <addaction name="action_arch_wall_loadbearing"/>
+   <addaction name="action_arch_wall_nonloadbearing"/>
+   <addaction name="action_arch_support"/>
+   <addaction name="action_arch_beam"/>
+   <addaction name="action_arch_blockout"/>
+   <addaction name="action_arch_window"/>
+   <addaction name="action_arch_door"/>
   </widget>
-  <widget class="QToolBar" name="toolBarLuft">
+  <widget class="QToolBar" name="toolBarAir">
    <property name="windowTitle">
     <string>Air</string>
    </property>
@@ -354,10 +356,40 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>false</bool>
+    <bool>true</bool>
    </attribute>
+   <addaction name="action_air_canvas_flange"/>
+   <addaction name="action_air_duct_baffle_silencer"/>
+   <addaction name="action_air_duct"/>
+   <addaction name="action_air_duct_end_plate"/>
+   <addaction name="action_air_duct_fire_damper"/>
+   <addaction name="action_air_duct_fire_resistant"/>
+   <addaction name="action_air_duct_T_Connector"/>
+   <addaction name="action_air_duct_transition"/>
+   <addaction name="action_air_duct_transition_rect_round"/>
+   <addaction name="action_air_duct_turn"/>
+   <addaction name="action_air_duct_volumetric_flow_controller"/>
+   <addaction name="action_air_duct_Y_piece"/>
+   <addaction name="action_air_empty_cabinet"/>
+   <addaction name="action_air_equipment_frame"/>
+   <addaction name="action_air_fan"/>
+   <addaction name="action_air_filter"/>
+   <addaction name="action_air_heat_exchanger_air_air"/>
+   <addaction name="action_air_heat_exchanger_water_air"/>
+   <addaction name="action_air_Humidifier"/>
+   <addaction name="action_air_multi_leaf_damper"/>
+   <addaction name="action_air_pipe"/>
+   <addaction name="action_air_pipe_end_cap"/>
+   <addaction name="action_air_pipe_fire_damper"/>
+   <addaction name="action_air_pipe_reducer"/>
+   <addaction name="action_air_pipe_silencer"/>
+   <addaction name="action_air_pipe_T_Connector"/>
+   <addaction name="action_air_pipe_turn"/>
+   <addaction name="action_air_pipe_volumetric_flow_controller"/>
+   <addaction name="action_air_pressure_relief_damper"/>
+   <addaction name="action_air_throttle_valve"/>
   </widget>
-  <widget class="QToolBar" name="toolBarPrimitiv">
+  <widget class="QToolBar" name="toolBarBasic">
    <property name="windowTitle">
     <string>Basic objects</string>
    </property>
@@ -370,14 +402,16 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionPunkt"/>
-   <addaction name="actionLinie"/>
-   <addaction name="actionPolylinie"/>
-   <addaction name="actionKreis"/>
-   <addaction name="actionBogen"/>
-   <addaction name="actionBox"/>
-   <addaction name="actionZylinder"/>
-   <addaction name="actionKugel"/>
+   <addaction name="action_basic_point"/>
+   <addaction name="action_basic_linie"/>
+   <addaction name="action_basic_polylinie"/>
+   <addaction name="action_basic_circle"/>
+   <addaction name="action_basic_arc"/>
+   <addaction name="action_basic_plane"/>
+   <addaction name="action_basic_face"/>
+   <addaction name="action_basic_box"/>
+   <addaction name="action_basic_cylinder"/>
+   <addaction name="action_basic_sphere"/>
   </widget>
   <action name="actionLaden">
    <property name="icon">
@@ -476,7 +510,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <bool>true</bool>
    </property>
   </action>
-  <action name="actionLinie">
+  <action name="action_basic_linie">
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/objekte/grundobjekte/icons/Linie.svg</normaloff>:/objekte/grundobjekte/icons/Linie.svg</iconset>
@@ -491,7 +525,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <bool>true</bool>
    </property>
   </action>
-  <action name="actionBogen">
+  <action name="action_basic_arc">
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/objekte/grundobjekte/icons/Bogen.svg</normaloff>:/objekte/grundobjekte/icons/Bogen.svg</iconset>
@@ -506,7 +540,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <bool>true</bool>
    </property>
   </action>
-  <action name="actionKreis">
+  <action name="action_basic_circle">
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/objekte/grundobjekte/icons/Kreis.svg</normaloff>:/objekte/grundobjekte/icons/Kreis.svg</iconset>
@@ -532,37 +566,37 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <bool>false</bool>
    </property>
   </action>
-  <action name="actionWand">
+  <action name="action_arch_wall_loadbearing">
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/objekte/architektur/icons/Wand.svg</normaloff>:/objekte/architektur/icons/Wand.svg</iconset>
    </property>
    <property name="text">
-    <string>Wall</string>
+    <string>Wall loadbearing</string>
    </property>
    <property name="toolTip">
-    <string>Wand</string>
+    <string>Wall loadbearing</string>
    </property>
   </action>
-  <action name="actionDecke_Boden">
+  <action name="action_arch_levelSlab">
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/objekte/architektur/icons/boden_decke.svg</normaloff>:/objekte/architektur/icons/boden_decke.svg</iconset>
    </property>
    <property name="text">
-    <string>Ceiling/Floor</string>
+    <string>Level slab</string>
    </property>
   </action>
-  <action name="actionSaeule">
+  <action name="action_arch_support">
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/objekte/architektur/icons/Stütze.svg</normaloff>:/objekte/architektur/icons/Stütze.svg</iconset>
    </property>
    <property name="text">
-    <string>Pillar</string>
+    <string>Support</string>
    </property>
   </action>
-  <action name="actionFenster">
+  <action name="action_arch_window">
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/objekte/architektur/icons/fenster.svg</normaloff>:/objekte/architektur/icons/fenster.svg</iconset>
@@ -571,7 +605,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <string>Window</string>
    </property>
   </action>
-  <action name="actionTuer">
+  <action name="action_arch_door">
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/objekte/architektur/icons/tuer.svg</normaloff>:/objekte/architektur/icons/tuer.svg</iconset>
@@ -580,7 +614,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <string>Door</string>
    </property>
   </action>
-  <action name="actionAussparung">
+  <action name="action_arch_blockout">
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/objekte/architektur/icons/Aussparung.svg</normaloff>:/objekte/architektur/icons/Aussparung.svg</iconset>
@@ -594,16 +628,16 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <string>Recent projects</string>
    </property>
   </action>
-  <action name="actionPunkt">
+  <action name="action_basic_point">
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/objekte/grundobjekte/icons/point.svg</normaloff>:/objekte/grundobjekte/icons/point.svg</iconset>
    </property>
    <property name="text">
-    <string>Dot</string>
+    <string>Point</string>
    </property>
   </action>
-  <action name="actionPolylinie">
+  <action name="action_basic_polylinie">
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/objekte/grundobjekte/icons/polyline.svg</normaloff>:/objekte/grundobjekte/icons/polyline.svg</iconset>
@@ -612,7 +646,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <string>Ployline</string>
    </property>
   </action>
-  <action name="actionBox">
+  <action name="action_basic_box">
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/objekte/grundobjekte/icons/box.svg</normaloff>:/objekte/grundobjekte/icons/box.svg</iconset>
@@ -621,7 +655,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <string>Box</string>
    </property>
   </action>
-  <action name="actionZylinder">
+  <action name="action_basic_cylinder">
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/objekte/grundobjekte/icons/cylinder.svg</normaloff>:/objekte/grundobjekte/icons/cylinder.svg</iconset>
@@ -630,7 +664,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <string>Cylinder</string>
    </property>
   </action>
-  <action name="actionKugel">
+  <action name="action_basic_sphere">
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/objekte/grundobjekte/icons/sphere.svg</normaloff>:/objekte/grundobjekte/icons/sphere.svg</iconset>
@@ -652,6 +686,278 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="actionSettings">
    <property name="text">
     <string>Settings</string>
+   </property>
+  </action>
+  <action name="action_arch_beam">
+   <property name="text">
+    <string>Beam</string>
+   </property>
+   <property name="toolTip">
+    <string>action_arch_beam</string>
+   </property>
+  </action>
+  <action name="action_arch_wall_nonloadbearing">
+   <property name="text">
+    <string>Wall non loadbearing</string>
+   </property>
+   <property name="toolTip">
+    <string>Wall non loadbearing</string>
+   </property>
+  </action>
+  <action name="action_basic_plane">
+   <property name="text">
+    <string>Plane</string>
+   </property>
+   <property name="toolTip">
+    <string>Plane</string>
+   </property>
+  </action>
+  <action name="action_basic_face">
+   <property name="text">
+    <string>Face</string>
+   </property>
+   <property name="toolTip">
+    <string>Face</string>
+   </property>
+  </action>
+  <action name="action_air_canvas_flange">
+   <property name="text">
+    <string>Canvas flange</string>
+   </property>
+   <property name="toolTip">
+    <string>Canvas flange</string>
+   </property>
+  </action>
+  <action name="action_air_duct_baffle_silencer">
+   <property name="text">
+    <string>Duct baffle silencer</string>
+   </property>
+   <property name="toolTip">
+    <string>Duct baffle silencer</string>
+   </property>
+  </action>
+  <action name="action_air_duct">
+   <property name="text">
+    <string>Duct</string>
+   </property>
+   <property name="toolTip">
+    <string>Duct</string>
+   </property>
+  </action>
+  <action name="action_air_duct_end_plate">
+   <property name="text">
+    <string>Duct end plate</string>
+   </property>
+   <property name="toolTip">
+    <string>Duct end plate</string>
+   </property>
+  </action>
+  <action name="action_air_duct_fire_damper">
+   <property name="text">
+    <string>Duct fire damper</string>
+   </property>
+   <property name="toolTip">
+    <string>Duct fire damper</string>
+   </property>
+  </action>
+  <action name="action_air_duct_fire_resistant">
+   <property name="text">
+    <string>Duct fire resistant</string>
+   </property>
+   <property name="toolTip">
+    <string>Duct fire resistant</string>
+   </property>
+  </action>
+  <action name="action_air_duct_T_Connector">
+   <property name="text">
+    <string>Duct T-Connector</string>
+   </property>
+   <property name="toolTip">
+    <string>Duct T-Connector</string>
+   </property>
+  </action>
+  <action name="action_air_duct_transition">
+   <property name="text">
+    <string>Duct Transition</string>
+   </property>
+   <property name="toolTip">
+    <string>Duct Transition</string>
+   </property>
+  </action>
+  <action name="action_air_duct_transition_rect_round">
+   <property name="text">
+    <string>Duct Transition (rect/round)</string>
+   </property>
+   <property name="toolTip">
+    <string>Duct Transition (rect/round)</string>
+   </property>
+  </action>
+  <action name="action_air_duct_turn">
+   <property name="text">
+    <string>Duct Turn</string>
+   </property>
+   <property name="toolTip">
+    <string>Duct Turn</string>
+   </property>
+  </action>
+  <action name="action_air_duct_volumetric_flow_controller">
+   <property name="text">
+    <string>Duct Volumetric Flow controller</string>
+   </property>
+   <property name="toolTip">
+    <string>Duct Volumetric Flow controller</string>
+   </property>
+  </action>
+  <action name="action_air_duct_Y_piece">
+   <property name="text">
+    <string>Duct Y-Piece</string>
+   </property>
+   <property name="toolTip">
+    <string>Duct Y-Piece</string>
+   </property>
+  </action>
+  <action name="action_air_empty_cabinet">
+   <property name="text">
+    <string>Empty Cabinet</string>
+   </property>
+   <property name="toolTip">
+    <string>Empty Cabinet</string>
+   </property>
+  </action>
+  <action name="action_air_equipment_frame">
+   <property name="text">
+    <string>Equipment frame</string>
+   </property>
+   <property name="toolTip">
+    <string>Equipment frame</string>
+   </property>
+  </action>
+  <action name="action_air_fan">
+   <property name="text">
+    <string>Fan</string>
+   </property>
+   <property name="toolTip">
+    <string>Fan</string>
+   </property>
+  </action>
+  <action name="action_air_filter">
+   <property name="text">
+    <string>Filter</string>
+   </property>
+   <property name="toolTip">
+    <string>Filter</string>
+   </property>
+  </action>
+  <action name="action_air_heat_exchanger_air_air">
+   <property name="text">
+    <string>Heat Exchanger (air/air)</string>
+   </property>
+   <property name="toolTip">
+    <string>Heat Exchanger (air/air)</string>
+   </property>
+  </action>
+  <action name="action_air_heat_exchanger_water_air">
+   <property name="text">
+    <string>Heat Exchanger (water/air)</string>
+   </property>
+   <property name="toolTip">
+    <string>Heat Exchanger (water/air)</string>
+   </property>
+  </action>
+  <action name="action_air_Humidifier">
+   <property name="text">
+    <string>Humidifier</string>
+   </property>
+   <property name="toolTip">
+    <string>Humidifier</string>
+   </property>
+  </action>
+  <action name="action_air_multi_leaf_damper">
+   <property name="text">
+    <string>Multi Leaf Damper</string>
+   </property>
+   <property name="toolTip">
+    <string>Multi Leaf Damper</string>
+   </property>
+  </action>
+  <action name="action_air_pipe">
+   <property name="text">
+    <string>Pipe</string>
+   </property>
+   <property name="toolTip">
+    <string>Pipe</string>
+   </property>
+  </action>
+  <action name="action_air_pipe_end_cap">
+   <property name="text">
+    <string>Pipe End Cap</string>
+   </property>
+   <property name="toolTip">
+    <string>Pipe End Cap</string>
+   </property>
+  </action>
+  <action name="action_air_pipe_fire_damper">
+   <property name="text">
+    <string>Pipe Fire Damper</string>
+   </property>
+   <property name="toolTip">
+    <string>Pipe Fire Damper</string>
+   </property>
+  </action>
+  <action name="action_air_pipe_reducer">
+   <property name="text">
+    <string>Pipe Reducer</string>
+   </property>
+   <property name="toolTip">
+    <string>Pipe Reducer</string>
+   </property>
+  </action>
+  <action name="action_air_pipe_silencer">
+   <property name="text">
+    <string>Pipe Silencer</string>
+   </property>
+   <property name="toolTip">
+    <string>Pipe Silencer</string>
+   </property>
+  </action>
+  <action name="action_air_pipe_T_Connector">
+   <property name="text">
+    <string>Pipe T-Connector</string>
+   </property>
+   <property name="toolTip">
+    <string>Pipe T-Connector</string>
+   </property>
+  </action>
+  <action name="action_air_pipe_turn">
+   <property name="text">
+    <string>Pipe Turn</string>
+   </property>
+   <property name="toolTip">
+    <string>Pipe Turn</string>
+   </property>
+  </action>
+  <action name="action_air_pipe_volumetric_flow_controller">
+   <property name="text">
+    <string>Pipe Volumetric Flow Controller</string>
+   </property>
+   <property name="toolTip">
+    <string>Pipe Volumetric Flow Controller</string>
+   </property>
+  </action>
+  <action name="action_air_pressure_relief_damper">
+   <property name="text">
+    <string>Pressure Relief Damper</string>
+   </property>
+   <property name="toolTip">
+    <string>Pressure Relief Damper</string>
+   </property>
+  </action>
+  <action name="action_air_throttle_valve">
+   <property name="text">
+    <string>Throttle Valve</string>
+   </property>
+   <property name="toolTip">
+    <string>Throttle Valve</string>
    </property>
   </action>
  </widget>

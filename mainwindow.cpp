@@ -391,3 +391,243 @@ void MainWindow::on_actionSettings_triggered()
     dialog->exec();
     delete dialog;
 }
+
+void MainWindow::on_action_basic_face_triggered()
+{
+
+}
+
+void MainWindow::on_action_basic_arc_triggered()
+{
+
+}
+
+void MainWindow::on_action_basic_box_triggered()
+{
+
+}
+
+void MainWindow::on_action_basic_circle_triggered()
+{
+
+}
+
+void MainWindow::on_action_basic_cylinder_triggered()
+{
+
+}
+
+void MainWindow::on_action_basic_linie_triggered()
+{
+
+}
+
+void MainWindow::on_action_basic_plane_triggered()
+{
+
+}
+
+void MainWindow::on_action_basic_point_triggered()
+{
+
+}
+
+void MainWindow::on_action_basic_polylinie_triggered()
+{
+
+}
+
+void MainWindow::on_action_basic_sphere_triggered()
+{
+
+}
+
+void MainWindow::on_action_arch_beam_triggered()
+{
+
+}
+
+void MainWindow::on_action_arch_blockout_triggered()
+{
+
+}
+
+void MainWindow::on_action_arch_door_triggered()
+{
+
+}
+
+void MainWindow::on_action_arch_levelSlab_triggered()
+{
+
+}
+
+void MainWindow::on_action_arch_support_triggered()
+{
+
+}
+
+void MainWindow::on_action_arch_wall_loadbearing_triggered()
+{
+
+}
+
+void MainWindow::on_action_arch_wall_nonloadbearing_triggered()
+{
+
+}
+
+void MainWindow::on_action_arch_window_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_canvas_flange_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_duct_baffle_silencer_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_duct_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_duct_end_plate_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_duct_fire_damper_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_duct_fire_resistant_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_duct_T_Connector_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_duct_transition_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_duct_transition_rect_round_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_duct_turn_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_duct_volumetric_flow_controller_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_duct_Y_piece_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_empty_cabinet_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_equipment_frame_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_fan_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_filter_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_heat_exchanger_air_air_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_heat_exchanger_water_air_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_Humidifier_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_multi_leaf_damper_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_pipe_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_pipe_end_cap_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_pipe_fire_damper_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_pipe_reducer_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_pipe_silencer_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_pipe_T_Connector_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_pipe_turn_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_pipe_volumetric_flow_controller_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_pressure_relief_damper_triggered()
+{
+
+}
+
+void MainWindow::on_action_air_throttle_valve_triggered()
+{
+
+}
