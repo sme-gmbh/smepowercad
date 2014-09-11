@@ -2,8 +2,8 @@
 #define MODALDIALOG_H
 
 #include <QDialog>
-#include <QBitmap>
 #include <QPainter>
+#include <QPaintEvent>
 
 namespace Ui {
 class ModalDialog;
@@ -16,8 +16,7 @@ class ModalDialog : public QDialog
 public:
     explicit ModalDialog(QString title, QStringList data, QWidget *parent = 0);
     ~ModalDialog();
-
-    virtual void resizeEvent(QResizeEvent *event);
+    virtual void paintEvent(QPaintEvent *event);
 
 private:
     Ui::ModalDialog *ui;
