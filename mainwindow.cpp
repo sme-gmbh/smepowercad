@@ -94,6 +94,14 @@ MainWindow::MainWindow(QWidget *parent) :
     updateRecentFileActions();
 
 
+    // **** 3D mouse ****
+    magellanThread = new QMagellanThread;
+    connect(magellanThread, SIGNAL(signal_mouseCoords(int,int,int,int,int,int)), mainGeometryDisplay, SIGNAL(signal_mouse3Dcoords(int,int,int,int,int,int)));
+    //connect(magellanThread, SIGNAL(signal_buttonPressed(int)), this, SLOT());
+    //connect(magellanThread, SIGNAL(signal_buttonReleased(int)), this, SLOT());
+    magellanThread->start();
+
+
 
 
     // ***** Spielwiese *****
@@ -124,6 +132,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    magellanThread->terminate();
+    delete magellanThread;
     delete mainGeometryDisplay;
     delete layerManager;
     delete itemDB;
@@ -342,6 +352,7 @@ void MainWindow::slot_newGeometryDisplay()
     connect(newGeometryDisplay, SIGNAL(signal_aboutToClose(QAction*)), this, SLOT(slot_geometryDisplayAboutToClose(QAction*)));
     connect(this, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(layerManager, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
+    connect(magellanThread, SIGNAL(signal_mouseCoords(int,int,int,int,int,int)), newGeometryDisplay, SIGNAL(signal_mouse3Dcoords(int,int,int,int,int,int)));
     this->addDockWidget(Qt::LeftDockWidgetArea, newGeometryDisplay);
     ui->menuFenster->addAction(newGeometryDisplay->toggleViewAction());
 

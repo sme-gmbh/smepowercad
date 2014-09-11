@@ -112,7 +112,6 @@ void SettingsDialog::loadCategorys()
         delete categories.takeFirst();
     categories.clear();
 
-
     QDomDocument doc;
     QFile file("../../src/settings.xml");
     if (!file.open(QFile::ReadOnly))

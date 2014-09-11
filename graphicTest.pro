@@ -16,7 +16,7 @@ MOC_DIR = .moc/
 UI_DIR = .ui/
 RCC_DIR = .rcc/
 
-LIBS += -lGLU
+LIBS += -lGLU -lX11
 
 TRANSLATIONS =  lang/powercad-de_DE.ts \
                 lang/powercad-ru_RU.ts
@@ -120,7 +120,9 @@ SOURCES += main.cpp\
     items/cad_heatcool_radiator.cpp \
     items/cad_heatcool_flowmeter.cpp \
     modaldialog.cpp \
-    settingsdialog.cpp
+    settingsdialog.cpp \
+    3Dmouse/qmagellan.cpp \
+    3Dmouse/xdrvlib.c
 
 HEADERS  += mainwindow.h \
     overlay.h \
@@ -229,7 +231,9 @@ HEADERS  += mainwindow.h \
     items/cad_heatcool_radiator.h \
     items/cad_heatcool_flowmeter.h \
     modaldialog.h \
-    settingsdialog.h
+    settingsdialog.h \
+    3Dmouse/qmagellan.h \
+    3Dmouse/xdrvlib.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
