@@ -693,9 +693,6 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <property name="text">
     <string>Beam</string>
    </property>
-   <property name="toolTip">
-    <string>action_arch_beam</string>
-   </property>
   </action>
   <action name="action_arch_wall_nonloadbearing">
    <property name="text">

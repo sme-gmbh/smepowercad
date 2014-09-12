@@ -219,9 +219,6 @@ void GLWidget::slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c)
     if (!cursorShown)
         return;
 
-    //QString string = QString().sprintf("x=%+04d y=%+04d z=%+04d a=%+04d b=%+04d c=%+04d", x, y, z, a, b, c);
-    //qDebug(string.toUtf8());
-
     // move
     translationOffset += QPoint(x/2, y/2);
 
@@ -235,8 +232,6 @@ void GLWidget::slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c)
     }
     else
         zoomFactor += zoomStep;
-
-    //qDebug() << zoomFactor;
 
     // rot
     rot_x += -((float)a / 15.0);
@@ -297,7 +292,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     mousePosOld = mousePos;
 
     // Update mouse coordinates and scene coordinates
-    //todo
+    // TODO
 //    if (!(event->buttons() & Qt::MidButton))
 //        emit signal_sceneCoordinateChanged(mapToScene(mousePos));
 
@@ -322,7 +317,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 //        rot_y += dx * cos(rot_x*PI/180.0) * cos(rot_z*PI/180.0) + dy * sin(rot_z*PI/180.0);
         //rot_z += dx + dy;
 
-        // Todo: calculate arcball math here
+        // TODO: calculate arcball math here
 
         rot_x += -dy;
         rot_y += -dx;
@@ -519,7 +514,6 @@ void GLWidget::paintEvent(QPaintEvent *event)
     saveGLState();
 
     qglClearColor(_backgroundColor);
-    //glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
