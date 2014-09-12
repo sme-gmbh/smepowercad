@@ -219,9 +219,6 @@ void GLWidget::slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c)
     if (!cursorShown)
         return;
 
-    //QString string = QString().sprintf("x=%+04d y=%+04d z=%+04d a=%+04d b=%+04d c=%+04d", x, y, z, a, b, c);
-    //qDebug(string.toUtf8());
-
     // move
     translationOffset += QPoint(x/2, y/2);
 
@@ -236,8 +233,6 @@ void GLWidget::slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c)
     else
         zoomFactor += zoomStep;
 
-    //qDebug() << zoomFactor;
-
     // rot
     rot_x += -((float)a / 15.0);
     rot_y += -((float)b / 15.0);
@@ -250,6 +245,10 @@ void GLWidget::slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c)
 void GLWidget::slot_update_settings()
 {
     _backgroundColor = settings.value("Design_Colors_backgroundColor", QVariant::fromValue(QColor().black())).value<QColor>();
+    _cursorSize = settings.value("Userinterface_Cursor_cursorSize", QVariant::fromValue(4500)).toInt();
+    _cursorWidth = settings.value("Userinterface_Cursor_cursorLineWidth", QVariant::fromValue(1)).toInt();
+    _cursorPickboxSize = settings.value("Userinterface_Cursor_cursorPickboxSize", QVariant::fromValue(11)).toInt();
+    _snapIndicatorSize = settings.value("Userinterface_Snap_snapIndicatorSize", QVariant::fromValue(21)).toInt();
 }
 
 void GLWidget::wheelEvent(QWheelEvent* event)
@@ -293,7 +292,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     mousePosOld = mousePos;
 
     // Update mouse coordinates and scene coordinates
-    //todo
+    // TODO
 //    if (!(event->buttons() & Qt::MidButton))
 //        emit signal_sceneCoordinateChanged(mapToScene(mousePos));
 
@@ -318,7 +317,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 //        rot_y += dx * cos(rot_x*PI/180.0) * cos(rot_z*PI/180.0) + dy * sin(rot_z*PI/180.0);
         //rot_z += dx + dy;
 
-        // Todo: calculate arcball math here
+        // TODO: calculate arcball math here
 
         rot_x += -dy;
         rot_y += -dx;
@@ -515,7 +514,6 @@ void GLWidget::paintEvent(QPaintEvent *event)
     saveGLState();
 
     qglClearColor(_backgroundColor);
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -644,7 +642,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
     {
         // Cursor lines
         glDisable(GL_DEPTH_TEST);
-        glLineWidth(2);
+        glLineWidth((GLfloat)_cursorWidth);
         glColor4ub(255, 255, 255, 255);
         glBegin(GL_LINES);
         glVertex3i(0, mousePos.y(), 0);
@@ -656,7 +654,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
         // Cursor Pickbox
         glLineWidth(1);
         glColor4ub(200, 255, 200, 150);
-        QRect pickRect = QRect(0, 0, 11, 11);
+        QRect pickRect = QRect(0, 0, _cursorPickboxSize, _cursorPickboxSize);
         pickRect.moveCenter(mousePos);
         glBegin(GL_LINE_LOOP);
         glVertex3i(pickRect.bottomLeft().x(), pickRect.bottomLeft().y(), 0);
@@ -701,7 +699,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
 
             QFont font;
 
-            QRect focusRect = QRect(0, 0, 21, 21);
+            QRect focusRect = QRect(0, 0, _snapIndicatorSize, _snapIndicatorSize);
             focusRect.moveCenter(this->snapPos_screen);
 
 

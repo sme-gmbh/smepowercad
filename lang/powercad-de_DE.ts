@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="de_DE">
+<TS version="2.0" language="de_DE">
 <context>
     <name>GLWidget</name>
     <message>
@@ -289,230 +289,225 @@ Default width for lines and outlines</oldsource>
         <location filename="../mainwindow.ui" line="576"/>
         <location filename="../mainwindow.ui" line="579"/>
         <source>Wall loadbearing</source>
-        <translation type="unfinished"></translation>
+        <translation>tragende Wand</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="588"/>
         <source>Level slab</source>
-        <translation type="unfinished"></translation>
+        <translation>Decke</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="597"/>
         <source>Support</source>
-        <translation type="unfinished"></translation>
+        <translation>Säule</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="638"/>
         <source>Point</source>
-        <translation type="unfinished"></translation>
+        <translation>Punkt</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="694"/>
         <source>Beam</source>
-        <translation type="unfinished"></translation>
+        <translation>Unterzug</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="697"/>
-        <source>action_arch_beam</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
+        <location filename="../mainwindow.ui" line="699"/>
         <location filename="../mainwindow.ui" line="702"/>
-        <location filename="../mainwindow.ui" line="705"/>
         <source>Wall non loadbearing</source>
-        <translation type="unfinished"></translation>
+        <translation>nicht tragende Wand</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="707"/>
         <location filename="../mainwindow.ui" line="710"/>
-        <location filename="../mainwindow.ui" line="713"/>
         <source>Plane</source>
-        <translation type="unfinished"></translation>
+        <translation>Ebene</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="715"/>
         <location filename="../mainwindow.ui" line="718"/>
-        <location filename="../mainwindow.ui" line="721"/>
         <source>Face</source>
-        <translation type="unfinished"></translation>
+        <translation>Fläche</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="723"/>
         <location filename="../mainwindow.ui" line="726"/>
-        <location filename="../mainwindow.ui" line="729"/>
         <source>Canvas flange</source>
-        <translation type="unfinished"></translation>
+        <translation>Segeltuchstutzen</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="731"/>
         <location filename="../mainwindow.ui" line="734"/>
-        <location filename="../mainwindow.ui" line="737"/>
         <source>Duct baffle silencer</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal-Kulissenschalldämpfer</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="739"/>
         <location filename="../mainwindow.ui" line="742"/>
-        <location filename="../mainwindow.ui" line="745"/>
         <source>Duct</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal (eckig)</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="747"/>
         <location filename="../mainwindow.ui" line="750"/>
-        <location filename="../mainwindow.ui" line="753"/>
         <source>Duct end plate</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanalenddeckel (Boden)</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="755"/>
         <location filename="../mainwindow.ui" line="758"/>
-        <location filename="../mainwindow.ui" line="761"/>
         <source>Duct fire damper</source>
-        <translation type="unfinished"></translation>
+        <translation>Brandschutzklappe (eckig)</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="763"/>
         <location filename="../mainwindow.ui" line="766"/>
-        <location filename="../mainwindow.ui" line="769"/>
         <source>Duct fire resistant</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal (feuerbeständig)</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="771"/>
         <location filename="../mainwindow.ui" line="774"/>
-        <location filename="../mainwindow.ui" line="777"/>
         <source>Duct T-Connector</source>
-        <translation type="unfinished"></translation>
+        <translation>Rohr T-Stück</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="779"/>
         <location filename="../mainwindow.ui" line="782"/>
-        <location filename="../mainwindow.ui" line="785"/>
         <source>Duct Transition</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanalübergang (eckig)</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="787"/>
         <location filename="../mainwindow.ui" line="790"/>
-        <location filename="../mainwindow.ui" line="793"/>
         <source>Duct Transition (rect/round)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanalübergang (ecking/rund)</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="795"/>
         <location filename="../mainwindow.ui" line="798"/>
-        <location filename="../mainwindow.ui" line="801"/>
         <source>Duct Turn</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanalbogen</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="803"/>
         <location filename="../mainwindow.ui" line="806"/>
-        <location filename="../mainwindow.ui" line="809"/>
         <source>Duct Volumetric Flow controller</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal-Volumenstromregler</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="811"/>
         <location filename="../mainwindow.ui" line="814"/>
-        <location filename="../mainwindow.ui" line="817"/>
         <source>Duct Y-Piece</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal-Hosenstück</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="819"/>
         <location filename="../mainwindow.ui" line="822"/>
-        <location filename="../mainwindow.ui" line="825"/>
         <source>Empty Cabinet</source>
-        <translation type="unfinished"></translation>
+        <translation>Leergerät</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="827"/>
         <location filename="../mainwindow.ui" line="830"/>
-        <location filename="../mainwindow.ui" line="833"/>
         <source>Equipment frame</source>
-        <translation type="unfinished"></translation>
+        <translation>Geräterahmen</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="835"/>
         <location filename="../mainwindow.ui" line="838"/>
-        <location filename="../mainwindow.ui" line="841"/>
         <source>Fan</source>
-        <translation type="unfinished"></translation>
+        <translation>Ventilator</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="843"/>
         <location filename="../mainwindow.ui" line="846"/>
-        <location filename="../mainwindow.ui" line="849"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Luftfilter</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="851"/>
         <location filename="../mainwindow.ui" line="854"/>
-        <location filename="../mainwindow.ui" line="857"/>
         <source>Heat Exchanger (air/air)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wärmetauscher Luft/Luft</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="859"/>
         <location filename="../mainwindow.ui" line="862"/>
-        <location filename="../mainwindow.ui" line="865"/>
         <source>Heat Exchanger (water/air)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wärmetauscher Wasser/Luft</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="867"/>
         <location filename="../mainwindow.ui" line="870"/>
-        <location filename="../mainwindow.ui" line="873"/>
         <source>Humidifier</source>
-        <translation type="unfinished"></translation>
+        <translation>Befeuchter</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="875"/>
         <location filename="../mainwindow.ui" line="878"/>
-        <location filename="../mainwindow.ui" line="881"/>
         <source>Multi Leaf Damper</source>
-        <translation type="unfinished"></translation>
+        <translation>Jalousieklappe (eckig)</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="883"/>
         <location filename="../mainwindow.ui" line="886"/>
-        <location filename="../mainwindow.ui" line="889"/>
         <source>Pipe</source>
-        <translation type="unfinished"></translation>
+        <translation>Rohr (rund)</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="891"/>
         <location filename="../mainwindow.ui" line="894"/>
-        <location filename="../mainwindow.ui" line="897"/>
         <source>Pipe End Cap</source>
-        <translation type="unfinished"></translation>
+        <translation>Rohr-Enddeckel</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="899"/>
         <location filename="../mainwindow.ui" line="902"/>
-        <location filename="../mainwindow.ui" line="905"/>
         <source>Pipe Fire Damper</source>
-        <translation type="unfinished"></translation>
+        <translation>Brandschutzklappe (rund)</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="907"/>
         <location filename="../mainwindow.ui" line="910"/>
-        <location filename="../mainwindow.ui" line="913"/>
         <source>Pipe Reducer</source>
-        <translation type="unfinished"></translation>
+        <translation>Rohrreduzierung</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="915"/>
         <location filename="../mainwindow.ui" line="918"/>
-        <location filename="../mainwindow.ui" line="921"/>
         <source>Pipe Silencer</source>
-        <translation type="unfinished"></translation>
+        <translation>Rohr-Schalldämpfer</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="923"/>
         <location filename="../mainwindow.ui" line="926"/>
-        <location filename="../mainwindow.ui" line="929"/>
         <source>Pipe T-Connector</source>
-        <translation type="unfinished"></translation>
+        <translation>Rohr T-Stück</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="931"/>
         <location filename="../mainwindow.ui" line="934"/>
-        <location filename="../mainwindow.ui" line="937"/>
         <source>Pipe Turn</source>
-        <translation type="unfinished"></translation>
+        <translation>Rohrbogen</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="939"/>
         <location filename="../mainwindow.ui" line="942"/>
-        <location filename="../mainwindow.ui" line="945"/>
         <source>Pipe Volumetric Flow Controller</source>
-        <translation type="unfinished"></translation>
+        <translation>Rohr-Volumenstromregler</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="947"/>
         <location filename="../mainwindow.ui" line="950"/>
-        <location filename="../mainwindow.ui" line="953"/>
         <source>Pressure Relief Damper</source>
-        <translation type="unfinished"></translation>
+        <translation>Druckentlastungsklappe</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="955"/>
         <location filename="../mainwindow.ui" line="958"/>
-        <location filename="../mainwindow.ui" line="961"/>
         <source>Throttle Valve</source>
-        <translation type="unfinished"></translation>
+        <translation>Drossel-/ Absperrklappe (rund)</translation>
     </message>
     <message>
         <source>Wall</source>
@@ -585,33 +580,33 @@ Default width for lines and outlines</oldsource>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="88"/>
+        <location filename="../mainwindow.cpp" line="92"/>
         <source>Clear menu</source>
         <translation>Menü leeren</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="191"/>
+        <location filename="../mainwindow.cpp" line="196"/>
         <source>Load drawing</source>
         <translation>Zeichnung laden</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="191"/>
+        <location filename="../mainwindow.cpp" line="196"/>
         <source>dxf-Datei (*.dxf)</source>
         <translation>dxf-Datei (*.dxf)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="367"/>
-        <location filename="../mainwindow.cpp" line="383"/>
+        <location filename="../mainwindow.cpp" line="373"/>
+        <location filename="../mainwindow.cpp" line="389"/>
         <source>About %1</source>
         <translation>Über %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="375"/>
+        <location filename="../mainwindow.cpp" line="381"/>
         <source>Authors</source>
         <translation>Entwickler</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="379"/>
+        <location filename="../mainwindow.cpp" line="385"/>
         <source>Tel.</source>
         <translation>Tel.</translation>
     </message>
@@ -623,7 +618,7 @@ Default width for lines and outlines</oldsource>
 <context>
     <name>OptionsPage</name>
     <message>
-        <location filename="../settingsdialog.cpp" line="276"/>
+        <location filename="../settingsdialog.cpp" line="271"/>
         <source>Select color</source>
         <translation>Farbe auswählen</translation>
     </message>

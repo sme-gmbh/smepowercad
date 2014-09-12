@@ -15,6 +15,9 @@ MainWindow::MainWindow(QWidget *parent) :
     // **** Global Variables ****
     current_cadline = NULL;
 
+    // **** Settings Dialog ****
+    settingsDialog = new SettingsDialog(this);
+
     // **** Command prompt ****
     QWidget *promptTitle = new QWidget(ui->dockWidgetPrompt);
     promptTitle->setMaximumWidth(0);
@@ -61,6 +64,7 @@ MainWindow::MainWindow(QWidget *parent) :
     mainGeometryDisplay = new GeometryDisplay(itemDB, this);
     connect(this, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(layerManager, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
+    connect(settingsDialog, SIGNAL(signal_settingsChanged()), mainGeometryDisplay, SIGNAL(signal_settingsChanged()));
     mainGeometryDisplay->setFeatures(QDockWidget::NoDockWidgetFeatures);
     mainGeometryDisplay->setAllowedAreas(Qt::NoDockWidgetArea);
     mainGeometryDisplay->hideButtons();
@@ -126,6 +130,7 @@ MainWindow::~MainWindow()
     delete mainGeometryDisplay;
     delete layerManager;
     delete itemDB;
+    delete settingsDialog;
     delete ui;
 }
 
@@ -303,6 +308,7 @@ void MainWindow::slot_newGeometryDisplay()
     connect(this, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(layerManager, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(magellanThread, SIGNAL(signal_mouseCoords(int,int,int,int,int,int)), newGeometryDisplay, SIGNAL(signal_mouse3Dcoords(int,int,int,int,int,int)));
+    connect(settingsDialog, SIGNAL(signal_settingsChanged()), mainGeometryDisplay, SIGNAL());
     this->addDockWidget(Qt::LeftDockWidgetArea, newGeometryDisplay);
     ui->menuFenster->addAction(newGeometryDisplay->toggleViewAction());
 
@@ -340,9 +346,10 @@ void MainWindow::on_actionAbout_triggered()
 
 void MainWindow::on_actionSettings_triggered()
 {
-    SettingsDialog *dialog = new SettingsDialog(this);
-    dialog->exec();
-    delete dialog;
+    //SettingsDialog *dialog = new SettingsDialog(this);
+    //dialog->exec();
+    //delete dialog;
+    settingsDialog->exec();
 }
 
 void MainWindow::on_action_basic_face_triggered()

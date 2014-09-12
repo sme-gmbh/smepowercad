@@ -70,7 +70,7 @@ public:
 private slots:
     void on_buttonBox_accepted();
     void on_buttonBox_rejected();
-    void on_buttonBox_apply();
+    void on_buttonBox_clicked(QAbstractButton *button);
 
     void on_listWidget_itemClicked(QListWidgetItem *item);
 
@@ -90,6 +90,9 @@ private:
     void showPage(int category = 0, int page = 0);
 
     void save();
+
+signals:
+    void signal_settingsChanged();
 };
 
 #endif // SETTINGSDIALOG_H
