@@ -64,14 +64,12 @@ private:
     QVector3D cameraPosition;
     float rot_x, rot_y, rot_z;
 
-    QPoint arcballPos;
     QPoint arcballPosOld;
-    QPoint arcballDelta;
     QMatrix4x4 arcballRotationMatrix;
-    QMatrix4x4 arcballRotationMatrixOld;
 
     QMatrix4x4 matrix_projection;
     QMatrix4x4 matrix_modelview;
+    QMatrix4x4 matrix_modelview_atRightclick;
 
     bool render_solid;
     bool render_outline;
@@ -105,7 +103,7 @@ private:
 
     void paintContent(QList<Layer*> layers);
 
-    void updateMouse();
+    void updateArcball(int steps);
     QVector3D getArcBallVector(int x, int y);
 
 
