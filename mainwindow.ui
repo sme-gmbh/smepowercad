@@ -349,14 +349,28 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <addaction name="action_arch_door"/>
   </widget>
   <widget class="QToolBar" name="toolBarAir">
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
    <property name="windowTitle">
     <string>Air</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>48</width>
+     <height>48</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonIconOnly</enum>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>true</bool>
+    <bool>false</bool>
    </attribute>
    <addaction name="action_air_canvas_flange"/>
    <addaction name="action_air_duct_baffle_silencer"/>
@@ -401,7 +415,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>false</bool>
+    <bool>true</bool>
    </attribute>
    <addaction name="action_basic_point"/>
    <addaction name="action_basic_linie"/>
@@ -514,7 +528,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="action_basic_linie">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/objekte/grundobjekte/icons/Linie.svg</normaloff>:/objekte/grundobjekte/icons/Linie.svg</iconset>
+     <normaloff>:/icons/cad_basic/cad_basic_line.svg</normaloff>:/icons/cad_basic/cad_basic_line.svg</iconset>
    </property>
    <property name="text">
     <string>Line</string>
@@ -529,7 +543,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="action_basic_arc">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/objekte/grundobjekte/icons/Bogen.svg</normaloff>:/objekte/grundobjekte/icons/Bogen.svg</iconset>
+     <normaloff>:/icons/cad_basic/cad_basic_arc.svg</normaloff>:/icons/cad_basic/cad_basic_arc.svg</iconset>
    </property>
    <property name="text">
     <string>Arc</string>
@@ -544,7 +558,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="action_basic_circle">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/objekte/grundobjekte/icons/Kreis.svg</normaloff>:/objekte/grundobjekte/icons/Kreis.svg</iconset>
+     <normaloff>:/icons/cad_basic/cad_basic_circle.svg</normaloff>:/icons/cad_basic/cad_basic_circle.svg</iconset>
    </property>
    <property name="text">
     <string>Circle</string>
@@ -570,7 +584,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="action_arch_wall_loadbearing">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/objekte/architektur/icons/Wand.svg</normaloff>:/objekte/architektur/icons/Wand.svg</iconset>
+     <normaloff>:/icons/cad_arch/cad_arch_wall_loadbearing.svg</normaloff>:/icons/cad_arch/cad_arch_wall_loadbearing.svg</iconset>
    </property>
    <property name="text">
     <string>Wall loadbearing</string>
@@ -582,7 +596,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="action_arch_levelSlab">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/objekte/architektur/icons/boden_decke.svg</normaloff>:/objekte/architektur/icons/boden_decke.svg</iconset>
+     <normaloff>:/icons/cad_arch/cad_arch_levelslab.svg</normaloff>:/icons/cad_arch/cad_arch_levelslab.svg</iconset>
    </property>
    <property name="text">
     <string>Level slab</string>
@@ -591,7 +605,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="action_arch_support">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/objekte/architektur/icons/Stütze.svg</normaloff>:/objekte/architektur/icons/Stütze.svg</iconset>
+     <normaloff>:/icons/cad_arch/cad_arch_support.svg</normaloff>:/icons/cad_arch/cad_arch_support.svg</iconset>
    </property>
    <property name="text">
     <string>Support</string>
@@ -600,7 +614,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="action_arch_window">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/objekte/architektur/icons/fenster.svg</normaloff>:/objekte/architektur/icons/fenster.svg</iconset>
+     <normaloff>:/icons/cad_arch/cad_arch_window.svg</normaloff>:/icons/cad_arch/cad_arch_window.svg</iconset>
    </property>
    <property name="text">
     <string>Window</string>
@@ -609,7 +623,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="action_arch_door">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/objekte/architektur/icons/tuer.svg</normaloff>:/objekte/architektur/icons/tuer.svg</iconset>
+     <normaloff>:/icons/cad_arch/cad_arch_door.svg</normaloff>:/icons/cad_arch/cad_arch_door.svg</iconset>
    </property>
    <property name="text">
     <string>Door</string>
@@ -618,7 +632,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="action_arch_blockout">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/objekte/architektur/icons/Aussparung.svg</normaloff>:/objekte/architektur/icons/Aussparung.svg</iconset>
+     <normaloff>:/icons/cad_arch/cad_arch_blockout.svg</normaloff>:/icons/cad_arch/cad_arch_blockout.svg</iconset>
    </property>
    <property name="text">
     <string>Block out</string>
@@ -632,7 +646,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="action_basic_point">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/objekte/grundobjekte/icons/point.svg</normaloff>:/objekte/grundobjekte/icons/point.svg</iconset>
+     <normaloff>:/icons/cad_basic/cad_basic_point.svg</normaloff>:/icons/cad_basic/cad_basic_point.svg</iconset>
    </property>
    <property name="text">
     <string>Point</string>
@@ -641,7 +655,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="action_basic_polylinie">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/objekte/grundobjekte/icons/polyline.svg</normaloff>:/objekte/grundobjekte/icons/polyline.svg</iconset>
+     <normaloff>:/icons/cad_basic/cad_basic_polyline.svg</normaloff>:/icons/cad_basic/cad_basic_polyline.svg</iconset>
    </property>
    <property name="text">
     <string>Ployline</string>
@@ -650,7 +664,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="action_basic_box">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/objekte/grundobjekte/icons/box.svg</normaloff>:/objekte/grundobjekte/icons/box.svg</iconset>
+     <normaloff>:/icons/cad_basic/cad_basic_box.svg</normaloff>:/icons/cad_basic/cad_basic_box.svg</iconset>
    </property>
    <property name="text">
     <string>Box</string>
@@ -659,7 +673,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="action_basic_cylinder">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/objekte/grundobjekte/icons/cylinder.svg</normaloff>:/objekte/grundobjekte/icons/cylinder.svg</iconset>
+     <normaloff>:/icons/cad_basic/cad_basic_cylinder.svg</normaloff>:/icons/cad_basic/cad_basic_cylinder.svg</iconset>
    </property>
    <property name="text">
     <string>Cylinder</string>
@@ -668,7 +682,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="action_basic_sphere">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/objekte/grundobjekte/icons/sphere.svg</normaloff>:/objekte/grundobjekte/icons/sphere.svg</iconset>
+     <normaloff>:/icons/cad_basic/cad_basic_sphere.svg</normaloff>:/icons/cad_basic/cad_basic_sphere.svg</iconset>
    </property>
    <property name="text">
     <string>Sphere</string>
@@ -695,6 +709,10 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
   </action>
   <action name="action_arch_wall_nonloadbearing">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/cad_arch/cad_arch_wall_loadbearing.svg</normaloff>:/icons/cad_arch/cad_arch_wall_loadbearing.svg</iconset>
+   </property>
    <property name="text">
     <string>Wall non loadbearing</string>
    </property>
@@ -711,6 +729,10 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
   </action>
   <action name="action_basic_face">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/cad_basic/cad_basic_face.svg</normaloff>:/icons/cad_basic/cad_basic_face.svg</iconset>
+   </property>
    <property name="text">
     <string>Face</string>
    </property>
@@ -719,59 +741,122 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
   </action>
   <action name="action_air_canvas_flange">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/cad_air/cad_air_canvasflange.svg</normaloff>:/icons/cad_air/cad_air_canvasflange.svg</iconset>
+   </property>
    <property name="text">
     <string>Canvas flange</string>
    </property>
    <property name="toolTip">
     <string>Canvas flange</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
    </property>
   </action>
   <action name="action_air_duct_baffle_silencer">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/cad_air/cad_air_ductbafflesilencer.svg</normaloff>:/icons/cad_air/cad_air_ductbafflesilencer.svg</iconset>
+   </property>
    <property name="text">
     <string>Duct baffle silencer</string>
    </property>
    <property name="toolTip">
     <string>Duct baffle silencer</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
    </property>
   </action>
   <action name="action_air_duct">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/cad_air/cad_air_duct.svg</normaloff>:/icons/cad_air/cad_air_duct.svg</iconset>
+   </property>
    <property name="text">
     <string>Duct</string>
    </property>
    <property name="toolTip">
     <string>Duct</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
    </property>
   </action>
   <action name="action_air_duct_end_plate">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/cad_air/cad_air_ductendplate.svg</normaloff>:/icons/cad_air/cad_air_ductendplate.svg</iconset>
+   </property>
    <property name="text">
     <string>Duct end plate</string>
    </property>
    <property name="toolTip">
     <string>Duct end plate</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
    </property>
   </action>
   <action name="action_air_duct_fire_damper">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/cad_air/cad_air_ductfiredamper.svg</normaloff>:/icons/cad_air/cad_air_ductfiredamper.svg</iconset>
+   </property>
    <property name="text">
     <string>Duct fire damper</string>
    </property>
    <property name="toolTip">
     <string>Duct fire damper</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
    </property>
   </action>
   <action name="action_air_duct_fire_resistant">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/cad_air/cad_air_ductfireresistant.svg</normaloff>:/icons/cad_air/cad_air_ductfireresistant.svg</iconset>
+   </property>
    <property name="text">
     <string>Duct fire resistant</string>
    </property>
    <property name="toolTip">
     <string>Duct fire resistant</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
    </property>
   </action>
   <action name="action_air_duct_T_Connector">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/cad_air/cad_air_ductteeconnector.svg</normaloff>:/icons/cad_air/cad_air_ductteeconnector.svg</iconset>
+   </property>
    <property name="text">
     <string>Duct T-Connector</string>
    </property>
    <property name="toolTip">
     <string>Duct T-Connector</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
    </property>
   </action>
   <action name="action_air_duct_transition">
@@ -781,6 +866,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <property name="toolTip">
     <string>Duct Transition</string>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
+   </property>
   </action>
   <action name="action_air_duct_transition_rect_round">
    <property name="text">
@@ -788,6 +878,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
    <property name="toolTip">
     <string>Duct Transition (rect/round)</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
    </property>
   </action>
   <action name="action_air_duct_turn">
@@ -797,6 +892,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <property name="toolTip">
     <string>Duct Turn</string>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
+   </property>
   </action>
   <action name="action_air_duct_volumetric_flow_controller">
    <property name="text">
@@ -804,6 +904,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
    <property name="toolTip">
     <string>Duct Volumetric Flow controller</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
    </property>
   </action>
   <action name="action_air_duct_Y_piece">
@@ -813,6 +918,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <property name="toolTip">
     <string>Duct Y-Piece</string>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
+   </property>
   </action>
   <action name="action_air_empty_cabinet">
    <property name="text">
@@ -820,6 +930,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
    <property name="toolTip">
     <string>Empty Cabinet</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
    </property>
   </action>
   <action name="action_air_equipment_frame">
@@ -829,6 +944,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <property name="toolTip">
     <string>Equipment frame</string>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
+   </property>
   </action>
   <action name="action_air_fan">
    <property name="text">
@@ -836,6 +956,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
    <property name="toolTip">
     <string>Fan</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
    </property>
   </action>
   <action name="action_air_filter">
@@ -845,6 +970,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <property name="toolTip">
     <string>Filter</string>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
+   </property>
   </action>
   <action name="action_air_heat_exchanger_air_air">
    <property name="text">
@@ -852,6 +982,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
    <property name="toolTip">
     <string>Heat Exchanger (air/air)</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
    </property>
   </action>
   <action name="action_air_heat_exchanger_water_air">
@@ -861,6 +996,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <property name="toolTip">
     <string>Heat Exchanger (water/air)</string>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
+   </property>
   </action>
   <action name="action_air_Humidifier">
    <property name="text">
@@ -868,6 +1008,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
    <property name="toolTip">
     <string>Humidifier</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
    </property>
   </action>
   <action name="action_air_multi_leaf_damper">
@@ -877,6 +1022,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <property name="toolTip">
     <string>Multi Leaf Damper</string>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
+   </property>
   </action>
   <action name="action_air_pipe">
    <property name="text">
@@ -884,6 +1034,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
    <property name="toolTip">
     <string>Pipe</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
    </property>
   </action>
   <action name="action_air_pipe_end_cap">
@@ -893,13 +1048,27 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <property name="toolTip">
     <string>Pipe End Cap</string>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
+   </property>
   </action>
   <action name="action_air_pipe_fire_damper">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/cad_air/cad_air_pipefiredamper.svg</normaloff>:/icons/cad_air/cad_air_pipefiredamper.svg</iconset>
+   </property>
    <property name="text">
     <string>Pipe Fire Damper</string>
    </property>
    <property name="toolTip">
     <string>Pipe Fire Damper</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
    </property>
   </action>
   <action name="action_air_pipe_reducer">
@@ -909,6 +1078,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <property name="toolTip">
     <string>Pipe Reducer</string>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
+   </property>
   </action>
   <action name="action_air_pipe_silencer">
    <property name="text">
@@ -916,6 +1090,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
    <property name="toolTip">
     <string>Pipe Silencer</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
    </property>
   </action>
   <action name="action_air_pipe_T_Connector">
@@ -925,6 +1104,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <property name="toolTip">
     <string>Pipe T-Connector</string>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
+   </property>
   </action>
   <action name="action_air_pipe_turn">
    <property name="text">
@@ -932,6 +1116,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
    <property name="toolTip">
     <string>Pipe Turn</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
    </property>
   </action>
   <action name="action_air_pipe_volumetric_flow_controller">
@@ -941,6 +1130,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <property name="toolTip">
     <string>Pipe Volumetric Flow Controller</string>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
+   </property>
   </action>
   <action name="action_air_pressure_relief_damper">
    <property name="text">
@@ -949,6 +1143,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <property name="toolTip">
     <string>Pressure Relief Damper</string>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
+   </property>
   </action>
   <action name="action_air_throttle_valve">
    <property name="text">
@@ -956,6 +1155,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
    <property name="toolTip">
     <string>Throttle Valve</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
    </property>
   </action>
  </widget>

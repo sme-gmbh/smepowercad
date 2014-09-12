@@ -1,23 +1,28 @@
 <RCC>
-    <qresource prefix="/"/>
-    <qresource prefix="/objekte/grundobjekte">
-        <file>icons/box.svg</file>
-        <file>icons/cylinder.svg</file>
-        <file>icons/Kreis.svg</file>
-        <file>icons/Linie.svg</file>
-        <file>icons/point.svg</file>
-        <file>icons/polyline.svg</file>
-        <file>icons/sphere.svg</file>
-        <file>icons/Face.svg</file>
-        <file>icons/Bogen.svg</file>
-    </qresource>
-    <qresource prefix="/objekte/architektur">
-        <file>icons/Aussparung.svg</file>
-        <file>icons/boden_decke.svg</file>
-        <file>icons/fenster.svg</file>
-        <file>icons/Stütze.svg</file>
-        <file>icons/tuer.svg</file>
-        <file>icons/Wand.svg</file>
+    <qresource prefix="/">
+        <file>icons/cad_air/cad_air_canvasflange.svg</file>
+        <file>icons/cad_air/cad_air_duct.svg</file>
+        <file>icons/cad_air/cad_air_ductbafflesilencer.svg</file>
+        <file>icons/cad_air/cad_air_ductendplate.svg</file>
+        <file>icons/cad_air/cad_air_ductfiredamper.svg</file>
+        <file>icons/cad_air/cad_air_ductfireresistant.svg</file>
+        <file>icons/cad_air/cad_air_ductteeconnector.svg</file>
+        <file>icons/cad_air/cad_air_pipefiredamper.svg</file>
+        <file>icons/cad_arch/cad_arch_blockout.svg</file>
+        <file>icons/cad_arch/cad_arch_door.svg</file>
+        <file>icons/cad_arch/cad_arch_levelslab.svg</file>
+        <file>icons/cad_arch/cad_arch_support.svg</file>
+        <file>icons/cad_arch/cad_arch_wall_loadbearing.svg</file>
+        <file>icons/cad_arch/cad_arch_window.svg</file>
+        <file>icons/cad_basic/cad_basic_arc.svg</file>
+        <file>icons/cad_basic/cad_basic_box.svg</file>
+        <file>icons/cad_basic/cad_basic_circle.svg</file>
+        <file>icons/cad_basic/cad_basic_cylinder.svg</file>
+        <file>icons/cad_basic/cad_basic_face.svg</file>
+        <file>icons/cad_basic/cad_basic_line.svg</file>
+        <file>icons/cad_basic/cad_basic_point.svg</file>
+        <file>icons/cad_basic/cad_basic_polyline.svg</file>
+        <file>icons/cad_basic/cad_basic_sphere.svg</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>
