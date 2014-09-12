@@ -60,6 +60,8 @@ private:
     void updateRecentFileActions();
     QString strippedName(QString fullName);
 
+    SettingsDialog *settingsDialog;
+
 protected:
     void keyPressEvent(QKeyEvent *event);
 

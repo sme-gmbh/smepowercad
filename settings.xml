@@ -7,10 +7,11 @@
 	<category name="Userinterface" icon="">
 		<page name="Cursor">
 			<attribute name="cursorSize" desc="" type="int" default="4500" min="20" max="4500" />
+			<attribute name="cursorLineWidth" desc="" type="int" default="1" min="1" max="10" />
 			<attribute name="cursorPickboxSize" desc="" type="int" default="2" min="2" max="20" />
 		</page>
 		<page name="Snap">
-			<attribute name="snapIndicatorSize" desc="" type="int" default="10" min="5" max="15" />
+			<attribute name="snapIndicatorSize" desc="" type="int" default="21" min="5" max="30" />
 		</page>
 	</category>
 </settings>

@@ -87,6 +87,10 @@ private:
     CADitem* item_lastHighlight;
 
     QColor _backgroundColor;
+    int _cursorSize;
+    int _cursorWidth;
+    int _cursorPickboxSize;
+    int _snapIndicatorSize;
 
 
     // OpenGL

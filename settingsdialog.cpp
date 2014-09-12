@@ -25,8 +25,6 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
 
-    connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(on_buttonBox_apply()));
-
     ((QGridLayout *)this->layout())->addLayout(stackedLayout, 1, 1, 1, 1);
 
     this->loadCategorys();
@@ -56,9 +54,14 @@ void SettingsDialog::on_buttonBox_rejected()
     this->reject();
 }
 
-void SettingsDialog::on_buttonBox_apply()
+void SettingsDialog::on_buttonBox_clicked(QAbstractButton *button)
 {
-    this->save();
+    switch (ui->buttonBox->standardButton(button))
+    {
+    case QDialogButtonBox::Apply:
+        this->save();
+        break;
+    }
 }
 
 void SettingsDialog::showCategory(int category)
@@ -112,20 +115,15 @@ void SettingsDialog::showPage(int category, int page)
 
 void SettingsDialog::save()
 {
-    qDebug() << "save";
     foreach (Category *cat, categories)
     {
-        qDebug() << "saving cat" << cat->name;
         foreach (OptionsPage *page, cat->pages)
         {
-            qDebug() << "saving page" << page->name;
             QFormLayout *layout = (QFormLayout *)page->widget->layout();
             for (int r = 0; r < layout->rowCount(); r++)
             {
-                //QString label = ((QLabel *)layout->itemAt(r, QFormLayout::LabelRole)->widget())->text();
                 QWidget *wdg = layout->itemAt(r, QFormLayout::FieldRole)->widget();
                 QString name = wdg->objectName();
-                qDebug() << "saving wdg" << name;
 
 
                 Attribute at = page->attributes.value(name);
@@ -138,12 +136,11 @@ void SettingsDialog::save()
                 {
                     QColor col = ((QPushButton *)wdg)->icon().pixmap(1, 1).toImage().pixel(0, 0);
                     settings.setValue(key, QVariant::fromValue(col));
-                    qDebug() << key << col;
-                    qDebug() << settings.value(key);
                 }
             }
         }
     }
+    emit signal_settingsChanged();
 }
 
 void SettingsDialog::on_listWidget_itemClicked(QListWidgetItem *item)
@@ -208,7 +205,6 @@ void SettingsDialog::loadCategorys()
                     defaultVal = QVariant::fromValue(col);
                 }
                 at.value = settings.value(cat->name + "_" + page.attributes().namedItem("name").nodeValue() + "_" + at.name, defaultVal);
-                qDebug() << cat->name + "_" + page.attributes().namedItem("name").nodeValue() + "_" + at.name << at.value;
                 at.min = attr.attributes().namedItem("min").nodeValue();
                 at.max = attr.attributes().namedItem("max").nodeValue();
                 attributes.append(at);
@@ -248,7 +244,6 @@ OptionsPage* OptionsPage::newPage(QString name, QList<Attribute> attributes)
         else if (attr.type == "color")
         {
             QColor col = attr.value.value<QColor>();
-            qDebug() << col;
             QPixmap pxmp = QPixmap(24, 24);
             pxmp.fill(col);
             QPushButton *btn = new QPushButton(QIcon(pxmp), "");
