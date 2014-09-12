@@ -64,6 +64,12 @@ private:
     QVector3D cameraPosition;
     float rot_x, rot_y, rot_z;
 
+    QPoint arcballPos;
+    QPoint arcballPosOld;
+    QPoint arcballDelta;
+    QMatrix4x4 arcballRotationMatrix;
+    QMatrix4x4 arcballRotationMatrixOld;
+
     QMatrix4x4 matrix_projection;
     QMatrix4x4 matrix_modelview;
 
@@ -98,6 +104,9 @@ private:
     void restoreGLState();
 
     void paintContent(QList<Layer*> layers);
+
+    void updateMouse();
+    QVector3D getArcBallVector(int x, int y);
 
 
     void paintTextInfoBox(QPoint pos, QString text, QFont font = QFont(), QColor colorText = QColor(Qt::red), QColor colorBackground = QColor(0, 0, 0, 150), QColor colorOutline = QColor(200, 200, 200, 150));

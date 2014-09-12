@@ -29,6 +29,7 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
     this->cursorShown = true;
     this->snapMode = SnapCenter;
     this->item_lastHighlight = NULL;
+    this->arcballRotationMatrix = QMatrix4x4();
 
     slot_update_settings();
 
@@ -308,7 +309,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
     if (event->buttons() == Qt::RightButton)
     {
-        qreal dx = mouseMoveDelta.x()/5.0f;
+        /*qreal dx = mouseMoveDelta.x()/5.0f;
         qreal dy = mouseMoveDelta.y()/5.0f;
 
         #define PI 3.14159265
@@ -320,7 +321,12 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
         // TODO: calculate arcball math here
 
         rot_x += -dy;
-        rot_y += -dx;
+        rot_y += -dx;*/
+
+        arcballPos = mousePos;
+        arcballDelta = mouseMoveDelta;
+        this->updateMouse();
+        arcballPosOld = mousePos;
     }
 
 
@@ -560,6 +566,37 @@ void GLWidget::paintEvent(QPaintEvent *event)
             glMatrix_modelview[15]
             );
     this->matrix_modelview = this->matrix_modelview.transposed();
+
+    QMatrix4x4 matMod = this->matrix_modelview;
+    matMod *= this->arcballRotationMatrix * this->arcballRotationMatrixOld;
+    this->arcballRotationMatrixOld = this->arcballRotationMatrix;
+
+
+    matMod = matMod.transposed();
+
+    GLfloat modMatrix[16];
+    QVector4D r = matMod.row(0);
+    modMatrix[0] = r.x();
+    modMatrix[1] = r.y();
+    modMatrix[2] = r.z();
+    modMatrix[3] = r.w();
+    r = matMod.row(1);
+    modMatrix[4] = r.x();
+    modMatrix[5] = r.y();
+    modMatrix[6] = r.z();
+    modMatrix[7] = r.w();
+    r = matMod.row(2);
+    modMatrix[8] = r.x();
+    modMatrix[9] = r.y();
+    modMatrix[10] = r.z();
+    modMatrix[11] = r.w();
+    r = matMod.row(3);
+    modMatrix[12] = r.x();
+    modMatrix[13] = r.y();
+    modMatrix[14] = r.z();
+    modMatrix[15] = r.w();
+
+    glLoadMatrixf(modMatrix);
 
     this->matrix_projection = QMatrix4x4(
             glMatrix_projection[0],
@@ -1079,6 +1116,39 @@ void GLWidget::paintContent(QList<Layer*> layers)
         }
         paintContent(layer->subLayers);
     }
+}
+
+void GLWidget::updateMouse()
+{
+    QVector3D v = getArcBallVector(arcballPos.x(), arcballPos.y());
+    QVector3D u = getArcBallVector(arcballPosOld.x(), arcballPosOld.y());
+
+    qreal angle = qAcos(qMin(1.0, QVector3D::dotProduct(u, v)));
+
+    QVector3D rotAxis = QVector3D::crossProduct(v, u);
+
+    QMatrix4x4 eyeToObject = arcballRotationMatrix.inverted();
+
+    QVector3D objSpaceRotAx = eyeToObject * rotAxis;
+
+    qDebug() << 4 * ((360 / (2 * PI)) * angle);
+
+    arcballRotationMatrix.rotate(4 * (360 / (2 * PI)) * angle, objSpaceRotAx);
+}
+
+QVector3D GLWidget::getArcBallVector(int x, int y)
+{
+    QVector3D pt = QVector3D(2.0 * x / this->width() - 1.0, 2.0 * y / this->height() - 1.0, 0);
+    pt.setY(pt.y() * -1);
+
+    float xySquared = qPow(pt.x(), 2) + qPow(pt.y(), 2);
+
+    if (xySquared <= 1.0)
+        pt.setZ(sqrt(1.0 - xySquared));
+    else
+        pt.normalize();
+
+    return pt;
 }
 
 void GLWidget::paintLine(Layer* layer, CAD_basic_line *item)
