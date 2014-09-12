@@ -24,12 +24,12 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
     this->cameraPosition = QVector3D();
     this->matrix_modelview.setToIdentity();
     this->matrix_projection.setToIdentity();
+    this->arcballRotationMatrix.setToIdentity();
 
     this->pickActive = false;
     this->cursorShown = true;
     this->snapMode = SnapCenter;
     this->item_lastHighlight = NULL;
-    this->arcballRotationMatrix = QMatrix4x4();
 
     slot_update_settings();
 
@@ -391,6 +391,40 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     event->accept();
 }
 
+void GLWidget::updateMouse()
+{
+    QVector3D arcballDelta = (arcballPos - arcballPosOld);
+    QVector3D v = getArcBallVector(arcballPos.x(), arcballPos.y());
+    QVector3D u = getArcBallVector(arcballPosOld.x(), arcballPosOld.y());
+
+    qreal angle = qAcos(qMin(1.0, QVector3D::dotProduct(u, v)));
+
+    QVector3D rotAxis = QVector3D::crossProduct(v, u);
+
+    QMatrix4x4 eyeToObject = arcballRotationMatrix;
+
+    QVector3D objSpaceRotAx = eyeToObject * rotAxis;
+
+    qDebug() << 4 * ((360 / (2 * PI)) * angle);
+
+    arcballRotationMatrix.rotate(4 * (360 / (2 * PI)) * angle, objSpaceRotAx);
+}
+
+QVector3D GLWidget::getArcBallVector(int x, int y)
+{
+    QVector3D pt = QVector3D(2.0 * x / this->width() - 1.0, 2.0 * y / this->height() - 1.0, 0);
+    pt.setY(pt.y() * -1);
+
+    float xySquared = qPow(pt.x(), 2) + qPow(pt.y(), 2);
+
+    if (xySquared <= 1.0)
+        pt.setZ(sqrt(1.0 - xySquared));
+    else
+        pt.normalize();
+
+    return pt;
+}
+
 void GLWidget::enterEvent(QEvent *event)
 {
     this->setCursor(Qt::BlankCursor);
@@ -537,9 +571,9 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glEnable(GL_MULTISAMPLE);
     glDisable(GL_CULL_FACE);
 
-    glRotatef(rot_x, 1.0f, 0.0f, 0.0f);
-    glRotatef(rot_y, 0.0f, 1.0f, 0.0f);
-    glRotatef(rot_z, 0.0f, 0.0f, 1.0f);
+//    glRotatef(rot_x, 1.0f, 0.0f, 0.0f);
+//    glRotatef(rot_y, 0.0f, 1.0f, 0.0f);
+//    glRotatef(rot_z, 0.0f, 0.0f, 1.0f);
 
     GLfloat glMatrix_modelview[16];
     GLfloat glMatrix_projection[16];
@@ -567,10 +601,9 @@ void GLWidget::paintEvent(QPaintEvent *event)
             );
     this->matrix_modelview = this->matrix_modelview.transposed();
 
-    QMatrix4x4 matMod = this->matrix_modelview;
-    matMod *= this->arcballRotationMatrix * this->arcballRotationMatrixOld;
-    this->arcballRotationMatrixOld = this->arcballRotationMatrix;
+    this->matrix_modelview = this->arcballRotationMatrix * this->matrix_modelview;
 
+    QMatrix4x4 matMod = this->matrix_modelview;
 
     matMod = matMod.transposed();
 
@@ -1116,39 +1149,6 @@ void GLWidget::paintContent(QList<Layer*> layers)
         }
         paintContent(layer->subLayers);
     }
-}
-
-void GLWidget::updateMouse()
-{
-    QVector3D v = getArcBallVector(arcballPos.x(), arcballPos.y());
-    QVector3D u = getArcBallVector(arcballPosOld.x(), arcballPosOld.y());
-
-    qreal angle = qAcos(qMin(1.0, QVector3D::dotProduct(u, v)));
-
-    QVector3D rotAxis = QVector3D::crossProduct(v, u);
-
-    QMatrix4x4 eyeToObject = arcballRotationMatrix.inverted();
-
-    QVector3D objSpaceRotAx = eyeToObject * rotAxis;
-
-    qDebug() << 4 * ((360 / (2 * PI)) * angle);
-
-    arcballRotationMatrix.rotate(4 * (360 / (2 * PI)) * angle, objSpaceRotAx);
-}
-
-QVector3D GLWidget::getArcBallVector(int x, int y)
-{
-    QVector3D pt = QVector3D(2.0 * x / this->width() - 1.0, 2.0 * y / this->height() - 1.0, 0);
-    pt.setY(pt.y() * -1);
-
-    float xySquared = qPow(pt.x(), 2) + qPow(pt.y(), 2);
-
-    if (xySquared <= 1.0)
-        pt.setZ(sqrt(1.0 - xySquared));
-    else
-        pt.normalize();
-
-    return pt;
 }
 
 void GLWidget::paintLine(Layer* layer, CAD_basic_line *item)
