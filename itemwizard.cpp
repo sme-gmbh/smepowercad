@@ -15,6 +15,12 @@ ItemWizard::~ItemWizard()
 
 void ItemWizard::showWizard(CADitem *item)
 {
+    if (item == NULL)
+    {
+        qDebug("CADitem is NULL");
+        return;
+    }
+
     currentItem = item;
     QMap<QString, QVariant>::iterator it;
     for (it = item->wizardParams.begin(); it != item->wizardParams.end(); it++)

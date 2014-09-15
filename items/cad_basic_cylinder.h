@@ -2,12 +2,14 @@
 #define CAD_BASIC_CYLINDER_H
 
 #include "caditem.h"
+#include <QObject>
 
 class CAD_basic_cylinder : public CADitem
 {
 public:
     CAD_basic_cylinder();
     virtual void calculate();
+    virtual void processWizardInput();
 
     qreal radius;
     QVector3D center_base;

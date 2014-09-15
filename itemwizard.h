@@ -2,6 +2,7 @@
 #define ITEMWIZARD_H
 
 #include <QDialog>
+#include <QDebug>
 #include "caditem.h"
 
 #include <QLineEdit>
