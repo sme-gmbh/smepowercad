@@ -788,7 +788,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
             QRect focusRect = QRect(0, 0, _snapIndicatorSize, _snapIndicatorSize);
             focusRect.moveCenter(this->snapPos_screen);
 
-
+            glLineWidth(1);
 
             switch (snapMode)
             {

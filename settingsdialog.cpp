@@ -135,7 +135,8 @@ void SettingsDialog::save()
                 }
                 else if (at.type == "color")
                 {
-                    QColor col = ((QPushButton *)wdg)->icon().pixmap(1, 1).toImage().pixel(0, 0);
+                    QColor col = at.value.value<QColor>();
+                    qDebug() << "save" << col.alpha();
                     settings.setValue(key, QVariant::fromValue(col));
                 }
             }
@@ -245,6 +246,7 @@ OptionsPage* OptionsPage::newPage(QString name, QList<Attribute> attributes)
         else if (attr.type == "color")
         {
             QColor col = attr.value.value<QColor>();
+            qDebug() << "load" << col.alpha();
             QPixmap pxmp = QPixmap(24, 24);
             pxmp.fill(col);
             QPushButton *btn = new QPushButton(QIcon(pxmp), "");
@@ -265,8 +267,8 @@ OptionsPage* OptionsPage::newPage(QString name, QList<Attribute> attributes)
 void OptionsPage::slot_showColorDialog()
 {
     QPushButton *btn = (QPushButton *)this->sender();
-    QColor init = btn->icon().pixmap(1, 1).toImage().pixel(0, 0);
-    QColorDialog colorDialog(init, 0);
+    Attribute attr = this->attributes.value(btn->objectName());
+    QColorDialog colorDialog(attr.value.value<QColor>(), 0);
     colorDialog.setWindowTitle(tr("Select color"));
     colorDialog.setModal(true);
     colorDialog.setOption(QColorDialog::ShowAlphaChannel, true);
@@ -276,4 +278,7 @@ void OptionsPage::slot_showColorDialog()
     QPixmap pxmp = QPixmap(24, 24);
     pxmp.fill(colorDialog.currentColor());
     btn->setIcon(QIcon(pxmp));
+
+    attr.value = QVariant::fromValue(colorDialog.currentColor());
+    attributes.insert(btn->objectName(), attr);
 }
