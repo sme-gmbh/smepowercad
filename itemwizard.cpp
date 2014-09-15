@@ -20,6 +20,7 @@ void ItemWizard::showWizard(CADitem *item)
     for (it = item->wizardParams.begin(); it != item->wizardParams.end(); it++)
     {
         QWidget *wdg;
+        wdg->setObjectName(it.key());
         switch (it.value().type())
         {
         case QVariant::String:
@@ -44,6 +45,7 @@ void ItemWizard::showWizard(CADitem *item)
 
 void ItemWizard::on_buttonBox_accepted()
 {
+    //this->save();
 }
 
 void ItemWizard::on_buttonBox_rejected()
@@ -53,11 +55,31 @@ void ItemWizard::on_buttonBox_rejected()
 
 void ItemWizard::save()
 {
+    QMap<QString, QVariant> map;
+    QVariant val;
+    QWidget *wdg;
     for (int r = 0; r < ui->formLayout->rowCount(); r++)
     {
-        ui->formLayout->itemAt(r, QFormLayout::FieldRole);
+        wdg = ui->formLayout->itemAt(r, QFormLayout::FieldRole)->widget();
+
+
+        switch (currentItem->wizardParams.value(wdg->objectName()).type())
+        {
+        case QVariant::String:
+            val = QVariant::fromValue(((QLineEdit*)wdg)->text());
+            break;
+        case QVariant::Int:
+            val = QVariant::fromValue(((QSpinBox*)wdg)->value());
+            break;
+        case QVariant::Double:
+            val = QVariant::fromValue(((QDoubleSpinBox*)wdg)->value());
+            break;
+        }
+
+        map.insert(wdg->objectName(), val);
     }
 
 
     //currentItem->wizardParams = ;
+    //currentItem->calculate();
 }
