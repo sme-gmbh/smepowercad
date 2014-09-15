@@ -74,7 +74,7 @@ CADitem* ItemDB::drawItem(Layer* layer, CADitem::ItemType type)
     }
 
     this->activeDrawCommand = type;
-    CADitem* newItem;
+    CADitem* newItem = NULL;
 
     switch (type)
     {
