@@ -127,7 +127,6 @@ MainWindow::~MainWindow()
 {
     magellanThread->terminate();
     delete magellanThread;
-    delete mainGeometryDisplay;
     delete layerManager;
     delete itemDB;
     delete settingsDialog;
