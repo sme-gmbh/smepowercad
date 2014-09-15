@@ -1,7 +1,7 @@
 <settings>
 	<category name="environment" icon="">
 		<page name="general">
-			<attribute name="language" desc="" type="dropdown" values="german,englisch" default="german" />
+			<attribute name="language" desc="" type="dropdown" values="de_DE,en_US" default="de_DE" />
 		</page>
 	</category>
 	<category name="Design" icon="">

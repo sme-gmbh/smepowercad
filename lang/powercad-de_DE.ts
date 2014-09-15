@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="de_DE">
+<TS version="2.1" language="de_DE">
 <context>
     <name>GLWidget</name>
     <message>
@@ -11,7 +11,7 @@
     <message>
         <location filename="../glwidget.cpp" line="804"/>
         <source>Basepoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Basispunkt</translation>
     </message>
 </context>
 <context>
@@ -623,7 +623,11 @@ Default width for lines and outlines</oldsource>
 <context>
     <name>OptionsPage</name>
     <message>
-        <location filename="../settingsdialog.cpp" line="330"/>
+        <source>german</source>
+        <translation type="obsolete">Deutsch</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="334"/>
         <source>Select color</source>
         <translation>Farbe auswählen</translation>
     </message>
@@ -638,78 +642,111 @@ Default width for lines and outlines</oldsource>
     <message>
         <location filename="../settingsdialog.cpp" line="12"/>
         <source>environment</source>
-        <translation type="unfinished"></translation>
+        <translation>Umgebung</translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="13"/>
         <source>general</source>
-        <translation type="unfinished"></translation>
+        <translation>Allgemein</translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="14"/>
         <source>language</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprache</translation>
+    </message>
+    <message>
+        <source>german</source>
+        <translation type="obsolete">Deutsch</translation>
+    </message>
+    <message>
+        <source>englisch</source>
+        <translation type="obsolete">Englisch</translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="15"/>
+        <source>de_DE</source>
+        <translation>Deutsch</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="16"/>
+        <source>en_US</source>
+        <translation>Englisch</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="17"/>
         <source>Design</source>
         <translation>Design</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="16"/>
+        <location filename="../settingsdialog.cpp" line="18"/>
         <source>Colors</source>
         <translation>Farben</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="17"/>
+        <location filename="../settingsdialog.cpp" line="19"/>
         <source>backgroundColor</source>
         <translation>Hintergrundfarbe</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="18"/>
+        <location filename="../settingsdialog.cpp" line="20"/>
         <source>Userinterface</source>
         <translation>Benutzeroberfläche</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="19"/>
+        <location filename="../settingsdialog.cpp" line="21"/>
         <source>Cursor</source>
         <translation>Mauszeiger</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="20"/>
+        <location filename="../settingsdialog.cpp" line="22"/>
         <source>cursorSize</source>
         <translation>Größe</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="21"/>
+        <location filename="../settingsdialog.cpp" line="23"/>
         <source>cursorLineWidth</source>
         <translation>Liniendicke</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="22"/>
+        <location filename="../settingsdialog.cpp" line="24"/>
         <source>cursorPickboxSize</source>
         <translation>Pickbox Größe</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="23"/>
+        <location filename="../settingsdialog.cpp" line="25"/>
         <source>Snap</source>
         <translation>Fang</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="24"/>
+        <location filename="../settingsdialog.cpp" line="26"/>
         <source>snapIndicatorSize</source>
         <translation>Fang Indikator Größe</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="157"/>
-        <source>Reset Settings</source>
-        <translation type="unfinished"></translation>
+        <source>changed language</source>
+        <translation type="obsolete">Sprache geändert</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="157"/>
+        <location filename="../settingsdialog.cpp" line="143"/>
+        <source>The language will change at the next start of the the Application.</source>
+        <translation>Die Sprache wird erst beim nächsten Start geändert.</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="143"/>
+        <source>Changed Language</source>
+        <translation>Sprache geändert</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="154"/>
+        <source>Reset Settings</source>
+        <translation>Einstellungen zurücksetzen</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="154"/>
         <source>Do you really want to reset all Settings?
 This action can not be undone!</source>
-        <translation type="unfinished"></translation>
+        <translation>Wollen sie wirklich alle Einstellungen zurücksetzen?
+Diese Aktion kann nicht rückgängig gemacht werden!</translation>
     </message>
 </context>
 </TS>

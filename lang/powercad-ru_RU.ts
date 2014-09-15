@@ -594,7 +594,7 @@ Default width for lines and outlines</oldsource>
 <context>
     <name>OptionsPage</name>
     <message>
-        <location filename="../settingsdialog.cpp" line="330"/>
+        <location filename="../settingsdialog.cpp" line="334"/>
         <source>Select color</source>
         <translation type="unfinished"></translation>
     </message>
@@ -623,61 +623,81 @@ Default width for lines and outlines</oldsource>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="15"/>
-        <source>Design</source>
+        <source>de_DE</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="16"/>
-        <source>Colors</source>
+        <source>en_US</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="17"/>
-        <source>backgroundColor</source>
+        <source>Design</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="18"/>
-        <source>Userinterface</source>
+        <source>Colors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="19"/>
-        <source>Cursor</source>
+        <source>backgroundColor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="20"/>
-        <source>cursorSize</source>
+        <source>Userinterface</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="21"/>
-        <source>cursorLineWidth</source>
+        <source>Cursor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="22"/>
-        <source>cursorPickboxSize</source>
+        <source>cursorSize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="23"/>
-        <source>Snap</source>
+        <source>cursorLineWidth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="24"/>
+        <source>cursorPickboxSize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="25"/>
+        <source>Snap</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="26"/>
         <source>snapIndicatorSize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="157"/>
+        <location filename="../settingsdialog.cpp" line="143"/>
+        <source>The language will change at the next start of the the Application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="143"/>
+        <source>Changed Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="154"/>
         <source>Reset Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="157"/>
+        <location filename="../settingsdialog.cpp" line="154"/>
         <source>Do you really want to reset all Settings?
 This action can not be undone!</source>
         <translation type="unfinished"></translation>
