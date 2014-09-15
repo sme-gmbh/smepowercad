@@ -144,7 +144,7 @@ void SettingsDialog::save()
                         if (oldLang != newLang)
                             QMessageBox::information(this, tr("Changed Language"), tr("The language will change at the next start of the the Application."));
                     }
-                    settings.setValue(key, QVariant::fromValue(newLang));
+                    settings.setValue(key, QVariant::fromValue(at.values.at(((QComboBox*)wdg)->currentIndex())));
                 }
             }
         }
