@@ -344,5 +344,5 @@ CADitem* ItemDB::drawItem(Layer* layer, CADitem::ItemType type)
 
 CADitem *ItemDB::drawItem(QString layerName, CADitem::ItemType type)
 {
-    this->drawItem(getLayerByName(layerName), type);
+    return this->drawItem(getLayerByName(layerName), type);
 }

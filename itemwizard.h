@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QDebug>
+#include <QMap>
 #include "caditem.h"
 
 #include <QLineEdit>
@@ -25,7 +26,6 @@ public:
 
 private slots:
     void on_buttonBox_accepted();
-
     void on_buttonBox_rejected();
 
 private:
@@ -33,6 +33,7 @@ private:
 
     CADitem *currentItem;
     void save();
+    void deleteWdgs(QLayout *layout);
 };
 
 #endif // ITEMWIZARD_H

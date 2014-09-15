@@ -2,7 +2,6 @@
 #define CAD_BASIC_CYLINDER_H
 
 #include "caditem.h"
-#include <QObject>
 
 class CAD_basic_cylinder : public CADitem
 {

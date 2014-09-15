@@ -26,7 +26,6 @@ void ItemWizard::showWizard(CADitem *item)
     for (it = item->wizardParams.begin(); it != item->wizardParams.end(); it++)
     {
         QWidget *wdg;
-        wdg->setObjectName(it.key());
         switch (it.value().type())
         {
         case QVariant::String:
@@ -41,22 +40,27 @@ void ItemWizard::showWizard(CADitem *item)
             ((QDoubleSpinBox*)wdg)->setValue(it.value().toDouble());
             break;
         }
+        wdg->setObjectName(it.key());
 
 
         ui->formLayout->addRow(it.key(), wdg);
     }
+
+    this->setWindowTitle(tr("New %1").arg(item->description));
 
     this->show();
 }
 
 void ItemWizard::on_buttonBox_accepted()
 {
-    //this->save();
+    this->save();
+    this->accept();
 }
 
 void ItemWizard::on_buttonBox_rejected()
 {
-
+    this->deleteWdgs(ui->formLayout);
+    this->reject();
 }
 
 void ItemWizard::save()
@@ -67,7 +71,6 @@ void ItemWizard::save()
     for (int r = 0; r < ui->formLayout->rowCount(); r++)
     {
         wdg = ui->formLayout->itemAt(r, QFormLayout::FieldRole)->widget();
-
 
         switch (currentItem->wizardParams.value(wdg->objectName()).type())
         {
@@ -80,12 +83,38 @@ void ItemWizard::save()
         case QVariant::Double:
             val = QVariant::fromValue(((QDoubleSpinBox*)wdg)->value());
             break;
+        default:
+            break;
         }
 
         map.insert(wdg->objectName(), val);
     }
 
+    this->deleteWdgs(ui->formLayout);
 
-    //currentItem->wizardParams = ;
-    //currentItem->calculate();
+
+    currentItem->wizardParams = map;
+    currentItem->calculate();
+}
+
+void ItemWizard::deleteWdgs(QLayout *layout)
+{
+    QLayoutItem *item;
+    while ((item = layout->takeAt(0)))
+    {
+        if (item->layout()) {
+            deleteWdgs(item->layout());
+            delete item->layout();
+        }
+        if (item->widget()) {
+            delete item->widget();
+        }
+        delete item;
+    }
+    this->layout()->removeItem(ui->formLayout);
+    ui->formLayout->deleteLater();
+    ui->formLayout = new QFormLayout;
+    ((QVBoxLayout*)this->layout())->insertLayout(0, ui->formLayout);
+
+    qDebug() << ui->formLayout->rowCount();
 }
