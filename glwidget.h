@@ -109,6 +109,8 @@ private:
     QColor _pickboxFillColorRight;
 
 
+    // Drawing
+
 
 
     // OpenGL
