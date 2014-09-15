@@ -28,6 +28,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     ((QGridLayout *)this->layout())->addLayout(stackedLayout, 1, 1, 1, 1);
 
+    connect(this, SIGNAL(signal_settingsChanged()), this, SLOT(slot_reload()));
+
     this->loadCategorys();
 
     foreach (Category *category, categories)
@@ -61,6 +63,9 @@ void SettingsDialog::on_buttonBox_clicked(QAbstractButton *button)
     {
     case QDialogButtonBox::Apply:
         this->save();
+        break;
+    case QDialogButtonBox::Reset:
+        this->reset();
         break;
     }
 }
@@ -135,9 +140,29 @@ void SettingsDialog::save()
                 }
                 else if (at.type == "color")
                 {
-                    QColor col = ((QPushButton *)wdg)->icon().pixmap(1, 1).toImage().pixel(0, 0);
+                    QColor col = at.value.value<QColor>();
                     settings.setValue(key, QVariant::fromValue(col));
                 }
+            }
+        }
+    }
+    emit signal_settingsChanged();
+}
+
+void SettingsDialog::reset()
+{
+    int ret = QMessageBox::critical(this, tr("Reset Settings"), tr("Do you really want to reset all Settings?\nThis action can not be undone!"),
+                                    QMessageBox::Cancel, QMessageBox::Ok);
+    if (ret != QMessageBox::Ok)
+        return;
+
+    foreach (Category *cat, categories)
+    {
+        foreach (OptionsPage *page, cat->pages)
+        {
+            foreach (Attribute attr, page->attributes)
+            {
+                settings.remove(cat->name + "_" + page->name + "_" + attr.name);
             }
         }
     }
@@ -148,6 +173,22 @@ void SettingsDialog::on_listWidget_itemClicked(QListWidgetItem *item)
 {
     Q_UNUSED(item);
     this->showCategory(ui->listWidget->currentRow());
+}
+
+void SettingsDialog::slot_reload()
+{
+    this->loadCategorys();
+
+    int curRow = ui->listWidget->currentRow();
+    ui->listWidget->clear();
+
+    foreach (Category *category, categories)
+    {
+        QListWidgetItem *item = new QListWidgetItem(category->icon, category->displayName);
+        ui->listWidget->addItem(item);
+    }
+
+    this->showCategory(curRow);
 }
 
 void SettingsDialog::loadCategorys()
@@ -265,8 +306,8 @@ OptionsPage* OptionsPage::newPage(QString name, QList<Attribute> attributes)
 void OptionsPage::slot_showColorDialog()
 {
     QPushButton *btn = (QPushButton *)this->sender();
-    QColor init = btn->icon().pixmap(1, 1).toImage().pixel(0, 0);
-    QColorDialog colorDialog(init, 0);
+    Attribute attr = this->attributes.value(btn->objectName());
+    QColorDialog colorDialog(attr.value.value<QColor>(), 0);
     colorDialog.setWindowTitle(tr("Select color"));
     colorDialog.setModal(true);
     colorDialog.setOption(QColorDialog::ShowAlphaChannel, true);
@@ -276,4 +317,7 @@ void OptionsPage::slot_showColorDialog()
     QPixmap pxmp = QPixmap(24, 24);
     pxmp.fill(colorDialog.currentColor());
     btn->setIcon(QIcon(pxmp));
+
+    attr.value = QVariant::fromValue(colorDialog.currentColor());
+    attributes.insert(btn->objectName(), attr);
 }

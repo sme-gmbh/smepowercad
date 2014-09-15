@@ -15,6 +15,7 @@
 #include <QColorDialog>
 #include <QSettings>
 #include <QObject>
+#include <QMessageBox>
 
 namespace Ui {
 class SettingsDialog;
@@ -71,8 +72,9 @@ private slots:
     void on_buttonBox_accepted();
     void on_buttonBox_rejected();
     void on_buttonBox_clicked(QAbstractButton *button);
-
     void on_listWidget_itemClicked(QListWidgetItem *item);
+
+    void slot_reload();
 
 private:
     Ui::SettingsDialog *ui;
@@ -90,6 +92,7 @@ private:
     void showPage(int category = 0, int page = 0);
 
     void save();
+    void reset();
 
 signals:
     void signal_settingsChanged();
