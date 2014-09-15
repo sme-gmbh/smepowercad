@@ -1,14 +1,14 @@
 <settings>
 	<category name="Design" icon="">
 		<page name="Colors">
-			<attribute name="backgroundColor" desc="" type="color" default="255,255,255,255" />
+			<attribute name="backgroundColor" desc="" type="color" default="0,0,0,255" />
 		</page>
 	</category>
 	<category name="Userinterface" icon="">
 		<page name="Cursor">
 			<attribute name="cursorSize" desc="" type="int" default="4500" min="20" max="4500" />
 			<attribute name="cursorLineWidth" desc="" type="int" default="1" min="1" max="10" />
-			<attribute name="cursorPickboxSize" desc="" type="int" default="2" min="2" max="20" />
+			<attribute name="cursorPickboxSize" desc="" type="int" default="11" min="2" max="20" />
 			<attribute name="cursorPickboxLineWidth" desc="" type="int" default="1" min="1" max="10" />
 			<attribute name="cursorPickboxColor" desc="" type="color" default="200,255,200,150" />
 		</page>
