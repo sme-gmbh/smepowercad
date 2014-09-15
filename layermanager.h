@@ -8,7 +8,9 @@
 #include <QColorDialog>
 #include <QMap>
 #include <QLabel>
+
 #include "layer.h"
+#include "itemdb.h"
 
 namespace Ui {
 class LayerManager;
@@ -19,7 +21,7 @@ class LayerManager : public QDockWidget
     Q_OBJECT
 
 public:
-    explicit LayerManager(QWidget *parent, Layer *topLevelLayer);
+    explicit LayerManager(QWidget *parent, Layer *topLevelLayer, ItemDB *itemDB);
     ~LayerManager();
     void updateAllLayers();
     void updateLayer(Layer* layer);
@@ -27,6 +29,7 @@ public:
 
 private:
     Ui::LayerManager *ui;
+    ItemDB* itemDB;
     Layer* topLevelLayer;
     Layer* currentLayer;
     QMap<Layer*, QTreeWidgetItem*> layerMap;
@@ -40,6 +43,8 @@ public slots:
     void slot_layerAdded(Layer* newLayer, Layer* parentLayer);
 private slots:
     void on_treeWidget_layer_itemClicked(QTreeWidgetItem *item, int column);
+
+    void on_treeWidget_layer_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 
 signals:
     void signal_repaintNeeded();

@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // ** Layer Manager **
-    this->layerManager = new LayerManager(this, topLevelLayer);
+    this->layerManager = new LayerManager(this, topLevelLayer, itemDB);
     QAction* action_layerManager = this->layerManager->toggleViewAction();
     action_layerManager->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
     connect(itemDB, SIGNAL(signal_layerAdded(Layer*,Layer*)), layerManager, SLOT(slot_layerAdded(Layer*,Layer*)));
@@ -351,7 +351,7 @@ void MainWindow::on_actionSettings_triggered()
     //SettingsDialog *dialog = new SettingsDialog(this);
     //dialog->exec();
     //delete dialog;
-    settingsDialog->exec();
+    settingsDialog->show();
 }
 
 void MainWindow::on_action_basic_face_triggered()

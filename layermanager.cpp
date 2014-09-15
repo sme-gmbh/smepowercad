@@ -1,10 +1,11 @@
 #include "layermanager.h"
 #include "ui_layermanager.h"
 
-LayerManager::LayerManager(QWidget *parent, Layer* topLevelLayer) :
+LayerManager::LayerManager(QWidget *parent, Layer* topLevelLayer, ItemDB* itemDB) :
     QDockWidget(parent),
     ui(new Ui::LayerManager)
 {
+    this->itemDB = itemDB;
     this->topLevelLayer = topLevelLayer;
     this->currentLayer = topLevelLayer;
     ui->setupUi(this);
@@ -178,4 +179,19 @@ void LayerManager::on_treeWidget_layer_itemClicked(QTreeWidgetItem *item, int co
 
     updateLayer(layer);
     emit signal_repaintNeeded();
+}
+
+void LayerManager::on_treeWidget_layer_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+{
+    Q_UNUSED(previous);
+    Layer* newCurrentLayer = itemDB->getLayerByName(current->text(0));
+    if (newCurrentLayer != NULL)
+    {
+        this->currentLayer = newCurrentLayer;
+        qDebug() << "Selected Layer" << newCurrentLayer->name;
+    }
+    else
+    {
+        qDebug() << "LayerManager::on_treeWidget_layer_currentItemChanged(): newCurrentLayer is NULL.";
+    }
 }
