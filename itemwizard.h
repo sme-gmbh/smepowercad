@@ -22,8 +22,16 @@ public:
 
     void showWizard(CADitem *item);
 
+private slots:
+    void on_buttonBox_accepted();
+
+    void on_buttonBox_rejected();
+
 private:
     Ui::ItemWizard *ui;
+
+    CADitem *currentItem;
+    void save();
 };
 
 #endif // ITEMWIZARD_H

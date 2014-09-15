@@ -15,6 +15,7 @@ ItemWizard::~ItemWizard()
 
 void ItemWizard::showWizard(CADitem *item)
 {
+    currentItem = item;
     QMap<QString, QVariant>::iterator it;
     for (it = item->wizardParams.begin(); it != item->wizardParams.end(); it++)
     {
@@ -39,4 +40,24 @@ void ItemWizard::showWizard(CADitem *item)
     }
 
     this->show();
+}
+
+void ItemWizard::on_buttonBox_accepted()
+{
+}
+
+void ItemWizard::on_buttonBox_rejected()
+{
+
+}
+
+void ItemWizard::save()
+{
+    for (int r = 0; r < ui->formLayout->rowCount(); r++)
+    {
+        ui->formLayout->itemAt(r, QFormLayout::FieldRole);
+    }
+
+
+    //currentItem->wizardParams = ;
 }

@@ -54,7 +54,7 @@ SettingsDialog::~SettingsDialog()
 void SettingsDialog::on_buttonBox_accepted()
 {
     this->save();
-    this->accept();
+    //this->accept();
 }
 
 void SettingsDialog::on_buttonBox_rejected()
