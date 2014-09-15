@@ -23,6 +23,26 @@
         <file>icons/cad_basic/cad_basic_point.svg</file>
         <file>icons/cad_basic/cad_basic_polyline.svg</file>
         <file>icons/cad_basic/cad_basic_sphere.svg</file>
+        <file>icons/cad_air/cad_air_ducttransition.svg</file>
+        <file>icons/cad_air/cad_air_ducttransitionrectround.svg</file>
+        <file>icons/cad_air/cad_air_ductturn.svg</file>
+        <file>icons/cad_air/cad_air_ductvolumetricflowcontroller.svg</file>
+        <file>icons/cad_air/cad_air_ductypiece.svg</file>
+        <file>icons/cad_air/cad_air_emptycabinet.svg</file>
+        <file>icons/cad_air/cad_air_equipmentframe.svg</file>
+        <file>icons/cad_air/cad_air_fan.svg</file>
+        <file>icons/cad_air/cad_air_filter.svg</file>
+        <file>icons/cad_air/cad_air_heatexchangerairair.svg</file>
+        <file>icons/cad_air/cad_air_heatexchangerwaterair.svg</file>
+        <file>icons/cad_air/cad_air_humidifier.svg</file>
+        <file>icons/cad_air/cad_air_multileafdamper.svg</file>
+        <file>icons/cad_air/cad_air_pipe.svg</file>
+        <file>icons/cad_air/cad_air_pipeendcap.svg</file>
+        <file>icons/cad_air/cad_air_pipereducer.svg</file>
+        <file>icons/cad_air/cad_air_pipesilencer.svg</file>
+        <file>icons/cad_air/cad_air_pipeteeconnector.svg</file>
+        <file>icons/cad_air/cad_air_pipeturn.svg</file>
+        <file>icons/cad_air/cad_air_pipevolumetricflowcontroller.svg</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>
