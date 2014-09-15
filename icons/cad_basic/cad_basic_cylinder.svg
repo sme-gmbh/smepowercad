@@ -112,7 +112,7 @@
          sodipodi:ry="8"
          d="m 60,12 a 8,8 0 1 1 -16,0 8,8 0 1 1 16,0 z" />
       <rect
-         style="fill:#0000ff;fill-opacity:1;stroke:#000000;stroke-width:0.47294426;stroke-miterlimit:2;stroke-opacity:1;stroke-dasharray:none"
+         style="fill:#8080ff;fill-opacity:1;stroke:#8080ff;stroke-width:1;stroke-miterlimit:2;stroke-opacity:1;stroke-dasharray:none"
          id="rect4671"
          width="45.021515"
          height="24.368622"
@@ -122,7 +122,7 @@
       <path
          transform="matrix(1.0768074,-1.0768074,1.0768074,1.0768074,-52.578095,1079.3611)"
          sodipodi:type="arc"
-         style="fill:#0000ff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.3129541;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:0;stroke-opacity:1;stroke-dasharray:none"
+         style="fill:#aaaaff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.3129541;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:0;stroke-opacity:1;stroke-dasharray:none"
          id="path3773"
          sodipodi:cx="52"
          sodipodi:cy="12"
@@ -132,7 +132,7 @@
       <path
          transform="matrix(1.0727725,-1.0727725,1.0612286,1.0612286,-21.156506,1048.2342)"
          sodipodi:type="arc"
-         style="fill:#0000ff;fill-opacity:1;fill-rule:evenodd;stroke:none"
+         style="fill:#8080ff;fill-opacity:1;fill-rule:evenodd;stroke:#8080ff"
          id="path3773-7-1"
          sodipodi:cx="52"
          sodipodi:cy="12"
