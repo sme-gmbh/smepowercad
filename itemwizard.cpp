@@ -29,7 +29,7 @@ void ItemWizard::showWizard(CADitem *item)
             ((QSpinBox*)wdg)->setValue(it.value().toInt());
             break;
         case QVariant::Double:
-            wdg = new QSDoublepinBox(this);
+            wdg = new QDoubleSpinBox(this);
             ((QDoubleSpinBox*)wdg)->setValue(it.value().toDouble());
             break;
         }
