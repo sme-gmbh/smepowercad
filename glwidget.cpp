@@ -246,10 +246,22 @@ void GLWidget::slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c)
 void GLWidget::slot_update_settings()
 {
     _backgroundColor = settings.value("Design_Colors_backgroundColor", QVariant::fromValue(QColor().black())).value<QColor>();
+
     _cursorSize = settings.value("Userinterface_Cursor_cursorSize", QVariant::fromValue(4500)).toInt();
     _cursorWidth = settings.value("Userinterface_Cursor_cursorLineWidth", QVariant::fromValue(1)).toInt();
     _cursorPickboxSize = settings.value("Userinterface_Cursor_cursorPickboxSize", QVariant::fromValue(11)).toInt();
+    _cursorPickboxLineWidth = settings.value("Userinterface_Cursor_cursorPickboxLineWidth", QVariant::fromValue(1)).toInt();
+    _cursorPickboxColor = settings.value("Userinterface_Cursor_cursorPickboxColor", QVariant::fromValue(QColor(200,255,200,150))).value<QColor>();
+
     _snapIndicatorSize = settings.value("Userinterface_Snap_snapIndicatorSize", QVariant::fromValue(21)).toInt();
+
+    _pickboxOutlineWidth = settings.value("Userinterface_pickbox_pickboxOutlineWidth", QVariant::fromValue(1)).toInt();
+    _pickboxOutlineColorLeft = settings.value("Userinterface_pickbox_pickboxOutlineColorLeft", QVariant::fromValue(QColor(127,127,255,127))).value<QColor>();
+    _pickboxOutlineColorRight = settings.value("Userinterface_pickbox_pickboxOutlineColorRight", QVariant::fromValue(QColor(127,255,127,127))).value<QColor>();
+    _pickboxFillColorLeft = settings.value("Userinterface_pickbox_pickboxFillColorLeft", QVariant::fromValue(QColor(40,40,255,255))).value<QColor>();
+    _pickboxFillColorRight = settings.value("Userinterface_pickbox_pickboxFillColorRight", QVariant::fromValue(QColor(40,255,40,255))).value<QColor>();
+
+    slot_repaint();
 }
 
 void GLWidget::wheelEvent(QWheelEvent* event)
@@ -317,8 +329,6 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 //        rot_x += dx * cos(rot_y*PI/180.0) - dy;
 //        rot_y += dx * cos(rot_x*PI/180.0) * cos(rot_z*PI/180.0) + dy * sin(rot_z*PI/180.0);
         //rot_z += dx + dy;
-
-        // TODO: calculate arcball math here
 
         rot_x += -dy;
         rot_y += -dx;
@@ -721,15 +731,15 @@ void GLWidget::paintEvent(QPaintEvent *event)
         glLineWidth((GLfloat)_cursorWidth);
         glColor4ub(255, 255, 255, 255);
         glBegin(GL_LINES);
-        glVertex3i(0, mousePos.y(), 0);
-        glVertex3i(this->width() - 1, mousePos.y(), 0);
-        glVertex3i(mousePos.x(), 0, 0);
-        glVertex3i(mousePos.x(), this->height() - 1, 0);
+        glVertex3i(mousePos.x() - _cursorSize, mousePos.y(), 0);
+        glVertex3i(mousePos.x() + _cursorSize, mousePos.y(), 0);
+        glVertex3i(mousePos.x(), mousePos.y() - _cursorSize, 0);
+        glVertex3i(mousePos.x(), mousePos.y() + _cursorSize, 0);
         glEnd();
 
         // Cursor Pickbox
-        glLineWidth(1);
-        glColor4ub(200, 255, 200, 150);
+        glLineWidth(_cursorPickboxLineWidth);
+        qglColor(_cursorPickboxColor);
         QRect pickRect = QRect(0, 0, _cursorPickboxSize, _cursorPickboxSize);
         pickRect.moveCenter(mousePos);
         glBegin(GL_LINE_LOOP);
@@ -742,10 +752,10 @@ void GLWidget::paintEvent(QPaintEvent *event)
         if (this->pickActive)
         {
             if (this->pickStartPos.x() < this->mousePos.x())
-                glColor4ub(127, 127, 255, 127);
+                qglColor(_pickboxFillColorLeft);
             else
-                glColor4ub(127, 255, 127, 127);
-            glLineWidth(2);
+                qglColor(_pickboxFillColorRight);
+            glLineWidth(_pickboxOutlineWidth);
             QRect rect = this->selection();
             glBegin(GL_QUADS);
             glVertex3i(rect.bottomLeft().x(), rect.bottomLeft().y(), 0);
@@ -755,9 +765,9 @@ void GLWidget::paintEvent(QPaintEvent *event)
             glEnd();
 
             if (this->pickStartPos.x() < this->mousePos.x())
-                glColor4ub(40, 40, 255, 255);
+                qglColor(_pickboxOutlineColorLeft);
             else
-                glColor4ub(40, 255, 40, 255);
+                qglColor(_pickboxOutlineColorRight);
             glBegin(GL_LINE_LOOP);
             glVertex3i(rect.bottomLeft().x(), rect.bottomLeft().y(), 0);
             glVertex3i(rect.bottomRight().x(), rect.bottomRight().y(), 0);
@@ -791,7 +801,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
                 glVertex2i(focusRect.topLeft().x(), focusRect.topLeft().y());
                 glVertex2i(focusRect.topRight().x(), focusRect.topRight().y());
                 glEnd();
-                snapText.prepend("Basepoint");
+                snapText.prepend(tr("Basepoint"));
 
                 paintTextInfoBox(focusRect.bottomRight(), snapText);
 

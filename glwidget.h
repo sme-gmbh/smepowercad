@@ -90,11 +90,25 @@ private:
     SnapEngine* snapEngine;
     CADitem* item_lastHighlight;
 
+
+    // **** settings ****
     QColor _backgroundColor;
+
     int _cursorSize;
     int _cursorWidth;
     int _cursorPickboxSize;
+    int _cursorPickboxLineWidth;
+    QColor _cursorPickboxColor;
+
     int _snapIndicatorSize;
+
+    int _pickboxOutlineWidth;
+    QColor _pickboxOutlineColorLeft;
+    QColor _pickboxOutlineColorRight;
+    QColor _pickboxFillColorLeft;
+    QColor _pickboxFillColorRight;
+
+
 
 
     // OpenGL
