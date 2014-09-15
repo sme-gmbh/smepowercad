@@ -1004,6 +1004,13 @@ void GLWidget::paintContent(QList<Layer*> layers)
             case CADitem::Arch_Window:
                 paintArchWindow(layer, (CAD_arch_window*)item);
                 break;
+            case CADitem::Arch_Foundation:
+                break;
+            case CADitem::Arch_BoredPile:
+                break;
+            case CADitem::Arch_Grating:
+                break;
+
 
             case CADitem::Air_Duct:
                 paintAirDuct(layer, (CAD_air_duct*)item);
@@ -1153,6 +1160,12 @@ void GLWidget::paintContent(QList<Layer*> layers)
                 break;
             case CADitem::Sprinkler_ZoneCheck:
                 paintSprinklerZoneCheck(layer, (CAD_sprinkler_zoneCheck*)item);
+                break;
+            case CADitem::Sprinkler_PipeTurn:
+                break;
+            case CADitem::Sprinkler_PipeReducer:
+                break;
+            case CADitem::Sprinkler_PipeEndCap:
                 break;
 
             case CADitem::Electrical_Cabinet:

@@ -391,6 +391,8 @@ void MainWindow::on_action_basic_cylinder_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem("Testlayer", CADitem::Basic_Cylinder);
+
     CAD_basic_cylinder* cylinder = new CAD_basic_cylinder();
     cylinder->center_base = QVector3D(3.0, 0.0, 0.0);
     cylinder->calculate();

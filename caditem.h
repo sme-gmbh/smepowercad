@@ -122,6 +122,7 @@ public:
 
     CADitem(ItemType type);
     void calculate();
+    void processWizardInput();
 
     // data types tbd.
     ItemType getType();
