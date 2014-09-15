@@ -4,6 +4,10 @@
 #include <QDialog>
 #include "caditem.h"
 
+#include <QLineEdit>
+#include <QSpinBox>
+#include <QDoubleSpinBox>
+
 namespace Ui {
 class ItemWizard;
 }
