@@ -395,11 +395,12 @@ void MainWindow::on_action_basic_cylinder_triggered()
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
     CADitem* item = itemDB->drawItem("Testlayer", CADitem::Basic_Cylinder);
+    this->itemWizard->showWizard(item);
 
-    CAD_basic_cylinder* cylinder = new CAD_basic_cylinder();
-    cylinder->center_base = QVector3D(3.0, 0.0, 0.0);
-    cylinder->calculate();
-    itemDB->addItem(cylinder, "Testlayer");
+//    CAD_basic_cylinder* cylinder = new CAD_basic_cylinder();
+//    cylinder->center_base = QVector3D(3.0, 0.0, 0.0);
+//    cylinder->calculate();
+//    itemDB->addItem(cylinder, "Testlayer");
 }
 
 void MainWindow::on_action_basic_linie_triggered()
