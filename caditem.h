@@ -2,6 +2,7 @@
 #define CADITEM_H
 
 #include <QString>
+#include <QObject>
 #include <QColor>
 #include <QList>
 #include <QMap>

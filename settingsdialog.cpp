@@ -24,6 +24,12 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     QT_TR_NOOP("cursorPickboxSize");
     QT_TR_NOOP("Snap");
     QT_TR_NOOP("snapIndicatorSize");
+    QT_TR_NOOP("pickbox");
+    QT_TR_NOOP("pickboxOutlineWidth");
+    QT_TR_NOOP("pickboxOutlineColorLeft");
+    QT_TR_NOOP("pickboxOutlineColorRight");
+    QT_TR_NOOP("pickboxFillColorLeft");
+    QT_TR_NOOP("pickboxFillColorRight");
 
 
     stackedLayout->setMargin(0);
@@ -54,7 +60,7 @@ SettingsDialog::~SettingsDialog()
 void SettingsDialog::on_buttonBox_accepted()
 {
     this->save();
-    //this->accept();
+    this->accept();
 }
 
 void SettingsDialog::on_buttonBox_rejected()
@@ -254,7 +260,7 @@ void SettingsDialog::loadCategorys()
                     QStringList parts;
                     QStringList split = attr.attributes().namedItem("values").nodeValue().split(",");
                     at.values = split;
-                    defaultVal = QVariant::fromValue(split.indexOf(dflt));
+                    defaultVal = QVariant::fromValue(dflt);
                     for (int i = 0; i < split.length(); i++)
                         parts.append(tr(split.at(i).toStdString().c_str()));
 

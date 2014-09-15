@@ -10,14 +10,14 @@ CAD_basic_cylinder::CAD_basic_cylinder() : CADitem(CADitem::Basic_Cylinder)
     angle_y = 0.0;
     angle_z = 0.0;
 
-    this->wizardParams.insert("Position x", QVariant::fromValue(0.0));
-    this->wizardParams.insert("Position y", QVariant::fromValue(0.0));
-    this->wizardParams.insert("Position z", QVariant::fromValue(0.0));
-    this->wizardParams.insert("Height", QVariant::fromValue(0.0));
-    this->wizardParams.insert("Angle x", QVariant::fromValue(0.0));
-    this->wizardParams.insert("Angle y", QVariant::fromValue(0.0));
-    this->wizardParams.insert("Angle z", QVariant::fromValue(0.0));
-    this->wizardParams.insert("Name", QVariant::fromValue(QString("Default Name")));
+    this->wizardParams.insert(QObject::tr("Position x"), QVariant::fromValue(0.0));
+    this->wizardParams.insert(QObject::tr("Position y"), QVariant::fromValue(0.0));
+    this->wizardParams.insert(QObject::tr("Position z"), QVariant::fromValue(0.0));
+    this->wizardParams.insert(QObject::tr("Height"), QVariant::fromValue(0.0));
+    this->wizardParams.insert(QObject::tr("Angle x"), QVariant::fromValue(0.0));
+    this->wizardParams.insert(QObject::tr("Angle y"), QVariant::fromValue(0.0));
+    this->wizardParams.insert(QObject::tr("Angle z"), QVariant::fromValue(0.0));
+    this->wizardParams.insert(QObject::tr("Name"), QVariant::fromValue(QString("Default Name")));
 }
 
 void CAD_basic_cylinder::calculate()

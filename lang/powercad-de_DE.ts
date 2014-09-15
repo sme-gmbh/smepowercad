@@ -66,6 +66,15 @@
     </message>
 </context>
 <context>
+    <name>ItemWizard</name>
+    <message>
+        <location filename="../itemwizard.ui" line="14"/>
+        <location filename="../itemwizard.cpp" line="49"/>
+        <source>New %1</source>
+        <translation>Neu: %1</translation>
+    </message>
+</context>
+<context>
     <name>LayerManager</name>
     <message>
         <location filename="../layermanager.ui" line="109"/>
@@ -137,12 +146,12 @@ Default width for lines and outlines</oldsource>
         <translation>Muster von Linien oder Umrandungen</translation>
     </message>
     <message>
-        <location filename="../layermanager.cpp" line="144"/>
+        <location filename="../layermanager.cpp" line="150"/>
         <source>Fillcolor of layer %1</source>
         <translation>Füllfarbe für Ebene %1</translation>
     </message>
     <message>
-        <location filename="../layermanager.cpp" line="155"/>
+        <location filename="../layermanager.cpp" line="161"/>
         <source>Linecolor of layer %1</source>
         <translation>Linienfarbe für Ebene %1</translation>
     </message>
@@ -585,33 +594,33 @@ Default width for lines and outlines</oldsource>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="92"/>
+        <location filename="../mainwindow.cpp" line="95"/>
         <source>Clear menu</source>
         <translation>Menü leeren</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="188"/>
+        <location filename="../mainwindow.cpp" line="190"/>
         <source>Load drawing</source>
         <translation>Zeichnung laden</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="188"/>
+        <location filename="../mainwindow.cpp" line="190"/>
         <source>dxf-Datei (*.dxf)</source>
         <translation>dxf-Datei (*.dxf)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="326"/>
-        <location filename="../mainwindow.cpp" line="342"/>
+        <location filename="../mainwindow.cpp" line="328"/>
+        <location filename="../mainwindow.cpp" line="344"/>
         <source>About %1</source>
         <translation>Über %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="334"/>
+        <location filename="../mainwindow.cpp" line="336"/>
         <source>Authors</source>
         <translation>Entwickler</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="338"/>
+        <location filename="../mainwindow.cpp" line="340"/>
         <source>Tel.</source>
         <translation>Tel.</translation>
     </message>
@@ -627,9 +636,52 @@ Default width for lines and outlines</oldsource>
         <translation type="obsolete">Deutsch</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="334"/>
+        <location filename="../settingsdialog.cpp" line="343"/>
         <source>Select color</source>
         <translation>Farbe auswählen</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="../items/cad_basic_cylinder.cpp" line="13"/>
+        <source>Position x</source>
+        <translation>Position x</translation>
+    </message>
+    <message>
+        <location filename="../items/cad_basic_cylinder.cpp" line="14"/>
+        <source>Position y</source>
+        <translation>Position y</translation>
+    </message>
+    <message>
+        <location filename="../items/cad_basic_cylinder.cpp" line="15"/>
+        <source>Position z</source>
+        <translation>Position z</translation>
+    </message>
+    <message>
+        <location filename="../items/cad_basic_cylinder.cpp" line="16"/>
+        <source>Height</source>
+        <translation>Höhe</translation>
+    </message>
+    <message>
+        <location filename="../items/cad_basic_cylinder.cpp" line="17"/>
+        <source>Angle x</source>
+        <translation>Winkel x</translation>
+    </message>
+    <message>
+        <location filename="../items/cad_basic_cylinder.cpp" line="18"/>
+        <source>Angle y</source>
+        <translation>Winkel y</translation>
+    </message>
+    <message>
+        <location filename="../items/cad_basic_cylinder.cpp" line="19"/>
+        <source>Angle z</source>
+        <translation>Winkel z</translation>
+    </message>
+    <message>
+        <location filename="../items/cad_basic_cylinder.cpp" line="20"/>
+        <source>Name</source>
+        <translation>Name</translation>
     </message>
 </context>
 <context>
@@ -723,26 +775,56 @@ Default width for lines and outlines</oldsource>
         <translation>Fang Indikator Größe</translation>
     </message>
     <message>
+        <location filename="../settingsdialog.cpp" line="27"/>
+        <source>pickbox</source>
+        <translation>Lasso Selektierung</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="28"/>
+        <source>pickboxOutlineWidth</source>
+        <translation>Rand Dicke</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="29"/>
+        <source>pickboxOutlineColorLeft</source>
+        <translation>Rand Farbe (ganzes Objekt)</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="30"/>
+        <source>pickboxOutlineColorRight</source>
+        <translation>Rand Farbe</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="31"/>
+        <source>pickboxFillColorLeft</source>
+        <translation>Füllfarbe (ganzes Objekt)</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="32"/>
+        <source>pickboxFillColorRight</source>
+        <translation>Füllfarbe</translation>
+    </message>
+    <message>
         <source>changed language</source>
         <translation type="obsolete">Sprache geändert</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="143"/>
+        <location filename="../settingsdialog.cpp" line="151"/>
         <source>The language will change at the next start of the the Application.</source>
         <translation>Die Sprache wird erst beim nächsten Start geändert.</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="143"/>
+        <location filename="../settingsdialog.cpp" line="151"/>
         <source>Changed Language</source>
         <translation>Sprache geändert</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="154"/>
+        <location filename="../settingsdialog.cpp" line="163"/>
         <source>Reset Settings</source>
         <translation>Einstellungen zurücksetzen</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="154"/>
+        <location filename="../settingsdialog.cpp" line="163"/>
         <source>Do you really want to reset all Settings?
 This action can not be undone!</source>
         <translation>Wollen sie wirklich alle Einstellungen zurücksetzen?
