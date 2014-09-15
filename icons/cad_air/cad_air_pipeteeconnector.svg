@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="cad_air_duct.svg">
+   sodipodi:docname="cad_air_pipeteeconnector.svg">
   <defs
      id="defs4">
     <linearGradient
@@ -35,8 +35,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="20.740764"
-     inkscape:cy="32.817613"
+     inkscape:cx="34.862865"
+     inkscape:cy="32.198785"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -48,8 +48,7 @@
      inkscape:window-x="-4"
      inkscape:window-y="-4"
      inkscape:window-maximized="1"
-     inkscape:snap-grids="true"
-     inkscape:snap-global="false">
+     inkscape:snap-grids="true">
     <inkscape:grid
        type="xygrid"
        id="grid2985"
@@ -68,7 +67,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -86,31 +85,29 @@
        y="0"
        rx="0"
        transform="translate(0,988.36217)" />
-    <rect
-       style="fill:none;stroke:#000096;stroke-width:3.50000000000000000;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
-       id="rect3815"
-       width="16"
-       height="20"
-       x="8"
-       y="32"
-       transform="translate(0,988.36217)" />
     <path
-       style="fill:none;stroke:#000096;stroke-width:3.50000000000000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="M 8,32 C 40,12 40,12 40,12 c 0,0 16,0 16,0 l 0,20 -32,20"
-       id="path3819"
+       style="fill:none;stroke:#0096c8;stroke-width:3.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 4,1012.3622 c 0,24 0,32 0,32 l 56,0 0,-32 -8,0 c 0,0 -4,0 -4,-4 0,-4 0,-12 0,-12 l -32,0 0,12 c 0,0 0,4 -4,4 -4,0 -8,0 -8,0 z"
+       id="path4437"
        inkscape:connector-curvature="0"
-       transform="translate(0,988.36217)" />
+       sodipodi:nodetypes="cccccscccsc" />
     <path
-       style="fill:none;stroke:#000096;stroke-width:3.50000000000000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="M 24,32 56,12"
-       id="path3821"
+       style="fill:none;stroke:#0096c8;stroke-width:3.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 32,996.3622 0,32"
+       id="path4439"
        inkscape:connector-curvature="0"
-       transform="translate(0,988.36217)" />
+       sodipodi:nodetypes="cc" />
     <path
-       style="fill:none;stroke:#000096;stroke-width:3.50000000000000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="M 8,52 C 24.107143,41.946429 24.107143,41.946429 24.107143,41.946429"
-       id="path3823"
+       style="fill:none;stroke:#0096c8;stroke-width:3.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 4,1028.3622 56,0"
+       id="path4441"
        inkscape:connector-curvature="0"
-       transform="translate(0,988.36217)" />
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#0096c8;stroke-width:3.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 20,1012.3622 c 0,0 12,16 24,0"
+       id="path4443"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
   </g>
 </svg>

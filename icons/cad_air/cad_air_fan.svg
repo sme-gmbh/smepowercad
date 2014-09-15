@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="cad_air_duct.svg">
+   sodipodi:docname="cad_air_emptycabinet.svg">
   <defs
      id="defs4">
     <linearGradient
@@ -35,8 +35,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="20.740764"
-     inkscape:cy="32.817613"
+     inkscape:cx="11.544335"
+     inkscape:cy="30.674756"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -49,7 +49,7 @@
      inkscape:window-y="-4"
      inkscape:window-maximized="1"
      inkscape:snap-grids="true"
-     inkscape:snap-global="false">
+     inkscape:snap-global="true">
     <inkscape:grid
        type="xygrid"
        id="grid2985"
@@ -68,7 +68,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -86,30 +86,32 @@
        y="0"
        rx="0"
        transform="translate(0,988.36217)" />
-    <rect
-       style="fill:none;stroke:#000096;stroke-width:3.50000000000000000;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
-       id="rect3815"
-       width="16"
-       height="20"
-       x="8"
-       y="32"
-       transform="translate(0,988.36217)" />
     <path
-       style="fill:none;stroke:#000096;stroke-width:3.50000000000000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="M 8,32 C 40,12 40,12 40,12 c 0,0 16,0 16,0 l 0,20 -32,20"
-       id="path3819"
+       style="fill:none;stroke:#003c5a;stroke-width:3.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 4,4 56,0 c 0,0 0,56 0,56 0,0 -56,0 -56,0 z"
+       id="path3835"
        inkscape:connector-curvature="0"
        transform="translate(0,988.36217)" />
     <path
-       style="fill:none;stroke:#000096;stroke-width:3.50000000000000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="M 24,32 56,12"
-       id="path3821"
+       sodipodi:type="arc"
+       style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#003c5a;stroke-width:3.50000000000000000;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:16.79999900000000000"
+       id="path3861"
+       sodipodi:cx="32"
+       sodipodi:cy="32"
+       sodipodi:rx="20"
+       sodipodi:ry="20"
+       d="m 52,32 a 20,20 0 1 1 -40,0 20,20 0 1 1 40,0 z"
+       transform="translate(0,988.36217)" />
+    <path
+       style="fill:none;stroke:#003c5a;stroke-width:3.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 20,16 C 52,28 52,28 52,28"
+       id="path4371"
        inkscape:connector-curvature="0"
        transform="translate(0,988.36217)" />
     <path
-       style="fill:none;stroke:#000096;stroke-width:3.50000000000000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="M 8,52 C 24.107143,41.946429 24.107143,41.946429 24.107143,41.946429"
-       id="path3823"
+       style="fill:none;stroke:#003c5a;stroke-width:3.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 52,36 C 20,48 20,48 20,48"
+       id="path4373"
        inkscape:connector-curvature="0"
        transform="translate(0,988.36217)" />
   </g>
