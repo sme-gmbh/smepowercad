@@ -107,13 +107,17 @@ public:
     Layer* getTopLevelLayer();
 
     void addItem(CADitem* item, QString LayerName);
+    void addItem(CADitem* item, Layer* layer);
+    CADitem *drawItem(Layer *layer, CADitem::ItemType type);
 
 private:
     Layer* topLevelLayer;
     QMap<QString, Layer*> layerMap;
+    CADitem::ItemType activeDrawCommand;
 
 signals:
     void signal_layerAdded(Layer* newLayer, Layer* parentLayer);
+    void signal_itemAdded(CADitem* item, Layer* layer);
 
 public slots:
 

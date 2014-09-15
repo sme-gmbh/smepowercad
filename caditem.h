@@ -6,6 +6,7 @@
 #include <QList>
 #include <QMap>
 #include <QVector3D>
+#include <QVariant>
 #include "math/m3dbox.h"
 
 class CADitem
@@ -13,6 +14,7 @@ class CADitem
 public:
     enum ItemType
     {
+        None,
         Basic_Point,                            // Basisgeometrie: Punkt
         Basic_Line,                             // Basisgeometrie: Linie
         Basic_Polyline,                         // Basisgeometrie: Polylinie
@@ -131,6 +133,9 @@ public:
     QVector3D position;
     M3dBox boundingBox;
     QList<CADitem*> subItems;
+
+    // Wizard
+    QMap<QString,QVariant> wizardParams;
 
     // Object Snap
     QList<QVector3D> snap_center;
