@@ -9,9 +9,18 @@
 			<attribute name="cursorSize" desc="" type="int" default="4500" min="20" max="4500" />
 			<attribute name="cursorLineWidth" desc="" type="int" default="1" min="1" max="10" />
 			<attribute name="cursorPickboxSize" desc="" type="int" default="2" min="2" max="20" />
+			<attribute name="cursorPickboxLineWidth" desc="" type="int" default="1" min="1" max="10" />
+			<attribute name="cursorPickboxColor" desc="" type="color" default="200,255,200,150" />
 		</page>
 		<page name="Snap">
 			<attribute name="snapIndicatorSize" desc="" type="int" default="21" min="5" max="30" />
+		</page>
+		<page name="pickbox">
+			<attribute name="pickboxOutlineWidth" desc="" type="int" default="1" min="1" max="10" />
+			<attribute name="pickboxOutlineColorLeft" desc="" type="color" default="40,255,40,255" />
+			<attribute name="pickboxOutlineColorRight" desc="" type="color" default="40,40,255,255" />
+			<attribute name="pickboxFillColorLeft" desc="" type="color" default="127,255,127,127" />
+			<attribute name="pickboxFillColorRight" desc="" type="color" default="127,127,255,127" />
 		</page>
 	</category>
 </settings>

@@ -1,4 +1,4 @@
-#include "settingsdialog.h"
+﻿#include "settingsdialog.h"
 #include "ui_settingsdialog.h"
 
 
@@ -15,6 +15,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     QT_TR_NOOP("Userinterface");
     QT_TR_NOOP("Cursor");
     QT_TR_NOOP("cursorSize");
+    QT_TR_NOOP("cursorLineWidth");
     QT_TR_NOOP("cursorPickboxSize");
     QT_TR_NOOP("Snap");
     QT_TR_NOOP("snapIndicatorSize");
@@ -156,7 +157,7 @@ void SettingsDialog::loadCategorys()
     categories.clear();
 
     QDomDocument doc;
-    QFile file("../../src/settings.xml");
+    QFile file("../../src/settings.xml"); // TODO: move to resource file
     if (!file.open(QFile::ReadOnly))
         return;
 
@@ -179,7 +180,7 @@ void SettingsDialog::loadCategorys()
         cat->tabWidget = 0;
         cat->name = category.attributes().namedItem("name").nodeValue();
         cat->displayName = tr(cat->name.toStdString().c_str());
-        cat->icon = QIcon(":/settings/icons/" + category.attributes().namedItem("icon").nodeValue());
+        cat->icon = QIcon(":/settings/icons/" + category.attributes().namedItem("icon").nodeValue()); // TODO: add icons for categories
 
         QList<OptionsPage *> pages;
         for (int p = 0; p < category.childNodes().size(); p++)
@@ -251,8 +252,6 @@ OptionsPage* OptionsPage::newPage(QString name, QList<Attribute> attributes)
             btn->setMaximumWidth(34);
             connect(btn, SIGNAL(clicked()), page, SLOT(slot_showColorDialog()));
             layout->addRow(attr.displayName, btn);
-
-
         }
     }
     QWidget *widget = new QWidget();
