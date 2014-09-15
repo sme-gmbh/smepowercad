@@ -122,7 +122,8 @@ SOURCES += main.cpp\
     modaldialog.cpp \
     settingsdialog.cpp \
     3Dmouse/qmagellan.cpp \
-    3Dmouse/xdrvlib.c
+    3Dmouse/xdrvlib.c \
+    itemwizard.cpp
 
 HEADERS  += mainwindow.h \
     overlay.h \
@@ -233,13 +234,15 @@ HEADERS  += mainwindow.h \
     modaldialog.h \
     settingsdialog.h \
     3Dmouse/qmagellan.h \
-    3Dmouse/xdrvlib.h
+    3Dmouse/xdrvlib.h \
+    itemwizard.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
     geometrydisplaytitle.ui \
     modaldialog.ui \
-    settingsdialog.ui
+    settingsdialog.ui \
+    itemwizard.ui
 
 RESOURCES += \
     icons.qrc
