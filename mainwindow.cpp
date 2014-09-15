@@ -18,6 +18,9 @@ MainWindow::MainWindow(QWidget *parent) :
     // **** Settings Dialog ****
     settingsDialog = new SettingsDialog(this);
 
+    // **** Item Wizard ****
+    itemWizard = new ItemWizard(this);
+
     // **** Command prompt ****
     QWidget *promptTitle = new QWidget(ui->dockWidgetPrompt);
     promptTitle->setMaximumWidth(0);

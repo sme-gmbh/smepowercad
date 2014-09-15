@@ -26,6 +26,7 @@
 
 #include "modaldialog.h"
 #include "settingsdialog.h"
+#include "itemwizard.h"
 
 #define MAX_RECENT_FILES 5
 
@@ -61,6 +62,8 @@ private:
     QString strippedName(QString fullName);
 
     SettingsDialog *settingsDialog;
+
+    ItemWizard *itemWizard;
 
 protected:
     void keyPressEvent(QKeyEvent *event);
