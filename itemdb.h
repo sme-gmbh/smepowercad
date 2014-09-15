@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QList>
+#include <QDebug>
 
 #include "layer.h"
 
@@ -109,6 +110,7 @@ public:
     void addItem(CADitem* item, QString LayerName);
     void addItem(CADitem* item, Layer* layer);
     CADitem *drawItem(Layer *layer, CADitem::ItemType type);
+    CADitem *drawItem(QString layerName, CADitem::ItemType type);
 
 private:
     Layer* topLevelLayer;
