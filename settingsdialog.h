@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QStackedLayout>
 #include <QPushButton>
+#include <QComboBox>
 #include <QSettings>
 #include <QTabWidget>
 #include <QListWidgetItem>
@@ -31,6 +32,7 @@ public:
     QVariant value;
     QString min;
     QString max;
+    QStringList values;
 };
 
 class OptionsPage : public QObject

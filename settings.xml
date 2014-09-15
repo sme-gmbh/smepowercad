@@ -1,4 +1,9 @@
 <settings>
+	<category name="environment" icon="">
+		<page name="general">
+			<attribute name="language" desc="" type="dropdown" values="german,englisch" default="german" />
+		</page>
+	</category>
 	<category name="Design" icon="">
 		<page name="Colors">
 			<attribute name="backgroundColor" desc="" type="color" default="0,0,0,255" />

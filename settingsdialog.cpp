@@ -9,6 +9,9 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QT_TR_NOOP("environment");
+    QT_TR_NOOP("general");
+    QT_TR_NOOP("language");
     QT_TR_NOOP("Design");
     QT_TR_NOOP("Colors");
     QT_TR_NOOP("backgroundColor");
@@ -246,6 +249,11 @@ void SettingsDialog::loadCategorys()
                     QColor col = QColor(parts.at(0).toInt(), parts.at(1).toInt(), parts.at(2).toInt(), parts.at(3).toInt());
                     defaultVal = QVariant::fromValue(col);
                 }
+                else if (at.type == "dropdown")
+                {
+                    defaultVal = QVariant::fromValue(dflt);
+                    at.values = attr.attributes().namedItem("values").nodeValue().split(",");
+                }
                 at.value = settings.value(cat->name + "_" + page.attributes().namedItem("name").nodeValue() + "_" + at.name, defaultVal);
                 at.min = attr.attributes().namedItem("min").nodeValue();
                 at.max = attr.attributes().namedItem("max").nodeValue();
@@ -293,6 +301,17 @@ OptionsPage* OptionsPage::newPage(QString name, QList<Attribute> attributes)
             btn->setMaximumWidth(34);
             connect(btn, SIGNAL(clicked()), page, SLOT(slot_showColorDialog()));
             layout->addRow(attr.displayName, btn);
+        }
+        else if (attr.type == "dropdown")
+        {
+            QComboBox *box = new QComboBox;
+            box->setObjectName(attr.name);
+            box->setMaximumWidth(150);
+            foreach (QString row, attr.values)
+                box->addItem(tr(row.toStdString().c_str()));
+
+            box->setCurrentIndex(box->findText(attr.value.toString()));
+            layout->addRow(attr.displayName, box);
         }
     }
     QWidget *widget = new QWidget();

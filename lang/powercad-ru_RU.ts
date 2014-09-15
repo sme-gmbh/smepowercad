@@ -8,6 +8,11 @@
         <source>Vendor</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../glwidget.cpp" line="804"/>
+        <source>Basepoint</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>GeometryDisplay</name>
@@ -367,140 +372,140 @@ Default width for lines and outlines</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="864"/>
-        <location filename="../mainwindow.ui" line="867"/>
+        <location filename="../mainwindow.ui" line="868"/>
+        <location filename="../mainwindow.ui" line="871"/>
         <source>Duct Transition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="877"/>
-        <location filename="../mainwindow.ui" line="880"/>
+        <location filename="../mainwindow.ui" line="885"/>
+        <location filename="../mainwindow.ui" line="888"/>
         <source>Duct Transition (rect/round)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="890"/>
-        <location filename="../mainwindow.ui" line="893"/>
+        <location filename="../mainwindow.ui" line="902"/>
+        <location filename="../mainwindow.ui" line="905"/>
         <source>Duct Turn</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="903"/>
-        <location filename="../mainwindow.ui" line="906"/>
+        <location filename="../mainwindow.ui" line="919"/>
+        <location filename="../mainwindow.ui" line="922"/>
         <source>Duct Volumetric Flow controller</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="916"/>
-        <location filename="../mainwindow.ui" line="919"/>
+        <location filename="../mainwindow.ui" line="936"/>
+        <location filename="../mainwindow.ui" line="939"/>
         <source>Duct Y-Piece</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="929"/>
-        <location filename="../mainwindow.ui" line="932"/>
+        <location filename="../mainwindow.ui" line="953"/>
+        <location filename="../mainwindow.ui" line="956"/>
         <source>Empty Cabinet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="942"/>
-        <location filename="../mainwindow.ui" line="945"/>
+        <location filename="../mainwindow.ui" line="970"/>
+        <location filename="../mainwindow.ui" line="973"/>
         <source>Equipment frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="955"/>
-        <location filename="../mainwindow.ui" line="958"/>
+        <location filename="../mainwindow.ui" line="987"/>
+        <location filename="../mainwindow.ui" line="990"/>
         <source>Fan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="968"/>
-        <location filename="../mainwindow.ui" line="971"/>
+        <location filename="../mainwindow.ui" line="1004"/>
+        <location filename="../mainwindow.ui" line="1007"/>
         <source>Filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="981"/>
-        <location filename="../mainwindow.ui" line="984"/>
+        <location filename="../mainwindow.ui" line="1021"/>
+        <location filename="../mainwindow.ui" line="1024"/>
         <source>Heat Exchanger (air/air)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="994"/>
-        <location filename="../mainwindow.ui" line="997"/>
+        <location filename="../mainwindow.ui" line="1038"/>
+        <location filename="../mainwindow.ui" line="1041"/>
         <source>Heat Exchanger (water/air)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1007"/>
-        <location filename="../mainwindow.ui" line="1010"/>
+        <location filename="../mainwindow.ui" line="1055"/>
+        <location filename="../mainwindow.ui" line="1058"/>
         <source>Humidifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1020"/>
-        <location filename="../mainwindow.ui" line="1023"/>
+        <location filename="../mainwindow.ui" line="1072"/>
+        <location filename="../mainwindow.ui" line="1075"/>
         <source>Multi Leaf Damper</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="1033"/>
-        <location filename="../mainwindow.ui" line="1036"/>
-        <source>Pipe</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="1046"/>
-        <location filename="../mainwindow.ui" line="1049"/>
-        <source>Pipe End Cap</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="1063"/>
-        <location filename="../mainwindow.ui" line="1066"/>
-        <source>Pipe Fire Damper</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="1076"/>
-        <location filename="../mainwindow.ui" line="1079"/>
-        <source>Pipe Reducer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1089"/>
         <location filename="../mainwindow.ui" line="1092"/>
+        <source>Pipe</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="1106"/>
+        <location filename="../mainwindow.ui" line="1109"/>
+        <source>Pipe End Cap</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="1123"/>
+        <location filename="../mainwindow.ui" line="1126"/>
+        <source>Pipe Fire Damper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="1140"/>
+        <location filename="../mainwindow.ui" line="1143"/>
+        <source>Pipe Reducer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="1157"/>
+        <location filename="../mainwindow.ui" line="1160"/>
         <source>Pipe Silencer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1102"/>
-        <location filename="../mainwindow.ui" line="1105"/>
+        <location filename="../mainwindow.ui" line="1174"/>
+        <location filename="../mainwindow.ui" line="1177"/>
         <source>Pipe T-Connector</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1115"/>
-        <location filename="../mainwindow.ui" line="1118"/>
+        <location filename="../mainwindow.ui" line="1191"/>
+        <location filename="../mainwindow.ui" line="1194"/>
         <source>Pipe Turn</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1128"/>
-        <location filename="../mainwindow.ui" line="1131"/>
+        <location filename="../mainwindow.ui" line="1208"/>
+        <location filename="../mainwindow.ui" line="1211"/>
         <source>Pipe Volumetric Flow Controller</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1141"/>
-        <location filename="../mainwindow.ui" line="1144"/>
+        <location filename="../mainwindow.ui" line="1221"/>
+        <location filename="../mainwindow.ui" line="1224"/>
         <source>Pressure Relief Damper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1154"/>
-        <location filename="../mainwindow.ui" line="1157"/>
+        <location filename="../mainwindow.ui" line="1234"/>
+        <location filename="../mainwindow.ui" line="1237"/>
         <source>Throttle Valve</source>
         <translation type="unfinished"></translation>
     </message>
@@ -589,7 +594,7 @@ Default width for lines and outlines</oldsource>
 <context>
     <name>OptionsPage</name>
     <message>
-        <location filename="../settingsdialog.cpp" line="270"/>
+        <location filename="../settingsdialog.cpp" line="330"/>
         <source>Select color</source>
         <translation type="unfinished"></translation>
     </message>
@@ -603,52 +608,78 @@ Default width for lines and outlines</oldsource>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="12"/>
-        <source>Design</source>
+        <source>environment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="13"/>
-        <source>Colors</source>
+        <source>general</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="14"/>
-        <source>backgroundColor</source>
+        <source>language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="15"/>
-        <source>Userinterface</source>
+        <source>Design</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="16"/>
-        <source>Cursor</source>
+        <source>Colors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="17"/>
-        <source>cursorSize</source>
+        <source>backgroundColor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="18"/>
-        <source>cursorLineWidth</source>
+        <source>Userinterface</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="19"/>
-        <source>cursorPickboxSize</source>
+        <source>Cursor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="20"/>
-        <source>Snap</source>
+        <source>cursorSize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="21"/>
+        <source>cursorLineWidth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="22"/>
+        <source>cursorPickboxSize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="23"/>
+        <source>Snap</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="24"/>
         <source>snapIndicatorSize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="157"/>
+        <source>Reset Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="157"/>
+        <source>Do you really want to reset all Settings?
+This action can not be undone!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
