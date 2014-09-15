@@ -9,6 +9,11 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QT_TR_NOOP("environment");
+    QT_TR_NOOP("general");
+    QT_TR_NOOP("language");
+    QT_TR_NOOP("de_DE");
+    QT_TR_NOOP("en_US");
     QT_TR_NOOP("Design");
     QT_TR_NOOP("Colors");
     QT_TR_NOOP("backgroundColor");
@@ -106,19 +111,6 @@ void SettingsDialog::ensureCategoryWidget(Category *category)
     category->index = stackedLayout->addWidget(tabWidget);
 }
 
-void SettingsDialog::showPage(int category, int page)
-{
-    if (category < categories.size())
-    {
-        Category *cat = categories.at(category);
-
-        if (page < cat->pages.size())
-        {
-
-        }
-    }
-}
-
 void SettingsDialog::save()
 {
     foreach (Category *cat, categories)
@@ -136,12 +128,23 @@ void SettingsDialog::save()
                 QString key = cat->name + "_" + page->name + "_" + at.name;
                 if (at.type == "int")
                 {
-                    settings.setValue(key, QVariant::fromValue(((QSpinBox *)wdg)->value()));
+                    settings.setValue(key, QVariant::fromValue(((QSpinBox*)wdg)->value()));
                 }
                 else if (at.type == "color")
                 {
                     QColor col = at.value.value<QColor>();
                     settings.setValue(key, QVariant::fromValue(col));
+                }
+                else if (at.type == "dropdown")
+                {
+                    if (at.name == "language")
+                    {
+                        QString oldLang = settings.value(key).toString();
+                        QString newLang = at.values.at(((QComboBox*)wdg)->currentIndex());
+                        if (oldLang != newLang)
+                            QMessageBox::information(this, tr("Changed Language"), tr("The language will change at the next start of the the Application."));
+                    }
+                    settings.setValue(key, QVariant::fromValue(at.values.at(((QComboBox*)wdg)->currentIndex())));
                 }
             }
         }
@@ -246,6 +249,17 @@ void SettingsDialog::loadCategorys()
                     QColor col = QColor(parts.at(0).toInt(), parts.at(1).toInt(), parts.at(2).toInt(), parts.at(3).toInt());
                     defaultVal = QVariant::fromValue(col);
                 }
+                else if (at.type == "dropdown")
+                {
+                    QStringList parts;
+                    QStringList split = attr.attributes().namedItem("values").nodeValue().split(",");
+                    at.values = split;
+                    defaultVal = QVariant::fromValue(split.indexOf(dflt));
+                    for (int i = 0; i < split.length(); i++)
+                        parts.append(tr(split.at(i).toStdString().c_str()));
+
+                    at.displayValues = parts;
+                }
                 at.value = settings.value(cat->name + "_" + page.attributes().namedItem("name").nodeValue() + "_" + at.name, defaultVal);
                 at.min = attr.attributes().namedItem("min").nodeValue();
                 at.max = attr.attributes().namedItem("max").nodeValue();
@@ -293,6 +307,18 @@ OptionsPage* OptionsPage::newPage(QString name, QList<Attribute> attributes)
             btn->setMaximumWidth(34);
             connect(btn, SIGNAL(clicked()), page, SLOT(slot_showColorDialog()));
             layout->addRow(attr.displayName, btn);
+        }
+        else if (attr.type == "dropdown")
+        {
+            QComboBox *box = new QComboBox;
+            box->setObjectName(attr.name);
+            box->setMaximumWidth(150);
+            foreach (QString row, attr.displayValues)
+                box->addItem(row);
+
+
+            box->setCurrentIndex(attr.values.indexOf(attr.value.toString()));
+            layout->addRow(attr.displayName, box);
         }
     }
     QWidget *widget = new QWidget();

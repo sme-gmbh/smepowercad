@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QStackedLayout>
 #include <QPushButton>
+#include <QComboBox>
 #include <QSettings>
 #include <QTabWidget>
 #include <QListWidgetItem>
@@ -31,6 +32,8 @@ public:
     QVariant value;
     QString min;
     QString max;
+    QStringList displayValues;
+    QStringList values;
 };
 
 class OptionsPage : public QObject
@@ -89,7 +92,6 @@ private:
     void loadCategorys();
     void showCategory(int category = 0);
     void ensureCategoryWidget(Category *category);
-    void showPage(int category = 0, int page = 0);
 
     void save();
     void reset();
