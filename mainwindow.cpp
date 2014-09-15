@@ -359,6 +359,8 @@ void MainWindow::on_action_basic_face_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Face);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_basic_arc_triggered()
@@ -366,6 +368,8 @@ void MainWindow::on_action_basic_arc_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Arc);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_basic_box_triggered()
@@ -373,9 +377,12 @@ void MainWindow::on_action_basic_box_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
-    CAD_basic_box* box = new CAD_basic_box();
-    box->calculate();
-    itemDB->addItem(box, "Testlayer");
+//    CAD_basic_box* box = new CAD_basic_box();
+//    box->calculate();
+//    itemDB->addItem(box, "Testlayer");
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Box);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_basic_circle_triggered()
@@ -383,10 +390,13 @@ void MainWindow::on_action_basic_circle_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
-    CAD_basic_circle* circle = new CAD_basic_circle();
-    circle->center = QVector3D(-2.0, 0.0, 0.0);
-    circle->calculate();
-    itemDB->addItem(circle, "Testlayer");
+//    CAD_basic_circle* circle = new CAD_basic_circle();
+//    circle->center = QVector3D(-2.0, 0.0, 0.0);
+//    circle->calculate();
+//    itemDB->addItem(circle, "Testlayer");
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Circle);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_basic_cylinder_triggered()
@@ -394,7 +404,7 @@ void MainWindow::on_action_basic_cylinder_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
-    CADitem* item = itemDB->drawItem("Testlayer", CADitem::Basic_Cylinder);
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Cylinder);
     this->itemWizard->showWizard(item);
 
 //    CAD_basic_cylinder* cylinder = new CAD_basic_cylinder();
@@ -408,6 +418,8 @@ void MainWindow::on_action_basic_linie_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Line);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_basic_plane_triggered()
@@ -415,6 +427,8 @@ void MainWindow::on_action_basic_plane_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Plane);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_basic_point_triggered()
@@ -422,6 +436,8 @@ void MainWindow::on_action_basic_point_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Point);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_basic_polylinie_triggered()
@@ -429,6 +445,8 @@ void MainWindow::on_action_basic_polylinie_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Polyline);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_basic_sphere_triggered()
@@ -436,6 +454,8 @@ void MainWindow::on_action_basic_sphere_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Sphere);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_arch_beam_triggered()
@@ -443,6 +463,8 @@ void MainWindow::on_action_arch_beam_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Arch_Beam);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_arch_blockout_triggered()
@@ -450,6 +472,8 @@ void MainWindow::on_action_arch_blockout_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Arch_BlockOut);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_arch_door_triggered()
@@ -457,6 +481,8 @@ void MainWindow::on_action_arch_door_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Arch_Door);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_arch_levelSlab_triggered()
@@ -464,6 +490,8 @@ void MainWindow::on_action_arch_levelSlab_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Arch_LevelSlab);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_arch_support_triggered()
@@ -471,6 +499,8 @@ void MainWindow::on_action_arch_support_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Arch_Support);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_arch_wall_loadbearing_triggered()
@@ -478,6 +508,8 @@ void MainWindow::on_action_arch_wall_loadbearing_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Arch_Wall_loadBearing);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_arch_wall_nonloadbearing_triggered()
@@ -485,6 +517,8 @@ void MainWindow::on_action_arch_wall_nonloadbearing_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Arch_Wall_nonLoadBearing);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_arch_window_triggered()
@@ -492,6 +526,8 @@ void MainWindow::on_action_arch_window_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Arch_Window);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_canvas_flange_triggered()
@@ -499,6 +535,8 @@ void MainWindow::on_action_air_canvas_flange_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_CanvasFlange);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_duct_baffle_silencer_triggered()
@@ -506,6 +544,8 @@ void MainWindow::on_action_air_duct_baffle_silencer_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_DuctBaffleSilencer);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_duct_triggered()
@@ -513,6 +553,8 @@ void MainWindow::on_action_air_duct_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_Duct);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_duct_end_plate_triggered()
@@ -520,6 +562,8 @@ void MainWindow::on_action_air_duct_end_plate_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_DuctEndPlate);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_duct_fire_damper_triggered()
@@ -527,6 +571,8 @@ void MainWindow::on_action_air_duct_fire_damper_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_DuctFireDamper);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_duct_fire_resistant_triggered()
@@ -534,6 +580,8 @@ void MainWindow::on_action_air_duct_fire_resistant_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_DuctFireResistant);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_duct_T_Connector_triggered()
@@ -541,6 +589,8 @@ void MainWindow::on_action_air_duct_T_Connector_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_DuctTeeConnector);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_duct_transition_triggered()
@@ -548,6 +598,8 @@ void MainWindow::on_action_air_duct_transition_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_DuctTransition);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_duct_transition_rect_round_triggered()
@@ -555,6 +607,8 @@ void MainWindow::on_action_air_duct_transition_rect_round_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_DuctTransitionRectRound);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_duct_turn_triggered()
@@ -562,6 +616,8 @@ void MainWindow::on_action_air_duct_turn_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_DuctTurn);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_duct_volumetric_flow_controller_triggered()
@@ -569,6 +625,8 @@ void MainWindow::on_action_air_duct_volumetric_flow_controller_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_DuctVolumetricFlowController);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_duct_Y_piece_triggered()
@@ -576,6 +634,8 @@ void MainWindow::on_action_air_duct_Y_piece_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_DuctYpiece);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_empty_cabinet_triggered()
@@ -583,6 +643,8 @@ void MainWindow::on_action_air_empty_cabinet_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_EmptyCabinet);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_equipment_frame_triggered()
@@ -590,6 +652,8 @@ void MainWindow::on_action_air_equipment_frame_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_EquipmentFrame);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_fan_triggered()
@@ -597,6 +661,8 @@ void MainWindow::on_action_air_fan_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_Fan);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_filter_triggered()
@@ -604,6 +670,8 @@ void MainWindow::on_action_air_filter_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_Filter);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_heat_exchanger_air_air_triggered()
@@ -611,6 +679,8 @@ void MainWindow::on_action_air_heat_exchanger_air_air_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_HeatExchangerAirAir);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_heat_exchanger_water_air_triggered()
@@ -618,6 +688,8 @@ void MainWindow::on_action_air_heat_exchanger_water_air_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_HeatExchangerWaterAir);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_Humidifier_triggered()
@@ -625,6 +697,8 @@ void MainWindow::on_action_air_Humidifier_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_Humidifier);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_multi_leaf_damper_triggered()
@@ -632,6 +706,8 @@ void MainWindow::on_action_air_multi_leaf_damper_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_MultiLeafDamper);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_pipe_triggered()
@@ -639,6 +715,8 @@ void MainWindow::on_action_air_pipe_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_Pipe);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_pipe_end_cap_triggered()
@@ -646,6 +724,8 @@ void MainWindow::on_action_air_pipe_end_cap_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_PipeEndCap);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_pipe_fire_damper_triggered()
@@ -653,6 +733,8 @@ void MainWindow::on_action_air_pipe_fire_damper_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_PipeFireDamper);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_pipe_reducer_triggered()
@@ -660,6 +742,8 @@ void MainWindow::on_action_air_pipe_reducer_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_PipeReducer);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_pipe_silencer_triggered()
@@ -667,6 +751,8 @@ void MainWindow::on_action_air_pipe_silencer_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_PipeSilencer);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_pipe_T_Connector_triggered()
@@ -674,6 +760,8 @@ void MainWindow::on_action_air_pipe_T_Connector_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_PipeTeeConnector);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_pipe_turn_triggered()
@@ -681,6 +769,8 @@ void MainWindow::on_action_air_pipe_turn_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_PipeTurn);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_pipe_volumetric_flow_controller_triggered()
@@ -688,6 +778,8 @@ void MainWindow::on_action_air_pipe_volumetric_flow_controller_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_PipeVolumetricFlowController);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_pressure_relief_damper_triggered()
@@ -695,6 +787,8 @@ void MainWindow::on_action_air_pressure_relief_damper_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_PressureReliefDamper);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_air_throttle_valve_triggered()
@@ -702,4 +796,6 @@ void MainWindow::on_action_air_throttle_valve_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_ThrottleValve);
+    this->itemWizard->showWizard(item);
 }

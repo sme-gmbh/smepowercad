@@ -6,6 +6,7 @@ LayerManager::LayerManager(QWidget *parent, Layer* topLevelLayer) :
     ui(new Ui::LayerManager)
 {
     this->topLevelLayer = topLevelLayer;
+    this->currentLayer = topLevelLayer;
     ui->setupUi(this);
 //    this->move(1920, 0);    // tbd.: move to second screen, and not in this quick and dirty way :)
 
@@ -114,6 +115,11 @@ void LayerManager::updateLayer(Layer *layer)
     item->setIcon(4, QIcon(colorPixmap));
     item->setText(5, QString().sprintf("%i", layer->width));
     item->setText(6, layer->lineType);
+}
+
+Layer *LayerManager::getCurrentLayer()
+{
+    return currentLayer;
 }
 
 void LayerManager::on_treeWidget_layer_itemClicked(QTreeWidgetItem *item, int column)

@@ -23,10 +23,12 @@ public:
     ~LayerManager();
     void updateAllLayers();
     void updateLayer(Layer* layer);
+    Layer* getCurrentLayer();
 
 private:
     Ui::LayerManager *ui;
     Layer* topLevelLayer;
+    Layer* currentLayer;
     QMap<Layer*, QTreeWidgetItem*> layerMap;
 
     QPixmap icon_layerOn;
