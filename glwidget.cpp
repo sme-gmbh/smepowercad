@@ -246,6 +246,12 @@ void GLWidget::slot_snapTo(QVector3D snapPos_scene, int snapMode)
     }
 }
 
+void GLWidget::slot_changeSelection(QList<CADitem *> selectedItems)
+{
+    this->selection_itemList = selectedItems;
+//    emit signal_selectionChanged(this->selection_itemList);
+}
+
 void GLWidget::slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c)
 {
     if (!cursorShown)
@@ -485,6 +491,8 @@ void GLWidget::leaveEvent(QEvent *event)
 
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
+    this->setFocus();
+
     if (event->buttons() == Qt::MidButton)
     {
         this->setCursor(Qt::OpenHandCursor);
@@ -510,7 +518,12 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         // Pickbox
 //        if (!this->overlay->isPickActive())
 //            this->overlay->pickStart();
-        if (!this->isPickActive())
+
+        if (this->item_lastHighlight != NULL)   // There is an item beyond the cursor, so if it is clicked, select it.
+        {
+            selectionAddItem(item_lastHighlight);
+        }
+        else if (!this->isPickActive())
             this->pickStart();
         else
         {
@@ -565,10 +578,11 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             this->pickEnd();
             break;
         }
-//        if (this->selectedItems.count() > 0)
-//        {
-//            this->selection_deselectAllItems();
-//        }
+        if (this->selection_itemList.count() > 0)
+        {
+            qDebug() << "Esc. pressed: selection clear";
+            this->selectionClear();
+        }
         break;
     }
 
@@ -607,7 +621,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glLoadIdentity();
     glViewport(0.0, 0.0, width(), height());
     glTranslatef((qreal)translationOffset.x() / (qreal)this->width() * 2, (qreal)translationOffset.y() / (qreal)this->height() * 2, 0);
-    glScalef(this->zoomFactor / screenRatio, this->zoomFactor, this->zoomFactor);
+    glScalef(this->zoomFactor / screenRatio / (qreal)this->height(), this->zoomFactor / (qreal)this->height(), this->zoomFactor / (qreal)this->height());
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -1230,7 +1244,7 @@ void GLWidget::paintLine(Layer* layer, CAD_basic_line *item)
     qreal penWidth = 1.0;
     if (item->widthByLayer)
     {
-        penWidth = layer->width / 100.0 / zoomFactor;
+        penWidth = layer->width / 100.0;
     }
     else if (item->widthByBlock)
     {
@@ -1238,7 +1252,7 @@ void GLWidget::paintLine(Layer* layer, CAD_basic_line *item)
     }
     else
     {
-        penWidth = item->width / zoomFactor;
+        penWidth = item->width;
     }
 
     // Default width setting
@@ -1357,7 +1371,7 @@ void GLWidget::paintPolyLine(Layer *layer, CAD_basic_polyline *item)
             qreal penWidth = 1.0;
             if (item->widthByLayer)
             {
-                penWidth = layer->width / 100.0 / zoomFactor;
+                penWidth = layer->width / 100.0;
             }
             else if (item->widthByBlock)
             {
@@ -1365,7 +1379,7 @@ void GLWidget::paintPolyLine(Layer *layer, CAD_basic_polyline *item)
             }
             else
             {
-                penWidth = vertex.widthStart / zoomFactor;
+                penWidth = vertex.widthStart;
             }
 
             // Default width setting
@@ -2116,7 +2130,8 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
     glDisable(GL_CULL_FACE);
 
     glTranslatef((qreal)translationOffset.x() / (qreal)this->width() * 2, (qreal)translationOffset.y() / (qreal)this->height() * 2, 0);
-    glScaled(this->zoomFactor / screenRatio, this->zoomFactor, this->zoomFactor);
+    glScalef(this->zoomFactor / screenRatio / (qreal)this->height(), this->zoomFactor / (qreal)this->height(), this->zoomFactor / (qreal)this->height());
+//    glScaled(this->zoomFactor / screenRatio, this->zoomFactor, this->zoomFactor);
     glRotatef(rot_x, 1.0f, 0.0f, 0.0f);
     glRotatef(rot_y, 0.0f, 1.0f, 0.0f);
     glRotatef(rot_z, 0.0f, 0.0f, 1.0f);
@@ -2243,5 +2258,53 @@ void GLWidget::highlightClear_processItems(QList<CADitem *> items)
         item->highlight = false;
         highlightClear_processItems(item->subItems);
     }
+}
 
+void GLWidget::selectionAddItem(CADitem *item)
+{
+    if (item != NULL)
+    {
+        if (selection_itemList.contains(item))
+            return;
+        this->selection_itemList.append(item);
+        item->selected = true;
+        emit signal_selectionChanged(selection_itemList);
+    }
+}
+
+void GLWidget::selectionRemoveItem(CADitem *item)
+{
+    if (item != NULL)
+    {
+        if (!selection_itemList.contains(item))
+            return;
+        this->selection_itemList.removeOne(item);
+        item->selected = false;
+        emit signal_selectionChanged(selection_itemList);
+    }
+}
+
+void GLWidget::selectionClear()
+{
+    selectionClear_processLayers(itemDB->layers);
+    this->selection_itemList.clear();
+    emit signal_selectionChanged(this->selection_itemList);
+}
+
+void GLWidget::selectionClear_processLayers(QList<Layer *> layers)
+{
+    foreach (Layer* layer, layers)
+    {
+        selectionClear_processItems(layer->items);
+        selectionClear_processLayers(layer->subLayers);
+    }
+}
+
+void GLWidget::selectionClear_processItems(QList<CADitem *> items)
+{
+    foreach (CADitem* item, items)
+    {
+        item->selected = false;
+        selectionClear_processItems(item->subItems);
+    }
 }

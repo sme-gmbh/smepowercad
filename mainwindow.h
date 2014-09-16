@@ -83,6 +83,7 @@ public slots:
 
     void slot_highlightItem(CADitem* item);
     void slot_snapTo(QVector3D snapPos_scene, int snapMode);
+    void slot_selectionChanged(QList<CADitem*> selectedItems);
 
 private slots:
     void on_prompt_input_returnPressed();

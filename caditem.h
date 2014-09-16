@@ -146,8 +146,11 @@ public:
     QVector3D snap_basepoint;
 
     // Highlighting
-    bool highlight;
+    bool highlight; // Highlight shows that the mouse is over the object
     quint32 index;
+
+    // Selection
+    bool selected;  // Selection shows that the item is selected as an operand for commands
 
 private:
     ItemType type;

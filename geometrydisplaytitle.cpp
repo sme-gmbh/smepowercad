@@ -29,6 +29,11 @@ void GeometryDisplayTitle::slot_sceneCoordinatesChanged(QVector3D coords)
     ui->labelSceneCoordinates_z->setText(QString().sprintf("z: %010.3lf", coords.z()));
 }
 
+void GeometryDisplayTitle::slot_selectionCountChanged(int num)
+{
+    ui->labelSelectionCount->setText(QString().setNum(num));
+}
+
 void GeometryDisplayTitle::on_pushButtonFloat_clicked()
 {
     emit signal_float();

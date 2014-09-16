@@ -272,7 +272,7 @@ QComboBox QAbstractItemView {
     </spacer>
    </item>
    <item>
-    <widget class="QLabel" name="label_5">
+    <widget class="QLabel" name="labelSelectionCount">
      <property name="font">
       <font>
        <family>DejaVu Sans Mono</family>
@@ -284,7 +284,7 @@ QComboBox QAbstractItemView {
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="labelSelectionCount">
+    <widget class="QLabel" name="labelSelectionCountText">
      <property name="font">
       <font>
        <family>DejaVu Sans Mono</family>

@@ -90,6 +90,7 @@ public slots:
 
     void slot_highlightItem(CADitem* item);
     void slot_snapTo(QVector3D snapPos_scene, int snapMode);
+    void slot_changeSelection(QList<CADitem*> selectedItems);
 
 
 private slots:
@@ -120,7 +121,7 @@ signals:
     void signal_settingsChanged();
     void signal_highlightItem(CADitem* item);
     void signal_snapFired(QVector3D snapPos_scene, int snapMode);
-
+    void signal_selectionChanged(QList<CADitem*>);
 };
 
 #endif // GEOMETRYDISPLAY_H

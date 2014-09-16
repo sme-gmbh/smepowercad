@@ -88,6 +88,7 @@ private:
     QVector3D snapPos_scene;
 
     CADitem* item_lastHighlight;
+    QList<CADitem*> selection_itemList;
 
 signals:
     void signal_highlightItem(CADitem* item);
@@ -96,6 +97,7 @@ signals:
 public slots:
     void slot_highlightItem(CADitem* item);
     void slot_snapTo(QVector3D snapPos_scene, int snapMode);
+    void slot_changeSelection(QList<CADitem *> selectedItems);
 
 private:
     // **** settings ****
@@ -223,6 +225,17 @@ private:
     void highlightClear_processLayers(QList<Layer*> layers);
     void highlightClear_processItems(QList<CADitem*> items);
 
+// Selection
+    void selectionAddItem(CADitem* item);
+    void selectionRemoveItem(CADitem* item);
+    void selectionClear();
+    void selectionClear_processLayers(QList<Layer*> layers);
+    void selectionClear_processItems(QList<CADitem*> items);
+
+signals:
+    void signal_selectionChanged(QList<CADitem*> items);
+
+// General event handlers
 protected:
     virtual void wheelEvent(QWheelEvent *event);
     virtual void mouseMoveEvent(QMouseEvent *event);

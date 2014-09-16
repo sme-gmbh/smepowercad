@@ -70,6 +70,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(settingsDialog, SIGNAL(signal_settingsChanged()), mainGeometryDisplay, SIGNAL(signal_settingsChanged()));
     connect(mainGeometryDisplay, SIGNAL(signal_highlightItem(CADitem*)), this, SLOT(slot_highlightItem(CADitem*)));
     connect(mainGeometryDisplay, SIGNAL(signal_snapFired(QVector3D,int)), this, SLOT(slot_snapTo(QVector3D,int)));
+    connect(mainGeometryDisplay, SIGNAL(signal_selectionChanged(QList<CADitem*>)), this, SLOT(slot_selectionChanged(QList<CADitem*>)));
     mainGeometryDisplay->setFeatures(QDockWidget::NoDockWidgetFeatures);
     mainGeometryDisplay->setAllowedAreas(Qt::NoDockWidgetArea);
     mainGeometryDisplay->hideButtons();
@@ -312,6 +313,7 @@ void MainWindow::slot_newGeometryDisplay()
     connect(newGeometryDisplay, SIGNAL(signal_aboutToClose(QAction*)), this, SLOT(slot_geometryDisplayAboutToClose(QAction*)));
     connect(newGeometryDisplay, SIGNAL(signal_highlightItem(CADitem*)), this, SLOT(slot_highlightItem(CADitem*)));
     connect(newGeometryDisplay, SIGNAL(signal_snapFired(QVector3D,int)), this, SLOT(slot_snapTo(QVector3D,int)));
+    connect(newGeometryDisplay, SIGNAL(signal_selectionChanged(QList<CADitem*>)), this, SLOT(slot_selectionChanged(QList<CADitem*>)));
     connect(this, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(layerManager, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(magellanThread, SIGNAL(signal_mouseCoords(int,int,int,int,int,int)), newGeometryDisplay, SIGNAL(signal_mouse3Dcoords(int,int,int,int,int,int)));
@@ -342,6 +344,14 @@ void MainWindow::slot_snapTo(QVector3D snapPos_scene, int snapMode)
     foreach (GeometryDisplay* gd, geometryDisplays)
     {
         gd->slot_snapTo(snapPos_scene, snapMode);
+    }
+}
+
+void MainWindow::slot_selectionChanged(QList<CADitem*> selectedItems)
+{
+    foreach (GeometryDisplay* gd, geometryDisplays)
+    {
+        gd->slot_changeSelection(selectedItems);
     }
 }
 

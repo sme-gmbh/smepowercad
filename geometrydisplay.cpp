@@ -29,6 +29,7 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, QWidget *parent) :
     connect(titleWidget, SIGNAL(signal_wireframe(bool)), glwidget, SLOT(slot_wireframe(bool)));
     connect(titleWidget, SIGNAL(signal_solid(bool)), glwidget, SLOT(slot_solid(bool)));
     connect(glwidget, SIGNAL(signal_mouseMoved(QVector3D)), titleWidget, SLOT(slot_sceneCoordinatesChanged(QVector3D)));
+    connect(glwidget, SIGNAL(signal_selectionChanged(QList<CADitem*>)), this, SIGNAL(signal_selectionChanged(QList<CADitem*>)));
     connect(this, SIGNAL(signal_settingsChanged()), glwidget, SLOT(slot_update_settings()));
     connect(this, SIGNAL(signal_mouse3Dcoords(int,int,int,int,int,int)), glwidget, SLOT(slot_mouse3Dmoved(int,int,int,int,int,int)));
     connect(glwidget, SIGNAL(signal_highlightItem(CADitem*)), this, SIGNAL(signal_highlightItem(CADitem*)));
@@ -213,6 +214,12 @@ void GeometryDisplay::slot_highlightItem(CADitem *item)
 void GeometryDisplay::slot_snapTo(QVector3D snapPos_scene, int snapMode)
 {
     glwidget->slot_snapTo(snapPos_scene, snapMode);
+}
+
+void GeometryDisplay::slot_changeSelection(QList<CADitem*> selectedItems)
+{
+    glwidget->slot_changeSelection(selectedItems);
+    titleWidget->slot_selectionCountChanged(selectedItems.count());
 }
 
 void GeometryDisplay::slot_float()
