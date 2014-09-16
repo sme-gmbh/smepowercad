@@ -49,4 +49,6 @@ void CAD_basic_box::calculate()
     this->snap_center.append((pos_bot_2 + pos_top_2) / 2.0);
     this->snap_center.append((pos_bot_3 + pos_top_3) / 2.0);
     this->snap_center.append((pos_bot_4 + pos_top_4) / 2.0);
+
+    qDebug() << "calculating a box";
 }

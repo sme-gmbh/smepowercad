@@ -215,6 +215,37 @@ QStringList GLWidget::getOpenGLinfo()
     return ret;
 }
 
+void GLWidget::slot_highlightItem(CADitem *item)
+{
+    if (this->item_lastHighlight != item)
+    {
+        this->item_lastHighlight = item;
+        slot_repaint();
+    }
+}
+
+void GLWidget::slot_snapTo(QVector3D snapPos_scene, int snapMode)
+{
+    bool repaint = false;
+
+    if (this->snapMode != snapMode)
+    {
+        this->snapMode = (SnapMode)snapMode;
+        repaint = true;
+    }
+
+    if (this->snapPos_scene != snapPos_scene)
+    {
+        this->set_snapPos(snapPos_scene);
+        repaint = true;
+    }
+
+    if (repaint)
+    {
+        slot_repaint();
+    }
+}
+
 void GLWidget::slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c)
 {
     if (!cursorShown)
@@ -339,7 +370,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     }
 
 
-    // Item highlighting (experimental)
+    // Item highlighting
     highlightClear();
     highlightItemAtPosition(mousePos);
 
@@ -386,10 +417,13 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
         {
             this->set_snap_mode(GLWidget::SnapNo);
         }
+
+        emit signal_snapFired(this->snapPos_scene, this->snapMode);
     }
     else
     {
         this->set_snap_mode(GLWidget::SnapNo);
+        emit signal_snapFired(this->snapPos_scene, this->snapMode);
     }
 
     this->cursorShown = true;
@@ -775,77 +809,71 @@ void GLWidget::paintEvent(QPaintEvent *event)
             glVertex3i(rect.topLeft().x(), rect.topLeft().y(), 0);
             glEnd();
         }
+    }
+    if ((snapMode != SnapNo) && (item_lastHighlight != NULL))
+    {
+        QString snapText;
+        QString itemDescription = "[" + item_lastHighlight->description + "]";
+        QString itemPosition = QString().sprintf(" @{%.3lf|%.3lf|%.3lf}", this->snapPos_scene.x(), this->snapPos_scene.y(), this->snapPos_scene.z());
+        snapText = " of " + itemDescription + itemPosition;
 
-        if ((snapMode != SnapNo) && (item_lastHighlight != NULL))
+        QRect focusRect = QRect(0, 0, _snapIndicatorSize, _snapIndicatorSize);
+        focusRect.moveCenter(this->snapPos_screen);
+
+        glLineWidth(1);
+
+        switch (snapMode)
         {
-            QString snapText;
-            QString itemDescription = "[" + item_lastHighlight->description + "]";
-            QString itemPosition = QString().sprintf(" @{%.3lf|%.3lf|%.3lf}", this->snapPos_scene.x(), this->snapPos_scene.y(), this->snapPos_scene.z());
-            snapText = " of " + itemDescription + itemPosition;
+        case SnapBasepoint:
+        {
+            glColor4ub(255, 0, 0, 255);
+            glBegin(GL_LINE_LOOP);
+            glVertex2i(focusRect.bottomLeft().x(), focusRect.bottomLeft().y());
+            glVertex2i(focusRect.bottomRight().x(), focusRect.bottomRight().y());
+            glVertex2i(focusRect.topLeft().x(), focusRect.topLeft().y());
+            glVertex2i(focusRect.topRight().x(), focusRect.topRight().y());
+            glEnd();
+            snapText.prepend(tr("Basepoint"));
 
-            QFont font;
+            paintTextInfoBox(focusRect.bottomRight(), snapText);
 
-            QRect focusRect = QRect(0, 0, _snapIndicatorSize, _snapIndicatorSize);
-            focusRect.moveCenter(this->snapPos_screen);
-
-            glLineWidth(1);
-
-            switch (snapMode)
-            {
-            case SnapBasepoint:
-            {
-                glColor4ub(255, 0, 0, 255);
-                glBegin(GL_LINE_LOOP);
-                glVertex2i(focusRect.bottomLeft().x(), focusRect.bottomLeft().y());
-                glVertex2i(focusRect.bottomRight().x(), focusRect.bottomRight().y());
-                glVertex2i(focusRect.topLeft().x(), focusRect.topLeft().y());
-                glVertex2i(focusRect.topRight().x(), focusRect.topRight().y());
-                glEnd();
-                snapText.prepend(tr("Basepoint"));
-
-                paintTextInfoBox(focusRect.bottomRight(), snapText);
-
-                break;
-            }
-            case SnapEndpoint:
-            {
-                glColor4ub(255, 0, 0, 255);
-                glBegin(GL_LINE_LOOP);
-                glVertex2i(focusRect.bottomLeft().x(), focusRect.bottomLeft().y());
-                glVertex2i(focusRect.bottomRight().x(), focusRect.bottomRight().y());
-                glVertex2i(focusRect.topRight().x(), focusRect.topRight().y());
-                glVertex2i(focusRect.topLeft().x(), focusRect.topLeft().y());
-                glEnd();
-                snapText.prepend("Endpoint/Vertex");
-
-                paintTextInfoBox(focusRect.bottomRight(), snapText);
-
-                break;
-            }
-            case SnapCenter:
-            {
-                glColor4ub(255, 0, 0, 255);
-                glBegin(GL_LINES);
-                glVertex2i(focusRect.left(), focusRect.top());
-                glVertex2i(focusRect.right(), focusRect.bottom());
-                glVertex2i(this->snapPos_screen.x() - 5, this->snapPos_screen.y() + 5);
-                glVertex2i(this->snapPos_screen.x() + 5, this->snapPos_screen.y() - 5);
-                glEnd();
-                snapText.prepend("Center");
-
-                paintTextInfoBox(focusRect.bottomRight(), snapText);
-
-                break;
-            }
-            case SnapNo:
-            {
-                break;
-            }
-            }
-
-
+            break;
         }
+        case SnapEndpoint:
+        {
+            glColor4ub(255, 0, 0, 255);
+            glBegin(GL_LINE_LOOP);
+            glVertex2i(focusRect.bottomLeft().x(), focusRect.bottomLeft().y());
+            glVertex2i(focusRect.bottomRight().x(), focusRect.bottomRight().y());
+            glVertex2i(focusRect.topRight().x(), focusRect.topRight().y());
+            glVertex2i(focusRect.topLeft().x(), focusRect.topLeft().y());
+            glEnd();
+            snapText.prepend("Endpoint/Vertex");
 
+            paintTextInfoBox(focusRect.bottomRight(), snapText);
+
+            break;
+        }
+        case SnapCenter:
+        {
+            glColor4ub(255, 0, 0, 255);
+            glBegin(GL_LINES);
+            glVertex2i(focusRect.left(), focusRect.top());
+            glVertex2i(focusRect.right(), focusRect.bottom());
+            glVertex2i(this->snapPos_screen.x() - 5, this->snapPos_screen.y() + 5);
+            glVertex2i(this->snapPos_screen.x() + 5, this->snapPos_screen.y() - 5);
+            glEnd();
+            snapText.prepend("Center");
+
+            paintTextInfoBox(focusRect.bottomRight(), snapText);
+
+            break;
+        }
+        case SnapNo:
+        {
+            break;
+        }
+        }
     }
 
     restoreGLState();
@@ -2187,11 +2215,10 @@ void GLWidget::highlightItemAtPosition(QPoint pos)
 {
     CADitem* item = this->itemAtPosition(pos);
 
-    if (item == NULL)
-        return;
+    if (item != NULL)
+        item->highlight = true;
 
-    this->item_lastHighlight = item;
-    item->highlight = true;
+    emit signal_highlightItem(item);
 }
 
 void GLWidget::highlightClear()

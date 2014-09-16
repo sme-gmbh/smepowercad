@@ -88,6 +88,10 @@ public slots:
 //    void slot_setHeightOfIntersection(qreal height);
     void slot_changeCuttingplane(QString directionOfView);
 
+    void slot_highlightItem(CADitem* item);
+    void slot_snapTo(QVector3D snapPos_scene, int snapMode);
+
+
 private slots:
 //    void slot_timer_50ms_fired();
     void slot_float();
@@ -114,6 +118,8 @@ signals:
     void signal_repaintNeeded();
     void signal_mouse3Dcoords(int x, int y, int z, int a, int b, int c);
     void signal_settingsChanged();
+    void signal_highlightItem(CADitem* item);
+    void signal_snapFired(QVector3D snapPos_scene, int snapMode);
 
 };
 

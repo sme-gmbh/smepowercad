@@ -31,6 +31,8 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, QWidget *parent) :
     connect(glwidget, SIGNAL(signal_mouseMoved(QVector3D)), titleWidget, SLOT(slot_sceneCoordinatesChanged(QVector3D)));
     connect(this, SIGNAL(signal_settingsChanged()), glwidget, SLOT(slot_update_settings()));
     connect(this, SIGNAL(signal_mouse3Dcoords(int,int,int,int,int,int)), glwidget, SLOT(slot_mouse3Dmoved(int,int,int,int,int,int)));
+    connect(glwidget, SIGNAL(signal_highlightItem(CADitem*)), this, SIGNAL(signal_highlightItem(CADitem*)));
+    connect(glwidget, SIGNAL(signal_snapFired(QVector3D,int)), this, SIGNAL(signal_snapFired(QVector3D,int)));
 
     this->resize(400, 250);
     this->setFloating(false);
@@ -201,6 +203,16 @@ void GeometryDisplay::slot_changeCuttingplane(QString directionOfView)
     {
         glwidget->set_WorldRotation(0.0, 0.0, 0.0); // richtig
     }
+}
+
+void GeometryDisplay::slot_highlightItem(CADitem *item)
+{
+    glwidget->slot_highlightItem(item);
+}
+
+void GeometryDisplay::slot_snapTo(QVector3D snapPos_scene, int snapMode)
+{
+    glwidget->slot_snapTo(snapPos_scene, snapMode);
 }
 
 void GeometryDisplay::slot_float()

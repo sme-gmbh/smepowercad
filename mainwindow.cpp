@@ -68,9 +68,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(layerManager, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(settingsDialog, SIGNAL(signal_settingsChanged()), mainGeometryDisplay, SIGNAL(signal_settingsChanged()));
+    connect(mainGeometryDisplay, SIGNAL(signal_highlightItem(CADitem*)), this, SLOT(slot_highlightItem(CADitem*)));
+    connect(mainGeometryDisplay, SIGNAL(signal_snapFired(QVector3D,int)), this, SLOT(slot_snapTo(QVector3D,int)));
     mainGeometryDisplay->setFeatures(QDockWidget::NoDockWidgetFeatures);
     mainGeometryDisplay->setAllowedAreas(Qt::NoDockWidgetArea);
     mainGeometryDisplay->hideButtons();
+    geometryDisplays.append(mainGeometryDisplay);       // Test if this works!
     this->setCentralWidget(this->mainGeometryDisplay);
 
 
@@ -307,10 +310,13 @@ void MainWindow::slot_newGeometryDisplay()
 {
     GeometryDisplay* newGeometryDisplay = new GeometryDisplay(itemDB, this);
     connect(newGeometryDisplay, SIGNAL(signal_aboutToClose(QAction*)), this, SLOT(slot_geometryDisplayAboutToClose(QAction*)));
+    connect(newGeometryDisplay, SIGNAL(signal_highlightItem(CADitem*)), this, SLOT(slot_highlightItem(CADitem*)));
+    connect(newGeometryDisplay, SIGNAL(signal_snapFired(QVector3D,int)), this, SLOT(slot_snapTo(QVector3D,int)));
     connect(this, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(layerManager, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(magellanThread, SIGNAL(signal_mouseCoords(int,int,int,int,int,int)), newGeometryDisplay, SIGNAL(signal_mouse3Dcoords(int,int,int,int,int,int)));
-    connect(settingsDialog, SIGNAL(signal_settingsChanged()), mainGeometryDisplay, SIGNAL());
+    connect(settingsDialog, SIGNAL(signal_settingsChanged()), newGeometryDisplay, SIGNAL(signal_settingsChanged()));
+
     this->addDockWidget(Qt::LeftDockWidgetArea, newGeometryDisplay);
     ui->menuFenster->addAction(newGeometryDisplay->toggleViewAction());
 
@@ -321,6 +327,22 @@ void MainWindow::slot_newGeometryDisplay()
 void MainWindow::slot_geometryDisplayAboutToClose(QAction *action)
 {
     ui->menuFenster->removeAction(action);
+}
+
+void MainWindow::slot_highlightItem(CADitem *item)
+{
+    foreach (GeometryDisplay* gd, geometryDisplays)
+    {
+        gd->slot_highlightItem(item);
+    }
+}
+
+void MainWindow::slot_snapTo(QVector3D snapPos_scene, int snapMode)
+{
+    foreach (GeometryDisplay* gd, geometryDisplays)
+    {
+        gd->slot_snapTo(snapPos_scene, snapMode);
+    }
 }
 
 void MainWindow::on_actionAbout_OpenGL_triggered()

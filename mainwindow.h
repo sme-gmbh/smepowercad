@@ -80,6 +80,10 @@ public slots:
 
     void slot_newGeometryDisplay();
     void slot_geometryDisplayAboutToClose(QAction *action);
+
+    void slot_highlightItem(CADitem* item);
+    void slot_snapTo(QVector3D snapPos_scene, int snapMode);
+
 private slots:
     void on_prompt_input_returnPressed();
     void slot_openRecentFile();

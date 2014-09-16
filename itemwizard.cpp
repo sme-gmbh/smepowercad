@@ -39,6 +39,8 @@ void ItemWizard::showWizard(CADitem *item)
             wdg = new QDoubleSpinBox(this);
             ((QDoubleSpinBox*)wdg)->setValue(it.value().toDouble());
             break;
+        default:
+            break;
         }
         wdg->setObjectName(it.key());
 
@@ -59,6 +61,7 @@ void ItemWizard::on_buttonBox_accepted()
 
 void ItemWizard::on_buttonBox_rejected()
 {
+    currentItem->calculate();
     this->deleteWdgs(ui->formLayout);
     this->reject();
 }

@@ -8,6 +8,7 @@
 #include <QMap>
 #include <QVector3D>
 #include <QVariant>
+#include <QDebug>
 #include "math/m3dbox.h"
 
 class CADitem
@@ -122,8 +123,8 @@ public:
     };
 
     CADitem(ItemType type);
-    void calculate() {}
-    void processWizardInput();
+    virtual void calculate() {}
+//    virtual void processWizardInput();
 
     // data types tbd.
     ItemType getType();

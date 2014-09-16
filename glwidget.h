@@ -87,10 +87,17 @@ private:
     QPoint snapPos_screen;
     QVector3D snapPos_scene;
 
-    SnapEngine* snapEngine;
     CADitem* item_lastHighlight;
 
+signals:
+    void signal_highlightItem(CADitem* item);
+    void signal_snapFired(QVector3D snapPos_scene, int snapMode);
 
+public slots:
+    void slot_highlightItem(CADitem* item);
+    void slot_snapTo(QVector3D snapPos_scene, int snapMode);
+
+private:
     // **** settings ****
     QColor _backgroundColor;
 
