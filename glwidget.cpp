@@ -250,6 +250,7 @@ void GLWidget::slot_changeSelection(QList<CADitem *> selectedItems)
 {
     this->selection_itemList = selectedItems;
 //    emit signal_selectionChanged(this->selection_itemList);
+    slot_repaint();
 }
 
 void GLWidget::slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c)
@@ -376,60 +377,67 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     }
 
 
-    // Item highlighting
-    highlightClear();
-    highlightItemAtPosition(mousePos);
-
-    // Object Snap
-    if (item_lastHighlight != NULL)
+    if (event->buttons() == 0)
     {
-        // Basepoint snap
-        QList<QVector3D> snap_basepoints;
-        if ((mapFromScene(item_lastHighlight->snap_basepoint) - mousePos).manhattanLength() < 50)
-            snap_basepoints.append(item_lastHighlight->snap_basepoint);
+        // Item highlighting
+        highlightClear();
+        highlightItemAtPosition(mousePos);
 
-        // Endpoint / Vertex snap
-        QList<QVector3D> snap_vertex_points;
-        foreach (QVector3D snap_vertex, item_lastHighlight->snap_vertices)
+        // Object Snap
+        if (item_lastHighlight != NULL)
         {
-            if ((mapFromScene(snap_vertex) - mousePos).manhattanLength() < 10)
-                snap_vertex_points.append(snap_vertex);
-        }
+            // Basepoint snap
+            QList<QVector3D> snap_basepoints;
+            if ((mapFromScene(item_lastHighlight->snap_basepoint) - mousePos).manhattanLength() < 50)
+                snap_basepoints.append(item_lastHighlight->snap_basepoint);
 
-        // Center Snap
-        QList<QVector3D> snap_center_points;
-        foreach (QVector3D snap_center, item_lastHighlight->snap_center)
-        {
-            if ((mapFromScene(snap_center) - mousePos).manhattanLength() < 10)
-                snap_center_points.append(snap_center);
-        }
+            // Endpoint / Vertex snap
+            QList<QVector3D> snap_vertex_points;
+            foreach (QVector3D snap_vertex, item_lastHighlight->snap_vertices)
+            {
+                if ((mapFromScene(snap_vertex) - mousePos).manhattanLength() < 10)
+                    snap_vertex_points.append(snap_vertex);
+            }
 
-        if (!snap_basepoints.isEmpty())
-        {
-            this->set_snap_mode(GLWidget::SnapBasepoint);
-            this->set_snapPos(snap_basepoints.at(0));
-        }
-        else if (!snap_vertex_points.isEmpty())
-        {
-            this->set_snap_mode(GLWidget::SnapEndpoint);
-            this->set_snapPos(snap_vertex_points.at(0));
-        }
-        else if (!snap_center_points.isEmpty())
-        {
-            this->set_snap_mode(GLWidget::SnapCenter);
-            this->set_snapPos(snap_center_points.at(0));
+            // Center Snap
+            QList<QVector3D> snap_center_points;
+            foreach (QVector3D snap_center, item_lastHighlight->snap_center)
+            {
+                if ((mapFromScene(snap_center) - mousePos).manhattanLength() < 10)
+                    snap_center_points.append(snap_center);
+            }
+
+            if (!snap_basepoints.isEmpty())
+            {
+                this->set_snap_mode(GLWidget::SnapBasepoint);
+                this->set_snapPos(snap_basepoints.at(0));
+            }
+            else if (!snap_vertex_points.isEmpty())
+            {
+                this->set_snap_mode(GLWidget::SnapEndpoint);
+                this->set_snapPos(snap_vertex_points.at(0));
+            }
+            else if (!snap_center_points.isEmpty())
+            {
+                this->set_snap_mode(GLWidget::SnapCenter);
+                this->set_snapPos(snap_center_points.at(0));
+            }
+            else
+            {
+                this->set_snap_mode(GLWidget::SnapNo);
+            }
+
+            emit signal_snapFired(this->snapPos_scene, this->snapMode);
         }
         else
         {
             this->set_snap_mode(GLWidget::SnapNo);
+            emit signal_snapFired(this->snapPos_scene, this->snapMode);
         }
-
-        emit signal_snapFired(this->snapPos_scene, this->snapMode);
     }
     else
     {
         this->set_snap_mode(GLWidget::SnapNo);
-        emit signal_snapFired(this->snapPos_scene, this->snapMode);
     }
 
     this->cursorShown = true;
@@ -620,8 +628,8 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glViewport(0.0, 0.0, width(), height());
-    glTranslatef((qreal)translationOffset.x() / (qreal)this->width() * 2, (qreal)translationOffset.y() / (qreal)this->height() * 2, 0);
-    glScalef(this->zoomFactor / screenRatio / (qreal)this->height(), this->zoomFactor / (qreal)this->height(), this->zoomFactor / (qreal)this->height());
+    glTranslatef((qreal)translationOffset.x() / (qreal)this->width() * 2, (qreal)translationOffset.y() / (qreal)this->height() * 2, /*-this->zoomFactor / (qreal)this->height()*/0.0);
+    glScalef(this->zoomFactor / screenRatio / (qreal)this->height(), this->zoomFactor / (qreal)this->height(), /*this->zoomFactor / (qreal)this->height() / */ 1.0 / 100000.0);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -1259,7 +1267,7 @@ void GLWidget::paintLine(Layer* layer, CAD_basic_line *item)
     if (penWidth < 1.0)
         penWidth = 1.0;
 
-    if (item->highlight)
+    if (item->highlight || item->selected)
     {
         if (color_pen.lightnessF() > 0.5)
             color_pen = color_pen.darker();
@@ -1320,7 +1328,7 @@ void GLWidget::paintPolyLine(Layer *layer, CAD_basic_polyline *item)
 
 
 
-    if (item->highlight)
+    if (item->highlight || item->selected)
     {
         if (color_pen.lightnessF() > 0.5)
             color_pen = color_pen.darker();
@@ -1423,7 +1431,7 @@ void GLWidget::paintFace(Layer *layer, CAD_basic_3Dface *item)
         color_brush = Qt::white;
 
 
-    if (item->highlight)
+    if (item->highlight || item->selected)
     {
         if (color_pen.lightnessF() > 0.5)
             color_pen = color_pen.darker();
@@ -1497,7 +1505,7 @@ void GLWidget::paintBasicCircle(Layer *layer, CAD_basic_circle *item)
     if (penWidth < 1.0)
         penWidth = 1.0;
 
-    if (item->highlight)
+    if (item->highlight || item->selected)
     {
         if (color_pen.lightnessF() > 0.5)
             color_pen = color_pen.darker();
@@ -1540,7 +1548,7 @@ void GLWidget::paintBasicBox(Layer *layer, CAD_basic_box *item)
     else if (color_brush.value() < 50)
         color_brush = Qt::white;
 
-    if (item->highlight)
+    if (item->highlight || item->selected)
     {
         if (color_pen.lightnessF() > 0.5)
             color_pen = color_pen.darker();
@@ -1656,7 +1664,7 @@ void GLWidget::paintBasicCylinder(Layer *layer, CAD_basic_cylinder *item)
     else if (color_brush.value() < 50)
         color_brush = Qt::white;
 
-    if (item->highlight)
+    if (item->highlight || item->selected)
     {
         if (color_pen.lightnessF() > 0.5)
             color_pen = color_pen.darker();
@@ -2129,8 +2137,10 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
     glEnable(GL_MULTISAMPLE);
     glDisable(GL_CULL_FACE);
 
-    glTranslatef((qreal)translationOffset.x() / (qreal)this->width() * 2, (qreal)translationOffset.y() / (qreal)this->height() * 2, 0);
-    glScalef(this->zoomFactor / screenRatio / (qreal)this->height(), this->zoomFactor / (qreal)this->height(), this->zoomFactor / (qreal)this->height());
+    glTranslatef((qreal)translationOffset.x() / (qreal)this->width() * 2, (qreal)translationOffset.y() / (qreal)this->height() * 2, /*-this->zoomFactor / (qreal)this->height()*/0.0);
+    glScalef(this->zoomFactor / screenRatio / (qreal)this->height(), this->zoomFactor / (qreal)this->height(), /*this->zoomFactor / (qreal)this->height() / */ 1.0 / 100000.0);
+//    glTranslatef((qreal)translationOffset.x() / (qreal)this->width() * 2, (qreal)translationOffset.y() / (qreal)this->height() * 2, 0);
+//    glScalef(this->zoomFactor / screenRatio / (qreal)this->height(), this->zoomFactor / (qreal)this->height(), this->zoomFactor / (qreal)this->height());
 //    glScaled(this->zoomFactor / screenRatio, this->zoomFactor, this->zoomFactor);
     glRotatef(rot_x, 1.0f, 0.0f, 0.0f);
     glRotatef(rot_y, 0.0f, 1.0f, 0.0f);
