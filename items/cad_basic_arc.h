@@ -8,6 +8,7 @@ class CAD_basic_arc : public CADitem
 public:
     CAD_basic_arc();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_BASIC_ARC_H

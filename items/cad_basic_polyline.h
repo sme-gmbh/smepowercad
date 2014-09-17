@@ -8,6 +8,7 @@ class CAD_basic_polyline : public CADitem
 public:
     CAD_basic_polyline();
     virtual void calculate();
+    virtual void processWizardInput();
 
     class Vertex{
     public:

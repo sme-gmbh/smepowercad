@@ -8,6 +8,7 @@ class CAD_heatcool_flange : public CADitem
 public:
     CAD_heatcool_flange();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_HEATCOOL_FLANGE_H

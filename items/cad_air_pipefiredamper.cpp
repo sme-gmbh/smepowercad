@@ -10,3 +10,8 @@ void CAD_air_pipeFireDamper::calculate()
 {
 
 }
+
+void CAD_air_pipeFireDamper::processWizardInput()
+{
+
+}

@@ -10,3 +10,8 @@ void CAD_sprinkler_distribution::calculate()
 {
 
 }
+
+void CAD_sprinkler_distribution::processWizardInput()
+{
+
+}

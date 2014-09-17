@@ -10,3 +10,8 @@ void CAD_air_multiLeafDamper::calculate()
 {
 
 }
+
+void CAD_air_multiLeafDamper::processWizardInput()
+{
+
+}

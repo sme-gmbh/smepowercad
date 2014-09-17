@@ -8,6 +8,7 @@ class CAD_arch_window : public CADitem
 public:
     CAD_arch_window();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_ARCH_WINDOW_H

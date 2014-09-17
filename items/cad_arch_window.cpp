@@ -10,3 +10,8 @@ void CAD_arch_window::calculate()
 {
 
 }
+
+void CAD_arch_window::processWizardInput()
+{
+
+}

@@ -10,3 +10,8 @@ void CAD_arch_levelSlab::calculate()
 {
 
 }
+
+void CAD_arch_levelSlab::processWizardInput()
+{
+
+}

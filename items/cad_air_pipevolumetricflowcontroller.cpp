@@ -10,3 +10,8 @@ void CAD_air_pipeVolumetricFlowController::calculate()
 {
 
 }
+
+void CAD_air_pipeVolumetricFlowController::processWizardInput()
+{
+
+}

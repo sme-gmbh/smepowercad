@@ -10,3 +10,8 @@ void CAD_sprinkler_compressedAirWaterContainer::calculate()
 {
 
 }
+
+void CAD_sprinkler_compressedAirWaterContainer::processWizardInput()
+{
+
+}

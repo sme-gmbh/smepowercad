@@ -13,11 +13,11 @@ CAD_basic_cylinder::CAD_basic_cylinder() : CADitem(CADitem::Basic_Cylinder)
     this->wizardParams.insert(QObject::tr("Position x"), QVariant::fromValue(0.0));
     this->wizardParams.insert(QObject::tr("Position y"), QVariant::fromValue(0.0));
     this->wizardParams.insert(QObject::tr("Position z"), QVariant::fromValue(0.0));
-    this->wizardParams.insert(QObject::tr("Height"), QVariant::fromValue(0.0));
+    this->wizardParams.insert(QObject::tr("Height"), QVariant::fromValue(1.0));
     this->wizardParams.insert(QObject::tr("Angle x"), QVariant::fromValue(0.0));
     this->wizardParams.insert(QObject::tr("Angle y"), QVariant::fromValue(0.0));
     this->wizardParams.insert(QObject::tr("Angle z"), QVariant::fromValue(0.0));
-    this->wizardParams.insert(QObject::tr("Name"), QVariant::fromValue(QString("Default Name")));
+    this->wizardParams.insert(QObject::tr("Name"), QVariant::fromValue(QString()));
 }
 
 void CAD_basic_cylinder::calculate()

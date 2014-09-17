@@ -10,3 +10,8 @@ void CAD_air_ductYpiece::calculate()
 {
 
 }
+
+void CAD_air_ductYpiece::processWizardInput()
+{
+
+}

@@ -52,3 +52,8 @@ void CAD_basic_box::calculate()
 
     qDebug() << "calculating a box";
 }
+
+void CAD_basic_box::processWizardInput()
+{
+
+}

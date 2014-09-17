@@ -10,3 +10,8 @@ void CAD_sprinkler_teeConnector::calculate()
 {
 
 }
+
+void CAD_sprinkler_teeConnector::processWizardInput()
+{
+
+}

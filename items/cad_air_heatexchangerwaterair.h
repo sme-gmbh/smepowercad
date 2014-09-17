@@ -8,6 +8,7 @@ class CAD_air_heatExchangerWaterAir : public CADitem
 public:
     CAD_air_heatExchangerWaterAir();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_AIR_HEATEXCHANGERWATERAIR_H

@@ -10,3 +10,8 @@ void CAD_air_equipmentFrame::calculate()
 {
 
 }
+
+void CAD_air_equipmentFrame::processWizardInput()
+{
+
+}

@@ -8,6 +8,7 @@ class CAD_sprinkler_distribution : public CADitem
 public:
     CAD_sprinkler_distribution();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_SPRINKLER_DISTRIBUTION_H

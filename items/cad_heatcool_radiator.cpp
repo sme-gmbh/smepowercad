@@ -10,3 +10,8 @@ void CAD_heatcool_radiator::calculate()
 {
 
 }
+
+void CAD_heatcool_radiator::processWizardInput()
+{
+
+}

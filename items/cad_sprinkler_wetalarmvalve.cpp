@@ -10,3 +10,8 @@ void CAD_sprinkler_wetAlarmValve::calculate()
 {
 
 }
+
+void CAD_sprinkler_wetAlarmValve::processWizardInput()
+{
+
+}

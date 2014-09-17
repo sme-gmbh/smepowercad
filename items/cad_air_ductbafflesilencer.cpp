@@ -10,3 +10,8 @@ void CAD_air_ductBaffleSilencer::calculate()
 {
 
 }
+
+void CAD_air_ductBaffleSilencer::processWizardInput()
+{
+
+}

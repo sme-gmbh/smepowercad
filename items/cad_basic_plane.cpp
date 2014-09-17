@@ -10,3 +10,8 @@ void CAD_basic_plane::calculate()
 {
 
 }
+
+void CAD_basic_plane::processWizardInput()
+{
+
+}

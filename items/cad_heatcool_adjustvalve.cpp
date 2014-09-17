@@ -10,3 +10,8 @@ void CAD_heatcool_adjustvalve::calculate()
 {
 
 }
+
+void CAD_heatcool_adjustvalve::processWizardInput()
+{
+
+}

@@ -10,3 +10,8 @@ void CAD_arch_blockOut::calculate()
 {
 
 }
+
+void CAD_arch_blockOut::processWizardInput()
+{
+
+}

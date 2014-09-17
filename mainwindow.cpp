@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // **** Item Wizard ****
     itemWizard = new ItemWizard(this);
+    connect(itemWizard, SIGNAL(signal_sceneRepaintNeeded()), this, SIGNAL(signal_repaintNeeded()));
 
     // **** Command prompt ****
     QWidget *promptTitle = new QWidget(ui->dockWidgetPrompt);

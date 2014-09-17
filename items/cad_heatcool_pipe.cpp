@@ -10,3 +10,8 @@ void CAD_heatcool_pipe::calculate()
 {
 
 }
+
+void CAD_heatcool_pipe::processWizardInput()
+{
+
+}

@@ -10,3 +10,8 @@ void CAD_heatcool_sensor::calculate()
 {
 
 }
+
+void CAD_heatcool_sensor::processWizardInput()
+{
+
+}

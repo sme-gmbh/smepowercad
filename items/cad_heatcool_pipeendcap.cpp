@@ -10,3 +10,8 @@ void CAD_heatcool_pipeEndCap::calculate()
 {
 
 }
+
+void CAD_heatcool_pipeEndCap::processWizardInput()
+{
+
+}

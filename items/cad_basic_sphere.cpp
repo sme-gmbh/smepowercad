@@ -10,3 +10,8 @@ void CAD_basic_sphere::calculate()
 {
 
 }
+
+void CAD_basic_sphere::processWizardInput()
+{
+
+}

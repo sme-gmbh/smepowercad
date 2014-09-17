@@ -10,3 +10,8 @@ void CAD_air_pipeEndCap::calculate()
 {
 
 }
+
+void CAD_air_pipeEndCap::processWizardInput()
+{
+
+}

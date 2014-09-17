@@ -34,6 +34,9 @@ private:
     CADitem *currentItem;
     void save();
     void deleteWdgs(QLayout *layout);
+
+signals:
+    void signal_sceneRepaintNeeded();
 };
 
 #endif // ITEMWIZARD_H

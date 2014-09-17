@@ -422,8 +422,8 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <addaction name="action_basic_polylinie"/>
    <addaction name="action_basic_circle"/>
    <addaction name="action_basic_arc"/>
-   <addaction name="action_basic_plane"/>
    <addaction name="action_basic_face"/>
+   <addaction name="action_basic_plane"/>
    <addaction name="action_basic_box"/>
    <addaction name="action_basic_cylinder"/>
    <addaction name="action_basic_sphere"/>
@@ -718,6 +718,10 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
   </action>
   <action name="action_arch_beam">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/cad_arch/cad_arch_beam.svg</normaloff>:/icons/cad_arch/cad_arch_beam.svg</iconset>
+   </property>
    <property name="text">
     <string>Beam</string>
    </property>
@@ -725,7 +729,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="action_arch_wall_nonloadbearing">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/icons/cad_arch/cad_arch_wall_loadbearing.svg</normaloff>:/icons/cad_arch/cad_arch_wall_loadbearing.svg</iconset>
+     <normaloff>:/icons/cad_arch/cad_arch_wall_nonloadbearing.svg</normaloff>:/icons/cad_arch/cad_arch_wall_nonloadbearing.svg</iconset>
    </property>
    <property name="text">
     <string>Wall non loadbearing</string>
@@ -735,6 +739,10 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
   </action>
   <action name="action_basic_plane">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/cad_basic/cad_basic_plane.svg</normaloff>:/icons/cad_basic/cad_basic_plane.svg</iconset>
+   </property>
    <property name="text">
     <string>Plane</string>
    </property>
@@ -745,7 +753,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
   <action name="action_basic_face">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/icons/cad_basic/cad_basic_face.svg</normaloff>:/icons/cad_basic/cad_basic_face.svg</iconset>
+     <normaloff>:/icons/cad_basic/cad_basic_3Dface.svg</normaloff>:/icons/cad_basic/cad_basic_3Dface.svg</iconset>
    </property>
    <property name="text">
     <string>Face</string>
@@ -1231,6 +1239,10 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
   </action>
   <action name="action_air_pressure_relief_damper">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/cad_air/cad_air_pressurereliefdamper.svg</normaloff>:/icons/cad_air/cad_air_pressurereliefdamper.svg</iconset>
+   </property>
    <property name="text">
     <string>Pressure Relief Damper</string>
    </property>
@@ -1244,6 +1256,10 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
   </action>
   <action name="action_air_throttle_valve">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/cad_air/cad_air_throttlevalve.svg</normaloff>:/icons/cad_air/cad_air_throttlevalve.svg</iconset>
+   </property>
    <property name="text">
     <string>Throttle Valve</string>
    </property>

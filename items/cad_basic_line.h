@@ -8,6 +8,7 @@ class CAD_basic_line : public CADitem
 public:
     CAD_basic_line();
     virtual void calculate();
+    virtual void processWizardInput();
 
     QVector3D p1;
     QVector3D p2;

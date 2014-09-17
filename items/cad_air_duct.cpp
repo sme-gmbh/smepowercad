@@ -10,3 +10,8 @@ void CAD_air_duct::calculate()
 {
 
 }
+
+void CAD_air_duct::processWizardInput()
+{
+
+}

@@ -8,6 +8,7 @@ class CAD_heatcool_sensor : public CADitem
 public:
     CAD_heatcool_sensor();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_HEATCOOL_SENSOR_H

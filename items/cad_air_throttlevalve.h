@@ -8,6 +8,7 @@ class CAD_air_throttleValve : public CADitem
 public:
     CAD_air_throttleValve();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_AIR_THROTTLEVALVE_H

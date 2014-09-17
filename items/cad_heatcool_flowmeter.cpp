@@ -10,3 +10,8 @@ void CAD_heatcool_flowmeter::calculate()
 {
 
 }
+
+void CAD_heatcool_flowmeter::processWizardInput()
+{
+
+}

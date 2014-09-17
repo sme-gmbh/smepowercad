@@ -10,3 +10,8 @@ void CAD_sprinkler_valve::calculate()
 {
 
 }
+
+void CAD_sprinkler_valve::processWizardInput()
+{
+
+}

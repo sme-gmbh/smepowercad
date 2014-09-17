@@ -8,6 +8,7 @@ class CAD_sprinkler_head : public CADitem
 public:
     CAD_sprinkler_head();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_SPRINKLER_HEAD_H

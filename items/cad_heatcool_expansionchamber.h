@@ -8,6 +8,7 @@ class CAD_heatcool_expansionChamber : public CADitem
 public:
     CAD_heatcool_expansionChamber();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_HEATCOOL_EXPANSIONCHAMBER_H

@@ -14,3 +14,8 @@ void CAD_basic_circle::calculate()
 {
     this->snap_basepoint = this->center;
 }
+
+void CAD_basic_circle::processWizardInput()
+{
+
+}

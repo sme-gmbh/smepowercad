@@ -21,6 +21,14 @@ void ItemWizard::showWizard(CADitem *item)
         return;
     }
 
+    // Do not show an empty wizard
+    if(item->wizardParams.isEmpty())
+    {
+        item->calculate();
+        emit signal_sceneRepaintNeeded();
+        return;
+    }
+
     currentItem = item;
     QMap<QString, QVariant>::iterator it;
     for (it = item->wizardParams.begin(); it != item->wizardParams.end(); it++)
@@ -97,7 +105,9 @@ void ItemWizard::save()
 
 
     currentItem->wizardParams = map;
+    currentItem->processWizardInput();
     currentItem->calculate();
+    emit signal_sceneRepaintNeeded();
 }
 
 void ItemWizard::deleteWdgs(QLayout *layout)

@@ -9,3 +9,8 @@ void CAD_heatcool_coolingTower::calculate()
 {
 
 }
+
+void CAD_heatcool_coolingTower::processWizardInput()
+{
+
+}

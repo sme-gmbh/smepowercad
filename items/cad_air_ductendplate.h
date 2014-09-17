@@ -8,6 +8,7 @@ class CAD_air_ductEndPlate : public CADitem
 public:
     CAD_air_ductEndPlate();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_AIR_DUCTENDPLATE_H

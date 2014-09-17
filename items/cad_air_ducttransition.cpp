@@ -10,3 +10,8 @@ void CAD_air_ductTransition::calculate()
 {
 
 }
+
+void CAD_air_ductTransition::processWizardInput()
+{
+
+}

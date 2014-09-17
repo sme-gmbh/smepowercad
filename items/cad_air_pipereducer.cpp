@@ -10,3 +10,8 @@ void CAD_air_pipeReducer::calculate()
 {
 
 }
+
+void CAD_air_pipeReducer::processWizardInput()
+{
+
+}

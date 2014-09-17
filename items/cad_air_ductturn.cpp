@@ -10,3 +10,8 @@ void CAD_air_ductTurn::calculate()
 {
 
 }
+
+void CAD_air_ductTurn::processWizardInput()
+{
+
+}

@@ -8,6 +8,7 @@ class CAD_arch_levelSlab : public CADitem
 public:
     CAD_arch_levelSlab();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_ARCH_LEVELSLAB_H

@@ -8,6 +8,7 @@ class CAD_electrical_cableTray : public CADitem
 public:
     CAD_electrical_cableTray();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_ELECTRICAL_CABLETRAY_H

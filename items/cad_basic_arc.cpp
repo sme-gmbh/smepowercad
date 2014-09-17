@@ -9,3 +9,8 @@ void CAD_basic_arc::calculate()
 {
 
 }
+
+void CAD_basic_arc::processWizardInput()
+{
+
+}

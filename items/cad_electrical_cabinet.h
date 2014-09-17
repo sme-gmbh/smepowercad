@@ -8,6 +8,7 @@ class CAD_electrical_cabinet : public CADitem
 public:
     CAD_electrical_cabinet();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_ELECTRICAL_CABINET_H

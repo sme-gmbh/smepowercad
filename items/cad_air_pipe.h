@@ -8,6 +8,7 @@ class CAD_air_pipe : public CADitem
 public:
     CAD_air_pipe();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_AIR_DUCTROUND_H

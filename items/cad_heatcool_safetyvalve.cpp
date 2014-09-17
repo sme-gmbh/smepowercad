@@ -10,3 +10,8 @@ void CAD_heatcool_safetyValve::calculate()
 {
 
 }
+
+void CAD_heatcool_safetyValve::processWizardInput()
+{
+
+}

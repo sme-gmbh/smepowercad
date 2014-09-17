@@ -10,3 +10,8 @@ void CAD_air_fan::calculate()
 {
 
 }
+
+void CAD_air_fan::processWizardInput()
+{
+
+}

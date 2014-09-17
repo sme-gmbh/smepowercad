@@ -10,3 +10,8 @@ void CAD_air_ductEndPlate::calculate()
 {
 
 }
+
+void CAD_air_ductEndPlate::processWizardInput()
+{
+
+}

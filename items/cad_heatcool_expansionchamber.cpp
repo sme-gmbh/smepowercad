@@ -10,3 +10,8 @@ void CAD_heatcool_expansionChamber::calculate()
 {
 
 }
+
+void CAD_heatcool_expansionChamber::processWizardInput()
+{
+
+}

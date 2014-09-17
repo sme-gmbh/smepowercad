@@ -10,3 +10,8 @@ void CAD_air_ductTransitionRectRound::calculate()
 {
 
 }
+
+void CAD_air_ductTransitionRectRound::processWizardInput()
+{
+
+}

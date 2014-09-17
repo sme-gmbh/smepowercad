@@ -10,3 +10,8 @@ void CAD_air_humidifier::calculate()
 {
 
 }
+
+void CAD_air_humidifier::processWizardInput()
+{
+
+}

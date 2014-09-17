@@ -10,3 +10,8 @@ void CAD_heatcool_pump::calculate()
 {
 
 }
+
+void CAD_heatcool_pump::processWizardInput()
+{
+
+}

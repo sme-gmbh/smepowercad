@@ -8,6 +8,7 @@ class CAD_arch_support : public CADitem
 public:
     CAD_arch_support();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_ARCH_SUPPORT_H

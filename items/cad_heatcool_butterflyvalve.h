@@ -8,6 +8,7 @@ class CAD_heatcool_butterflyValve : public CADitem
 public:
     CAD_heatcool_butterflyValve();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_HEATCOOL_BUTTERFLYVALVE_H

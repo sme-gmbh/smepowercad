@@ -10,3 +10,8 @@ void CAD_electrical_cabinet::calculate()
 {
 
 }
+
+void CAD_electrical_cabinet::processWizardInput()
+{
+
+}

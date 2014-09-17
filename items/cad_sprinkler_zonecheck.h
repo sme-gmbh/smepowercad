@@ -8,6 +8,7 @@ class CAD_sprinkler_zoneCheck : public CADitem
 public:
     CAD_sprinkler_zoneCheck();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_SPRINKLER_ZONECHECK_H

@@ -10,3 +10,8 @@ void CAD_air_pipeTeeConnector::calculate()
 {
 
 }
+
+void CAD_air_pipeTeeConnector::processWizardInput()
+{
+
+}

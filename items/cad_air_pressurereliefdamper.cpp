@@ -10,3 +10,8 @@ void CAD_air_pressureReliefDamper::calculate()
 {
 
 }
+
+void CAD_air_pressureReliefDamper::processWizardInput()
+{
+
+}

@@ -10,3 +10,8 @@ void CAD_arch_door::calculate()
 {
 
 }
+
+void CAD_arch_door::processWizardInput()
+{
+
+}

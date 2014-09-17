@@ -10,3 +10,8 @@ void CAD_air_ductTeeConnector::calculate()
 {
 
 }
+
+void CAD_air_ductTeeConnector::processWizardInput()
+{
+
+}

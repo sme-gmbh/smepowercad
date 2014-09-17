@@ -10,3 +10,8 @@ void CAD_sprinkler_zoneCheck::calculate()
 {
 
 }
+
+void CAD_sprinkler_zoneCheck::processWizardInput()
+{
+
+}

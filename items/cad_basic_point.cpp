@@ -10,3 +10,8 @@ void CAD_basic_point::calculate()
 {
 
 }
+
+void CAD_basic_point::processWizardInput()
+{
+
+}

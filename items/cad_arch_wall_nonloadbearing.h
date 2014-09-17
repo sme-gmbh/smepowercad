@@ -8,6 +8,7 @@ class CAD_arch_wall_nonLoadBearing : public CADitem
 public:
     CAD_arch_wall_nonLoadBearing();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_ARCH_WALL_NONLOADBEARING_H

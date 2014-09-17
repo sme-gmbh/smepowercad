@@ -10,3 +10,8 @@ void CAD_air_emptyCabinet::calculate()
 {
 
 }
+
+void CAD_air_emptyCabinet::processWizardInput()
+{
+
+}

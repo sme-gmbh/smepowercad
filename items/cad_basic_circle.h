@@ -8,6 +8,7 @@ class CAD_basic_circle : public CADitem
 public:
     CAD_basic_circle();
     virtual void calculate();
+    virtual void processWizardInput();
 
     QVector3D center;
     qreal radius;

@@ -8,6 +8,7 @@ class CAD_heatcool_chiller : public CADitem
 public:
     CAD_heatcool_chiller();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_HEATCOOL_CHILLER_H

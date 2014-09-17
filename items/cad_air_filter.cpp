@@ -10,3 +10,8 @@ void CAD_air_filter::calculate()
 {
 
 }
+
+void CAD_air_filter::processWizardInput()
+{
+
+}

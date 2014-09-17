@@ -9,3 +9,8 @@ void CAD_air_canvasFlange::calculate()
 {
 
 }
+
+void CAD_air_canvasFlange::processWizardInput()
+{
+
+}

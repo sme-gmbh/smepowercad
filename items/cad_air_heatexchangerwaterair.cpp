@@ -10,3 +10,8 @@ void CAD_air_heatExchangerWaterAir::calculate()
 {
 
 }
+
+void CAD_air_heatExchangerWaterAir::processWizardInput()
+{
+
+}

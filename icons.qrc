@@ -43,6 +43,12 @@
         <file>icons/cad_air/cad_air_pipeteeconnector.svg</file>
         <file>icons/cad_air/cad_air_pipeturn.svg</file>
         <file>icons/cad_air/cad_air_pipevolumetricflowcontroller.svg</file>
+        <file>icons/cad_basic/cad_basic_3Dface.svg</file>
+        <file>icons/cad_basic/cad_basic_plane.svg</file>
+        <file>icons/cad_arch/cad_arch_beam.svg</file>
+        <file>icons/cad_arch/cad_arch_wall_nonloadbearing.svg</file>
+        <file>icons/cad_air/cad_air_throttlevalve.svg</file>
+        <file>icons/cad_air/cad_air_pressurereliefdamper.svg</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>

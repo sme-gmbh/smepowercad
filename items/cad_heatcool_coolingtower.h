@@ -8,6 +8,7 @@ class CAD_heatcool_coolingTower : public CADitem
 public:
     CAD_heatcool_coolingTower();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_HEATCOOL_COOLINGTOWER_H

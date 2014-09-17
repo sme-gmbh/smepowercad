@@ -10,3 +10,8 @@ void CAD_air_pipeTurn::calculate()
 {
 
 }
+
+void CAD_air_pipeTurn::processWizardInput()
+{
+
+}

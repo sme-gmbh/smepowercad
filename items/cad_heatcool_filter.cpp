@@ -10,3 +10,8 @@ void CAD_heatcool_filter::calculate()
 {
 
 }
+
+void CAD_heatcool_filter::processWizardInput()
+{
+
+}

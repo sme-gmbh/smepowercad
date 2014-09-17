@@ -8,6 +8,7 @@ class CAD_heatcool_pump : public CADitem
 public:
     CAD_heatcool_pump();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_HEATCOOL_PUMP_H

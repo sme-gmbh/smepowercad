@@ -8,6 +8,7 @@ class CAD_air_pipeVolumetricFlowController : public CADitem
 public:
     CAD_air_pipeVolumetricFlowController();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_AIR_PIPEVOLUMETRICFLOWCONTROLLER_H

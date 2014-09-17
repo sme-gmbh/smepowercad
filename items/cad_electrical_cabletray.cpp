@@ -10,3 +10,8 @@ void CAD_electrical_cableTray::calculate()
 {
 
 }
+
+void CAD_electrical_cableTray::processWizardInput()
+{
+
+}

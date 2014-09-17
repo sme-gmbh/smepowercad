@@ -10,3 +10,8 @@ void CAD_arch_beam::calculate()
 {
 
 }
+
+void CAD_arch_beam::processWizardInput()
+{
+
+}

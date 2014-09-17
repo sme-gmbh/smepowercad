@@ -10,3 +10,8 @@ void CAD_sprinkler_pump::calculate()
 {
 
 }
+
+void CAD_sprinkler_pump::processWizardInput()
+{
+
+}

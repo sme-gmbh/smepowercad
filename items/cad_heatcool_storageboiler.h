@@ -8,6 +8,7 @@ class CAD_heatcool_storageBoiler : public CADitem
 public:
     CAD_heatcool_storageBoiler();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_HEATCOOL_STORAGEBOILER_H

@@ -8,6 +8,7 @@ class CAD_basic_box : public CADitem
 public:
     CAD_basic_box();
     virtual void calculate();
+    virtual void processWizardInput();
 
     QVector3D pos_bot_1;
     QVector3D pos_bot_2;

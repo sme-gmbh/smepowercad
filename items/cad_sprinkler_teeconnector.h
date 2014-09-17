@@ -8,6 +8,7 @@ class CAD_sprinkler_teeConnector : public CADitem
 public:
     CAD_sprinkler_teeConnector();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_SPRINKLER_TEECONNECTOR_H

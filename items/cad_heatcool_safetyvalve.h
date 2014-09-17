@@ -8,6 +8,7 @@ class CAD_heatcool_safetyValve : public CADitem
 public:
     CAD_heatcool_safetyValve();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_HEATCOOL_SAFETYVALVE_H

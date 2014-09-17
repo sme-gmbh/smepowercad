@@ -8,6 +8,7 @@ class CAD_heatcool_pipeTurn : public CADitem
 public:
     CAD_heatcool_pipeTurn();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_HEATCOOL_PIPETURN_H

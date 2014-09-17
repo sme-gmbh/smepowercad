@@ -10,3 +10,8 @@ void CAD_heatcool_chiller::calculate()
 {
 
 }
+
+void CAD_heatcool_chiller::processWizardInput()
+{
+
+}

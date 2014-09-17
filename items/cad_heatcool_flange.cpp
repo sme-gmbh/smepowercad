@@ -10,3 +10,8 @@ void CAD_heatcool_flange::calculate()
 {
 
 }
+
+void CAD_heatcool_flange::processWizardInput()
+{
+
+}

@@ -8,6 +8,7 @@ class CAD_basic_3Dface : public CADitem
 public:
     CAD_basic_3Dface();
     virtual void calculate();
+    virtual void processWizardInput();
 
     class Vertex{
     public:

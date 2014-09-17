@@ -8,6 +8,7 @@ class CAD_sprinkler_valve : public CADitem
 public:
     CAD_sprinkler_valve();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_SPRINKLER_VALVE_H

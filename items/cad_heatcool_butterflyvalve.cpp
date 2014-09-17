@@ -10,3 +10,8 @@ void CAD_heatcool_butterflyValve::calculate()
 {
 
 }
+
+void CAD_heatcool_butterflyValve::processWizardInput()
+{
+
+}

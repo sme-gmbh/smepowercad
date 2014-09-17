@@ -10,3 +10,8 @@ void CAD_air_pipeSilencer::calculate()
 {
 
 }
+
+void CAD_air_pipeSilencer::processWizardInput()
+{
+
+}

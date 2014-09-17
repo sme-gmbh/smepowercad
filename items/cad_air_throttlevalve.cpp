@@ -10,3 +10,8 @@ void CAD_air_throttleValve::calculate()
 {
 
 }
+
+void CAD_air_throttleValve::processWizardInput()
+{
+
+}

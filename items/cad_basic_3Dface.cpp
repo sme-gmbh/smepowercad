@@ -50,5 +50,10 @@ void CAD_basic_3Dface::calculate()
     this->boundingBox.a2 = QVector3D(0.0, max_y, 0.0);
     this->boundingBox.a3 = QVector3D(0.0, 0.0, max_z);
 
-//    this->snap_center = ((M3dVector)(M3dVector(p1) *0.5 + M3dVector(p2) * 0,5)).toM3dPoint();
+    //    this->snap_center = ((M3dVector)(M3dVector(p1) *0.5 + M3dVector(p2) * 0,5)).toM3dPoint();
+}
+
+void CAD_basic_3Dface::processWizardInput()
+{
+
 }

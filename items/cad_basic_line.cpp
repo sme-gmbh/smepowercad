@@ -8,6 +8,14 @@ CAD_basic_line::CAD_basic_line() : CADitem(CADitem::Basic_Line)
 
     widthByLayer = false;
     widthByBlock = false;
+
+    this->wizardParams.insert(QObject::tr("Position x0"), QVariant::fromValue(0.0));
+    this->wizardParams.insert(QObject::tr("Position y0"), QVariant::fromValue(0.0));
+    this->wizardParams.insert(QObject::tr("Position z0"), QVariant::fromValue(0.0));
+    this->wizardParams.insert(QObject::tr("Position x1"), QVariant::fromValue(1.0));
+    this->wizardParams.insert(QObject::tr("Position y2"), QVariant::fromValue(0.0));
+    this->wizardParams.insert(QObject::tr("Position z3"), QVariant::fromValue(0.0));
+    this->wizardParams.insert(QObject::tr("Width"), QVariant::fromValue(1.0));
 }
 
 void CAD_basic_line::calculate()
@@ -22,4 +30,9 @@ void CAD_basic_line::calculate()
     this->snap_vertices.append(p2);
 
     this->snap_center.append((p1 + p2) / 2.0);
+}
+
+void CAD_basic_line::processWizardInput()
+{
+
 }

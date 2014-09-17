@@ -8,6 +8,7 @@ class CAD_heatcool_controlvalve : public CADitem
 public:
     CAD_heatcool_controlvalve();
     virtual void calculate();
+    virtual void processWizardInput();
 };
 
 #endif // CAD_HEATCOOL_CONTROLVALVE_H

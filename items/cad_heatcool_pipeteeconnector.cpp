@@ -10,3 +10,8 @@ void CAD_heatcool_pipeTeeConnector::calculate()
 {
 
 }
+
+void CAD_heatcool_pipeTeeConnector::processWizardInput()
+{
+
+}

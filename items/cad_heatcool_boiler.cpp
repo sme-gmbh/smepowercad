@@ -10,3 +10,8 @@ void CAD_heatcool_boiler::calculate()
 {
 
 }
+
+void CAD_heatcool_boiler::processWizardInput()
+{
+
+}

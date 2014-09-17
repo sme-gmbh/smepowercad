@@ -10,3 +10,8 @@ void CAD_air_ductFireResistant::calculate()
 {
 
 }
+
+void CAD_air_ductFireResistant::processWizardInput()
+{
+
+}

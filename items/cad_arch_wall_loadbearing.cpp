@@ -10,3 +10,8 @@ void CAD_arch_wall_loadBearing::calculate()
 {
 
 }
+
+void CAD_arch_wall_loadBearing::processWizardInput()
+{
+
+}
