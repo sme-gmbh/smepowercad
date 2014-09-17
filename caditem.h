@@ -133,9 +133,13 @@ public:
     QColor color_pen;       // Transparent means "BYLAYER"
     QColor color_brush;       // Transparent means "BYLAYER"
     QMap<QString, QString> attributes;
-    QVector3D position;
     M3dBox boundingBox;
     QList<CADitem*> subItems;
+
+    QVector3D position;
+    qreal angle_x;
+    qreal angle_y;
+    qreal angle_z;
 
     // Wizard
     QMap<QString,QVariant> wizardParams;

@@ -12,6 +12,16 @@ CAD_basic_box::CAD_basic_box() : CADitem(CADitem::Basic_Box)
     pos_top_2 = QVector3D( 1,  1,  1);
     pos_top_3 = QVector3D( 1,  1, -1);
     pos_top_4 = QVector3D(-1,  1, -1);
+
+    wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Center y"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Center z"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Size x"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Size y"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Size z"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Angle x"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Angle y"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Angle z"), QVariant::fromValue(0.0));
 }
 
 void CAD_basic_box::calculate()
@@ -55,5 +65,42 @@ void CAD_basic_box::calculate()
 
 void CAD_basic_box::processWizardInput()
 {
+    QVector3D size;
 
+    position.setX(wizardParams.value(QObject::tr("Center x")).toDouble());
+    position.setY(wizardParams.value(QObject::tr("Center y")).toDouble());
+    position.setZ(wizardParams.value(QObject::tr("Center z")).toDouble());
+    size.setX(wizardParams.value(QObject::tr("Size x")).toDouble());
+    size.setY(wizardParams.value(QObject::tr("Size y")).toDouble());
+    size.setZ(wizardParams.value(QObject::tr("Size z")).toDouble());
+    angle_x = wizardParams.value(QObject::tr("Angle x")).toDouble();
+    angle_y = wizardParams.value(QObject::tr("Angle y")).toDouble();
+    angle_z = wizardParams.value(QObject::tr("Angle z")).toDouble();
+
+    pos_bot_1 = position;
+    pos_bot_2 = position;
+    pos_bot_3 = position;
+    pos_bot_4 = position;
+    pos_top_1 = position;
+    pos_top_2 = position;
+    pos_top_3 = position;
+    pos_top_4 = position;
+
+//    pos_bot_1 = QVector3D(-1, -1,  1);
+//    pos_bot_2 = QVector3D( 1, -1,  1);
+//    pos_bot_3 = QVector3D( 1, -1, -1);
+//    pos_bot_4 = QVector3D(-1, -1, -1);
+//    pos_top_1 = QVector3D(-1,  1,  1);
+//    pos_top_2 = QVector3D( 1,  1,  1);
+//    pos_top_3 = QVector3D( 1,  1, -1);
+//    pos_top_4 = QVector3D(-1,  1, -1);
+
+    pos_bot_1 += QVector3D(-0.5, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z();
+    pos_bot_2 += QVector3D( 0.5, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z();
+    pos_bot_3 += QVector3D( 0.5, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z();
+    pos_bot_4 += QVector3D(-0.5, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z();
+    pos_top_1 += QVector3D(-0.5, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z();
+    pos_top_2 += QVector3D( 0.5, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z();
+    pos_top_3 += QVector3D( 0.5, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z();
+    pos_top_4 += QVector3D(-0.5, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z();
 }

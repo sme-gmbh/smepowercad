@@ -42,10 +42,14 @@ void ItemWizard::showWizard(CADitem *item)
         case QVariant::Int:
             wdg = new QSpinBox(this);
             ((QSpinBox*)wdg)->setValue(it.value().toInt());
+            ((QSpinBox*)wdg)->setMaximum(INT_MAX);
+            ((QSpinBox*)wdg)->setMinimum(INT_MIN);
             break;
         case QVariant::Double:
             wdg = new QDoubleSpinBox(this);
             ((QDoubleSpinBox*)wdg)->setValue(it.value().toDouble());
+            ((QDoubleSpinBox*)wdg)->setMaximum(10e+20);
+            ((QDoubleSpinBox*)wdg)->setMinimum(-10e+20);
             break;
         default:
             break;

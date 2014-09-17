@@ -13,9 +13,6 @@ public:
     qreal radius;
     QVector3D center_base;
     qreal height;
-    qreal angle_x;
-    qreal angle_y;
-    qreal angle_z;
 };
 
 #endif // CADCYLINDER_H
