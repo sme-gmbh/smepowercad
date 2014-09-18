@@ -2,11 +2,12 @@
 
 #define PI 3.1415926535897
 
-GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB) :
+GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard) :
     QGLWidget(QGLFormat(QGL::SampleBuffers|QGL::AlphaChannel), parent)
 {
 //    qDebug() << "Created GLWidget";
     this->itemDB = itemDB;
+    this->itemWizard = itemWizard;
     this->mousePos = QPoint();
 
     this->translationOffset = QPoint();
@@ -529,7 +530,10 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 
         if (this->item_lastHighlight != NULL)   // There is an item beyond the cursor, so if it is clicked, select it.
         {
-            selectionAddItem(item_lastHighlight);
+            if (event->modifiers() && Qt::ShiftModifier)
+                selectionRemoveItem(item_lastHighlight);
+            else
+                selectionAddItem(item_lastHighlight);
         }
         else if (!this->isPickActive())
             this->pickStart();
@@ -580,7 +584,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
 {
     switch (event->key())
     {
-        case Qt::Key_Escape:
+    case Qt::Key_Escape:
         if (this->pickActive)
         {
             this->pickEnd();
@@ -588,8 +592,13 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         }
         if (this->selection_itemList.count() > 0)
         {
-            qDebug() << "Esc. pressed: selection clear";
             this->selectionClear();
+        }
+        break;
+    case Qt::Key_E:                         // Edit item
+        if (item_lastHighlight != NULL)
+        {
+            this->itemWizard->showWizard(item_lastHighlight);
         }
         break;
     }
@@ -762,7 +771,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
 
 
 
-
+    glName = 0;
     paintContent(itemDB->layers);
 
     restoreGLState();
@@ -976,7 +985,7 @@ void GLWidget::paintTextInfoBox(QPoint pos, QString text, QFont font, QColor col
 
 void GLWidget::paintContent(QList<Layer*> layers)
 {
-    quint32 glName = 0;
+//    quint32 glName = 0;
 
 //    qDebug() << "GLWidget::paintContent: painting"<< layers.count() << "layers...";
     foreach (Layer* layer, layers)
@@ -2150,7 +2159,7 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_ALPHA_TEST);
 
-
+    glName = 0;
     paintContent(itemDB->layers);
 
     glMatrixMode(GL_PROJECTION);

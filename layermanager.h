@@ -8,6 +8,9 @@
 #include <QColorDialog>
 #include <QMap>
 #include <QLabel>
+#include <QMenu>
+#include <QMessageBox>
+#include <QInputDialog>
 
 #include "layer.h"
 #include "itemdb.h"
@@ -39,12 +42,27 @@ private:
     QPixmap icon_pencilOn;
     QPixmap icon_pencilOff;
 
+    QMenu* menu_noItem;
+    QMenu* menu_onItem;
+    QTreeWidgetItem* item_atContextMenuRequest;
+
 public slots:
     void slot_layerAdded(Layer* newLayer, Layer* parentLayer);
 private slots:
     void on_treeWidget_layer_itemClicked(QTreeWidgetItem *item, int column);
 
     void on_treeWidget_layer_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
+
+    void on_treeWidget_layer_customContextMenuRequested(const QPoint &pos);
+
+    void slot_edit_layerName();
+    void slot_edit_layerLineWidth();
+    void slot_edit_layerLineType();
+    void slot_appendNewLayer();
+    void slot_appendNewLayerAsChild();
+    void slot_deleteLayer();
+
+    void on_treeWidget_layer_itemExpanded(QTreeWidgetItem *item);
 
 signals:
     void signal_repaintNeeded();

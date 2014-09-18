@@ -60,7 +60,7 @@ void ItemWizard::showWizard(CADitem *item)
         ui->formLayout->addRow(it.key(), wdg);
     }
 
-    this->setWindowTitle(tr("New %1").arg(item->description));
+    this->setWindowTitle(tr("Item Wizard: %1").arg(item->description));
 
     this->show();
 }

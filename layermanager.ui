@@ -118,6 +118,9 @@ QTreeView {
       <property name="focusPolicy">
        <enum>Qt::NoFocus</enum>
       </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::CustomContextMenu</enum>
+      </property>
       <property name="styleSheet">
        <string notr="true"/>
       </property>

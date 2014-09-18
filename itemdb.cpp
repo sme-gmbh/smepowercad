@@ -18,14 +18,47 @@ Layer* ItemDB::addLayer(QString layerName, QString parentLayerName)
 
     // Second: Find parent layer
     Layer* parentLayer = getLayerByName(parentLayerName);
+    if (parentLayer == NULL)
+        parentLayer = topLevelLayer;
+
+    return addLayer(layerName, parentLayer);
+}
+
+Layer *ItemDB::addLayer(QString layerName, Layer *parentLayer)
+{
+    if (parentLayer == NULL)
+        return NULL;
+
+    // First: check if layer already exists
+    if (layerMap.contains(layerName))
+        return layerMap.value(layerName);
 
     // Insert Layer in quickfind-map
     Layer* newLayer = new Layer(this);
     newLayer->name = layerName;
+    newLayer->parentLayer = parentLayer;
     parentLayer->subLayers.append(newLayer);
     layerMap.insert(layerName, newLayer);
     emit signal_layerAdded(newLayer, parentLayer);
     return newLayer;
+}
+
+bool ItemDB::deleteLayer(Layer *layer)
+{
+    Layer* parentLayer = layer->parentLayer;
+    if (parentLayer == NULL)
+        return false;
+
+    if (!layer->isEmpty())
+        return false;
+
+    if (parentLayer->subLayers.removeOne(layer))
+    {
+        delete layer;
+        return true;
+    }
+    else
+        return false;
 }
 
 ItemDB::~ItemDB()
@@ -38,7 +71,7 @@ Layer* ItemDB::getLayerByName(QString layerName)
     if (layerName.isEmpty())
         return topLevelLayer;
     else
-        return layerMap.value(layerName, topLevelLayer);
+        return layerMap.value(layerName, NULL);
 }
 
 Layer* ItemDB::getTopLevelLayer()
@@ -49,6 +82,8 @@ Layer* ItemDB::getTopLevelLayer()
 void ItemDB::addItem(CADitem* item, QString LayerName)
 {
     Layer* layer = getLayerByName(LayerName);
+    if (layer == NULL)
+        layer = topLevelLayer;
 
     this->addItem(item, layer);
 }
@@ -344,5 +379,8 @@ CADitem* ItemDB::drawItem(Layer* layer, CADitem::ItemType type)
 
 CADitem *ItemDB::drawItem(QString layerName, CADitem::ItemType type)
 {
-    return this->drawItem(getLayerByName(layerName), type);
+    Layer* layer = getLayerByName(layerName);
+    if (layer == NULL)
+        layer = topLevelLayer;
+    return this->drawItem(layer, type);
 }

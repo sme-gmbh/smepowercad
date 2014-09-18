@@ -14,6 +14,7 @@ class Layer : public QObject
     Q_OBJECT
 public:
     explicit Layer(QObject *parent = 0);
+    bool isEmpty();
 
     QString name;
     QPen pen;
@@ -24,6 +25,7 @@ public:
     QString lineType;
     QList<CADitem*> items;
     QList<Layer*> subLayers;
+    Layer* parentLayer;
 
 signals:
 

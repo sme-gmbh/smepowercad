@@ -7,11 +7,12 @@
 #include <QKeyEvent>
 #include <qmath.h>
 
-GeometryDisplay::GeometryDisplay(ItemDB *itemDB, QWidget *parent) :
+GeometryDisplay::GeometryDisplay(ItemDB *itemDB, ItemWizard *itemWizard, QWidget *parent) :
     QDockWidget(parent)
 {
     qDebug() << "GeometryDisplay created";
     this->itemDB = itemDB;
+    this->itemWizard = itemWizard;
 
     titleWidget = new GeometryDisplayTitle();
     connect(this, SIGNAL(signal_sceneCoordinateChanged(QVector3D)), titleWidget, SLOT(slot_sceneCoordinatesChanged(QVector3D)));
@@ -23,7 +24,7 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, QWidget *parent) :
     this->setWindowTitle(tr("Drawing %1").arg("x"));
 
 
-    glwidget = new GLWidget(this, itemDB);
+    glwidget = new GLWidget(this, itemDB, itemWizard);
     this->setWidget(glwidget);
     connect(this, SIGNAL(signal_repaintNeeded()), glwidget, SLOT(slot_repaint()));
     connect(titleWidget, SIGNAL(signal_wireframe(bool)), glwidget, SLOT(slot_wireframe(bool)));

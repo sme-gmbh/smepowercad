@@ -104,6 +104,8 @@ public:
     QList<Layer*> layers;
 
     Layer *addLayer(QString layerName, QString parentLayerName = QString());
+    Layer *addLayer(QString layerName, Layer* parentLayer);
+    bool deleteLayer(Layer* layer);
     Layer* getLayerByName(QString layerName);
     Layer* getTopLevelLayer();
 

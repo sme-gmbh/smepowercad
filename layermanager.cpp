@@ -8,6 +8,7 @@ LayerManager::LayerManager(QWidget *parent, Layer* topLevelLayer, ItemDB* itemDB
     this->itemDB = itemDB;
     this->topLevelLayer = topLevelLayer;
     this->currentLayer = topLevelLayer;
+    this->item_atContextMenuRequest = NULL;
     ui->setupUi(this);
 //    this->move(1920, 0);    // tbd.: move to second screen, and not in this quick and dirty way :)
 
@@ -27,6 +28,18 @@ LayerManager::LayerManager(QWidget *parent, Layer* topLevelLayer, ItemDB* itemDB
     icon_layerOff = QPixmap(":/ui/layermanager/icons/hide_layer.svg").scaledToWidth(24, Qt::SmoothTransformation);
     icon_pencilOn = QPixmap(":/ui/layermanager/icons/pencil.svg").scaledToWidth(24, Qt::SmoothTransformation);
     icon_pencilOff = QPixmap(":/ui/layermanager/icons/pencil_off.svg").scaledToWidth(24, Qt::SmoothTransformation);
+
+    menu_noItem = new QMenu(this);
+    menu_noItem->addAction(QIcon(), tr("New layer"), this, SLOT(slot_appendNewLayer()));
+
+    menu_onItem = new QMenu(this);
+    menu_onItem->addAction(QIcon(), tr("Edit name"), this, SLOT(slot_edit_layerName()));
+    menu_onItem->addAction(QIcon(), tr("Edit line width"), this, SLOT(slot_edit_layerLineWidth()));
+    menu_onItem->addAction(QIcon(), tr("Edit line type"), this, SLOT(slot_edit_layerLineType()));
+    menu_onItem->addSeparator();
+    menu_onItem->addAction(QIcon(), tr("Append new Layer"), this, SLOT(slot_appendNewLayer()));
+    menu_onItem->addAction(QIcon(), tr("Append new layer as child"), this, SLOT(slot_appendNewLayerAsChild()));
+    menu_onItem->addAction(QIcon(), tr("Delete layer"), this, SLOT(slot_deleteLayer()));
 }
 
 LayerManager::~LayerManager()
@@ -47,6 +60,8 @@ void LayerManager::slot_layerAdded(Layer *newLayer, Layer *parentLayer)
     }
 
     layerMap.insert(newLayer, item);
+    updateLayer(newLayer);
+    ui->treeWidget_layer->resizeColumnToContents(0);
 }
 
 void LayerManager::updateAllLayers()
@@ -194,4 +209,68 @@ void LayerManager::on_treeWidget_layer_currentItemChanged(QTreeWidgetItem *curre
     {
         qDebug() << "LayerManager::on_treeWidget_layer_currentItemChanged(): newCurrentLayer is NULL.";
     }
+}
+
+void LayerManager::on_treeWidget_layer_customContextMenuRequested(const QPoint &pos)
+{
+    this->item_atContextMenuRequest = ui->treeWidget_layer->itemAt(pos);
+
+    if (this->item_atContextMenuRequest == NULL)
+    {
+        this->menu_noItem->popup(QCursor::pos());
+    }
+    else
+    {
+        this->menu_onItem->popup(QCursor::pos());
+    }
+}
+
+void LayerManager::slot_edit_layerName()
+{
+    // item db rename -> change layermap!
+}
+
+void LayerManager::slot_edit_layerLineWidth()
+{
+
+}
+
+void LayerManager::slot_edit_layerLineType()
+{
+
+}
+
+void LayerManager::slot_appendNewLayer()
+{
+    QString layerName = QInputDialog::getText(this, tr("New Layer"), tr("Layer name"));
+    if (itemDB->getLayerByName(layerName) != NULL)
+    {
+        QMessageBox::warning(this, tr("New Layer"), tr("Layer name already in use! Try again and choose a different name."));
+        return;
+    }
+    itemDB->addLayer(layerName);
+}
+
+void LayerManager::slot_appendNewLayerAsChild()
+{
+    QString layerName = QInputDialog::getText(this, tr("New Layer"), tr("Layer name"));
+    if (itemDB->getLayerByName(layerName) != NULL)
+    {
+        QMessageBox::warning(this, tr("New Layer"), tr("Layer name already in use! Try again and choose a different name."));
+        return;
+    }
+    itemDB->addLayer(layerName, layerMap.key(item_atContextMenuRequest));
+}
+
+void LayerManager::slot_deleteLayer()
+{
+    bool success = itemDB->deleteLayer(layerMap.key(item_atContextMenuRequest));
+    if (!success)
+        QMessageBox::warning(this, tr("Delete Layer"), tr("Unable to delete Layer. May be it is not empty..."));
+}
+
+void LayerManager::on_treeWidget_layer_itemExpanded(QTreeWidgetItem *item)
+{
+    Q_UNUSED(item);
+    ui->treeWidget_layer->resizeColumnToContents(0);
 }

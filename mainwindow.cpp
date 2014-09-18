@@ -65,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // **** CAD window (2nd version) *****
-    mainGeometryDisplay = new GeometryDisplay(itemDB, this);
+    mainGeometryDisplay = new GeometryDisplay(itemDB, itemWizard, this);
     connect(this, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(layerManager, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(settingsDialog, SIGNAL(signal_settingsChanged()), mainGeometryDisplay, SIGNAL(signal_settingsChanged()));
@@ -310,7 +310,7 @@ void MainWindow::slot_clearRecentFiles()
 
 void MainWindow::slot_newGeometryDisplay()
 {
-    GeometryDisplay* newGeometryDisplay = new GeometryDisplay(itemDB, this);
+    GeometryDisplay* newGeometryDisplay = new GeometryDisplay(itemDB, itemWizard, this);
     connect(newGeometryDisplay, SIGNAL(signal_aboutToClose(QAction*)), this, SLOT(slot_geometryDisplayAboutToClose(QAction*)));
     connect(newGeometryDisplay, SIGNAL(signal_highlightItem(CADitem*)), this, SLOT(slot_highlightItem(CADitem*)));
     connect(newGeometryDisplay, SIGNAL(signal_snapFired(QVector3D,int)), this, SLOT(slot_snapTo(QVector3D,int)));
