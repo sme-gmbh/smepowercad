@@ -216,6 +216,9 @@ private:
     void paintSprinklerValve(Layer *layer, CAD_sprinkler_valve *item);
     void paintSprinklerWetAlarmValve(Layer *layer, CAD_sprinkler_wetAlarmValve *item);
     void paintSprinklerZoneCheck(Layer *layer, CAD_sprinkler_zoneCheck *item);
+    void paintSprinklerPipeTurn(Layer *layer, CAD_sprinkler_pipeTurn *item);
+    void paintSprinklerPipeEndCap(Layer *layer, CAD_sprinkler_pipeEndCap *item);
+    void paintSprinklerPipeReducer(Layer *layer, CAD_sprinkler_pipeReducer *item);
 
     void paintElectricalCabinet(Layer *layer, CAD_electrical_cabinet *item);
     void paintElectricalCabletray(Layer *layer, CAD_electrical_cableTray *item);

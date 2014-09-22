@@ -10,7 +10,7 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
 
-    QVector3D pos;
+//    QVector3D pos;
     qreal radius;
 };
 

@@ -357,6 +357,15 @@ CADitem* ItemDB::drawItem(Layer* layer, CADitem::ItemType type)
     case CADitem::Sprinkler_ZoneCheck:
         newItem = new CAD_sprinkler_zoneCheck();
         break;
+    case CADitem::Sprinkler_PipeTurn:
+        newItem = new CAD_sprinkler_pipeTurn();
+        break;
+    case CADitem::Sprinkler_PipeEndCap:
+        newItem = new CAD_sprinkler_pipeEndCap();
+        break;
+    case CADitem::Sprinkler_PipeReducer:
+        newItem = new CAD_sprinkler_pipeReducer();
+        break;
 
     case CADitem::Electrical_Cabinet:
         newItem = new CAD_electrical_cabinet();

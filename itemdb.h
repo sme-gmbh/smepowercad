@@ -91,6 +91,9 @@
 #include "items/cad_sprinkler_valve.h"
 #include "items/cad_sprinkler_wetalarmvalve.h"
 #include "items/cad_sprinkler_zonecheck.h"
+#include "items/cad_sprinkler_pipeturn.h"
+#include "items/cad_sprinkler_pipeendcap.h"
+#include "items/cad_sprinkler_pipereducer.h"
 
 #include "items/cad_electrical_cabinet.h"
 #include "items/cad_electrical_cabletray.h"

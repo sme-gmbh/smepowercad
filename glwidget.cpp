@@ -43,62 +43,63 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard) :
     makeCurrent();
 
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat mat_shininess[] = { 50.0 };
-    glShadeModel (GL_FLAT);
+    GLfloat mat_shininess[] = { 0.1 };
+//    glShadeModel (GL_FLAT);
+    glShadeModel(GL_SMOOTH);
 
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
 
     GLfloat specular[] = { 0.2f, 0.2f, 0.2f, 1.0f};
     GLfloat diffuseLight[] = { 0.8, 0.8, 0.8, 1.0};
-    GLfloat light_position[] = { -5.0, 15.0, 25.0, 0.0 };
+    GLfloat light_position[] = { 50.0, 15.0, -5000.0, 0.0 };
 
     glLightfv(GL_LIGHT0, GL_DIFFUSE,diffuseLight);
     glLightfv(GL_LIGHT0,GL_SPECULAR,specular);
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
     glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.0);
-    glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 1.0);
-    glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.5);
+    glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.1);
+    glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.2);
 
     glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 
-    tile_list = glGenLists(1);
-    glNewList(tile_list, GL_COMPILE);
-    glBegin(GL_QUADS);
-    {
-        glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  1.0f);
-        glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  1.0f);
-        glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f,  1.0f);
-        glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f,  1.0f);
+//    tile_list = glGenLists(1);
+//    glNewList(tile_list, GL_COMPILE);
+//    glBegin(GL_QUADS);
+//    {
+//        glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  1.0f);
+//        glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  1.0f);
+//        glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f,  1.0f);
+//        glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f,  1.0f);
 
-        glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, -1.0f, -1.0f);
-        glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f,  1.0f, -1.0f);
-        glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -1.0f);
-        glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -1.0f, -1.0f);
+//        glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, -1.0f, -1.0f);
+//        glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f,  1.0f, -1.0f);
+//        glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -1.0f);
+//        glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -1.0f, -1.0f);
 
-        glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f, -1.0f);
-        glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,  1.0f,  1.0f);
-        glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f,  1.0f,  1.0f);
-        glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -1.0f);
+//        glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f, -1.0f);
+//        glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,  1.0f,  1.0f);
+//        glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f,  1.0f,  1.0f);
+//        glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -1.0f);
 
-        glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f, -1.0f, -1.0f);
-        glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f, -1.0f, -1.0f);
-        glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  1.0f);
-        glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  1.0f);
+//        glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f, -1.0f, -1.0f);
+//        glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f, -1.0f, -1.0f);
+//        glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  1.0f);
+//        glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  1.0f);
 
-        glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -1.0f, -1.0f);
-        glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -1.0f);
-        glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,  1.0f,  1.0f);
-        glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  1.0f);
+//        glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -1.0f, -1.0f);
+//        glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -1.0f);
+//        glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,  1.0f,  1.0f);
+//        glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  1.0f);
 
-        glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, -1.0f, -1.0f);
-        glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  1.0f);
-        glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f,  1.0f,  1.0f);
-        glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f, -1.0f);
-    }
-    glEnd();
-    glEndList();
+//        glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, -1.0f, -1.0f);
+//        glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  1.0f);
+//        glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f,  1.0f,  1.0f);
+//        glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f, -1.0f);
+//    }
+//    glEnd();
+//    glEndList();
 }
 
 GLWidget::~GLWidget()
@@ -485,6 +486,7 @@ QVector3D GLWidget::getArcBallVector(int x, int y)
 
 void GLWidget::enterEvent(QEvent *event)
 {
+    this->setFocus();
     this->setCursor(Qt::BlankCursor);
     this->cursorShown = true;
 
@@ -1092,50 +1094,73 @@ void GLWidget::paintContent(QList<Layer*> layers)
                 paintAirPipeTeeConnector(layer, (CAD_air_pipeTeeConnector*)item);
                 break;
             case CADitem::Air_DuctTeeConnector:
+                paintAirDuctTeeConnector(layer, (CAD_air_ductTeeConnector*)item);
                 break;
             case CADitem::Air_DuctTransition:
+                paintAirDuctTransiton(layer, (CAD_air_ductTransition*)item);
                 break;
             case CADitem::Air_DuctTransitionRectRound:
+                paintAirDuctTransitionRectRound(layer, (CAD_air_ductTransitionRectRound*)item);
                 break;
             case CADitem::Air_DuctYpiece:
+                paintAirDuctYpiece(layer, (CAD_air_ductYpiece*)item);
                 break;
             case CADitem::Air_DuctEndPlate:
+                paintAirDuctEndPlate(layer, (CAD_air_ductEndPlate*)item);
                 break;
             case CADitem::Air_PipeEndCap:
+                paintAirPipeEndCap(layer, (CAD_air_pipeEndCap*)item);
                 break;
             case CADitem::Air_ThrottleValve:
+                paintAirThrottleValve(layer, (CAD_air_throttleValve*)item);
                 break;
             case CADitem::Air_MultiLeafDamper:
+                paintAirMultiLeafDamper(layer, (CAD_air_multiLeafDamper*)item);
                 break;
             case CADitem::Air_PressureReliefDamper:
+                paintAirPressureReliefDamper(layer, (CAD_air_pressureReliefDamper*)item);
                 break;
             case CADitem::Air_PipeFireDamper:
+                paintAirPipeFireDamper(layer, (CAD_air_pipeFireDamper*)item);
                 break;
             case CADitem::Air_DuctFireDamper:
+                paintAirDuctFireDamper(layer, (CAD_air_ductFireDamper*)item);
                 break;
             case CADitem::Air_DuctVolumetricFlowController:
+                paintAirDuctVolumetricFlowController(layer, (CAD_air_ductVolumetricFlowController*)item);
                 break;
             case CADitem::Air_PipeVolumetricFlowController:
+                paintAirPipeVolumetricFlowController(layer, (CAD_air_pipeVolumetricFlowController*)item);
                 break;
             case CADitem::Air_HeatExchangerWaterAir:
+                paintAirHeatExchangerWaterAir(layer, (CAD_air_heatExchangerWaterAir*)item);
                 break;
             case CADitem::Air_HeatExchangerAirAir:
+                paintAirHeatExchangerAirAir(layer, (CAD_air_heatExchangerAirAir*)item);
                 break;
             case CADitem::Air_CanvasFlange:
+                paintAirCanvasFlange(layer, (CAD_air_canvasFlange*)item);
                 break;
             case CADitem::Air_Filter:
+                paintAirFilter(layer, (CAD_air_filter*)item);
                 break;
             case CADitem::Air_PipeSilencer:
+                paintAirPipeSilencer(layer, (CAD_air_pipeSilencer*)item);
                 break;
             case CADitem::Air_DuctBaffleSilencer:
+                paintAirDuctBaffleSilencer(layer, (CAD_air_ductBaffleSilencer*)item);
                 break;
             case CADitem::Air_Fan:
+                paintAirFan(layer, (CAD_air_fan*)item);
                 break;
             case CADitem::Air_Humidifier:
+                paintAirHumidifier(layer, (CAD_air_humidifier*)item);
                 break;
             case CADitem::Air_EmptyCabinet:
+                paintAirEmptyCabinet(layer, (CAD_air_emptyCabinet*)item);
                 break;
             case CADitem::Air_EquipmentFrame:
+                paintAirEquipmentFrame(layer, (CAD_air_equipmentFrame*)item);
                 break;
 
             case CADitem::HeatCool_Adjustvalve:
@@ -1163,34 +1188,49 @@ void GLWidget::paintContent(QList<Layer*> layers)
                 paintHeatCoolSensor(layer, (CAD_heatcool_sensor*)item);
                 break;
             case CADitem::HeatCool_PipeTurn:
+                paintHeatCoolPipeTurn(layer, (CAD_heatcool_pipeTurn*)item);
                 break;
             case CADitem::HeatCool_PipeReducer:
+                paintHeatCoolPipeReducer(layer, (CAD_heatcool_pipeReducer*)item);
                 break;
             case CADitem::HeatCool_PipeTeeConnector:
+                paintHeatCoolPipeTeeConnector(layer, (CAD_heatcool_pipeTeeConnector*)item);
                 break;
             case CADitem::HeatCool_PipeEndCap:
+                paintHeatCoolPipeEndCap(layer, (CAD_heatcool_pipeEndCap*)item);
                 break;
             case CADitem::HeatCool_Flange:
+                paintHeatCoolFlange(layer, (CAD_heatcool_flange*)item);
                 break;
             case CADitem::HeatCool_ExpansionChamber:
+                paintHeatCoolExpansionChamber(layer, (CAD_heatcool_expansionChamber*)item);
                 break;
             case CADitem::HeatCool_Boiler:
+                paintHeatCoolBoiler(layer, (CAD_heatcool_boiler*)item);
                 break;
             case CADitem::HeatCool_WaterHeater:
+                paintHeatCoolWaterHeater(layer, (CAD_heatcool_waterHeater*)item);
                 break;
             case CADitem::HeatCool_StorageBoiler:
+                paintHeatCoolStorageBoiler(layer, (CAD_heatcool_storageBoiler*)item);
                 break;
             case CADitem::HeatCool_Radiator:
+                paintHeatCoolRadiator(layer, (CAD_heatcool_radiator*)item);
                 break;
             case CADitem::HeatCool_Filter:
+                paintHeatCoolFilter(layer, (CAD_heatcool_filter*)item);
                 break;
             case CADitem::HeatCool_BallValve:
+                paintHeatCoolBallValve(layer, (CAD_heatcool_ballValve*)item);
                 break;
             case CADitem::HeatCool_ButterflyValve:
+                paintHeatCoolButterflyValve(layer, (CAD_heatcool_butterflyValve*)item);
                 break;
             case CADitem::HeatCool_SafetyValve:
+                paintHeatCoolSafteyValve(layer, (CAD_heatcool_safetyValve*)item);
                 break;
             case CADitem::HeatCool_Flowmeter:
+                paintHeatCoolFlowmeter(layer, (CAD_heatcool_flowmeter*)item);
                 break;
 
             case CADitem::Sprinkler_CompressedAirWaterContainer:
@@ -1221,10 +1261,13 @@ void GLWidget::paintContent(QList<Layer*> layers)
                 paintSprinklerZoneCheck(layer, (CAD_sprinkler_zoneCheck*)item);
                 break;
             case CADitem::Sprinkler_PipeTurn:
+                paintSprinklerPipeTurn(layer, (CAD_sprinkler_pipeTurn*)item);
                 break;
             case CADitem::Sprinkler_PipeReducer:
+                paintSprinklerPipeReducer(layer, (CAD_sprinkler_pipeReducer*)item);
                 break;
             case CADitem::Sprinkler_PipeEndCap:
+                paintSprinklerPipeEndCap(layer, (CAD_sprinkler_pipeEndCap*)item);
                 break;
 
             case CADitem::Electrical_Cabinet:
@@ -1241,23 +1284,6 @@ void GLWidget::paintContent(QList<Layer*> layers)
 
 void GLWidget::paintLine(Layer* layer, CAD_basic_line *item)
 {
-//    QColor color_pen = item->color_pen;
-//    QColor color_brush = item->color_brush;
-
-//    if (color_pen == Qt::transparent)   // BYLAYER
-//    {
-//        color_pen = layer->pen.color();
-//    }
-//    else if (color_pen.value() < 50)
-//        color_pen = Qt::white;
-
-//    if (color_brush == Qt::transparent)   // BYLAYER
-//    {
-//        color_brush = layer->brush.color();
-//    }
-//    else if (color_brush.value() < 50)
-//        color_brush = Qt::white;
-
     QColor color_pen = getColorPen(item, layer);
 
     qreal penWidth = 1.0;
@@ -1277,14 +1303,6 @@ void GLWidget::paintLine(Layer* layer, CAD_basic_line *item)
     // Default width setting
     if (penWidth < 1.0)
         penWidth = 1.0;
-
-//    if (item->highlight || item->selected)
-//    {
-//        if (color_pen.lightnessF() > 0.5)
-//            color_pen = color_pen.darker();
-//        else
-//            color_pen = color_pen.lighter();
-//    }
 
     //  Crop lines that exceed the paint area (heightOfIntersection to depthOfView)
     QVector3D p1 = item->p1;
@@ -1320,32 +1338,6 @@ void GLWidget::paintLine(Layer* layer, CAD_basic_line *item)
 
 void GLWidget::paintPolyLine(Layer *layer, CAD_basic_polyline *item)
 {
-//    QColor color_pen = item->color_pen;
-//    QColor color_brush = item->color_brush;
-
-//    if (color_pen == Qt::transparent)   // BYLAYER
-//    {
-//        color_pen = layer->pen.color();
-//    }
-//    else if (color_pen.value() < 50)
-//        color_pen = Qt::white;
-
-//    if (color_brush == Qt::transparent)   // BYLAYER
-//    {
-//        color_brush = layer->brush.color();
-//    }
-//    else if (color_brush.value() < 50)
-//        color_brush = Qt::white;
-
-
-
-//    if (item->highlight || item->selected)
-//    {
-//        if (color_pen.lightnessF() > 0.5)
-//            color_pen = color_pen.darker();
-//        else
-//            color_pen = color_pen.lighter();
-//    }
 
     QColor color_pen = getColorPen(item, layer);
 
@@ -1426,37 +1418,6 @@ void GLWidget::paintPolyLine(Layer *layer, CAD_basic_polyline *item)
 
 void GLWidget::paintFace(Layer *layer, CAD_basic_3Dface *item)
 {
-//    QColor color_pen = item->color_pen;
-//    QColor color_brush = item->color_brush;
-
-//    if (color_pen == Qt::transparent)   // BYLAYER
-//    {
-//        color_pen = layer->pen.color();
-//    }
-//    else if (color_pen.value() < 50)
-//        color_pen = Qt::white;
-
-//    if (color_brush == Qt::transparent)   // BYLAYER
-//    {
-//        color_brush = layer->brush.color();
-//    }
-//    else if (color_brush.value() < 50)
-//        color_brush = Qt::white;
-
-
-//    if (item->highlight || item->selected)
-//    {
-//        if (color_pen.lightnessF() > 0.5)
-//            color_pen = color_pen.darker();
-//        else
-//            color_pen = color_pen.lighter();
-
-//        if (color_brush.lightnessF() > 0.5)
-//            color_brush = color_brush.darker();
-//        else
-//            color_brush = color_brush.lighter();
-//    }
-
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
 
@@ -1485,23 +1446,6 @@ void GLWidget::paintFace(Layer *layer, CAD_basic_3Dface *item)
 
 void GLWidget::paintBasicCircle(Layer *layer, CAD_basic_circle *item)
 {
-//    QColor color_pen = item->color_pen;
-//    QColor color_brush = item->color_brush;
-
-//    if (color_pen == Qt::transparent)   // BYLAYER
-//    {
-//        color_pen = layer->pen.color();
-//    }
-//    else if (color_pen.value() < 50)
-//        color_pen = Qt::white;
-
-//    if (color_brush == Qt::transparent)   // BYLAYER
-//    {
-//        color_brush = layer->brush.color();
-//    }
-//    else if (color_brush.value() < 50)
-//        color_brush = Qt::white;
-
     QColor color_pen = getColorPen(item, layer);
 
     qreal penWidth = 1.0;
@@ -1521,14 +1465,6 @@ void GLWidget::paintBasicCircle(Layer *layer, CAD_basic_circle *item)
     // Default width setting
     if (penWidth < 1.0)
         penWidth = 1.0;
-
-//    if (item->highlight || item->selected)
-//    {
-//        if (color_pen.lightnessF() > 0.5)
-//            color_pen = color_pen.darker();
-//        else
-//            color_pen = color_pen.lighter();
-//    }
 
     glColor4f(color_pen.redF(), color_pen.greenF(), color_pen.blueF(), color_pen.alphaF());
     glLineWidth(penWidth);
@@ -1592,36 +1528,6 @@ QColor GLWidget::getColorBrush(CADitem* item, Layer* layer)
 
 void GLWidget::paintBasicBox(Layer *layer, CAD_basic_box *item)
 {
-//    QColor color_pen = item->color_pen;
-//    QColor color_brush = item->color_brush;
-
-//    if (color_pen == Qt::transparent)   // BYLAYER
-//    {
-//        color_pen = layer->pen.color();
-//    }
-//    else if (color_pen.value() < 50)
-//        color_pen = Qt::white;
-
-//    if (color_brush == Qt::transparent)   // BYLAYER
-//    {
-//        color_brush = layer->brush.color();
-//    }
-//    else if (color_brush.value() < 50)
-//        color_brush = Qt::white;
-
-//    if (item->highlight || item->selected)
-//    {
-//        if (color_pen.lightnessF() > 0.5)
-//            color_pen = color_pen.darker();
-//        else
-//            color_pen = color_pen.lighter();
-
-//        if (color_brush.lightnessF() > 0.5)
-//            color_brush = color_brush.darker();
-//        else
-//            color_brush = color_brush.lighter();
-//    }
-
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
 
@@ -1709,36 +1615,6 @@ void GLWidget::paintBasicBox(Layer *layer, CAD_basic_box *item)
 
 void GLWidget::paintBasicCylinder(Layer *layer, CAD_basic_cylinder *item)
 {
-//    QColor color_pen = item->color_pen;
-//    QColor color_brush = item->color_brush;
-
-//    if (color_pen == Qt::transparent)   // BYLAYER
-//    {
-//        color_pen = layer->pen.color();
-//    }
-//    else if (color_pen.value() < 50)
-//        color_pen = Qt::white;
-
-//    if (color_brush == Qt::transparent)   // BYLAYER
-//    {
-//        color_brush = layer->brush.color();
-//    }
-//    else if (color_brush.value() < 50)
-//        color_brush = Qt::white;
-
-//    if (item->highlight || item->selected)
-//    {
-//        if (color_pen.lightnessF() > 0.5)
-//            color_pen = color_pen.darker();
-//        else
-//            color_pen = color_pen.lighter();
-
-//        if (color_brush.lightnessF() > 0.5)
-//            color_brush = color_brush.darker();
-//        else
-//            color_brush = color_brush.lighter();
-//    }
-
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
 
@@ -1824,6 +1700,30 @@ void GLWidget::paintBasicSphere(Layer *layer, CAD_basic_sphere *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+
+    GLdouble radius = (GLdouble)item->radius;
+
+    GLUquadricObj* sphere = gluNewQuadric();
+
+    glPushMatrix();
+    glTranslatef(item->position.x(), item->position.y(), item->position.z());
+    gluQuadricNormals(sphere, GLU_SMOOTH);
+    gluQuadricTexture(sphere, GL_TRUE);
+
+    if (this->render_solid)
+    {
+        qglColor(color_brush);
+        gluSphere(sphere, radius, 32, 32);
+    }
+    if (this->render_outline)
+    {
+        qglColor(color_pen);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        gluSphere(sphere, radius * 1.001, 32, 32);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    }
+    glPopMatrix();
+    gluDeleteQuadric(sphere);
 }
 
 void GLWidget::paintArchLevelSlab(Layer *layer, CAD_arch_levelSlab *item)
@@ -2228,6 +2128,24 @@ void GLWidget::paintSprinklerZoneCheck(Layer *layer, CAD_sprinkler_zoneCheck *it
     QColor color_brush = getColorBrush(item, layer);
 }
 
+void GLWidget::paintSprinklerPipeTurn(Layer *layer, CAD_sprinkler_pipeTurn *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
+}
+
+void GLWidget::paintSprinklerPipeEndCap(Layer *layer, CAD_sprinkler_pipeEndCap *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
+}
+
+void GLWidget::paintSprinklerPipeReducer(Layer *layer, CAD_sprinkler_pipeReducer *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
+}
+
 void GLWidget::paintElectricalCabinet(Layer *layer, CAD_electrical_cabinet *item)
 {
     QColor color_pen = getColorPen(item, layer);
@@ -2374,6 +2292,8 @@ CADitem *GLWidget::itemAtPosition_processItems(QList<CADitem *> items, GLuint gl
 void GLWidget::highlightItemAtPosition(QPoint pos)
 {
     CADitem* item = this->itemAtPosition(pos);
+    // tst
+    this->item_lastHighlight = item;
 
     if (item != NULL)
         item->highlight = true;

@@ -123,7 +123,10 @@ SOURCES += main.cpp\
     settingsdialog.cpp \
     3Dmouse/qmagellan.cpp \
     3Dmouse/xdrvlib.c \
-    itemwizard.cpp
+    itemwizard.cpp \
+    items/cad_sprinkler_pipeturn.cpp \
+    items/cad_sprinkler_pipereducer.cpp \
+    items/cad_sprinkler_pipeendcap.cpp
 
 HEADERS  += mainwindow.h \
     overlay.h \
@@ -235,7 +238,10 @@ HEADERS  += mainwindow.h \
     settingsdialog.h \
     3Dmouse/qmagellan.h \
     3Dmouse/xdrvlib.h \
-    itemwizard.h
+    itemwizard.h \
+    items/cad_sprinkler_pipeturn.h \
+    items/cad_sprinkler_pipereducer.h \
+    items/cad_sprinkler_pipeendcap.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
