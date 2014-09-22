@@ -1241,22 +1241,24 @@ void GLWidget::paintContent(QList<Layer*> layers)
 
 void GLWidget::paintLine(Layer* layer, CAD_basic_line *item)
 {
-    QColor color_pen = item->color_pen;
-    QColor color_brush = item->color_brush;
+//    QColor color_pen = item->color_pen;
+//    QColor color_brush = item->color_brush;
 
-    if (color_pen == Qt::transparent)   // BYLAYER
-    {
-        color_pen = layer->pen.color();
-    }
-    else if (color_pen.value() < 50)
-        color_pen = Qt::white;
+//    if (color_pen == Qt::transparent)   // BYLAYER
+//    {
+//        color_pen = layer->pen.color();
+//    }
+//    else if (color_pen.value() < 50)
+//        color_pen = Qt::white;
 
-    if (color_brush == Qt::transparent)   // BYLAYER
-    {
-        color_brush = layer->brush.color();
-    }
-    else if (color_brush.value() < 50)
-        color_brush = Qt::white;
+//    if (color_brush == Qt::transparent)   // BYLAYER
+//    {
+//        color_brush = layer->brush.color();
+//    }
+//    else if (color_brush.value() < 50)
+//        color_brush = Qt::white;
+
+    QColor color_pen = getColorPen(item, layer);
 
     qreal penWidth = 1.0;
     if (item->widthByLayer)
@@ -1276,13 +1278,13 @@ void GLWidget::paintLine(Layer* layer, CAD_basic_line *item)
     if (penWidth < 1.0)
         penWidth = 1.0;
 
-    if (item->highlight || item->selected)
-    {
-        if (color_pen.lightnessF() > 0.5)
-            color_pen = color_pen.darker();
-        else
-            color_pen = color_pen.lighter();
-    }
+//    if (item->highlight || item->selected)
+//    {
+//        if (color_pen.lightnessF() > 0.5)
+//            color_pen = color_pen.darker();
+//        else
+//            color_pen = color_pen.lighter();
+//    }
 
     //  Crop lines that exceed the paint area (heightOfIntersection to depthOfView)
     QVector3D p1 = item->p1;
@@ -1318,32 +1320,34 @@ void GLWidget::paintLine(Layer* layer, CAD_basic_line *item)
 
 void GLWidget::paintPolyLine(Layer *layer, CAD_basic_polyline *item)
 {
-    QColor color_pen = item->color_pen;
-    QColor color_brush = item->color_brush;
+//    QColor color_pen = item->color_pen;
+//    QColor color_brush = item->color_brush;
 
-    if (color_pen == Qt::transparent)   // BYLAYER
-    {
-        color_pen = layer->pen.color();
-    }
-    else if (color_pen.value() < 50)
-        color_pen = Qt::white;
+//    if (color_pen == Qt::transparent)   // BYLAYER
+//    {
+//        color_pen = layer->pen.color();
+//    }
+//    else if (color_pen.value() < 50)
+//        color_pen = Qt::white;
 
-    if (color_brush == Qt::transparent)   // BYLAYER
-    {
-        color_brush = layer->brush.color();
-    }
-    else if (color_brush.value() < 50)
-        color_brush = Qt::white;
+//    if (color_brush == Qt::transparent)   // BYLAYER
+//    {
+//        color_brush = layer->brush.color();
+//    }
+//    else if (color_brush.value() < 50)
+//        color_brush = Qt::white;
 
 
 
-    if (item->highlight || item->selected)
-    {
-        if (color_pen.lightnessF() > 0.5)
-            color_pen = color_pen.darker();
-        else
-            color_pen = color_pen.lighter();
-    }
+//    if (item->highlight || item->selected)
+//    {
+//        if (color_pen.lightnessF() > 0.5)
+//            color_pen = color_pen.darker();
+//        else
+//            color_pen = color_pen.lighter();
+//    }
+
+    QColor color_pen = getColorPen(item, layer);
 
     QVector3D p1 = QVector3D();
     QVector3D p2 = QVector3D();
@@ -1422,37 +1426,39 @@ void GLWidget::paintPolyLine(Layer *layer, CAD_basic_polyline *item)
 
 void GLWidget::paintFace(Layer *layer, CAD_basic_3Dface *item)
 {
-    QColor color_pen = item->color_pen;
-    QColor color_brush = item->color_brush;
+//    QColor color_pen = item->color_pen;
+//    QColor color_brush = item->color_brush;
 
-    if (color_pen == Qt::transparent)   // BYLAYER
-    {
-        color_pen = layer->pen.color();
-    }
-    else if (color_pen.value() < 50)
-        color_pen = Qt::white;
+//    if (color_pen == Qt::transparent)   // BYLAYER
+//    {
+//        color_pen = layer->pen.color();
+//    }
+//    else if (color_pen.value() < 50)
+//        color_pen = Qt::white;
 
-    if (color_brush == Qt::transparent)   // BYLAYER
-    {
-        color_brush = layer->brush.color();
-    }
-    else if (color_brush.value() < 50)
-        color_brush = Qt::white;
+//    if (color_brush == Qt::transparent)   // BYLAYER
+//    {
+//        color_brush = layer->brush.color();
+//    }
+//    else if (color_brush.value() < 50)
+//        color_brush = Qt::white;
 
 
-    if (item->highlight || item->selected)
-    {
-        if (color_pen.lightnessF() > 0.5)
-            color_pen = color_pen.darker();
-        else
-            color_pen = color_pen.lighter();
+//    if (item->highlight || item->selected)
+//    {
+//        if (color_pen.lightnessF() > 0.5)
+//            color_pen = color_pen.darker();
+//        else
+//            color_pen = color_pen.lighter();
 
-        if (color_brush.lightnessF() > 0.5)
-            color_brush = color_brush.darker();
-        else
-            color_brush = color_brush.lighter();
-    }
+//        if (color_brush.lightnessF() > 0.5)
+//            color_brush = color_brush.darker();
+//        else
+//            color_brush = color_brush.lighter();
+//    }
 
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 
     if (this->render_solid)
     {
@@ -1479,22 +1485,24 @@ void GLWidget::paintFace(Layer *layer, CAD_basic_3Dface *item)
 
 void GLWidget::paintBasicCircle(Layer *layer, CAD_basic_circle *item)
 {
-    QColor color_pen = item->color_pen;
-    QColor color_brush = item->color_brush;
+//    QColor color_pen = item->color_pen;
+//    QColor color_brush = item->color_brush;
 
-    if (color_pen == Qt::transparent)   // BYLAYER
-    {
-        color_pen = layer->pen.color();
-    }
-    else if (color_pen.value() < 50)
-        color_pen = Qt::white;
+//    if (color_pen == Qt::transparent)   // BYLAYER
+//    {
+//        color_pen = layer->pen.color();
+//    }
+//    else if (color_pen.value() < 50)
+//        color_pen = Qt::white;
 
-    if (color_brush == Qt::transparent)   // BYLAYER
-    {
-        color_brush = layer->brush.color();
-    }
-    else if (color_brush.value() < 50)
-        color_brush = Qt::white;
+//    if (color_brush == Qt::transparent)   // BYLAYER
+//    {
+//        color_brush = layer->brush.color();
+//    }
+//    else if (color_brush.value() < 50)
+//        color_brush = Qt::white;
+
+    QColor color_pen = getColorPen(item, layer);
 
     qreal penWidth = 1.0;
     if (item->widthByLayer)
@@ -1514,13 +1522,13 @@ void GLWidget::paintBasicCircle(Layer *layer, CAD_basic_circle *item)
     if (penWidth < 1.0)
         penWidth = 1.0;
 
-    if (item->highlight || item->selected)
-    {
-        if (color_pen.lightnessF() > 0.5)
-            color_pen = color_pen.darker();
-        else
-            color_pen = color_pen.lighter();
-    }
+//    if (item->highlight || item->selected)
+//    {
+//        if (color_pen.lightnessF() > 0.5)
+//            color_pen = color_pen.darker();
+//        else
+//            color_pen = color_pen.lighter();
+//    }
 
     glColor4f(color_pen.redF(), color_pen.greenF(), color_pen.blueF(), color_pen.alphaF());
     glLineWidth(penWidth);
@@ -1538,10 +1546,9 @@ void GLWidget::paintBasicCircle(Layer *layer, CAD_basic_circle *item)
     glEnd();
 }
 
-void GLWidget::paintBasicBox(Layer *layer, CAD_basic_box *item)
+QColor GLWidget::getColorPen(CADitem* item, Layer* layer)
 {
     QColor color_pen = item->color_pen;
-    QColor color_brush = item->color_brush;
 
     if (color_pen == Qt::transparent)   // BYLAYER
     {
@@ -1549,6 +1556,21 @@ void GLWidget::paintBasicBox(Layer *layer, CAD_basic_box *item)
     }
     else if (color_pen.value() < 50)
         color_pen = Qt::white;
+
+    if (item->highlight || item->selected)
+    {
+        if (color_pen.lightnessF() > 0.5)
+            color_pen = color_pen.darker();
+        else
+            color_pen = color_pen.lighter();
+    }
+
+    return color_pen;
+}
+
+QColor GLWidget::getColorBrush(CADitem* item, Layer* layer)
+{
+    QColor color_brush = item->color_brush;
 
     if (color_brush == Qt::transparent)   // BYLAYER
     {
@@ -1559,18 +1581,49 @@ void GLWidget::paintBasicBox(Layer *layer, CAD_basic_box *item)
 
     if (item->highlight || item->selected)
     {
-        if (color_pen.lightnessF() > 0.5)
-            color_pen = color_pen.darker();
-        else
-            color_pen = color_pen.lighter();
-
         if (color_brush.lightnessF() > 0.5)
             color_brush = color_brush.darker();
         else
             color_brush = color_brush.lighter();
-
-//        color_brush.setAlphaF(0.2);
     }
+
+    return color_brush;
+}
+
+void GLWidget::paintBasicBox(Layer *layer, CAD_basic_box *item)
+{
+//    QColor color_pen = item->color_pen;
+//    QColor color_brush = item->color_brush;
+
+//    if (color_pen == Qt::transparent)   // BYLAYER
+//    {
+//        color_pen = layer->pen.color();
+//    }
+//    else if (color_pen.value() < 50)
+//        color_pen = Qt::white;
+
+//    if (color_brush == Qt::transparent)   // BYLAYER
+//    {
+//        color_brush = layer->brush.color();
+//    }
+//    else if (color_brush.value() < 50)
+//        color_brush = Qt::white;
+
+//    if (item->highlight || item->selected)
+//    {
+//        if (color_pen.lightnessF() > 0.5)
+//            color_pen = color_pen.darker();
+//        else
+//            color_pen = color_pen.lighter();
+
+//        if (color_brush.lightnessF() > 0.5)
+//            color_brush = color_brush.darker();
+//        else
+//            color_brush = color_brush.lighter();
+//    }
+
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 
     if (this->render_solid)
     {
@@ -1656,35 +1709,38 @@ void GLWidget::paintBasicBox(Layer *layer, CAD_basic_box *item)
 
 void GLWidget::paintBasicCylinder(Layer *layer, CAD_basic_cylinder *item)
 {
-    QColor color_pen = item->color_pen;
-    QColor color_brush = item->color_brush;
+//    QColor color_pen = item->color_pen;
+//    QColor color_brush = item->color_brush;
 
-    if (color_pen == Qt::transparent)   // BYLAYER
-    {
-        color_pen = layer->pen.color();
-    }
-    else if (color_pen.value() < 50)
-        color_pen = Qt::white;
+//    if (color_pen == Qt::transparent)   // BYLAYER
+//    {
+//        color_pen = layer->pen.color();
+//    }
+//    else if (color_pen.value() < 50)
+//        color_pen = Qt::white;
 
-    if (color_brush == Qt::transparent)   // BYLAYER
-    {
-        color_brush = layer->brush.color();
-    }
-    else if (color_brush.value() < 50)
-        color_brush = Qt::white;
+//    if (color_brush == Qt::transparent)   // BYLAYER
+//    {
+//        color_brush = layer->brush.color();
+//    }
+//    else if (color_brush.value() < 50)
+//        color_brush = Qt::white;
 
-    if (item->highlight || item->selected)
-    {
-        if (color_pen.lightnessF() > 0.5)
-            color_pen = color_pen.darker();
-        else
-            color_pen = color_pen.lighter();
+//    if (item->highlight || item->selected)
+//    {
+//        if (color_pen.lightnessF() > 0.5)
+//            color_pen = color_pen.darker();
+//        else
+//            color_pen = color_pen.lighter();
 
-        if (color_brush.lightnessF() > 0.5)
-            color_brush = color_brush.darker();
-        else
-            color_brush = color_brush.lighter();
-    }
+//        if (color_brush.lightnessF() > 0.5)
+//            color_brush = color_brush.darker();
+//        else
+//            color_brush = color_brush.lighter();
+//    }
+
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 
     if (this->render_solid)
     {
@@ -1766,352 +1822,422 @@ void GLWidget::paintBasicCylinder(Layer *layer, CAD_basic_cylinder *item)
 
 void GLWidget::paintBasicSphere(Layer *layer, CAD_basic_sphere *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintArchLevelSlab(Layer *layer, CAD_arch_levelSlab *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintArchWallLoadBearing(Layer *layer, CAD_arch_wall_loadBearing *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintArchWallNonLoadBearing(Layer *layer, CAD_arch_wall_nonLoadBearing *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintArchBlockOut(Layer *layer, CAD_arch_blockOut *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintArchDoor(Layer *layer, CAD_arch_door *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintArchWindow(Layer *layer, CAD_arch_window *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirDuct(Layer *layer, CAD_air_duct *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirPipe(Layer *layer, CAD_air_pipe *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirDuctTurn(Layer *layer, CAD_air_ductTurn *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirPipeTurn(Layer *layer, CAD_air_pipeTurn *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirPipeReducer(Layer *layer, CAD_air_pipeReducer *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirPipeTeeConnector(Layer *layer, CAD_air_pipeTeeConnector *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirDuctTeeConnector(Layer *layer, CAD_air_ductTeeConnector *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirDuctTransiton(Layer *layer, CAD_air_ductTransition *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirDuctTransitionRectRound(Layer *layer, CAD_air_ductTransitionRectRound *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirDuctYpiece(Layer *layer, CAD_air_ductYpiece *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirDuctEndPlate(Layer *layer, CAD_air_ductEndPlate *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirPipeEndCap(Layer *layer, CAD_air_pipeEndCap *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirThrottleValve(Layer *layer, CAD_air_throttleValve *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirMultiLeafDamper(Layer *layer, CAD_air_multiLeafDamper *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirPressureReliefDamper(Layer *layer, CAD_air_pressureReliefDamper *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirPipeFireDamper(Layer *layer, CAD_air_pipeFireDamper *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirDuctFireDamper(Layer *layer, CAD_air_ductFireDamper *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirDuctVolumetricFlowController(Layer *layer, CAD_air_ductVolumetricFlowController *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirPipeVolumetricFlowController(Layer *layer, CAD_air_pipeVolumetricFlowController *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirHeatExchangerWaterAir(Layer *layer, CAD_air_heatExchangerWaterAir *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirHeatExchangerAirAir(Layer *layer, CAD_air_heatExchangerAirAir *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirCanvasFlange(Layer *layer, CAD_air_canvasFlange *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirFilter(Layer *layer, CAD_air_filter *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirPipeSilencer(Layer *layer, CAD_air_pipeSilencer *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirDuctBaffleSilencer(Layer *layer, CAD_air_ductBaffleSilencer *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirFan(Layer *layer, CAD_air_fan *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirHumidifier(Layer *layer, CAD_air_humidifier *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirEmptyCabinet(Layer *layer, CAD_air_emptyCabinet *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintAirEquipmentFrame(Layer *layer, CAD_air_equipmentFrame *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolAdjustvalve(Layer *layer, CAD_heatcool_adjustvalve *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolChiller(Layer *layer, CAD_heatcool_chiller *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolControlvalve(Layer *layer, CAD_heatcool_controlvalve *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolCoolingTower(Layer *layer, CAD_heatcool_coolingTower *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolHeatExchanger(Layer *layer, CAD_heatcool_heatExchanger *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolPipe(Layer *layer, CAD_heatcool_pipe *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolPump(Layer *layer, CAD_heatcool_pump *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolSensor(Layer *layer, CAD_heatcool_sensor *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolPipeTurn(Layer *layer, CAD_heatcool_pipeTurn *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolPipeReducer(Layer *layer, CAD_heatcool_pipeReducer *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolPipeTeeConnector(Layer *layer, CAD_heatcool_pipeTeeConnector *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolPipeEndCap(Layer *layer, CAD_heatcool_pipeEndCap *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolFlange(Layer *layer, CAD_heatcool_flange *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolExpansionChamber(Layer *layer, CAD_heatcool_expansionChamber *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolBoiler(Layer *layer, CAD_heatcool_boiler *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolWaterHeater(Layer *layer, CAD_heatcool_waterHeater *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolStorageBoiler(Layer *layer, CAD_heatcool_storageBoiler *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolRadiator(Layer *layer, CAD_heatcool_radiator *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolFilter(Layer *layer, CAD_heatcool_filter *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolBallValve(Layer *layer, CAD_heatcool_ballValve *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolButterflyValve(Layer *layer, CAD_heatcool_butterflyValve *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolSafteyValve(Layer *layer, CAD_heatcool_safetyValve *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintHeatCoolFlowmeter(Layer *layer, CAD_heatcool_flowmeter *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintSprinklerCompressedAirWaterContainer(Layer *layer, CAD_sprinkler_compressedAirWaterContainer *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintSprinklerDistribution(Layer *layer, CAD_sprinkler_distribution *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintSprinklerHead(Layer *layer, CAD_sprinkler_head *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintSprinklerPipe(Layer *layer, CAD_sprinkler_pipe *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintSprinklerPump(Layer *layer, CAD_sprinkler_pump *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintSprinklerTeeConnector(Layer *layer, CAD_sprinkler_teeConnector *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintSprinklerValve(Layer *layer, CAD_sprinkler_valve *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintSprinklerWetAlarmValve(Layer *layer, CAD_sprinkler_wetAlarmValve *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintSprinklerZoneCheck(Layer *layer, CAD_sprinkler_zoneCheck *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintElectricalCabinet(Layer *layer, CAD_electrical_cabinet *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 void GLWidget::paintElectricalCabletray(Layer *layer, CAD_electrical_cableTray *item)
 {
-
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
 }
 
 CADitem* GLWidget::itemAtPosition(QPoint pos)

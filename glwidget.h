@@ -134,6 +134,8 @@ private:
     void updateArcball(int steps);
     QVector3D getArcBallVector(int x, int y);
 
+    QColor getColorPen(CADitem* item, Layer *layer);
+    QColor getColorBrush(CADitem* item, Layer *layer);
 
     void paintTextInfoBox(QPoint pos, QString text, QFont font = QFont(), QColor colorText = QColor(Qt::red), QColor colorBackground = QColor(0, 0, 0, 150), QColor colorOutline = QColor(200, 200, 200, 150));
     void paintLine(Layer* layer, CAD_basic_line* item);
