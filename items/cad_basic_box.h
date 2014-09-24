@@ -18,6 +18,13 @@ public:
     QVector3D pos_top_2;
     QVector3D pos_top_3;
     QVector3D pos_top_4;
+
+    QVector3D normal_bot;
+    QVector3D normal_top;
+    QVector3D normal_left;
+    QVector3D normal_right;
+    QVector3D normal_front;
+    QVector3D normal_back;
 };
 
 #endif // CAD_BASIC_BOX_H

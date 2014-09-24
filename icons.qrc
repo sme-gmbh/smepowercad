@@ -49,6 +49,7 @@
         <file>icons/cad_arch/cad_arch_wall_nonloadbearing.svg</file>
         <file>icons/cad_air/cad_air_throttlevalve.svg</file>
         <file>icons/cad_air/cad_air_pressurereliefdamper.svg</file>
+        <file>shaders/test.frag</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>

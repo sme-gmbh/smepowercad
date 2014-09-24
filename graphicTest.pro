@@ -259,4 +259,5 @@ OTHER_FILES += \
     lang/powercad-ru_RU.ts \
     lang/powercad-de_DE.qm \
     lang/powercad-ru_RU.qm \
-    settings.xml
+    settings.xml \
+    shaders/test.frag

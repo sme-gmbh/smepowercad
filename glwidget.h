@@ -3,6 +3,8 @@
 
 #include <QGLWidget>
 #include <QGLFramebufferObject>
+#include <QGLShader>
+#include <QGLShaderProgram>
 #include <QDebug>
 #include <QEvent>
 #include <QPaintEvent>

@@ -42,27 +42,60 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard) :
 
     makeCurrent();
 
-    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat mat_shininess[] = { 0.1 };
+    GLfloat mat_specular[] = { 0.5, 0.5, 0.5, 1.0 };
+    GLfloat mat_shininess[] = { 0.2 };
 //    glShadeModel (GL_FLAT);
     glShadeModel(GL_SMOOTH);
+    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE | GL_EMISSION);
+//    glColorMaterial(GL_FRONT_AND_BACK, GL_EMISSION);
+    glEnable(GL_COLOR_MATERIAL);
+    glEnable(GL_NORMALIZE);
 
-    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
+
 
     GLfloat specular[] = { 0.2f, 0.2f, 0.2f, 1.0f};
-    GLfloat diffuseLight[] = { 0.8, 0.8, 0.8, 1.0};
-    GLfloat light_position[] = { 50.0, 15.0, -5000.0, 0.0 };
+    GLfloat diffuseLight[] = { 0.2f, 0.2f, 0.2f, 1.0f};
+    GLfloat light_position[] = { 500.0, 15.0, -800.0, 0.0 };
 
     glLightfv(GL_LIGHT0, GL_DIFFUSE,diffuseLight);
     glLightfv(GL_LIGHT0,GL_SPECULAR,specular);
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
-    glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.0);
-    glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.1);
-    glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.2);
+    glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.2);
+    glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.3);
+    glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.8);
 
     glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+
+    QGLShader* shader = new QGLShader(QGLShader::Fragment, this);
+    bool shaderOk = shader->compileSourceFile(":/shaders/test.frag");
+    if (!shaderOk)
+        QMessageBox::critical(this, "Shader compiler", "Shader failed to compile!");
+//    else
+//        QMessageBox::information(this, "Shader compilation", "Shader compiled successfully.");
+
+
+    QGLShaderProgram* shaderProgram = new QGLShaderProgram(this->context(), this);
+    shaderProgram->addShader(shader);
+    shaderOk = shaderProgram->link();
+
+    if (!shaderOk)
+    {
+        QMessageBox::critical(this, "Shader linker", QString("Shader failed to link!\n\n") + shaderProgram->log());
+    }
+    else
+        QMessageBox::information(this, "Shader linker", "Shader linked successfully.");
+
+
+    shaderOk = shaderProgram->bind();
+
+    if (!shaderOk)
+        QMessageBox::critical(this, "Shader program", "Shader could not be bound to gl context!");
+    else
+        QMessageBox::information(this, "Shader program", "Shader bound successfully.");
+
 
 //    tile_list = glGenLists(1);
 //    glNewList(tile_list, GL_COMPILE);
@@ -749,8 +782,8 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glEnable(GL_ALPHA_TEST);
 
 
-//    glEnable(GL_LIGHTING);
-//    glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
 
 //    glColor4ub(255, 255, 255, 255);
 
@@ -1546,36 +1579,42 @@ void GLWidget::paintBasicBox(Layer *layer, CAD_basic_box *item)
         glColor4f(color_brush.redF(), color_brush.greenF(), color_brush.blueF(), color_brush.alphaF());
 
         // Bottom face
+        glNormal3f((GLfloat)item->normal_bot.x(), (GLfloat)item->normal_bot.y(), (GLfloat)item->normal_bot.z());
         glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
         glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
         glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
         glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
 
         // Top face
+        glNormal3f((GLfloat)item->normal_top.x(), (GLfloat)item->normal_top.y(), (GLfloat)item->normal_top.z());
         glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
         glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
         glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
         glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
 
         // Front face
+        glNormal3f((GLfloat)item->normal_front.x(), (GLfloat)item->normal_front.y(), (GLfloat)item->normal_front.z());
         glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
         glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
         glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
         glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
 
         // Left face
+        glNormal3f((GLfloat)item->normal_left.x(), (GLfloat)item->normal_left.y(), (GLfloat)item->normal_left.z());
         glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
         glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
         glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
         glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
 
         // Right face
+        glNormal3f((GLfloat)item->normal_right.x(), (GLfloat)item->normal_right.y(), (GLfloat)item->normal_right.z());
         glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
         glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
         glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
         glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
 
         // Back face
+        glNormal3f((GLfloat)item->normal_back.x(), (GLfloat)item->normal_back.y(), (GLfloat)item->normal_back.z());
         glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
         glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
         glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
