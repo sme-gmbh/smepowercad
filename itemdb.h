@@ -114,6 +114,8 @@ public:
 
     void addItem(CADitem* item, QString LayerName);
     void addItem(CADitem* item, Layer* layer);
+    void deleteItem(CADitem* item);
+    void deleteItems(QList<CADitem*> items);
     CADitem *drawItem(Layer *layer, CADitem::ItemType type);
     CADitem *drawItem(QString layerName, CADitem::ItemType type);
 

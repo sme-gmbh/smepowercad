@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QEvent>
 #include <QPaintEvent>
+#include <QMatrix3x3>
 #include <QMatrix4x4>
 #include <QMessageBox>
 #include <QFont>

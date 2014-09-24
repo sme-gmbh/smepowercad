@@ -123,13 +123,14 @@ public:
     };
 
     CADitem(ItemType type);
+    virtual ~CADitem() {}
     virtual void calculate() {}
     virtual void processWizardInput() {}
 
     // data types tbd.
     ItemType getType();
     QString description;
-    QString layer;
+    QString layerName;
     QColor color_pen;       // Transparent means "BYLAYER"
     QColor color_brush;       // Transparent means "BYLAYER"
     QMap<QString, QString> attributes;

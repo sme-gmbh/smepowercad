@@ -603,6 +603,15 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             this->itemWizard->showWizard(item_lastHighlight);
         }
         break;
+    case Qt::Key_Delete:
+        if (this->selection_itemList.count() > 0)
+        {
+            QList<CADitem*> itemsToDelete = this->selection_itemList;
+            selectionClear();
+            itemDB->deleteItems(itemsToDelete);
+            slot_repaint();
+        }
+        break;
     }
 
     event->accept();

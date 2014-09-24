@@ -96,8 +96,23 @@ void ItemDB::addItem(CADitem *item, Layer *layer)
         return;
     }
 
+    item->layerName = layer->name;
     layer->items.append(item);
     emit signal_itemAdded(item, layer);
+}
+
+void ItemDB::deleteItem(CADitem *item)
+{
+    Layer* layer = getLayerByName(item->layerName);
+
+    layer->items.removeOne(item);
+    delete item;
+}
+
+void ItemDB::deleteItems(QList<CADitem *> items)
+{
+    foreach (CADitem* item, items)
+        deleteItem(item);
 }
 
 CADitem* ItemDB::drawItem(Layer* layer, CADitem::ItemType type)
