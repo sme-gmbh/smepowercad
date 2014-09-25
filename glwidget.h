@@ -31,7 +31,7 @@ public:
     enum CuttingPlane{CuttingPlane_pX = 0, CuttingPlane_nX = 1, CuttingPlane_pY = 2, CuttingPlane_nY = 3, CuttingPlane_pZ = 4, CuttingPlane_nZ = 5, CuttingPlane_ISO_001 = 6};
 
 
-    explicit GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard);
+    explicit GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, const QGLFormat &format);
     ~GLWidget();
 
     QPointF mapFromScene(QVector3D scenePoint);
@@ -72,9 +72,8 @@ private:
     QPoint arcballPosOld;
     QMatrix4x4 arcballRotationMatrix;
 
-    QMatrix4x4 matrix_projection;
-    QMatrix4x4 matrix_modelview;
-    QMatrix4x4 matrix_modelview_atRightclick;
+//    QMatrix4x4 matrix_projection;
+
 
     bool render_solid;
     bool render_outline;
@@ -129,9 +128,22 @@ private:
 
 
     // OpenGL
+    QGLShaderProgram* shaderProgram;
+    QGLShader* shader_1_frag;
+    QGLShader* shader_1_vert;
+    int shader_vertexLocation;
+    int shader_matrixLocation;
+    int shader_colorLocation;
+    QVector4D vertex_color;
+    QVector3D vertex_position;
+    QMatrix4x4 matrix_projection;
+    QMatrix4x4 matrix_modelview;
+    QMatrix4x4 matrix_modelview_atRightclick;
+
     void saveGLState();
     void restoreGLState();
 
+    void setPaintingColor(QColor color);
     void paintContent(QList<Layer*> layers);
 
     void updateArcball(int steps);

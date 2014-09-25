@@ -260,4 +260,5 @@ OTHER_FILES += \
     lang/powercad-de_DE.qm \
     lang/powercad-ru_RU.qm \
     settings.xml \
-    shaders/test.frag
+    shaders/test.frag \
+    shaders/shader_1.vert

@@ -50,6 +50,7 @@
         <file>icons/cad_air/cad_air_throttlevalve.svg</file>
         <file>icons/cad_air/cad_air_pressurereliefdamper.svg</file>
         <file>shaders/test.frag</file>
+        <file>shaders/shader_1.vert</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>

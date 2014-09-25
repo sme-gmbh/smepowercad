@@ -104,7 +104,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // **** 3D mouse ****
-    magellanThread = new QMagellanThread;
+    magellanThread = new QMagellanThread();
     connect(magellanThread, SIGNAL(signal_mouseCoords(int,int,int,int,int,int)), mainGeometryDisplay, SIGNAL(signal_mouse3Dcoords(int,int,int,int,int,int)));
     //connect(magellanThread, SIGNAL(signal_buttonPressed(int)), this, SLOT());
     //connect(magellanThread, SIGNAL(signal_buttonReleased(int)), this, SLOT());
@@ -135,9 +135,9 @@ MainWindow::~MainWindow()
 {
     magellanThread->terminate();
     delete magellanThread;
-    delete layerManager;
-    delete itemDB;
-    delete settingsDialog;
+//    delete layerManager;
+//    delete itemDB;
+//    delete settingsDialog;
     delete ui;
 }
 
