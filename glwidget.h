@@ -68,6 +68,7 @@ private:
     QPoint displayCenter;           // The Center of the widget in PixelsOnScreen, related to bottomLeft of Widget
     QVector3D cameraPosition;
     float rot_x, rot_y, rot_z;
+    float rot_x_old, rot_y_old, rot_z_old;
 
     QPoint arcballPosOld;
     QMatrix4x4 arcballRotationMatrix;
@@ -138,7 +139,7 @@ private:
     QVector3D vertex_position;
     QMatrix4x4 matrix_projection;
     QMatrix4x4 matrix_modelview;
-    QMatrix4x4 matrix_modelview_atRightclick;
+    QMatrix4x4 matrix_rotation;
 
     void saveGLState();
     void restoreGLState();

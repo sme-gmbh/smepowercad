@@ -20,11 +20,15 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, cons
     this->rot_x = 0.0;
     this->rot_y = 0.0;
     this->rot_z = 0.0;
+    this->rot_x_old = 0.0;
+    this->rot_y_old = 0.0;
+    this->rot_z_old = 0.0;
     this->render_solid = true;
     this->render_outline = true;
     this->cameraPosition = QVector3D();
     this->matrix_modelview.setToIdentity();
     this->matrix_projection.setToIdentity();
+    this->matrix_rotation.setToIdentity();
     this->arcballRotationMatrix.setToIdentity();
 
     this->pickActive = false;
@@ -155,7 +159,8 @@ QPointF GLWidget::mapFromScene(QVector3D scenePoint)
     QVector4D sceneCoords = QVector4D(scenePoint, 1.0);
     QVector4D screenCoords;
 
-    screenCoords = matrix_projection * matrix_modelview * sceneCoords;
+//    screenCoords = matrix_projection * matrix_modelview * sceneCoords;
+    screenCoords = matrix_projection * matrix_rotation * matrix_modelview * sceneCoords;
     QPointF pixelCoords = screenCoords.toPointF() ;
 
     pixelCoords.setX((pixelCoords.x() / 2.0) * this->width());
@@ -415,6 +420,17 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
         rot_x += -dy;
         rot_y += -dx;
+
+        QVector4D axis_1, axis_2;
+        axis_1 = matrix_rotation.transposed() * QVector4D(1.0f, 0.0f, 0.0f, 0.0f);
+        axis_2 = matrix_rotation.transposed() * QVector4D(0.0f, 1.0f, 0.0f, 0.0f);
+
+        arcballRotationMatrix.setToIdentity();
+        arcballRotationMatrix.rotate(dy, axis_1.toVector3D());
+        arcballRotationMatrix.rotate(-dx, axis_2.toVector3D());
+
+        matrix_rotation = matrix_rotation * arcballRotationMatrix;
+
 
 
 //        this->updateArcball(mouseMoveDelta.manhattanLength());
@@ -689,11 +705,12 @@ void GLWidget::paintEvent(QPaintEvent *event)
     matrix_modelview.setToIdentity();
     matrix_modelview.translate(translationOffset.x(), translationOffset.y(), 0.0);
     matrix_modelview.scale(this->zoomFactor, this->zoomFactor, 1.0 / 100000.0);
-    matrix_modelview.rotate(rot_x, 1.0f, 0.0f, 0.0f);
-    matrix_modelview.rotate(rot_y, 0.0f, 1.0f, 0.0f);
-    matrix_modelview.rotate(rot_z, 0.0f, 0.0f, 1.0f);
 
-    shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection * matrix_modelview);
+//    matrix_modelview.rotate(rot_x, 1.0f, 0.0f, 0.0f);
+//    matrix_modelview.rotate(rot_y, 0.0f, 1.0f, 0.0f);
+//    matrix_modelview.rotate(rot_z, 0.0f, 0.0f, 1.0f);
+
+    shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection * matrix_modelview * matrix_rotation);
 
 
 
@@ -2301,7 +2318,7 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
     pickMatrix.setToIdentity();
     pickMatrix.scale(1.0 / (11.0 / this->width()), 1.0 / (11.0 / this->height()), 1.0);
     pickMatrix.translate(-(qreal)pos.x(), -(qreal)pos.y(), 0.0);
-    shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection * pickMatrix * matrix_modelview);
+    shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection * pickMatrix * matrix_rotation * matrix_modelview);
 
 
     glDepthFunc(GL_LESS);
