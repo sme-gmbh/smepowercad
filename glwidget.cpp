@@ -26,10 +26,11 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, cons
     this->render_solid = true;
     this->render_outline = true;
     this->cameraPosition = QVector3D();
+    this->lookAtPosition = QVector3D(0.0f, 0.0f, 0.0f);
     this->matrix_modelview.setToIdentity();
     this->matrix_projection.setToIdentity();
     this->matrix_rotation.setToIdentity();
-    this->arcballRotationMatrix.setToIdentity();
+    this->matrix_arcball.setToIdentity();
 
     this->pickActive = false;
     this->cursorShown = true;
@@ -160,7 +161,7 @@ QPointF GLWidget::mapFromScene(QVector3D scenePoint)
     QVector4D screenCoords;
 
 //    screenCoords = matrix_projection * matrix_modelview * sceneCoords;
-    screenCoords = matrix_projection * matrix_rotation * matrix_modelview * sceneCoords;
+    screenCoords = matrix_projection* matrix_modelview * matrix_rotation  * sceneCoords;
     QPointF pixelCoords = screenCoords.toPointF() ;
 
     pixelCoords.setX((pixelCoords.x() / 2.0) * this->width());
@@ -425,11 +426,15 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
         axis_1 = matrix_rotation.transposed() * QVector4D(1.0f, 0.0f, 0.0f, 0.0f);
         axis_2 = matrix_rotation.transposed() * QVector4D(0.0f, 1.0f, 0.0f, 0.0f);
 
-        arcballRotationMatrix.setToIdentity();
-        arcballRotationMatrix.rotate(dy, axis_1.toVector3D());
-        arcballRotationMatrix.rotate(-dx, axis_2.toVector3D());
+        matrix_arcball.setToIdentity();
+        matrix_arcball.translate(this->lookAtPosition);
+        matrix_arcball.rotate(dy, axis_1.toVector3D());
+        matrix_arcball.rotate(-dx, axis_2.toVector3D());
+        matrix_arcball.translate(-1 * this->lookAtPosition);
 
-        matrix_rotation = matrix_rotation * arcballRotationMatrix;
+
+
+        matrix_rotation = matrix_rotation * matrix_arcball;
 
 
 
@@ -525,7 +530,7 @@ void GLWidget::updateArcball(int steps)
 
 //    qDebug() << 4 * ((360 / (2 * PI)) * angle);
 
-    arcballRotationMatrix.rotate(steps, arcballDelta.y(), arcballDelta.x(), 0.0);
+    matrix_arcball.rotate(steps, arcballDelta.y(), arcballDelta.x(), 0.0);
 }
 
 QVector3D GLWidget::getArcBallVector(int x, int y)
@@ -579,6 +584,16 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
     // Object drawing and manipulation
     if (event->buttons() == Qt::LeftButton)
     {
+        if (event->modifiers() & Qt::ControlModifier)
+        {
+            if (this->snapMode != SnapNo)
+            {
+                this->lookAtPosition = this->snapPos_scene;
+            }
+            event->accept();
+            return;
+        }
+
         // Check if there is a currently active command
         if (false)
         {
@@ -621,6 +636,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 
 //            this->overlay->pickEnd();
             this->pickEnd();
+            event->accept();
             return;
         }
 
@@ -2318,7 +2334,7 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
     pickMatrix.setToIdentity();
     pickMatrix.scale(1.0 / (11.0 / this->width()), 1.0 / (11.0 / this->height()), 1.0);
     pickMatrix.translate(-(qreal)pos.x(), -(qreal)pos.y(), 0.0);
-    shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection * pickMatrix * matrix_rotation * matrix_modelview);
+    shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection * pickMatrix * matrix_modelview * matrix_rotation);
 
 
     glDepthFunc(GL_LESS);
