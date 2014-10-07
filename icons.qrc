@@ -51,6 +51,39 @@
         <file>icons/cad_air/cad_air_pressurereliefdamper.svg</file>
         <file>shaders/test.frag</file>
         <file>shaders/shader_1.vert</file>
+        <file>icons/cad_heatcool/cad_heatcool_pipe.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_boiler.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_waterheater.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_storageboiler.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_sensor.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_safetyvalve.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_radiator.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_pump.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_pipeturn.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_pipeteeconnector.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_pipereducer.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_pipeendcap.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_heatexchanger.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_flowmeter.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_flange.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_filter.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_butterflyvalve.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_expansionchamber.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_coolingtower.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_controlvalve.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_chiller.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_ballvalve.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_adjustvalve.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_pipeturn.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_pipe.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_zonecheck.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_wetalarmvalve.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_valve.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_teeconnector.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_head.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_pump.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_compressedairwatercontainer.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_distribution.svg</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>
