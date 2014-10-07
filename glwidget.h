@@ -162,6 +162,7 @@ private:
     void paintBasicBox(Layer *layer, CAD_basic_box *item);
     void paintBasicCylinder(Layer *layer, CAD_basic_cylinder *item);
     void paintBasicSphere(Layer *layer, CAD_basic_sphere *item);
+    void paintBasicArc(Layer *layer, CAD_basic_arc *item);
 
     void paintArchLevelSlab(Layer *layer, CAD_arch_levelSlab *item);
     void paintArchWallLoadBearing(Layer *layer, CAD_arch_wall_loadBearing *item);

@@ -1143,6 +1143,8 @@ void GLWidget::paintContent(QList<Layer*> layers)
                     paintBasicCircle(layer, (CAD_basic_circle*)item);
                 break;
             case CADitem::Basic_Arc:
+                if (this->render_outline)
+                    paintBasicArc( layer, (CAD_basic_arc*)item);
                 break;
             case CADitem::Basic_Face:
                 paintFace(layer, (CAD_basic_3Dface*)item);
@@ -1562,6 +1564,47 @@ void GLWidget::paintFace(Layer *layer, CAD_basic_3Dface *item)
         }
         glEnd();
     }
+}
+
+void GLWidget::paintBasicArc(Layer *layer, CAD_basic_arc *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+
+    qreal penWidth = 1.0;
+    if (item->widthByLayer)
+    {
+        penWidth = layer->width / 100.0;
+    }
+    else if (item->widthByBlock)
+    {
+
+    }
+    else
+    {
+        penWidth = item->width;
+    }
+
+    // Default width setting
+    if (penWidth < 1.0)
+        penWidth = 1.0;
+
+//    glColor4f(color_pen.redF(), color_pen.greenF(), color_pen.blueF(), color_pen.alphaF());
+    setPaintingColor(color_pen);
+    glLineWidth(penWidth);
+    glBegin(GL_LINE_STRIP);
+    for (qreal i=0.0; i < 1.0; i += 0.01)    // 100 edges
+    {
+        qreal angle = item->centralAngle/180.0f*PI * i;
+        QVector3D linePos;
+        linePos = item->center;
+
+        linePos += QVector3D(sin(angle) * item->radius, cos(angle) * item->radius, 0.0);
+
+        glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
+    }
+
+    glEnd();
+    glEnd();
 }
 
 void GLWidget::paintBasicCircle(Layer *layer, CAD_basic_circle *item)
