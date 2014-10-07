@@ -67,11 +67,12 @@ private:
     QVector3D centerOfViewInScene;  // in coordsOnScene
     QPoint displayCenter;           // The Center of the widget in PixelsOnScreen, related to bottomLeft of Widget
     QVector3D cameraPosition;
+    QVector3D lookAtPosition;
     float rot_x, rot_y, rot_z;
     float rot_x_old, rot_y_old, rot_z_old;
 
     QPoint arcballPosOld;
-    QMatrix4x4 arcballRotationMatrix;
+    QMatrix4x4 matrix_arcball;
 
 //    QMatrix4x4 matrix_projection;
 
@@ -161,6 +162,7 @@ private:
     void paintBasicBox(Layer *layer, CAD_basic_box *item);
     void paintBasicCylinder(Layer *layer, CAD_basic_cylinder *item);
     void paintBasicSphere(Layer *layer, CAD_basic_sphere *item);
+    void paintBasicArc(Layer *layer, CAD_basic_arc *item);
 
     void paintArchLevelSlab(Layer *layer, CAD_arch_levelSlab *item);
     void paintArchWallLoadBearing(Layer *layer, CAD_arch_wall_loadBearing *item);

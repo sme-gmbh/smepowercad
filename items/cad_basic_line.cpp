@@ -9,12 +9,12 @@ CAD_basic_line::CAD_basic_line() : CADitem(CADitem::Basic_Line)
     widthByLayer = false;
     widthByBlock = false;
 
-    this->wizardParams.insert(QObject::tr("Position x0"), QVariant::fromValue(0.0));
-    this->wizardParams.insert(QObject::tr("Position y0"), QVariant::fromValue(0.0));
-    this->wizardParams.insert(QObject::tr("Position z0"), QVariant::fromValue(0.0));
-    this->wizardParams.insert(QObject::tr("Position x1"), QVariant::fromValue(1.0));
+    this->wizardParams.insert(QObject::tr("Position x1"), QVariant::fromValue(0.0));
+    this->wizardParams.insert(QObject::tr("Position y1"), QVariant::fromValue(0.0));
+    this->wizardParams.insert(QObject::tr("Position z1"), QVariant::fromValue(0.0));
+    this->wizardParams.insert(QObject::tr("Position x2"), QVariant::fromValue(1.0));
     this->wizardParams.insert(QObject::tr("Position y2"), QVariant::fromValue(0.0));
-    this->wizardParams.insert(QObject::tr("Position z3"), QVariant::fromValue(0.0));
+    this->wizardParams.insert(QObject::tr("Position z2"), QVariant::fromValue(0.0));
     this->wizardParams.insert(QObject::tr("Width"), QVariant::fromValue(1.0));
 }
 
@@ -25,7 +25,6 @@ void CAD_basic_line::calculate()
     this->boundingBox.a2 = QVector3D(0.0, p2.y() - p1.y(), 0.0);
     this->boundingBox.a3 = QVector3D(0.0, 0.0, p2.z() - p1.z());
     this->position = this->p1;
-//    this->snap_center = ((M3dVector)(M3dVector(p1) *0.5 + M3dVector(p2) * 0,5)).toM3dPoint();
     this->snap_vertices.append(p1);
     this->snap_vertices.append(p2);
 
@@ -34,5 +33,19 @@ void CAD_basic_line::calculate()
 
 void CAD_basic_line::processWizardInput()
 {
+    this->p1.setX(wizardParams.value(QObject::tr("Position x1")).toDouble());
+    this->p1.setY(wizardParams.value(QObject::tr("Position y1")).toDouble());
+    this->p1.setZ(wizardParams.value(QObject::tr("Position z1")).toDouble());
+
+
+    this->p2.setX(wizardParams.value(QObject::tr("Position x2")).toDouble());
+    this->p2.setY(wizardParams.value(QObject::tr("Position y2")).toDouble());
+    this->p2.setZ(wizardParams.value(QObject::tr("Position z2")).toDouble());
+
+    this->width = wizardParams.value(QObject::tr("Width")).toDouble();
+
+    this->angle_x = wizardParams.value(QObject::tr("Angle x")).toDouble();
+    this->angle_y = wizardParams.value(QObject::tr("Angle y")).toDouble();
+    this->angle_z = wizardParams.value(QObject::tr("Angle z")).toDouble();
 
 }

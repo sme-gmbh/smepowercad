@@ -26,10 +26,11 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, cons
     this->render_solid = true;
     this->render_outline = true;
     this->cameraPosition = QVector3D();
+    this->lookAtPosition = QVector3D(0.0f, 0.0f, 0.0f);
     this->matrix_modelview.setToIdentity();
     this->matrix_projection.setToIdentity();
     this->matrix_rotation.setToIdentity();
-    this->arcballRotationMatrix.setToIdentity();
+    this->matrix_arcball.setToIdentity();
 
     this->pickActive = false;
     this->cursorShown = true;
@@ -161,6 +162,7 @@ QPointF GLWidget::mapFromScene(QVector3D scenePoint)
 
 //    screenCoords = matrix_projection * matrix_modelview * sceneCoords;
     screenCoords = matrix_projection * matrix_modelview * matrix_rotation * sceneCoords;
+
     QPointF pixelCoords = screenCoords.toPointF() ;
 
     pixelCoords.setX((pixelCoords.x() / 2.0) * this->width());
@@ -425,11 +427,15 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
         axis_1 = matrix_rotation.transposed() * QVector4D(1.0f, 0.0f, 0.0f, 0.0f);
         axis_2 = matrix_rotation.transposed() * QVector4D(0.0f, 1.0f, 0.0f, 0.0f);
 
-        arcballRotationMatrix.setToIdentity();
-        arcballRotationMatrix.rotate(dy, axis_1.toVector3D());
-        arcballRotationMatrix.rotate(-dx, axis_2.toVector3D());
+        matrix_arcball.setToIdentity();
+        matrix_arcball.translate(this->lookAtPosition);
+        matrix_arcball.rotate(dy, axis_1.toVector3D());
+        matrix_arcball.rotate(-dx, axis_2.toVector3D());
+        matrix_arcball.translate(-1 * this->lookAtPosition);
 
-        matrix_rotation = matrix_rotation * arcballRotationMatrix;
+
+
+        matrix_rotation = matrix_rotation * matrix_arcball;
 
 
 
@@ -525,7 +531,7 @@ void GLWidget::updateArcball(int steps)
 
 //    qDebug() << 4 * ((360 / (2 * PI)) * angle);
 
-    arcballRotationMatrix.rotate(steps, arcballDelta.y(), arcballDelta.x(), 0.0);
+    matrix_arcball.rotate(steps, arcballDelta.y(), arcballDelta.x(), 0.0);
 }
 
 QVector3D GLWidget::getArcBallVector(int x, int y)
@@ -579,6 +585,16 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
     // Object drawing and manipulation
     if (event->buttons() == Qt::LeftButton)
     {
+        if (event->modifiers() & Qt::ControlModifier)
+        {
+            if (this->snapMode != SnapNo)
+            {
+                this->lookAtPosition = this->snapPos_scene;
+            }
+            event->accept();
+            return;
+        }
+
         // Check if there is a currently active command
         if (false)
         {
@@ -621,6 +637,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 
 //            this->overlay->pickEnd();
             this->pickEnd();
+            event->accept();
             return;
         }
 
@@ -1127,6 +1144,8 @@ void GLWidget::paintContent(QList<Layer*> layers)
                     paintBasicCircle(layer, (CAD_basic_circle*)item);
                 break;
             case CADitem::Basic_Arc:
+                if (this->render_outline)
+                    paintBasicArc( layer, (CAD_basic_arc*)item);
                 break;
             case CADitem::Basic_Face:
                 paintFace(layer, (CAD_basic_3Dface*)item);
@@ -1546,6 +1565,47 @@ void GLWidget::paintFace(Layer *layer, CAD_basic_3Dface *item)
         }
         glEnd();
     }
+}
+
+void GLWidget::paintBasicArc(Layer *layer, CAD_basic_arc *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+
+    qreal penWidth = 1.0;
+    if (item->widthByLayer)
+    {
+        penWidth = layer->width / 100.0;
+    }
+    else if (item->widthByBlock)
+    {
+
+    }
+    else
+    {
+        penWidth = item->width;
+    }
+
+    // Default width setting
+    if (penWidth < 1.0)
+        penWidth = 1.0;
+
+//    glColor4f(color_pen.redF(), color_pen.greenF(), color_pen.blueF(), color_pen.alphaF());
+    setPaintingColor(color_pen);
+    glLineWidth(penWidth);
+    glBegin(GL_LINE_STRIP);
+    for (qreal i=0.0; i < 1.0; i += 0.01)    // 100 edges
+    {
+        qreal angle = item->centralAngle/180.0f*PI * i;
+        QVector3D linePos;
+        linePos = item->center;
+
+        linePos += QVector3D(sin(angle) * item->radius, cos(angle) * item->radius, 0.0);
+
+        glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
+    }
+
+    glEnd();
+    glEnd();
 }
 
 void GLWidget::paintBasicCircle(Layer *layer, CAD_basic_circle *item)
