@@ -192,6 +192,72 @@ private slots:
 
     void on_action_air_throttle_valve_triggered();
 
+    void on_action_heatcool_Adjustvalve_triggered();
+
+    void on_action_heatcool_ballvalve_triggered();
+
+    void on_action_heatcool_boiler_triggered();
+
+    void on_action_heatcool_butterflyvalve_triggered();
+
+    void on_action_heatcool_chiller_triggered();
+
+    void on_action_heatcool_controlvalve_triggered();
+
+    void on_action_heatcool_coolingtower_triggered();
+
+    void on_action_heatcool_expansionchamber_triggered();
+
+    void on_action_heatcool_filter_triggered();
+
+    void on_action_heatcool_flange_triggered();
+
+    void on_action_heatcool_flowmeter_triggered();
+
+    void on_action_heatcool_heatexchanger_triggered();
+
+    void on_action_heatcool_pipe_triggered();
+
+    void on_action_heatcool_pipeendcap_triggered();
+
+    void on_action_heatcool_pipereducer_triggered();
+
+    void on_action_heatcool_pipeteeconnector_triggered();
+
+    void on_action_heatcool_pipeturn_triggered();
+
+    void on_action_heatcool_pump_triggered();
+
+    void on_action_heatcool_radiator_triggered();
+
+    void on_action_heatcool_safetyvalve_triggered();
+
+    void on_action_heatcool_sensor_triggered();
+
+    void on_action_heatcool_storageboiler_triggered();
+
+    void on_action_heatcool_waterheater_triggered();
+
+    void on_action_sprinkler_compressedairwatercontainer_triggered();
+
+    void on_action_sprinkler_distribution_triggered();
+
+    void on_action_sprinkler_head_triggered();
+
+    void on_action_sprinkler_pipe_triggered();
+
+    void on_action_sprinkler_pipeturn_triggered();
+
+    void on_action_sprinkler_Pump_triggered();
+
+    void on_action_sprinkler_teeconnector_triggered();
+
+    void on_action_sprinkler_valve_triggered();
+
+    void on_action_sprinkler_wetalarmvalve_triggered();
+
+    void on_action_sprinkler_zonecheck_triggered();
+
 signals:
     void signal_command_prompt_input(QString str);
     void signal_repaintNeeded();

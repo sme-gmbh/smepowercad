@@ -436,13 +436,14 @@ void MainWindow::on_actionAbout_OpenGL_triggered()
 void MainWindow::on_actionAbout_triggered()
 {
     QStringList about;
-    about << tr("Authors") << "Peter Diener, Moritz Sternemann";
+    about << tr("Authors") << "Peter Diener, Moritz Sternemann, Sebastian Wolf";
     about << "Build" << QString(__DATE__) + " " + QString(__TIME__);
     about << QCoreApplication::organizationName() << "Rudolf-Diesel-Str. 17";
     about << "" << "82205 Gilching";
     about << tr("Tel.") << "+49 8105 2713 -0";
     about << "Email" << "diener@sme-gmbh.com";
     about << "Email" << "moritz.sternemann@web.de";
+    about << "Email" << "sebwolf@web.de";
 
     ModalDialog *dialog = new ModalDialog(tr("About %1").arg(QCoreApplication::applicationName()), about, this);
     dialog->exec();
@@ -900,5 +901,302 @@ void MainWindow::on_action_air_throttle_valve_triggered()
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
     CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_ThrottleValve);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_Adjustvalve_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_Adjustvalve);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_ballvalve_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_BallValve);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_boiler_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_Boiler);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_butterflyvalve_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_ButterflyValve);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_chiller_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_Chiller);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_controlvalve_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_Controlvalve);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_coolingtower_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_CoolingTower);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_expansionchamber_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_ExpansionChamber);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_filter_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_Filter);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_flange_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_Flange);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_flowmeter_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_Flowmeter);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_heatexchanger_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_HeatExchanger);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_pipe_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_Pipe);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_pipeendcap_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_PipeEndCap);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_pipereducer_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_PipeReducer);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_pipeteeconnector_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_PipeTeeConnector);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_pipeturn_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_PipeTurn);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_pump_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_Pump);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_radiator_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_Radiator);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_safetyvalve_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_SafetyValve);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_sensor_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_Sensor);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_storageboiler_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_StorageBoiler);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_heatcool_waterheater_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_WaterHeater);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_sprinkler_compressedairwatercontainer_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Sprinkler_CompressedAirWaterContainer);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_sprinkler_distribution_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Sprinkler_Distribution);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_sprinkler_head_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Sprinkler_Head);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_sprinkler_pipe_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Sprinkler_Pipe);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_sprinkler_pipeturn_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Sprinkler_PipeTurn);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_sprinkler_Pump_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Sprinkler_Pump);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_sprinkler_teeconnector_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Sprinkler_TeeConnector);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_sprinkler_valve_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Sprinkler_Valve);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_sprinkler_wetalarmvalve_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Sprinkler_WetAlarmValve);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_action_sprinkler_zonecheck_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Sprinkler_ZoneCheck);
     this->itemWizard->showWizard(item);
 }

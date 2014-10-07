@@ -160,7 +160,7 @@ QPointF GLWidget::mapFromScene(QVector3D scenePoint)
     QVector4D screenCoords;
 
 //    screenCoords = matrix_projection * matrix_modelview * sceneCoords;
-    screenCoords = matrix_projection * matrix_rotation * matrix_modelview * sceneCoords;
+    screenCoords = matrix_projection * matrix_modelview * matrix_rotation * sceneCoords;
     QPointF pixelCoords = screenCoords.toPointF() ;
 
     pixelCoords.setX((pixelCoords.x() / 2.0) * this->width());
@@ -2318,7 +2318,7 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
     pickMatrix.setToIdentity();
     pickMatrix.scale(1.0 / (11.0 / this->width()), 1.0 / (11.0 / this->height()), 1.0);
     pickMatrix.translate(-(qreal)pos.x(), -(qreal)pos.y(), 0.0);
-    shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection * pickMatrix * matrix_rotation * matrix_modelview);
+    shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection * pickMatrix * matrix_modelview * matrix_rotation);
 
 
     glDepthFunc(GL_LESS);
