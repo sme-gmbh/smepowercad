@@ -155,12 +155,14 @@ private:
     QColor getColorBrush(CADitem* item, Layer *layer);
 
     void paintTextInfoBox(QPoint pos, QString text, QFont font = QFont(), QColor colorText = QColor(Qt::red), QColor colorBackground = QColor(0, 0, 0, 150), QColor colorOutline = QColor(200, 200, 200, 150));
-    void paintLine(Layer* layer, CAD_basic_line* item);
-    void paintPolyLine(Layer *layer, CAD_basic_polyline *item);
-    void paintFace(Layer *layer, CAD_basic_3Dface *item);
+
+    void paintBasicLine(Layer* layer, CAD_basic_line* item);
+    void paintBasicPolyLine(Layer *layer, CAD_basic_polyline *item);
+    void paintBasicFace(Layer *layer, CAD_basic_3Dface *item);
     void paintBasicCircle(Layer *layer, CAD_basic_circle *item);
     void paintBasicBox(Layer *layer, CAD_basic_box *item);
     void paintBasicCylinder(Layer *layer, CAD_basic_cylinder *item);
+    void paintBasicPipe(Layer *layer, CAD_basic_pipe *item);
     void paintBasicSphere(Layer *layer, CAD_basic_sphere *item);
     void paintBasicArc(Layer *layer, CAD_basic_arc *item);
 
@@ -241,7 +243,19 @@ private:
     void paintElectricalCabinet(Layer *layer, CAD_electrical_cabinet *item);
     void paintElectricalCabletray(Layer *layer, CAD_electrical_cableTray *item);
 
-
+    void paintSanitaryPipe(Layer *layer, CAD_sanitary_pipe *item);
+    void paintSanitaryPipeTurn(Layer *layer, CAD_sanitary_pipeTurn *item);
+    void paintSanitaryPipeReducer(Layer *layer, CAD_sanitary_pipeReducer *item);
+    void paintSanitaryPipeTeeConnector(Layer *layer, CAD_sanitary_pipeTeeConnector *item);
+    void paintSanitaryPipeEndCap(Layer *layer, CAD_sanitary_pipeEndCap *item);
+    void paintSanitaryFlange(Layer *layer, CAD_sanitary_flange *item);
+    void paintSanitaryElectricWaterHeater(Layer *layer, CAD_sanitary_electricWaterHeater *item);
+    void paintSanitaryWashBasin(Layer *layer, CAD_sanitary_washBasin *item);
+    void paintSanitarySink(Layer *layer, CAD_sanitary_sink *item);
+    void paintSanitaryShower(Layer *layer, CAD_sanitary_shower *item);
+    void paintSanitaryEmergencyShower(Layer *layer, CAD_sanitary_emergencyShower *item);
+    void paintSanitaryEmergencyEyeShower(Layer *layer, CAD_sanitary_emergencyEyeShower *item);
+    void paintSanitaryLiftingUnit(Layer *layer, CAD_sanitary_liftingUnit *item);
 
     CADitem *itemAtPosition(QPoint pos);
     CADitem *itemAtPosition_processLayers(QList<Layer*> layers, GLuint glName);

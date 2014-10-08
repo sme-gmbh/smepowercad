@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1061</width>
-    <height>558</height>
+    <height>582</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -417,6 +417,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="action_basic_pipe"/>
    <addaction name="action_basic_point"/>
    <addaction name="action_basic_linie"/>
    <addaction name="action_basic_polylinie"/>
@@ -1712,6 +1713,14 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
    <property name="toolTip">
     <string>Sprinkler Zone Check</string>
+   </property>
+  </action>
+  <action name="action_basic_pipe">
+   <property name="text">
+    <string>Basic Pipe</string>
+   </property>
+   <property name="toolTip">
+    <string>Basic Pipe</string>
    </property>
   </action>
  </widget>

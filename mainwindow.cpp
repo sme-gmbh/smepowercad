@@ -121,78 +121,78 @@ MainWindow::MainWindow(QWidget *parent) :
     layer->lineType = "Continuos";
     layer->width = 1;
 
-//    Layer* layerX = itemDB->addLayer("X");
-//    layerX->pen.setColor(Qt::gray);
-//    layerX->brush.setColor(Qt::red);
-//    layerX->lineType = "Continuos";
-//    layerX->width = 1;
+    Layer* layerX = itemDB->addLayer("X");
+    layerX->pen.setColor(Qt::gray);
+    layerX->brush.setColor(Qt::red);
+    layerX->lineType = "Continuos";
+    layerX->width = 1;
 
-//    Layer* layerY = itemDB->addLayer("Y");
-//    layerY->pen.setColor(Qt::gray);
-//    layerY->brush.setColor(Qt::green);
-//    layerY->lineType = "Continuos";
-//    layerY->width = 1;
+    Layer* layerY = itemDB->addLayer("Y");
+    layerY->pen.setColor(Qt::gray);
+    layerY->brush.setColor(Qt::green);
+    layerY->lineType = "Continuos";
+    layerY->width = 1;
 
-//    Layer* layerZ = itemDB->addLayer("Z");
-//    layerZ->pen.setColor(Qt::gray);
-//    layerZ->brush.setColor(Qt::blue);
-//    layerZ->lineType = "Continuos";
-//    layerZ->width = 1;
+    Layer* layerZ = itemDB->addLayer("Z");
+    layerZ->pen.setColor(Qt::gray);
+    layerZ->brush.setColor(Qt::blue);
+    layerZ->lineType = "Continuos";
+    layerZ->width = 1;
 
 
-//    CAD_basic_box* item;
+    CAD_basic_box* item;
 
-//    item = (CAD_basic_box*)itemDB->drawItem("Testlayer", CADitem::Basic_Box);
-//    item->position = QVector3D(0.0, 0.0, 0.0);
+    item = (CAD_basic_box*)itemDB->drawItem("Testlayer", CADitem::Basic_Box);
+    item->position = QVector3D(0.0, 0.0, 0.0);
 
-//    item->wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(0.0));
-//    item->wizardParams.insert(QObject::tr("Center y"), QVariant::fromValue(0.0));
-//    item->wizardParams.insert(QObject::tr("Center z"), QVariant::fromValue(0.0));
-//    item->wizardParams.insert(QObject::tr("Size x"), QVariant::fromValue(10.0));
-//    item->wizardParams.insert(QObject::tr("Size y"), QVariant::fromValue(10.0));
-//    item->wizardParams.insert(QObject::tr("Size z"), QVariant::fromValue(10.0));
+    item->wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(0.0));
+    item->wizardParams.insert(QObject::tr("Center y"), QVariant::fromValue(0.0));
+    item->wizardParams.insert(QObject::tr("Center z"), QVariant::fromValue(0.0));
+    item->wizardParams.insert(QObject::tr("Size x"), QVariant::fromValue(10.0));
+    item->wizardParams.insert(QObject::tr("Size y"), QVariant::fromValue(10.0));
+    item->wizardParams.insert(QObject::tr("Size z"), QVariant::fromValue(10.0));
 
-//    item->processWizardInput();
-//    item->calculate();
+    item->processWizardInput();
+    item->calculate();
 
-//    item = (CAD_basic_box*)itemDB->drawItem("X", CADitem::Basic_Box);
-//    item->position = QVector3D(0.0, 0.0, 0.0);
+    item = (CAD_basic_box*)itemDB->drawItem("X", CADitem::Basic_Box);
+    item->position = QVector3D(0.0, 0.0, 0.0);
 
-//    item->wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(15.0));
-//    item->wizardParams.insert(QObject::tr("Center y"), QVariant::fromValue(0.0));
-//    item->wizardParams.insert(QObject::tr("Center z"), QVariant::fromValue(0.0));
-//    item->wizardParams.insert(QObject::tr("Size x"), QVariant::fromValue(5.0));
-//    item->wizardParams.insert(QObject::tr("Size y"), QVariant::fromValue(5.0));
-//    item->wizardParams.insert(QObject::tr("Size z"), QVariant::fromValue(5.0));
+    item->wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(15.0));
+    item->wizardParams.insert(QObject::tr("Center y"), QVariant::fromValue(0.0));
+    item->wizardParams.insert(QObject::tr("Center z"), QVariant::fromValue(0.0));
+    item->wizardParams.insert(QObject::tr("Size x"), QVariant::fromValue(5.0));
+    item->wizardParams.insert(QObject::tr("Size y"), QVariant::fromValue(5.0));
+    item->wizardParams.insert(QObject::tr("Size z"), QVariant::fromValue(5.0));
 
-//    item->processWizardInput();
-//    item->calculate();
+    item->processWizardInput();
+    item->calculate();
 
-//    item = (CAD_basic_box*)itemDB->drawItem("Y", CADitem::Basic_Box);
-//    item->position = QVector3D(0.0, 0.0, 0.0);
+    item = (CAD_basic_box*)itemDB->drawItem("Y", CADitem::Basic_Box);
+    item->position = QVector3D(0.0, 0.0, 0.0);
 
-//    item->wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(0.0));
-//    item->wizardParams.insert(QObject::tr("Center y"), QVariant::fromValue(15.0));
-//    item->wizardParams.insert(QObject::tr("Center z"), QVariant::fromValue(0.0));
-//    item->wizardParams.insert(QObject::tr("Size x"), QVariant::fromValue(4.0));
-//    item->wizardParams.insert(QObject::tr("Size y"), QVariant::fromValue(4.0));
-//    item->wizardParams.insert(QObject::tr("Size z"), QVariant::fromValue(4.0));
+    item->wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(0.0));
+    item->wizardParams.insert(QObject::tr("Center y"), QVariant::fromValue(15.0));
+    item->wizardParams.insert(QObject::tr("Center z"), QVariant::fromValue(0.0));
+    item->wizardParams.insert(QObject::tr("Size x"), QVariant::fromValue(4.0));
+    item->wizardParams.insert(QObject::tr("Size y"), QVariant::fromValue(4.0));
+    item->wizardParams.insert(QObject::tr("Size z"), QVariant::fromValue(4.0));
 
-//    item->processWizardInput();
-//    item->calculate();
+    item->processWizardInput();
+    item->calculate();
 
-//    item = (CAD_basic_box*)itemDB->drawItem("Z", CADitem::Basic_Box);
-//    item->position = QVector3D(0.0, 0.0, 0.0);
+    item = (CAD_basic_box*)itemDB->drawItem("Z", CADitem::Basic_Box);
+    item->position = QVector3D(0.0, 0.0, 0.0);
 
-//    item->wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(0.0));
-//    item->wizardParams.insert(QObject::tr("Center y"), QVariant::fromValue(0.0));
-//    item->wizardParams.insert(QObject::tr("Center z"), QVariant::fromValue(15.0));
-//    item->wizardParams.insert(QObject::tr("Size x"), QVariant::fromValue(3.0));
-//    item->wizardParams.insert(QObject::tr("Size y"), QVariant::fromValue(3.0));
-//    item->wizardParams.insert(QObject::tr("Size z"), QVariant::fromValue(3.0));
+    item->wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(0.0));
+    item->wizardParams.insert(QObject::tr("Center y"), QVariant::fromValue(0.0));
+    item->wizardParams.insert(QObject::tr("Center z"), QVariant::fromValue(15.0));
+    item->wizardParams.insert(QObject::tr("Size x"), QVariant::fromValue(3.0));
+    item->wizardParams.insert(QObject::tr("Size y"), QVariant::fromValue(3.0));
+    item->wizardParams.insert(QObject::tr("Size z"), QVariant::fromValue(3.0));
 
-//    item->processWizardInput();
-//    item->calculate();
+    item->processWizardInput();
+    item->calculate();
 
 
     this->layerManager->updateAllLayers();
@@ -510,11 +510,15 @@ void MainWindow::on_action_basic_cylinder_triggered()
 
     CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Cylinder);
     this->itemWizard->showWizard(item);
+}
 
-//    CAD_basic_cylinder* cylinder = new CAD_basic_cylinder();
-//    cylinder->center_base = QVector3D(3.0, 0.0, 0.0);
-//    cylinder->calculate();
-//    itemDB->addItem(cylinder, "Testlayer");
+void MainWindow::on_action_basic_pipe_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Pipe);
+    this->itemWizard->showWizard(item);
 }
 
 void MainWindow::on_action_basic_linie_triggered()
@@ -1200,3 +1204,4 @@ void MainWindow::on_action_sprinkler_zonecheck_triggered()
     CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Sprinkler_ZoneCheck);
     this->itemWizard->showWizard(item);
 }
+

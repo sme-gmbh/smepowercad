@@ -9,6 +9,7 @@
 #include <QLineEdit>
 #include <QSpinBox>
 #include <QDoubleSpinBox>
+#include <QKeyEvent>
 
 namespace Ui {
 class ItemWizard;
@@ -27,6 +28,7 @@ public:
 private slots:
     void on_buttonBox_accepted();
     void on_buttonBox_rejected();
+    void slot_rejected();
 
 private:
     Ui::ItemWizard *ui;

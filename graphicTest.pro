@@ -126,7 +126,21 @@ SOURCES += main.cpp\
     itemwizard.cpp \
     items/cad_sprinkler_pipeturn.cpp \
     items/cad_sprinkler_pipereducer.cpp \
-    items/cad_sprinkler_pipeendcap.cpp
+    items/cad_sprinkler_pipeendcap.cpp \
+    items/cad_sanitary_washbasin.cpp \
+    items/cad_sanitary_sink.cpp \
+    items/cad_sanitary_shower.cpp \
+    items/cad_sanitary_pipeturn.cpp \
+    items/cad_sanitary_pipeteeconnector.cpp \
+    items/cad_sanitary_pipereducer.cpp \
+    items/cad_sanitary_pipeendcap.cpp \
+    items/cad_sanitary_pipe.cpp \
+    items/cad_sanitary_liftingunit.cpp \
+    items/cad_sanitary_flange.cpp \
+    items/cad_sanitary_emergencyshower.cpp \
+    items/cad_sanitary_emergencyeyeshower.cpp \
+    items/cad_sanitary_electricwaterheater.cpp \
+    items/cad_basic_pipe.cpp
 
 HEADERS  += mainwindow.h \
     overlay.h \
@@ -241,7 +255,21 @@ HEADERS  += mainwindow.h \
     itemwizard.h \
     items/cad_sprinkler_pipeturn.h \
     items/cad_sprinkler_pipereducer.h \
-    items/cad_sprinkler_pipeendcap.h
+    items/cad_sprinkler_pipeendcap.h \
+    items/cad_sanitary_washbasin.h \
+    items/cad_sanitary_sink.h \
+    items/cad_sanitary_shower.h \
+    items/cad_sanitary_pipeturn.h \
+    items/cad_sanitary_pipeteeconnector.h \
+    items/cad_sanitary_pipereducer.h \
+    items/cad_sanitary_pipeendcap.h \
+    items/cad_sanitary_pipe.h \
+    items/cad_sanitary_liftingunit.h \
+    items/cad_sanitary_flange.h \
+    items/cad_sanitary_emergencyshower.h \
+    items/cad_sanitary_emergencyeyeshower.h \
+    items/cad_sanitary_electricwaterheater.h \
+    items/cad_basic_pipe.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

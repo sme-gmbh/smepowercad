@@ -16,6 +16,7 @@
 #include "items/cad_basic_plane.h"
 #include "items/cad_basic_box.h"
 #include "items/cad_basic_cylinder.h"
+#include "items/cad_basic_pipe.h"
 #include "items/cad_basic_sphere.h"
 
 #include "items/cad_arch_beam.h"
@@ -97,6 +98,20 @@
 
 #include "items/cad_electrical_cabinet.h"
 #include "items/cad_electrical_cabletray.h"
+
+#include "items/cad_sanitary_electricwaterheater.h"
+#include "items/cad_sanitary_emergencyeyeshower.h"
+#include "items/cad_sanitary_emergencyshower.h"
+#include "items/cad_sanitary_flange.h"
+#include "items/cad_sanitary_liftingunit.h"
+#include "items/cad_sanitary_pipe.h"
+#include "items/cad_sanitary_pipeendcap.h"
+#include "items/cad_sanitary_pipereducer.h"
+#include "items/cad_sanitary_pipeteeconnector.h"
+#include "items/cad_sanitary_pipeturn.h"
+#include "items/cad_sanitary_shower.h"
+#include "items/cad_sanitary_sink.h"
+#include "items/cad_sanitary_washbasin.h"
 
 class ItemDB : public QObject
 {

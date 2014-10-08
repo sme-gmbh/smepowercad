@@ -6,6 +6,7 @@ ItemWizard::ItemWizard(QWidget *parent) :
     ui(new Ui::ItemWizard)
 {
     ui->setupUi(this);
+    connect(this, SIGNAL(rejected()), this, SLOT(slot_rejected()));
 }
 
 ItemWizard::~ItemWizard()
@@ -74,8 +75,12 @@ void ItemWizard::on_buttonBox_accepted()
 void ItemWizard::on_buttonBox_rejected()
 {
     currentItem->calculate();
-    this->deleteWdgs(ui->formLayout);
     this->reject();
+}
+
+void ItemWizard::slot_rejected()
+{
+    this->deleteWdgs(ui->formLayout);
 }
 
 void ItemWizard::save()

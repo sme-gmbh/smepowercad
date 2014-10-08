@@ -258,6 +258,8 @@ private slots:
 
     void on_action_sprinkler_zonecheck_triggered();
 
+    void on_action_basic_pipe_triggered();
+
 signals:
     void signal_command_prompt_input(QString str);
     void signal_repaintNeeded();

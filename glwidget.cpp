@@ -51,6 +51,7 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, cons
     GLfloat mat_shininess[] = { 0.2 };
 //    glShadeModel (GL_FLAT);
     glShadeModel(GL_SMOOTH);
+    glEnable(GL_FRAMEBUFFER_SRGB);
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE | GL_EMISSION);
 //    glColorMaterial(GL_FRONT_AND_BACK, GL_EMISSION);
     glEnable(GL_COLOR_MATERIAL);
@@ -730,122 +731,18 @@ void GLWidget::paintEvent(QPaintEvent *event)
     shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection * matrix_modelview * matrix_rotation);
 
 
-
     qglClearColor(_backgroundColor);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//    glMatrixMode(GL_PROJECTION);
-//    glLoadIdentity();
-//    GLfloat screenRatio = (qreal)this->width() / (qreal)this->height();
-//    glMatrixMode(GL_MODELVIEW);
-//    glLoadIdentity();
     glViewport(0.0, 0.0, width(), height());
-//    glTranslatef((qreal)translationOffset.x() / (qreal)this->width() * 2, (qreal)translationOffset.y() / (qreal)this->height() * 2, 0.0);
-//    glScalef(this->zoomFactor / screenRatio / (qreal)this->height(), this->zoomFactor / (qreal)this->height(), 1.0 / 100000.0);
     glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
 
     glEnable(GL_MULTISAMPLE);
     glDisable(GL_CULL_FACE);
-
-//    glRotatef(rot_x, 1.0f, 0.0f, 0.0f);
-//    glRotatef(rot_y, 0.0f, 1.0f, 0.0f);
-//    glRotatef(rot_z, 0.0f, 0.0f, 1.0f);
-
-    GLfloat glMatrix_modelview[16];
-    GLfloat glMatrix_projection[16];
-
-//    glGetFloatv(GL_MODELVIEW_MATRIX, glMatrix_modelview);
-//    this->glMatrix_Modelview = QMatrix4x4(
-//            glMatrix_modelview[0],
-//            glMatrix_modelview[1],
-//            glMatrix_modelview[2],
-//            glMatrix_modelview[3],
-//            glMatrix_modelview[4],
-//            glMatrix_modelview[5],
-//            glMatrix_modelview[6],
-//            glMatrix_modelview[7],
-//            glMatrix_modelview[8],
-//            glMatrix_modelview[9],
-//            glMatrix_modelview[10],
-//            glMatrix_modelview[11],
-//            glMatrix_modelview[12],
-//            glMatrix_modelview[13],
-//            glMatrix_modelview[14],
-//            glMatrix_modelview[15]
-//            );
-//    this->glMatrix_Modelview = this->glMatrix_Modelview.transposed();
-
-
-
-
-
-
-
-
-
-//    QMatrix4x4 tmpModelView;
-//    tmpModelView.setToIdentity();
-
-//    tmpModelView.translate((qreal)translationOffset.x() / (qreal)this->width() * 2, (qreal)translationOffset.y() / (qreal)this->height() * 2, 0);
-//    tmpModelView.scale(this->zoomFactor / screenRatio, this->zoomFactor, this->zoomFactor);
-//    tmpModelView = tmpModelView * this->arcballRotationMatrix;
-
-//    tmpModelView = tmpModelView.transposed();
-////    tmpModelView.setToIdentity();
-////    tmpModelView.scale(0.1);
-
-//    GLfloat modMatrix[16];
-//    QVector4D r = tmpModelView.row(0);
-//    modMatrix[0] = r.x();
-//    modMatrix[1] = r.y();
-//    modMatrix[2] = r.z();
-//    modMatrix[3] = r.w();
-//    r = tmpModelView.row(1);
-//    modMatrix[4] = r.x();
-//    modMatrix[5] = r.y();
-//    modMatrix[6] = r.z();
-//    modMatrix[7] = r.w();
-//    r = tmpModelView.row(2);
-//    modMatrix[8] = r.x();
-//    modMatrix[9] = r.y();
-//    modMatrix[10] = r.z();
-//    modMatrix[11] = r.w();
-//    r = tmpModelView.row(3);
-//    modMatrix[12] = r.x();
-//    modMatrix[13] = r.y();
-//    modMatrix[14] = r.z();
-//    modMatrix[15] = r.w();
-
-//    glLoadMatrixf(modMatrix);
-
-
-//    glGetFloatv(GL_PROJECTION_MATRIX, glMatrix_projection);
-//    this->matrix_projection = QMatrix4x4(
-//            glMatrix_projection[0],
-//            glMatrix_projection[1],
-//            glMatrix_projection[2],
-//            glMatrix_projection[3],
-//            glMatrix_projection[4],
-//            glMatrix_projection[5],
-//            glMatrix_projection[6],
-//            glMatrix_projection[7],
-//            glMatrix_projection[8],
-//            glMatrix_projection[9],
-//            glMatrix_projection[10],
-//            glMatrix_projection[11],
-//            glMatrix_projection[12],
-//            glMatrix_projection[13],
-//            glMatrix_projection[14],
-//            glMatrix_projection[15]
-//            );
-
-//    this->matrix_projection = this->matrix_projection.transposed();
-
     glDepthFunc(GL_LEQUAL);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_ALPHA_TEST);
-
-
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
 
@@ -880,11 +777,6 @@ void GLWidget::paintEvent(QPaintEvent *event)
 
     // Overlay
     saveGLState();
-//    glMatrixMode(GL_PROJECTION);
-//    glLoadIdentity();
-//    glOrtho(0, this->width(), 0, this->height(), -1.0, 1.0);
-//    glMatrixMode(GL_MODELVIEW);
-//    glLoadIdentity();
     glViewport(0, 0, width(), height());
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -896,7 +788,6 @@ void GLWidget::paintEvent(QPaintEvent *event)
         // Cursor lines
         glDisable(GL_DEPTH_TEST);
         glLineWidth((GLfloat)_cursorWidth);
-//        glColor4ub(255, 255, 255, 255);
         setPaintingColor(Qt::white);
         glBegin(GL_LINES);
         glVertex3i(mousePos.x() - _cursorSize, mousePos.y(), 0);
@@ -907,7 +798,6 @@ void GLWidget::paintEvent(QPaintEvent *event)
 
         // Cursor Pickbox
         glLineWidth(_cursorPickboxLineWidth);
-//        qglColor(_cursorPickboxColor);
         setPaintingColor(_cursorPickboxColor);
         QRect pickRect = QRect(0, 0, _cursorPickboxSize, _cursorPickboxSize);
         pickRect.moveCenter(mousePos);
@@ -921,10 +811,8 @@ void GLWidget::paintEvent(QPaintEvent *event)
         if (this->pickActive)
         {
             if (this->pickStartPos.x() < this->mousePos.x())
-//                qglColor(_pickboxFillColorLeft);
                 setPaintingColor(_pickboxFillColorLeft);
             else
-//                qglColor(_pickboxFillColorRight);
                 setPaintingColor(_pickboxFillColorRight);
 
             glLineWidth(_pickboxOutlineWidth);
@@ -938,10 +826,8 @@ void GLWidget::paintEvent(QPaintEvent *event)
             glEnd();
 
             if (this->pickStartPos.x() < this->mousePos.x())
-//                qglColor(_pickboxOutlineColorLeft);
                 setPaintingColor(_pickboxOutlineColorLeft);
             else
-//                qglColor(_pickboxOutlineColorRight);
                 setPaintingColor(_pickboxOutlineColorRight);
             glBegin(GL_LINE_LOOP);
             glVertex3i(rect.bottomLeft().x(), rect.bottomLeft().y(), 0);
@@ -967,7 +853,6 @@ void GLWidget::paintEvent(QPaintEvent *event)
         {
         case SnapBasepoint:
         {
-//            glColor4ub(255, 0, 0, 255);
             setPaintingColor(Qt::red);
             glBegin(GL_LINE_LOOP);
             glVertex2i(focusRect.bottomLeft().x(), focusRect.bottomLeft().y());
@@ -983,7 +868,6 @@ void GLWidget::paintEvent(QPaintEvent *event)
         }
         case SnapEndpoint:
         {
-//            glColor4ub(255, 0, 0, 255);
             setPaintingColor(Qt::red);
             glBegin(GL_LINE_LOOP);
             glVertex2i(focusRect.bottomLeft().x(), focusRect.bottomLeft().y());
@@ -999,7 +883,6 @@ void GLWidget::paintEvent(QPaintEvent *event)
         }
         case SnapCenter:
         {
-//            glColor4ub(255, 0, 0, 255);
             setPaintingColor(Qt::red);
             glBegin(GL_LINES);
             glVertex2i(focusRect.left(), focusRect.top());
@@ -1129,15 +1012,17 @@ void GLWidget::paintContent(QList<Layer*> layers)
             // Paint it
             switch (item->getType())
             {
+            case CADitem::None:
+                break;
             case CADitem::Basic_Point:
                 break;
             case CADitem::Basic_Line:
                 if (this->render_outline)
-                    paintLine(layer, (CAD_basic_line*)item);
+                    paintBasicLine(layer, (CAD_basic_line*)item);
                 break;
             case CADitem::Basic_Polyline:
                 if (this->render_outline)
-                    paintPolyLine(layer, (CAD_basic_polyline*)item);
+                    paintBasicPolyLine(layer, (CAD_basic_polyline*)item);
                 break;
             case CADitem::Basic_Circle:
                 if (this->render_outline)
@@ -1148,7 +1033,7 @@ void GLWidget::paintContent(QList<Layer*> layers)
                     paintBasicArc( layer, (CAD_basic_arc*)item);
                 break;
             case CADitem::Basic_Face:
-                paintFace(layer, (CAD_basic_3Dface*)item);
+                paintBasicFace(layer, (CAD_basic_3Dface*)item);
                 break;
             case CADitem::Basic_Plane:
                 break;
@@ -1157,6 +1042,9 @@ void GLWidget::paintContent(QList<Layer*> layers)
                 break;
             case CADitem::Basic_Cylinder:
                 paintBasicCylinder(layer, (CAD_basic_cylinder*)item);
+                break;
+            case CADitem::Basic_Pipe:
+                paintBasicPipe(layer, (CAD_basic_pipe*)item);
                 break;
             case CADitem::Basic_Sphere:
                 paintBasicSphere(layer, (CAD_basic_sphere*)item);
@@ -1395,13 +1283,97 @@ void GLWidget::paintContent(QList<Layer*> layers)
             case CADitem::Electrical_CableTray:
                 paintElectricalCabletray(layer, (CAD_electrical_cableTray*)item);
                 break;
+
+            case CADitem::Sanitary_Pipe:
+                paintSanitaryPipe(layer, (CAD_sanitary_pipe*)item);
+                break;
+            case CADitem::Sanitary_PipeTurn:
+                paintSanitaryPipeTurn(layer, (CAD_sanitary_pipeTurn*)item);
+                break;
+            case CADitem::Sanitary_PipeReducer:
+                paintSanitaryPipeReducer(layer, (CAD_sanitary_pipeReducer*)item);
+                break;
+            case CADitem::Sanitary_PipeTeeConnector:
+                paintSanitaryPipeTeeConnector(layer, (CAD_sanitary_pipeTeeConnector*)item);
+                break;
+            case CADitem::Sanitary_PipeEndCap:
+                paintSanitaryPipeEndCap(layer, (CAD_sanitary_pipeEndCap*)item);
+                break;
+            case CADitem::Sanitary_Flange:
+                paintSanitaryFlange(layer, (CAD_sanitary_flange*)item);
+                break;
+            case CADitem::Sanitary_ElectricWaterHeater:
+                paintSanitaryElectricWaterHeater(layer, (CAD_sanitary_electricWaterHeater*)item);
+                break;
+            case CADitem::Sanitary_WashBasin:
+                paintSanitaryWashBasin(layer, (CAD_sanitary_washBasin*)item);
+                break;
+            case CADitem::Sanitary_Sink:
+                paintSanitarySink(layer, (CAD_sanitary_sink*)item);
+                break;
+            case CADitem::Sanitary_Shower:
+                paintSanitaryShower(layer, (CAD_sanitary_shower*)item);
+                break;
+            case CADitem::Sanitary_EmergencyShower:
+                paintSanitaryEmergencyShower(layer, (CAD_sanitary_emergencyShower*)item);
+                break;
+            case CADitem::Sanitary_EmergencyEyeShower:
+                paintSanitaryEmergencyEyeShower(layer, (CAD_sanitary_emergencyEyeShower*)item);
+                break;
+            case CADitem::Sanitary_LiftingUnit:
+                paintSanitaryLiftingUnit(layer, (CAD_sanitary_liftingUnit*)item);
+                break;
             }
         }
         paintContent(layer->subLayers);
     }
 }
 
-void GLWidget::paintLine(Layer* layer, CAD_basic_line *item)
+QColor GLWidget::getColorPen(CADitem* item, Layer* layer)
+{
+    QColor color_pen = item->color_pen;
+
+    if (color_pen == Qt::transparent)   // BYLAYER
+    {
+        color_pen = layer->pen.color();
+    }
+    else if (color_pen.value() < 50)
+        color_pen = Qt::white;
+
+    if (item->highlight || item->selected)
+    {
+        if (color_pen.lightnessF() > 0.5)
+            color_pen = color_pen.darker();
+        else
+            color_pen = color_pen.lighter();
+    }
+
+    return color_pen;
+}
+
+QColor GLWidget::getColorBrush(CADitem* item, Layer* layer)
+{
+    QColor color_brush = item->color_brush;
+
+    if (color_brush == Qt::transparent)   // BYLAYER
+    {
+        color_brush = layer->brush.color();
+    }
+    else if (color_brush.value() < 50)
+        color_brush = Qt::white;
+
+    if (item->highlight || item->selected)
+    {
+        if (color_brush.lightnessF() > 0.5)
+            color_brush = color_brush.darker();
+        else
+            color_brush = color_brush.lighter();
+    }
+
+    return color_brush;
+}
+
+void GLWidget::paintBasicLine(Layer* layer, CAD_basic_line *item)
 {
     QColor color_pen = getColorPen(item, layer);
 
@@ -1456,7 +1428,7 @@ void GLWidget::paintLine(Layer* layer, CAD_basic_line *item)
     glEnd();
 }
 
-void GLWidget::paintPolyLine(Layer *layer, CAD_basic_polyline *item)
+void GLWidget::paintBasicPolyLine(Layer *layer, CAD_basic_polyline *item)
 {
 
     QColor color_pen = getColorPen(item, layer);
@@ -1537,7 +1509,7 @@ void GLWidget::paintPolyLine(Layer *layer, CAD_basic_polyline *item)
     //    qDebug() << "GeometryRenderengine: Painting a polyline";
 }
 
-void GLWidget::paintFace(Layer *layer, CAD_basic_3Dface *item)
+void GLWidget::paintBasicFace(Layer *layer, CAD_basic_3Dface *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
@@ -1645,50 +1617,6 @@ void GLWidget::paintBasicCircle(Layer *layer, CAD_basic_circle *item)
         glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
     }
     glEnd();
-}
-
-QColor GLWidget::getColorPen(CADitem* item, Layer* layer)
-{
-    QColor color_pen = item->color_pen;
-
-    if (color_pen == Qt::transparent)   // BYLAYER
-    {
-        color_pen = layer->pen.color();
-    }
-    else if (color_pen.value() < 50)
-        color_pen = Qt::white;
-
-    if (item->highlight || item->selected)
-    {
-        if (color_pen.lightnessF() > 0.5)
-            color_pen = color_pen.darker();
-        else
-            color_pen = color_pen.lighter();
-    }
-
-    return color_pen;
-}
-
-QColor GLWidget::getColorBrush(CADitem* item, Layer* layer)
-{
-    QColor color_brush = item->color_brush;
-
-    if (color_brush == Qt::transparent)   // BYLAYER
-    {
-        color_brush = layer->brush.color();
-    }
-    else if (color_brush.value() < 50)
-        color_brush = Qt::white;
-
-    if (item->highlight || item->selected)
-    {
-        if (color_brush.lightnessF() > 0.5)
-            color_brush = color_brush.darker();
-        else
-            color_brush = color_brush.lighter();
-    }
-
-    return color_brush;
 }
 
 void GLWidget::paintBasicBox(Layer *layer, CAD_basic_box *item)
@@ -1807,7 +1735,6 @@ void GLWidget::paintBasicCylinder(Layer *layer, CAD_basic_cylinder *item)
         }
 
         // Vertical connections (faces)
-//        glColor4f(color_brush.redF(), color_brush.greenF(), color_brush.blueF(), color_brush.alphaF());
         setPaintingColor(color_brush);
         glBegin(GL_QUADS);
         QVector3D last_vertex_bottom = vertices_bottom.at(vertices_bottom.count() - 1);
@@ -1827,7 +1754,6 @@ void GLWidget::paintBasicCylinder(Layer *layer, CAD_basic_cylinder *item)
     if (this->render_outline)
     {
         QList<QVector3D> vertices_bottom;
-//        glColor4f(color_pen.redF(), color_pen.greenF(), color_pen.blueF(), color_pen.alphaF());
         setPaintingColor(color_pen);
         glLineWidth(1.0);
         // Bottom circle
@@ -1868,6 +1794,114 @@ void GLWidget::paintBasicCylinder(Layer *layer, CAD_basic_cylinder *item)
         }
 
         glEnd();
+    }
+}
+
+void GLWidget::paintBasicPipe(Layer *layer, CAD_basic_pipe *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
+
+    if (this->render_solid)
+    {
+        QList<QVector3D> vertices_outer_bottom;
+        QList<QVector3D> vertices_inner_bottom;
+
+        // Outer bottom circle
+        for (qreal i=0.0; i < 1.0; i += 0.02)    // 50 edges
+        {
+            qreal angle = 2 * PI * i;
+            QVector3D linePos;
+
+            linePos = item->matrix_rotation * QVector3D(sin(angle) * item->radius, cos(angle) * item->radius, 0.0);
+            linePos += item->position;
+            vertices_outer_bottom.append(linePos);
+            vertices_inner_bottom.append(linePos + (item->position - linePos).normalized() * item->wallThickness);
+        }
+
+        // Vertical connections (faces)
+        setPaintingColor(color_brush);
+        glBegin(GL_QUADS);
+        // Outer cylinder
+        QVector3D last_vertex_bottom = vertices_outer_bottom.at(vertices_outer_bottom.count() - 1);
+        for (int i = 0; i < vertices_outer_bottom.count(); i++)
+        {
+            QVector3D vertex_bottom = vertices_outer_bottom.at(i);
+            glVertex3f((GLfloat)last_vertex_bottom.x(), (GLfloat)last_vertex_bottom.y(), (GLfloat)last_vertex_bottom.z());
+            glVertex3f((GLfloat)(last_vertex_bottom.x() + item->direction.x()), (GLfloat)(last_vertex_bottom.y() + item->direction.y()), (GLfloat)(last_vertex_bottom.z()  + item->direction.z()));
+            glVertex3f((GLfloat)(vertex_bottom.x() + item->direction.x()), (GLfloat)(vertex_bottom.y() + item->direction.y()), (GLfloat)(vertex_bottom.z() + item->direction.z()));
+            glVertex3f((GLfloat)vertex_bottom.x(), (GLfloat)vertex_bottom.y(), (GLfloat)vertex_bottom.z());
+            last_vertex_bottom = vertex_bottom;
+        }
+        // Inner cylinder
+        last_vertex_bottom = vertices_inner_bottom.at(vertices_inner_bottom.count() - 1);
+        for (int i = 0; i < vertices_inner_bottom.count(); i++)
+        {
+            QVector3D vertex_bottom = vertices_inner_bottom.at(i);
+            glVertex3f((GLfloat)last_vertex_bottom.x(), (GLfloat)last_vertex_bottom.y(), (GLfloat)last_vertex_bottom.z());
+            glVertex3f((GLfloat)(last_vertex_bottom.x() + item->direction.x()), (GLfloat)(last_vertex_bottom.y() + item->direction.y()), (GLfloat)(last_vertex_bottom.z()  + item->direction.z()));
+            glVertex3f((GLfloat)(vertex_bottom.x() + item->direction.x()), (GLfloat)(vertex_bottom.y() + item->direction.y()), (GLfloat)(vertex_bottom.z() + item->direction.z()));
+            glVertex3f((GLfloat)vertex_bottom.x(), (GLfloat)vertex_bottom.y(), (GLfloat)vertex_bottom.z());
+            last_vertex_bottom = vertex_bottom;
+        }
+        // TBD. end disks
+
+        glEnd();
+    }
+
+    if (this->render_outline)
+    {
+        QList<QVector3D> vertices_bottom;
+        setPaintingColor(color_pen);
+        glLineWidth(1.0);
+        // Bottom circle
+        glBegin(GL_LINE_LOOP);
+        for (qreal i=0.0; i < 1.0; i += 0.02)    // 50 edges
+        {
+            qreal angle = 2 * PI * i;
+            QVector3D linePos;
+
+            linePos = item->matrix_rotation * QVector3D(sin(angle) * item->radius, cos(angle) * item->radius, 0.0);
+            linePos += item->position;
+            vertices_bottom.append(linePos);
+
+            glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
+        }
+        glEnd();
+
+        // Top circle
+        glBegin(GL_LINE_LOOP);
+        for (qreal i=0.0; i < 1.0; i += 0.02)    // 50 edges
+        {
+            qreal angle = 2 * PI * i;
+            QVector3D linePos;
+
+            linePos = item->matrix_rotation * QVector3D(sin(angle) * item->radius, cos(angle) * item->radius, 0.0);
+            linePos += item->position + item->direction;
+
+            glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
+        }
+        glEnd();
+
+        // Vertical connections
+
+        glBegin(GL_LINES);
+        foreach (QVector3D vertex_bottom, vertices_bottom)
+        {
+            glVertex3f((GLfloat)vertex_bottom.x(), (GLfloat)vertex_bottom.y(), (GLfloat)vertex_bottom.z());
+            glVertex3f((GLfloat)(vertex_bottom.x() + item->direction.x()), (GLfloat)(vertex_bottom.y() + item->direction.y()), (GLfloat)(vertex_bottom.z() + item->direction.z()));
+        }
+        glEnd();
+
+        // Center line
+        glLineWidth(3.0);
+        glLineStipple(2, 0x00FF);
+        glEnable(GL_LINE_STIPPLE);
+        glBegin(GL_LINES);
+        glVertex3f((GLfloat)item->position.x(), (GLfloat)item->position.y(), (GLfloat)item->position.z());
+        glVertex3f((GLfloat)(item->position.x() + item->direction.x()), (GLfloat)(item->position.y() + item->direction.y()), (GLfloat)(item->position.z() + item->direction.z()));
+        glEnd();
+        glDisable(GL_LINE_STIPPLE);
     }
 }
 
@@ -2335,6 +2369,84 @@ void GLWidget::paintElectricalCabletray(Layer *layer, CAD_electrical_cableTray *
     QColor color_brush = getColorBrush(item, layer);
 }
 
+void GLWidget::paintSanitaryPipe(Layer *layer, CAD_sanitary_pipe *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
+}
+
+void GLWidget::paintSanitaryPipeTurn(Layer *layer, CAD_sanitary_pipeTurn *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
+}
+
+void GLWidget::paintSanitaryPipeReducer(Layer *layer, CAD_sanitary_pipeReducer *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
+}
+
+void GLWidget::paintSanitaryPipeTeeConnector(Layer *layer, CAD_sanitary_pipeTeeConnector *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
+}
+
+void GLWidget::paintSanitaryPipeEndCap(Layer *layer, CAD_sanitary_pipeEndCap *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
+}
+
+void GLWidget::paintSanitaryFlange(Layer *layer, CAD_sanitary_flange *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
+}
+
+void GLWidget::paintSanitaryElectricWaterHeater(Layer *layer, CAD_sanitary_electricWaterHeater *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
+}
+
+void GLWidget::paintSanitaryWashBasin(Layer *layer, CAD_sanitary_washBasin *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
+}
+
+void GLWidget::paintSanitarySink(Layer *layer, CAD_sanitary_sink *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
+}
+
+void GLWidget::paintSanitaryShower(Layer *layer, CAD_sanitary_shower *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
+}
+
+void GLWidget::paintSanitaryEmergencyShower(Layer *layer, CAD_sanitary_emergencyShower *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
+}
+
+void GLWidget::paintSanitaryEmergencyEyeShower(Layer *layer, CAD_sanitary_emergencyEyeShower *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
+}
+
+void GLWidget::paintSanitaryLiftingUnit(Layer *layer, CAD_sanitary_liftingUnit *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
+}
+
 CADitem* GLWidget::itemAtPosition(QPoint pos)
 {
 #define HITBUFFER_SIZE 512000
@@ -2405,7 +2517,7 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
     {
         GLuint numberOfNames = buffer[i];
         GLuint minDepth = buffer[i + 1];
-        GLuint maxDepth = buffer[i + 2];
+//        GLuint maxDepth = buffer[i + 2];
 
         if (numberOfNames > 0)
         {
