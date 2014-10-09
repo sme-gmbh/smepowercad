@@ -8,6 +8,7 @@ GeometryDisplayTitle::GeometryDisplayTitle(QWidget *parent) :
     ui(new Ui::GeometryDisplayTitle)
 {
     ui->setupUi(this);
+    ui->comboBox_view->setCurrentIndex(5);
 }
 
 GeometryDisplayTitle::~GeometryDisplayTitle()
@@ -32,6 +33,11 @@ void GeometryDisplayTitle::slot_sceneCoordinatesChanged(QVector3D coords)
 void GeometryDisplayTitle::slot_selectionCountChanged(int num)
 {
     ui->labelSelectionCount->setText(QString().setNum(num));
+}
+
+void GeometryDisplayTitle::slot_setDirectionOfViewInvalid()
+{
+    ui->comboBox_view->setCurrentIndex(-1);
 }
 
 void GeometryDisplayTitle::on_pushButtonFloat_clicked()

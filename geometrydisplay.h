@@ -92,6 +92,7 @@ public slots:
     void slot_highlightItem(CADitem* item);
     void slot_snapTo(QVector3D snapPos_scene, int snapMode);
     void slot_changeSelection(QList<CADitem*> selectedItems);
+    void slot_matrix_rotation_changed(QMatrix4x4 matrix_rotation);
 
 
 private slots:

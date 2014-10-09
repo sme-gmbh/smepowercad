@@ -2,7 +2,7 @@
 #define CAD_BASIC_ARC_H
 
 #include "caditem.h"
-#include <qmath.h>;
+#include <qmath.h>
 
 class CAD_basic_arc : public CADitem
 {

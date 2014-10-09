@@ -24,6 +24,7 @@ private:
 public slots:
     void slot_sceneCoordinatesChanged(QVector3D coords);
     void slot_selectionCountChanged(int num);
+    void slot_setDirectionOfViewInvalid();
 
 private slots:
     void on_pushButtonFloat_clicked();

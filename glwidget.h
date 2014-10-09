@@ -68,8 +68,7 @@ private:
     QPoint displayCenter;           // The Center of the widget in PixelsOnScreen, related to bottomLeft of Widget
     QVector3D cameraPosition;
     QVector3D lookAtPosition;
-    float rot_x, rot_y, rot_z;
-    float rot_x_old, rot_y_old, rot_z_old;
+//    float rot_x, rot_y, rot_z;
 
     QPoint arcballPosOld;
     QMatrix4x4 matrix_arcball;
@@ -136,6 +135,9 @@ private:
     int shader_vertexLocation;
     int shader_matrixLocation;
     int shader_colorLocation;
+    int shader_textureCoordLocation;
+    int shader_textureSamplerLocation;
+    int shader_useTextureLocation;
     QVector4D vertex_color;
     QVector3D vertex_position;
     QMatrix4x4 matrix_projection;
@@ -145,7 +147,12 @@ private:
     void saveGLState();
     void restoreGLState();
 
+    void setVertex(QVector3D pos);
+    void setVertex(QPoint pos);
     void setPaintingColor(QColor color);
+    void setTextureCoords(QPoint coord);
+    void setTextureCoords(qreal x, qreal y, qreal z);
+    void setUseTexture(bool on);
     void paintContent(QList<Layer*> layers);
 
     void updateArcball(int steps);
@@ -154,7 +161,7 @@ private:
     QColor getColorPen(CADitem* item, Layer *layer);
     QColor getColorBrush(CADitem* item, Layer *layer);
 
-    void paintTextInfoBox(QPoint pos, QString text, QFont font = QFont(), QColor colorText = QColor(Qt::red), QColor colorBackground = QColor(0, 0, 0, 150), QColor colorOutline = QColor(200, 200, 200, 150));
+    void paintTextInfoBox(QPoint pos, QString text, QFont font = QFont(), QColor colorText = QColor(Qt::red), QColor colorBackground = QColor(10, 10, 10, 60), QColor colorOutline = QColor(200, 200, 200, 150));
 
     void paintBasicLine(Layer* layer, CAD_basic_line* item);
     void paintBasicPolyLine(Layer *layer, CAD_basic_polyline *item);
@@ -293,6 +300,7 @@ protected:
 
 signals:
     void signal_mouseMoved(QVector3D coords);
+    void signal_matrix_rotation_changed(QMatrix4x4 matrix_rotation);
 
 public slots:
     void slot_repaint();

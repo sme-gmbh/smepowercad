@@ -41,6 +41,7 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, ItemWizard *itemWizard, QWidget
     connect(this, SIGNAL(signal_mouse3Dcoords(int,int,int,int,int,int)), glwidget, SLOT(slot_mouse3Dmoved(int,int,int,int,int,int)));
     connect(glwidget, SIGNAL(signal_highlightItem(CADitem*)), this, SIGNAL(signal_highlightItem(CADitem*)));
     connect(glwidget, SIGNAL(signal_snapFired(QVector3D,int)), this, SIGNAL(signal_snapFired(QVector3D,int)));
+    connect(glwidget, SIGNAL(signal_matrix_rotation_changed(QMatrix4x4)), this, SLOT(slot_matrix_rotation_changed(QMatrix4x4)));
 
     this->resize(400, 250);
     this->setFloating(false);
@@ -227,6 +228,12 @@ void GeometryDisplay::slot_changeSelection(QList<CADitem*> selectedItems)
 {
     glwidget->slot_changeSelection(selectedItems);
     titleWidget->slot_selectionCountChanged(selectedItems.count());
+}
+
+void GeometryDisplay::slot_matrix_rotation_changed(QMatrix4x4 matrix_rotation)
+{
+    Q_UNUSED(matrix_rotation);
+    titleWidget->slot_setDirectionOfViewInvalid();
 }
 
 void GeometryDisplay::slot_float()

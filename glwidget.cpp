@@ -17,12 +17,6 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, cons
     this->cuttingplane = CuttingPlane_nZ;
     this->height_of_intersection = 0.0;
     this->depth_of_view = 1000000.0;
-    this->rot_x = 0.0;
-    this->rot_y = 0.0;
-    this->rot_z = 0.0;
-    this->rot_x_old = 0.0;
-    this->rot_y_old = 0.0;
-    this->rot_z_old = 0.0;
     this->render_solid = true;
     this->render_outline = true;
     this->cameraPosition = QVector3D();
@@ -43,37 +37,36 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, cons
 
     this->setPalette(Qt::transparent);
     this->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-//    this->setAttribute(Qt::WA_OpaquePaintEvent);
 
     makeCurrent();
 
-    GLfloat mat_specular[] = { 0.5, 0.5, 0.5, 1.0 };
-    GLfloat mat_shininess[] = { 0.2 };
+//    GLfloat mat_specular[] = { 0.5, 0.5, 0.5, 1.0 };
+//    GLfloat mat_shininess[] = { 0.2 };
 //    glShadeModel (GL_FLAT);
     glShadeModel(GL_SMOOTH);
     glEnable(GL_FRAMEBUFFER_SRGB);
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE | GL_EMISSION);
 //    glColorMaterial(GL_FRONT_AND_BACK, GL_EMISSION);
-    glEnable(GL_COLOR_MATERIAL);
-    glEnable(GL_NORMALIZE);
+//    glEnable(GL_COLOR_MATERIAL);
+//    glEnable(GL_NORMALIZE);
 
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
+//    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
+//    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
 
 
-    GLfloat specular[] = { 0.2f, 0.2f, 0.2f, 1.0f};
-    GLfloat diffuseLight[] = { 0.2f, 0.2f, 0.2f, 1.0f};
-    GLfloat light_position[] = { 500.0, 15.0, -800.0, 0.0 };
+//    GLfloat specular[] = { 0.2f, 0.2f, 0.2f, 1.0f};
+//    GLfloat diffuseLight[] = { 0.2f, 0.2f, 0.2f, 1.0f};
+//    GLfloat light_position[] = { 500.0, 15.0, -800.0, 0.0 };
 
-    glLightfv(GL_LIGHT0, GL_DIFFUSE,diffuseLight);
-    glLightfv(GL_LIGHT0,GL_SPECULAR,specular);
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+//    glLightfv(GL_LIGHT0, GL_DIFFUSE,diffuseLight);
+//    glLightfv(GL_LIGHT0,GL_SPECULAR,specular);
+//    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
-    glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.2);
-    glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.3);
-    glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.8);
+//    glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.2);
+//    glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.3);
+//    glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.8);
 
-    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+//    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 
     shader_1_frag = new QGLShader(QGLShader::Fragment, this);
     bool shaderOk = shader_1_frag->compileSourceFile(":/shaders/test.frag");
@@ -106,42 +99,29 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, cons
     //shader_vertexLocation = shaderProgram->attributeLocation("VertexPosition");
     shader_matrixLocation = shaderProgram->uniformLocation("Matrix");
     shader_colorLocation = shaderProgram->attributeLocation("VertexColor");
+    shader_textureCoordLocation = shaderProgram->attributeLocation("TexCoord");
+    shader_textureSamplerLocation = shaderProgram->uniformLocation("uTexUnit0");
+    shader_useTextureLocation = shaderProgram->uniformLocation("UseTexture");
 
     if (shader_vertexLocation < 0)
         QMessageBox::information(this, "Vertex Location invalid", QString().setNum(shader_vertexLocation));
     if (shader_colorLocation < 0)
         QMessageBox::information(this, "Color Location invalid", QString().setNum(shader_colorLocation));
+    if (shader_textureCoordLocation < 0)
+        QMessageBox::information(this, "Texture Coordinate Location invalid", QString().setNum(shader_textureCoordLocation));
     if (shader_matrixLocation < 0)
         QMessageBox::information(this, "Matrix Location invalid", QString().setNum(shader_matrixLocation));
+    if (shader_useTextureLocation < 0)
+        QMessageBox::information(this, "Use Texture Location invalid", QString().setNum(shader_useTextureLocation));
 
+    qDebug() << shader_vertexLocation;
+    qDebug() << shader_matrixLocation;
+    qDebug() << shader_colorLocation;
+    qDebug() << shader_textureCoordLocation;
+    qDebug() << shader_useTextureLocation;
 
 //    shaderProgram->setAttributeArray(shader_colorLocation, );
 //    shaderProgram->enableAttributeArray(shader_colorLocation);
-
-//    glMatrix_modelview[0],
-//    glMatrix_modelview[1],
-//    glMatrix_modelview[2],
-//    glMatrix_modelview[3],
-//    glMatrix_modelview[4],
-//    glMatrix_modelview[5],
-//    glMatrix_modelview[6],
-//    glMatrix_modelview[7],
-//    glMatrix_modelview[8],
-//    glMatrix_modelview[9],
-//    glMatrix_modelview[10],
-//    glMatrix_modelview[11],
-//    glMatrix_modelview[12],
-//    glMatrix_modelview[13],
-//    glMatrix_modelview[14],
-//    glMatrix_modelview[15]
-
-//    vertex_position = QVector3D(0.5, 0.5, 0.0);
-//    shaderProgram->setAttributeValue(shader_vertexLocation, vertex_position);
-
-
-
-
-
 }
 
 GLWidget::~GLWidget()
@@ -161,7 +141,6 @@ QPointF GLWidget::mapFromScene(QVector3D scenePoint)
     QVector4D sceneCoords = QVector4D(scenePoint, 1.0);
     QVector4D screenCoords;
 
-//    screenCoords = matrix_projection * matrix_modelview * sceneCoords;
     screenCoords = matrix_projection * matrix_modelview * matrix_rotation * sceneCoords;
 
     QPointF pixelCoords = screenCoords.toPointF() ;
@@ -246,9 +225,10 @@ void GLWidget::set_snapPos(QVector3D snapPos)
 
 void GLWidget::set_WorldRotation(float rot_x, float rot_y, float rot_z)
 {
-    this->rot_x = rot_x;
-    this->rot_y = rot_y;
-    this->rot_z = rot_z;
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(rot_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(rot_y, 0.0, 2.0, 0.0);
+    matrix_rotation.rotate(rot_z, 0.0, 0.0, 3.0);
     slot_repaint();
 }
 
@@ -324,11 +304,11 @@ void GLWidget::slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c)
         zoomFactor += zoomStep;
 
     // rot
-    rot_x += -((float)a / 15.0);
-    rot_y += -((float)b / 15.0);
-    rot_z += -((float)c / 15.0);
+//    rot_x += -((float)a / 15.0);
+//    rot_y += -((float)b / 15.0);
+//    rot_z += -((float)c / 15.0);
 
-
+    emit signal_matrix_rotation_changed(matrix_rotation);
     slot_repaint();
 }
 
@@ -415,15 +395,6 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
         qreal dx = mouseMoveDelta.x()/5.0f;
         qreal dy = mouseMoveDelta.y()/5.0f;
 
-        #define PI 3.14159265
-
-//        rot_x += dx * cos(rot_y*PI/180.0) - dy;
-//        rot_y += dx * cos(rot_x*PI/180.0) * cos(rot_z*PI/180.0) + dy * sin(rot_z*PI/180.0);
-        //rot_z += dx + dy;
-
-        rot_x += -dy;
-        rot_y += -dx;
-
         QVector4D axis_1, axis_2;
         axis_1 = matrix_rotation.transposed() * QVector4D(1.0f, 0.0f, 0.0f, 0.0f);
         axis_2 = matrix_rotation.transposed() * QVector4D(0.0f, 1.0f, 0.0f, 0.0f);
@@ -434,16 +405,11 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
         matrix_arcball.rotate(-dx, axis_2.toVector3D());
         matrix_arcball.translate(-1 * this->lookAtPosition);
 
-
-
         matrix_rotation = matrix_rotation * matrix_arcball;
-
-
+        emit signal_matrix_rotation_changed(matrix_rotation);
 
 //        this->updateArcball(mouseMoveDelta.manhattanLength());
-
     }
-
 
     if (event->buttons() == 0)
     {
@@ -529,10 +495,6 @@ void GLWidget::updateArcball(int steps)
 //    QMatrix4x4 eyeToObject = arcballRotationMatrix;
 
 //    QVector3D objSpaceRotAx = eyeToObject * rotAxis;
-
-//    qDebug() << 4 * ((360 / (2 * PI)) * angle);
-
-    matrix_arcball.rotate(steps, arcballDelta.y(), arcballDelta.x(), 0.0);
 }
 
 QVector3D GLWidget::getArcBallVector(int x, int y)
@@ -943,10 +905,40 @@ void GLWidget::restoreGLState()
     glPopAttrib();
 }
 
+void GLWidget::setVertex(QVector3D pos)
+{
+    shaderProgram->setAttributeValue(shader_vertexLocation, pos);
+}
+
+void GLWidget::setVertex(QPoint pos)
+{
+//    setVertex(QVector3D((qreal)pos.x(), (qreal)pos.y(), 0.0));
+    glVertex2i((GLint)pos.x(), (GLint)pos.y());
+}
+
 void GLWidget::setPaintingColor(QColor color)
 {
     vertex_color = QVector4D(color.redF(), color.greenF(), color.blueF(), color.alphaF());
     shaderProgram->setAttributeValue(shader_colorLocation, vertex_color);
+}
+
+void GLWidget::setTextureCoords(QPoint coord)
+{
+    shaderProgram->setAttributeValue(shader_textureCoordLocation, QVector4D((qreal)coord.x(), (qreal)coord.y(), 0.0, 0.0));
+}
+
+void GLWidget::setTextureCoords(qreal x, qreal y, qreal z)
+{
+    shaderProgram->setAttributeValue(shader_textureCoordLocation, x, y, z, 0.0);
+}
+
+void GLWidget::setUseTexture(bool on)
+{
+    GLint use;
+    if (on)
+        use = 1;
+    else use = 0;
+    shaderProgram->setUniformValue(shader_useTextureLocation, use);
 }
 
 void GLWidget::paintTextInfoBox(QPoint pos, QString text, QFont font, QColor colorText, QColor colorBackground, QColor colorOutline)
@@ -954,21 +946,59 @@ void GLWidget::paintTextInfoBox(QPoint pos, QString text, QFont font, QColor col
     // Calculate text box size
     QFontMetrics fm(font);
     QRect boundingRect = fm.boundingRect(text);
-    boundingRect.moveTopLeft(pos + QPoint(5, 2));
     boundingRect.adjust(-5, -5, 5, 5);
+    boundingRect.moveTopLeft(QPoint(0, 0));
+
+    // Text as texture
+    QImage textImage(boundingRect.width(), boundingRect.height(), QImage::Format_ARGB32);
+    textImage.fill(colorBackground);
+    QPainter painter(&textImage);
+    painter.setPen(colorText);
+    painter.setFont(font);
+    painter.drawText(boundingRect, Qt::AlignCenter, text);
+    painter.end();
+    boundingRect.moveTopLeft(pos);
+
+
+    GLuint textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+    float color[] = { 1.0f, 0.0f, 0.0f, 1.0f };
+    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, color);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+
+//    qDebug() << textureID;
+
+//    glActiveTexture(GL_TEXTURE0);
+//    glBindTexture(GL_TEXTURE_2D, textureID);
+//    glActiveTexture(0);
+    setUseTexture(true);
+
 
     // Draw background
-//    qglColor(colorBackground);
-    setPaintingColor(colorBackground);
+//    setPaintingColor(colorBackground);
     glBegin(GL_QUADS);
-    glVertex2i(boundingRect.bottomLeft().x(), boundingRect.bottomLeft().y());
-    glVertex2i(boundingRect.bottomRight().x(), boundingRect.bottomRight().y());
-    glVertex2i(boundingRect.topRight().x(), boundingRect.topRight().y());
-    glVertex2i(boundingRect.topLeft().x(), boundingRect.topLeft().y());
-    glEnd();
+    setTextureCoords(0.0, 1.0, 0.0);
+    setVertex(boundingRect.bottomLeft());
+    setTextureCoords(1.0, 1.0, 0.0);
+    setVertex(boundingRect.bottomRight());
+    setTextureCoords(1.0, 0.001, 0.0);
+    setVertex(boundingRect.topRight());
+    setTextureCoords(0.0, 0.001, 0.0);
+    setVertex(boundingRect.topLeft());
 
-    // Draw outline
-//    qglColor(colorOutline);
+//    glVertex2i(boundingRect.bottomLeft().x(), boundingRect.bottomLeft().y());
+//    glVertex2i(boundingRect.bottomRight().x(), boundingRect.bottomRight().y());
+//    glVertex2i(boundingRect.topRight().x(), boundingRect.topRight().y());
+//    glVertex2i(boundingRect.topLeft().x(), boundingRect.topLeft().y());
+    glEnd();
+    setUseTexture(false);
+    this->deleteTexture(textureID);
+
+
+//    // Draw outline
     setPaintingColor(colorOutline);
     glLineWidth(1.0);
     glBegin(GL_LINE_LOOP);
@@ -977,12 +1007,6 @@ void GLWidget::paintTextInfoBox(QPoint pos, QString text, QFont font, QColor col
     glVertex2i(boundingRect.topRight().x(), boundingRect.topRight().y());
     glVertex2i(boundingRect.topLeft().x(), boundingRect.topLeft().y());
     glEnd();
-
-    // Draw text
-//    qglColor(colorText);
-    setPaintingColor(colorText);
-    this->renderText(pos.x() + 5, this->height() - 1 - (pos.y() + 5),
-                     text, font);
 }
 
 void GLWidget::paintContent(QList<Layer*> layers)
