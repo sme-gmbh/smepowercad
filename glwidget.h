@@ -161,7 +161,14 @@ private:
     QColor getColorPen(CADitem* item, Layer *layer);
     QColor getColorBrush(CADitem* item, Layer *layer);
 
-    void paintTextInfoBox(QPoint pos, QString text, QFont font = QFont(), QColor colorText = QColor(Qt::red), QColor colorBackground = QColor(10, 10, 10, 60), QColor colorOutline = QColor(200, 200, 200, 150));
+    typedef enum {
+        topLeft,
+        topRight,
+        bottomLeft,
+        bottomRight
+    } BoxVertex;
+
+    void paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFont font = QFont(), QColor colorText = QColor(255, 255, 30, 255), QColor colorBackground = QColor(0, 0, 0, 230), QColor colorOutline = QColor(200, 200, 200, 150));
 
     void paintBasicLine(Layer* layer, CAD_basic_line* item);
     void paintBasicPolyLine(Layer *layer, CAD_basic_polyline *item);

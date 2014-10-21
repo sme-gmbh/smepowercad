@@ -318,7 +318,7 @@ void GLWidget::slot_update_settings()
 
     _cursorSize = settings.value("Userinterface_Cursor_cursorSize", QVariant::fromValue(4500)).toInt();
     _cursorWidth = settings.value("Userinterface_Cursor_cursorLineWidth", QVariant::fromValue(1)).toInt();
-    _cursorPickboxSize = settings.value("Userinterface_Cursor_cursorPickboxSize", QVariant::fromValue(11)).toInt();
+    _cursorPickboxSize = settings.value("Userinterface_Cursor_cursorPickboxSize", QVariant::fromValue(11)).toInt() * 2 + 1;
     _cursorPickboxLineWidth = settings.value("Userinterface_Cursor_cursorPickboxLineWidth", QVariant::fromValue(1)).toInt();
     _cursorPickboxColor = settings.value("Userinterface_Cursor_cursorPickboxColor", QVariant::fromValue(QColor(200, 255, 200, 150))).value<QColor>();
 
@@ -811,6 +811,29 @@ void GLWidget::paintEvent(QPaintEvent *event)
 
         glLineWidth(1);
 
+        BoxVertex textAnchorType;
+        QPoint textAnchorPos;
+        if      (this->snapPos_screen.x() > 0.0 && this->snapPos_screen.y() > 0.0)
+        {
+            textAnchorPos = focusRect.topLeft();
+            textAnchorType = topRight;
+        }
+        else if (this->snapPos_screen.x() > 0.0 && this->snapPos_screen.y() < 0.0)
+        {
+            textAnchorPos = focusRect.bottomLeft();
+            textAnchorType = bottomRight;
+        }
+        else if (this->snapPos_screen.x() < 0.0 && this->snapPos_screen.y() > 0.0)
+        {
+            textAnchorPos = focusRect.topRight();
+            textAnchorType = topLeft;
+        }
+        else if (this->snapPos_screen.x() < 0.0 && this->snapPos_screen.y() < 0.0)
+        {
+            textAnchorPos = focusRect.bottomRight();
+            textAnchorType = bottomLeft;
+        }
+
         switch (snapMode)
         {
         case SnapBasepoint:
@@ -824,7 +847,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
             glEnd();
             snapText.prepend(tr("Basepoint"));
 
-            paintTextInfoBox(focusRect.bottomRight(), snapText);
+            paintTextInfoBox(textAnchorPos, snapText, textAnchorType);
 
             break;
         }
@@ -839,7 +862,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
             glEnd();
             snapText.prepend("Endpoint/Vertex");
 
-            paintTextInfoBox(focusRect.bottomRight(), snapText);
+            paintTextInfoBox(textAnchorPos, snapText, textAnchorType);
 
             break;
         }
@@ -854,7 +877,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
             glEnd();
             snapText.prepend("Center");
 
-            paintTextInfoBox(focusRect.bottomRight(), snapText);
+            paintTextInfoBox(textAnchorPos, snapText, textAnchorType);
 
             break;
         }
@@ -941,7 +964,7 @@ void GLWidget::setUseTexture(bool on)
     shaderProgram->setUniformValue(shader_useTextureLocation, use);
 }
 
-void GLWidget::paintTextInfoBox(QPoint pos, QString text, QFont font, QColor colorText, QColor colorBackground, QColor colorOutline)
+void GLWidget::paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFont font, QColor colorText, QColor colorBackground, QColor colorOutline)
 {
     // Calculate text box size
     QFontMetrics fm(font);
@@ -957,8 +980,21 @@ void GLWidget::paintTextInfoBox(QPoint pos, QString text, QFont font, QColor col
     painter.setFont(font);
     painter.drawText(boundingRect, Qt::AlignCenter, text);
     painter.end();
-    boundingRect.moveTopLeft(pos);
-
+    switch(anchor)
+    {
+    case topLeft:
+        boundingRect.moveBottomLeft(pos);
+        break;
+    case topRight:
+        boundingRect.moveBottomRight(pos);
+        break;
+    case bottomLeft:
+        boundingRect.moveTopLeft(pos);
+        break;
+    case bottomRight:
+        boundingRect.moveTopRight(pos);
+        break;
+    }
 
     GLuint textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -1367,9 +1403,21 @@ QColor GLWidget::getColorPen(CADitem* item, Layer* layer)
     if (item->highlight || item->selected)
     {
         if (color_pen.lightnessF() > 0.5)
-            color_pen = color_pen.darker();
+        {
+//            color_pen = color_pen.darker();
+//            color_pen.setRed(color_pen.red() - 50);
+//            color_pen.setGreen(color_pen.green() - 50);
+//            color_pen.setBlue(color_pen.blue() - 50);
+            color_pen.setHsv(color_pen.hsvHue(), color_pen.hsvSaturation(), color_pen.value() - 100);
+        }
         else
-            color_pen = color_pen.lighter();
+        {
+//            color_pen = color_pen.lighter();
+//            color_pen.setRed(color_pen.red() + 50);
+//            color_pen.setGreen(color_pen.green() + 50);
+//            color_pen.setBlue(color_pen.blue() + 50);
+            color_pen.setHsv(color_pen.hsvHue(), color_pen.hsvSaturation(), color_pen.value() + 100);
+        }
     }
 
     return color_pen;
@@ -1389,9 +1437,19 @@ QColor GLWidget::getColorBrush(CADitem* item, Layer* layer)
     if (item->highlight || item->selected)
     {
         if (color_brush.lightnessF() > 0.5)
-            color_brush = color_brush.darker();
+        {
+//            color_brush.setRed(color_brush.red() - 100);
+//            color_brush.setGreen(color_brush.green() - 100);
+//            color_brush.setBlue(color_brush.blue() - 100);
+            color_brush.setHsv(color_brush.hsvHue(), color_brush.hsvSaturation(), color_brush.value() - 100);
+        }
         else
-            color_brush = color_brush.lighter();
+        {
+//            color_brush.setRed(color_brush.red() + 100);
+//            color_brush.setGreen(color_brush.green() + 100);
+//            color_brush.setBlue(color_brush.blue() + 100);
+            color_brush.setHsv(color_brush.hsvHue(), color_brush.hsvSaturation(), color_brush.value() + 100);
+        }
     }
 
     return color_brush;
@@ -2512,7 +2570,7 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
 
     QMatrix4x4 pickMatrix;
     pickMatrix.setToIdentity();
-    pickMatrix.scale(1.0 / (11.0 / this->width()), 1.0 / (11.0 / this->height()), 1.0);
+    pickMatrix.scale(1.0 / ((qreal)_cursorPickboxSize / this->width()), 1.0 / ((qreal)_cursorPickboxSize / this->height()), 1.0);
     pickMatrix.translate(-(qreal)pos.x(), -(qreal)pos.y(), 0.0);
     shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection * pickMatrix * matrix_modelview * matrix_rotation);
 
