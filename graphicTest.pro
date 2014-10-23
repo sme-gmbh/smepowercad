@@ -141,7 +141,8 @@ SOURCES += main.cpp\
     items/cad_sanitary_emergencyeyeshower.cpp \
     items/cad_sanitary_electricwaterheater.cpp \
     items/cad_basic_pipe.cpp \
-    items/cad_basic_turn.cpp
+    items/cad_basic_turn.cpp \
+    math/m3dboundingbox.cpp
 
 HEADERS  += mainwindow.h \
     overlay.h \
@@ -271,7 +272,8 @@ HEADERS  += mainwindow.h \
     items/cad_sanitary_emergencyeyeshower.h \
     items/cad_sanitary_electricwaterheater.h \
     items/cad_basic_pipe.h \
-    items/cad_basic_turn.h
+    items/cad_basic_turn.h \
+    math/m3dboundingbox.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

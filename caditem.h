@@ -9,7 +9,10 @@
 #include <QVector3D>
 #include <QVariant>
 #include <QDebug>
-#include "math/m3dbox.h"
+#include <math.h>
+#include "math/m3dboundingbox.h"
+
+#define PI 3.1415926535897
 
 class CADitem
 {
@@ -136,7 +139,7 @@ public:
     QColor color_pen;       // Transparent means "BYLAYER"
     QColor color_brush;       // Transparent means "BYLAYER"
     QMap<QString, QString> attributes;
-    M3dBox boundingBox;
+    M3dBoundingBox boundingBox;
     QList<CADitem*> subItems;
 
     QVector3D position;

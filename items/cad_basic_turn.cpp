@@ -21,6 +21,7 @@ CAD_basic_turn::CAD_basic_turn() : CADitem(CADitem::Basic_Turn)
 
 void CAD_basic_turn::calculate()
 {
+    this->boundingBox.reset();
     this->snap_basepoint = this->position;
 //    this->snap_vertices.append(this->position + this->direction);
 
@@ -28,6 +29,46 @@ void CAD_basic_turn::calculate()
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
     matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
+
+    // Vertex data
+    int a;
+    int b;
+
+    // Wall thickness iteration
+    for (int w = 0; w <= 1; w++)
+    {
+        // Turn angle iteration
+        a = 0;
+        b = 0;
+        for (qreal i=0.0; i < 1.01; i += 0.05)    // 20 edges (21 vertices)
+        {
+            qreal angle_turn = this->angle_turn * i;
+            QMatrix4x4 matrix_turn;
+            matrix_turn.setToIdentity();
+            matrix_turn.translate(this->radius_turn, 0.0, 0.0);
+            matrix_turn.rotate(angle_turn, 0.0, 0.0, 1.0);
+
+            // Pipe angle iteration
+
+            for (qreal j=0.0; j < 1.01; j += 0.02)    // 50 edges (51 vertices)
+            {
+                qreal angle_pipe = 2 * PI * j;
+                QVector3D linePos;
+
+                if (w == 0)
+                    linePos = this->matrix_rotation * matrix_turn * QVector3D(-this->radius_turn + sin(angle_pipe) * (this->radius_pipe), 0.0, cos(angle_pipe) * (this->radius_pipe));
+                else
+                    linePos = this->matrix_rotation * matrix_turn * QVector3D(-this->radius_turn + sin(angle_pipe) * (this->radius_pipe - this->wallThickness), 0.0, cos(angle_pipe) * (this->radius_pipe - this->wallThickness));
+                linePos += this->position;
+
+                this->vertices[w][a][b] = linePos;
+                this->boundingBox.enterVertex(linePos);
+                b++;
+            }
+            b = 0;
+            a++;
+        }
+    }
 }
 
 void CAD_basic_turn::processWizardInput()

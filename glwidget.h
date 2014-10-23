@@ -14,6 +14,7 @@
 #include <QFont>
 #include <QFontMetrics>
 #include <QSettings>
+#include <QTimer>
 
 #include <qmath.h>
 #include <qgl.h>
@@ -83,6 +84,7 @@ private:
 
     QMap<GLuint, CADitem*> glNameMap;
     quint32 glName;
+    QTimer timer_findItemAtPosition;
 
     // Overlay
     QPoint mousePos;
@@ -317,6 +319,9 @@ public slots:
     void slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c);
 
     void slot_update_settings();
+
+private slots:
+    void slot_timer_findItemAtPosition_triggered();
 };
 
 #endif // GLWIDGET_H

@@ -1,6 +1,6 @@
 #include "glwidget.h"
 
-#define PI 3.1415926535897
+//#define PI 3.1415926535897
 
 GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, const QGLFormat& format) :
     QGLWidget(format, parent)
@@ -122,6 +122,10 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, cons
 
 //    shaderProgram->setAttributeArray(shader_colorLocation, );
 //    shaderProgram->enableAttributeArray(shader_colorLocation);
+
+    connect(&timer_findItemAtPosition, SIGNAL(timeout()), this, SLOT(slot_timer_findItemAtPosition_triggered()));
+    timer_findItemAtPosition.setInterval(200);
+    timer_findItemAtPosition.setSingleShot(true);
 }
 
 GLWidget::~GLWidget()
@@ -333,6 +337,66 @@ void GLWidget::slot_update_settings()
     slot_repaint();
 }
 
+void GLWidget::slot_timer_findItemAtPosition_triggered()
+{
+//    // Item highlighting
+//    highlightClear();
+//    highlightItemAtPosition(mousePos);
+
+//    // Object Snap
+//    if (item_lastHighlight != NULL)
+//    {
+//        // Basepoint snap
+//        QList<QVector3D> snap_basepoints;
+//        if ((mapFromScene(item_lastHighlight->snap_basepoint) - mousePos).manhattanLength() < 50)
+//            snap_basepoints.append(item_lastHighlight->snap_basepoint);
+
+//        // Endpoint / Vertex snap
+//        QList<QVector3D> snap_vertex_points;
+//        foreach (QVector3D snap_vertex, item_lastHighlight->snap_vertices)
+//        {
+//            if ((mapFromScene(snap_vertex) - mousePos).manhattanLength() < 10)
+//                snap_vertex_points.append(snap_vertex);
+//        }
+
+//        // Center Snap
+//        QList<QVector3D> snap_center_points;
+//        foreach (QVector3D snap_center, item_lastHighlight->snap_center)
+//        {
+//            if ((mapFromScene(snap_center) - mousePos).manhattanLength() < 10)
+//                snap_center_points.append(snap_center);
+//        }
+
+//        if (!snap_basepoints.isEmpty())
+//        {
+//            this->set_snap_mode(GLWidget::SnapBasepoint);
+//            this->set_snapPos(snap_basepoints.at(0));
+//        }
+//        else if (!snap_vertex_points.isEmpty())
+//        {
+//            this->set_snap_mode(GLWidget::SnapEndpoint);
+//            this->set_snapPos(snap_vertex_points.at(0));
+//        }
+//        else if (!snap_center_points.isEmpty())
+//        {
+//            this->set_snap_mode(GLWidget::SnapCenter);
+//            this->set_snapPos(snap_center_points.at(0));
+//        }
+//        else
+//        {
+//            this->set_snap_mode(GLWidget::SnapNo);
+//        }
+
+//        emit signal_snapFired(this->snapPos_scene, this->snapMode);
+//    }
+//    else
+//    {
+//        this->set_snap_mode(GLWidget::SnapNo);
+//        emit signal_snapFired(this->snapPos_scene, this->snapMode);
+//    }
+//    slot_repaint();
+}
+
 void GLWidget::wheelEvent(QWheelEvent* event)
 {
     qreal zoomStep = 1.15;
@@ -413,6 +477,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
     if (event->buttons() == 0)
     {
+//        timer_findItemAtPosition.start();
         // Item highlighting
         highlightClear();
         highlightItemAtPosition(mousePos);
@@ -1057,15 +1122,42 @@ void GLWidget::paintContent(QList<Layer*> layers)
 
         foreach (CADitem* item, layer->items)
         {
-
-//            // Exclude all items from painting that do not reach the canvas with their boundingRect
-//            QRect paintWindow = painter->window();
-//            QVector3D p1 = item->boundingBox.p0;
-//            QVector3D p2 = item->boundingBox.p0 + item->boundingBox.a1 + item->boundingBox.a2 + item->boundingBox.a3;
-//            if (!paintWindow.contains(QRectF(mapFromScene(p1), mapFromScene(p2)).toRect()))
-//                continue;
-
             item->index = glName;
+
+            // Exclude all items from painting that do not reach the canvas with their boundingRect
+            int screen_x_min = -this->width() / 2;
+//            int screen_x_max =  this->width() / 2;
+            int screen_y_min = -this->height() / 2;
+//            int screen_y_max =  this->height() / 2;
+
+            int p_x_min =  100000;
+            int p_x_max = -100000;
+            int p_y_min =  100000;
+            int p_y_max = -100000;
+
+            for (int i=0; i < 8; i++)
+            {
+                QPointF screen_p = mapFromScene(item->boundingBox.p(i));
+
+                if (screen_p.x() < p_x_min)     p_x_min = screen_p.x();
+                if (screen_p.x() > p_x_max)     p_x_max = screen_p.x();
+                if (screen_p.y() < p_y_min)     p_y_min = screen_p.y();
+                if (screen_p.y() > p_y_max)     p_y_max = screen_p.y();
+            }
+
+            QRect screenRect;
+            QRect itemRect;
+
+            screenRect = QRect(screen_x_min, screen_y_min, this->width(), this->height());
+            itemRect = QRect(p_x_min, p_y_min, (p_x_max - p_x_min), (p_y_max - p_y_min));
+
+            if (!screenRect.intersects(itemRect))
+            {
+                glName++;
+                continue;
+            }
+
+
             glLoadName(glName);
             glName++;
 
@@ -1577,7 +1669,6 @@ void GLWidget::paintBasicPolyLine(Layer *layer, CAD_basic_polyline *item)
                 penWidth = 1.0;
 
             glLineWidth(penWidth);
-//            glColor4f(color_pen.redF(), color_pen.greenF(), color_pen.blueF(), color_pen.alphaF());
             setPaintingColor(color_pen);
 
             glVertex3f((GLfloat)p1.x(), (GLfloat)p1.y(), (GLfloat)p1.z());
@@ -1691,7 +1782,7 @@ void GLWidget::paintBasicCircle(Layer *layer, CAD_basic_circle *item)
     setPaintingColor(color_pen);
     glLineWidth(penWidth);
     glBegin(GL_LINE_LOOP);
-    for (qreal i=0.0; i < 1.0; i += 0.01)    // 100 edges
+    for (qreal i=0.0; i < 1.0; i += 0.02)    // 50 edges
     {
         qreal angle = 2 * PI * i;
         QVector3D linePos;
@@ -2044,41 +2135,40 @@ void GLWidget::paintBasicTurn(Layer *layer, CAD_basic_turn *item)
 
     int a;
     int b;
-    QVector3D vertices[2][21][51];
 
     // Wall thickness iteration
     for (int w = 0; w <= 1; w++)
     {
-        // Turn angle iteration
-        a = 0;
-        b = 0;
-        for (qreal i=0.0; i < 1.01; i += 0.05)    // 20 edges (21 vertices)
-        {
-            qreal angle_turn = item->angle_turn * i;
-            QMatrix4x4 matrix_turn;
-            matrix_turn.setToIdentity();
-            matrix_turn.translate(item->radius_turn, 0.0, 0.0);
-            matrix_turn.rotate(angle_turn, 0.0, 0.0, 1.0);
+//        // Turn angle iteration
+//        a = 0;
+//        b = 0;
+//        for (qreal i=0.0; i < 1.01; i += 0.05)    // 20 edges (21 vertices)
+//        {
+//            qreal angle_turn = item->angle_turn * i;
+//            QMatrix4x4 matrix_turn;
+//            matrix_turn.setToIdentity();
+//            matrix_turn.translate(item->radius_turn, 0.0, 0.0);
+//            matrix_turn.rotate(angle_turn, 0.0, 0.0, 1.0);
 
-            // Pipe angle iteration
+//            // Pipe angle iteration
 
-            for (qreal j=0.0; j < 1.01; j += 0.02)    // 50 edges (51 vertices)
-            {
-                qreal angle_pipe = 2 * PI * j;
-                QVector3D linePos;
+//            for (qreal j=0.0; j < 1.01; j += 0.02)    // 50 edges (51 vertices)
+//            {
+//                qreal angle_pipe = 2 * PI * j;
+//                QVector3D linePos;
 
-                if (w == 0)
-                    linePos = item->matrix_rotation * matrix_turn * QVector3D(-item->radius_turn + sin(angle_pipe) * (item->radius_pipe), 0.0, cos(angle_pipe) * (item->radius_pipe));
-                else
-                    linePos = item->matrix_rotation * matrix_turn * QVector3D(-item->radius_turn + sin(angle_pipe) * (item->radius_pipe - item->wallThickness), 0.0, cos(angle_pipe) * (item->radius_pipe - item->wallThickness));
-                linePos += item->position;
+//                if (w == 0)
+//                    linePos = item->matrix_rotation * matrix_turn * QVector3D(-item->radius_turn + sin(angle_pipe) * (item->radius_pipe), 0.0, cos(angle_pipe) * (item->radius_pipe));
+//                else
+//                    linePos = item->matrix_rotation * matrix_turn * QVector3D(-item->radius_turn + sin(angle_pipe) * (item->radius_pipe - item->wallThickness), 0.0, cos(angle_pipe) * (item->radius_pipe - item->wallThickness));
+//                linePos += item->position;
 
-                vertices[w][a][b] = linePos;
-                b++;
-            }
-            b = 0;
-            a++;
-        }
+//                item->vertices[w][a][b] = linePos;
+//                b++;
+//            }
+//            b = 0;
+//            a++;
+//        }
 
         if (this->render_solid)
         {
@@ -2090,10 +2180,10 @@ void GLWidget::paintBasicTurn(Layer *layer, CAD_basic_turn *item)
                 glBegin(GL_QUADS);
                 for (b=1; b < 51; b++)
                 {
-                    QVector3D vertex_1 = vertices[w][a][b - 1];
-                    QVector3D vertex_2 = vertices[w][a - 1][b - 1];
-                    QVector3D vertex_3 = vertices[w][a - 1][b];
-                    QVector3D vertex_4 = vertices[w][a][b];
+                    QVector3D vertex_1 = item->vertices[w][a][b - 1];
+                    QVector3D vertex_2 = item->vertices[w][a - 1][b - 1];
+                    QVector3D vertex_3 = item->vertices[w][a - 1][b];
+                    QVector3D vertex_4 = item->vertices[w][a][b];
 
                     glVertex3f((GLfloat)vertex_1.x(), (GLfloat)vertex_1.y(), (GLfloat)vertex_1.z());
                     glVertex3f((GLfloat)vertex_2.x(), (GLfloat)vertex_2.y(), (GLfloat)vertex_2.z());
@@ -2115,7 +2205,7 @@ void GLWidget::paintBasicTurn(Layer *layer, CAD_basic_turn *item)
                 glBegin(GL_LINE_STRIP);
                 for (b=0; b < 51; b++)
                 {
-                    QVector3D linePos = vertices[w][a][b];
+                    QVector3D linePos = item->vertices[w][a][b];
                     glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
                 }
                 glEnd();
@@ -2127,7 +2217,7 @@ void GLWidget::paintBasicTurn(Layer *layer, CAD_basic_turn *item)
                 glBegin(GL_LINE_STRIP);
                 for (a=0; a < 21; a++)
                 {
-                    QVector3D linePos = vertices[w][a][b];
+                    QVector3D linePos = item->vertices[w][a][b];
                     glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
                 }
                 glEnd();
@@ -2145,10 +2235,10 @@ void GLWidget::paintBasicTurn(Layer *layer, CAD_basic_turn *item)
             glBegin(GL_QUADS);
             for (b=1; b < 51; b++)
             {
-                QVector3D vertex_1 = vertices[0][a][b - 1];
-                QVector3D vertex_2 = vertices[1][a][b - 1];
-                QVector3D vertex_3 = vertices[1][a][b];
-                QVector3D vertex_4 = vertices[0][a][b];
+                QVector3D vertex_1 = item->vertices[0][a][b - 1];
+                QVector3D vertex_2 = item->vertices[1][a][b - 1];
+                QVector3D vertex_3 = item->vertices[1][a][b];
+                QVector3D vertex_4 = item->vertices[0][a][b];
 
                 glVertex3f((GLfloat)vertex_1.x(), (GLfloat)vertex_1.y(), (GLfloat)vertex_1.z());
                 glVertex3f((GLfloat)vertex_2.x(), (GLfloat)vertex_2.y(), (GLfloat)vertex_2.z());
