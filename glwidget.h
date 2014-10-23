@@ -177,6 +177,7 @@ private:
     void paintBasicBox(Layer *layer, CAD_basic_box *item);
     void paintBasicCylinder(Layer *layer, CAD_basic_cylinder *item);
     void paintBasicPipe(Layer *layer, CAD_basic_pipe *item);
+    void paintBasicTurn(Layer *layer, CAD_basic_turn *item);
     void paintBasicSphere(Layer *layer, CAD_basic_sphere *item);
     void paintBasicArc(Layer *layer, CAD_basic_arc *item);
 

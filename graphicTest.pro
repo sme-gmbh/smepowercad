@@ -140,7 +140,8 @@ SOURCES += main.cpp\
     items/cad_sanitary_emergencyshower.cpp \
     items/cad_sanitary_emergencyeyeshower.cpp \
     items/cad_sanitary_electricwaterheater.cpp \
-    items/cad_basic_pipe.cpp
+    items/cad_basic_pipe.cpp \
+    items/cad_basic_turn.cpp
 
 HEADERS  += mainwindow.h \
     overlay.h \
@@ -269,7 +270,8 @@ HEADERS  += mainwindow.h \
     items/cad_sanitary_emergencyshower.h \
     items/cad_sanitary_emergencyeyeshower.h \
     items/cad_sanitary_electricwaterheater.h \
-    items/cad_basic_pipe.h
+    items/cad_basic_pipe.h \
+    items/cad_basic_turn.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

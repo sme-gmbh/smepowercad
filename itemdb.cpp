@@ -158,6 +158,9 @@ CADitem* ItemDB::drawItem(Layer* layer, CADitem::ItemType type)
     case CADitem::Basic_Pipe:
         newItem = new CAD_basic_pipe();
         break;
+    case CADitem::Basic_Turn:
+        newItem = new CAD_basic_turn();
+        break;
     case CADitem::Basic_Sphere:
         newItem = new CAD_basic_sphere();
         break;

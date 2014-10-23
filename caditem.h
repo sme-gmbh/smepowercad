@@ -27,6 +27,7 @@ public:
         Basic_Box,                              // Basisgeometrie: Box
         Basic_Cylinder,                         // Basisgeometrie: Zylinder
         Basic_Pipe,                             // Basisgeometrie: Rohr
+        Basic_Turn,                             // Basisgeometrie: Rohrbogen
         Basic_Sphere,                           // Basisgeometrie: Kugel
         Arch_Foundation,                        // Fundament
         Arch_BoredPile,                         // Bohrpfahl

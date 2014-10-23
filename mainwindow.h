@@ -260,6 +260,8 @@ private slots:
 
     void on_action_basic_pipe_triggered();
 
+    void on_action_basic_Turn_triggered();
+
 signals:
     void signal_command_prompt_input(QString str);
     void signal_repaintNeeded();

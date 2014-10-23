@@ -59,6 +59,8 @@ void LayerManager::slot_layerAdded(Layer *newLayer, Layer *parentLayer)
         layerMap.value(parentLayer)->addChild(item);
     }
 
+    if (layerMap.isEmpty())
+        ui->treeWidget_layer->setCurrentItem(item);
     layerMap.insert(newLayer, item);
     updateLayer(newLayer);
     ui->treeWidget_layer->resizeColumnToContents(0);

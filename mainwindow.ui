@@ -418,6 +418,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <bool>false</bool>
    </attribute>
    <addaction name="action_basic_pipe"/>
+   <addaction name="action_basic_Turn"/>
    <addaction name="action_basic_point"/>
    <addaction name="action_basic_linie"/>
    <addaction name="action_basic_polylinie"/>
@@ -1688,7 +1689,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <string>Sprinkler Valve</string>
    </property>
    <property name="toolTip">
-    <string>Sprinkler T-Connector</string>
+    <string>Sprinkler Valve</string>
    </property>
   </action>
   <action name="action_sprinkler_wetalarmvalve">
@@ -1721,6 +1722,11 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
    <property name="toolTip">
     <string>Basic Pipe</string>
+   </property>
+  </action>
+  <action name="action_basic_Turn">
+   <property name="text">
+    <string>Basic Turn</string>
    </property>
   </action>
  </widget>

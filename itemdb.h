@@ -17,6 +17,7 @@
 #include "items/cad_basic_box.h"
 #include "items/cad_basic_cylinder.h"
 #include "items/cad_basic_pipe.h"
+#include "items/cad_basic_turn.h"
 #include "items/cad_basic_sphere.h"
 
 #include "items/cad_arch_beam.h"
