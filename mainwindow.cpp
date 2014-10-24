@@ -195,17 +195,19 @@ MainWindow::MainWindow(QWidget *parent) :
 //    item->calculate();
 
     CAD_basic_turn* item;
-    QVector3D pos = QVector3D(0.0, 0.0, 0.0);
+    QVector3D pos;
 
 
-    for (int i=0; i < 10; i++)
+    for (int i=0; i < 50; i++)
     {
-        for (int j=0; j < 10; j++)
+        for (int j=0; j < 50; j++)
         {
+            pos = QVector3D(20.0 * i, 0.0, 20.0 * j);
             item = (CAD_basic_turn*)itemDB->drawItem("X", CADitem::Basic_Turn);
             item->position = pos + QVector3D(0.0, (-20 * i) % 40, 0.0);
             item->angle_z = (90 * i) % 180;
-            pos = QVector3D(20.0 * i, 0.0, 20.0 * j);
+            item->wallThickness = 0.5;
+
             item->calculate();
         }
     }

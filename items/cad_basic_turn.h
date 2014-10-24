@@ -21,7 +21,7 @@ public:
     qreal angle_turn;
     qreal wallThickness;
 
-    QVector3D vertices[2][21][51];
+    QVector3D vertices[2][11][21];
 //    QVector3D direction;
 };
 

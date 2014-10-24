@@ -35,7 +35,7 @@ public:
     explicit GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, const QGLFormat &format);
     ~GLWidget();
 
-    QPointF mapFromScene(QVector3D scenePoint);
+    QPointF mapFromScene(QVector3D &scenePoint);
 
     // Overlay
     void moveCursor(QPoint pos);
@@ -145,6 +145,8 @@ private:
     QMatrix4x4 matrix_projection;
     QMatrix4x4 matrix_modelview;
     QMatrix4x4 matrix_rotation;
+    QMatrix4x4 matrix_glSelect;
+    QMatrix4x4 matrix_all;
 
     void saveGLState();
     void restoreGLState();
@@ -159,6 +161,8 @@ private:
 
     void updateArcball(int steps);
     QVector3D getArcBallVector(int x, int y);
+
+    void updateMatrixAll();
 
     QColor getColorPen(CADitem* item, Layer *layer);
     QColor getColorBrush(CADitem* item, Layer *layer);
