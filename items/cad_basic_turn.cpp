@@ -13,7 +13,7 @@ CAD_basic_turn::CAD_basic_turn() : CADitem(CADitem::Basic_Turn)
     wizardParams.insert(QObject::tr("Turn radius"), QVariant::fromValue(20.0));
     wizardParams.insert(QObject::tr("Turn angle"), QVariant::fromValue(90.0));
     wizardParams.insert(QObject::tr("Outer diameter"), QVariant::fromValue(10.0));
-    wizardParams.insert(QObject::tr("Wall thickness"), QVariant::fromValue(1.0));
+    wizardParams.insert(QObject::tr("Wall thickness"), QVariant::fromValue(2.0));
     wizardParams.insert(QObject::tr("Angle x"), QVariant::fromValue(0.0));
     wizardParams.insert(QObject::tr("Angle y"), QVariant::fromValue(0.0));
     wizardParams.insert(QObject::tr("Angle z"), QVariant::fromValue(0.0));

@@ -66,3 +66,13 @@ void GeometryDisplayTitle::on_comboBox_view_currentIndexChanged(const QString &a
     str.replace(QChar(18, 32), '-');
     emit signal_cuttingplane_changed(str);
 }
+
+void GeometryDisplayTitle::on_spinBoxDepthOfView_valueChanged(const QString &arg1)
+{
+    emit signal_cuttingplane_values_changed(this->ui->spinBoxHeightOfIntersection->value(), this->ui->spinBoxDepthOfView->value());
+}
+
+void GeometryDisplayTitle::on_spinBoxHeightOfIntersection_valueChanged(const QString &arg1)
+{
+    emit signal_cuttingplane_values_changed(this->ui->spinBoxHeightOfIntersection->value(), this->ui->spinBoxDepthOfView->value());
+}
