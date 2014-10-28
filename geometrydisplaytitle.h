@@ -34,12 +34,16 @@ private slots:
 
     void on_comboBox_view_currentIndexChanged(const QString &arg1);
 
+    void on_spinBoxDepthOfView_valueChanged(const QString &arg1);
+    void on_spinBoxHeightOfIntersection_valueChanged(const QString &arg1);
+
 signals:
     void signal_float();
     void signal_close();
     void signal_wireframe(bool on);
     void signal_solid(bool on);
     void signal_cuttingplane_changed(QString directionOfView);
+    void signal_cuttingplane_values_changed(qreal height, qreal depth);
 };
 
 #endif // GEOMETRYDISPLAYTITLE_H

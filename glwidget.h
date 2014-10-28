@@ -52,6 +52,7 @@ public:
     void set_snapPos(QVector3D snapPos_screen);
     void set_WorldRotation(float rot_x, float rot_y, float rot_z);
 
+
     QStringList getOpenGLinfo();
 
 private:
@@ -69,10 +70,15 @@ private:
     QPoint displayCenter;           // The Center of the widget in PixelsOnScreen, related to bottomLeft of Widget
     QVector3D cameraPosition;
     QVector3D lookAtPosition;
+
+    QVector3D centerOfRotationSphere;
+    QVector3D rotationStart;
 //    float rot_x, rot_y, rot_z;
 
     QPoint arcballPosOld;
     QMatrix4x4 matrix_arcball;
+    qreal arcballRadius;
+
 
 //    QMatrix4x4 matrix_projection;
 
@@ -91,6 +97,7 @@ private:
     QPoint pickStartPos;
     bool pickActive;
     bool cursorShown;
+    bool arcballShown;
     SnapMode snapMode;
     QPoint snapPos_screen;
     QVector3D snapPos_scene;
@@ -106,6 +113,7 @@ public slots:
     void slot_highlightItem(CADitem* item);
     void slot_snapTo(QVector3D snapPos_scene, int snapMode);
     void slot_changeSelection(QList<CADitem *> selectedItems);
+
 
 private:
     // **** settings ****
@@ -140,11 +148,16 @@ private:
     int shader_textureCoordLocation;
     int shader_textureSamplerLocation;
     int shader_useTextureLocation;
+    int shader_useClippingLocation;
+    int shader_Depth_of_view_location;
+    int shader_Height_of_intersection_location;
+
     QVector4D vertex_color;
     QVector3D vertex_position;
     QMatrix4x4 matrix_projection;
     QMatrix4x4 matrix_modelview;
     QMatrix4x4 matrix_rotation;
+    QMatrix4x4 matrix_rotation_old;
     QMatrix4x4 matrix_glSelect;
     QMatrix4x4 matrix_all;
 
@@ -161,6 +174,7 @@ private:
 
     void updateArcball(int steps);
     QVector3D getArcBallVector(int x, int y);
+    QVector3D pointOnSphere( QPoint pointOnScreen );
 
     void updateMatrixAll();
 
@@ -173,6 +187,7 @@ private:
         bottomLeft,
         bottomRight
     } BoxVertex;
+
 
     void paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFont font = QFont(), QColor colorText = QColor(255, 255, 30, 255), QColor colorBackground = QColor(0, 0, 0, 230), QColor colorOutline = QColor(200, 200, 200, 150));
 
@@ -323,6 +338,7 @@ public slots:
     void slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c);
 
     void slot_update_settings();
+    void slot_set_cuttingplane_values_changed(qreal height, qreal depth);
 
 private slots:
     void slot_timer_findItemAtPosition_triggered();

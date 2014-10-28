@@ -5,7 +5,7 @@
 GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, const QGLFormat& format) :
     QGLWidget(format, parent)
 {
-//    qDebug() << "Created GLWidget";
+    //    qDebug() << "Created GLWidget";
     this->itemDB = itemDB;
     this->itemWizard = itemWizard;
     this->mousePos = QPoint();
@@ -24,12 +24,15 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, cons
     this->matrix_modelview.setToIdentity();
     this->matrix_projection.setToIdentity();
     this->matrix_rotation.setToIdentity();
+    this->matrix_rotation_old.setToIdentity();
     this->matrix_arcball.setToIdentity();
+    this->arcballRadius = 500.0;
     this->matrix_glSelect.setToIdentity();
     this->matrix_all.setToIdentity();
 
     this->pickActive = false;
     this->cursorShown = true;
+    this->arcballShown = false;
     this->snapMode = SnapCenter;
     this->item_lastHighlight = NULL;
 
@@ -42,33 +45,33 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, cons
 
     makeCurrent();
 
-//    GLfloat mat_specular[] = { 0.5, 0.5, 0.5, 1.0 };
-//    GLfloat mat_shininess[] = { 0.2 };
-//    glShadeModel (GL_FLAT);
+    //    GLfloat mat_specular[] = { 0.5, 0.5, 0.5, 1.0 };
+    //    GLfloat mat_shininess[] = { 0.2 };
+    //    glShadeModel (GL_FLAT);
     glShadeModel(GL_SMOOTH);
     glEnable(GL_FRAMEBUFFER_SRGB);
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE | GL_EMISSION);
-//    glColorMaterial(GL_FRONT_AND_BACK, GL_EMISSION);
-//    glEnable(GL_COLOR_MATERIAL);
-//    glEnable(GL_NORMALIZE);
+    //    glColorMaterial(GL_FRONT_AND_BACK, GL_EMISSION);
+    //    glEnable(GL_COLOR_MATERIAL);
+    //    glEnable(GL_NORMALIZE);
 
-//    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
-//    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
+    //    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
+    //    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
 
 
-//    GLfloat specular[] = { 0.2f, 0.2f, 0.2f, 1.0f};
-//    GLfloat diffuseLight[] = { 0.2f, 0.2f, 0.2f, 1.0f};
-//    GLfloat light_position[] = { 500.0, 15.0, -800.0, 0.0 };
+    //    GLfloat specular[] = { 0.2f, 0.2f, 0.2f, 1.0f};
+    //    GLfloat diffuseLight[] = { 0.2f, 0.2f, 0.2f, 1.0f};
+    //    GLfloat light_position[] = { 500.0, 15.0, -800.0, 0.0 };
 
-//    glLightfv(GL_LIGHT0, GL_DIFFUSE,diffuseLight);
-//    glLightfv(GL_LIGHT0,GL_SPECULAR,specular);
-//    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+    //    glLightfv(GL_LIGHT0, GL_DIFFUSE,diffuseLight);
+    //    glLightfv(GL_LIGHT0,GL_SPECULAR,specular);
+    //    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
-//    glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.2);
-//    glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.3);
-//    glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.8);
+    //    glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.2);
+    //    glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.3);
+    //    glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.8);
 
-//    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+    //    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 
     shader_1_frag = new QGLShader(QGLShader::Fragment, this);
     bool shaderOk = shader_1_frag->compileSourceFile(":/shaders/test.frag");
@@ -104,6 +107,9 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, cons
     shader_textureCoordLocation = shaderProgram->attributeLocation("TexCoord");
     shader_textureSamplerLocation = shaderProgram->uniformLocation("uTexUnit0");
     shader_useTextureLocation = shaderProgram->uniformLocation("UseTexture");
+    shader_useClippingLocation = shaderProgram->uniformLocation("UseClipping");
+    shader_Depth_of_view_location = shaderProgram->uniformLocation("Depth_of_view");
+//    shader_Height_of_intersection_location = shaderProgram->uniformLocation("Height_of_intersection");
 
     if (shader_vertexLocation < 0)
         QMessageBox::information(this, "Vertex Location invalid", QString().setNum(shader_vertexLocation));
@@ -115,16 +121,25 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, cons
         QMessageBox::information(this, "Matrix Location invalid", QString().setNum(shader_matrixLocation));
     if (shader_useTextureLocation < 0)
         QMessageBox::information(this, "Use Texture Location invalid", QString().setNum(shader_useTextureLocation));
+    if (shader_useClippingLocation < 0)
+        QMessageBox::information(this, "Use Clipping Location invalid", QString().setNum(shader_useClippingLocation));
+    if (shader_Depth_of_view_location < 0)
+        QMessageBox::information(this, "Depth of View Location invalid", QString().setNum(shader_Depth_of_view_location));
+//    if (shader_Height_of_intersection_location < 0)
+//        QMessageBox::information(this, "Height of Intersection Location invalid", QString().setNum(shader_Height_of_intersection_location));
 
-    qDebug() << shader_vertexLocation;
-    qDebug() << shader_matrixLocation;
-    qDebug() << shader_colorLocation;
-    qDebug() << shader_textureCoordLocation;
-    qDebug() << shader_useTextureLocation;
+    qDebug() << "vertex location" << shader_vertexLocation;
+    qDebug() << "matrix location" << shader_matrixLocation;
+    qDebug() << "color location" << shader_colorLocation;
+    qDebug() << "texture coord location" << shader_textureCoordLocation;
+    qDebug() << "use texture location" << shader_useTextureLocation;
+    qDebug() << "use clipping location" << shader_useClippingLocation;
+    qDebug() << "depth of view location" << shader_Depth_of_view_location;
+//    qDebug() << shader_Height_of_intersection_location;
 
-//    shaderProgram->setAttributeArray(shader_colorLocation, );
-//    shaderProgram->enableAttributeArray(shader_colorLocation);
-
+    //    shaderProgram->setAttributeArray(shader_colorLocation, );
+    //    shaderProgram->enableAttributeArray(shader_colorLocation);
+//    shaderProgram->setUniformValue(shader_useClippingLocation, 1);
     connect(&timer_findItemAtPosition, SIGNAL(timeout()), this, SLOT(slot_timer_findItemAtPosition_triggered()));
     timer_findItemAtPosition.setInterval(200);
     timer_findItemAtPosition.setSingleShot(true);
@@ -132,9 +147,9 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, cons
 
 GLWidget::~GLWidget()
 {
-//    qDebug() << "GLWidget destroyed";
+    //    qDebug() << "GLWidget destroyed";
 
-//    glDeleteLists(tile_list, 1);
+    //    glDeleteLists(tile_list, 1);
     shaderProgram->release();
     shaderProgram->removeAllShaders();
     delete shader_1_vert;
@@ -147,9 +162,9 @@ QPointF GLWidget::mapFromScene(QVector3D &scenePoint)
     QVector4D sceneCoords = QVector4D(scenePoint, 1.0);
     QVector4D screenCoords;
 
-//    screenCoords = matrix_projection * matrix_modelview * matrix_rotation * sceneCoords;
-//    screenCoords = matrix_projection * matrix_glSelect * matrix_modelview * matrix_rotation * sceneCoords;
-//    screenCoords = matrix_all * sceneCoords;
+    //    screenCoords = matrix_projection * matrix_modelview * matrix_rotation * sceneCoords;
+    //    screenCoords = matrix_projection * matrix_glSelect * matrix_modelview * matrix_rotation * sceneCoords;
+    //    screenCoords = matrix_all * sceneCoords;
     screenCoords = matrix_all * scenePoint;
 
     QPointF pixelCoords = screenCoords.toPointF() ;
@@ -167,7 +182,7 @@ void GLWidget::updateMatrixAll()
 
 void GLWidget::moveCursor(QPoint pos)
 {
-//    qDebug() << "GLWidget: moveCursor " << pos.x() << " " << pos.y();
+    //    qDebug() << "GLWidget: moveCursor " << pos.x() << " " << pos.y();
     this->mousePos = pos;
     this->cursorShown = true;
     slot_repaint();
@@ -215,10 +230,10 @@ Qt::ItemSelectionMode GLWidget::selectionMode()
 {
     if (this->mousePos.x() - this->pickStartPos.x() > 0)
         return Qt::ContainsItemShape;
-        //return Qt::ContainsItemBoundingRect;
+    //return Qt::ContainsItemBoundingRect;
     else
         return Qt::IntersectsItemShape;
-        //return Qt::IntersectsItemBoundingRect;
+    //return Qt::IntersectsItemBoundingRect;
 }
 
 void GLWidget::snap_enable(bool on)
@@ -295,7 +310,7 @@ void GLWidget::slot_snapTo(QVector3D snapPos_scene, int snapMode)
 void GLWidget::slot_changeSelection(QList<CADitem *> selectedItems)
 {
     this->selection_itemList = selectedItems;
-//    emit signal_selectionChanged(this->selection_itemList);
+    //    emit signal_selectionChanged(this->selection_itemList);
     slot_repaint();
 }
 
@@ -319,9 +334,9 @@ void GLWidget::slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c)
         zoomFactor += zoomStep;
 
     // rot
-//    rot_x += -((float)a / 15.0);
-//    rot_y += -((float)b / 15.0);
-//    rot_z += -((float)c / 15.0);
+    //    rot_x += -((float)a / 15.0);
+    //    rot_y += -((float)b / 15.0);
+    //    rot_z += -((float)c / 15.0);
 
     updateMatrixAll();
     emit signal_matrix_rotation_changed(matrix_rotation);
@@ -351,72 +366,72 @@ void GLWidget::slot_update_settings()
 
 void GLWidget::slot_timer_findItemAtPosition_triggered()
 {
-//    // Item highlighting
-//    highlightClear();
-//    highlightItemAtPosition(mousePos);
+    //    // Item highlighting
+    //    highlightClear();
+    //    highlightItemAtPosition(mousePos);
 
-//    // Object Snap
-//    if (item_lastHighlight != NULL)
-//    {
-//        // Basepoint snap
-//        QList<QVector3D> snap_basepoints;
-//        if ((mapFromScene(item_lastHighlight->snap_basepoint) - mousePos).manhattanLength() < 50)
-//            snap_basepoints.append(item_lastHighlight->snap_basepoint);
+    //    // Object Snap
+    //    if (item_lastHighlight != NULL)
+    //    {
+    //        // Basepoint snap
+    //        QList<QVector3D> snap_basepoints;
+    //        if ((mapFromScene(item_lastHighlight->snap_basepoint) - mousePos).manhattanLength() < 50)
+    //            snap_basepoints.append(item_lastHighlight->snap_basepoint);
 
-//        // Endpoint / Vertex snap
-//        QList<QVector3D> snap_vertex_points;
-//        foreach (QVector3D snap_vertex, item_lastHighlight->snap_vertices)
-//        {
-//            if ((mapFromScene(snap_vertex) - mousePos).manhattanLength() < 10)
-//                snap_vertex_points.append(snap_vertex);
-//        }
+    //        // Endpoint / Vertex snap
+    //        QList<QVector3D> snap_vertex_points;
+    //        foreach (QVector3D snap_vertex, item_lastHighlight->snap_vertices)
+    //        {
+    //            if ((mapFromScene(snap_vertex) - mousePos).manhattanLength() < 10)
+    //                snap_vertex_points.append(snap_vertex);
+    //        }
 
-//        // Center Snap
-//        QList<QVector3D> snap_center_points;
-//        foreach (QVector3D snap_center, item_lastHighlight->snap_center)
-//        {
-//            if ((mapFromScene(snap_center) - mousePos).manhattanLength() < 10)
-//                snap_center_points.append(snap_center);
-//        }
+    //        // Center Snap
+    //        QList<QVector3D> snap_center_points;
+    //        foreach (QVector3D snap_center, item_lastHighlight->snap_center)
+    //        {
+    //            if ((mapFromScene(snap_center) - mousePos).manhattanLength() < 10)
+    //                snap_center_points.append(snap_center);
+    //        }
 
-//        if (!snap_basepoints.isEmpty())
-//        {
-//            this->set_snap_mode(GLWidget::SnapBasepoint);
-//            this->set_snapPos(snap_basepoints.at(0));
-//        }
-//        else if (!snap_vertex_points.isEmpty())
-//        {
-//            this->set_snap_mode(GLWidget::SnapEndpoint);
-//            this->set_snapPos(snap_vertex_points.at(0));
-//        }
-//        else if (!snap_center_points.isEmpty())
-//        {
-//            this->set_snap_mode(GLWidget::SnapCenter);
-//            this->set_snapPos(snap_center_points.at(0));
-//        }
-//        else
-//        {
-//            this->set_snap_mode(GLWidget::SnapNo);
-//        }
+    //        if (!snap_basepoints.isEmpty())
+    //        {
+    //            this->set_snap_mode(GLWidget::SnapBasepoint);
+    //            this->set_snapPos(snap_basepoints.at(0));
+    //        }
+    //        else if (!snap_vertex_points.isEmpty())
+    //        {
+    //            this->set_snap_mode(GLWidget::SnapEndpoint);
+    //            this->set_snapPos(snap_vertex_points.at(0));
+    //        }
+    //        else if (!snap_center_points.isEmpty())
+    //        {
+    //            this->set_snap_mode(GLWidget::SnapCenter);
+    //            this->set_snapPos(snap_center_points.at(0));
+    //        }
+    //        else
+    //        {
+    //            this->set_snap_mode(GLWidget::SnapNo);
+    //        }
 
-//        emit signal_snapFired(this->snapPos_scene, this->snapMode);
-//    }
-//    else
-//    {
-//        this->set_snap_mode(GLWidget::SnapNo);
-//        emit signal_snapFired(this->snapPos_scene, this->snapMode);
-//    }
-//    slot_repaint();
+    //        emit signal_snapFired(this->snapPos_scene, this->snapMode);
+    //    }
+    //    else
+    //    {
+    //        this->set_snap_mode(GLWidget::SnapNo);
+    //        emit signal_snapFired(this->snapPos_scene, this->snapMode);
+    //    }
+    //    slot_repaint();
 }
 
 void GLWidget::wheelEvent(QWheelEvent* event)
 {
     qreal zoomStep = 1.15;
 
-//    centerOfViewInScene = mapToScene(event->pos());
-//    displayCenter = event->pos();
+    //    centerOfViewInScene = mapToScene(event->pos());
+    //    displayCenter = event->pos();
 
-//    QPointF cursorPosF_normal = QPointF((qreal)event->pos().x() / (this->width() - 1), (qreal)event->pos().y() / (this->height() - 1));
+    //    QPointF cursorPosF_normal = QPointF((qreal)event->pos().x() / (this->width() - 1), (qreal)event->pos().y() / (this->height() - 1));
 
     int steps = abs(event->delta() / 8 / 15);
 
@@ -433,13 +448,13 @@ void GLWidget::wheelEvent(QWheelEvent* event)
     zoomStep = qPow(zoomStep, steps);
     zoomFactor *= zoomStep;
 
-//    translationOffset += (mousePos - QPoint(this->width() / 2, this->height() / 2) - translationOffset) * (1.0 - zoomStep);
+    //    translationOffset += (mousePos - QPoint(this->width() / 2, this->height() / 2) - translationOffset) * (1.0 - zoomStep);
     translationOffset += (mousePos - translationOffset) * (1.0 - zoomStep);
 
     event->accept();
 
     // todo: Map to scene
-//    emit signal_sceneCoordinateChanged(mapToScene(event->pos()));
+    //    emit signal_sceneCoordinateChanged(mapToScene(event->pos()));
     slot_repaint();
 }
 
@@ -453,8 +468,8 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
     // Update mouse coordinates and scene coordinates
     // TODO
-//    if (!(event->buttons() & Qt::MidButton))
-//        emit signal_sceneCoordinateChanged(mapToScene(mousePos));
+    //    if (!(event->buttons() & Qt::MidButton))
+    //        emit signal_sceneCoordinateChanged(mapToScene(mousePos));
 
     if (event->buttons() == Qt::LeftButton)
     {
@@ -468,29 +483,41 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
     if (event->buttons() == Qt::RightButton)
     {
-        qreal dx = mouseMoveDelta.x()/5.0f;
-        qreal dy = mouseMoveDelta.y()/5.0f;
+//        qreal dx = mouseMoveDelta.x()/5.0f;
+//        qreal dy = mouseMoveDelta.y()/5.0f;
 
-        QVector4D axis_1, axis_2;
-        axis_1 = matrix_rotation.transposed() * QVector4D(1.0f, 0.0f, 0.0f, 0.0f);
-        axis_2 = matrix_rotation.transposed() * QVector4D(0.0f, 1.0f, 0.0f, 0.0f);
+
+//        QVector4D axis_1, axis_2;
+//        axis_1 = matrix_rotation.transposed() * QVector4D(1.0f, 0.0f, 0.0f, 0.0f);
+//        axis_2 = matrix_rotation.transposed() * QVector4D(0.0f, 1.0f, 0.0f, 0.0f);
+
+//        matrix_arcball.setToIdentity();
+//        matrix_arcball.translate(this->lookAtPosition);
+//        matrix_arcball.rotate(dy, axis_1.toVector3D());
+//        matrix_arcball.rotate(-dx, axis_2.toVector3D());
+//        matrix_arcball.translate(-1 * this->lookAtPosition);
+
+        QVector3D rotationEnd = pointOnSphere( mousePos );
+        double angle = acos( QVector3D::dotProduct( rotationStart, rotationEnd ));
+        QVector4D axis4D = matrix_rotation_old.transposed() *QVector4D(QVector3D::crossProduct(rotationStart, rotationEnd),0);
 
         matrix_arcball.setToIdentity();
         matrix_arcball.translate(this->lookAtPosition);
-        matrix_arcball.rotate(dy, axis_1.toVector3D());
-        matrix_arcball.rotate(-dx, axis_2.toVector3D());
+        matrix_arcball.rotate(-angle/PI*180,axis4D.toVector3D());
         matrix_arcball.translate(-1 * this->lookAtPosition);
 
-        matrix_rotation = matrix_rotation * matrix_arcball;
+        matrix_rotation = matrix_rotation_old * matrix_arcball;
         updateMatrixAll();
         emit signal_matrix_rotation_changed(matrix_rotation);
 
-//        this->updateArcball(mouseMoveDelta.manhattanLength());
+
+
+        //        this->updateArcball(mouseMoveDelta.manhattanLength());
     }
 
     if (event->buttons() == 0)
     {
-//        timer_findItemAtPosition.start();
+        //        timer_findItemAtPosition.start();
         // Item highlighting
         highlightClear();
         highlightItemAtPosition(mousePos);
@@ -558,37 +585,59 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
     slot_repaint();
     event->accept();
-}
+    }
 
-void GLWidget::updateArcball(int steps)
+QVector3D GLWidget::pointOnSphere( QPoint pointOnScreen )
 {
-    QPoint arcballDelta = (mousePos - arcballPosOld);
-//    QVector3D v = getArcBallVector(arcballPos.x(), arcballPos.y());
-//    QVector3D u = getArcBallVector(arcballPosOld.x(), arcballPosOld.y());
-
-//    qreal angle = qAcos(qMin(1.0, QVector3D::dotProduct(u, v)));
-
-//    QVector3D rotAxis = QVector3D::crossProduct(v, u);
-
-//    QMatrix4x4 eyeToObject = arcballRotationMatrix;
-
-//    QVector3D objSpaceRotAx = eyeToObject * rotAxis;
-}
-
-QVector3D GLWidget::getArcBallVector(int x, int y)
-{
-    QVector3D pt = QVector3D(2.0 * x / this->width() - 1.0, 2.0 * y / this->height() - 1.0, 0);
-    pt.setY(pt.y() * -1);
-
-    float xySquared = qPow(pt.x(), 2) + qPow(pt.y(), 2);
-
-    if (xySquared <= 1.0)
-        pt.setZ(sqrt(1.0 - xySquared));
+    QPoint lookAtScreenCoords = mapFromScene(lookAtPosition).toPoint();
+    double x = pointOnScreen.x() - lookAtScreenCoords.x();
+    double y = pointOnScreen.y() + lookAtScreenCoords.y();
+    double center_x = lookAtPosition.x();
+    double center_y = lookAtPosition.y();
+    QVector3D v;
+    v.setX((x - center_x) / arcballRadius);
+    v.setY((y - center_y) / arcballRadius);
+    double mag = v.x() * v.x() + v.y() * v.y();
+    if (mag > 1.0d)
+    {
+        v.normalize();
+    }
     else
-        pt.normalize();
-
-    return pt;
+    {
+        v.setZ( sqrt(1.0 - mag) );
+    }
+    return v;
 }
+
+//void GLWidget::updateArcball(int steps)
+//{
+//    QPoint arcballDelta = (mousePos - arcballPosOld);
+//    //    QVector3D v = getArcBallVector(arcballPos.x(), arcballPos.y());
+//    //    QVector3D u = getArcBallVector(arcballPosOld.x(), arcballPosOld.y());
+
+//    //    qreal angle = qAcos(qMin(1.0, QVector3D::dotProduct(u, v)));
+
+//    //    QVector3D rotAxis = QVector3D::crossProduct(v, u);
+
+//    //    QMatrix4x4 eyeToObject = arcballRotationMatrix;
+
+//    //    QVector3D objSpaceRotAx = eyeToObject * rotAxis;
+//}
+
+//QVector3D GLWidget::getArcBallVector(int x, int y)
+//{
+//    QVector3D pt = QVector3D(2.0 * x / this->width() - 1.0, 2.0 * y / this->height() - 1.0, 0);
+//    pt.setY(pt.y() * -1);
+
+//    float xySquared = qPow(pt.x(), 2) + qPow(pt.y(), 2);
+
+//    if (xySquared <= 1.0)
+//        pt.setZ(sqrt(1.0 - xySquared));
+//    else
+//        pt.normalize();
+
+//    return pt;
+//}
 
 void GLWidget::enterEvent(QEvent *event)
 {
@@ -621,6 +670,9 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
     if (event->buttons() == Qt::RightButton)
     {
         arcballPosOld = mousePos;
+        rotationStart = pointOnSphere( mousePos );
+        matrix_rotation_old = matrix_rotation;
+        this->arcballShown = true;
     }
 
     // Object drawing and manipulation
@@ -643,8 +695,8 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         }
 
         // Pickbox
-//        if (!this->overlay->isPickActive())
-//            this->overlay->pickStart();
+        //        if (!this->overlay->isPickActive())
+        //            this->overlay->pickStart();
 
         if (this->item_lastHighlight != NULL)   // There is an item beyond the cursor, so if it is clicked, select it.
         {
@@ -658,25 +710,25 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         else
         {
             // Selection of items finished
-//            QList<QGraphicsItem*> new_selectedItems = this->items(this->overlay->selection(), this->overlay->selectionMode());
-//            qDebug() << QString("Selection finished: ") + QString().setNum(new_selectedItems.count()) + " items found.";
+            //            QList<QGraphicsItem*> new_selectedItems = this->items(this->overlay->selection(), this->overlay->selectionMode());
+            //            qDebug() << QString("Selection finished: ") + QString().setNum(new_selectedItems.count()) + " items found.";
 
-//            foreach (QGraphicsItem* new_selectedItem, new_selectedItems)
-//            {
-//                // Ignore items that have been selected already
-//                if (this->selectedItems.contains(new_selectedItem))
-//                {
-//                    // Check if user wants to deselect it using the shift button
-//                    if (event->modifiers() & Qt::ShiftModifier)
-//                        this->selection_deselectSingleItem(new_selectedItem);
-//                    continue;
-//                }
+            //            foreach (QGraphicsItem* new_selectedItem, new_selectedItems)
+            //            {
+            //                // Ignore items that have been selected already
+            //                if (this->selectedItems.contains(new_selectedItem))
+            //                {
+            //                    // Check if user wants to deselect it using the shift button
+            //                    if (event->modifiers() & Qt::ShiftModifier)
+            //                        this->selection_deselectSingleItem(new_selectedItem);
+            //                    continue;
+            //                }
 
-//                if (!(event->modifiers() & Qt::ShiftModifier))
-//                    this->selection_selectSingleItem(new_selectedItem);
-//            }
+            //                if (!(event->modifiers() & Qt::ShiftModifier))
+            //                    this->selection_selectSingleItem(new_selectedItem);
+            //            }
 
-//            this->overlay->pickEnd();
+            //            this->overlay->pickEnd();
             this->pickEnd();
             event->accept();
             return;
@@ -693,6 +745,12 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *event)
     if (event->button() == Qt::MidButton)
     {
         this->setCursor(Qt::BlankCursor);
+        slot_repaint();
+    }
+
+    if (event->button() == Qt::RightButton)
+    {
+        this->arcballShown = false;
         slot_repaint();
     }
 
@@ -747,6 +805,14 @@ void GLWidget::resizeEvent(QResizeEvent *event)
     event->accept();
 }
 
+void GLWidget::slot_set_cuttingplane_values_changed(qreal height, qreal depth)
+{
+    this->height_of_intersection = height;
+    this->depth_of_view = depth;
+//    shaderProgram->setUniformValue(shader_Height_of_intersection_location, QVector3D(0,0,height));
+    shaderProgram->setUniformValue(shader_Depth_of_view_location, (int)(height+depth));
+    slot_repaint();
+}
 
 void GLWidget::paintEvent(QPaintEvent *event)
 {
@@ -759,14 +825,14 @@ void GLWidget::paintEvent(QPaintEvent *event)
     makeCurrent();
     saveGLState();
 
-//    qreal screenRatio = (qreal)this->width() / (qreal)this->height();
+    //    qreal screenRatio = (qreal)this->width() / (qreal)this->height();
 
     matrix_modelview.setToIdentity();
     matrix_modelview.translate(translationOffset.x(), translationOffset.y(), 0.0);
     matrix_modelview.scale(this->zoomFactor, this->zoomFactor, 1.0 / 100000.0);
     updateMatrixAll();
 
-//    shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection * matrix_modelview * matrix_rotation);
+    //    shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection * matrix_modelview * matrix_rotation);
     shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
 
 
@@ -774,7 +840,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glViewport(0.0, 0.0, width(), height());
     glEnable(GL_BLEND);
-//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
 
     glEnable(GL_MULTISAMPLE);
@@ -788,29 +854,29 @@ void GLWidget::paintEvent(QPaintEvent *event)
 
 
 
-//    QGLFramebufferObjectFormat format;
-//    format.setSamples(4);
-//    //format.setAttachment(QGLFramebufferObject::CombinedDepthStencil);
-//    QGLFramebufferObject* fbo = new QGLFramebufferObject(50, 50, format);
+    //    QGLFramebufferObjectFormat format;
+    //    format.setSamples(4);
+    //    //format.setAttachment(QGLFramebufferObject::CombinedDepthStencil);
+    //    QGLFramebufferObject* fbo = new QGLFramebufferObject(50, 50, format);
 
-//    QPainter fbo_painter(fbo);
-//    fbo_painter.setPen(Qt::cyan);
-//    fbo_painter.drawText(30, 30, "Hello World");
-//    fbo_painter.end();
+    //    QPainter fbo_painter(fbo);
+    //    fbo_painter.setPen(Qt::cyan);
+    //    fbo_painter.drawText(30, 30, "Hello World");
+    //    fbo_painter.end();
 
-//    glBindTexture(GL_TEXTURE_2D, fbo->texture());
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//    glEnable(GL_TEXTURE_2D);
-
-
+    //    glBindTexture(GL_TEXTURE_2D, fbo->texture());
+    //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    //    glEnable(GL_TEXTURE_2D);
 
 
 
+    shaderProgram->setAttributeValue(shader_useClippingLocation, 1);
     glName = 0;
     paintContent(itemDB->layers);
+    shaderProgram->setAttributeValue(shader_useClippingLocation,0);
 
     restoreGLState();
 
@@ -821,6 +887,8 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection);
+
+
 
     if (this->cursorShown)
     {
@@ -876,6 +944,20 @@ void GLWidget::paintEvent(QPaintEvent *event)
             glEnd();
         }
     }
+
+
+    //draw Arcball
+    if(arcballShown)
+    {
+        QPoint lookAtScreenCoords = mapFromScene(lookAtPosition).toPoint();
+        glBegin(GL_LINE_LOOP);
+        for(int i = 0; i < 60; i++ )
+        {
+            glVertex3i(arcballRadius * qSin(i * PI / 30) + lookAtScreenCoords.x(), arcballRadius * qCos(i * PI / 30) + lookAtScreenCoords.y(), 0);
+        }
+        glEnd();
+    }
+
     if ((snapMode != SnapNo) && (item_lastHighlight != NULL))
     {
         QString snapText;
@@ -965,6 +1047,8 @@ void GLWidget::paintEvent(QPaintEvent *event)
         }
     }
 
+
+
     restoreGLState();
     event->accept();
 }
@@ -1012,7 +1096,7 @@ void GLWidget::setVertex(QVector3D pos)
 
 void GLWidget::setVertex(QPoint pos)
 {
-//    setVertex(QVector3D((qreal)pos.x(), (qreal)pos.y(), 0.0));
+    //    setVertex(QVector3D((qreal)pos.x(), (qreal)pos.y(), 0.0));
     glVertex2i((GLint)pos.x(), (GLint)pos.y());
 }
 
@@ -1082,16 +1166,16 @@ void GLWidget::paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFon
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 
-//    qDebug() << textureID;
+    //    qDebug() << textureID;
 
-//    glActiveTexture(GL_TEXTURE0);
-//    glBindTexture(GL_TEXTURE_2D, textureID);
-//    glActiveTexture(0);
+    //    glActiveTexture(GL_TEXTURE0);
+    //    glBindTexture(GL_TEXTURE_2D, textureID);
+    //    glActiveTexture(0);
     setUseTexture(true);
 
 
     // Draw background
-//    setPaintingColor(colorBackground);
+    //    setPaintingColor(colorBackground);
     glBegin(GL_QUADS);
     setTextureCoords(0.0, 1.0, 0.0);
     setVertex(boundingRect.bottomLeft());
@@ -1102,16 +1186,16 @@ void GLWidget::paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFon
     setTextureCoords(0.0, 0.001, 0.0);
     setVertex(boundingRect.topLeft());
 
-//    glVertex2i(boundingRect.bottomLeft().x(), boundingRect.bottomLeft().y());
-//    glVertex2i(boundingRect.bottomRight().x(), boundingRect.bottomRight().y());
-//    glVertex2i(boundingRect.topRight().x(), boundingRect.topRight().y());
-//    glVertex2i(boundingRect.topLeft().x(), boundingRect.topLeft().y());
+    //    glVertex2i(boundingRect.bottomLeft().x(), boundingRect.bottomLeft().y());
+    //    glVertex2i(boundingRect.bottomRight().x(), boundingRect.bottomRight().y());
+    //    glVertex2i(boundingRect.topRight().x(), boundingRect.topRight().y());
+    //    glVertex2i(boundingRect.topLeft().x(), boundingRect.topLeft().y());
     glEnd();
     setUseTexture(false);
     this->deleteTexture(textureID);
 
 
-//    // Draw outline
+    //    // Draw outline
     setPaintingColor(colorOutline);
     glLineWidth(1.0);
     glBegin(GL_LINE_LOOP);
@@ -1124,9 +1208,9 @@ void GLWidget::paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFon
 
 void GLWidget::paintContent(QList<Layer*> layers)
 {
-//    quint32 glName = 0;
+    //    quint32 glName = 0;
 
-//    qDebug() << "GLWidget::paintContent: painting"<< layers.count() << "layers...";
+    //    qDebug() << "GLWidget::paintContent: painting"<< layers.count() << "layers...";
     foreach (Layer* layer, layers)
     {
         if (!layer->on)
@@ -1136,41 +1220,41 @@ void GLWidget::paintContent(QList<Layer*> layers)
         {
             item->index = glName;
 
-            // Exclude all items from painting that do not reach the canvas with their boundingRect
-            int screen_x_min = -this->width() / 2;
-//            int screen_x_max =  this->width() / 2;
-            int screen_y_min = -this->height() / 2;
-//            int screen_y_max =  this->height() / 2;
+//            // Exclude all items from painting that do not reach the canvas with their boundingRect
+//            int screen_x_min = -this->width() / 2;
+//            //            int screen_x_max =  this->width() / 2;
+//            int screen_y_min = -this->height() / 2;
+//            //            int screen_y_max =  this->height() / 2;
 
-            int p_x_min =  100000;
-            int p_x_max = -100000;
-            int p_y_min =  100000;
-            int p_y_max = -100000;
-
-
-            for (int i=0; i < 8; i++)
-            {
-                QVector3D boxPoint = item->boundingBox.p(i);
-                QPointF screen_p = mapFromScene(boxPoint);    // Remark: INEFFICIENT!
-
-                if (screen_p.x() < p_x_min)     p_x_min = screen_p.x();
-                if (screen_p.x() > p_x_max)     p_x_max = screen_p.x();
-                if (screen_p.y() < p_y_min)     p_y_min = screen_p.y();
-                if (screen_p.y() > p_y_max)     p_y_max = screen_p.y();
-            }
-
-            QRect screenRect;
-            QRect itemRect;
-
-            screenRect = QRect(screen_x_min, screen_y_min, this->width(), this->height());
-            itemRect = QRect(p_x_min, p_y_min, (p_x_max - p_x_min), (p_y_max - p_y_min));
+//            int p_x_min =  100000;
+//            int p_x_max = -100000;
+//            int p_y_min =  100000;
+//            int p_y_max = -100000;
 
 
-            if (!screenRect.intersects(itemRect))
-            {
-                glName++;
-                continue;
-            }
+//            for (int i=0; i < 8; i++)
+//            {
+//                QVector3D boxPoint = item->boundingBox.p(i);
+//                QPointF screen_p = mapFromScene(boxPoint);    // Remark: INEFFICIENT!
+
+//                if (screen_p.x() < p_x_min)     p_x_min = screen_p.x();
+//                if (screen_p.x() > p_x_max)     p_x_max = screen_p.x();
+//                if (screen_p.y() < p_y_min)     p_y_min = screen_p.y();
+//                if (screen_p.y() > p_y_max)     p_y_max = screen_p.y();
+//            }
+
+//            QRect screenRect;
+//            QRect itemRect;
+
+//            screenRect = QRect(screen_x_min, screen_y_min, this->width(), this->height());
+//            itemRect = QRect(p_x_min, p_y_min, (p_x_max - p_x_min), (p_y_max - p_y_min));
+
+
+//            if (!screenRect.intersects(itemRect))
+//            {
+//                glName++;
+//                continue;
+//            }
 
 
             glLoadName(glName);
@@ -1255,7 +1339,7 @@ void GLWidget::paintContent(QList<Layer*> layers)
                 break;
             case CADitem::Air_Pipe:
                 paintAirPipe(layer, (CAD_air_pipe*)item);
-                break;                
+                break;
             case CADitem::Air_DuctFireResistant:
                 break;
             case CADitem::Air_DuctTurn:
@@ -1514,18 +1598,18 @@ QColor GLWidget::getColorPen(CADitem* item, Layer* layer)
     {
         if (color_pen.value() > 127)
         {
-//            color_pen = color_pen.darker();
-//            color_pen.setRed(color_pen.red() - 50);
-//            color_pen.setGreen(color_pen.green() - 50);
-//            color_pen.setBlue(color_pen.blue() - 50);
+            //            color_pen = color_pen.darker();
+            //            color_pen.setRed(color_pen.red() - 50);
+            //            color_pen.setGreen(color_pen.green() - 50);
+            //            color_pen.setBlue(color_pen.blue() - 50);
             color_pen.setHsv(color_pen.hsvHue(), color_pen.hsvSaturation(), color_pen.value() - 100);
         }
         else
         {
-//            color_pen = color_pen.lighter();
-//            color_pen.setRed(color_pen.red() + 50);
-//            color_pen.setGreen(color_pen.green() + 50);
-//            color_pen.setBlue(color_pen.blue() + 50);
+            //            color_pen = color_pen.lighter();
+            //            color_pen.setRed(color_pen.red() + 50);
+            //            color_pen.setGreen(color_pen.green() + 50);
+            //            color_pen.setBlue(color_pen.blue() + 50);
             color_pen.setHsv(color_pen.hsvHue(), color_pen.hsvSaturation(), color_pen.value() + 100);
         }
     }
@@ -1548,16 +1632,16 @@ QColor GLWidget::getColorBrush(CADitem* item, Layer* layer)
     {
         if (color_brush.value() > 127)
         {
-//            color_brush.setRed(color_brush.red() - 100);
-//            color_brush.setGreen(color_brush.green() - 100);
-//            color_brush.setBlue(color_brush.blue() - 100);
+            //            color_brush.setRed(color_brush.red() - 100);
+            //            color_brush.setGreen(color_brush.green() - 100);
+            //            color_brush.setBlue(color_brush.blue() - 100);
             color_brush.setHsv(color_brush.hsvHue(), color_brush.hsvSaturation(), color_brush.value() - 100);
         }
         else
         {
-//            color_brush.setRed(color_brush.red() + 100);
-//            color_brush.setGreen(color_brush.green() + 100);
-//            color_brush.setBlue(color_brush.blue() + 100);
+            //            color_brush.setRed(color_brush.red() + 100);
+            //            color_brush.setGreen(color_brush.green() + 100);
+            //            color_brush.setBlue(color_brush.blue() + 100);
             color_brush.setHsv(color_brush.hsvHue(), color_brush.hsvSaturation(), color_brush.value() + 100);
         }
     }
@@ -1590,28 +1674,28 @@ void GLWidget::paintBasicLine(Layer* layer, CAD_basic_line *item)
     //  Crop lines that exceed the paint area (heightOfIntersection to depthOfView)
     QVector3D p1 = item->p1;
     QVector3D p2 = item->p2;
-//    qreal h1 = heightInScene(p1);
-//    qreal h2 = heightInScene(p2);
+    //    qreal h1 = heightInScene(p1);
+    //    qreal h2 = heightInScene(p2);
 
-//    if ((h1 < height_of_intersection) && (h2 < height_of_intersection))
-//        return;
+    //    if ((h1 < height_of_intersection) && (h2 < height_of_intersection))
+    //        return;
 
-//    if (h1 < height_of_intersection)
-//    {
-//        // modify p1
-//        p1 = (p1 - p2) * ((height_of_intersection - h2) / (h1 - h2)) + p2;
-//    }
-//    else if (h2 < height_of_intersection)
-//    {
-//        // modify p2
-//        p2 = (p2 - p1) * ((height_of_intersection - h1) / (h2 - h1)) + p1;
-//    }
+    //    if (h1 < height_of_intersection)
+    //    {
+    //        // modify p1
+    //        p1 = (p1 - p2) * ((height_of_intersection - h2) / (h1 - h2)) + p2;
+    //    }
+    //    else if (h2 < height_of_intersection)
+    //    {
+    //        // modify p2
+    //        p2 = (p2 - p1) * ((height_of_intersection - h1) / (h2 - h1)) + p1;
+    //    }
 
-//    painter->drawLine(mapFromScene(p1), mapFromScene(p2));
-//    qDebug() << "GeometryRenderengine: Painting a line";
+    //    painter->drawLine(mapFromScene(p1), mapFromScene(p2));
+    //    qDebug() << "GeometryRenderengine: Painting a line";
 
     glLineWidth(penWidth);
-//    glColor4f(color_pen.redF(), color_pen.greenF(), color_pen.blueF(), color_pen.alphaF());
+    //    glColor4f(color_pen.redF(), color_pen.greenF(), color_pen.blueF(), color_pen.alphaF());
     setPaintingColor(color_pen);
     glBegin(GL_LINES);
     glVertex3f((GLfloat)p1.x(), (GLfloat)p1.y(), (GLfloat)p1.z());
@@ -1639,25 +1723,25 @@ void GLWidget::paintBasicPolyLine(Layer *layer, CAD_basic_polyline *item)
             p2 = vertex.pos;
 
             //  Crop lines that exceed the paint area (heightOfIntersection to depthOfView)
-//            qreal h1 = heightInScene(p1);
-//            qreal h2 = heightInScene(p2);
+            //            qreal h1 = heightInScene(p1);
+            //            qreal h2 = heightInScene(p2);
 
-//            if ((h1 < height_of_intersection) && (h2 < height_of_intersection))
-//            {
-//                p1 = p2;
-//                continue;
-//            }
+            //            if ((h1 < height_of_intersection) && (h2 < height_of_intersection))
+            //            {
+            //                p1 = p2;
+            //                continue;
+            //            }
 
-//            if (h1 < height_of_intersection)
-//            {
-//                // modify p1
-//                p1 = (p1 - p2) * ((height_of_intersection - h2) / (h1 - h2)) + p2;
-//            }
-//            else if (h2 < height_of_intersection)
-//            {
-//                // modify p2
-//                p2 = (p2 - p1) * ((height_of_intersection - h1) / (h2 - h1)) + p1;
-//            }
+            //            if (h1 < height_of_intersection)
+            //            {
+            //                // modify p1
+            //                p1 = (p1 - p2) * ((height_of_intersection - h2) / (h1 - h2)) + p2;
+            //            }
+            //            else if (h2 < height_of_intersection)
+            //            {
+            //                // modify p2
+            //                p2 = (p2 - p1) * ((height_of_intersection - h1) / (h2 - h1)) + p1;
+            //            }
 
 
 
@@ -2795,32 +2879,32 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
     glInitNames();
     glPushName(0);
 
-//    glMatrixMode(GL_PROJECTION);
-//    glPushMatrix();
-//    glLoadIdentity();
-//    gluPickMatrix((GLdouble)pos.x(), (GLdouble)pos.y(), 11.0, 11.0, viewport);
+    //    glMatrixMode(GL_PROJECTION);
+    //    glPushMatrix();
+    //    glLoadIdentity();
+    //    gluPickMatrix((GLdouble)pos.x(), (GLdouble)pos.y(), 11.0, 11.0, viewport);
 
-//    GLfloat screenRatio = (qreal)this->width() / (qreal)this->height();
-//    glTranslatef(cameraPosition.x(), cameraPosition.y(), cameraPosition.z());
-//    glMatrixMode(GL_MODELVIEW);
-//    glLoadIdentity();
+    //    GLfloat screenRatio = (qreal)this->width() / (qreal)this->height();
+    //    glTranslatef(cameraPosition.x(), cameraPosition.y(), cameraPosition.z());
+    //    glMatrixMode(GL_MODELVIEW);
+    //    glLoadIdentity();
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glEnable(GL_MULTISAMPLE);
     glDisable(GL_CULL_FACE);
 
-//    glTranslatef((qreal)translationOffset.x() / (qreal)this->width() * 2, (qreal)translationOffset.y() / (qreal)this->height() * 2, 0.0);
-//    glScalef(this->zoomFactor / screenRatio / (qreal)this->height(), this->zoomFactor / (qreal)this->height(), 1.0 / 100000.0);
-//    glRotatef(rot_x, 1.0f, 0.0f, 0.0f);
-//    glRotatef(rot_y, 0.0f, 1.0f, 0.0f);
-//    glRotatef(rot_z, 0.0f, 0.0f, 1.0f);
+    //    glTranslatef((qreal)translationOffset.x() / (qreal)this->width() * 2, (qreal)translationOffset.y() / (qreal)this->height() * 2, 0.0);
+    //    glScalef(this->zoomFactor / screenRatio / (qreal)this->height(), this->zoomFactor / (qreal)this->height(), 1.0 / 100000.0);
+    //    glRotatef(rot_x, 1.0f, 0.0f, 0.0f);
+    //    glRotatef(rot_y, 0.0f, 1.0f, 0.0f);
+    //    glRotatef(rot_z, 0.0f, 0.0f, 1.0f);
 
     matrix_glSelect.setToIdentity();
     matrix_glSelect.scale(1.0 / ((qreal)_cursorPickboxSize / this->width()), 1.0 / ((qreal)_cursorPickboxSize / this->height()), 1.0);
     matrix_glSelect.translate(-(qreal)pos.x(), -(qreal)pos.y(), 0.0);
     updateMatrixAll();
-//    shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection * matrix_glSelect * matrix_modelview * matrix_rotation);
+    //    shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection * matrix_glSelect * matrix_modelview * matrix_rotation);
     shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
 
 
@@ -2850,7 +2934,7 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
     {
         GLuint numberOfNames = buffer[i];
         GLuint minDepth = buffer[i + 1];
-//        GLuint maxDepth = buffer[i + 2];
+        //        GLuint maxDepth = buffer[i + 2];
 
         if (numberOfNames > 0)
         {
@@ -3000,3 +3084,5 @@ void GLWidget::selectionClear_processItems(QList<CADitem *> items)
         selectionClear_processItems(item->subItems);
     }
 }
+
+

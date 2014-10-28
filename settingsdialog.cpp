@@ -30,6 +30,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     QT_TR_NOOP("pickboxOutlineColorRight");
     QT_TR_NOOP("pickboxFillColorLeft");
     QT_TR_NOOP("pickboxFillColorRight");
+    QT_TR_NOOP("arcball");
+    QT_TR_NOOP("arcballRadius");
 
 
     stackedLayout->setMargin(0);

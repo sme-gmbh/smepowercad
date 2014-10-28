@@ -42,6 +42,7 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, ItemWizard *itemWizard, QWidget
     connect(glwidget, SIGNAL(signal_highlightItem(CADitem*)), this, SIGNAL(signal_highlightItem(CADitem*)));
     connect(glwidget, SIGNAL(signal_snapFired(QVector3D,int)), this, SIGNAL(signal_snapFired(QVector3D,int)));
     connect(glwidget, SIGNAL(signal_matrix_rotation_changed(QMatrix4x4)), this, SLOT(slot_matrix_rotation_changed(QMatrix4x4)));
+    connect(titleWidget, SIGNAL(signal_cuttingplane_values_changed(qreal,qreal)), glwidget, SLOT(slot_set_cuttingplane_values_changed(qreal,qreal)));
 
     this->resize(400, 250);
     this->setFloating(false);
@@ -213,6 +214,7 @@ void GeometryDisplay::slot_changeCuttingplane(QString directionOfView)
         glwidget->set_WorldRotation(0.0, 0.0, 0.0); // richtig
     }
 }
+
 
 void GeometryDisplay::slot_highlightItem(CADitem *item)
 {

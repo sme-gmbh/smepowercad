@@ -805,6 +805,16 @@ Default width for lines and outlines</oldsource>
         <translation>Füllfarbe</translation>
     </message>
     <message>
+        <location filename="../settingsdialog.cpp" line="33"/>
+        <source>arcball</source>
+        <translation>Arcball-Rotation</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="34"/>
+        <source>arcballRadius</source>
+        <translation>Arcball Radius</translation>
+    </message>
+    <message>
         <source>changed language</source>
         <translation type="obsolete">Sprache geändert</translation>
     </message>

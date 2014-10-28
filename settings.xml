@@ -26,7 +26,10 @@
 			<attribute name="pickboxOutlineColorRight" desc="" type="color" default="40,40,255,255" />
 			<attribute name="pickboxFillColorLeft" desc="" type="color" default="127,255,127,127" />
 			<attribute name="pickboxFillColorRight" desc="" type="color" default="127,127,255,127" />
-		</page>
+                </page>
+                <page name="arcball">
+                        <attribute name="arcballRadius" desc="" type="int" default="500" min="10" max="10000" />
+                </page>
 	</category>
 </settings>
 
