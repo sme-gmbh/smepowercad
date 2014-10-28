@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl svg xml
+QT       += core gui opengl svg xml network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -142,7 +142,9 @@ SOURCES += main.cpp\
     items/cad_sanitary_electricwaterheater.cpp \
     items/cad_basic_pipe.cpp \
     items/cad_basic_turn.cpp \
-    math/m3dboundingbox.cpp
+    math/m3dboundingbox.cpp \
+    network/server.cpp \
+    network/clienthandler.cpp
 
 HEADERS  += mainwindow.h \
     overlay.h \
@@ -273,7 +275,9 @@ HEADERS  += mainwindow.h \
     items/cad_sanitary_electricwaterheater.h \
     items/cad_basic_pipe.h \
     items/cad_basic_turn.h \
-    math/m3dboundingbox.h
+    math/m3dboundingbox.h \
+    network/server.h \
+    network/clienthandler.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

@@ -84,6 +84,8 @@
         <file>icons/cad_sprinkler/cad_sprinkler_pump.svg</file>
         <file>icons/cad_sprinkler/cad_sprinkler_compressedairwatercontainer.svg</file>
         <file>icons/cad_sprinkler/cad_sprinkler_distribution.svg</file>
+        <file>icons/cad_basic/cad_basic_turn.svg</file>
+        <file>icons/cad_basic/cad_basic_pipe.svg</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>

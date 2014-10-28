@@ -102,6 +102,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menuDatei->actions().at(1)->setMenu(recentFilesMenu);
     updateRecentFileActions();
 
+    // **** Network server ****
+    this->server = new Server(itemDB, this);
 
     // **** 3D mouse ****
     magellanThread = new QMagellanThread();
@@ -473,6 +475,12 @@ void MainWindow::on_actionSettings_triggered()
     //dialog->exec();
     //delete dialog;
     settingsDialog->show();
+}
+
+void MainWindow::on_actionServer_triggered(bool checked)
+{
+    // Switch Server function on or off
+
 }
 
 void MainWindow::on_action_basic_face_triggered()
@@ -1231,3 +1239,4 @@ void MainWindow::on_action_basic_Turn_triggered()
     CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Turn);
     this->itemWizard->showWizard(item);
 }
+

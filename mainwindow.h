@@ -28,6 +28,8 @@
 #include "settingsdialog.h"
 #include "itemwizard.h"
 
+#include "network/server.h"
+
 #define MAX_RECENT_FILES 5
 
 namespace Ui {
@@ -49,6 +51,8 @@ private:
     CADcommand* cadcommand;
 //    QGraphicsScene* scene;
     LayerManager* layerManager;
+
+    Server* server;
 
     // Current drawing objects
     CAD_basic_line* current_cadline;
@@ -261,6 +265,8 @@ private slots:
     void on_action_basic_pipe_triggered();
 
     void on_action_basic_Turn_triggered();
+
+    void on_actionServer_triggered(bool checked);
 
 signals:
     void signal_command_prompt_input(QString str);
