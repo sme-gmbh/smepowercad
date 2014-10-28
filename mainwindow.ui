@@ -165,11 +165,18 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <addaction name="actionAbout"/>
     <addaction name="actionAbout_OpenGL"/>
    </widget>
+   <widget class="QMenu" name="menuSystem">
+    <property name="title">
+     <string>System</string>
+    </property>
+    <addaction name="actionServer"/>
+   </widget>
    <addaction name="menuDatei"/>
    <addaction name="menuFormat"/>
    <addaction name="menuFenster"/>
    <addaction name="menuWerkzeugleisten"/>
    <addaction name="menuHelp"/>
+   <addaction name="menuSystem"/>
   </widget>
   <widget class="QDockWidget" name="dockWidgetPrompt">
    <property name="enabled">
@@ -489,6 +496,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <addaction name="action_sprinkler_teeconnector"/>
    <addaction name="action_sprinkler_valve"/>
    <addaction name="action_sprinkler_wetalarmvalve"/>
+   <addaction name="action_sprinkler_zonecheck"/>
   </widget>
   <action name="actionLaden">
    <property name="icon">
@@ -1717,6 +1725,10 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
   </action>
   <action name="action_basic_pipe">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/cad_basic/cad_basic_pipe.svg</normaloff>:/icons/cad_basic/cad_basic_pipe.svg</iconset>
+   </property>
    <property name="text">
     <string>Basic Pipe</string>
    </property>
@@ -1725,8 +1737,20 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
   </action>
   <action name="action_basic_Turn">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/cad_basic/cad_basic_turn.svg</normaloff>:/icons/cad_basic/cad_basic_turn.svg</iconset>
+   </property>
    <property name="text">
     <string>Basic Turn</string>
+   </property>
+  </action>
+  <action name="actionServer">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Server</string>
    </property>
   </action>
  </widget>
