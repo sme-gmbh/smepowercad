@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QList>
+#include <QByteArray>
+#include <QDataStream>
 #include <QDebug>
 
 #include "layer.h"
@@ -135,10 +137,14 @@ public:
     CADitem *drawItem(Layer *layer, CADitem::ItemType type);
     CADitem *drawItem(QString layerName, CADitem::ItemType type);
 
+    QByteArray network_getAll();
+
 private:
     Layer* topLevelLayer;
     QMap<QString, Layer*> layerMap;
     CADitem::ItemType activeDrawCommand;
+    void network_getAll_processLayers(QList<Layer *> layers, QByteArray *answer);
+    void network_getAll_processItems(QList<CADitem *> items, QByteArray* answer);
 
 signals:
     void signal_layerAdded(Layer* newLayer, Layer* parentLayer);

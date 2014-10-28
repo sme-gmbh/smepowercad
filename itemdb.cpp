@@ -414,3 +414,31 @@ CADitem *ItemDB::drawItem(QString layerName, CADitem::ItemType type)
         layer = topLevelLayer;
     return this->drawItem(layer, type);
 }
+
+QByteArray ItemDB::network_getAll()
+{
+    QByteArray answer;
+
+    network_getAll_processLayers(this->layers, &answer);
+
+    return answer;
+}
+
+void ItemDB::network_getAll_processLayers(QList<Layer *> layers, QByteArray* answer)
+{
+    foreach (Layer* layer, layers)
+    {
+//        answer += "";   // tbd.
+        network_getAll_processItems(layer->items, answer);
+        network_getAll_processLayers(layer->subLayers, answer);
+    }
+}
+
+void ItemDB::network_getAll_processItems(QList<CADitem *> items, QByteArray* answer)
+{
+    foreach (CADitem* item, items)
+    {
+        answer->append(item->serialOut());
+        network_getAll_processItems(item->subItems, answer);
+    }
+}

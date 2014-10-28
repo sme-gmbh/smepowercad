@@ -8,6 +8,7 @@
 #include <QMap>
 #include <QVector3D>
 #include <QVariant>
+#include <QDataStream>
 #include <QDebug>
 #include <math.h>
 #include "math/m3dboundingbox.h"
@@ -131,6 +132,8 @@ public:
     virtual ~CADitem() {}
     virtual void calculate() {}
     virtual void processWizardInput() {}
+    QByteArray serialOut();
+    void serialIn(QByteArray &in);
 
     // data types tbd.
     ItemType getType();

@@ -74,6 +74,11 @@ void ClientHandler::slot_read_ready()
             data.insert(key, value);
         }
 
+        if (command == "A")
+        {
+            socket->write(itemDB->network_getAll());
+            continue;
+        }
 
 //        if (command == "G") // Get a set of data
 //        {
