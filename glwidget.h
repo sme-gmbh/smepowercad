@@ -69,10 +69,15 @@ private:
     QPoint displayCenter;           // The Center of the widget in PixelsOnScreen, related to bottomLeft of Widget
     QVector3D cameraPosition;
     QVector3D lookAtPosition;
+
+    QVector3D centerOfRotationSphere;
+    QVector3D rotationStart;
 //    float rot_x, rot_y, rot_z;
 
     QPoint arcballPosOld;
     QMatrix4x4 matrix_arcball;
+    qreal arcballRadius;
+
 
 //    QMatrix4x4 matrix_projection;
 
@@ -91,6 +96,7 @@ private:
     QPoint pickStartPos;
     bool pickActive;
     bool cursorShown;
+    bool arcballShown;
     SnapMode snapMode;
     QPoint snapPos_screen;
     QVector3D snapPos_scene;
@@ -145,6 +151,7 @@ private:
     QMatrix4x4 matrix_projection;
     QMatrix4x4 matrix_modelview;
     QMatrix4x4 matrix_rotation;
+    QMatrix4x4 matrix_rotation_old;
     QMatrix4x4 matrix_glSelect;
     QMatrix4x4 matrix_all;
 
@@ -173,6 +180,8 @@ private:
         bottomLeft,
         bottomRight
     } BoxVertex;
+
+    QVector3D pointOnSphere( QPoint pointOnScreen );
 
     void paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFont font = QFont(), QColor colorText = QColor(255, 255, 30, 255), QColor colorBackground = QColor(0, 0, 0, 230), QColor colorOutline = QColor(200, 200, 200, 150));
 

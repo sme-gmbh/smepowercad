@@ -194,23 +194,22 @@ MainWindow::MainWindow(QWidget *parent) :
 //    item->processWizardInput();
 //    item->calculate();
 
-    CAD_basic_turn* item;
-    QVector3D pos;
+//    CAD_basic_sphere* item;
+//    QVector3D pos;
 
 
-    for (int i=0; i < 50; i++)
-    {
-        for (int j=0; j < 50; j++)
-        {
-            pos = QVector3D(20.0 * i, 0.0, 20.0 * j);
-            item = (CAD_basic_turn*)itemDB->drawItem("X", CADitem::Basic_Turn);
-            item->position = pos + QVector3D(0.0, (-20 * i) % 40, 0.0);
-            item->angle_z = (90 * i) % 180;
-            item->wallThickness = 0.5;
+//    for (int i=0; i < 3; i++)
+//    {
+//        for (int j=0; j < 3; j++)
+//        {
+//            pos = QVector3D(20.0 * i, 0.0, 20.0 * j);
+//            item = (CAD_basic_sphere*)itemDB->drawItem("X", CADitem::Basic_Sphere);
+//            item->position = pos + QVector3D(0.0, (-20 * i) % 40, 0.0);
+//            item->angle_z = (90 * i) % 180;
 
-            item->calculate();
-        }
-    }
+//            item->calculate();
+//        }
+//    }
 
     this->layerManager->updateAllLayers();
 
