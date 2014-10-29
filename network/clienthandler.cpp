@@ -69,14 +69,29 @@ void ClientHandler::slot_read_ready()
                 continue;
             }
             // key and value are base64 encoded.
-            QString key = QString::fromUtf8(QByteArray::fromBase64(key_value_pair.at(0).toUtf8()));
-            QString value = QString::fromUtf8(QByteArray::fromBase64(key_value_pair.at(1).toUtf8()));
+//            QString key = QString::fromUtf8(QByteArray::fromBase64(key_value_pair.at(0).toUtf8()));
+//            QString value = QString::fromUtf8(QByteArray::fromBase64(key_value_pair.at(1).toUtf8()));
+// DEBUG: disable base64 coding to use it manually in a terminal
+            QString key = key_value_pair.at(0);
+            QString value = key_value_pair.at(1);
             data.insert(key, value);
         }
 
-        if (command == "A")
+        if (command == "A")     // Get All
         {
             socket->write(itemDB->network_getAll());
+            continue;
+        }
+
+        if (command == "M")     // Modify item
+        {
+            socket->write(itemDB->network_modifyItem(id, data));
+            continue;
+        }
+
+        if (command == "D")     // Delete item
+        {
+            socket->write(itemDB->network_deleteItem(id));
             continue;
         }
 

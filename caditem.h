@@ -132,8 +132,8 @@ public:
     virtual ~CADitem() {}
     virtual void calculate() {}
     virtual void processWizardInput() {}
-    QByteArray serialOut();
-    void serialIn(QByteArray &in);
+    void serialOut(QByteArray *out);
+    bool serialIn(QByteArray *in);
 
     // data types tbd.
     ItemType getType();
@@ -144,6 +144,7 @@ public:
     QMap<QString, QString> attributes;
     M3dBoundingBox boundingBox;
     QList<CADitem*> subItems;
+    quint64 id;
 
     QVector3D position;
     qreal angle_x;
@@ -156,6 +157,7 @@ public:
     // Object Snap
     QList<QVector3D> snap_center;
     QList<QVector3D> snap_vertices;
+    QList<QVector3D> snap_flanges;
     QVector3D snap_basepoint;
 
     // Highlighting
@@ -168,5 +170,6 @@ public:
 private:
     ItemType type;
 };
+
 
 #endif // CADITEM_H

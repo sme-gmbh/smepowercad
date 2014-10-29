@@ -27,6 +27,10 @@ public:
     QList<Layer*> subLayers;
     Layer* parentLayer;
 
+    void serialOut(QByteArray *out);
+    void serialIn(QByteArray *in);
+
+
 signals:
 
 public slots:

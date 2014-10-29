@@ -3,6 +3,7 @@
 ItemDB::ItemDB(QObject *parent) :
     QObject(parent)
 {
+    currentItemId = 0;
     topLevelLayer = new Layer(this);
     topLevelLayer->name = "$$ToplevelLayer";
     layers.append(topLevelLayer);
@@ -97,6 +98,9 @@ void ItemDB::addItem(CADitem *item, Layer *layer)
     }
 
     item->layerName = layer->name;
+    item->id = currentItemId;
+    itemMap.insert(item->id, item);
+    currentItemId++;
     layer->items.append(item);
     emit signal_itemAdded(item, layer);
 }
@@ -106,7 +110,25 @@ void ItemDB::deleteItem(CADitem *item)
     Layer* layer = getLayerByName(item->layerName);
 
     layer->items.removeOne(item);
+    itemMap.remove(item->id);
+
+    foreach (CADitem* subItem, item->subItems)
+    {
+        deleteItem(subItem);
+    }
+
     delete item;
+}
+
+bool ItemDB::deleteItem(quint64 id)
+{
+    CADitem* item = getItemById(id);
+
+    if (item == NULL)
+        return false;
+
+    deleteItem(item);
+    return true;
 }
 
 void ItemDB::deleteItems(QList<CADitem *> items)
@@ -415,6 +437,40 @@ CADitem *ItemDB::drawItem(QString layerName, CADitem::ItemType type)
     return this->drawItem(layer, type);
 }
 
+CADitem *ItemDB::getItemById(quint64 id)
+{
+    return itemMap.value(id, NULL);
+}
+
+bool ItemDB::modifyItem(quint64 &id, QString &key, QString &value)
+{
+    CADitem* item = getItemById(id);
+    if (item == NULL)
+        return false;
+
+    QVariant oldValue = item->wizardParams.value(key);
+
+    if (!oldValue.isValid())
+        return false;
+
+    switch (oldValue.type())
+    {
+    case QVariant::Double:
+        item->wizardParams.insert(key, QVariant(value.toDouble()));
+        break;
+    case QVariant::String:
+        item->wizardParams.insert(key, value);
+        break;
+    default:
+        return false;
+        break;
+    }
+
+    item->processWizardInput();
+    item->calculate();
+    return true;
+}
+
 QByteArray ItemDB::network_getAll()
 {
     QByteArray answer;
@@ -424,11 +480,45 @@ QByteArray ItemDB::network_getAll()
     return answer;
 }
 
+QByteArray ItemDB::network_modifyItem(quint64 id, QMap<QString, QString> data)
+{
+    QByteArray answer;
+
+    QList<QString> keys = data.keys();
+
+    foreach (QString key, keys)
+    {
+        QString value = data.value(key);
+        bool result = modifyItem(id, key, value);
+        if (result == false)
+            answer += "Error in modifyItem(" + QByteArray().setNum(id) + " " + key.toUtf8() + " " + value.toUtf8() + ")\n";
+    }
+
+    emit signal_repaintNeeded();
+
+    if (answer.isEmpty())
+        answer = "Ok\n";
+
+    return answer;
+}
+
+QByteArray ItemDB::network_deleteItem(quint64 id)
+{
+    bool result = deleteItem(id);
+    if (result == true)
+    {
+        emit signal_repaintNeeded();
+        return "Ok\n";
+    }
+    else
+        return QByteArray("Error while deleting item ") + QByteArray().setNum(id) + "\n";
+}
+
 void ItemDB::network_getAll_processLayers(QList<Layer *> layers, QByteArray* answer)
 {
     foreach (Layer* layer, layers)
     {
-//        answer += "";   // tbd.
+        layer->serialOut(answer);
         network_getAll_processItems(layer->items, answer);
         network_getAll_processLayers(layer->subLayers, answer);
     }
@@ -438,7 +528,7 @@ void ItemDB::network_getAll_processItems(QList<CADitem *> items, QByteArray* ans
 {
     foreach (CADitem* item, items)
     {
-        answer->append(item->serialOut());
+        item->serialOut(answer);
         network_getAll_processItems(item->subItems, answer);
     }
 }

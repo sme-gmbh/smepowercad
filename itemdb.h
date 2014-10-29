@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QList>
+#include <QMap>
 #include <QByteArray>
 #include <QDataStream>
 #include <QDebug>
@@ -133,22 +134,31 @@ public:
     void addItem(CADitem* item, QString LayerName);
     void addItem(CADitem* item, Layer* layer);
     void deleteItem(CADitem* item);
+    bool deleteItem(quint64 id);
     void deleteItems(QList<CADitem*> items);
     CADitem *drawItem(Layer *layer, CADitem::ItemType type);
     CADitem *drawItem(QString layerName, CADitem::ItemType type);
+    CADitem *getItemById(quint64 id);
+    bool modifyItem(quint64 &id, QString &key, QString &value);
 
     QByteArray network_getAll();
+    QByteArray network_modifyItem(quint64 id, QMap<QString, QString> data);
+    QByteArray network_deleteItem(quint64 id);
 
 private:
     Layer* topLevelLayer;
     QMap<QString, Layer*> layerMap;
+    QMap<quint64, CADitem*> itemMap;
     CADitem::ItemType activeDrawCommand;
+    quint64 currentItemId;
     void network_getAll_processLayers(QList<Layer *> layers, QByteArray *answer);
     void network_getAll_processItems(QList<CADitem *> items, QByteArray* answer);
 
 signals:
     void signal_layerAdded(Layer* newLayer, Layer* parentLayer);
     void signal_itemAdded(CADitem* item, Layer* layer);
+//    void signal_itemModified(CADitem* item, Layer* layer);
+    void signal_repaintNeeded();
 
 public slots:
 

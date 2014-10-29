@@ -13,31 +13,25 @@ CADitem::CADitem(ItemType type)
     angle_z = 0.0;
 }
 
-QByteArray CADitem::serialOut()
+void CADitem::serialOut(QByteArray* out)
 {
-    QByteArray out;
-
     QList<QString> keys = wizardParams.keys();
 
-    out += "Item" + QString().setNum(this->type).toUtf8() + "," + layerName.toUtf8() + ",";
+    *out += "Item" + QString().setNum(this->type).toUtf8() + ";" + layerName.toUtf8() + ";" + QString().setNum(id) + ";";
 
     foreach (QString key, keys)
     {
-        out += key + ":";
+        *out += key + ":";
         QVariant value = wizardParams.value(key);
         if (value.type() == QVariant::Double)
-            out += value.toString();
-        out += ";";
+            *out += value.toString();
+        *out += ";";
     }
 
-    out += "\n";
-
-    qDebug() << type;
-
-    return out;
+    *out += "\n";
 }
 
-void CADitem::serialIn(QByteArray &in)
+bool CADitem::serialIn(QByteArray* in)
 {
 
 }

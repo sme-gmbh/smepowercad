@@ -68,6 +68,7 @@ MainWindow::MainWindow(QWidget *parent) :
     mainGeometryDisplay = new GeometryDisplay(itemDB, itemWizard, this);
     connect(this, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(layerManager, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
+    connect(itemDB, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(settingsDialog, SIGNAL(signal_settingsChanged()), mainGeometryDisplay, SIGNAL(signal_settingsChanged()));
     connect(mainGeometryDisplay, SIGNAL(signal_highlightItem(CADitem*)), this, SLOT(slot_highlightItem(CADitem*)));
     connect(mainGeometryDisplay, SIGNAL(signal_snapFired(QVector3D,int)), this, SLOT(slot_snapTo(QVector3D,int)));
@@ -403,6 +404,7 @@ void MainWindow::slot_newGeometryDisplay()
     connect(newGeometryDisplay, SIGNAL(signal_selectionChanged(QList<CADitem*>)), this, SLOT(slot_selectionChanged(QList<CADitem*>)));
     connect(this, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(layerManager, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
+    connect(itemDB, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(magellanThread, SIGNAL(signal_mouseCoords(int,int,int,int,int,int)), newGeometryDisplay, SIGNAL(signal_mouse3Dcoords(int,int,int,int,int,int)));
     connect(settingsDialog, SIGNAL(signal_settingsChanged()), newGeometryDisplay, SIGNAL(signal_settingsChanged()));
 
