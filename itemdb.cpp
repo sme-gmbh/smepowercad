@@ -44,6 +44,59 @@ Layer *ItemDB::addLayer(QString layerName, Layer *parentLayer)
     return newLayer;
 }
 
+bool ItemDB::moveLayer(QString layerName, QString newParentLayerName, quint32 position)
+{
+    Layer* layer = getLayerByName(layerName);
+    if (layer == NULL)
+        return false;
+    if (layer == topLevelLayer)
+        return false;
+
+    Layer* oldParentLayer = layer->parentLayer;
+    if (oldParentLayer == NULL)
+        return false;
+
+    Layer* newParentLayer = getLayerByName(newParentLayerName);
+    if (newParentLayer == NULL)
+        return false;
+
+
+
+
+    oldParentLayer->subLayers.removeOne(layer);
+    newParentLayer->subLayers.insert(position, layer);
+
+
+
+    emit signal_layerMoved(layer);
+    return true;
+}
+
+bool ItemDB::renameLayer(QString layerName, QString newLayerName)
+{
+    Layer* layer = getLayerByName(layerName);
+    if (layer == NULL)
+        return false;
+    if (layer == topLevelLayer)
+        return false;
+
+    return renameLayer(layer, newLayerName);
+}
+
+bool ItemDB::renameLayer(Layer *layer, QString newLayerName)
+{
+    if (layer == NULL)
+        return false;
+    if (newLayerName.isEmpty())
+        return false;
+
+    layerMap.remove(layer->name);
+    layer->name = newLayerName;
+    layerMap.insert(layer->name, layer);
+    emit signal_layerChanged(layer);
+    return true;
+}
+
 bool ItemDB::deleteLayer(Layer *layer)
 {
     Layer* parentLayer = layer->parentLayer;
@@ -55,7 +108,9 @@ bool ItemDB::deleteLayer(Layer *layer)
 
     if (parentLayer->subLayers.removeOne(layer))
     {
+        layerMap.remove(layer->name);
         delete layer;
+        emit signal_layerDeleted(layer);
         return true;
     }
     else
@@ -78,6 +133,14 @@ Layer* ItemDB::getLayerByName(QString layerName)
 Layer* ItemDB::getTopLevelLayer()
 {
     return topLevelLayer;
+}
+
+bool ItemDB::isLayerValid(Layer *layer)
+{
+    if (layerMap.values().contains(layer))
+        return true;
+    else
+        return false;
 }
 
 void ItemDB::addItem(CADitem* item, QString LayerName)
@@ -135,6 +198,31 @@ void ItemDB::deleteItems(QList<CADitem *> items)
 {
     foreach (CADitem* item, items)
         deleteItem(item);
+}
+
+bool ItemDB::changeLayerOfItem(CADitem *item, Layer *newLayer)
+{
+    if (item == NULL)
+        return false;
+    if (newLayer == NULL)
+        return false;
+
+    Layer* oldLayer = getLayerByName(item->layerName);
+    if (oldLayer == NULL)
+        return false;
+
+    oldLayer->items.removeOne(item);
+    item->layerName = newLayer->name;
+    newLayer->items.append(item);
+    emit signal_repaintNeeded();
+    return true;
+}
+
+bool ItemDB::changeLayerOfItem(quint64 id, QString newLayerName)
+{
+    CADitem* item = getItemById(id);
+    Layer* newLayer = getLayerByName(newLayerName);
+    return changeLayerOfItem(item, newLayer);
 }
 
 CADitem* ItemDB::drawItem(Layer* layer, CADitem::ItemType type)
@@ -471,12 +559,139 @@ bool ItemDB::modifyItem(quint64 &id, QString &key, QString &value)
     return true;
 }
 
+QByteArray ItemDB::network_newLayer(QMap<QString, QString> data)
+{
+    QString newLayerName = data.value("newLayer");
+    if (getLayerByName(newLayerName) != NULL)
+        return "Error: Layer already exists.\n";
+
+    QString parentLayerName = data.value("parentLayer");
+
+    Layer* newLayer = addLayer(newLayerName, parentLayerName);
+    // tbd: set layer properties
+    return "Ok\n";  // tbd: Broadcast response
+}
+
+QByteArray ItemDB::network_modifyLayer(QMap<QString, QString> data)
+{
+    QString layerName = data.value("Layer");
+    Layer* layer = getLayerByName(layerName);
+    if ((layer == NULL) || (layer == topLevelLayer))
+        return "Error: Layer does not exist. Unable to modify it.\n";
+
+    QByteArray answer;
+    bool repaintNeeded = false;
+
+    if (data.contains("pen"))
+    {
+        QColor color_pen;
+        color_pen = QColor(data.value("pen"));
+        layer->pen.setColor(color_pen);
+        repaintNeeded = true;
+    }
+    if (data.contains("brush"))
+    {
+        QColor color_brush;
+        color_brush = QColor(data.value("brush"));
+        layer->brush.setColor(color_brush);
+        repaintNeeded = true;
+    }
+    if (data.contains("lineWidth"))
+    {
+        layer->width = data.value("lineWidth").toInt();
+        repaintNeeded = true;
+    }
+    if (data.contains("lineType"))
+    {
+        layer->lineType = data.value("lineType");
+        repaintNeeded = true;
+    }
+    if (data.contains("name"))
+    {
+        bool result = renameLayer(layer, data.value("name"));
+        if (result == false)
+            answer += "Error: Unable to rename Layer.\n";
+    }
+
+    emit signal_layerChanged(layer);
+    if (repaintNeeded)
+        emit signal_repaintNeeded();
+
+    if (answer.isEmpty())
+        answer = "Ok\n";
+
+    return answer;
+}
+
+QByteArray ItemDB::network_moveLayer(QMap<QString, QString> data)
+{
+    QString layerName = data.value("Layer");
+    Layer* layer = getLayerByName(layerName);
+    if (layer == NULL)
+        return "Error: Layer does not exist. Unable to delete it.\n";
+
+    QString newParentLayerName = data.value("newParent");
+    quint32 pos = data.value("Pos").toUInt();
+
+    bool result = moveLayer(layerName, newParentLayerName, pos);
+    if (result == false)
+        return "Error: Unable to move layer.\n";
+    else
+        return "Ok\n";  // tbd: Broadcast response
+}
+
+QByteArray ItemDB::network_deleteLayer(QMap<QString, QString> data)
+{
+    QString layerName = data.value("Layer");
+    Layer* layer = getLayerByName(layerName);
+    if (layer == NULL)
+        return "Error: Layer does not exist. Unable to delete it.\n";
+
+    bool result = deleteLayer(layer);
+    if (result == false)
+        return "Error: Unable to delete layer. May be it is not empty.\n";
+    else
+        return "Ok\n";  // tbd: Broadcast response
+}
+
 QByteArray ItemDB::network_getAll()
 {
     QByteArray answer;
 
     network_getAll_processLayers(this->layers, &answer);
 
+    return answer;
+}
+
+QByteArray ItemDB::network_getItem(quint64 id)
+{
+    CADitem* item = getItemById(id);
+    if (item == NULL)
+        return "Error in network_getItem(" + QByteArray().setNum(id) + ")\n";
+
+    QByteArray answer;
+
+    QList<CADitem*> items;
+    items.append(item);
+
+    network_getAll_processItems(items, &answer);
+
+    return answer;
+}
+
+QByteArray ItemDB::network_newItem(quint32 type, QMap<QString, QString> data)
+{
+    QString layerName;
+    layerName = data.value("Layer");
+    CADitem* newItem = drawItem(layerName, (CADitem::ItemType) type);
+
+    if (newItem == NULL)
+        return "Error in network_newItem()\n";
+
+    data.remove("Layer");
+    network_modifyItem(newItem->id, data);
+    QByteArray answer;
+    answer = "N id " + QByteArray().setNum(newItem->id) + "\n";
     return answer;
 }
 
@@ -500,6 +715,16 @@ QByteArray ItemDB::network_modifyItem(quint64 id, QMap<QString, QString> data)
         answer = "Ok\n";
 
     return answer;
+}
+
+QByteArray ItemDB::network_changeLayerOfItem(quint64 id, QMap<QString, QString> data)
+{
+    QString newLayerName = data.value("newLayer");
+    bool result = changeLayerOfItem(id, newLayerName);
+    if (result == true)
+        return "Ok\n";  // tbd: Broadcast response
+    else
+        return QByteArray("Error in changeLayerOfItem(" + QByteArray().setNum(id) + ", " + newLayerName.toUtf8() + ")\n");
 }
 
 QByteArray ItemDB::network_deleteItem(quint64 id)

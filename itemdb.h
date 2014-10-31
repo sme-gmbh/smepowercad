@@ -127,22 +127,36 @@ public:
 
     Layer *addLayer(QString layerName, QString parentLayerName = QString());
     Layer *addLayer(QString layerName, Layer* parentLayer);
+    bool moveLayer(QString layerName, QString newParentLayerName, quint32 position);
+    bool renameLayer(QString layerName, QString newLayerName);
+    bool renameLayer(Layer* layer, QString newLayerName);
     bool deleteLayer(Layer* layer);
     Layer* getLayerByName(QString layerName);
     Layer* getTopLevelLayer();
+    bool isLayerValid(Layer* layer);
 
     void addItem(CADitem* item, QString LayerName);
     void addItem(CADitem* item, Layer* layer);
     void deleteItem(CADitem* item);
     bool deleteItem(quint64 id);
     void deleteItems(QList<CADitem*> items);
+    bool changeLayerOfItem(CADitem* item, Layer* newLayer);
+    bool changeLayerOfItem(quint64 id, QString newLayerName);
     CADitem *drawItem(Layer *layer, CADitem::ItemType type);
     CADitem *drawItem(QString layerName, CADitem::ItemType type);
     CADitem *getItemById(quint64 id);
     bool modifyItem(quint64 &id, QString &key, QString &value);
 
+    QByteArray network_newLayer(QMap<QString, QString> data);
+    QByteArray network_modifyLayer(QMap<QString, QString> data);
+    QByteArray network_moveLayer(QMap<QString, QString> data);
+    QByteArray network_deleteLayer(QMap<QString, QString> data);
+
     QByteArray network_getAll();
+    QByteArray network_getItem(quint64 id);
+    QByteArray network_newItem(quint32 type, QMap<QString, QString> data);
     QByteArray network_modifyItem(quint64 id, QMap<QString, QString> data);
+    QByteArray network_changeLayerOfItem(quint64 id, QMap<QString, QString> data);
     QByteArray network_deleteItem(quint64 id);
 
 private:
@@ -156,6 +170,9 @@ private:
 
 signals:
     void signal_layerAdded(Layer* newLayer, Layer* parentLayer);
+    void signal_layerChanged(Layer* layer);
+    void signal_layerMoved(Layer* layer);
+    void signal_layerDeleted(Layer* layer);
     void signal_itemAdded(CADitem* item, Layer* layer);
 //    void signal_itemModified(CADitem* item, Layer* layer);
     void signal_repaintNeeded();

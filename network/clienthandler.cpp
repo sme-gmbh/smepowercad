@@ -95,16 +95,65 @@ void ClientHandler::slot_read_ready()
             continue;
         }
 
-//        if (command == "G") // Get a set of data
-//        {
-//            if (!idValid)
-//            {
-//                socket->write("ERROR: unable to decode id\r\n");
-//                continue;
-//            }
-//            socket->write(itemDB->get(id));    // This is the only function returning QByteArray instead of QString
-//            continue;
-//        }
+        if (command == "G")     // Get item
+        {
+            socket->write(itemDB->network_getItem(id));
+            continue;
+        }
+
+        if (command == "N")     // New item; id field is used as requested item type!
+        {
+            QByteArray response = itemDB->network_newItem(id, data);
+            socket->write(response);
+            if (!response.startsWith("Error"))
+                emit signal_broadcast(this->socket, response);
+            continue;
+        }
+
+        if (command == "C")     // Change Layer of item
+        {
+            QByteArray response = itemDB->network_changeLayerOfItem(id, data);
+            socket->write(response);
+            if (!response.startsWith("Error"))
+                emit signal_broadcast(this->socket, response);
+            continue;
+        }
+
+        if (command == "n")     // New layer
+        {
+            QByteArray response = itemDB->network_newLayer(data);
+            socket->write(response);
+            if (!response.startsWith("Error"))
+                emit signal_broadcast(this->socket, response);
+            continue;
+        }
+
+        if (command == "m")     // Modify layer
+        {
+            QByteArray response = itemDB->network_modifyLayer(data);
+            socket->write(response);
+            if (!response.startsWith("Error"))
+                emit signal_broadcast(this->socket, response);
+            continue;
+        }
+
+        if (command == "d")     // Delete layer
+        {
+            QByteArray response = itemDB->network_deleteLayer(data);
+            socket->write(response);
+            if (!response.startsWith("Error"))
+                emit signal_broadcast(this->socket, response);
+            continue;
+        }
+
+        if (command == "c")     // Change Position of Layer (move layer)
+        {
+            QByteArray response = itemDB->network_moveLayer(data);
+            socket->write(response);
+            if (!response.startsWith("Error"))
+                emit signal_broadcast(this->socket, response);
+            continue;
+        }
 
 //        if (command == "N") // Creates a new set of data in the parent identified by id
 //        {

@@ -48,6 +48,8 @@ private:
 
 public slots:
     void slot_layerAdded(Layer* newLayer, Layer* parentLayer);
+    void slot_layerChanged(Layer* layer);
+    void slot_layerDeleted(Layer* layer);
 private slots:
     void on_treeWidget_layer_itemClicked(QTreeWidgetItem *item, int column);
 

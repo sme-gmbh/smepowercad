@@ -61,6 +61,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QAction* action_layerManager = this->layerManager->toggleViewAction();
     action_layerManager->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
     connect(itemDB, SIGNAL(signal_layerAdded(Layer*,Layer*)), layerManager, SLOT(slot_layerAdded(Layer*,Layer*)));
+    connect(itemDB, SIGNAL(signal_layerChanged(Layer*)), layerManager, SLOT(slot_layerChanged(Layer*)));
+    connect(itemDB, SIGNAL(signal_layerDeleted(Layer*)), layerManager, SLOT(slot_layerDeleted(Layer*)));
     ui->menuFormat->addAction(action_layerManager);
 
 

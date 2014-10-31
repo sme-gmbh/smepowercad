@@ -49,21 +49,54 @@ LayerManager::~LayerManager()
 
 void LayerManager::slot_layerAdded(Layer *newLayer, Layer *parentLayer)
 {
-    QTreeWidgetItem* item = new QTreeWidgetItem();
-    item->setText(0, newLayer->name);
+    QTreeWidgetItem* item;
 
     if (parentLayer == topLevelLayer)
+    {
+        QTreeWidgetItem* parentlItem = ui->treeWidget_layer->invisibleRootItem();
+        item = new QTreeWidgetItem(parentlItem);
         ui->treeWidget_layer->addTopLevelItem(item);
+    }
     else
     {
+        QTreeWidgetItem* parentlItem = layerMap.value(parentLayer);
+        item = new QTreeWidgetItem(parentlItem);
         layerMap.value(parentLayer)->addChild(item);
     }
+
+    item->setText(0, newLayer->name);
 
     if (layerMap.isEmpty())
         ui->treeWidget_layer->setCurrentItem(item);
     layerMap.insert(newLayer, item);
     updateLayer(newLayer);
     ui->treeWidget_layer->resizeColumnToContents(0);
+}
+
+void LayerManager::slot_layerChanged(Layer *layer)
+{
+    // First check if we display this layer
+    QTreeWidgetItem* item = layerMap.value(layer);
+    if (item == NULL)
+        return;
+
+    // Then update Treewidget content
+    updateLayer(layer);
+}
+
+void LayerManager::slot_layerDeleted(Layer *layer)
+{
+    QTreeWidgetItem* item = layerMap.value(layer);
+    layerMap.remove(layer);
+    if (item == NULL)
+        return;
+
+    QTreeWidgetItem* parentItem = item->parent();
+    if (parentItem == NULL)
+        parentItem = ui->treeWidget_layer->invisibleRootItem();
+
+    parentItem->removeChild(item);
+    delete item;
 }
 
 void LayerManager::updateAllLayers()
@@ -124,6 +157,7 @@ void LayerManager::updateLayer(Layer *layer)
         item->setBackgroundColor(2, QColor(49, 49, 41));
     }
 
+    item->setText(0, layer->name);
     item->setText(3, layer->brush.color().name());
     QPixmap colorPixmap(16, 16);
     colorPixmap.fill(layer->brush.color());
@@ -143,7 +177,7 @@ Layer *LayerManager::getCurrentLayer()
 void LayerManager::on_treeWidget_layer_itemClicked(QTreeWidgetItem *item, int column)
 {
     Layer* layer = layerMap.key(item);
-    if (layer == NULL)
+    if (itemDB->isLayerValid(layer) == false)
         return;
 
     switch (column)

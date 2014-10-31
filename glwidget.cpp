@@ -135,7 +135,7 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, cons
     qDebug() << "use texture location" << shader_useTextureLocation;
     qDebug() << "use clipping location" << shader_useClippingLocation;
     qDebug() << "depth of view location" << shader_Depth_of_view_location;
-//    qDebug() << shader_Height_of_intersection_location;
+    qDebug() << "height of intersection location" << shader_Height_of_intersection_location;
 
     //    shaderProgram->setAttributeArray(shader_colorLocation, );
     //    shaderProgram->enableAttributeArray(shader_colorLocation);
