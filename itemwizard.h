@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QMap>
 #include "caditem.h"
+#include "itemdb.h"
 
 #include <QLineEdit>
 #include <QSpinBox>
@@ -24,6 +25,7 @@ public:
     ~ItemWizard();
 
     void showWizard(CADitem *item);
+    static QImage wizardImage(CADitem *item);
 
 private slots:
     void on_buttonBox_accepted();

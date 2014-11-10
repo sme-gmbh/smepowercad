@@ -7,6 +7,8 @@ class CAD_sprinkler_teeConnector : public CADitem
 {
 public:
     CAD_sprinkler_teeConnector();
+    static QList<CADitem::ItemType> flangable_items();
+    static QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
 };

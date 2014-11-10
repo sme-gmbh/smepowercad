@@ -2,9 +2,13 @@
 
 //#define PI 3.1415926535897
 
-GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, const QGLFormat& format) :
-    QGLWidget(format, parent)
+GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, QGLFormat glFormat) :
+    QGLWidget(glFormat, parent)
+// Qt 5
+//    m_context(0),
+//    m_device(0)
 {
+//    setSurfaceType(QWidget::OpenGLSurface);
     //    qDebug() << "Created GLWidget";
     this->itemDB = itemDB;
     this->itemWizard = itemWizard;
@@ -33,7 +37,7 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, cons
     this->pickActive = false;
     this->cursorShown = true;
     this->arcballShown = false;
-    this->snapMode = SnapCenter;
+    this->snapMode = SnapNo;
     this->item_lastHighlight = NULL;
 
     slot_update_settings();
@@ -43,103 +47,11 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, cons
     this->setPalette(Qt::transparent);
     this->setAttribute(Qt::WA_TransparentForMouseEvents, false);
 
-    makeCurrent();
-
-    //    GLfloat mat_specular[] = { 0.5, 0.5, 0.5, 1.0 };
-    //    GLfloat mat_shininess[] = { 0.2 };
-    //    glShadeModel (GL_FLAT);
-    glShadeModel(GL_SMOOTH);
-    glEnable(GL_FRAMEBUFFER_SRGB);
-    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE | GL_EMISSION);
-    //    glColorMaterial(GL_FRONT_AND_BACK, GL_EMISSION);
-    //    glEnable(GL_COLOR_MATERIAL);
-    //    glEnable(GL_NORMALIZE);
-
-    //    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
-    //    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
-
-
-    //    GLfloat specular[] = { 0.2f, 0.2f, 0.2f, 1.0f};
-    //    GLfloat diffuseLight[] = { 0.2f, 0.2f, 0.2f, 1.0f};
-    //    GLfloat light_position[] = { 500.0, 15.0, -800.0, 0.0 };
-
-    //    glLightfv(GL_LIGHT0, GL_DIFFUSE,diffuseLight);
-    //    glLightfv(GL_LIGHT0,GL_SPECULAR,specular);
-    //    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-
-    //    glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.2);
-    //    glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.3);
-    //    glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.8);
-
-    //    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
-
-    shader_1_frag = new QGLShader(QGLShader::Fragment, this);
-    bool shaderOk = shader_1_frag->compileSourceFile(":/shaders/test.frag");
-    if (!shaderOk)
-        QMessageBox::critical(this, "Shader compiler", "Fragment shader failed to compile!");
-
-    shader_1_vert = new QGLShader(QGLShader::Vertex, this);
-    shaderOk = shader_1_vert->compileSourceFile(":/shaders/shader_1.vert");
-
-    shaderProgram = new QGLShaderProgram(this->context(), this);
-    shaderProgram->addShader(shader_1_vert);
-    shaderProgram->addShader(shader_1_frag);
-    shaderOk = shaderProgram->link();
-    if (!shaderOk)
-        QMessageBox::critical(this, "Shader compiler", "Vertex shader failed to compile!");
-
-    if (!shaderOk)
-    {
-        QMessageBox::critical(this, "Shader linker", QString("Shader failed to link!\n\n") + shaderProgram->log());
-    }
-
-
-    shaderOk = shaderProgram->bind();
-
-    if (!shaderOk)
-    {
-        QMessageBox::critical(this, "Shader program", "Shader could not be bound to gl context!");
-    }
-
-    //shader_vertexLocation = shaderProgram->attributeLocation("VertexPosition");
-    shader_matrixLocation = shaderProgram->uniformLocation("Matrix");
-    shader_colorLocation = shaderProgram->attributeLocation("VertexColor");
-    shader_textureCoordLocation = shaderProgram->attributeLocation("TexCoord");
-    shader_textureSamplerLocation = shaderProgram->uniformLocation("uTexUnit0");
-    shader_useTextureLocation = shaderProgram->uniformLocation("UseTexture");
-    shader_useClippingLocation = shaderProgram->uniformLocation("UseClipping");
-    shader_Depth_of_view_location = shaderProgram->uniformLocation("Depth_of_view");
-//    shader_Height_of_intersection_location = shaderProgram->uniformLocation("Height_of_intersection");
-
-    if (shader_vertexLocation < 0)
-        QMessageBox::information(this, "Vertex Location invalid", QString().setNum(shader_vertexLocation));
-    if (shader_colorLocation < 0)
-        QMessageBox::information(this, "Color Location invalid", QString().setNum(shader_colorLocation));
-    if (shader_textureCoordLocation < 0)
-        QMessageBox::information(this, "Texture Coordinate Location invalid", QString().setNum(shader_textureCoordLocation));
-    if (shader_matrixLocation < 0)
-        QMessageBox::information(this, "Matrix Location invalid", QString().setNum(shader_matrixLocation));
-    if (shader_useTextureLocation < 0)
-        QMessageBox::information(this, "Use Texture Location invalid", QString().setNum(shader_useTextureLocation));
-    if (shader_useClippingLocation < 0)
-        QMessageBox::information(this, "Use Clipping Location invalid", QString().setNum(shader_useClippingLocation));
-    if (shader_Depth_of_view_location < 0)
-        QMessageBox::information(this, "Depth of View Location invalid", QString().setNum(shader_Depth_of_view_location));
-//    if (shader_Height_of_intersection_location < 0)
-//        QMessageBox::information(this, "Height of Intersection Location invalid", QString().setNum(shader_Height_of_intersection_location));
-
-    qDebug() << "vertex location" << shader_vertexLocation;
-    qDebug() << "matrix location" << shader_matrixLocation;
-    qDebug() << "color location" << shader_colorLocation;
-    qDebug() << "texture coord location" << shader_textureCoordLocation;
-    qDebug() << "use texture location" << shader_useTextureLocation;
-    qDebug() << "use clipping location" << shader_useClippingLocation;
-    qDebug() << "depth of view location" << shader_Depth_of_view_location;
-    qDebug() << "height of intersection location" << shader_Height_of_intersection_location;
+    initializeGL();
 
     //    shaderProgram->setAttributeArray(shader_colorLocation, );
     //    shaderProgram->enableAttributeArray(shader_colorLocation);
-//    shaderProgram->setUniformValue(shader_useClippingLocation, 1);
+    //    shaderProgram->setUniformValue(shader_useClippingLocation, 1);
     connect(&timer_findItemAtPosition, SIGNAL(timeout()), this, SLOT(slot_timer_findItemAtPosition_triggered()));
     timer_findItemAtPosition.setInterval(200);
     timer_findItemAtPosition.setSingleShot(true);
@@ -159,20 +71,27 @@ GLWidget::~GLWidget()
 
 QPointF GLWidget::mapFromScene(QVector3D &scenePoint)
 {
-    QVector4D sceneCoords = QVector4D(scenePoint, 1.0);
-    QVector4D screenCoords;
+//    QVector4D screenCoords;
 
-    //    screenCoords = matrix_projection * matrix_modelview * matrix_rotation * sceneCoords;
-    //    screenCoords = matrix_projection * matrix_glSelect * matrix_modelview * matrix_rotation * sceneCoords;
-    //    screenCoords = matrix_all * sceneCoords;
-    screenCoords = matrix_all * scenePoint;
+//    screenCoords = matrix_all * scenePoint;
 
-    QPointF pixelCoords = screenCoords.toPointF() ;
+    qreal x;
+    qreal y;
 
-    pixelCoords.setX((pixelCoords.x() / 2.0) * this->width());
-    pixelCoords.setY((pixelCoords.y() / 2.0) * this->height());
+    QVector4D row0 = matrix_all.row(0);
+    QVector4D row1 = matrix_all.row(1);
 
-    return pixelCoords;
+    x = row0.x() * scenePoint.x() + row0.y() * scenePoint.y() + row0.z() * scenePoint.z() + row0.w();
+    y = row1.x() * scenePoint.x() + row1.y() * scenePoint.y() + row1.z() * scenePoint.z() + row1.w();
+
+//    QPointF pixelCoords = screenCoords.toPointF() ;
+
+//    pixelCoords.setX((pixelCoords.x() / 2.0) * this->width());
+//    pixelCoords.setY((pixelCoords.y() / 2.0) * this->height());
+
+//    return pixelCoords;
+
+    return QPointF(x / 2.0 * this->width(), y / 2.0 * this->height());
 }
 
 void GLWidget::updateMatrixAll()
@@ -483,19 +402,19 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
     if (event->buttons() == Qt::RightButton)
     {
-//        qreal dx = mouseMoveDelta.x()/5.0f;
-//        qreal dy = mouseMoveDelta.y()/5.0f;
+        //        qreal dx = mouseMoveDelta.x()/5.0f;
+        //        qreal dy = mouseMoveDelta.y()/5.0f;
 
 
-//        QVector4D axis_1, axis_2;
-//        axis_1 = matrix_rotation.transposed() * QVector4D(1.0f, 0.0f, 0.0f, 0.0f);
-//        axis_2 = matrix_rotation.transposed() * QVector4D(0.0f, 1.0f, 0.0f, 0.0f);
+        //        QVector4D axis_1, axis_2;
+        //        axis_1 = matrix_rotation.transposed() * QVector4D(1.0f, 0.0f, 0.0f, 0.0f);
+        //        axis_2 = matrix_rotation.transposed() * QVector4D(0.0f, 1.0f, 0.0f, 0.0f);
 
-//        matrix_arcball.setToIdentity();
-//        matrix_arcball.translate(this->lookAtPosition);
-//        matrix_arcball.rotate(dy, axis_1.toVector3D());
-//        matrix_arcball.rotate(-dx, axis_2.toVector3D());
-//        matrix_arcball.translate(-1 * this->lookAtPosition);
+        //        matrix_arcball.setToIdentity();
+        //        matrix_arcball.translate(this->lookAtPosition);
+        //        matrix_arcball.rotate(dy, axis_1.toVector3D());
+        //        matrix_arcball.rotate(-dx, axis_2.toVector3D());
+        //        matrix_arcball.translate(-1 * this->lookAtPosition);
 
         QVector3D rotationEnd = pointOnSphere( mousePos );
         double angle = acos( QVector3D::dotProduct( rotationStart, rotationEnd ));
@@ -530,6 +449,14 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
             if ((mapFromScene(item_lastHighlight->snap_basepoint) - mousePos).manhattanLength() < 50)
                 snap_basepoints.append(item_lastHighlight->snap_basepoint);
 
+            // Flange snap
+            QList<QVector3D> snap_flanges;
+            foreach(QVector3D snap_flange, item_lastHighlight->snap_flanges)
+            {
+                if ((mapFromScene(snap_flange) - mousePos).manhattanLength() < 10)
+                    snap_flanges.append(snap_flange);
+            }
+
             // Endpoint / Vertex snap
             QList<QVector3D> snap_vertex_points;
             foreach (QVector3D snap_vertex, item_lastHighlight->snap_vertices)
@@ -546,7 +473,12 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
                     snap_center_points.append(snap_center);
             }
 
-            if (!snap_basepoints.isEmpty())
+            if (!snap_flanges.isEmpty())
+            {
+                this->set_snap_mode(GLWidget::SnapFlange);
+                this->set_snapPos(snap_flanges.at(0));
+            }
+            else if (!snap_basepoints.isEmpty())
             {
                 this->set_snap_mode(GLWidget::SnapBasepoint);
                 this->set_snapPos(snap_basepoints.at(0));
@@ -585,7 +517,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
     slot_repaint();
     event->accept();
-    }
+}
 
 QVector3D GLWidget::pointOnSphere( QPoint pointOnScreen )
 {
@@ -809,7 +741,7 @@ void GLWidget::slot_set_cuttingplane_values_changed(qreal height, qreal depth)
 {
     this->height_of_intersection = height;
     this->depth_of_view = depth;
-//    shaderProgram->setUniformValue(shader_Height_of_intersection_location, QVector3D(0,0,height));
+    //    shaderProgram->setUniformValue(shader_Height_of_intersection_location, QVector3D(0,0,height));
     shaderProgram->setUniformValue(shader_Depth_of_view_location, (int)(height+depth));
     slot_repaint();
 }
@@ -1010,6 +942,22 @@ void GLWidget::paintEvent(QPaintEvent *event)
 
             break;
         }
+        case SnapFlange:
+        {
+            setPaintingColor(Qt::red);
+            glBegin(GL_LINES);
+            glVertex2i(focusRect.left(), focusRect.top());
+            glVertex2i(focusRect.left(), focusRect.bottom());
+            glVertex2i(focusRect.left(), (focusRect.center().y() + focusRect.top()) / 2);
+            glVertex2i(focusRect.right(), (focusRect.center().y() + focusRect.top()) / 2);
+            glVertex2i(focusRect.left(), (focusRect.center().y() + focusRect.bottom()) / 2);
+            glVertex2i(focusRect.right(), (focusRect.center().y() + focusRect.bottom()) / 2);
+            glEnd();
+            snapText.prepend("Flange");
+
+            paintTextInfoBox(textAnchorPos, snapText, textAnchorType);
+            break;
+        }
         case SnapEndpoint:
         {
             setPaintingColor(Qt::red);
@@ -1208,378 +1156,386 @@ void GLWidget::paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFon
 
 void GLWidget::paintContent(QList<Layer*> layers)
 {
-    //    quint32 glName = 0;
-
     //    qDebug() << "GLWidget::paintContent: painting"<< layers.count() << "layers...";
     foreach (Layer* layer, layers)
     {
         if (!layer->on)
             continue;
 
-        foreach (CADitem* item, layer->items)
-        {
-            item->index = glName;
-
-//            // Exclude all items from painting that do not reach the canvas with their boundingRect
-//            int screen_x_min = -this->width() / 2;
-//            //            int screen_x_max =  this->width() / 2;
-//            int screen_y_min = -this->height() / 2;
-//            //            int screen_y_max =  this->height() / 2;
-
-//            int p_x_min =  100000;
-//            int p_x_max = -100000;
-//            int p_y_min =  100000;
-//            int p_y_max = -100000;
-
-
-//            for (int i=0; i < 8; i++)
-//            {
-//                QVector3D boxPoint = item->boundingBox.p(i);
-//                QPointF screen_p = mapFromScene(boxPoint);    // Remark: INEFFICIENT!
-
-//                if (screen_p.x() < p_x_min)     p_x_min = screen_p.x();
-//                if (screen_p.x() > p_x_max)     p_x_max = screen_p.x();
-//                if (screen_p.y() < p_y_min)     p_y_min = screen_p.y();
-//                if (screen_p.y() > p_y_max)     p_y_max = screen_p.y();
-//            }
-
-//            QRect screenRect;
-//            QRect itemRect;
-
-//            screenRect = QRect(screen_x_min, screen_y_min, this->width(), this->height());
-//            itemRect = QRect(p_x_min, p_y_min, (p_x_max - p_x_min), (p_y_max - p_y_min));
-
-
-//            if (!screenRect.intersects(itemRect))
-//            {
-//                glName++;
-//                continue;
-//            }
-
-
-            glLoadName(glName);
-            glName++;
-
-            // Paint it
-            switch (item->getType())
-            {
-            case CADitem::None:
-                break;
-            case CADitem::Basic_Point:
-                break;
-            case CADitem::Basic_Line:
-                if (this->render_outline)
-                    paintBasicLine(layer, (CAD_basic_line*)item);
-                break;
-            case CADitem::Basic_Polyline:
-                if (this->render_outline)
-                    paintBasicPolyLine(layer, (CAD_basic_polyline*)item);
-                break;
-            case CADitem::Basic_Circle:
-                if (this->render_outline)
-                    paintBasicCircle(layer, (CAD_basic_circle*)item);
-                break;
-            case CADitem::Basic_Arc:
-                if (this->render_outline)
-                    paintBasicArc( layer, (CAD_basic_arc*)item);
-                break;
-            case CADitem::Basic_Face:
-                paintBasicFace(layer, (CAD_basic_3Dface*)item);
-                break;
-            case CADitem::Basic_Plane:
-                break;
-            case CADitem::Basic_Box:
-                paintBasicBox(layer, (CAD_basic_box*)item);
-                break;
-            case CADitem::Basic_Cylinder:
-                paintBasicCylinder(layer, (CAD_basic_cylinder*)item);
-                break;
-            case CADitem::Basic_Pipe:
-                paintBasicPipe(layer, (CAD_basic_pipe*)item);
-                break;
-            case CADitem::Basic_Turn:
-                paintBasicTurn(layer, (CAD_basic_turn*)item);
-                break;
-            case CADitem::Basic_Sphere:
-                paintBasicSphere(layer, (CAD_basic_sphere*)item);
-                break;
-
-            case CADitem::Arch_LevelSlab:
-                paintArchLevelSlab(layer, (CAD_arch_levelSlab*)item);
-                break;
-            case CADitem::Arch_Wall_loadBearing:
-                paintArchWallLoadBearing(layer, (CAD_arch_wall_loadBearing*)item);
-                break;
-            case CADitem::Arch_Wall_nonLoadBearing:
-                paintArchWallNonLoadBearing(layer, (CAD_arch_wall_nonLoadBearing*)item);
-                break;
-            case CADitem::Arch_BlockOut:
-                paintArchBlockOut(layer, (CAD_arch_blockOut*)item);
-                break;
-            case CADitem::Arch_Support:
-                break;
-            case CADitem::Arch_Beam:
-                break;
-            case CADitem::Arch_Door:
-                paintArchDoor(layer, (CAD_arch_door*)item);
-                break;
-            case CADitem::Arch_Window:
-                paintArchWindow(layer, (CAD_arch_window*)item);
-                break;
-            case CADitem::Arch_Foundation:
-                break;
-            case CADitem::Arch_BoredPile:
-                break;
-            case CADitem::Arch_Grating:
-                break;
-
-
-            case CADitem::Air_Duct:
-                paintAirDuct(layer, (CAD_air_duct*)item);
-                break;
-            case CADitem::Air_Pipe:
-                paintAirPipe(layer, (CAD_air_pipe*)item);
-                break;
-            case CADitem::Air_DuctFireResistant:
-                break;
-            case CADitem::Air_DuctTurn:
-                paintAirDuctTurn(layer, (CAD_air_ductTurn*)item);
-                break;
-            case CADitem::Air_PipeTurn:
-                paintAirPipeTurn(layer, (CAD_air_pipeTurn*)item);
-                break;
-            case CADitem::Air_PipeReducer:
-                paintAirPipeReducer(layer, (CAD_air_pipeReducer*)item);
-                break;
-            case CADitem::Air_PipeTeeConnector:
-                paintAirPipeTeeConnector(layer, (CAD_air_pipeTeeConnector*)item);
-                break;
-            case CADitem::Air_DuctTeeConnector:
-                paintAirDuctTeeConnector(layer, (CAD_air_ductTeeConnector*)item);
-                break;
-            case CADitem::Air_DuctTransition:
-                paintAirDuctTransiton(layer, (CAD_air_ductTransition*)item);
-                break;
-            case CADitem::Air_DuctTransitionRectRound:
-                paintAirDuctTransitionRectRound(layer, (CAD_air_ductTransitionRectRound*)item);
-                break;
-            case CADitem::Air_DuctYpiece:
-                paintAirDuctYpiece(layer, (CAD_air_ductYpiece*)item);
-                break;
-            case CADitem::Air_DuctEndPlate:
-                paintAirDuctEndPlate(layer, (CAD_air_ductEndPlate*)item);
-                break;
-            case CADitem::Air_PipeEndCap:
-                paintAirPipeEndCap(layer, (CAD_air_pipeEndCap*)item);
-                break;
-            case CADitem::Air_ThrottleValve:
-                paintAirThrottleValve(layer, (CAD_air_throttleValve*)item);
-                break;
-            case CADitem::Air_MultiLeafDamper:
-                paintAirMultiLeafDamper(layer, (CAD_air_multiLeafDamper*)item);
-                break;
-            case CADitem::Air_PressureReliefDamper:
-                paintAirPressureReliefDamper(layer, (CAD_air_pressureReliefDamper*)item);
-                break;
-            case CADitem::Air_PipeFireDamper:
-                paintAirPipeFireDamper(layer, (CAD_air_pipeFireDamper*)item);
-                break;
-            case CADitem::Air_DuctFireDamper:
-                paintAirDuctFireDamper(layer, (CAD_air_ductFireDamper*)item);
-                break;
-            case CADitem::Air_DuctVolumetricFlowController:
-                paintAirDuctVolumetricFlowController(layer, (CAD_air_ductVolumetricFlowController*)item);
-                break;
-            case CADitem::Air_PipeVolumetricFlowController:
-                paintAirPipeVolumetricFlowController(layer, (CAD_air_pipeVolumetricFlowController*)item);
-                break;
-            case CADitem::Air_HeatExchangerWaterAir:
-                paintAirHeatExchangerWaterAir(layer, (CAD_air_heatExchangerWaterAir*)item);
-                break;
-            case CADitem::Air_HeatExchangerAirAir:
-                paintAirHeatExchangerAirAir(layer, (CAD_air_heatExchangerAirAir*)item);
-                break;
-            case CADitem::Air_CanvasFlange:
-                paintAirCanvasFlange(layer, (CAD_air_canvasFlange*)item);
-                break;
-            case CADitem::Air_Filter:
-                paintAirFilter(layer, (CAD_air_filter*)item);
-                break;
-            case CADitem::Air_PipeSilencer:
-                paintAirPipeSilencer(layer, (CAD_air_pipeSilencer*)item);
-                break;
-            case CADitem::Air_DuctBaffleSilencer:
-                paintAirDuctBaffleSilencer(layer, (CAD_air_ductBaffleSilencer*)item);
-                break;
-            case CADitem::Air_Fan:
-                paintAirFan(layer, (CAD_air_fan*)item);
-                break;
-            case CADitem::Air_Humidifier:
-                paintAirHumidifier(layer, (CAD_air_humidifier*)item);
-                break;
-            case CADitem::Air_EmptyCabinet:
-                paintAirEmptyCabinet(layer, (CAD_air_emptyCabinet*)item);
-                break;
-            case CADitem::Air_EquipmentFrame:
-                paintAirEquipmentFrame(layer, (CAD_air_equipmentFrame*)item);
-                break;
-
-            case CADitem::HeatCool_Adjustvalve:
-                paintHeatCoolAdjustvalve(layer, (CAD_heatcool_adjustvalve*)item);
-                break;
-            case CADitem::HeatCool_Chiller:
-                paintHeatCoolChiller(layer, (CAD_heatcool_chiller*)item);
-                break;
-            case CADitem::HeatCool_Controlvalve:
-                paintHeatCoolControlvalve(layer, (CAD_heatcool_controlvalve*)item);
-                break;
-            case CADitem::HeatCool_CoolingTower:
-                paintHeatCoolCoolingTower(layer, (CAD_heatcool_coolingTower*)item);
-                break;
-            case CADitem::HeatCool_HeatExchanger:
-                paintHeatCoolHeatExchanger(layer, (CAD_heatcool_heatExchanger*)item);
-                break;
-            case CADitem::HeatCool_Pipe:
-                paintHeatCoolPipe(layer, (CAD_heatcool_pipe*)item);
-                break;
-            case CADitem::HeatCool_Pump:
-                paintHeatCoolPump(layer, (CAD_heatcool_pump*)item);
-                break;
-            case CADitem::HeatCool_Sensor:
-                paintHeatCoolSensor(layer, (CAD_heatcool_sensor*)item);
-                break;
-            case CADitem::HeatCool_PipeTurn:
-                paintHeatCoolPipeTurn(layer, (CAD_heatcool_pipeTurn*)item);
-                break;
-            case CADitem::HeatCool_PipeReducer:
-                paintHeatCoolPipeReducer(layer, (CAD_heatcool_pipeReducer*)item);
-                break;
-            case CADitem::HeatCool_PipeTeeConnector:
-                paintHeatCoolPipeTeeConnector(layer, (CAD_heatcool_pipeTeeConnector*)item);
-                break;
-            case CADitem::HeatCool_PipeEndCap:
-                paintHeatCoolPipeEndCap(layer, (CAD_heatcool_pipeEndCap*)item);
-                break;
-            case CADitem::HeatCool_Flange:
-                paintHeatCoolFlange(layer, (CAD_heatcool_flange*)item);
-                break;
-            case CADitem::HeatCool_ExpansionChamber:
-                paintHeatCoolExpansionChamber(layer, (CAD_heatcool_expansionChamber*)item);
-                break;
-            case CADitem::HeatCool_Boiler:
-                paintHeatCoolBoiler(layer, (CAD_heatcool_boiler*)item);
-                break;
-            case CADitem::HeatCool_WaterHeater:
-                paintHeatCoolWaterHeater(layer, (CAD_heatcool_waterHeater*)item);
-                break;
-            case CADitem::HeatCool_StorageBoiler:
-                paintHeatCoolStorageBoiler(layer, (CAD_heatcool_storageBoiler*)item);
-                break;
-            case CADitem::HeatCool_Radiator:
-                paintHeatCoolRadiator(layer, (CAD_heatcool_radiator*)item);
-                break;
-            case CADitem::HeatCool_Filter:
-                paintHeatCoolFilter(layer, (CAD_heatcool_filter*)item);
-                break;
-            case CADitem::HeatCool_BallValve:
-                paintHeatCoolBallValve(layer, (CAD_heatcool_ballValve*)item);
-                break;
-            case CADitem::HeatCool_ButterflyValve:
-                paintHeatCoolButterflyValve(layer, (CAD_heatcool_butterflyValve*)item);
-                break;
-            case CADitem::HeatCool_SafetyValve:
-                paintHeatCoolSafteyValve(layer, (CAD_heatcool_safetyValve*)item);
-                break;
-            case CADitem::HeatCool_Flowmeter:
-                paintHeatCoolFlowmeter(layer, (CAD_heatcool_flowmeter*)item);
-                break;
-
-            case CADitem::Sprinkler_CompressedAirWaterContainer:
-                paintSprinklerCompressedAirWaterContainer(layer, (CAD_sprinkler_compressedAirWaterContainer*)item);
-                break;
-            case CADitem::Sprinkler_Distribution:
-                paintSprinklerDistribution(layer, (CAD_sprinkler_distribution*)item);
-                break;
-            case CADitem::Sprinkler_Head:
-                paintSprinklerHead(layer, (CAD_sprinkler_head*)item);
-                break;
-            case CADitem::Sprinkler_Pipe:
-                paintSprinklerPipe(layer, (CAD_sprinkler_pipe*)item);
-                break;
-            case CADitem::Sprinkler_Pump:
-                paintSprinklerPump(layer, (CAD_sprinkler_pump*)item);
-                break;
-            case CADitem::Sprinkler_TeeConnector:
-                paintSprinklerTeeConnector(layer, (CAD_sprinkler_teeConnector*)item);
-                break;
-            case CADitem::Sprinkler_Valve:
-                paintSprinklerValve(layer, (CAD_sprinkler_valve*)item);
-                break;
-            case CADitem::Sprinkler_WetAlarmValve:
-                paintSprinklerWetAlarmValve(layer, (CAD_sprinkler_wetAlarmValve*)item);
-                break;
-            case CADitem::Sprinkler_ZoneCheck:
-                paintSprinklerZoneCheck(layer, (CAD_sprinkler_zoneCheck*)item);
-                break;
-            case CADitem::Sprinkler_PipeTurn:
-                paintSprinklerPipeTurn(layer, (CAD_sprinkler_pipeTurn*)item);
-                break;
-            case CADitem::Sprinkler_PipeReducer:
-                paintSprinklerPipeReducer(layer, (CAD_sprinkler_pipeReducer*)item);
-                break;
-            case CADitem::Sprinkler_PipeEndCap:
-                paintSprinklerPipeEndCap(layer, (CAD_sprinkler_pipeEndCap*)item);
-                break;
-
-            case CADitem::Electrical_Cabinet:
-                paintElectricalCabinet(layer, (CAD_electrical_cabinet*)item);
-                break;
-            case CADitem::Electrical_CableTray:
-                paintElectricalCabletray(layer, (CAD_electrical_cableTray*)item);
-                break;
-
-            case CADitem::Sanitary_Pipe:
-                paintSanitaryPipe(layer, (CAD_sanitary_pipe*)item);
-                break;
-            case CADitem::Sanitary_PipeTurn:
-                paintSanitaryPipeTurn(layer, (CAD_sanitary_pipeTurn*)item);
-                break;
-            case CADitem::Sanitary_PipeReducer:
-                paintSanitaryPipeReducer(layer, (CAD_sanitary_pipeReducer*)item);
-                break;
-            case CADitem::Sanitary_PipeTeeConnector:
-                paintSanitaryPipeTeeConnector(layer, (CAD_sanitary_pipeTeeConnector*)item);
-                break;
-            case CADitem::Sanitary_PipeEndCap:
-                paintSanitaryPipeEndCap(layer, (CAD_sanitary_pipeEndCap*)item);
-                break;
-            case CADitem::Sanitary_Flange:
-                paintSanitaryFlange(layer, (CAD_sanitary_flange*)item);
-                break;
-            case CADitem::Sanitary_ElectricWaterHeater:
-                paintSanitaryElectricWaterHeater(layer, (CAD_sanitary_electricWaterHeater*)item);
-                break;
-            case CADitem::Sanitary_WashBasin:
-                paintSanitaryWashBasin(layer, (CAD_sanitary_washBasin*)item);
-                break;
-            case CADitem::Sanitary_Sink:
-                paintSanitarySink(layer, (CAD_sanitary_sink*)item);
-                break;
-            case CADitem::Sanitary_Shower:
-                paintSanitaryShower(layer, (CAD_sanitary_shower*)item);
-                break;
-            case CADitem::Sanitary_EmergencyShower:
-                paintSanitaryEmergencyShower(layer, (CAD_sanitary_emergencyShower*)item);
-                break;
-            case CADitem::Sanitary_EmergencyEyeShower:
-                paintSanitaryEmergencyEyeShower(layer, (CAD_sanitary_emergencyEyeShower*)item);
-                break;
-            case CADitem::Sanitary_LiftingUnit:
-                paintSanitaryLiftingUnit(layer, (CAD_sanitary_liftingUnit*)item);
-                break;
-            }
-        }
+        paintItems(layer->items, layer);
         paintContent(layer->subLayers);
+    }
+}
+
+void GLWidget::paintItems(QList<CADitem*> items, Layer* layer)
+{
+    foreach (CADitem* item, items)
+    {
+        item->index = glName;
+
+        // Global culling performance test
+                    // Exclude all items from painting that do not reach the canvas with their boundingRect
+                    int screen_x_min = -this->width() / 2;
+                    //            int screen_x_max =  this->width() / 2;
+                    int screen_y_min = -this->height() / 2;
+                    //            int screen_y_max =  this->height() / 2;
+
+                    int p_x_min =  100000;
+                    int p_x_max = -100000;
+                    int p_y_min =  100000;
+                    int p_y_max = -100000;
+
+
+                    for (int i=0; i < 8; i++)
+                    {
+                        QVector3D boxPoint = item->boundingBox.p(i);
+                        QPointF screen_p = mapFromScene(boxPoint);    // Remark: INEFFICIENT!
+
+                        if (screen_p.x() < p_x_min)     p_x_min = screen_p.x();
+                        if (screen_p.x() > p_x_max)     p_x_max = screen_p.x();
+                        if (screen_p.y() < p_y_min)     p_y_min = screen_p.y();
+                        if (screen_p.y() > p_y_max)     p_y_max = screen_p.y();
+                    }
+
+                    QRect screenRect;
+                    QRect itemRect;
+
+                    screenRect = QRect(screen_x_min, screen_y_min, this->width(), this->height());
+                    itemRect = QRect(p_x_min, p_y_min, (p_x_max - p_x_min), (p_y_max - p_y_min));
+
+
+                    if (!screenRect.intersects(itemRect))
+                    {
+                        glName++;
+                        continue;
+                    }
+
+
+        glLoadName(glName);
+        glName++;
+
+        // Paint it
+        switch (item->getType())
+        {
+        case CADitem::None:
+            break;
+        case CADitem::Basic_Point:
+            break;
+        case CADitem::Basic_Line:
+            if (this->render_outline)
+                paintBasicLine(layer, (CAD_basic_line*)item);
+            break;
+        case CADitem::Basic_Polyline:
+            if (this->render_outline)
+                paintBasicPolyLine(layer, (CAD_basic_polyline*)item);
+            break;
+        case CADitem::Basic_Circle:
+            if (this->render_outline)
+                paintBasicCircle(layer, (CAD_basic_circle*)item);
+            break;
+        case CADitem::Basic_Arc:
+            if (this->render_outline)
+                paintBasicArc( layer, (CAD_basic_arc*)item);
+            break;
+        case CADitem::Basic_Face:
+            paintBasicFace(layer, (CAD_basic_3Dface*)item);
+            break;
+        case CADitem::Basic_Plane:
+            break;
+        case CADitem::Basic_Box:
+            paintBasicBox(layer, (CAD_basic_box*)item);
+            break;
+        case CADitem::Basic_Cylinder:
+            paintBasicCylinder(layer, (CAD_basic_cylinder*)item);
+            break;
+        case CADitem::Basic_Pipe:
+            paintBasicPipe(layer, (CAD_basic_pipe*)item);
+            break;
+        case CADitem::Basic_Turn:
+            paintBasicTurn(layer, (CAD_basic_turn*)item);
+            break;
+        case CADitem::Basic_Sphere:
+            paintBasicSphere(layer, (CAD_basic_sphere*)item);
+            break;
+        case CADitem::Basic_Duct:
+            paintBasicDuct(layer, (CAD_basic_duct*)item);
+
+        case CADitem::Arch_LevelSlab:
+            paintArchLevelSlab(layer, (CAD_arch_levelSlab*)item);
+            break;
+        case CADitem::Arch_Wall_loadBearing:
+            paintArchWallLoadBearing(layer, (CAD_arch_wall_loadBearing*)item);
+            break;
+        case CADitem::Arch_Wall_nonLoadBearing:
+            paintArchWallNonLoadBearing(layer, (CAD_arch_wall_nonLoadBearing*)item);
+            break;
+        case CADitem::Arch_BlockOut:
+            paintArchBlockOut(layer, (CAD_arch_blockOut*)item);
+            break;
+        case CADitem::Arch_Support:
+            break;
+        case CADitem::Arch_Beam:
+            break;
+        case CADitem::Arch_Door:
+            paintArchDoor(layer, (CAD_arch_door*)item);
+            break;
+        case CADitem::Arch_Window:
+            paintArchWindow(layer, (CAD_arch_window*)item);
+            break;
+        case CADitem::Arch_Foundation:
+            break;
+        case CADitem::Arch_BoredPile:
+            break;
+        case CADitem::Arch_Grating:
+            break;
+
+
+        case CADitem::Air_Duct:
+            paintAirDuct(layer, (CAD_air_duct*)item);
+            break;
+        case CADitem::Air_Pipe:
+            paintAirPipe(layer, (CAD_air_pipe*)item);
+            break;
+        case CADitem::Air_DuctFireResistant:
+            break;
+        case CADitem::Air_DuctTurn:
+            paintAirDuctTurn(layer, (CAD_air_ductTurn*)item);
+            break;
+        case CADitem::Air_PipeTurn:
+            paintAirPipeTurn(layer, (CAD_air_pipeTurn*)item);
+            break;
+        case CADitem::Air_PipeReducer:
+            paintAirPipeReducer(layer, (CAD_air_pipeReducer*)item);
+            break;
+        case CADitem::Air_PipeTeeConnector:
+            paintAirPipeTeeConnector(layer, (CAD_air_pipeTeeConnector*)item);
+            break;
+        case CADitem::Air_DuctTeeConnector:
+            paintAirDuctTeeConnector(layer, (CAD_air_ductTeeConnector*)item);
+            break;
+        case CADitem::Air_DuctTransition:
+            paintAirDuctTransiton(layer, (CAD_air_ductTransition*)item);
+            break;
+        case CADitem::Air_DuctTransitionRectRound:
+            paintAirDuctTransitionRectRound(layer, (CAD_air_ductTransitionRectRound*)item);
+            break;
+        case CADitem::Air_DuctYpiece:
+            paintAirDuctYpiece(layer, (CAD_air_ductYpiece*)item);
+            break;
+        case CADitem::Air_DuctEndPlate:
+            paintAirDuctEndPlate(layer, (CAD_air_ductEndPlate*)item);
+            break;
+        case CADitem::Air_PipeEndCap:
+            paintAirPipeEndCap(layer, (CAD_air_pipeEndCap*)item);
+            break;
+        case CADitem::Air_ThrottleValve:
+            paintAirThrottleValve(layer, (CAD_air_throttleValve*)item);
+            break;
+        case CADitem::Air_MultiLeafDamper:
+            paintAirMultiLeafDamper(layer, (CAD_air_multiLeafDamper*)item);
+            break;
+        case CADitem::Air_PressureReliefDamper:
+            paintAirPressureReliefDamper(layer, (CAD_air_pressureReliefDamper*)item);
+            break;
+        case CADitem::Air_PipeFireDamper:
+            paintAirPipeFireDamper(layer, (CAD_air_pipeFireDamper*)item);
+            break;
+        case CADitem::Air_DuctFireDamper:
+            paintAirDuctFireDamper(layer, (CAD_air_ductFireDamper*)item);
+            break;
+        case CADitem::Air_DuctVolumetricFlowController:
+            paintAirDuctVolumetricFlowController(layer, (CAD_air_ductVolumetricFlowController*)item);
+            break;
+        case CADitem::Air_PipeVolumetricFlowController:
+            paintAirPipeVolumetricFlowController(layer, (CAD_air_pipeVolumetricFlowController*)item);
+            break;
+        case CADitem::Air_HeatExchangerWaterAir:
+            paintAirHeatExchangerWaterAir(layer, (CAD_air_heatExchangerWaterAir*)item);
+            break;
+        case CADitem::Air_HeatExchangerAirAir:
+            paintAirHeatExchangerAirAir(layer, (CAD_air_heatExchangerAirAir*)item);
+            break;
+        case CADitem::Air_CanvasFlange:
+            paintAirCanvasFlange(layer, (CAD_air_canvasFlange*)item);
+            break;
+        case CADitem::Air_Filter:
+            paintAirFilter(layer, (CAD_air_filter*)item);
+            break;
+        case CADitem::Air_PipeSilencer:
+            paintAirPipeSilencer(layer, (CAD_air_pipeSilencer*)item);
+            break;
+        case CADitem::Air_DuctBaffleSilencer:
+            paintAirDuctBaffleSilencer(layer, (CAD_air_ductBaffleSilencer*)item);
+            break;
+        case CADitem::Air_Fan:
+            paintAirFan(layer, (CAD_air_fan*)item);
+            break;
+        case CADitem::Air_Humidifier:
+            paintAirHumidifier(layer, (CAD_air_humidifier*)item);
+            break;
+        case CADitem::Air_EmptyCabinet:
+            paintAirEmptyCabinet(layer, (CAD_air_emptyCabinet*)item);
+            break;
+        case CADitem::Air_EquipmentFrame:
+            paintAirEquipmentFrame(layer, (CAD_air_equipmentFrame*)item);
+            break;
+
+        case CADitem::HeatCool_Adjustvalve:
+            paintHeatCoolAdjustvalve(layer, (CAD_heatcool_adjustvalve*)item);
+            break;
+        case CADitem::HeatCool_Chiller:
+            paintHeatCoolChiller(layer, (CAD_heatcool_chiller*)item);
+            break;
+        case CADitem::HeatCool_Controlvalve:
+            paintHeatCoolControlvalve(layer, (CAD_heatcool_controlvalve*)item);
+            break;
+        case CADitem::HeatCool_CoolingTower:
+            paintHeatCoolCoolingTower(layer, (CAD_heatcool_coolingTower*)item);
+            break;
+        case CADitem::HeatCool_HeatExchanger:
+            paintHeatCoolHeatExchanger(layer, (CAD_heatcool_heatExchanger*)item);
+            break;
+        case CADitem::HeatCool_Pipe:
+            paintHeatCoolPipe(layer, (CAD_heatcool_pipe*)item);
+            break;
+        case CADitem::HeatCool_Pump:
+            paintHeatCoolPump(layer, (CAD_heatcool_pump*)item);
+            break;
+        case CADitem::HeatCool_Sensor:
+            paintHeatCoolSensor(layer, (CAD_heatcool_sensor*)item);
+            break;
+        case CADitem::HeatCool_PipeTurn:
+            paintHeatCoolPipeTurn(layer, (CAD_heatcool_pipeTurn*)item);
+            break;
+        case CADitem::HeatCool_PipeReducer:
+            paintHeatCoolPipeReducer(layer, (CAD_heatcool_pipeReducer*)item);
+            break;
+        case CADitem::HeatCool_PipeTeeConnector:
+            paintHeatCoolPipeTeeConnector(layer, (CAD_heatcool_pipeTeeConnector*)item);
+            break;
+        case CADitem::HeatCool_PipeEndCap:
+            paintHeatCoolPipeEndCap(layer, (CAD_heatcool_pipeEndCap*)item);
+            break;
+        case CADitem::HeatCool_Flange:
+            paintHeatCoolFlange(layer, (CAD_heatcool_flange*)item);
+            break;
+        case CADitem::HeatCool_ExpansionChamber:
+            paintHeatCoolExpansionChamber(layer, (CAD_heatcool_expansionChamber*)item);
+            break;
+        case CADitem::HeatCool_Boiler:
+            paintHeatCoolBoiler(layer, (CAD_heatcool_boiler*)item);
+            break;
+        case CADitem::HeatCool_WaterHeater:
+            paintHeatCoolWaterHeater(layer, (CAD_heatcool_waterHeater*)item);
+            break;
+        case CADitem::HeatCool_StorageBoiler:
+            paintHeatCoolStorageBoiler(layer, (CAD_heatcool_storageBoiler*)item);
+            break;
+        case CADitem::HeatCool_Radiator:
+            paintHeatCoolRadiator(layer, (CAD_heatcool_radiator*)item);
+            break;
+        case CADitem::HeatCool_Filter:
+            paintHeatCoolFilter(layer, (CAD_heatcool_filter*)item);
+            break;
+        case CADitem::HeatCool_BallValve:
+            paintHeatCoolBallValve(layer, (CAD_heatcool_ballValve*)item);
+            break;
+        case CADitem::HeatCool_ButterflyValve:
+            paintHeatCoolButterflyValve(layer, (CAD_heatcool_butterflyValve*)item);
+            break;
+        case CADitem::HeatCool_SafetyValve:
+            paintHeatCoolSafteyValve(layer, (CAD_heatcool_safetyValve*)item);
+            break;
+        case CADitem::HeatCool_Flowmeter:
+            paintHeatCoolFlowmeter(layer, (CAD_heatcool_flowmeter*)item);
+            break;
+
+        case CADitem::Sprinkler_CompressedAirWaterContainer:
+            paintSprinklerCompressedAirWaterContainer(layer, (CAD_sprinkler_compressedAirWaterContainer*)item);
+            break;
+        case CADitem::Sprinkler_Distribution:
+            paintSprinklerDistribution(layer, (CAD_sprinkler_distribution*)item);
+            break;
+        case CADitem::Sprinkler_Head:
+            paintSprinklerHead(layer, (CAD_sprinkler_head*)item);
+            break;
+        case CADitem::Sprinkler_Pipe:
+            paintSprinklerPipe(layer, (CAD_sprinkler_pipe*)item);
+            break;
+        case CADitem::Sprinkler_Pump:
+            paintSprinklerPump(layer, (CAD_sprinkler_pump*)item);
+            break;
+        case CADitem::Sprinkler_TeeConnector:
+            paintSprinklerTeeConnector(layer, (CAD_sprinkler_teeConnector*)item);
+            break;
+        case CADitem::Sprinkler_Valve:
+            paintSprinklerValve(layer, (CAD_sprinkler_valve*)item);
+            break;
+        case CADitem::Sprinkler_WetAlarmValve:
+            paintSprinklerWetAlarmValve(layer, (CAD_sprinkler_wetAlarmValve*)item);
+            break;
+        case CADitem::Sprinkler_ZoneCheck:
+            paintSprinklerZoneCheck(layer, (CAD_sprinkler_zoneCheck*)item);
+            break;
+        case CADitem::Sprinkler_PipeTurn:
+            paintSprinklerPipeTurn(layer, (CAD_sprinkler_pipeTurn*)item);
+            break;
+        case CADitem::Sprinkler_PipeReducer:
+            paintSprinklerPipeReducer(layer, (CAD_sprinkler_pipeReducer*)item);
+            break;
+        case CADitem::Sprinkler_PipeEndCap:
+            paintSprinklerPipeEndCap(layer, (CAD_sprinkler_pipeEndCap*)item);
+            break;
+
+        case CADitem::Electrical_Cabinet:
+            paintElectricalCabinet(layer, (CAD_electrical_cabinet*)item);
+            break;
+        case CADitem::Electrical_CableTray:
+            paintElectricalCabletray(layer, (CAD_electrical_cableTray*)item);
+            break;
+
+        case CADitem::Sanitary_Pipe:
+            paintSanitaryPipe(layer, (CAD_sanitary_pipe*)item);
+            break;
+        case CADitem::Sanitary_PipeTurn:
+            paintSanitaryPipeTurn(layer, (CAD_sanitary_pipeTurn*)item);
+            break;
+        case CADitem::Sanitary_PipeReducer:
+            paintSanitaryPipeReducer(layer, (CAD_sanitary_pipeReducer*)item);
+            break;
+        case CADitem::Sanitary_PipeTeeConnector:
+            paintSanitaryPipeTeeConnector(layer, (CAD_sanitary_pipeTeeConnector*)item);
+            break;
+        case CADitem::Sanitary_PipeEndCap:
+            paintSanitaryPipeEndCap(layer, (CAD_sanitary_pipeEndCap*)item);
+            break;
+        case CADitem::Sanitary_Flange:
+            paintSanitaryFlange(layer, (CAD_sanitary_flange*)item);
+            break;
+        case CADitem::Sanitary_ElectricWaterHeater:
+            paintSanitaryElectricWaterHeater(layer, (CAD_sanitary_electricWaterHeater*)item);
+            break;
+        case CADitem::Sanitary_WashBasin:
+            paintSanitaryWashBasin(layer, (CAD_sanitary_washBasin*)item);
+            break;
+        case CADitem::Sanitary_Sink:
+            paintSanitarySink(layer, (CAD_sanitary_sink*)item);
+            break;
+        case CADitem::Sanitary_Shower:
+            paintSanitaryShower(layer, (CAD_sanitary_shower*)item);
+            break;
+        case CADitem::Sanitary_EmergencyShower:
+            paintSanitaryEmergencyShower(layer, (CAD_sanitary_emergencyShower*)item);
+            break;
+        case CADitem::Sanitary_EmergencyEyeShower:
+            paintSanitaryEmergencyEyeShower(layer, (CAD_sanitary_emergencyEyeShower*)item);
+            break;
+        case CADitem::Sanitary_LiftingUnit:
+            paintSanitaryLiftingUnit(layer, (CAD_sanitary_liftingUnit*)item);
+            break;
+        }
+
+        paintItems(item->subItems, layer);
     }
 }
 
@@ -1598,18 +1554,10 @@ QColor GLWidget::getColorPen(CADitem* item, Layer* layer)
     {
         if (color_pen.value() > 127)
         {
-            //            color_pen = color_pen.darker();
-            //            color_pen.setRed(color_pen.red() - 50);
-            //            color_pen.setGreen(color_pen.green() - 50);
-            //            color_pen.setBlue(color_pen.blue() - 50);
             color_pen.setHsv(color_pen.hsvHue(), color_pen.hsvSaturation(), color_pen.value() - 100);
         }
         else
         {
-            //            color_pen = color_pen.lighter();
-            //            color_pen.setRed(color_pen.red() + 50);
-            //            color_pen.setGreen(color_pen.green() + 50);
-            //            color_pen.setBlue(color_pen.blue() + 50);
             color_pen.setHsv(color_pen.hsvHue(), color_pen.hsvSaturation(), color_pen.value() + 100);
         }
     }
@@ -1632,16 +1580,10 @@ QColor GLWidget::getColorBrush(CADitem* item, Layer* layer)
     {
         if (color_brush.value() > 127)
         {
-            //            color_brush.setRed(color_brush.red() - 100);
-            //            color_brush.setGreen(color_brush.green() - 100);
-            //            color_brush.setBlue(color_brush.blue() - 100);
             color_brush.setHsv(color_brush.hsvHue(), color_brush.hsvSaturation(), color_brush.value() - 100);
         }
         else
         {
-            //            color_brush.setRed(color_brush.red() + 100);
-            //            color_brush.setGreen(color_brush.green() + 100);
-            //            color_brush.setBlue(color_brush.blue() + 100);
             color_brush.setHsv(color_brush.hsvHue(), color_brush.hsvSaturation(), color_brush.value() + 100);
         }
     }
@@ -2351,6 +2293,174 @@ void GLWidget::paintBasicSphere(Layer *layer, CAD_basic_sphere *item)
     gluDeleteQuadric(sphere);
 }
 
+void GLWidget::paintBasicDuct(Layer *layer, CAD_basic_duct *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
+
+    if (this->render_solid)
+    {
+        glBegin(GL_QUADS);
+        setPaintingColor(color_brush);
+
+        // Bottom face
+        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
+        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
+        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
+        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
+
+        // Top face
+        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
+        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
+        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
+        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
+
+        // Side Faces
+        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
+        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
+        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
+        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
+
+        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
+        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
+        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
+        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
+
+        // Inner Bottom Face
+        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_1.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_2.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_3.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_4.z() + (GLfloat)item->wall_thickness);
+
+        // Inner Top Face
+        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_1.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_2.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_3.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_4.z() - (GLfloat)item->wall_thickness);
+
+        // Inner Side Faces
+        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_1.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_2.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_2.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_1.z() - (GLfloat)item->wall_thickness);
+
+        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_3.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_4.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_4.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_3.z() - (GLfloat)item->wall_thickness);
+
+        // Front faces
+        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
+        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
+        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_4.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_1.z() + (GLfloat)item->wall_thickness);
+
+        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
+        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
+        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_1.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_1.z() + (GLfloat)item->wall_thickness);
+
+        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
+        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
+        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_4.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_1.z() - (GLfloat)item->wall_thickness);
+
+        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
+        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
+        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_4.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_4.z() + (GLfloat)item->wall_thickness);
+
+        // Back faces
+        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
+        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
+        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_3.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_2.z() + (GLfloat)item->wall_thickness);
+
+        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
+        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
+        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_2.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_2.z() + (GLfloat)item->wall_thickness);
+
+        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
+        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
+        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_3.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_2.z() - (GLfloat)item->wall_thickness);
+
+        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
+        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
+        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_3.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_3.z() + (GLfloat)item->wall_thickness);
+
+
+
+
+        glEnd();
+    }
+
+    if (this->render_outline)
+    {
+        setPaintingColor(color_pen);
+        glLineWidth(1.5);
+
+        glBegin(GL_LINE_LOOP);
+
+        // Bottom face
+        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
+        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
+        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
+        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
+        glEnd();
+        glBegin(GL_LINE_LOOP);
+        // Top face
+        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
+        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
+        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
+        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
+        glEnd();
+        glBegin(GL_LINE_LOOP);
+        // Side Faces
+        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
+        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
+        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
+        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
+        glEnd();
+        glBegin(GL_LINE_LOOP);
+        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
+        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
+        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
+        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
+        glEnd();
+        glBegin(GL_LINE_LOOP);
+        // Inner Bottom Face
+        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_1.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_2.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_3.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_4.z() + (GLfloat)item->wall_thickness);
+        glEnd();
+        glBegin(GL_LINE_LOOP);
+        // Inner Top Face
+        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_1.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_2.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_3.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_4.z() - (GLfloat)item->wall_thickness);
+        glEnd();
+        glBegin(GL_LINE_LOOP);
+        // Inner Side Faces
+        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_1.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_2.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_2.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_1.z() - (GLfloat)item->wall_thickness);
+        glEnd();
+        glBegin(GL_LINE_LOOP);
+        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_3.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_4.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_4.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_3.z() - (GLfloat)item->wall_thickness);
+        glEnd();
+
+    }
+}
+
 void GLWidget::paintArchLevelSlab(Layer *layer, CAD_arch_levelSlab *item)
 {
     QColor color_pen = getColorPen(item, layer);
@@ -2391,7 +2501,112 @@ void GLWidget::paintAirDuct(Layer *layer, CAD_air_duct *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+
+    CAD_basic_duct *main_duct = new CAD_basic_duct;
+    main_duct->angle_x = item->angle_x;
+    main_duct->angle_y = item->angle_y;
+    main_duct->angle_z = item->angle_z;
+    main_duct->pos_bot_1 = item->pos_bot_1;
+    main_duct->pos_bot_2 = item->pos_bot_2;
+    main_duct->pos_bot_3 = item->pos_bot_3;
+    main_duct->pos_bot_4 = item->pos_bot_4;
+    main_duct->pos_top_1 = item->pos_top_1;
+    main_duct->pos_top_2 = item->pos_top_2;
+    main_duct->pos_top_3 = item->pos_top_3;
+    main_duct->pos_top_4 = item->pos_top_4;
+    main_duct->wall_thickness = item->wall_thickness;
+    paintBasicDuct(layer, main_duct);
+
+        CAD_basic_duct *flange_duct_left = new CAD_basic_duct;
+        flange_duct_left->angle_x = item->angle_x;
+        flange_duct_left->angle_y = item->angle_y;
+        flange_duct_left->angle_z = item->angle_z;
+        flange_duct_left->position = item->position;
+
+        flange_duct_left->pos_bot_1.setX(item->pos_bot_1.x());
+        flange_duct_left->pos_bot_1.setY(item->pos_bot_1.y() - item->flange_size);
+        flange_duct_left->pos_bot_1.setZ(item->pos_bot_1.z() - item->flange_size);
+
+        flange_duct_left->pos_bot_2.setX(item->pos_bot_1.x() + item->flange_size);
+        flange_duct_left->pos_bot_2.setY(item->pos_bot_1.y() - item->flange_size);
+        flange_duct_left->pos_bot_2.setZ(item->pos_bot_1.z() - item->flange_size);
+
+        flange_duct_left->pos_bot_3.setX(item->pos_bot_4.x() + item->flange_size);
+        flange_duct_left->pos_bot_3.setY(item->pos_bot_4.y() + item->flange_size);
+        flange_duct_left->pos_bot_3.setZ(item->pos_bot_4.z() - item->flange_size);
+
+        flange_duct_left->pos_bot_4.setX(item->pos_bot_4.x());
+        flange_duct_left->pos_bot_4.setY(item->pos_bot_4.y() + item->flange_size);
+        flange_duct_left->pos_bot_4.setZ(item->pos_bot_4.z() - item->flange_size);
+
+
+
+        flange_duct_left->pos_top_1.setX(item->pos_top_1.x());
+        flange_duct_left->pos_top_1.setY(item->pos_top_1.y() - item->flange_size);
+        flange_duct_left->pos_top_1.setZ(item->pos_top_1.z() + item->flange_size);
+
+        flange_duct_left->pos_top_2.setX(item->pos_top_1.x() + item->flange_size);
+        flange_duct_left->pos_top_2.setY(item->pos_top_1.y() - item->flange_size);
+        flange_duct_left->pos_top_2.setZ(item->pos_top_1.z() + item->flange_size);
+
+        flange_duct_left->pos_top_3.setX(item->pos_top_4.x() + item->flange_size);
+        flange_duct_left->pos_top_3.setY(item->pos_top_4.y() + item->flange_size);
+        flange_duct_left->pos_top_3.setZ(item->pos_top_4.z() + item->flange_size);
+
+        flange_duct_left->pos_top_4.setX(item->pos_top_4.x());
+        flange_duct_left->pos_top_4.setY(item->pos_top_4.y() + item->flange_size);
+        flange_duct_left->pos_top_4.setZ(item->pos_top_4.z() + item->flange_size);
+
+        flange_duct_left->wall_thickness = item->flange_size;
+
+        paintBasicDuct(layer, flange_duct_left);
+
+        CAD_basic_duct *flange_duct_right = new CAD_basic_duct;
+        flange_duct_right->angle_x = item->angle_x;
+        flange_duct_right->angle_y = item->angle_y;
+        flange_duct_right->angle_z = item->angle_z;
+        flange_duct_right->position = item->position;
+
+        flange_duct_right->pos_bot_1.setX(item->pos_bot_2.x() - item->flange_size);
+        flange_duct_right->pos_bot_1.setY(item->pos_bot_2.y() - item->flange_size);
+        flange_duct_right->pos_bot_1.setZ(item->pos_bot_2.z() - item->flange_size);
+
+        flange_duct_right->pos_bot_2.setX(item->pos_bot_2.x());
+        flange_duct_right->pos_bot_2.setY(item->pos_bot_2.y() - item->flange_size);
+        flange_duct_right->pos_bot_2.setZ(item->pos_bot_2.z() - item->flange_size);
+
+        flange_duct_right->pos_bot_3.setX(item->pos_bot_3.x());
+        flange_duct_right->pos_bot_3.setY(item->pos_bot_3.y() + item->flange_size);
+        flange_duct_right->pos_bot_3.setZ(item->pos_bot_3.z() - item->flange_size);
+
+        flange_duct_right->pos_bot_4.setX(item->pos_bot_3.x() - item->flange_size);
+        flange_duct_right->pos_bot_4.setY(item->pos_bot_3.y() + item->flange_size);
+        flange_duct_right->pos_bot_4.setZ(item->pos_bot_3.z() - item->flange_size);
+
+
+
+        flange_duct_right->pos_top_1.setX(item->pos_top_2.x() - item->flange_size);
+        flange_duct_right->pos_top_1.setY(item->pos_top_2.y() - item->flange_size);
+        flange_duct_right->pos_top_1.setZ(item->pos_top_2.z() + item->flange_size);
+
+        flange_duct_right->pos_top_2.setX(item->pos_top_2.x());
+        flange_duct_right->pos_top_2.setY(item->pos_top_2.y() - item->flange_size);
+        flange_duct_right->pos_top_2.setZ(item->pos_top_2.z() + item->flange_size);
+
+        flange_duct_right->pos_top_3.setX(item->pos_top_3.x());
+        flange_duct_right->pos_top_3.setY(item->pos_top_3.y() + item->flange_size);
+        flange_duct_right->pos_top_3.setZ(item->pos_top_3.z() + item->flange_size);
+
+        flange_duct_right->pos_top_4.setX(item->pos_top_3.x() - item->flange_size);
+        flange_duct_right->pos_top_4.setY(item->pos_top_3.y() + item->flange_size);
+        flange_duct_right->pos_top_4.setZ(item->pos_top_3.z() + item->flange_size);
+
+        flange_duct_right->wall_thickness = item->flange_size;
+       //
+        paintBasicDuct(layer, flange_duct_right);
 }
+
+
 
 void GLWidget::paintAirPipe(Layer *layer, CAD_air_pipe *item)
 {
@@ -2403,6 +2618,8 @@ void GLWidget::paintAirDuctTurn(Layer *layer, CAD_air_ductTurn *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+
+
 }
 
 void GLWidget::paintAirPipeTurn(Layer *layer, CAD_air_pipeTurn *item)
@@ -2433,6 +2650,162 @@ void GLWidget::paintAirDuctTransiton(Layer *layer, CAD_air_ductTransition *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+
+    CAD_basic_duct *main_duct = new CAD_basic_duct;
+    main_duct->angle_x = item->angle_x;
+    main_duct->angle_y = item->angle_y;
+    main_duct->angle_z = item->angle_z;
+    main_duct->position = item->position;
+    main_duct->pos_bot_1 = item->pos_bot_1;
+    main_duct->pos_bot_1.setX(item->pos_bot_1.x() + item->endcap);
+    main_duct->pos_bot_2 = item->pos_bot_2;
+    main_duct->pos_bot_2.setX(item->pos_bot_2.x() - item->endcap);
+    main_duct->pos_bot_3 = item->pos_bot_3;
+    main_duct->pos_bot_3.setX(item->pos_bot_3.x() - item->endcap);
+    main_duct->pos_bot_4 = item->pos_bot_4;
+    main_duct->pos_bot_4.setX(item->pos_bot_4.x() + item->endcap);
+    main_duct->pos_top_1 = item->pos_top_1;
+    main_duct->pos_top_1.setX(item->pos_top_1.x() + item->endcap);
+    main_duct->pos_top_2 = item->pos_top_2;
+    main_duct->pos_top_2.setX(item->pos_top_2.x() - item->endcap);
+    main_duct->pos_top_3 = item->pos_top_3;
+    main_duct->pos_top_3.setX(item->pos_top_3.x() - item->endcap);
+    main_duct->pos_top_4 = item->pos_top_4;
+    main_duct->pos_top_4.setX(item->pos_top_4.x() + item->endcap);
+    main_duct->wall_thickness = item->wall_thickness;
+    paintBasicDuct(layer, main_duct);
+
+    CAD_basic_duct *endcap_duct_left = new CAD_basic_duct;
+    endcap_duct_left->angle_x = item->angle_x;
+    endcap_duct_left->angle_y = item->angle_y;
+    endcap_duct_left->angle_z = item->angle_z;
+    endcap_duct_left->position = item->position;
+    endcap_duct_left->pos_bot_1 = item->pos_bot_1;
+    endcap_duct_left->pos_bot_2 = item->pos_bot_1;
+    endcap_duct_left->pos_bot_2.setX(item->pos_bot_1.x() + item->endcap);
+    endcap_duct_left->pos_bot_3 = item->pos_bot_4;
+    endcap_duct_left->pos_bot_3.setX(item->pos_bot_4.x() + item->endcap);
+    endcap_duct_left->pos_bot_4 = item->pos_bot_4;
+
+    endcap_duct_left->pos_top_1 = item->pos_top_1;
+    endcap_duct_left->pos_top_2 = item->pos_top_1;
+    endcap_duct_left->pos_top_2.setX(item->pos_top_1.x() + item->endcap);
+    endcap_duct_left->pos_top_3 = item->pos_top_4;
+    endcap_duct_left->pos_top_3.setX(item->pos_top_4.x() + item->endcap);
+    endcap_duct_left->pos_top_4 = item->pos_top_4;
+    endcap_duct_left->wall_thickness = item->wall_thickness;
+    paintBasicDuct(layer, endcap_duct_left);
+
+    CAD_basic_duct *endcap_duct_right = new CAD_basic_duct;
+    endcap_duct_right->angle_x = item->angle_x;
+    endcap_duct_right->angle_y = item->angle_y;
+    endcap_duct_right->angle_z = item->angle_z;
+    endcap_duct_right->position = item->position;
+
+    endcap_duct_right->pos_bot_1 = item->pos_bot_2;
+    endcap_duct_right->pos_bot_1.setX(item->pos_bot_2.x() - item->endcap);
+    endcap_duct_right->pos_bot_2 = item->pos_bot_2;
+    endcap_duct_right->pos_bot_3 = item->pos_bot_3;
+    endcap_duct_right->pos_bot_4 = item->pos_bot_3;
+    endcap_duct_right->pos_bot_4.setX(item->pos_bot_3.x() - item->endcap);
+
+    endcap_duct_right->pos_top_1 = item->pos_top_2;
+    endcap_duct_right->pos_top_1.setX(item->pos_top_2.x() - item->endcap);
+    endcap_duct_right->pos_top_2 = item->pos_top_2;
+    endcap_duct_right->pos_top_3 = item->pos_top_3;
+    endcap_duct_right->pos_top_4 = item->pos_top_3;
+    endcap_duct_right->pos_top_4.setX(item->pos_top_3.x() - item->endcap);
+
+    endcap_duct_right->wall_thickness = item->wall_thickness;
+    paintBasicDuct(layer, endcap_duct_right);
+
+    CAD_basic_duct *flange_duct_left = new CAD_basic_duct;
+    flange_duct_left->angle_x = item->angle_x;
+    flange_duct_left->angle_y = item->angle_y;
+    flange_duct_left->angle_z = item->angle_z;
+    flange_duct_left->position = item->position;
+
+    flange_duct_left->pos_bot_1.setX(item->pos_bot_1.x());
+    flange_duct_left->pos_bot_1.setY(item->pos_bot_1.y() - item->flange_size);
+    flange_duct_left->pos_bot_1.setZ(item->pos_bot_1.z() - item->flange_size);
+
+    flange_duct_left->pos_bot_2.setX(item->pos_bot_1.x() + item->flange_size);
+    flange_duct_left->pos_bot_2.setY(item->pos_bot_1.y() - item->flange_size);
+    flange_duct_left->pos_bot_2.setZ(item->pos_bot_1.z() - item->flange_size);
+
+    flange_duct_left->pos_bot_3.setX(item->pos_bot_4.x() + item->flange_size);
+    flange_duct_left->pos_bot_3.setY(item->pos_bot_4.y() - item->flange_size);
+    flange_duct_left->pos_bot_3.setZ(item->pos_bot_4.z() + item->flange_size);
+
+    flange_duct_left->pos_bot_4.setX(item->pos_bot_4.x());
+    flange_duct_left->pos_bot_4.setY(item->pos_bot_4.y() - item->flange_size);
+    flange_duct_left->pos_bot_4.setZ(item->pos_bot_4.z() + item->flange_size);
+
+
+
+    flange_duct_left->pos_top_1.setX(item->pos_top_1.x());
+    flange_duct_left->pos_top_1.setY(item->pos_top_1.y() - item->flange_size);
+    flange_duct_left->pos_top_1.setZ(item->pos_top_1.z() + item->flange_size);
+
+    flange_duct_left->pos_top_2.setX(item->pos_top_1.x() + item->flange_size);
+    flange_duct_left->pos_top_2.setY(item->pos_top_1.y() - item->flange_size);
+    flange_duct_left->pos_top_2.setZ(item->pos_top_1.z() + item->flange_size);
+
+    flange_duct_left->pos_top_3.setX(item->pos_top_4.x() + item->flange_size);
+    flange_duct_left->pos_top_3.setY(item->pos_top_4.y() + item->flange_size);
+    flange_duct_left->pos_top_3.setZ(item->pos_top_4.z() + item->flange_size);
+
+    flange_duct_left->pos_top_4.setX(item->pos_top_4.x());
+    flange_duct_left->pos_top_4.setY(item->pos_top_4.y() + item->flange_size);
+    flange_duct_left->pos_top_4.setZ(item->pos_top_4.z() - item->flange_size);
+
+    flange_duct_left->wall_thickness = item->flange_size;
+
+    paintBasicDuct(layer, flange_duct_left);
+
+    CAD_basic_duct *flange_duct_right = new CAD_basic_duct;
+    flange_duct_right->angle_x = item->angle_x;
+    flange_duct_right->angle_y = item->angle_y;
+    flange_duct_right->angle_z = item->angle_z;
+    flange_duct_right->position = item->position;
+
+    flange_duct_right->pos_bot_1.setX(item->pos_bot_2.x() - item->flange_size);
+    flange_duct_right->pos_bot_1.setY(item->pos_bot_2.y() - item->flange_size);
+    flange_duct_right->pos_bot_1.setZ(item->pos_bot_2.z() - item->flange_size);
+
+    flange_duct_right->pos_bot_2.setX(item->pos_bot_2.x());
+    flange_duct_right->pos_bot_2.setY(item->pos_bot_2.y() - item->flange_size);
+    flange_duct_right->pos_bot_2.setZ(item->pos_bot_2.z() - item->flange_size);
+
+    flange_duct_right->pos_bot_3.setX(item->pos_bot_3.x());
+    flange_duct_right->pos_bot_3.setY(item->pos_bot_3.y() - item->flange_size);
+    flange_duct_right->pos_bot_3.setZ(item->pos_bot_3.z() + item->flange_size);
+
+    flange_duct_right->pos_bot_4.setX(item->pos_bot_3.x() - item->flange_size);
+    flange_duct_right->pos_bot_4.setY(item->pos_bot_3.y() - item->flange_size);
+    flange_duct_right->pos_bot_4.setZ(item->pos_bot_3.z() + item->flange_size);
+
+
+
+    flange_duct_right->pos_top_1.setX(item->pos_top_2.x() - item->flange_size);
+    flange_duct_right->pos_top_1.setY(item->pos_top_2.y() + item->flange_size);
+    flange_duct_right->pos_top_1.setZ(item->pos_top_2.z() - item->flange_size);
+
+    flange_duct_right->pos_top_2.setX(item->pos_top_2.x());
+    flange_duct_right->pos_top_2.setY(item->pos_top_2.y() + item->flange_size);
+    flange_duct_right->pos_top_2.setZ(item->pos_top_2.z() - item->flange_size);
+
+    flange_duct_right->pos_top_3.setX(item->pos_top_3.x());
+    flange_duct_right->pos_top_3.setY(item->pos_top_3.y() + item->flange_size);
+    flange_duct_right->pos_top_3.setZ(item->pos_top_3.z() + item->flange_size);
+
+    flange_duct_right->pos_top_4.setX(item->pos_top_3.x() - item->flange_size);
+    flange_duct_right->pos_top_4.setY(item->pos_top_3.y() + item->flange_size);
+    flange_duct_right->pos_top_4.setZ(item->pos_top_3.z() + item->flange_size);
+
+    flange_duct_right->wall_thickness = item->flange_size;
+    //
+    paintBasicDuct(layer, flange_duct_right);
 }
 
 void GLWidget::paintAirDuctTransitionRectRound(Layer *layer, CAD_air_ductTransitionRectRound *item)
@@ -2870,8 +3243,8 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
     saveGLState();
 
 
-    //    glViewport(translationOffset.x(), translationOffset.y(), width(), height());
     glViewport(0, 0, width(), height());
+//    glViewport(pos.x(), pos.y(), (GLsizei)_cursorPickboxSize, (GLsizei)_cursorPickboxSize);
     glGetIntegerv(GL_VIEWPORT, viewport);
     glSelectBuffer(HITBUFFER_SIZE, buffer);
     glRenderMode(GL_SELECT);
@@ -2879,19 +3252,10 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
     glInitNames();
     glPushName(0);
 
-    //    glMatrixMode(GL_PROJECTION);
-    //    glPushMatrix();
-    //    glLoadIdentity();
-    //    gluPickMatrix((GLdouble)pos.x(), (GLdouble)pos.y(), 11.0, 11.0, viewport);
+    glDisable(GL_BLEND);
+//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    //    GLfloat screenRatio = (qreal)this->width() / (qreal)this->height();
-    //    glTranslatef(cameraPosition.x(), cameraPosition.y(), cameraPosition.z());
-    //    glMatrixMode(GL_MODELVIEW);
-    //    glLoadIdentity();
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    glEnable(GL_MULTISAMPLE);
+    glDisable(GL_MULTISAMPLE);
     glDisable(GL_CULL_FACE);
 
     //    glTranslatef((qreal)translationOffset.x() / (qreal)this->width() * 2, (qreal)translationOffset.y() / (qreal)this->height() * 2, 0.0);
@@ -2910,7 +3274,7 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
 
     glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_ALPHA_TEST);
+    glDisable(GL_ALPHA_TEST);
 
     glName = 0;
     paintContent(itemDB->layers);
@@ -3083,6 +3447,117 @@ void GLWidget::selectionClear_processItems(QList<CADitem *> items)
         item->selected = false;
         selectionClear_processItems(item->subItems);
     }
+}
+
+void GLWidget::initializeGL()
+{
+    makeCurrent();
+
+
+    //    GLfloat mat_specular[] = { 0.5, 0.5, 0.5, 1.0 };
+    //    GLfloat mat_shininess[] = { 0.2 };
+    //    glShadeModel (GL_FLAT);
+    glShadeModel(GL_SMOOTH);
+    glEnable(GL_FRAMEBUFFER_SRGB);
+    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE | GL_EMISSION);
+
+    //tbd: glProvokingVertex(GL_FIRST_VERTEX_CONVENTION);
+
+    //    glColorMaterial(GL_FRONT_AND_BACK, GL_EMISSION);
+    //    glEnable(GL_COLOR_MATERIAL);
+    //    glEnable(GL_NORMALIZE);
+
+    //    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
+    //    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
+
+
+    //    GLfloat specular[] = { 0.2f, 0.2f, 0.2f, 1.0f};
+    //    GLfloat diffuseLight[] = { 0.2f, 0.2f, 0.2f, 1.0f};
+    //    GLfloat light_position[] = { 500.0, 15.0, -800.0, 0.0 };
+
+    //    glLightfv(GL_LIGHT0, GL_DIFFUSE,diffuseLight);
+    //    glLightfv(GL_LIGHT0,GL_SPECULAR,specular);
+    //    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
+    //    glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.2);
+    //    glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.3);
+    //    glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.8);
+
+    //    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+
+    shader_1_frag = new QGLShader(QGLShader::Fragment, this);
+    bool shaderOk = shader_1_frag->compileSourceFile(":/shaders/test.frag");
+    if (!shaderOk)
+        QMessageBox::critical(this, "Shader compiler", "Fragment shader failed to compile!");
+
+    shader_1_vert = new QGLShader(QGLShader::Vertex, this);
+    shaderOk = shader_1_vert->compileSourceFile(":/shaders/shader_1.vert");
+
+    shaderProgram = new QGLShaderProgram(this);
+    shaderProgram->addShader(shader_1_vert);
+    shaderProgram->addShader(shader_1_frag);
+    shaderOk = shaderProgram->link();
+    if (!shaderOk)
+        QMessageBox::critical(this, "Shader compiler", "Vertex shader failed to compile!");
+
+    if (!shaderOk)
+    {
+        QMessageBox::critical(this, "Shader linker", QString("Shader failed to link!\n\n") + shaderProgram->log());
+    }
+
+
+    shaderOk = shaderProgram->bind();
+
+    if (!shaderOk)
+    {
+        QMessageBox::critical(this, "Shader program", "Shader could not be bound to gl context!");
+    }
+
+    //shader_vertexLocation = shaderProgram->attributeLocation("VertexPosition");
+    shader_matrixLocation = shaderProgram->uniformLocation("Matrix");
+    shader_colorLocation = shaderProgram->attributeLocation("VertexColor");
+    shader_textureCoordLocation = shaderProgram->attributeLocation("TexCoord");
+    shader_textureSamplerLocation = shaderProgram->uniformLocation("uTexUnit0");
+    shader_useTextureLocation = shaderProgram->uniformLocation("UseTexture");
+    shader_useClippingLocation = shaderProgram->uniformLocation("UseClipping");
+    shader_Depth_of_view_location = shaderProgram->uniformLocation("Depth_of_view");
+    //    shader_Height_of_intersection_location = shaderProgram->uniformLocation("Height_of_intersection");
+
+    if (shader_vertexLocation < 0)
+        QMessageBox::information(this, "Vertex Location invalid", QString().setNum(shader_vertexLocation));
+    if (shader_colorLocation < 0)
+        QMessageBox::information(this, "Color Location invalid", QString().setNum(shader_colorLocation));
+    if (shader_textureCoordLocation < 0)
+        QMessageBox::information(this, "Texture Coordinate Location invalid", QString().setNum(shader_textureCoordLocation));
+    if (shader_matrixLocation < 0)
+        QMessageBox::information(this, "Matrix Location invalid", QString().setNum(shader_matrixLocation));
+    if (shader_useTextureLocation < 0)
+        QMessageBox::information(this, "Use Texture Location invalid", QString().setNum(shader_useTextureLocation));
+    if (shader_useClippingLocation < 0)
+        QMessageBox::information(this, "Use Clipping Location invalid", QString().setNum(shader_useClippingLocation));
+    if (shader_Depth_of_view_location < 0)
+        QMessageBox::information(this, "Depth of View Location invalid", QString().setNum(shader_Depth_of_view_location));
+    //    if (shader_Height_of_intersection_location < 0)
+    //        QMessageBox::information(this, "Height of Intersection Location invalid", QString().setNum(shader_Height_of_intersection_location));
+
+    qDebug() << "vertex location" << shader_vertexLocation;
+    qDebug() << "matrix location" << shader_matrixLocation;
+    qDebug() << "color location" << shader_colorLocation;
+    qDebug() << "texture coord location" << shader_textureCoordLocation;
+    qDebug() << "use texture location" << shader_useTextureLocation;
+    qDebug() << "use clipping location" << shader_useClippingLocation;
+    qDebug() << "depth of view location" << shader_Depth_of_view_location;
+    qDebug() << "height of intersection location" << shader_Height_of_intersection_location;
+}
+
+void GLWidget::resizeGL()
+{
+
+}
+
+void GLWidget::paintGL()
+{
+
 }
 
 

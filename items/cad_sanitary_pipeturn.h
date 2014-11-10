@@ -7,6 +7,8 @@ class CAD_sanitary_pipeTurn : public CADitem
 {
 public:
     CAD_sanitary_pipeTurn();
+    static QList<CADitem::ItemType> flangable_items();
+    static QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
 };

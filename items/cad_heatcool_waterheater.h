@@ -7,6 +7,8 @@ class CAD_heatcool_waterHeater : public CADitem
 {
 public:
     CAD_heatcool_waterHeater();
+    static QList<CADitem::ItemType> flangable_items();
+    static QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
 };

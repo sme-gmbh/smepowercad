@@ -18,6 +18,28 @@ CAD_basic_line::CAD_basic_line() : CADitem(CADitem::Basic_Line)
     this->wizardParams.insert(QObject::tr("Width"), QVariant::fromValue(1.0));
 }
 
+QList<CADitem::ItemType> CAD_basic_line::flangable_items()
+{
+    QList<CADitem::ItemType> flangable_items;
+
+    return flangable_items;
+}
+
+QImage CAD_basic_line::wizardImage()
+{
+    QImage image;
+    QFileInfo fileinfo(__FILE__);
+    QString imageFileName = fileinfo.baseName();
+    imageFileName.prepend(":/itemGraphic/");
+    imageFileName.append(".png");
+
+    qDebug() << imageFileName;
+
+    image.load(imageFileName, "PNG");
+
+    return image;
+}
+
 void CAD_basic_line::calculate()
 {
 //    this->boundingBox.p0 = this->p1;

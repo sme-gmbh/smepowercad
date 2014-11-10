@@ -7,6 +7,8 @@ class CAD_sprinkler_valve : public CADitem
 {
 public:
     CAD_sprinkler_valve();
+    static QList<CADitem::ItemType> flangable_items();
+    static QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
 };

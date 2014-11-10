@@ -16,10 +16,35 @@ CAD_basic_pipe::CAD_basic_pipe() : CADitem(CADitem::Basic_Pipe)
     wizardParams.insert(QObject::tr("Angle x"), QVariant::fromValue(0.0));
     wizardParams.insert(QObject::tr("Angle y"), QVariant::fromValue(0.0));
     wizardParams.insert(QObject::tr("Angle z"), QVariant::fromValue(0.0));
+
+}
+
+QList<CADitem::ItemType> CAD_basic_pipe::flangable_items()
+{
+    QList<CADitem::ItemType> flangable_items;
+    flangable_items.append(CADitem::Basic_Pipe);
+    flangable_items.append(CADitem::Basic_Turn);
+    return flangable_items;
+}
+
+QImage CAD_basic_pipe::wizardImage()
+{
+    QImage image;
+    QFileInfo fileinfo(__FILE__);
+    QString imageFileName = fileinfo.baseName();
+    imageFileName.prepend(":/itemGraphic/");
+    imageFileName.append(".png");
+
+    qDebug() << imageFileName;
+
+    image.load(imageFileName, "PNG");
+
+    return image;
 }
 
 void CAD_basic_pipe::calculate()
 {
+    this->boundingBox.reset();
     this->snap_basepoint = this->position;
     this->snap_vertices.append(this->position + this->direction);
     this->snap_center.append(this->position + this->direction * 0.5);

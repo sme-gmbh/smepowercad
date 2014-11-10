@@ -11,6 +11,28 @@ CAD_basic_sphere::CAD_basic_sphere() : CADitem(CADitem::Basic_Sphere)
     wizardParams.insert(QObject::tr("Radius"), QVariant::fromValue(1.0));
 }
 
+QList<CADitem::ItemType> CAD_basic_sphere::flangable_items()
+{
+    QList<CADitem::ItemType> flangable_items;
+
+    return flangable_items;
+}
+
+QImage CAD_basic_sphere::wizardImage()
+{
+    QImage image;
+    QFileInfo fileinfo(__FILE__);
+    QString imageFileName = fileinfo.baseName();
+    imageFileName.prepend(":/itemGraphic/");
+    imageFileName.append(".png");
+
+    qDebug() << imageFileName;
+
+    image.load(imageFileName, "PNG");
+
+    return image;
+}
+
 void CAD_basic_sphere::calculate()
 {
     this->snap_basepoint = this->position;

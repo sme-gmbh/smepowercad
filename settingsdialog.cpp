@@ -80,6 +80,8 @@ void SettingsDialog::on_buttonBox_clicked(QAbstractButton *button)
     case QDialogButtonBox::Reset:
         this->reset();
         break;
+    default:
+        break;
     }
 }
 

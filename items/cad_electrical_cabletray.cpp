@@ -6,6 +6,28 @@ CAD_electrical_cableTray::CAD_electrical_cableTray() : CADitem(CADitem::Electric
 
 }
 
+QList<CADitem::ItemType> CAD_electrical_cableTray::flangable_items()
+{
+    QList<CADitem::ItemType> flangable_items;
+
+    return flangable_items;
+}
+
+QImage CAD_electrical_cableTray::wizardImage()
+{
+    QImage image;
+    QFileInfo fileinfo(__FILE__);
+    QString imageFileName = fileinfo.baseName();
+    imageFileName.prepend(":/itemGraphic/");
+    imageFileName.append(".png");
+
+    qDebug() << imageFileName;
+
+    image.load(imageFileName, "PNG");
+
+    return image;
+}
+
 void CAD_electrical_cableTray::calculate()
 {
 

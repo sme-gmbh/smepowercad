@@ -559,6 +559,21 @@ bool ItemDB::modifyItem(quint64 &id, QString &key, QString &value)
     return true;
 }
 
+void ItemDB::itemAdded(CADitem *item)
+{
+
+}
+
+void ItemDB::itemModified(CADitem *item)
+{
+
+}
+
+void ItemDB::itemDeleted(CADitem *item)
+{
+
+}
+
 QByteArray ItemDB::network_newLayer(QMap<QString, QString> data)
 {
     QString newLayerName = data.value("newLayer");

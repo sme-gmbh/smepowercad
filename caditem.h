@@ -8,6 +8,9 @@
 #include <QMap>
 #include <QVector3D>
 #include <QVariant>
+#include <QImage>
+#include <QFile>
+#include <QFileInfo>
 #include <QDataStream>
 #include <QDebug>
 #include <math.h>
@@ -33,10 +36,11 @@ public:
         Basic_Pipe,                             // Basisgeometrie: Rohr
         Basic_Turn,                             // Basisgeometrie: Rohrbogen
         Basic_Sphere,                           // Basisgeometrie: Kugel
+        Basic_Duct,                             // Basisgeometrie: Kanal
         Arch_Foundation,                        // Fundament
         Arch_BoredPile,                         // Bohrpfahl
         Arch_LevelSlab,                         // Decke
-        Arch_Wall_loadBearing,                  // Tagende Wand
+        Arch_Wall_loadBearing,                  // Tragende Wand
         Arch_Wall_nonLoadBearing,               // Nicht tragende Wand
         Arch_Grating,                           // Gitterrost
         Arch_BlockOut,

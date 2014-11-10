@@ -7,6 +7,8 @@ class CAD_sprinkler_pipeEndCap : public CADitem
 {
 public:
     CAD_sprinkler_pipeEndCap();
+    static QList<CADitem::ItemType> flangable_items();
+    static QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
 };

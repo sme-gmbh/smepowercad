@@ -1,10 +1,22 @@
 #ifndef GLWIDGET_H
 #define GLWIDGET_H
 
+// Qt 4
 #include <QGLWidget>
 #include <QGLFramebufferObject>
 #include <QGLShader>
 #include <QGLShaderProgram>
+
+// Qt 5
+//#include <QtOpenGL/QGLWidget>
+//#include <QOpenGLContext>
+//#include <QOpenGLFramebufferObject>
+//#include <QOpenGLFunctions>
+//#include <QOpenGLFunctions_4_3_Compatibility>
+//#include <QOpenGLPaintDevice>
+//#include <QOpenGLShader>
+//#include <QOpenGLShaderProgram>
+
 #include <QDebug>
 #include <QEvent>
 #include <QPaintEvent>
@@ -32,7 +44,7 @@ public:
     enum CuttingPlane{CuttingPlane_pX = 0, CuttingPlane_nX = 1, CuttingPlane_pY = 2, CuttingPlane_nY = 3, CuttingPlane_pZ = 4, CuttingPlane_nZ = 5, CuttingPlane_ISO_001 = 6};
 
 
-    explicit GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, const QGLFormat &format);
+    explicit GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, QGLFormat glFormat);
     ~GLWidget();
 
     QPointF mapFromScene(QVector3D &scenePoint);
@@ -46,7 +58,7 @@ public:
     QRect selection();
     Qt::ItemSelectionMode selectionMode();
 
-    enum SnapMode{SnapNo, SnapEndpoint, SnapCenter, SnapBasepoint};
+    enum SnapMode{SnapBasepoint, SnapFlange, SnapEndpoint, SnapCenter, SnapNo};
     void snap_enable(bool on);
     void set_snap_mode(SnapMode mode);
     void set_snapPos(QVector3D snapPos_screen);
@@ -56,6 +68,9 @@ public:
     QStringList getOpenGLinfo();
 
 private:
+// Qt 5
+//    QOpenGLContext *m_context;
+//    QOpenGLPaintDevice *m_device;
     ItemDB* itemDB;
     ItemWizard *itemWizard;
     QSettings settings;
@@ -139,9 +154,14 @@ private:
 
 
     // OpenGL
+// Qt 4
     QGLShaderProgram* shaderProgram;
     QGLShader* shader_1_frag;
     QGLShader* shader_1_vert;
+// Qt 5
+//    QOpenGLShaderProgram* shaderProgram;
+//    QOpenGLShader* shader_1_frag;
+//    QOpenGLShader* shader_1_vert;
     int shader_vertexLocation;
     int shader_matrixLocation;
     int shader_colorLocation;
@@ -171,6 +191,7 @@ private:
     void setTextureCoords(qreal x, qreal y, qreal z);
     void setUseTexture(bool on);
     void paintContent(QList<Layer*> layers);
+    void paintItems(QList<CADitem *> items, Layer *layer);
 
     void updateArcball(int steps);
     QVector3D getArcBallVector(int x, int y);
@@ -201,6 +222,7 @@ private:
     void paintBasicTurn(Layer *layer, CAD_basic_turn *item);
     void paintBasicSphere(Layer *layer, CAD_basic_sphere *item);
     void paintBasicArc(Layer *layer, CAD_basic_arc *item);
+    void paintBasicDuct(Layer *layer, CAD_basic_duct *item);
 
     void paintArchLevelSlab(Layer *layer, CAD_arch_levelSlab *item);
     void paintArchWallLoadBearing(Layer *layer, CAD_arch_wall_loadBearing *item);
@@ -313,6 +335,10 @@ signals:
 
 // General event handlers
 protected:
+    virtual void initializeGL();
+    virtual void resizeGL();
+    virtual void paintGL();
+
     virtual void wheelEvent(QWheelEvent *event);
     virtual void mouseMoveEvent(QMouseEvent *event);
 
@@ -325,7 +351,6 @@ protected:
 
     virtual void resizeEvent(QResizeEvent *event);
     virtual void paintEvent(QPaintEvent *event);
-
 
 signals:
     void signal_mouseMoved(QVector3D coords);

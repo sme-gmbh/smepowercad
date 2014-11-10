@@ -5,7 +5,7 @@
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include <QKeyEvent>
-#include <QGLFormat>
+//#include <QGLFormat>
 #include <qmath.h>
 
 GeometryDisplay::GeometryDisplay(ItemDB *itemDB, ItemWizard *itemWizard, QWidget *parent) :
@@ -24,13 +24,15 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, ItemWizard *itemWizard, QWidget
 
     this->setWindowTitle(tr("Drawing %1").arg("x"));
 
+
     QGLFormat glFormat;
-    glFormat.setVersion(3, 1);
+    glFormat.setVersion(4, 3);
     glFormat.setProfile(QGLFormat::CompatibilityProfile);
     glFormat.setSampleBuffers(true);
     glFormat.setAlphaBufferSize(8);
 
     glwidget = new GLWidget(this, itemDB, itemWizard, glFormat);
+//    glwidget = new GLWidget(this, itemDB, itemWizard);
     this->setWidget(glwidget);
     connect(this, SIGNAL(signal_repaintNeeded()), glwidget, SLOT(slot_repaint()));
     connect(titleWidget, SIGNAL(signal_wireframe(bool)), glwidget, SLOT(slot_wireframe(bool)));

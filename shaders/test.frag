@@ -1,4 +1,4 @@
-#version 420
+#version 440
 
 in vec4 Color;
 in vec4 vTexCoord;

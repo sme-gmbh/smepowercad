@@ -22,6 +22,7 @@
 #include "items/cad_basic_pipe.h"
 #include "items/cad_basic_turn.h"
 #include "items/cad_basic_sphere.h"
+#include "items/cad_basic_duct.h"
 
 #include "items/cad_arch_beam.h"
 #include "items/cad_arch_blockout.h"
@@ -146,6 +147,10 @@ public:
     CADitem *drawItem(QString layerName, CADitem::ItemType type);
     CADitem *getItemById(quint64 id);
     bool modifyItem(quint64 &id, QString &key, QString &value);
+
+    void itemAdded(CADitem* item);
+    void itemModified(CADitem* item);
+    void itemDeleted(CADitem* item);
 
     QByteArray network_newLayer(QMap<QString, QString> data);
     QByteArray network_modifyLayer(QMap<QString, QString> data);

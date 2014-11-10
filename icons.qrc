@@ -86,6 +86,10 @@
         <file>icons/cad_sprinkler/cad_sprinkler_distribution.svg</file>
         <file>icons/cad_basic/cad_basic_turn.svg</file>
         <file>icons/cad_basic/cad_basic_pipe.svg</file>
+        <file>itemGraphic/cad_sanitary_pipereducer.png</file>
+        <file>itemGraphic/cad_basic_pipe.png</file>
+        <file>itemGraphic/cad_basic_turn.png</file>
+        <file>itemGraphic/cad_sanitary_pipe.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>

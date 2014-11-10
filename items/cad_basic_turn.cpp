@@ -17,12 +17,37 @@ CAD_basic_turn::CAD_basic_turn() : CADitem(CADitem::Basic_Turn)
     wizardParams.insert(QObject::tr("Angle x"), QVariant::fromValue(0.0));
     wizardParams.insert(QObject::tr("Angle y"), QVariant::fromValue(0.0));
     wizardParams.insert(QObject::tr("Angle z"), QVariant::fromValue(0.0));
+
+}
+
+QList<CADitem::ItemType> CAD_basic_turn::flangable_items()
+{
+    QList<CADitem::ItemType> flangable_items;
+    flangable_items.append(CADitem::Basic_Turn);
+    flangable_items.append(CADitem::Basic_Pipe);
+    return flangable_items;
+}
+
+QImage CAD_basic_turn::wizardImage()
+{
+    QImage image;
+    QFileInfo fileinfo(__FILE__);
+    QString imageFileName = fileinfo.baseName();
+    imageFileName.prepend(":/itemGraphic/");
+    imageFileName.append(".png");
+
+    qDebug() << imageFileName;
+
+    image.load(imageFileName, "PNG");
+
+    return image;
 }
 
 void CAD_basic_turn::calculate()
 {
     this->boundingBox.reset();
     this->snap_basepoint = this->position;
+    this->snap_flanges.append(this->position);
 
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
@@ -73,7 +98,9 @@ void CAD_basic_turn::calculate()
         }
     }
 
-    this->snap_vertices.append(this->position + (matrix_rotation * matrix_turn * QVector3D(-this->radius_turn, 0.0, 0.0)));
+    QVector3D endOfTurn = this->position + (matrix_rotation * matrix_turn * QVector3D(-this->radius_turn, 0.0, 0.0));
+    this->snap_vertices.append(endOfTurn);
+    this->snap_flanges.append(endOfTurn);
 }
 
 void CAD_basic_turn::processWizardInput()

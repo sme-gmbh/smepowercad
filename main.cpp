@@ -1,8 +1,10 @@
 #include "mainwindow.h"
 #include <QApplication>
+//#include <QGuiApplication>
 #include <QTranslator>
 #include <QDebug>
 #include <QSettings>
+//#include <QtOpenGL/QGL>
 
 int main(int argc, char *argv[])
 {
@@ -11,6 +13,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("SME PowerCAD");
 
     QGL::setPreferredPaintEngine(QPaintEngine::OpenGL);
+
 
 
     QApplication a(argc, argv);

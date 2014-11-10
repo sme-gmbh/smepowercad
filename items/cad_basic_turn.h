@@ -11,6 +11,8 @@ class CAD_basic_turn : public CADitem
 {
 public:
     CAD_basic_turn();
+    static QList<CADitem::ItemType> flangable_items();
+    static QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
 

@@ -7,6 +7,8 @@ class CAD_air_pipeSilencer : public CADitem
 {
 public:
     CAD_air_pipeSilencer();
+    static QList<CADitem::ItemType> flangable_items();
+    static QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
 };

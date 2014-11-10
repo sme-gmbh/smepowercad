@@ -7,6 +7,8 @@ class CAD_arch_blockOut : public CADitem
 {
 public:
     CAD_arch_blockOut();
+    static QList<CADitem::ItemType> flangable_items();
+    static QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
 };

@@ -18,6 +18,28 @@ CAD_basic_circle::CAD_basic_circle() : CADitem(CADitem::Basic_Circle)
     wizardParams.insert(QObject::tr("Angle z"), QVariant::fromValue(0.0));
 }
 
+QList<CADitem::ItemType> CAD_basic_circle::flangable_items()
+{
+    QList<CADitem::ItemType> flangable_items;
+
+    return flangable_items;
+}
+
+QImage CAD_basic_circle::wizardImage()
+{
+    QImage image;
+    QFileInfo fileinfo(__FILE__);
+    QString imageFileName = fileinfo.baseName();
+    imageFileName.prepend(":/itemGraphic/");
+    imageFileName.append(".png");
+
+    qDebug() << imageFileName;
+
+    image.load(imageFileName, "PNG");
+
+    return image;
+}
+
 void CAD_basic_circle::calculate()
 {
     this->snap_basepoint = this->center;

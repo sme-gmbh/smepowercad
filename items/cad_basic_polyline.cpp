@@ -10,6 +10,28 @@ CAD_basic_polyline::CAD_basic_polyline() : CADitem(CADitem::Basic_Polyline)
     this->widthByLayer = true;
 }
 
+QList<CADitem::ItemType> CAD_basic_polyline::flangable_items()
+{
+    QList<CADitem::ItemType> flangable_items;
+
+    return flangable_items;
+}
+
+QImage CAD_basic_polyline::wizardImage()
+{
+    QImage image;
+    QFileInfo fileinfo(__FILE__);
+    QString imageFileName = fileinfo.baseName();
+    imageFileName.prepend(":/itemGraphic/");
+    imageFileName.append(".png");
+
+    qDebug() << imageFileName;
+
+    image.load(imageFileName, "PNG");
+
+    return image;
+}
+
 void CAD_basic_polyline::calculate()
 {
 //    qreal min_x;

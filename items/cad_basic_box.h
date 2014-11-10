@@ -7,6 +7,8 @@ class CAD_basic_box : public CADitem
 {
 public:
     CAD_basic_box();
+    static QList<CADitem::ItemType> flangable_items();
+    static QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
 

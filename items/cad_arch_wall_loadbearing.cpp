@@ -6,6 +6,28 @@ CAD_arch_wall_loadBearing::CAD_arch_wall_loadBearing() : CADitem(CADitem::Arch_W
 
 }
 
+QList<CADitem::ItemType> CAD_arch_wall_loadBearing::flangable_items()
+{
+    QList<CADitem::ItemType> flangable_items;
+
+    return flangable_items;
+}
+
+QImage CAD_arch_wall_loadBearing::wizardImage()
+{
+    QImage image;
+    QFileInfo fileinfo(__FILE__);
+    QString imageFileName = fileinfo.baseName();
+    imageFileName.prepend(":/itemGraphic/");
+    imageFileName.append(".png");
+
+    qDebug() << imageFileName;
+
+    image.load(imageFileName, "PNG");
+
+    return image;
+}
+
 void CAD_arch_wall_loadBearing::calculate()
 {
 

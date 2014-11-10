@@ -7,6 +7,7 @@
 QT       += core gui opengl svg xml network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+#greaterThan(QT_MAJOR_VERSION, 4): QT -= opengl
 
 TARGET = graphicTest
 TEMPLATE = app
@@ -144,7 +145,8 @@ SOURCES += main.cpp\
     items/cad_basic_turn.cpp \
     math/m3dboundingbox.cpp \
     network/server.cpp \
-    network/clienthandler.cpp
+    network/clienthandler.cpp \
+    items/cad_basic_duct.cpp
 
 HEADERS  += mainwindow.h \
     overlay.h \
@@ -277,7 +279,8 @@ HEADERS  += mainwindow.h \
     items/cad_basic_turn.h \
     math/m3dboundingbox.h \
     network/server.h \
-    network/clienthandler.h
+    network/clienthandler.h \
+    items/cad_basic_duct.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
