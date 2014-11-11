@@ -34,6 +34,7 @@
 
 #include "itemdb.h"
 #include "itemwizard.h"
+#include "itemgripmodifier.h"
 #include "snapengine.h"
 
 
@@ -44,7 +45,7 @@ public:
     enum CuttingPlane{CuttingPlane_pX = 0, CuttingPlane_nX = 1, CuttingPlane_pY = 2, CuttingPlane_nY = 3, CuttingPlane_pZ = 4, CuttingPlane_nZ = 5, CuttingPlane_ISO_001 = 6};
 
 
-    explicit GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, QGLFormat glFormat);
+    explicit GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, ItemGripModifier* itemGripModifier, QGLFormat glFormat);
     ~GLWidget();
 
     QPointF mapFromScene(QVector3D &scenePoint);
@@ -73,6 +74,7 @@ private:
 //    QOpenGLPaintDevice *m_device;
     ItemDB* itemDB;
     ItemWizard *itemWizard;
+    ItemGripModifier* itemGripModifier;
     QSettings settings;
     QPoint mousePosOld;
     CuttingPlane cuttingplane;

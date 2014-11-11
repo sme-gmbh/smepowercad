@@ -8,12 +8,13 @@
 //#include <QGLFormat>
 #include <qmath.h>
 
-GeometryDisplay::GeometryDisplay(ItemDB *itemDB, ItemWizard *itemWizard, QWidget *parent) :
+GeometryDisplay::GeometryDisplay(ItemDB *itemDB, ItemWizard *itemWizard, ItemGripModifier *itemGripModifier, QWidget *parent) :
     QDockWidget(parent)
 {
     qDebug() << "GeometryDisplay created";
     this->itemDB = itemDB;
     this->itemWizard = itemWizard;
+    this->itemGripModifier = itemGripModifier;
 
     titleWidget = new GeometryDisplayTitle();
     connect(this, SIGNAL(signal_sceneCoordinateChanged(QVector3D)), titleWidget, SLOT(slot_sceneCoordinatesChanged(QVector3D)));
@@ -31,7 +32,7 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, ItemWizard *itemWizard, QWidget
     glFormat.setSampleBuffers(true);
     glFormat.setAlphaBufferSize(8);
 
-    glwidget = new GLWidget(this, itemDB, itemWizard, glFormat);
+    glwidget = new GLWidget(this, itemDB, itemWizard, itemGripModifier, glFormat);
 //    glwidget = new GLWidget(this, itemDB, itemWizard);
     this->setWidget(glwidget);
     connect(this, SIGNAL(signal_repaintNeeded()), glwidget, SLOT(slot_repaint()));

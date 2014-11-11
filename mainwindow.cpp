@@ -22,6 +22,10 @@ MainWindow::MainWindow(QWidget *parent) :
     itemWizard = new ItemWizard(this);
     connect(itemWizard, SIGNAL(signal_sceneRepaintNeeded()), this, SIGNAL(signal_repaintNeeded()));
 
+    // **** Item Grip Modifier ****
+    itemGripModifier = new ItemGripModifier(this);
+    connect(itemGripModifier, SIGNAL(signal_sceneRepaintNeeded()), this, SIGNAL(signal_repaintNeeded()));
+
     // **** Command prompt ****
     QWidget *promptTitle = new QWidget(ui->dockWidgetPrompt);
     promptTitle->setMaximumWidth(0);
@@ -67,7 +71,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // **** CAD window (2nd version) *****
-    mainGeometryDisplay = new GeometryDisplay(itemDB, itemWizard, this);
+    mainGeometryDisplay = new GeometryDisplay(itemDB, itemWizard, itemGripModifier, this);
     connect(this, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(layerManager, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(itemDB, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
@@ -402,7 +406,7 @@ void MainWindow::slot_clearRecentFiles()
 
 void MainWindow::slot_newGeometryDisplay()
 {
-    GeometryDisplay* newGeometryDisplay = new GeometryDisplay(itemDB, itemWizard, this);
+    GeometryDisplay* newGeometryDisplay = new GeometryDisplay(itemDB, itemWizard, itemGripModifier, this);
     connect(newGeometryDisplay, SIGNAL(signal_aboutToClose(QAction*)), this, SLOT(slot_geometryDisplayAboutToClose(QAction*)));
     connect(newGeometryDisplay, SIGNAL(signal_highlightItem(CADitem*)), this, SLOT(slot_highlightItem(CADitem*)));
     connect(newGeometryDisplay, SIGNAL(signal_snapFired(QVector3D,int)), this, SLOT(slot_snapTo(QVector3D,int)));

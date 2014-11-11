@@ -164,6 +164,8 @@ public:
     QList<QVector3D> snap_flanges;
     QVector3D snap_basepoint;
 
+    // Object Editing
+
     // Highlighting
     bool highlight; // Highlight shows that the mouse is over the object
     quint32 index;

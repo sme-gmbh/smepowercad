@@ -146,7 +146,8 @@ SOURCES += main.cpp\
     math/m3dboundingbox.cpp \
     network/server.cpp \
     network/clienthandler.cpp \
-    items/cad_basic_duct.cpp
+    items/cad_basic_duct.cpp \
+    itemgripmodifier.cpp
 
 HEADERS  += mainwindow.h \
     overlay.h \
@@ -280,14 +281,16 @@ HEADERS  += mainwindow.h \
     math/m3dboundingbox.h \
     network/server.h \
     network/clienthandler.h \
-    items/cad_basic_duct.h
+    items/cad_basic_duct.h \
+    itemgripmodifier.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
     geometrydisplaytitle.ui \
     modaldialog.ui \
     settingsdialog.ui \
-    itemwizard.ui
+    itemwizard.ui \
+    itemgripmodifier.ui
 
 RESOURCES += \
     icons.qrc
