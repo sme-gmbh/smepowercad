@@ -821,6 +821,20 @@ void GLWidget::paintEvent(QPaintEvent *event)
     shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection);
 
 
+    QVector3D xAxis = matrix_rotation * QVector3D(1.0, 0.0, 0.0);
+    QVector3D yAxis = matrix_rotation * QVector3D(0.0, 1.0, 0.0);
+    QVector3D zAxis = matrix_rotation * QVector3D(0.0, 0.0, 1.0);
+    glBegin(GL_LINES);
+    glColor3i(256,0,0);
+    glVertex3i(0, 0, 0);
+    glVertex3i((GLint)xAxis.x()*100, (GLint)xAxis.y()*100, (GLint)xAxis.z()*100);
+    glColor3i(0,256,0);
+    glVertex3i(0, 0, 0);
+    glVertex3i((GLint)yAxis.x()*100, (GLint)yAxis.y()*100, (GLint)yAxis.z()*100);
+    glColor3i(0,0,256);
+    glVertex3i(0, 0, 0);
+    glVertex3i((GLint)zAxis.x()*100, (GLint)zAxis.y()*100, (GLint)zAxis.z()*100);
+    glEnd();
 
     if (this->cursorShown)
     {
@@ -1167,12 +1181,13 @@ void GLWidget::paintContent(QList<Layer*> layers)
     }
 }
 
-void GLWidget::paintItems(QList<CADitem*> items, Layer* layer)
+void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundingBox, bool isSubItem)
 {
     foreach (CADitem* item, items)
     {
-        item->index = glName;
 
+        if(checkBoundingBox)
+        {
         // Global culling performance test
                     // Exclude all items from painting that do not reach the canvas with their boundingRect
                     int screen_x_min = -this->width() / 2;
@@ -1206,13 +1221,18 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer)
 
                     if (!screenRect.intersects(itemRect))
                     {
-                        glName++;
+                        if(!isSubItem)
+                            glName++;
                         continue;
                     }
+    }
 
 
+
+        if(!isSubItem)
+            glName++;
         glLoadName(glName);
-        glName++;
+        item->index = glName;
 
         // Paint it
         switch (item->getType())
@@ -1260,8 +1280,24 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer)
         case CADitem::Basic_Duct:
             paintBasicDuct(layer, (CAD_basic_duct*)item);
 
+        case CADitem::Arch_Beam:
+            break;
+        case CADitem::Arch_BlockOut:
+            paintArchBlockOut(layer, (CAD_arch_blockOut*)item);
+            break;
+        case CADitem::Arch_BoredPile:
+            break;
+        case CADitem::Arch_Door:
+            paintArchDoor(layer, (CAD_arch_door*)item);
+            break;
+        case CADitem::Arch_Foundation:
+            break;
+        case CADitem::Arch_Grating:
+            break;
         case CADitem::Arch_LevelSlab:
             paintArchLevelSlab(layer, (CAD_arch_levelSlab*)item);
+            break;
+        case CADitem::Arch_Support:
             break;
         case CADitem::Arch_Wall_loadBearing:
             paintArchWallLoadBearing(layer, (CAD_arch_wall_loadBearing*)item);
@@ -1269,25 +1305,12 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer)
         case CADitem::Arch_Wall_nonLoadBearing:
             paintArchWallNonLoadBearing(layer, (CAD_arch_wall_nonLoadBearing*)item);
             break;
-        case CADitem::Arch_BlockOut:
-            paintArchBlockOut(layer, (CAD_arch_blockOut*)item);
-            break;
-        case CADitem::Arch_Support:
-            break;
-        case CADitem::Arch_Beam:
-            break;
-        case CADitem::Arch_Door:
-            paintArchDoor(layer, (CAD_arch_door*)item);
-            break;
         case CADitem::Arch_Window:
             paintArchWindow(layer, (CAD_arch_window*)item);
             break;
-        case CADitem::Arch_Foundation:
-            break;
-        case CADitem::Arch_BoredPile:
-            break;
-        case CADitem::Arch_Grating:
-            break;
+
+
+
 
 
         case CADitem::Air_Duct:
@@ -1535,7 +1558,7 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer)
             break;
         }
 
-        paintItems(item->subItems, layer);
+        paintItems(item->subItems, layer, false, true);
     }
 }
 
@@ -2327,69 +2350,69 @@ void GLWidget::paintBasicDuct(Layer *layer, CAD_basic_duct *item)
         glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
 
         // Inner Bottom Face
-        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_1.z() + (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_2.z() + (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_3.z() + (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_4.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->inner_pos_bot_1.x(), (GLfloat)item->inner_pos_bot_1.y(), (GLfloat)item->inner_pos_bot_1.z());
+        glVertex3f((GLfloat)item->inner_pos_bot_2.x(), (GLfloat)item->inner_pos_bot_2.y(), (GLfloat)item->inner_pos_bot_2.z());
+        glVertex3f((GLfloat)item->inner_pos_bot_3.x(), (GLfloat)item->inner_pos_bot_3.y(), (GLfloat)item->inner_pos_bot_3.z());
+        glVertex3f((GLfloat)item->inner_pos_bot_4.x(), (GLfloat)item->inner_pos_bot_4.y(), (GLfloat)item->inner_pos_bot_4.z());
 
         // Inner Top Face
-        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_1.z() - (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_2.z() - (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_3.z() - (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_4.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->inner_pos_top_1.x(), (GLfloat)item->inner_pos_top_1.y(), (GLfloat)item->inner_pos_top_1.z());
+        glVertex3f((GLfloat)item->inner_pos_top_2.x(), (GLfloat)item->inner_pos_top_2.y(), (GLfloat)item->inner_pos_top_2.z());
+        glVertex3f((GLfloat)item->inner_pos_top_3.x(), (GLfloat)item->inner_pos_top_3.y(), (GLfloat)item->inner_pos_top_3.z());
+        glVertex3f((GLfloat)item->inner_pos_top_4.x(), (GLfloat)item->inner_pos_top_4.y(), (GLfloat)item->inner_pos_top_4.z());
 
         // Inner Side Faces
-        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_1.z() + (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_2.z() + (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_2.z() - (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_1.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->inner_pos_bot_1.x(), (GLfloat)item->inner_pos_bot_1.y(), (GLfloat)item->inner_pos_bot_1.z());
+        glVertex3f((GLfloat)item->inner_pos_bot_2.x(), (GLfloat)item->inner_pos_bot_2.y(), (GLfloat)item->inner_pos_bot_2.z());
+        glVertex3f((GLfloat)item->inner_pos_top_2.x(), (GLfloat)item->inner_pos_top_2.y(), (GLfloat)item->inner_pos_top_2.z());
+        glVertex3f((GLfloat)item->inner_pos_top_1.x(), (GLfloat)item->inner_pos_top_1.y(), (GLfloat)item->inner_pos_top_1.z());
 
-        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_3.z() + (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_4.z() + (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_4.z() - (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_3.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->inner_pos_bot_3.x(), (GLfloat)item->inner_pos_bot_3.y(), (GLfloat)item->inner_pos_bot_3.z());
+        glVertex3f((GLfloat)item->inner_pos_bot_4.x(), (GLfloat)item->inner_pos_bot_4.y(), (GLfloat)item->inner_pos_bot_4.z());
+        glVertex3f((GLfloat)item->inner_pos_top_4.x(), (GLfloat)item->inner_pos_top_4.y(), (GLfloat)item->inner_pos_top_4.z());
+        glVertex3f((GLfloat)item->inner_pos_top_3.x(), (GLfloat)item->inner_pos_top_3.y(), (GLfloat)item->inner_pos_top_3.z());
 
         // Front faces
         glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
         glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
-        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_4.z() + (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_1.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->inner_pos_bot_4.x(), (GLfloat)item->inner_pos_bot_4.y(), (GLfloat)item->inner_pos_bot_4.z());
+        glVertex3f((GLfloat)item->inner_pos_bot_1.x(), (GLfloat)item->inner_pos_bot_1.y(), (GLfloat)item->inner_pos_bot_1.z());
 
         glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
         glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
-        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_1.z() - (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_1.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->inner_pos_top_1.x(), (GLfloat)item->inner_pos_top_1.y(), (GLfloat)item->inner_pos_top_1.z());
+        glVertex3f((GLfloat)item->inner_pos_bot_1.x(), (GLfloat)item->inner_pos_bot_1.y(), (GLfloat)item->inner_pos_bot_1.z());
 
         glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
         glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
-        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_4.z() - (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_1.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->inner_pos_top_4.x(), (GLfloat)item->inner_pos_top_4.y(), (GLfloat)item->inner_pos_top_4.z());
+        glVertex3f((GLfloat)item->inner_pos_top_1.x(), (GLfloat)item->inner_pos_top_1.y(), (GLfloat)item->inner_pos_top_1.z());
 
         glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
         glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
-        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_4.z() - (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_4.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->inner_pos_top_4.x(), (GLfloat)item->inner_pos_top_4.y(), (GLfloat)item->inner_pos_top_4.z());
+        glVertex3f((GLfloat)item->inner_pos_bot_4.x(), (GLfloat)item->inner_pos_bot_4.y(), (GLfloat)item->inner_pos_bot_4.z());
 
         // Back faces
         glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
         glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
-        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_3.z() + (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_2.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->inner_pos_bot_3.x(), (GLfloat)item->inner_pos_bot_3.y(), (GLfloat)item->inner_pos_bot_3.z());
+        glVertex3f((GLfloat)item->inner_pos_bot_2.x(), (GLfloat)item->inner_pos_bot_2.y(), (GLfloat)item->inner_pos_bot_2.z());
 
         glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
         glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
-        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_2.z() - (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_2.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->inner_pos_top_2.x(), (GLfloat)item->inner_pos_top_2.y(), (GLfloat)item->inner_pos_top_2.z());
+        glVertex3f((GLfloat)item->inner_pos_bot_2.x(), (GLfloat)item->inner_pos_bot_2.y(), (GLfloat)item->inner_pos_bot_2.z());
 
         glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
         glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
-        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_3.z() - (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_2.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->inner_pos_top_3.x(), (GLfloat)item->inner_pos_top_3.y(), (GLfloat)item->inner_pos_top_3.z());
+        glVertex3f((GLfloat)item->inner_pos_top_2.x(), (GLfloat)item->inner_pos_top_2.y(), (GLfloat)item->inner_pos_top_2.z());
 
         glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
         glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
-        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_3.z() - (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_3.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->inner_pos_top_3.x(), (GLfloat)item->inner_pos_top_3.y(), (GLfloat)item->inner_pos_top_3.z());
+        glVertex3f((GLfloat)item->inner_pos_bot_3.x(), (GLfloat)item->inner_pos_bot_3.y(), (GLfloat)item->inner_pos_bot_3.z());
 
 
 
@@ -2432,30 +2455,30 @@ void GLWidget::paintBasicDuct(Layer *layer, CAD_basic_duct *item)
         glEnd();
         glBegin(GL_LINE_LOOP);
         // Inner Bottom Face
-        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_1.z() + (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_2.z() + (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_3.z() + (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_4.z() + (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->inner_pos_bot_1.x(), (GLfloat)item->inner_pos_bot_1.y(), (GLfloat)item->inner_pos_bot_1.z());
+        glVertex3f((GLfloat)item->inner_pos_bot_2.x(), (GLfloat)item->inner_pos_bot_2.y(), (GLfloat)item->inner_pos_bot_2.z());
+        glVertex3f((GLfloat)item->inner_pos_bot_3.x(), (GLfloat)item->inner_pos_bot_3.y(), (GLfloat)item->inner_pos_bot_3.z());
+        glVertex3f((GLfloat)item->inner_pos_bot_4.x(), (GLfloat)item->inner_pos_bot_4.y(), (GLfloat)item->inner_pos_bot_4.z());
         glEnd();
         glBegin(GL_LINE_LOOP);
         // Inner Top Face
-        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_1.z() - (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_2.z() - (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_3.z() - (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_4.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->inner_pos_top_1.x(), (GLfloat)item->inner_pos_top_1.y(), (GLfloat)item->inner_pos_top_1.z());
+        glVertex3f((GLfloat)item->inner_pos_top_2.x(), (GLfloat)item->inner_pos_top_2.y(), (GLfloat)item->inner_pos_top_2.z());
+        glVertex3f((GLfloat)item->inner_pos_top_3.x(), (GLfloat)item->inner_pos_top_3.y(), (GLfloat)item->inner_pos_top_3.z());
+        glVertex3f((GLfloat)item->inner_pos_top_4.x(), (GLfloat)item->inner_pos_top_4.y(), (GLfloat)item->inner_pos_top_4.z());
         glEnd();
         glBegin(GL_LINE_LOOP);
         // Inner Side Faces
-        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_1.z() + (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_2.z() + (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_2.z() - (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y() + (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_1.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->inner_pos_bot_1.x(), (GLfloat)item->inner_pos_bot_1.y(), (GLfloat)item->inner_pos_bot_1.z());
+        glVertex3f((GLfloat)item->inner_pos_bot_2.x(), (GLfloat)item->inner_pos_bot_2.y(), (GLfloat)item->inner_pos_bot_2.z());
+        glVertex3f((GLfloat)item->inner_pos_top_2.x(), (GLfloat)item->inner_pos_top_2.y(), (GLfloat)item->inner_pos_top_2.z());
+        glVertex3f((GLfloat)item->inner_pos_top_1.x(), (GLfloat)item->inner_pos_top_1.y(), (GLfloat)item->inner_pos_top_1.z());
         glEnd();
         glBegin(GL_LINE_LOOP);
-        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_3.z() + (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_bot_4.z() + (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_4.z() - (GLfloat)item->wall_thickness);
-        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y() - (GLfloat)item->wall_thickness, (GLfloat)item->pos_top_3.z() - (GLfloat)item->wall_thickness);
+        glVertex3f((GLfloat)item->inner_pos_bot_3.x(), (GLfloat)item->inner_pos_bot_3.y(), (GLfloat)item->inner_pos_bot_3.z());
+        glVertex3f((GLfloat)item->inner_pos_bot_4.x(), (GLfloat)item->inner_pos_bot_4.y(), (GLfloat)item->inner_pos_bot_4.z());
+        glVertex3f((GLfloat)item->inner_pos_top_4.x(), (GLfloat)item->inner_pos_top_4.y(), (GLfloat)item->inner_pos_top_4.z());
+        glVertex3f((GLfloat)item->inner_pos_top_3.x(), (GLfloat)item->inner_pos_top_3.y(), (GLfloat)item->inner_pos_top_3.z());
         glEnd();
 
     }
@@ -2502,108 +2525,6 @@ void GLWidget::paintAirDuct(Layer *layer, CAD_air_duct *item)
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
 
-    CAD_basic_duct *main_duct = new CAD_basic_duct;
-    main_duct->angle_x = item->angle_x;
-    main_duct->angle_y = item->angle_y;
-    main_duct->angle_z = item->angle_z;
-    main_duct->pos_bot_1 = item->pos_bot_1;
-    main_duct->pos_bot_2 = item->pos_bot_2;
-    main_duct->pos_bot_3 = item->pos_bot_3;
-    main_duct->pos_bot_4 = item->pos_bot_4;
-    main_duct->pos_top_1 = item->pos_top_1;
-    main_duct->pos_top_2 = item->pos_top_2;
-    main_duct->pos_top_3 = item->pos_top_3;
-    main_duct->pos_top_4 = item->pos_top_4;
-    main_duct->wall_thickness = item->wall_thickness;
-    paintBasicDuct(layer, main_duct);
-
-        CAD_basic_duct *flange_duct_left = new CAD_basic_duct;
-        flange_duct_left->angle_x = item->angle_x;
-        flange_duct_left->angle_y = item->angle_y;
-        flange_duct_left->angle_z = item->angle_z;
-        flange_duct_left->position = item->position;
-
-        flange_duct_left->pos_bot_1.setX(item->pos_bot_1.x());
-        flange_duct_left->pos_bot_1.setY(item->pos_bot_1.y() - item->flange_size);
-        flange_duct_left->pos_bot_1.setZ(item->pos_bot_1.z() - item->flange_size);
-
-        flange_duct_left->pos_bot_2.setX(item->pos_bot_1.x() + item->flange_size);
-        flange_duct_left->pos_bot_2.setY(item->pos_bot_1.y() - item->flange_size);
-        flange_duct_left->pos_bot_2.setZ(item->pos_bot_1.z() - item->flange_size);
-
-        flange_duct_left->pos_bot_3.setX(item->pos_bot_4.x() + item->flange_size);
-        flange_duct_left->pos_bot_3.setY(item->pos_bot_4.y() + item->flange_size);
-        flange_duct_left->pos_bot_3.setZ(item->pos_bot_4.z() - item->flange_size);
-
-        flange_duct_left->pos_bot_4.setX(item->pos_bot_4.x());
-        flange_duct_left->pos_bot_4.setY(item->pos_bot_4.y() + item->flange_size);
-        flange_duct_left->pos_bot_4.setZ(item->pos_bot_4.z() - item->flange_size);
-
-
-
-        flange_duct_left->pos_top_1.setX(item->pos_top_1.x());
-        flange_duct_left->pos_top_1.setY(item->pos_top_1.y() - item->flange_size);
-        flange_duct_left->pos_top_1.setZ(item->pos_top_1.z() + item->flange_size);
-
-        flange_duct_left->pos_top_2.setX(item->pos_top_1.x() + item->flange_size);
-        flange_duct_left->pos_top_2.setY(item->pos_top_1.y() - item->flange_size);
-        flange_duct_left->pos_top_2.setZ(item->pos_top_1.z() + item->flange_size);
-
-        flange_duct_left->pos_top_3.setX(item->pos_top_4.x() + item->flange_size);
-        flange_duct_left->pos_top_3.setY(item->pos_top_4.y() + item->flange_size);
-        flange_duct_left->pos_top_3.setZ(item->pos_top_4.z() + item->flange_size);
-
-        flange_duct_left->pos_top_4.setX(item->pos_top_4.x());
-        flange_duct_left->pos_top_4.setY(item->pos_top_4.y() + item->flange_size);
-        flange_duct_left->pos_top_4.setZ(item->pos_top_4.z() + item->flange_size);
-
-        flange_duct_left->wall_thickness = item->flange_size;
-
-        paintBasicDuct(layer, flange_duct_left);
-
-        CAD_basic_duct *flange_duct_right = new CAD_basic_duct;
-        flange_duct_right->angle_x = item->angle_x;
-        flange_duct_right->angle_y = item->angle_y;
-        flange_duct_right->angle_z = item->angle_z;
-        flange_duct_right->position = item->position;
-
-        flange_duct_right->pos_bot_1.setX(item->pos_bot_2.x() - item->flange_size);
-        flange_duct_right->pos_bot_1.setY(item->pos_bot_2.y() - item->flange_size);
-        flange_duct_right->pos_bot_1.setZ(item->pos_bot_2.z() - item->flange_size);
-
-        flange_duct_right->pos_bot_2.setX(item->pos_bot_2.x());
-        flange_duct_right->pos_bot_2.setY(item->pos_bot_2.y() - item->flange_size);
-        flange_duct_right->pos_bot_2.setZ(item->pos_bot_2.z() - item->flange_size);
-
-        flange_duct_right->pos_bot_3.setX(item->pos_bot_3.x());
-        flange_duct_right->pos_bot_3.setY(item->pos_bot_3.y() + item->flange_size);
-        flange_duct_right->pos_bot_3.setZ(item->pos_bot_3.z() - item->flange_size);
-
-        flange_duct_right->pos_bot_4.setX(item->pos_bot_3.x() - item->flange_size);
-        flange_duct_right->pos_bot_4.setY(item->pos_bot_3.y() + item->flange_size);
-        flange_duct_right->pos_bot_4.setZ(item->pos_bot_3.z() - item->flange_size);
-
-
-
-        flange_duct_right->pos_top_1.setX(item->pos_top_2.x() - item->flange_size);
-        flange_duct_right->pos_top_1.setY(item->pos_top_2.y() - item->flange_size);
-        flange_duct_right->pos_top_1.setZ(item->pos_top_2.z() + item->flange_size);
-
-        flange_duct_right->pos_top_2.setX(item->pos_top_2.x());
-        flange_duct_right->pos_top_2.setY(item->pos_top_2.y() - item->flange_size);
-        flange_duct_right->pos_top_2.setZ(item->pos_top_2.z() + item->flange_size);
-
-        flange_duct_right->pos_top_3.setX(item->pos_top_3.x());
-        flange_duct_right->pos_top_3.setY(item->pos_top_3.y() + item->flange_size);
-        flange_duct_right->pos_top_3.setZ(item->pos_top_3.z() + item->flange_size);
-
-        flange_duct_right->pos_top_4.setX(item->pos_top_3.x() - item->flange_size);
-        flange_duct_right->pos_top_4.setY(item->pos_top_3.y() + item->flange_size);
-        flange_duct_right->pos_top_4.setZ(item->pos_top_3.z() + item->flange_size);
-
-        flange_duct_right->wall_thickness = item->flange_size;
-       //
-        paintBasicDuct(layer, flange_duct_right);
 }
 
 
@@ -2650,162 +2571,6 @@ void GLWidget::paintAirDuctTransiton(Layer *layer, CAD_air_ductTransition *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
-
-    CAD_basic_duct *main_duct = new CAD_basic_duct;
-    main_duct->angle_x = item->angle_x;
-    main_duct->angle_y = item->angle_y;
-    main_duct->angle_z = item->angle_z;
-    main_duct->position = item->position;
-    main_duct->pos_bot_1 = item->pos_bot_1;
-    main_duct->pos_bot_1.setX(item->pos_bot_1.x() + item->endcap);
-    main_duct->pos_bot_2 = item->pos_bot_2;
-    main_duct->pos_bot_2.setX(item->pos_bot_2.x() - item->endcap);
-    main_duct->pos_bot_3 = item->pos_bot_3;
-    main_duct->pos_bot_3.setX(item->pos_bot_3.x() - item->endcap);
-    main_duct->pos_bot_4 = item->pos_bot_4;
-    main_duct->pos_bot_4.setX(item->pos_bot_4.x() + item->endcap);
-    main_duct->pos_top_1 = item->pos_top_1;
-    main_duct->pos_top_1.setX(item->pos_top_1.x() + item->endcap);
-    main_duct->pos_top_2 = item->pos_top_2;
-    main_duct->pos_top_2.setX(item->pos_top_2.x() - item->endcap);
-    main_duct->pos_top_3 = item->pos_top_3;
-    main_duct->pos_top_3.setX(item->pos_top_3.x() - item->endcap);
-    main_duct->pos_top_4 = item->pos_top_4;
-    main_duct->pos_top_4.setX(item->pos_top_4.x() + item->endcap);
-    main_duct->wall_thickness = item->wall_thickness;
-    paintBasicDuct(layer, main_duct);
-
-    CAD_basic_duct *endcap_duct_left = new CAD_basic_duct;
-    endcap_duct_left->angle_x = item->angle_x;
-    endcap_duct_left->angle_y = item->angle_y;
-    endcap_duct_left->angle_z = item->angle_z;
-    endcap_duct_left->position = item->position;
-    endcap_duct_left->pos_bot_1 = item->pos_bot_1;
-    endcap_duct_left->pos_bot_2 = item->pos_bot_1;
-    endcap_duct_left->pos_bot_2.setX(item->pos_bot_1.x() + item->endcap);
-    endcap_duct_left->pos_bot_3 = item->pos_bot_4;
-    endcap_duct_left->pos_bot_3.setX(item->pos_bot_4.x() + item->endcap);
-    endcap_duct_left->pos_bot_4 = item->pos_bot_4;
-
-    endcap_duct_left->pos_top_1 = item->pos_top_1;
-    endcap_duct_left->pos_top_2 = item->pos_top_1;
-    endcap_duct_left->pos_top_2.setX(item->pos_top_1.x() + item->endcap);
-    endcap_duct_left->pos_top_3 = item->pos_top_4;
-    endcap_duct_left->pos_top_3.setX(item->pos_top_4.x() + item->endcap);
-    endcap_duct_left->pos_top_4 = item->pos_top_4;
-    endcap_duct_left->wall_thickness = item->wall_thickness;
-    paintBasicDuct(layer, endcap_duct_left);
-
-    CAD_basic_duct *endcap_duct_right = new CAD_basic_duct;
-    endcap_duct_right->angle_x = item->angle_x;
-    endcap_duct_right->angle_y = item->angle_y;
-    endcap_duct_right->angle_z = item->angle_z;
-    endcap_duct_right->position = item->position;
-
-    endcap_duct_right->pos_bot_1 = item->pos_bot_2;
-    endcap_duct_right->pos_bot_1.setX(item->pos_bot_2.x() - item->endcap);
-    endcap_duct_right->pos_bot_2 = item->pos_bot_2;
-    endcap_duct_right->pos_bot_3 = item->pos_bot_3;
-    endcap_duct_right->pos_bot_4 = item->pos_bot_3;
-    endcap_duct_right->pos_bot_4.setX(item->pos_bot_3.x() - item->endcap);
-
-    endcap_duct_right->pos_top_1 = item->pos_top_2;
-    endcap_duct_right->pos_top_1.setX(item->pos_top_2.x() - item->endcap);
-    endcap_duct_right->pos_top_2 = item->pos_top_2;
-    endcap_duct_right->pos_top_3 = item->pos_top_3;
-    endcap_duct_right->pos_top_4 = item->pos_top_3;
-    endcap_duct_right->pos_top_4.setX(item->pos_top_3.x() - item->endcap);
-
-    endcap_duct_right->wall_thickness = item->wall_thickness;
-    paintBasicDuct(layer, endcap_duct_right);
-
-    CAD_basic_duct *flange_duct_left = new CAD_basic_duct;
-    flange_duct_left->angle_x = item->angle_x;
-    flange_duct_left->angle_y = item->angle_y;
-    flange_duct_left->angle_z = item->angle_z;
-    flange_duct_left->position = item->position;
-
-    flange_duct_left->pos_bot_1.setX(item->pos_bot_1.x());
-    flange_duct_left->pos_bot_1.setY(item->pos_bot_1.y() - item->flange_size);
-    flange_duct_left->pos_bot_1.setZ(item->pos_bot_1.z() - item->flange_size);
-
-    flange_duct_left->pos_bot_2.setX(item->pos_bot_1.x() + item->flange_size);
-    flange_duct_left->pos_bot_2.setY(item->pos_bot_1.y() - item->flange_size);
-    flange_duct_left->pos_bot_2.setZ(item->pos_bot_1.z() - item->flange_size);
-
-    flange_duct_left->pos_bot_3.setX(item->pos_bot_4.x() + item->flange_size);
-    flange_duct_left->pos_bot_3.setY(item->pos_bot_4.y() - item->flange_size);
-    flange_duct_left->pos_bot_3.setZ(item->pos_bot_4.z() + item->flange_size);
-
-    flange_duct_left->pos_bot_4.setX(item->pos_bot_4.x());
-    flange_duct_left->pos_bot_4.setY(item->pos_bot_4.y() - item->flange_size);
-    flange_duct_left->pos_bot_4.setZ(item->pos_bot_4.z() + item->flange_size);
-
-
-
-    flange_duct_left->pos_top_1.setX(item->pos_top_1.x());
-    flange_duct_left->pos_top_1.setY(item->pos_top_1.y() - item->flange_size);
-    flange_duct_left->pos_top_1.setZ(item->pos_top_1.z() + item->flange_size);
-
-    flange_duct_left->pos_top_2.setX(item->pos_top_1.x() + item->flange_size);
-    flange_duct_left->pos_top_2.setY(item->pos_top_1.y() - item->flange_size);
-    flange_duct_left->pos_top_2.setZ(item->pos_top_1.z() + item->flange_size);
-
-    flange_duct_left->pos_top_3.setX(item->pos_top_4.x() + item->flange_size);
-    flange_duct_left->pos_top_3.setY(item->pos_top_4.y() + item->flange_size);
-    flange_duct_left->pos_top_3.setZ(item->pos_top_4.z() + item->flange_size);
-
-    flange_duct_left->pos_top_4.setX(item->pos_top_4.x());
-    flange_duct_left->pos_top_4.setY(item->pos_top_4.y() + item->flange_size);
-    flange_duct_left->pos_top_4.setZ(item->pos_top_4.z() - item->flange_size);
-
-    flange_duct_left->wall_thickness = item->flange_size;
-
-    paintBasicDuct(layer, flange_duct_left);
-
-    CAD_basic_duct *flange_duct_right = new CAD_basic_duct;
-    flange_duct_right->angle_x = item->angle_x;
-    flange_duct_right->angle_y = item->angle_y;
-    flange_duct_right->angle_z = item->angle_z;
-    flange_duct_right->position = item->position;
-
-    flange_duct_right->pos_bot_1.setX(item->pos_bot_2.x() - item->flange_size);
-    flange_duct_right->pos_bot_1.setY(item->pos_bot_2.y() - item->flange_size);
-    flange_duct_right->pos_bot_1.setZ(item->pos_bot_2.z() - item->flange_size);
-
-    flange_duct_right->pos_bot_2.setX(item->pos_bot_2.x());
-    flange_duct_right->pos_bot_2.setY(item->pos_bot_2.y() - item->flange_size);
-    flange_duct_right->pos_bot_2.setZ(item->pos_bot_2.z() - item->flange_size);
-
-    flange_duct_right->pos_bot_3.setX(item->pos_bot_3.x());
-    flange_duct_right->pos_bot_3.setY(item->pos_bot_3.y() - item->flange_size);
-    flange_duct_right->pos_bot_3.setZ(item->pos_bot_3.z() + item->flange_size);
-
-    flange_duct_right->pos_bot_4.setX(item->pos_bot_3.x() - item->flange_size);
-    flange_duct_right->pos_bot_4.setY(item->pos_bot_3.y() - item->flange_size);
-    flange_duct_right->pos_bot_4.setZ(item->pos_bot_3.z() + item->flange_size);
-
-
-
-    flange_duct_right->pos_top_1.setX(item->pos_top_2.x() - item->flange_size);
-    flange_duct_right->pos_top_1.setY(item->pos_top_2.y() + item->flange_size);
-    flange_duct_right->pos_top_1.setZ(item->pos_top_2.z() - item->flange_size);
-
-    flange_duct_right->pos_top_2.setX(item->pos_top_2.x());
-    flange_duct_right->pos_top_2.setY(item->pos_top_2.y() + item->flange_size);
-    flange_duct_right->pos_top_2.setZ(item->pos_top_2.z() - item->flange_size);
-
-    flange_duct_right->pos_top_3.setX(item->pos_top_3.x());
-    flange_duct_right->pos_top_3.setY(item->pos_top_3.y() + item->flange_size);
-    flange_duct_right->pos_top_3.setZ(item->pos_top_3.z() + item->flange_size);
-
-    flange_duct_right->pos_top_4.setX(item->pos_top_3.x() - item->flange_size);
-    flange_duct_right->pos_top_4.setY(item->pos_top_3.y() + item->flange_size);
-    flange_duct_right->pos_top_4.setZ(item->pos_top_3.z() + item->flange_size);
-
-    flange_duct_right->wall_thickness = item->flange_size;
-    //
-    paintBasicDuct(layer, flange_duct_right);
 }
 
 void GLWidget::paintAirDuctTransitionRectRound(Layer *layer, CAD_air_ductTransitionRectRound *item)
@@ -3369,11 +3134,23 @@ void GLWidget::highlightItemAtPosition(QPoint pos)
     CADitem* item = this->itemAtPosition(pos);
     // tst
     this->item_lastHighlight = item;
-
+    //this->item_lastHighlight->
     if (item != NULL)
+    {
         item->highlight = true;
+        highlightItems(item->subItems);
+    }
 
     emit signal_highlightItem(item);
+}
+
+void GLWidget::highlightItems(QList<CADitem *> items)
+{
+    foreach(CADitem* item, items)
+    {
+        item->highlight = true;
+        highlightItems(item->subItems);
+    }
 }
 
 void GLWidget::highlightClear()
@@ -3408,7 +3185,16 @@ void GLWidget::selectionAddItem(CADitem *item)
             return;
         this->selection_itemList.append(item);
         item->selected = true;
+        selectionAddSubItems(item->subItems);
         emit signal_selectionChanged(selection_itemList);
+    }
+}
+
+void GLWidget::selectionAddSubItems(QList<CADitem *> items)
+{
+    foreach(CADitem * item, items) {
+        item->selected = true;
+        selectionAddSubItems(item->subItems);
     }
 }
 

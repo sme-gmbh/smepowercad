@@ -12,6 +12,7 @@ CADitem::CADitem(ItemType type)
     angle_y = 0.0;
     angle_z = 0.0;
     position = QVector3D(0.0, 0.0, 0.0);
+    matrix_rotation.setToIdentity();
 }
 
 

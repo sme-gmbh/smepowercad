@@ -191,7 +191,7 @@ private:
     void setTextureCoords(qreal x, qreal y, qreal z);
     void setUseTexture(bool on);
     void paintContent(QList<Layer*> layers);
-    void paintItems(QList<CADitem *> items, Layer *layer);
+    void paintItems(QList<CADitem *> items, Layer *layer, bool checkBoundingBox = true, bool isSubItem = false);
 
     void updateArcball(int steps);
     QVector3D getArcBallVector(int x, int y);
@@ -319,12 +319,14 @@ private:
     CADitem *itemAtPosition_processLayers(QList<Layer*> layers, GLuint glName);
     CADitem *itemAtPosition_processItems(QList<CADitem*> items, GLuint glName);
     void highlightItemAtPosition(QPoint pos);
+    void highlightItems(QList<CADitem*> items);
     void highlightClear();
     void highlightClear_processLayers(QList<Layer*> layers);
     void highlightClear_processItems(QList<CADitem*> items);
 
 // Selection
     void selectionAddItem(CADitem* item);
+    void selectionAddSubItems(QList<CADitem*> items);
     void selectionRemoveItem(CADitem* item);
     void selectionClear();
     void selectionClear_processLayers(QList<Layer*> layers);

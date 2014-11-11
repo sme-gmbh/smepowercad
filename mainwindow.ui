@@ -119,7 +119,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
      <x>0</x>
      <y>0</y>
      <width>1061</width>
-     <height>27</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="nativeMenuBar">
@@ -350,6 +350,9 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <addaction name="action_arch_wall_loadbearing"/>
    <addaction name="action_arch_wall_nonloadbearing"/>
    <addaction name="action_arch_support"/>
+   <addaction name="actionArchitecture_Bored_Pile"/>
+   <addaction name="actionArchitecture_Foundation"/>
+   <addaction name="actionArchitecture_Grating"/>
    <addaction name="action_arch_beam"/>
    <addaction name="action_arch_blockout"/>
    <addaction name="action_arch_window"/>
@@ -436,6 +439,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <addaction name="action_basic_box"/>
    <addaction name="action_basic_cylinder"/>
    <addaction name="action_basic_sphere"/>
+   <addaction name="actionBasic_Duct"/>
   </widget>
   <widget class="QToolBar" name="toolBarHeatCool">
    <property name="windowTitle">
@@ -1751,6 +1755,42 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
    <property name="text">
     <string>Server</string>
+   </property>
+  </action>
+  <action name="actionArchitecture_Bored_Pile">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/cad_arch/cad_arch_bored_pile.svg</normaloff>:/icons/cad_arch/cad_arch_bored_pile.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Architecture Bored Pile</string>
+   </property>
+   <property name="toolTip">
+    <string>Architecture Bored Pile</string>
+   </property>
+  </action>
+  <action name="actionArchitecture_Grating">
+   <property name="text">
+    <string>Architecture Grating</string>
+   </property>
+   <property name="toolTip">
+    <string>Architecture Grating</string>
+   </property>
+  </action>
+  <action name="actionArchitecture_Foundation">
+   <property name="text">
+    <string>Architecture Foundation</string>
+   </property>
+   <property name="toolTip">
+    <string>Architecture Foundation</string>
+   </property>
+  </action>
+  <action name="actionBasic_Duct">
+   <property name="text">
+    <string>Basic Duct</string>
+   </property>
+   <property name="toolTip">
+    <string>Basic Duct</string>
    </property>
   </action>
  </widget>

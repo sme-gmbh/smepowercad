@@ -6,6 +6,7 @@
 #include <QColor>
 #include <QList>
 #include <QMap>
+#include <QMatrix4x4>
 #include <QVector3D>
 #include <QVariant>
 #include <QImage>
@@ -154,6 +155,7 @@ public:
     qreal angle_x;
     qreal angle_y;
     qreal angle_z;
+    QMatrix4x4 matrix_rotation;
 
     // Wizard
     QMap<QString,QVariant> wizardParams;

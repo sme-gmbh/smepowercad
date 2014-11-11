@@ -16,7 +16,6 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
 
-    QMatrix4x4 matrix_rotation;
 
     qreal radius_pipe;
     qreal radius_turn;

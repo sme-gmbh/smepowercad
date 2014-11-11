@@ -90,6 +90,10 @@
         <file>itemGraphic/cad_basic_pipe.png</file>
         <file>itemGraphic/cad_basic_turn.png</file>
         <file>itemGraphic/cad_sanitary_pipe.png</file>
+        <file>itemGraphic/cad_air_ductturn.png</file>
+        <file>itemGraphic/cad_air_ducttransition.png</file>
+        <file>itemGraphic/cad_air_duct.png</file>
+        <file>icons/cad_arch/cad_arch_bored_pile.svg</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>

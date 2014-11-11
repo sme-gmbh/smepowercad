@@ -268,6 +268,14 @@ private slots:
 
     void on_actionServer_triggered(bool checked);
 
+    void on_actionArchitecture_Bored_Pile_triggered();
+
+    void on_actionArchitecture_Foundation_triggered();
+
+    void on_actionArchitecture_Grating_triggered();
+
+    void on_actionBasic_Duct_triggered();
+
 signals:
     void signal_command_prompt_input(QString str);
     void signal_repaintNeeded();

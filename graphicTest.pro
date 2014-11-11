@@ -146,7 +146,11 @@ SOURCES += main.cpp\
     math/m3dboundingbox.cpp \
     network/server.cpp \
     network/clienthandler.cpp \
-    items/cad_basic_duct.cpp
+    items/cad_basic_duct.cpp \
+    items/cad_arch_boredPile.cpp \
+    items/cad_arch_grating.cpp \
+    items/cad_arch_foundation.cpp \
+    items/cad_basic_face.cpp
 
 HEADERS  += mainwindow.h \
     overlay.h \
@@ -280,7 +284,12 @@ HEADERS  += mainwindow.h \
     math/m3dboundingbox.h \
     network/server.h \
     network/clienthandler.h \
-    items/cad_basic_duct.h
+    items/cad_basic_duct.h \
+    items/cad_arch_boredPile.h \
+    items/cad_arch_grating.h \
+    items/cad_arch_foundation.cpp, cad_arch_foundation.h \
+    items/cad_arch_foundation.h \
+    items/cad_basic_face.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

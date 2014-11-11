@@ -238,26 +238,11 @@ CADitem* ItemDB::drawItem(Layer* layer, CADitem::ItemType type)
 
     switch (type)
     {
-    case CADitem::Basic_Point:
-        newItem = new CAD_basic_point();
-        break;
-    case CADitem::Basic_Line:
-        newItem = new CAD_basic_line();
-        break;
-    case CADitem::Basic_Polyline:
-        newItem = new CAD_basic_polyline();
-        break;
-    case CADitem::Basic_Circle:
-        newItem = new CAD_basic_circle();
-        break;
+
+
+
     case CADitem::Basic_Arc:
         newItem = new CAD_basic_arc();
-        break;
-    case CADitem::Basic_Face:
-        newItem = new CAD_basic_3Dface();
-        break;
-    case CADitem::Basic_Plane:
-        newItem = new CAD_basic_plane();
         break;
     case CADitem::Basic_Box:
         newItem = new CAD_basic_box();
@@ -265,36 +250,69 @@ CADitem* ItemDB::drawItem(Layer* layer, CADitem::ItemType type)
     case CADitem::Basic_Cylinder:
         newItem = new CAD_basic_cylinder();
         break;
+    case CADitem::Basic_Circle:
+        newItem = new CAD_basic_circle();
+        break;
+    case CADitem::Basic_Duct:
+        newItem = new CAD_basic_duct();
+        break;
+    case CADitem::Basic_Face:
+        newItem = new CAD_basic_3Dface();
+        break;
+    case CADitem::Basic_Line:
+        newItem = new CAD_basic_line();
+        break;
     case CADitem::Basic_Pipe:
         newItem = new CAD_basic_pipe();
         break;
-    case CADitem::Basic_Turn:
-        newItem = new CAD_basic_turn();
+    case CADitem::Basic_Plane:
+        newItem = new CAD_basic_plane();
+        break;
+    case CADitem::Basic_Point:
+        newItem = new CAD_basic_point();
+        break;
+    case CADitem::Basic_Polyline:
+        newItem = new CAD_basic_polyline();
         break;
     case CADitem::Basic_Sphere:
         newItem = new CAD_basic_sphere();
         break;
+    case CADitem::Basic_Turn:
+        newItem = new CAD_basic_turn();
+        break;
 
+
+
+
+    case CADitem::Arch_Beam:
+        newItem = new CAD_arch_beam();
+        break;
+    case CADitem::Arch_BlockOut:
+        newItem = new CAD_arch_blockOut();
+        break;
+    case CADitem::Arch_BoredPile:
+        newItem = new CAD_arch_boredPile();
+        break;
+    case CADitem::Arch_Door:
+        newItem = new CAD_arch_door();
+        break;
+    case CADitem::Arch_Foundation:
+        newItem = new CAD_arch_foundation();
+        break;
+    case CADitem::Arch_Grating:
+        newItem = new CAD_arch_grating();
+        break;
     case CADitem::Arch_LevelSlab:
         newItem = new CAD_arch_levelSlab();
+        break;
+    case CADitem::Arch_Support:
+        newItem = new CAD_arch_support();
         break;
     case CADitem::Arch_Wall_loadBearing:
         newItem = new CAD_arch_wall_loadBearing();
         break;
     case CADitem::Arch_Wall_nonLoadBearing:
         newItem = new CAD_arch_wall_nonLoadBearing();
-        break;
-    case CADitem::Arch_BlockOut:
-        newItem = new CAD_arch_blockOut();
-        break;
-    case CADitem::Arch_Support:
-        newItem = new CAD_arch_support();
-        break;
-    case CADitem::Arch_Beam:
-        newItem = new CAD_arch_beam();
-        break;
-    case CADitem::Arch_Door:
-        newItem = new CAD_arch_door();
         break;
     case CADitem::Arch_Window:
         newItem = new CAD_arch_window();

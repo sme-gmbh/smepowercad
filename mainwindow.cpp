@@ -1244,3 +1244,39 @@ void MainWindow::on_action_basic_Turn_triggered()
     this->itemWizard->showWizard(item);
 }
 
+
+void MainWindow::on_actionArchitecture_Bored_Pile_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Arch_BoredPile);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_actionArchitecture_Foundation_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Arch_Foundation);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_actionArchitecture_Grating_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Arch_Grating);
+    this->itemWizard->showWizard(item);
+}
+
+void MainWindow::on_actionBasic_Duct_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Duct);
+    this->itemWizard->showWizard(item);
+}
