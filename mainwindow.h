@@ -27,6 +27,7 @@
 #include "modaldialog.h"
 #include "settingsdialog.h"
 #include "itemwizard.h"
+#include "itemgripmodifier.h"
 
 #include "network/server.h"
 
@@ -68,6 +69,7 @@ private:
     SettingsDialog *settingsDialog;
 
     ItemWizard *itemWizard;
+    ItemGripModifier* itemGripModifier;
 
 protected:
     void keyPressEvent(QKeyEvent *event);

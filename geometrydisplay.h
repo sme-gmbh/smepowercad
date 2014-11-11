@@ -27,6 +27,7 @@
 #include "snapengine.h"
 #include "glwidget.h"
 #include "geometrydisplaytitle.h"
+#include "itemgripmodifier.h"
 
 class GeometryDisplay : public QDockWidget
 {
@@ -35,7 +36,7 @@ class GeometryDisplay : public QDockWidget
 public:
     enum CuttingPlane{CuttingPlane_pX = 0, CuttingPlane_nX = 1, CuttingPlane_pY = 2, CuttingPlane_nY = 3, CuttingPlane_pZ = 4, CuttingPlane_nZ = 5, CuttingPlane_ISO_001 = 6};
 
-    explicit GeometryDisplay(ItemDB* itemDB, ItemWizard *itemWizard, QWidget *parent = 0);
+    explicit GeometryDisplay(ItemDB* itemDB, ItemWizard *itemWizard, ItemGripModifier* itemGripModifier, QWidget *parent = 0);
     ~GeometryDisplay();
 
     void setCuttingPlane(CuttingPlane cuttingplane, qreal height_of_intersection, qreal depth_of_view);
@@ -49,6 +50,7 @@ private:
     GeometryDisplayTitle *titleWidget;
     ItemDB* itemDB;
     ItemWizard *itemWizard;
+    ItemGripModifier* itemGripModifier;
 
 
 //    CuttingPlane cuttingplane;      // This is the direction of view

@@ -2,7 +2,7 @@
 
 //#define PI 3.1415926535897
 
-GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, QGLFormat glFormat) :
+GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, ItemGripModifier *itemGripModifier, QGLFormat glFormat) :
     QGLWidget(glFormat, parent)
 // Qt 5
 //    m_context(0),
@@ -12,6 +12,7 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, QGLF
     //    qDebug() << "Created GLWidget";
     this->itemDB = itemDB;
     this->itemWizard = itemWizard;
+    this->itemGripModifier = itemGripModifier;
     this->mousePos = QPoint();
 
     this->translationOffset = QPoint();
@@ -710,6 +711,16 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             this->itemWizard->showWizard(item_lastHighlight);
         }
         break;
+    case Qt::Key_M:                         // Move item
+        if (item_lastHighlight != NULL)
+        {
+            if (snapMode == SnapBasepoint)
+            {
+                this->itemGripModifier->setItem(item_lastHighlight);
+                this->itemGripModifier->activateGrip(ItemGripModifier::Grip_Move, QCursor::pos(), snapPos_scene);
+            }
+        }
+        break;
     case Qt::Key_Delete:
         if (this->selection_itemList.count() > 0)
         {
@@ -1009,7 +1020,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
         }
     }
 
-
+    glFlush();
 
     restoreGLState();
     event->accept();
