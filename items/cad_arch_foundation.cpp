@@ -9,7 +9,7 @@ CAD_arch_foundation::CAD_arch_foundation() : CADitem(CADitem::Arch_Foundation)
 QList<CADitem::ItemType> CAD_arch_foundation::flangable_items()
 {
     QList<CADitem::ItemType> flangable_items;
-
+    flangable_items.append(CADitem::Arch_Foundation);
     return flangable_items;
 }
 

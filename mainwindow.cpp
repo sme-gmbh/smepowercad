@@ -15,6 +15,10 @@ MainWindow::MainWindow(QWidget *parent) :
     // **** Global Variables ****
     current_cadline = NULL;
 
+    // **** CAD Item Database *****
+    itemDB = new ItemDB(this);
+    Layer* topLevelLayer = itemDB->getTopLevelLayer();
+
     // **** Settings Dialog ****
     settingsDialog = new SettingsDialog(this);
 
@@ -23,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(itemWizard, SIGNAL(signal_sceneRepaintNeeded()), this, SIGNAL(signal_repaintNeeded()));
 
     // **** Item Grip Modifier ****
-    itemGripModifier = new ItemGripModifier(this);
+    itemGripModifier = new ItemGripModifier(itemDB, itemWizard, this);
     connect(itemGripModifier, SIGNAL(signal_sceneRepaintNeeded()), this, SIGNAL(signal_repaintNeeded()));
 
     // **** Command prompt ****
@@ -31,12 +35,6 @@ MainWindow::MainWindow(QWidget *parent) :
     promptTitle->setMaximumWidth(0);
     promptTitle->setMaximumHeight(0);
     ui->dockWidgetPrompt->setTitleBarWidget(promptTitle);
-
-
-    // **** CAD Item Database *****
-    itemDB = new ItemDB(this);
-    Layer* topLevelLayer = itemDB->getTopLevelLayer();
-
 
     // **** CAD command interpreter ****
     this->cadcommand = new CADcommand(this);
@@ -75,6 +73,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(layerManager, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(itemDB, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
+    connect(itemDB, SIGNAL(signal_itemDeleted(CADitem*)), mainGeometryDisplay, SIGNAL(signal_itemDeleted(CADitem*)));
     connect(settingsDialog, SIGNAL(signal_settingsChanged()), mainGeometryDisplay, SIGNAL(signal_settingsChanged()));
     connect(mainGeometryDisplay, SIGNAL(signal_highlightItem(CADitem*)), this, SLOT(slot_highlightItem(CADitem*)));
     connect(mainGeometryDisplay, SIGNAL(signal_snapFired(QVector3D,int)), this, SLOT(slot_snapTo(QVector3D,int)));
@@ -207,7 +206,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QVector3D pos;
 
 
-    for (int i=-10; i < 100; i++)
+    for (int i=0; i < 2; i++)
     {
         if(i != 0)
         {
@@ -414,6 +413,7 @@ void MainWindow::slot_newGeometryDisplay()
     connect(this, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(layerManager, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(itemDB, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
+    connect(itemDB, SIGNAL(signal_itemDeleted(CADitem*)), newGeometryDisplay, SIGNAL(signal_itemDeleted(CADitem*)));
     connect(magellanThread, SIGNAL(signal_mouseCoords(int,int,int,int,int,int)), newGeometryDisplay, SIGNAL(signal_mouse3Dcoords(int,int,int,int,int,int)));
     connect(settingsDialog, SIGNAL(signal_settingsChanged()), newGeometryDisplay, SIGNAL(signal_settingsChanged()));
 

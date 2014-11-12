@@ -7,9 +7,9 @@ CAD_basic_turn::CAD_basic_turn() : CADitem(CADitem::Basic_Turn)
     radius_turn = 20.0;
     angle_turn = 90.0;
 
-    wizardParams.insert(QObject::tr("Center base x"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Center base y"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Center base z"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Position x"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Position y"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Position z"), QVariant::fromValue(0.0));
     wizardParams.insert(QObject::tr("Turn radius"), QVariant::fromValue(20.0));
     wizardParams.insert(QObject::tr("Turn angle"), QVariant::fromValue(90.0));
     wizardParams.insert(QObject::tr("Outer diameter"), QVariant::fromValue(10.0));
@@ -105,9 +105,9 @@ void CAD_basic_turn::calculate()
 
 void CAD_basic_turn::processWizardInput()
 {
-    position.setX(wizardParams.value(QObject::tr("Center base x")).toDouble());
-    position.setY(wizardParams.value(QObject::tr("Center base y")).toDouble());
-    position.setZ(wizardParams.value(QObject::tr("Center base z")).toDouble());
+    position.setX(wizardParams.value(QObject::tr("Position x")).toDouble());
+    position.setY(wizardParams.value(QObject::tr("Position y")).toDouble());
+    position.setZ(wizardParams.value(QObject::tr("Position z")).toDouble());
     radius_turn = wizardParams.value(QObject::tr("Turn radius")).toDouble();
     angle_turn = wizardParams.value(QObject::tr("Turn angle")).toDouble();
     radius_pipe = wizardParams.value(QObject::tr("Outer diameter")).toDouble() / 2.0;

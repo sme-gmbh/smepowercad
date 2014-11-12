@@ -3,9 +3,9 @@
 CAD_basic_duct::CAD_basic_duct() : CADitem(CADitem::Basic_Duct)
 {
     this->description = "Basic|Duct";
-    wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Center y"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Center z"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Position x"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Position y"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Position z"), QVariant::fromValue(0.0));
 
     wizardParams.insert(QObject::tr("Length (l)"), QVariant::fromValue(10.0));
     wizardParams.insert(QObject::tr("Width (b)"), QVariant::fromValue(5.0));
@@ -26,7 +26,7 @@ CAD_basic_duct::~CAD_basic_duct()
 QList<CADitem::ItemType> CAD_basic_duct::flangable_items()
 {
     QList<CADitem::ItemType> flangable_items;
-
+    flangable_items.append(CADitem::Basic_Duct);
     return flangable_items;
 }
 
@@ -112,9 +112,9 @@ void CAD_basic_duct::calculate()
 void CAD_basic_duct::processWizardInput()
 {
 
-    position.setX(wizardParams.value(QObject::tr("Center x")).toDouble());
-    position.setY(wizardParams.value(QObject::tr("Center y")).toDouble());
-    position.setZ(wizardParams.value(QObject::tr("Center z")).toDouble());
+    position.setX(wizardParams.value(QObject::tr("Position x")).toDouble());
+    position.setY(wizardParams.value(QObject::tr("Position y")).toDouble());
+    position.setZ(wizardParams.value(QObject::tr("Position z")).toDouble());
 
     size.setX(wizardParams.value(QObject::tr("Length (l)")).toDouble());
     size.setY(wizardParams.value(QObject::tr("Width (b)")).toDouble());

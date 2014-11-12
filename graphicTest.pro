@@ -150,7 +150,7 @@ SOURCES += main.cpp\
     items/cad_arch_boredPile.cpp \
     items/cad_arch_grating.cpp \
     items/cad_arch_foundation.cpp \
-    items/cad_basic_face.cpp
+    items/cad_basic_face.cpp \
     itemgripmodifier.cpp
 
 HEADERS  += mainwindow.h \
@@ -290,7 +290,7 @@ HEADERS  += mainwindow.h \
     items/cad_arch_grating.h \
     items/cad_arch_foundation.cpp, cad_arch_foundation.h \
     items/cad_arch_foundation.h \
-    items/cad_basic_face.h
+    items/cad_basic_face.h \
     itemgripmodifier.h
 
 FORMS    += mainwindow.ui \

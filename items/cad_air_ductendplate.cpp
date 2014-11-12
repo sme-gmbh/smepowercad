@@ -9,7 +9,9 @@ CAD_air_ductEndPlate::CAD_air_ductEndPlate() : CADitem(CADitem::Air_DuctEndPlate
 QList<CADitem::ItemType> CAD_air_ductEndPlate::flangable_items()
 {
     QList<CADitem::ItemType> flangable_items;
-
+    flangable_items.append(CADitem::Air_Duct);
+    flangable_items.append(CADitem::Air_DuctTeeConnector);
+    flangable_items.append(CADitem::Air_DuctYpiece);
     return flangable_items;
 }
 

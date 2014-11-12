@@ -3,9 +3,9 @@
 CAD_air_ductTurn::CAD_air_ductTurn() : CADitem(CADitem::Air_DuctTurn)
 {
     this->description = "Air|Duct turn";
-    wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Center y"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Center z"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Position x"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Position y"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Position z"), QVariant::fromValue(0.0));
 
     wizardParams.insert(QObject::tr("Radius (r)"), QVariant::fromValue(10.0));
     wizardParams.insert(QObject::tr("Width 1 (b)"), QVariant::fromValue(5.0));
@@ -28,7 +28,19 @@ CAD_air_ductTurn::CAD_air_ductTurn() : CADitem(CADitem::Air_DuctTurn)
 QList<CADitem::ItemType> CAD_air_ductTurn::flangable_items()
 {
     QList<CADitem::ItemType> flangable_items;
-
+    flangable_items.append(CADitem::Air_Duct);
+    flangable_items.append(CADitem::Air_DuctEndPlate);
+    flangable_items.append(CADitem::Air_DuctFireDamper);
+    flangable_items.append(CADitem::Air_DuctTeeConnector);
+    flangable_items.append(CADitem::Air_DuctTransition);
+    flangable_items.append(CADitem::Air_DuctTransitionRectRound);
+    flangable_items.append(CADitem::Air_DuctTurn);
+    flangable_items.append(CADitem::Air_DuctVolumetricFlowController);
+    flangable_items.append(CADitem::Air_DuctYpiece);
+    flangable_items.append(CADitem::Air_Filter);
+    flangable_items.append(CADitem::Air_HeatExchangerAirAir);
+    flangable_items.append(CADitem::Air_HeatExchangerWaterAir);
+    flangable_items.append(CADitem::Air_MultiLeafDamper);
     return flangable_items;
 }
 
@@ -55,9 +67,9 @@ void CAD_air_ductTurn::calculate()
 
 void CAD_air_ductTurn::processWizardInput()
 {
-    position.setX(wizardParams.value(QObject::tr("Center x")).toDouble());
-    position.setY(wizardParams.value(QObject::tr("Center y")).toDouble());
-    position.setZ(wizardParams.value(QObject::tr("Center z")).toDouble());
+    position.setX(wizardParams.value(QObject::tr("Position x")).toDouble());
+    position.setY(wizardParams.value(QObject::tr("Position y")).toDouble());
+    position.setZ(wizardParams.value(QObject::tr("Position z")).toDouble());
 
     angle_x = wizardParams.value(QObject::tr("Angle x")).toDouble();
     angle_y = wizardParams.value(QObject::tr("Angle y")).toDouble();

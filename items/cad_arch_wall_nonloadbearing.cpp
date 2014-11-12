@@ -9,7 +9,8 @@ CAD_arch_wall_nonLoadBearing::CAD_arch_wall_nonLoadBearing() : CADitem(CADitem::
 QList<CADitem::ItemType> CAD_arch_wall_nonLoadBearing::flangable_items()
 {
     QList<CADitem::ItemType> flangable_items;
-
+    flangable_items.append(CADitem::Arch_Wall_loadBearing);
+    flangable_items.append(CADitem::Arch_Wall_nonLoadBearing);
     return flangable_items;
 }
 

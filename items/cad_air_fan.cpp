@@ -9,7 +9,7 @@ CAD_air_fan::CAD_air_fan() : CADitem(CADitem::Air_Fan)
 QList<CADitem::ItemType> CAD_air_fan::flangable_items()
 {
     QList<CADitem::ItemType> flangable_items;
-
+    flangable_items.append(CADitem::Air_CanvasFlange);
     return flangable_items;
 }
 

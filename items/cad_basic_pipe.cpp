@@ -7,9 +7,9 @@ CAD_basic_pipe::CAD_basic_pipe() : CADitem(CADitem::Basic_Pipe)
 
     length = 20.0;
 
-    wizardParams.insert(QObject::tr("Center base x"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Center base y"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Center base z"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Position x"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Position y"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Position z"), QVariant::fromValue(0.0));
     wizardParams.insert(QObject::tr("Length"), QVariant::fromValue(20.0));
     wizardParams.insert(QObject::tr("Outer diameter"), QVariant::fromValue(10.0));
     wizardParams.insert(QObject::tr("Wall thickness"), QVariant::fromValue(1.0));
@@ -48,13 +48,16 @@ void CAD_basic_pipe::calculate()
     this->snap_basepoint = this->position;
     this->snap_vertices.append(this->position + this->direction);
     this->snap_center.append(this->position + this->direction * 0.5);
+    this->snap_flanges.append(this->snap_vertices);
+    this->boundingBox.enterVertex(this->position);
+    this->boundingBox.enterVertex(this->position + this->direction);    // tbd...
 }
 
 void CAD_basic_pipe::processWizardInput()
 {
-    position.setX(wizardParams.value(QObject::tr("Center base x")).toDouble());
-    position.setY(wizardParams.value(QObject::tr("Center base y")).toDouble());
-    position.setZ(wizardParams.value(QObject::tr("Center base z")).toDouble());
+    position.setX(wizardParams.value(QObject::tr("Position x")).toDouble());
+    position.setY(wizardParams.value(QObject::tr("Position y")).toDouble());
+    position.setZ(wizardParams.value(QObject::tr("Position z")).toDouble());
     length = wizardParams.value(QObject::tr("Length")).toDouble();
     radius = wizardParams.value(QObject::tr("Outer diameter")).toDouble() / 2.0;
     wallThickness = wizardParams.value(QObject::tr("Wall thickness")).toDouble();

@@ -143,6 +143,556 @@ bool ItemDB::isLayerValid(Layer *layer)
         return false;
 }
 
+QString ItemDB::getIconPathByItemType(CADitem::ItemType type)
+{
+    QString path;
+
+    switch (type)
+    {
+    case CADitem::Air_CanvasFlange:
+    {
+        path = ":/icons/cad_air/cad_air_canvasflange.svg";
+        break;
+    }
+    case CADitem::Air_Duct:
+    {
+        path = ":/icons/cad_air/cad_air_duct.svg";
+        break;
+    }
+    case CADitem::Air_DuctBaffleSilencer:
+    {
+        path = ":/icons/cad_air/cad_air_ductbafflesilencer.svg";
+        break;
+    }
+    case CADitem::Air_DuctEndPlate:
+    {
+        path = ":/icons/cad_air/cad_air_ductendplate.svg";
+        break;
+    }
+    case CADitem::Air_DuctFireDamper:
+    {
+        path = ":/icons/cad_air/cad_air_ductfiredamper.svg";
+        break;
+    }
+    case CADitem::Air_DuctFireResistant:
+    {
+        path = ":/icons/cad_air/cad_air_ductfireresistant.svg";
+        break;
+    }
+    case CADitem::Air_DuctTeeConnector:
+    {
+        path = ":/icons/cad_air/cad_air_ductteeconnector.svg";
+        break;
+    }
+    case CADitem::Air_DuctTransition:
+    {
+        path = ":/icons/cad_air/cad_air_ducttransition.svg";
+        break;
+    }
+    case CADitem::Air_DuctTransitionRectRound:
+    {
+        path = ":/icons/cad_air/cad_air_ducttransitionrectround.svg";
+        break;
+    }
+    case CADitem::Air_DuctTurn:
+    {
+        path = ":/icons/cad_air/cad_air_ductturn.svg";
+        break;
+    }
+    case CADitem::Air_DuctVolumetricFlowController:
+    {
+        path = ":/icons/cad_air/cad_air_ductvolumetricflowcontroller.svg";
+        break;
+    }
+    case CADitem::Air_DuctYpiece:
+    {
+        path = ":/icons/cad_air/cad_air_ductypiece.svg";
+        break;
+    }
+    case CADitem::Air_EmptyCabinet:
+    {
+        path = ":/icons/cad_air/cad_air_emptycabinet.svg";
+        break;
+    }
+    case CADitem::Air_EquipmentFrame:
+    {
+        path = ":/icons/cad_air/cad_air_equipmentframe.svg";
+        break;
+    }
+    case CADitem::Air_Fan:
+    {
+        path = ":/icons/cad_air/cad_air_fan.svg";
+        break;
+    }
+    case CADitem::Air_Filter:
+    {
+        path = ":/icons/cad_air/cad_air_filter.svg";
+        break;
+    }
+    case CADitem::Air_HeatExchangerAirAir:
+    {
+        path = ":/icons/cad_air/cad_air_heatexchangerairair.svg";
+        break;
+    }
+    case CADitem::Air_HeatExchangerWaterAir:
+    {
+        path = ":/icons/cad_air/cad_air_heatexchangerwaterair.svg";
+        break;
+    }
+    case CADitem::Air_Humidifier:
+    {
+        path = ":/icons/cad_air/cad_air_humidifier.svg";
+        break;
+    }
+    case CADitem::Air_MultiLeafDamper:
+    {
+        path = ":/icons/cad_air/cad_air_multileafdamper.svg";
+        break;
+    }
+    case CADitem::Air_Pipe:
+    {
+        path = ":/icons/cad_air/cad_air_pipe.svg";
+        break;
+    }
+    case CADitem::Air_PipeEndCap:
+    {
+        path = ":/icons/cad_air/cad_air_pipeendcap.svg";
+        break;
+    }
+    case CADitem::Air_PipeFireDamper:
+    {
+        path = ":/icons/cad_air/cad_air_pipefiredamper.svg";
+        break;
+    }
+    case CADitem::Air_PipeReducer:
+    {
+        path = ":/icons/cad_air/cad_air_pipereducer.svg";
+        break;
+    }
+    case CADitem::Air_PipeSilencer:
+    {
+        path = ":/icons/cad_air/cad_air_pipesilencer.svg";
+        break;
+    }
+    case CADitem::Air_PipeTeeConnector:
+    {
+        path = ":/icons/cad_air/cad_air_pipeteeconnector.svg";
+        break;
+    }
+    case CADitem::Air_PipeTurn:
+    {
+        path = ":/icons/cad_air/cad_air_pipeturn.svg";
+        break;
+    }
+    case CADitem::Air_PipeVolumetricFlowController:
+    {
+        path = ":/icons/cad_air/cad_air_pipevolumetricflowcontroller.svg";
+        break;
+    }
+    case CADitem::Air_PressureReliefDamper:
+    {
+        path = ":/icons/cad_air/cad_air_pressurereliefdamper.svg";
+        break;
+    }
+    case CADitem::Air_ThrottleValve:
+    {
+        path = ":/icons/cad_air/cad_air_throttlevalve.svg";
+        break;
+    }
+
+    case CADitem::Arch_Beam:
+    {
+        path = ":/icons/cad_arch/cad_arch_beam.svg";
+        break;
+    }
+    case CADitem::Arch_BlockOut:
+    {
+        path = ":/icons/cad_arch/cad_arch_blockout.svg";
+        break;
+    }
+    case CADitem::Arch_BoredPile:
+    {
+        path = ":/icons/cad_arch/cad_arch_bored_pile.svg";
+        break;
+    }
+    case CADitem::Arch_Door:
+    {
+        path = ":/icons/cad_arch/cad_arch_door.svg";
+        break;
+    }
+    case CADitem::Arch_Foundation:
+    {
+        path = ":/icons/cad_arch/cad_arch_";
+        break;
+    }
+    case CADitem::Arch_Grating:
+    {
+        path = ":/icons/cad_arch/cad_arch_";
+        break;
+    }
+    case CADitem::Arch_LevelSlab:
+    {
+        path = ":/icons/cad_arch/cad_arch_levelslab.svg";
+        break;
+    }
+    case CADitem::Arch_Support:
+    {
+        path = ":/icons/cad_arch/cad_arch_support.svg";
+        break;
+    }
+    case CADitem::Arch_Wall_loadBearing:
+    {
+        path = ":/icons/cad_arch/cad_arch_wall_loadbearing.svg";
+        break;
+    }
+    case CADitem::Arch_Wall_nonLoadBearing:
+    {
+        path = ":/icons/cad_arch/cad_arch_wall_nonloadbearing.svg";
+        break;
+    }
+    case CADitem::Arch_Window:
+    {
+        path = ":/icons/cad_arch/cad_arch_window.svg";
+        break;
+    }
+
+    case CADitem::Basic_Arc:
+    {
+        path = ":/icons/cad_basic/cad_basic_arc.svg";
+        break;
+    }
+    case CADitem::Basic_Box:
+    {
+        path = ":/icons/cad_basic/cad_basic_box.svg";
+        break;
+    }
+    case CADitem::Basic_Circle:
+    {
+        path = ":/icons/cad_basic/cad_basic_circle.svg";
+        break;
+    }
+    case CADitem::Basic_Cylinder:
+    {
+        path = ":/icons/cad_basic/cad_basic_cylinder.svg";
+        break;
+    }
+    case CADitem::Basic_Duct:
+    {
+        path = ":/icons/cad_basic/cad_basic_";
+        break;
+    }
+    case CADitem::Basic_Face:
+    {
+        path = ":/icons/cad_basic/cad_basic_3Dface.svg";
+        break;
+    }
+    case CADitem::Basic_Line:
+    {
+        path = ":/icons/cad_basic/cad_basic_line.svg";
+        break;
+    }
+    case CADitem::Basic_Pipe:
+    {
+        path = ":/icons/cad_basic/cad_basic_pipe.svg";
+        break;
+    }
+    case CADitem::Basic_Plane:
+    {
+        path = ":/icons/cad_basic/cad_basic_plane.svg";
+        break;
+    }
+    case CADitem::Basic_Point:
+    {
+        path = ":/icons/cad_basic/cad_basic_point.svg";
+        break;
+    }
+    case CADitem::Basic_Polyline:
+    {
+        path = ":/icons/cad_basic/cad_basic_polyline.svg";
+        break;
+    }
+    case CADitem::Basic_Sphere:
+    {
+        path = ":/icons/cad_basic/cad_basic_sphere.svg";
+        break;
+    }
+    case CADitem::Basic_Turn:
+    {
+        path = ":/icons/cad_basic/cad_basic_turn.svg";
+        break;
+    }
+
+    case CADitem::Electrical_Cabinet:
+    {
+        path = ":/icons/cad_electrical/cad_electrical_";
+        break;
+    }
+    case CADitem::Electrical_CableTray:
+    {
+        path = ":/icons/cad_electrical/cad_electrical_";
+        break;
+    }
+
+    case CADitem::HeatCool_Adjustvalve:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_adjustvalve.svg";
+        break;
+    }
+    case CADitem::HeatCool_BallValve:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_ballvalve.svg";
+        break;
+    }
+    case CADitem::HeatCool_Boiler:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_boiler.svg";
+        break;
+    }
+    case CADitem::HeatCool_ButterflyValve:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_butterflyvalve.svg";
+        break;
+    }
+    case CADitem::HeatCool_Chiller:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_chiller.svg";
+        break;
+    }
+    case CADitem::HeatCool_Controlvalve:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_controlvalve.svg";
+        break;
+    }
+    case CADitem::HeatCool_CoolingTower:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_coolingtower.svg";
+        break;
+    }
+    case CADitem::HeatCool_ExpansionChamber:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_expansionchamber.svg";
+        break;
+    }
+    case CADitem::HeatCool_Filter:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_filter.svg";
+        break;
+    }
+    case CADitem::HeatCool_Flange:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_flange.svg";
+        break;
+    }
+    case CADitem::HeatCool_Flowmeter:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_flowmeter.svg";
+        break;
+    }
+    case CADitem::HeatCool_HeatExchanger:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_heatexchanger.svg";
+        break;
+    }
+    case CADitem::HeatCool_Pipe:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_pipe.svg";
+        break;
+    }
+    case CADitem::HeatCool_PipeEndCap:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_pipeendcap.svg";
+        break;
+    }
+    case CADitem::HeatCool_PipeReducer:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_pipereducer.svg";
+        break;
+    }
+    case CADitem::HeatCool_PipeTeeConnector:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_pipeteeconnector.svg";
+        break;
+    }
+    case CADitem::HeatCool_PipeTurn:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_pipeturn.svg";
+        break;
+    }
+    case CADitem::HeatCool_Pump:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_pump.svg";
+        break;
+    }
+    case CADitem::HeatCool_Radiator:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_radiator.svg";
+        break;
+    }
+    case CADitem::HeatCool_SafetyValve:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_safetyvalve.svg";
+        break;
+    }
+    case CADitem::HeatCool_Sensor:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_sensor.svg";
+        break;
+    }
+    case CADitem::HeatCool_StorageBoiler:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_storageboiler.svg";
+        break;
+    }
+    case CADitem::HeatCool_WaterHeater:
+    {
+        path = ":/icons/cad_heatcool/cad_heatcool_waterheater.svg";
+        break;
+    }
+
+    case CADitem::Sanitary_ElectricWaterHeater:
+    {
+        path = ":/icons/cad_sanitary/cad_sanitary_";
+        break;
+    }
+    case CADitem::Sanitary_EmergencyEyeShower:
+    {
+        path = ":/icons/cad_sanitary/cad_sanitary_";
+        break;
+    }
+    case CADitem::Sanitary_EmergencyShower:
+    {
+        path = ":/icons/cad_sanitary/cad_sanitary_";
+        break;
+    }
+    case CADitem::Sanitary_Flange:
+    {
+        path = ":/icons/cad_sanitary/cad_sanitary_";
+        break;
+    }
+    case CADitem::Sanitary_LiftingUnit:
+    {
+        path = ":/icons/cad_sanitary/cad_sanitary_";
+        break;
+    }
+    case CADitem::Sanitary_Pipe:
+    {
+        path = ":/icons/cad_sanitary/cad_sanitary_";
+        break;
+    }
+    case CADitem::Sanitary_PipeEndCap:
+    {
+        path = ":/icons/cad_sanitary/cad_sanitary_";
+        break;
+    }
+    case CADitem::Sanitary_PipeReducer:
+    {
+        path = ":/icons/cad_sanitary/cad_sanitary_";
+        break;
+    }
+    case CADitem::Sanitary_PipeTeeConnector:
+    {
+        path = ":/icons/cad_sanitary/cad_sanitary_";
+        break;
+    }
+    case CADitem::Sanitary_PipeTurn:
+    {
+        path = ":/icons/cad_sanitary/cad_sanitary_";
+        break;
+    }
+    case CADitem::Sanitary_Shower:
+    {
+        path = ":/icons/cad_sanitary/cad_sanitary_";
+        break;
+    }
+    case CADitem::Sanitary_Sink:
+    {
+        path = ":/icons/cad_sanitary/cad_sanitary_";
+        break;
+    }
+    case CADitem::Sanitary_WashBasin:
+    {
+        path = ":/icons/cad_sanitary/cad_sanitary_";
+        break;
+    }
+
+    case CADitem::Sprinkler_CompressedAirWaterContainer:
+    {
+        path = ":/icons/cad_sprinkler/cad_sprinkler_compressedairwatercontainer.svg";
+        break;
+    }
+    case CADitem::Sprinkler_Distribution:
+    {
+        path = ":/icons/cad_sprinkler/cad_sprinkler_distribution.svg";
+        break;
+    }
+    case CADitem::Sprinkler_Head:
+    {
+        path = ":/icons/cad_sprinkler/cad_sprinkler_head.svg";
+        break;
+    }
+    case CADitem::Sprinkler_Pipe:
+    {
+        path = ":/icons/cad_sprinkler/cad_sprinkler_pipe.svg";
+        break;
+    }
+    case CADitem::Sprinkler_PipeEndCap:
+    {
+        path = ":/icons/cad_sprinkler/";
+        break;
+    }
+    case CADitem::Sprinkler_PipeReducer:
+    {
+        path = ":/icons/cad_sprinkler/";
+        break;
+    }
+    case CADitem::Sprinkler_PipeTurn:
+    {
+        path = ":/icons/cad_sprinkler/cad_sprinkler_pipeturn.svg";
+        break;
+    }
+    case CADitem::Sprinkler_Pump:
+    {
+        path = ":/icons/cad_sprinkler/cad_sprinkler_pump.svg";
+        break;
+    }
+    case CADitem::Sprinkler_TeeConnector:
+    {
+        path = ":/icons/cad_sprinkler/cad_sprinkler_teeconnector.svg";
+        break;
+    }
+    case CADitem::Sprinkler_Valve:
+    {
+        path = ":/icons/cad_sprinkler/cad_sprinkler_valve.svg";
+        break;
+    }
+    case CADitem::Sprinkler_WetAlarmValve:
+    {
+        path = ":/icons/cad_sprinkler/cad_sprinkler_wetalarmvalve.svg";
+        break;
+    }
+    case CADitem::Sprinkler_ZoneCheck:
+    {
+        path = ":/icons/cad_sprinkler/cad_sprinkler_zonecheck.svg";
+        break;
+    }
+
+    default:
+        path = "ERROR: unable to resolve icon path in ItemDB::getIconPathByItemType(" + QString ().setNum(type) + ")";
+        break;
+    }
+
+    return path;
+}
+
+QPixmap ItemDB::getIconByItemType(CADitem::ItemType type, QSize size)
+{
+    QSvgRenderer svgRenderer(getIconPathByItemType(type));
+    QPixmap pixmap(size);
+    QPainter painter(&pixmap);
+    svgRenderer.render(&painter);
+    return pixmap;
+}
+
 void ItemDB::addItem(CADitem* item, QString LayerName)
 {
     Layer* layer = getLayerByName(LayerName);
@@ -180,6 +730,7 @@ void ItemDB::deleteItem(CADitem *item)
         deleteItem(subItem);
     }
 
+    signal_itemDeleted(item);
     delete item;
 }
 

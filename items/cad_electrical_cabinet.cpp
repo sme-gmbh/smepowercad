@@ -9,7 +9,7 @@ CAD_electrical_cabinet::CAD_electrical_cabinet() : CADitem(CADitem::Electrical_C
 QList<CADitem::ItemType> CAD_electrical_cabinet::flangable_items()
 {
     QList<CADitem::ItemType> flangable_items;
-
+    flangable_items.append(CADitem::Electrical_Cabinet);
     return flangable_items;
 }
 

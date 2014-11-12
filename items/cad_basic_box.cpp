@@ -13,9 +13,9 @@ CAD_basic_box::CAD_basic_box() : CADitem(CADitem::Basic_Box)
     pos_top_3 = QVector3D( 1,  1, -1);
     pos_top_4 = QVector3D(-1,  1, -1);
 
-    wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Center y"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Center z"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Position x"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Position y"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Position z"), QVariant::fromValue(0.0));
     wizardParams.insert(QObject::tr("Size x"), QVariant::fromValue(0.0));
     wizardParams.insert(QObject::tr("Size y"), QVariant::fromValue(0.0));
     wizardParams.insert(QObject::tr("Size z"), QVariant::fromValue(0.0));
@@ -97,9 +97,9 @@ void CAD_basic_box::processWizardInput()
 {
     QVector3D size;
 
-    position.setX(wizardParams.value(QObject::tr("Center x")).toDouble());
-    position.setY(wizardParams.value(QObject::tr("Center y")).toDouble());
-    position.setZ(wizardParams.value(QObject::tr("Center z")).toDouble());
+    position.setX(wizardParams.value(QObject::tr("Position x")).toDouble());
+    position.setY(wizardParams.value(QObject::tr("Position y")).toDouble());
+    position.setZ(wizardParams.value(QObject::tr("Position z")).toDouble());
     size.setX(wizardParams.value(QObject::tr("Size x")).toDouble());
     size.setY(wizardParams.value(QObject::tr("Size y")).toDouble());
     size.setZ(wizardParams.value(QObject::tr("Size z")).toDouble());

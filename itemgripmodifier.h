@@ -1,21 +1,26 @@
 #ifndef ITEMGRIPMODIFIER_H
 #define ITEMGRIPMODIFIER_H
 
-#include <QWidget>
+#include <QDialog>
+#include <QLabel>
+#include <QAction>
+//#include <QToolButton>
+#include <QLayout>
 
 #include "caditem.h"
 #include "itemdb.h"
+#include "itemwizard.h"
 
 namespace Ui {
 class ItemGripModifier;
 }
 
-class ItemGripModifier : public QWidget
+class ItemGripModifier : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit ItemGripModifier(QWidget *parent = 0);
+    explicit ItemGripModifier(ItemDB* itemDB, ItemWizard* itemWizard, QWidget *parent = 0);
     ~ItemGripModifier();
 
     enum ItemGripType
@@ -34,11 +39,16 @@ public:
 
 private slots:
     void slot_rejected();
+    void slot_button_clicked();
 
 private:
     Ui::ItemGripModifier *ui;
+    ItemDB* itemDB;
+    ItemWizard* itemWizard;
     CADitem* item;
+    QVector3D scenePos;
 
+    void deleteWdgs(QLayout *layout);
     void showAppendBox();
 
 signals:

@@ -176,8 +176,8 @@ void GLWidget::set_WorldRotation(float rot_x, float rot_y, float rot_z)
 {
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(rot_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(rot_y, 0.0, 2.0, 0.0);
-    matrix_rotation.rotate(rot_z, 0.0, 0.0, 3.0);
+    matrix_rotation.rotate(rot_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(rot_z, 0.0, 0.0, 1.0);
     updateMatrixAll();
     slot_repaint();
 }
@@ -232,6 +232,15 @@ void GLWidget::slot_changeSelection(QList<CADitem *> selectedItems)
     this->selection_itemList = selectedItems;
     //    emit signal_selectionChanged(this->selection_itemList);
     slot_repaint();
+}
+
+void GLWidget::slot_itemDeleted(CADitem *item)
+{
+    if (item == item_lastHighlight)
+    {
+        item_lastHighlight = NULL;
+        snapMode == SnapNo;
+    }
 }
 
 void GLWidget::slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c)
@@ -635,6 +644,11 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         {
             if (event->modifiers() && Qt::ShiftModifier)
                 selectionRemoveItem(item_lastHighlight);
+            else if (snapMode == SnapFlange)
+            {
+                this->itemGripModifier->setItem(item_lastHighlight);
+                this->itemGripModifier->activateGrip(ItemGripModifier::Grip_Append, QCursor::pos(), snapPos_scene);
+            }
             else
                 selectionAddItem(item_lastHighlight);
         }
@@ -711,6 +725,16 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             this->itemWizard->showWizard(item_lastHighlight);
         }
         break;
+    case Qt::Key_F:                         // Flange item
+        if (item_lastHighlight != NULL)
+        {
+            if (snapMode == SnapFlange)
+            {
+                this->itemGripModifier->setItem(item_lastHighlight);
+                this->itemGripModifier->activateGrip(ItemGripModifier::Grip_Append, QCursor::pos(), snapPos_scene);
+            }
+        }
+        break;
     case Qt::Key_M:                         // Move item
         if (item_lastHighlight != NULL)
         {
@@ -719,6 +743,39 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
                 this->itemGripModifier->setItem(item_lastHighlight);
                 this->itemGripModifier->activateGrip(ItemGripModifier::Grip_Move, QCursor::pos(), snapPos_scene);
             }
+        }
+        break;
+    case Qt::Key_X:                         // Turn item around x axis
+        if (item_lastHighlight != NULL)
+        {
+            item_lastHighlight->angle_x += 45.0;
+            if (item_lastHighlight->angle_x > 359.0) item_lastHighlight->angle_x = 0.0;
+            item_lastHighlight->wizardParams.insert(QObject::tr("Angle x"), QVariant::fromValue(item_lastHighlight->angle_x));
+            item_lastHighlight->processWizardInput();
+            item_lastHighlight->calculate();
+            slot_repaint();
+        }
+        break;
+    case Qt::Key_Y:                         // Turn item around y axis
+        if (item_lastHighlight != NULL)
+        {
+            item_lastHighlight->angle_y += 45.0;
+            if (item_lastHighlight->angle_y > 359.0) item_lastHighlight->angle_y = 0.0;
+            item_lastHighlight->wizardParams.insert(QObject::tr("Angle y"), QVariant::fromValue(item_lastHighlight->angle_y));
+            item_lastHighlight->processWizardInput();
+            item_lastHighlight->calculate();
+            slot_repaint();
+        }
+        break;
+    case Qt::Key_Z:                         // Turn item around z axis
+        if (item_lastHighlight != NULL)
+        {
+            item_lastHighlight->angle_z += 45.0;
+            if (item_lastHighlight->angle_z > 359.0) item_lastHighlight->angle_z = 0.0;
+            item_lastHighlight->wizardParams.insert(QObject::tr("Angle z"), QVariant::fromValue(item_lastHighlight->angle_z));
+            item_lastHighlight->processWizardInput();
+            item_lastHighlight->calculate();
+            slot_repaint();
         }
         break;
     case Qt::Key_Delete:
@@ -829,28 +886,30 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    // Set a matrix to the shader that does not rotate or scale, just transform to screen coordinate system
     shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection);
+    glDisable(GL_DEPTH_TEST);
 
-
-    QVector3D xAxis = matrix_rotation * QVector3D(1.0, 0.0, 0.0);
-    QVector3D yAxis = matrix_rotation * QVector3D(0.0, 1.0, 0.0);
-    QVector3D zAxis = matrix_rotation * QVector3D(0.0, 0.0, 1.0);
+    // Coordinate orientation display
+    QVector3D xAxis = matrix_rotation * QVector3D(50.0,  0.0,  0.0);
+    QVector3D yAxis = matrix_rotation * QVector3D(0.0,  50.0,  0.0);
+    QVector3D zAxis = matrix_rotation * QVector3D(0.0,   0.0, 50.0);
     glBegin(GL_LINES);
-    glColor3i(256,0,0);
-    glVertex3i(0, 0, 0);
-    glVertex3i((GLint)xAxis.x()*100, (GLint)xAxis.y()*100, (GLint)xAxis.z()*100);
-    glColor3i(0,256,0);
-    glVertex3i(0, 0, 0);
-    glVertex3i((GLint)yAxis.x()*100, (GLint)yAxis.y()*100, (GLint)yAxis.z()*100);
-    glColor3i(0,0,256);
-    glVertex3i(0, 0, 0);
-    glVertex3i((GLint)zAxis.x()*100, (GLint)zAxis.y()*100, (GLint)zAxis.z()*100);
+    glLineWidth(1.0);
+    setPaintingColor(Qt::red);
+    glVertex3i(-width() / 2 + 50, -height() / 2 + 50, 0);
+    glVertex3i((GLint)xAxis.x() - width() / 2 + 50, (GLint)xAxis.y() - height() / 2 + 50, 0);
+    setPaintingColor(QColor(50, 255, 50));
+    glVertex3i(-width() / 2 + 50, -height() / 2 + 50, 0);
+    glVertex3i((GLint)yAxis.x() - width() / 2 + 50, (GLint)yAxis.y() - height() / 2 + 50, 0);
+    setPaintingColor(QColor(50, 50, 255));
+    glVertex3i(-width() / 2 + 50, -height() / 2 + 50, 0);
+    glVertex3i((GLint)zAxis.x() - width() / 2 + 50, (GLint)zAxis.y() - height() / 2 + 50, 0);
     glEnd();
 
     if (this->cursorShown)
     {
         // Cursor lines
-        glDisable(GL_DEPTH_TEST);
         glLineWidth((GLfloat)_cursorWidth);
         setPaintingColor(Qt::white);
         glBegin(GL_LINES);
@@ -1196,47 +1255,46 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundin
 {
     foreach (CADitem* item, items)
     {
-
         if(checkBoundingBox)
         {
         // Global culling performance test
-                    // Exclude all items from painting that do not reach the canvas with their boundingRect
-                    int screen_x_min = -this->width() / 2;
-                    //            int screen_x_max =  this->width() / 2;
-                    int screen_y_min = -this->height() / 2;
-                    //            int screen_y_max =  this->height() / 2;
+//                    // Exclude all items from painting that do not reach the canvas with their boundingRect
+//                    int screen_x_min = -this->width() / 2;
+//                    //            int screen_x_max =  this->width() / 2;
+//                    int screen_y_min = -this->height() / 2;
+//                    //            int screen_y_max =  this->height() / 2;
 
-                    int p_x_min =  100000;
-                    int p_x_max = -100000;
-                    int p_y_min =  100000;
-                    int p_y_max = -100000;
-
-
-                    for (int i=0; i < 8; i++)
-                    {
-                        QVector3D boxPoint = item->boundingBox.p(i);
-                        QPointF screen_p = mapFromScene(boxPoint);    // Remark: INEFFICIENT!
-
-                        if (screen_p.x() < p_x_min)     p_x_min = screen_p.x();
-                        if (screen_p.x() > p_x_max)     p_x_max = screen_p.x();
-                        if (screen_p.y() < p_y_min)     p_y_min = screen_p.y();
-                        if (screen_p.y() > p_y_max)     p_y_max = screen_p.y();
-                    }
-
-                    QRect screenRect;
-                    QRect itemRect;
-
-                    screenRect = QRect(screen_x_min, screen_y_min, this->width(), this->height());
-                    itemRect = QRect(p_x_min, p_y_min, (p_x_max - p_x_min), (p_y_max - p_y_min));
+//                    int p_x_min =  100000;
+//                    int p_x_max = -100000;
+//                    int p_y_min =  100000;
+//                    int p_y_max = -100000;
 
 
-                    if (!screenRect.intersects(itemRect))
-                    {
-                        if(!isSubItem)
-                            glName++;
-                        continue;
-                    }
-    }
+//                    for (int i=0; i < 8; i++)
+//                    {
+//                        QVector3D boxPoint = item->boundingBox.p(i);
+//                        QPointF screen_p = mapFromScene(boxPoint);    // Remark: INEFFICIENT!
+
+//                        if (screen_p.x() < p_x_min)     p_x_min = screen_p.x();
+//                        if (screen_p.x() > p_x_max)     p_x_max = screen_p.x();
+//                        if (screen_p.y() < p_y_min)     p_y_min = screen_p.y();
+//                        if (screen_p.y() > p_y_max)     p_y_max = screen_p.y();
+//                    }
+
+//                    QRect screenRect;
+//                    QRect itemRect;
+
+//                    screenRect = QRect(screen_x_min, screen_y_min, this->width(), this->height());
+//                    itemRect = QRect(p_x_min, p_y_min, (p_x_max - p_x_min), (p_y_max - p_y_min));
+
+
+//                    if (!screenRect.intersects(itemRect))
+//                    {
+//                        if(!isSubItem)
+//                            glName++;
+//                        continue;
+//                    }
+        }
 
 
 

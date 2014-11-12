@@ -6,6 +6,8 @@
 #include <QMap>
 #include <QByteArray>
 #include <QDataStream>
+#include <QSvgRenderer>
+#include <QPainter>
 #include <QDebug>
 
 #include "layer.h"
@@ -139,6 +141,8 @@ public:
     Layer* getLayerByName(QString layerName);
     Layer* getTopLevelLayer();
     bool isLayerValid(Layer* layer);
+    QString getIconPathByItemType(CADitem::ItemType type);
+    QPixmap getIconByItemType(CADitem::ItemType type, QSize size);
 
     void addItem(CADitem* item, QString LayerName);
     void addItem(CADitem* item, Layer* layer);
@@ -183,6 +187,7 @@ signals:
     void signal_layerMoved(Layer* layer);
     void signal_layerDeleted(Layer* layer);
     void signal_itemAdded(CADitem* item, Layer* layer);
+    void signal_itemDeleted(CADitem* item);
 //    void signal_itemModified(CADitem* item, Layer* layer);
     void signal_repaintNeeded();
 

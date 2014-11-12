@@ -9,7 +9,7 @@ CAD_electrical_cableTray::CAD_electrical_cableTray() : CADitem(CADitem::Electric
 QList<CADitem::ItemType> CAD_electrical_cableTray::flangable_items()
 {
     QList<CADitem::ItemType> flangable_items;
-
+    flangable_items.append(CADitem::Electrical_CableTray);
     return flangable_items;
 }
 

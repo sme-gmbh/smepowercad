@@ -202,6 +202,9 @@ QComboBox QAbstractItemView {
          <bold>false</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color : red;</string>
+       </property>
        <property name="text">
         <string notr="true">x: 000000.000</string>
        </property>
@@ -217,6 +220,9 @@ QComboBox QAbstractItemView {
          <bold>false</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color : lightgreen;</string>
+       </property>
        <property name="text">
         <string notr="true">y: 000000.000</string>
        </property>
@@ -231,6 +237,9 @@ QComboBox QAbstractItemView {
          <weight>50</weight>
          <bold>false</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color : lightblue;</string>
        </property>
        <property name="text">
         <string notr="true">z: 000000.000</string>

@@ -9,7 +9,7 @@ CAD_arch_boredPile::CAD_arch_boredPile() : CADitem(CADitem::Arch_BoredPile)
 QList<CADitem::ItemType> CAD_arch_boredPile::flangable_items()
 {
     QList<CADitem::ItemType> flangable_items;
-
+    flangable_items.append(CADitem::Arch_BoredPile);
     return flangable_items;
 }
 

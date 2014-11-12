@@ -9,7 +9,14 @@ CAD_air_pipeTeeConnector::CAD_air_pipeTeeConnector() : CADitem(CADitem::Air_Pipe
 QList<CADitem::ItemType> CAD_air_pipeTeeConnector::flangable_items()
 {
     QList<CADitem::ItemType> flangable_items;
-
+    flangable_items.append(CADitem::Air_Pipe);
+    flangable_items.append(CADitem::Air_PipeEndCap);
+    flangable_items.append(CADitem::Air_PipeFireDamper);
+    flangable_items.append(CADitem::Air_PipeReducer);
+    flangable_items.append(CADitem::Air_PipeSilencer);
+    flangable_items.append(CADitem::Air_PipeTeeConnector);
+    flangable_items.append(CADitem::Air_PipeTurn);
+    flangable_items.append(CADitem::Air_PipeVolumetricFlowController);
     return flangable_items;
 }
 

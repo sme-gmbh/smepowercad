@@ -1,12 +1,20 @@
 #include "itemgripmodifier.h"
 #include "ui_itemgripmodifier.h"
 
-ItemGripModifier::ItemGripModifier(QWidget *parent) :
-    QWidget(parent),
+#include <QToolButton>
+
+ItemGripModifier::ItemGripModifier(ItemDB *itemDB, ItemWizard *itemWizard, QWidget *parent) :
+    QDialog(parent),
     ui(new Ui::ItemGripModifier)
 {
     ui->setupUi(this);
-    item = NULL;
+    this->setWindowFlags(windowFlags() | Qt::FramelessWindowHint);
+    this->hide();
+    this->itemDB = itemDB;
+    this->itemWizard = itemWizard;
+    this->item = NULL;
+
+    connect(this, SIGNAL(rejected()), this, SLOT(slot_rejected()));
 }
 
 ItemGripModifier::~ItemGripModifier()
@@ -21,6 +29,7 @@ void ItemGripModifier::setItem(CADitem *item)
 
 void ItemGripModifier::activateGrip(ItemGripModifier::ItemGripType gripType, QPoint mousePos, QVector3D scenePos)
 {
+    this->scenePos = scenePos;
 
     switch (gripType)
     {
@@ -35,7 +44,6 @@ void ItemGripModifier::activateGrip(ItemGripModifier::ItemGripType gripType, QPo
     }
     case Grip_Move:
     {
-        showAppendBox();
         break;
     }
     case Grip_Rotate_X:
@@ -55,13 +63,54 @@ void ItemGripModifier::activateGrip(ItemGripModifier::ItemGripType gripType, QPo
 
 void ItemGripModifier::finishGrip()
 {
+    this->item = NULL;
     hide();
+    deleteWdgs(ui->gridLayout);
 }
 
 void ItemGripModifier::slot_rejected()
 {
     this->item = NULL;
     this->hide();
+    deleteWdgs(ui->gridLayout);
+}
+
+void ItemGripModifier::slot_button_clicked()
+{
+    QToolButton* button = (QToolButton*)this->sender();
+    CADitem::ItemType type = (CADitem::ItemType)button->property("ItemType").toInt();
+
+    CADitem* newItem = itemDB->drawItem(this->item->layerName, type);
+
+    newItem->wizardParams.insert(QObject::tr("Position x"), QVariant::fromValue(scenePos.x()));
+    newItem->wizardParams.insert(QObject::tr("Position y"), QVariant::fromValue(scenePos.y()));
+    newItem->wizardParams.insert(QObject::tr("Position z"), QVariant::fromValue(scenePos.z()));
+
+    itemWizard->showWizard(newItem);
+
+    finishGrip();
+}
+
+void ItemGripModifier::deleteWdgs(QLayout *layout)
+{
+    QLayoutItem *item;
+    while ((item = layout->takeAt(0)))
+    {
+        if (item->layout())
+        {
+            deleteWdgs(item->layout());
+            delete item->layout();
+        }
+        if (item->widget())
+        {
+            delete item->widget();
+        }
+        delete item;
+    }
+//    this->layout()->removeItem(ui->verticalLayout);
+//    ui->verticalLayout->deleteLater();
+//    ui->verticalLayout = new QVBoxLayout(this);
+//    ((QVBoxLayout*)this->layout())->insertLayout(0, ui->verticalLayout);
 }
 
 void ItemGripModifier::showAppendBox()
@@ -540,7 +589,40 @@ void ItemGripModifier::showAppendBox()
         break;
     }
 
-    qDebug() << flangable_items;
+    ui->label->setText(tr("Choose new item"));
 
+
+//    QToolButton().setFocusPolicy(Qt::NoFocus);
+
+    int buttonCount = flangable_items.count();
+    int columnCount = sqrt(buttonCount);
+    int column = 0;
+    int row = 0;
+
+    foreach(CADitem::ItemType type, flangable_items)
+    {
+        QIcon icon = itemDB->getIconByItemType(type, QSize(64, 64));
+
+        QToolButton* button = new QToolButton(this);
+        button->setMinimumSize(64, 64);
+        button->setFocusPolicy(Qt::NoFocus);
+        button->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+        button->setIconSize(QSize(64, 64));
+        button->setIcon(icon);
+        button->setProperty("ItemType", QVariant((int)type));
+
+        connect(button, SIGNAL(clicked()), this, SLOT(slot_button_clicked()));
+
+
+        ui->gridLayout->addWidget(button, row, column);
+        column++;
+        if (column == columnCount)
+        {
+            column = 0;
+            row++;
+        }
+    }
+
+    this->move(QCursor::pos());
     this->show();
 }

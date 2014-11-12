@@ -9,7 +9,13 @@ CAD_air_pipeVolumetricFlowController::CAD_air_pipeVolumetricFlowController() : C
 QList<CADitem::ItemType> CAD_air_pipeVolumetricFlowController::flangable_items()
 {
     QList<CADitem::ItemType> flangable_items;
-
+    flangable_items.append(CADitem::Air_Pipe);
+    flangable_items.append(CADitem::Air_PipeEndCap);
+    flangable_items.append(CADitem::Air_PipeFireDamper);
+    flangable_items.append(CADitem::Air_PipeReducer);
+    flangable_items.append(CADitem::Air_PipeSilencer);
+    flangable_items.append(CADitem::Air_PipeTeeConnector);
+    flangable_items.append(CADitem::Air_PipeTurn);
     return flangable_items;
 }
 

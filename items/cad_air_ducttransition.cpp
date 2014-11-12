@@ -3,9 +3,9 @@
 CAD_air_ductTransition::CAD_air_ductTransition() : CADitem(CADitem::Air_DuctTransition)
 {
     this->description = "Air|Duct transition rect/rect";
-    wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Center y"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Center z"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Position x"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Position y"), QVariant::fromValue(0.0));
+    wizardParams.insert(QObject::tr("Position z"), QVariant::fromValue(0.0));
 
     wizardParams.insert(QObject::tr("Length (l)"), QVariant::fromValue(20.0));
     wizardParams.insert(QObject::tr("Width 1 (b)"), QVariant::fromValue(10.0));
@@ -47,7 +47,18 @@ CAD_air_ductTransition::~CAD_air_ductTransition()
 QList<CADitem::ItemType> CAD_air_ductTransition::flangable_items()
 {
     QList<CADitem::ItemType> flangable_items;
-
+    flangable_items.append(CADitem::Air_Duct);
+    flangable_items.append(CADitem::Air_DuctEndPlate);
+    flangable_items.append(CADitem::Air_DuctFireDamper);
+    flangable_items.append(CADitem::Air_DuctTeeConnector);
+    flangable_items.append(CADitem::Air_DuctTransitionRectRound);
+    flangable_items.append(CADitem::Air_DuctTurn);
+    flangable_items.append(CADitem::Air_DuctVolumetricFlowController);
+    flangable_items.append(CADitem::Air_DuctYpiece);
+    flangable_items.append(CADitem::Air_Filter);
+    flangable_items.append(CADitem::Air_HeatExchangerAirAir);
+    flangable_items.append(CADitem::Air_HeatExchangerWaterAir);
+    flangable_items.append(CADitem::Air_MultiLeafDamper);
     return flangable_items;
 }
 
@@ -93,9 +104,9 @@ void CAD_air_ductTransition::calculate()
 
 
 
-    endcap_left_duct->wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(position_led.x()));
-    endcap_left_duct->wizardParams.insert(QObject::tr("Center y"), QVariant::fromValue(position_led.y()));
-    endcap_left_duct->wizardParams.insert(QObject::tr("Center z"), QVariant::fromValue(position_led.z()));
+    endcap_left_duct->wizardParams.insert(QObject::tr("Position x"), QVariant::fromValue(position_led.x()));
+    endcap_left_duct->wizardParams.insert(QObject::tr("Position y"), QVariant::fromValue(position_led.y()));
+    endcap_left_duct->wizardParams.insert(QObject::tr("Position z"), QVariant::fromValue(position_led.z()));
     endcap_left_duct->wizardParams.insert(QObject::tr("Angle x"), QVariant::fromValue(angle_x));
     endcap_left_duct->wizardParams.insert(QObject::tr("Angle y"), QVariant::fromValue(angle_y));
     endcap_left_duct->wizardParams.insert(QObject::tr("Angle z"), QVariant::fromValue(angle_z));
@@ -107,9 +118,9 @@ void CAD_air_ductTransition::calculate()
     endcap_left_duct->calculate();
 
 
-    endcap_right_duct->wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(position_red.x()));//position.x()+l));
-    endcap_right_duct->wizardParams.insert(QObject::tr("Center y"), QVariant::fromValue(position_red.y()));//position.y()+(b-d)/2+e));
-    endcap_right_duct->wizardParams.insert(QObject::tr("Center z"), QVariant::fromValue(position_red.z()));//position.z()+(a-c)/2+f));
+    endcap_right_duct->wizardParams.insert(QObject::tr("Position x"), QVariant::fromValue(position_red.x()));//position.x()+l));
+    endcap_right_duct->wizardParams.insert(QObject::tr("Position y"), QVariant::fromValue(position_red.y()));//position.y()+(b-d)/2+e));
+    endcap_right_duct->wizardParams.insert(QObject::tr("Position z"), QVariant::fromValue(position_red.z()));//position.z()+(a-c)/2+f));
     endcap_right_duct->wizardParams.insert(QObject::tr("Angle x"), QVariant::fromValue(angle_x));
     endcap_right_duct->wizardParams.insert(QObject::tr("Angle y"), QVariant::fromValue(angle_y));
     endcap_right_duct->wizardParams.insert(QObject::tr("Angle z"), QVariant::fromValue(angle_z));
@@ -120,9 +131,9 @@ void CAD_air_ductTransition::calculate()
     endcap_right_duct->processWizardInput();
     endcap_right_duct->calculate();
 
-    flange_left_duct->wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(position_lfd.x()));
-    flange_left_duct->wizardParams.insert(QObject::tr("Center y"), QVariant::fromValue(position_lfd.y()));
-    flange_left_duct->wizardParams.insert(QObject::tr("Center z"), QVariant::fromValue(position_lfd.z()));
+    flange_left_duct->wizardParams.insert(QObject::tr("Position x"), QVariant::fromValue(position_lfd.x()));
+    flange_left_duct->wizardParams.insert(QObject::tr("Position y"), QVariant::fromValue(position_lfd.y()));
+    flange_left_duct->wizardParams.insert(QObject::tr("Position z"), QVariant::fromValue(position_lfd.z()));
     flange_left_duct->wizardParams.insert(QObject::tr("Angle x"), QVariant::fromValue(angle_x));
     flange_left_duct->wizardParams.insert(QObject::tr("Angle y"), QVariant::fromValue(angle_y));
     flange_left_duct->wizardParams.insert(QObject::tr("Angle z"), QVariant::fromValue(angle_z));
@@ -133,9 +144,9 @@ void CAD_air_ductTransition::calculate()
     flange_left_duct->processWizardInput();
     flange_left_duct->calculate();
 
-    flange_right_duct->wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(position_rfd.x()));//position.x()+l));
-    flange_right_duct->wizardParams.insert(QObject::tr("Center y"), QVariant::fromValue(position_rfd.y()));//position.y()+(b-d)/2+e));
-    flange_right_duct->wizardParams.insert(QObject::tr("Center z"), QVariant::fromValue(position_rfd.z()));//position.z()+(a-c)/2+f));
+    flange_right_duct->wizardParams.insert(QObject::tr("Position x"), QVariant::fromValue(position_rfd.x()));//position.x()+l));
+    flange_right_duct->wizardParams.insert(QObject::tr("Position y"), QVariant::fromValue(position_rfd.y()));//position.y()+(b-d)/2+e));
+    flange_right_duct->wizardParams.insert(QObject::tr("Position z"), QVariant::fromValue(position_rfd.z()));//position.z()+(a-c)/2+f));
     flange_right_duct->wizardParams.insert(QObject::tr("Angle x"), QVariant::fromValue(angle_x));
     flange_right_duct->wizardParams.insert(QObject::tr("Angle y"), QVariant::fromValue(angle_y));
     flange_right_duct->wizardParams.insert(QObject::tr("Angle z"), QVariant::fromValue(angle_z));
@@ -146,9 +157,9 @@ void CAD_air_ductTransition::calculate()
     flange_right_duct->processWizardInput();
     flange_right_duct->calculate();
 
-    transition_duct->wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(position.x()+endcap));
-    transition_duct->wizardParams.insert(QObject::tr("Center y"), QVariant::fromValue(position.y()));
-    transition_duct->wizardParams.insert(QObject::tr("Center z"), QVariant::fromValue(position.z()));
+    transition_duct->wizardParams.insert(QObject::tr("Position x"), QVariant::fromValue(position.x()+endcap));
+    transition_duct->wizardParams.insert(QObject::tr("Position y"), QVariant::fromValue(position.y()));
+    transition_duct->wizardParams.insert(QObject::tr("Position z"), QVariant::fromValue(position.z()));
     transition_duct->wizardParams.insert(QObject::tr("Angle x"), QVariant::fromValue(angle_x));
     transition_duct->wizardParams.insert(QObject::tr("Angle y"), QVariant::fromValue(angle_y));
     transition_duct->wizardParams.insert(QObject::tr("Angle z"), QVariant::fromValue(angle_z));
@@ -223,9 +234,9 @@ void CAD_air_ductTransition::calculate()
 void CAD_air_ductTransition::processWizardInput()
 {
 
-    position.setX(wizardParams.value(QObject::tr("Center x")).toDouble());
-    position.setY(wizardParams.value(QObject::tr("Center y")).toDouble());
-    position.setZ(wizardParams.value(QObject::tr("Center z")).toDouble());
+    position.setX(wizardParams.value(QObject::tr("Position x")).toDouble());
+    position.setY(wizardParams.value(QObject::tr("Position y")).toDouble());
+    position.setZ(wizardParams.value(QObject::tr("Position z")).toDouble());
 
     l = wizardParams.value(QObject::tr("Length (l)")).toDouble();
     b = wizardParams.value(QObject::tr("Width 1 (b)")).toDouble();

@@ -126,6 +126,7 @@ signals:
     void signal_highlightItem(CADitem* item);
     void signal_snapFired(QVector3D snapPos_scene, int snapMode);
     void signal_selectionChanged(QList<CADitem*>);
+    void signal_itemDeleted(CADitem* item);
 };
 
 #endif // GEOMETRYDISPLAY_H
