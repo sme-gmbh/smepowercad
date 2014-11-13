@@ -7,6 +7,7 @@ class CAD_heatcool_radiator : public CADitem
 {
 public:
     CAD_heatcool_radiator();
+    virtual ~CAD_heatcool_radiator();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

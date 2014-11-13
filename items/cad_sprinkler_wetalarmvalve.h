@@ -7,6 +7,7 @@ class CAD_sprinkler_wetAlarmValve : public CADitem
 {
 public:
     CAD_sprinkler_wetAlarmValve();
+    virtual ~CAD_sprinkler_wetAlarmValve();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

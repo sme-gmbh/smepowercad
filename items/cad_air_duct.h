@@ -8,7 +8,7 @@ class CAD_air_duct : public CADitem
 {
 public:
     CAD_air_duct();
-    ~CAD_air_duct();
+    virtual ~CAD_air_duct();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();
@@ -26,7 +26,7 @@ public:
     QVector3D pos_top_3;
     QVector3D pos_top_4;
 
-    QVector3D size;
+//    QVector3D size;
 
     qreal wall_thickness;
     qreal flange_size;

@@ -8,6 +8,14 @@ CAD_basic_polyline::CAD_basic_polyline() : CADitem(CADitem::Basic_Polyline)
 
     this->widthByBlock = false;
     this->widthByLayer = true;
+
+    processWizardInput();
+    calculate();
+}
+
+CAD_basic_polyline::~CAD_basic_polyline()
+{
+
 }
 
 QList<CADitem::ItemType> CAD_basic_polyline::flangable_items()
@@ -34,16 +42,20 @@ QImage CAD_basic_polyline::wizardImage()
 
 void CAD_basic_polyline::calculate()
 {
-//    qreal min_x;
-//    qreal min_y;
-//    qreal min_z;
-//    qreal max_x;
-//    qreal max_y;
-//    qreal max_z;
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
+
+    boundingBox.reset();
+
+    this->snap_flanges.clear();
+    this->snap_center.clear();
+    this->snap_vertices.clear();
+
+    this->snap_basepoint = (position);
 
     int i = 0;
-
-    this->boundingBox.reset();
 
     foreach(Vertex vertex, vertices)
     {

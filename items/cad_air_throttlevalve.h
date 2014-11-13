@@ -7,6 +7,7 @@ class CAD_air_throttleValve : public CADitem
 {
 public:
     CAD_air_throttleValve();
+    virtual ~CAD_air_throttleValve();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

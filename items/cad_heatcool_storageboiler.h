@@ -7,6 +7,7 @@ class CAD_heatcool_storageBoiler : public CADitem
 {
 public:
     CAD_heatcool_storageBoiler();
+    virtual ~CAD_heatcool_storageBoiler();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

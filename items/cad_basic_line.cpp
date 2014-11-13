@@ -9,13 +9,21 @@ CAD_basic_line::CAD_basic_line() : CADitem(CADitem::Basic_Line)
     widthByLayer = false;
     widthByBlock = false;
 
-    this->wizardParams.insert(QObject::tr("Position x1"), QVariant::fromValue(0.0));
-    this->wizardParams.insert(QObject::tr("Position y1"), QVariant::fromValue(0.0));
-    this->wizardParams.insert(QObject::tr("Position z1"), QVariant::fromValue(0.0));
-    this->wizardParams.insert(QObject::tr("Position x2"), QVariant::fromValue(1.0));
-    this->wizardParams.insert(QObject::tr("Position y2"), QVariant::fromValue(0.0));
-    this->wizardParams.insert(QObject::tr("Position z2"), QVariant::fromValue(0.0));
-    this->wizardParams.insert(QObject::tr("Width"), QVariant::fromValue(1.0));
+    this->wizardParams.insert("Position x1", QVariant::fromValue(0.0));
+    this->wizardParams.insert("Position y1", QVariant::fromValue(0.0));
+    this->wizardParams.insert("Position z1", QVariant::fromValue(0.0));
+    this->wizardParams.insert("Position x2", QVariant::fromValue(1.0));
+    this->wizardParams.insert("Position y2", QVariant::fromValue(0.0));
+    this->wizardParams.insert("Position z2", QVariant::fromValue(0.0));
+    this->wizardParams.insert("Width", QVariant::fromValue(1.0));
+
+    processWizardInput();
+    calculate();
+}
+
+CAD_basic_line::~CAD_basic_line()
+{
+
 }
 
 QList<CADitem::ItemType> CAD_basic_line::flangable_items()
@@ -42,11 +50,19 @@ QImage CAD_basic_line::wizardImage()
 
 void CAD_basic_line::calculate()
 {
-//    this->boundingBox.p0 = this->p1;
-//    this->boundingBox.a1 = QVector3D(p2.x() - p1.x(), 0.0, 0.0);
-//    this->boundingBox.a2 = QVector3D(0.0, p2.y() - p1.y(), 0.0);
-//    this->boundingBox.a3 = QVector3D(0.0, 0.0, p2.z() - p1.z());
-    this->boundingBox.reset();
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
+
+    boundingBox.reset();
+
+    this->snap_flanges.clear();
+    this->snap_center.clear();
+    this->snap_vertices.clear();
+
+    this->snap_basepoint = (position);
+
     this->boundingBox.enterVertex(this->p1);
     this->boundingBox.enterVertex(this->p2);
 
@@ -59,19 +75,19 @@ void CAD_basic_line::calculate()
 
 void CAD_basic_line::processWizardInput()
 {
-    this->p1.setX(wizardParams.value(QObject::tr("Position x1")).toDouble());
-    this->p1.setY(wizardParams.value(QObject::tr("Position y1")).toDouble());
-    this->p1.setZ(wizardParams.value(QObject::tr("Position z1")).toDouble());
+    this->p1.setX(wizardParams.value("Position x1").toDouble());
+    this->p1.setY(wizardParams.value("Position y1").toDouble());
+    this->p1.setZ(wizardParams.value("Position z1").toDouble());
 
 
-    this->p2.setX(wizardParams.value(QObject::tr("Position x2")).toDouble());
-    this->p2.setY(wizardParams.value(QObject::tr("Position y2")).toDouble());
-    this->p2.setZ(wizardParams.value(QObject::tr("Position z2")).toDouble());
+    this->p2.setX(wizardParams.value("Position x2").toDouble());
+    this->p2.setY(wizardParams.value("Position y2").toDouble());
+    this->p2.setZ(wizardParams.value("Position z2").toDouble());
 
-    this->width = wizardParams.value(QObject::tr("Width")).toDouble();
+    this->width = wizardParams.value("Width").toDouble();
 
-    this->angle_x = wizardParams.value(QObject::tr("Angle x")).toDouble();
-    this->angle_y = wizardParams.value(QObject::tr("Angle y")).toDouble();
-    this->angle_z = wizardParams.value(QObject::tr("Angle z")).toDouble();
+    this->angle_x = wizardParams.value("Angle x").toDouble();
+    this->angle_y = wizardParams.value("Angle y").toDouble();
+    this->angle_z = wizardParams.value("Angle z").toDouble();
 
 }

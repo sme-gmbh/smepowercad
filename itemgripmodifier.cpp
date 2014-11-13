@@ -82,9 +82,13 @@ void ItemGripModifier::slot_button_clicked()
 
     CADitem* newItem = itemDB->drawItem(this->item->layerName, type);
 
-    newItem->wizardParams.insert(QObject::tr("Position x"), QVariant::fromValue(scenePos.x()));
-    newItem->wizardParams.insert(QObject::tr("Position y"), QVariant::fromValue(scenePos.y()));
-    newItem->wizardParams.insert(QObject::tr("Position z"), QVariant::fromValue(scenePos.z()));
+    newItem->wizardParams.insert("Position x", QVariant::fromValue(scenePos.x()));
+    newItem->wizardParams.insert("Position y", QVariant::fromValue(scenePos.y()));
+    newItem->wizardParams.insert("Position z", QVariant::fromValue(scenePos.z()));
+    // tbd: add flange angles
+    newItem->wizardParams.insert("Angle x", QVariant::fromValue(this->item->angle_x));
+    newItem->wizardParams.insert("Angle y", QVariant::fromValue(this->item->angle_y));
+    newItem->wizardParams.insert("Angle z", QVariant::fromValue(this->item->angle_z));
 
     itemWizard->showWizard(newItem);
 

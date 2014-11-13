@@ -7,6 +7,7 @@ class CAD_heatcool_controlvalve : public CADitem
 {
 public:
     CAD_heatcool_controlvalve();
+    virtual ~CAD_heatcool_controlvalve();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

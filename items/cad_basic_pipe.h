@@ -11,6 +11,7 @@ class CAD_basic_pipe : public CADitem
 {
 public:
     CAD_basic_pipe();
+    virtual ~CAD_basic_pipe();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

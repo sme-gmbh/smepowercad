@@ -5,6 +5,16 @@ M3dBoundingBox::M3dBoundingBox()
     reset();
 }
 
+M3dBoundingBox::M3dBoundingBox(M3dBoundingBox &box)
+{
+    this->x_min = box.x_min;
+    this->x_max = box.x_max;
+    this->y_min = box.y_min;
+    this->y_max = box.y_max;
+    this->z_min = box.z_min;
+    this->z_max = box.z_max;
+}
+
 void M3dBoundingBox::reset()
 {
     x_min =  10e10;

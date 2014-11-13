@@ -7,6 +7,7 @@ class CAD_arch_window : public CADitem
 {
 public:
     CAD_arch_window();
+    virtual ~CAD_arch_window();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

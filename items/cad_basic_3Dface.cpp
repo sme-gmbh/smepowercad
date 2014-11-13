@@ -5,6 +5,19 @@
 CAD_basic_3Dface::CAD_basic_3Dface() : CADitem(CADitem::Basic_Face)
 {
     this->description = "Basic|3D face";
+    wizardParams.insert("Position x", QVariant::fromValue(0.0));
+    wizardParams.insert("Position y", QVariant::fromValue(0.0));
+    wizardParams.insert("Position z", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+
+    processWizardInput();
+    calculate();
+}
+
+CAD_basic_3Dface::~CAD_basic_3Dface()
+{
 
 }
 
@@ -32,6 +45,19 @@ QImage CAD_basic_3Dface::wizardImage()
 
 void CAD_basic_3Dface::calculate()
 {
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
+
+    boundingBox.reset();
+
+    this->snap_flanges.clear();
+    this->snap_center.clear();
+    this->snap_vertices.clear();
+
+    this->snap_basepoint = (position);
+
 //    qreal min_x;
 //    qreal min_y;
 //    qreal min_z;
@@ -41,7 +67,6 @@ void CAD_basic_3Dface::calculate()
 
     int i = 0;
 
-    this->boundingBox.reset();
 
     foreach(Vertex vertex, vertices)
     {
@@ -80,5 +105,11 @@ void CAD_basic_3Dface::calculate()
 
 void CAD_basic_3Dface::processWizardInput()
 {
+    position.setX(wizardParams.value("Position x").toDouble());
+    position.setY(wizardParams.value("Position y").toDouble());
+    position.setZ(wizardParams.value("Position z").toDouble());
+    angle_x = wizardParams.value("Angle x").toDouble();
+    angle_y = wizardParams.value("Angle y").toDouble();
+    angle_z = wizardParams.value("Angle z").toDouble();
 
 }

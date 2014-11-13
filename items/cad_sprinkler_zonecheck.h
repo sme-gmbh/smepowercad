@@ -7,6 +7,7 @@ class CAD_sprinkler_zoneCheck : public CADitem
 {
 public:
     CAD_sprinkler_zoneCheck();
+    virtual ~CAD_sprinkler_zoneCheck();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

@@ -7,6 +7,7 @@ class CAD_basic_point : public CADitem
 {
 public:
     CAD_basic_point();
+    virtual ~CAD_basic_point();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

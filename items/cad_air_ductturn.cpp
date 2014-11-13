@@ -3,26 +3,32 @@
 CAD_air_ductTurn::CAD_air_ductTurn() : CADitem(CADitem::Air_DuctTurn)
 {
     this->description = "Air|Duct turn";
-    wizardParams.insert(QObject::tr("Position x"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Position y"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Position z"), QVariant::fromValue(0.0));
+    wizardParams.insert("Position x", QVariant::fromValue(0.0));
+    wizardParams.insert("Position y", QVariant::fromValue(0.0));
+    wizardParams.insert("Position z", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
 
-    wizardParams.insert(QObject::tr("Radius (r)"), QVariant::fromValue(10.0));
-    wizardParams.insert(QObject::tr("Width 1 (b)"), QVariant::fromValue(5.0));
-    wizardParams.insert(QObject::tr("Width 2 (d)"), QVariant::fromValue(5.0));
-    wizardParams.insert(QObject::tr("Height (a)"), QVariant::fromValue(5.0));
+    wizardParams.insert("Radius (r)", QVariant::fromValue(10.0));
+    wizardParams.insert("Width 1 (b)", QVariant::fromValue(5.0));
+    wizardParams.insert("Width 2 (d)", QVariant::fromValue(5.0));
+    wizardParams.insert("Height (a)", QVariant::fromValue(5.0));
 
-    wizardParams.insert(QObject::tr("Endcap 1 (f)"), QVariant::fromValue(5.0));
-    wizardParams.insert(QObject::tr("Endcap 2 (e)"), QVariant::fromValue(5.0));
+    wizardParams.insert("Endcap 1 (f)", QVariant::fromValue(5.0));
+    wizardParams.insert("Endcap 2 (e)", QVariant::fromValue(5.0));
 
-    wizardParams.insert(QObject::tr("Wall thickness"), QVariant::fromValue(1.0));
-    wizardParams.insert(QObject::tr("Flange size"), QVariant::fromValue(1.0));
-    wizardParams.insert(QObject::tr("Angle (alpha)"), QVariant::fromValue(1.0));
+    wizardParams.insert("Wall thickness", QVariant::fromValue(1.0));
+    wizardParams.insert("Flange size", QVariant::fromValue(1.0));
+    wizardParams.insert("Angle (alpha)", QVariant::fromValue(1.0));
 
+    processWizardInput();
+    calculate();
+}
 
-    wizardParams.insert(QObject::tr("Angle x"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Angle y"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Angle z"), QVariant::fromValue(0.0));
+CAD_air_ductTurn::~CAD_air_ductTurn()
+{
+
 }
 
 QList<CADitem::ItemType> CAD_air_ductTurn::flangable_items()
@@ -62,28 +68,39 @@ QImage CAD_air_ductTurn::wizardImage()
 
 void CAD_air_ductTurn::calculate()
 {
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 
+    boundingBox.reset();
+
+    this->snap_flanges.clear();
+    this->snap_center.clear();
+    this->snap_vertices.clear();
+
+    this->snap_basepoint = (position);
 }
 
 void CAD_air_ductTurn::processWizardInput()
 {
-    position.setX(wizardParams.value(QObject::tr("Position x")).toDouble());
-    position.setY(wizardParams.value(QObject::tr("Position y")).toDouble());
-    position.setZ(wizardParams.value(QObject::tr("Position z")).toDouble());
+    position.setX(wizardParams.value("Position x").toDouble());
+    position.setY(wizardParams.value("Position y").toDouble());
+    position.setZ(wizardParams.value("Position z").toDouble());
 
-    angle_x = wizardParams.value(QObject::tr("Angle x")).toDouble();
-    angle_y = wizardParams.value(QObject::tr("Angle y")).toDouble();
-    angle_z = wizardParams.value(QObject::tr("Angle z")).toDouble();
+    angle_x = wizardParams.value("Angle x").toDouble();
+    angle_y = wizardParams.value("Angle y").toDouble();
+    angle_z = wizardParams.value("Angle z").toDouble();
 
-    wall_thickness = wizardParams.value(QObject::tr("Wall thickness")).toDouble();;
-   flange_size = wizardParams.value(QObject::tr("Flange size")).toDouble();;
+    wall_thickness = wizardParams.value("Wall thickness").toDouble();;
+   flange_size = wizardParams.value("Flange size").toDouble();;
 
-    radius = wizardParams.value(QObject::tr("Radius (r)")).toDouble();;
-    width_1 = wizardParams.value(QObject::tr("Width 1 (b)")).toDouble();;
-    width_2 = wizardParams.value(QObject::tr("Width 2 (d)")).toDouble();;
-    height = wizardParams.value(QObject::tr("Height (a)")).toDouble();;
-    angle = wizardParams.value(QObject::tr("Angle (alpha)")).toDouble();;
-    endcap_1 = wizardParams.value(QObject::tr("Endcap 1 (f)")).toDouble();;
-    endcap_2 = wizardParams.value(QObject::tr("Endcap 2 (e)")).toDouble();;
+    radius = wizardParams.value("Radius (r)").toDouble();;
+    width_1 = wizardParams.value("Width 1 (b)").toDouble();;
+    width_2 = wizardParams.value("Width 2 (d)").toDouble();;
+    height = wizardParams.value("Height (a)").toDouble();;
+    angle = wizardParams.value("Angle (alpha)").toDouble();;
+    endcap_1 = wizardParams.value("Endcap 1 (f)").toDouble();;
+    endcap_2 = wizardParams.value("Endcap 2 (e)").toDouble();;
 
 }

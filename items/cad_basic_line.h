@@ -7,6 +7,7 @@ class CAD_basic_line : public CADitem
 {
 public:
     CAD_basic_line();
+    virtual ~CAD_basic_line();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

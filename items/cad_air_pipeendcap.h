@@ -7,6 +7,7 @@ class CAD_air_pipeEndCap : public CADitem
 {
 public:
     CAD_air_pipeEndCap();
+    virtual ~CAD_air_pipeEndCap();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

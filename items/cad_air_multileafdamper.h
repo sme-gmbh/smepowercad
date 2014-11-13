@@ -7,6 +7,7 @@ class CAD_air_multiLeafDamper : public CADitem
 {
 public:
     CAD_air_multiLeafDamper();
+    virtual ~CAD_air_multiLeafDamper();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

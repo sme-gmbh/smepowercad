@@ -7,6 +7,7 @@ class CAD_sanitary_sink : public CADitem
 {
 public:
     CAD_sanitary_sink();
+    virtual ~CAD_sanitary_sink();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

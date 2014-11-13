@@ -7,6 +7,7 @@ class CAD_sanitary_shower : public CADitem
 {
 public:
     CAD_sanitary_shower();
+    virtual ~CAD_sanitary_shower();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

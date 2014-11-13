@@ -7,6 +7,7 @@ class CAD_sanitary_pipeReducer : public CADitem
 {
 public:
     CAD_sanitary_pipeReducer();
+    virtual ~CAD_sanitary_pipeReducer();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

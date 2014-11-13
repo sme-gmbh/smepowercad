@@ -7,6 +7,7 @@ class CAD_air_pressureReliefDamper : public CADitem
 {
 public:
     CAD_air_pressureReliefDamper();
+    virtual ~CAD_air_pressureReliefDamper();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

@@ -9,13 +9,18 @@ CAD_basic_face::CAD_basic_face() : CADitem(CADitem::Basic_Face)
     widthByLayer = false;
     widthByBlock = false;
 
-    this->wizardParams.insert(QObject::tr("Position x1"), QVariant::fromValue(0.0));
-    this->wizardParams.insert(QObject::tr("Position y1"), QVariant::fromValue(0.0));
-    this->wizardParams.insert(QObject::tr("Position z1"), QVariant::fromValue(0.0));
-    this->wizardParams.insert(QObject::tr("Position x2"), QVariant::fromValue(1.0));
-    this->wizardParams.insert(QObject::tr("Position y2"), QVariant::fromValue(0.0));
-    this->wizardParams.insert(QObject::tr("Position z2"), QVariant::fromValue(0.0));
-    this->wizardParams.insert(QObject::tr("Width"), QVariant::fromValue(1.0));
+    this->wizardParams.insert("Position x1", QVariant::fromValue(0.0));
+    this->wizardParams.insert("Position y1", QVariant::fromValue(0.0));
+    this->wizardParams.insert("Position z1", QVariant::fromValue(0.0));
+
+    this->wizardParams.insert("Width", QVariant::fromValue(1.0));
+    processWizardInput();
+    calculate();
+}
+
+CAD_basic_face::~CAD_basic_face()
+{
+
 }
 
 QList<CADitem::ItemType> CAD_basic_face::flangable_items()
@@ -42,9 +47,27 @@ QImage CAD_basic_face::wizardImage()
 
 void CAD_basic_face::calculate()
 {
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
+
+    boundingBox.reset();
+
+    this->snap_flanges.clear();
+    this->snap_center.clear();
+    this->snap_vertices.clear();
+
+    this->snap_basepoint = (position);
 }
 
 void CAD_basic_face::processWizardInput()
 {
+    position.setX(wizardParams.value("Position x").toDouble());
+    position.setY(wizardParams.value("Position y").toDouble());
+    position.setZ(wizardParams.value("Position z").toDouble());
+    angle_x = wizardParams.value("Angle x").toDouble();
+    angle_y = wizardParams.value("Angle y").toDouble();
+    angle_z = wizardParams.value("Angle z").toDouble();
 
 }

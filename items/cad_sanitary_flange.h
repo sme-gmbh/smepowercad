@@ -7,6 +7,7 @@ class CAD_sanitary_flange : public CADitem
 {
 public:
     CAD_sanitary_flange();
+    virtual ~CAD_sanitary_flange();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

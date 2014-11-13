@@ -7,6 +7,7 @@ class CAD_heatcool_coolingTower : public CADitem
 {
 public:
     CAD_heatcool_coolingTower();
+    virtual ~CAD_heatcool_coolingTower();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

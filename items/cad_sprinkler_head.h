@@ -7,6 +7,7 @@ class CAD_sprinkler_head : public CADitem
 {
 public:
     CAD_sprinkler_head();
+    virtual ~CAD_sprinkler_head();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

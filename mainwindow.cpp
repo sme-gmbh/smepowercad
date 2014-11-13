@@ -202,22 +202,22 @@ MainWindow::MainWindow(QWidget *parent) :
     //    item->processWizardInput();
     //    item->calculate();
 
-    CAD_basic_turn* item;
-    QVector3D pos;
+//    CAD_basic_turn* item;
+//    QVector3D pos;
 
 
-    for (int i=0; i < 2; i++)
-    {
-        if(i != 0)
-        {
-            pos = QVector3D(20.0 * i, 20.0 * i, 20.0 * i);
-            item = (CAD_basic_turn*)itemDB->drawItem("X", CADitem::Basic_Turn);
-            item->position = pos + QVector3D(0.0, (-20 * i) % 40, 0.0);
-            item->angle_z = (90 * i) % 180;
+//    for (int i=0; i < 2; i++)
+//    {
+//        if(i != 0)
+//        {
+//            pos = QVector3D(20.0 * i, 20.0 * i, 20.0 * i);
+//            item = (CAD_basic_turn*)itemDB->drawItem("X", CADitem::Basic_Turn);
+//            item->position = pos + QVector3D(0.0, (-20 * i) % 40, 0.0);
+//            item->angle_z = (90 * i) % 180;
 
-            item->calculate();
-        }
-    }
+//            item->calculate();
+//        }
+//    }
 
 
     this->layerManager->updateAllLayers();

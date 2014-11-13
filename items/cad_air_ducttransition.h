@@ -15,15 +15,6 @@ public:
     virtual void processWizardInput();
 
 private:
-    QVector3D pos_bot_1;
-    QVector3D pos_bot_2;
-    QVector3D pos_bot_3;
-    QVector3D pos_bot_4;
-    QVector3D pos_top_1;
-    QVector3D pos_top_2;
-    QVector3D pos_top_3;
-    QVector3D pos_top_4;
-
     qreal wall_thickness;
     qreal endcap;
     qreal e, f; //offset dy and dz

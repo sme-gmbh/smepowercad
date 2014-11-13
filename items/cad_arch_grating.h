@@ -7,6 +7,7 @@ class CAD_arch_grating : public CADitem
 {
 public:
     CAD_arch_grating();
+    virtual ~CAD_arch_grating();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

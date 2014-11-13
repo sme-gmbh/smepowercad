@@ -7,6 +7,7 @@ class CAD_heatcool_sensor : public CADitem
 {
 public:
     CAD_heatcool_sensor();
+    virtual ~CAD_heatcool_sensor();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

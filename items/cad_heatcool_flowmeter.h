@@ -7,6 +7,7 @@ class CAD_heatcool_flowmeter : public CADitem
 {
 public:
     CAD_heatcool_flowmeter();
+    virtual ~CAD_heatcool_flowmeter();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

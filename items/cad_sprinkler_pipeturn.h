@@ -7,6 +7,7 @@ class CAD_sprinkler_pipeTurn : public CADitem
 {
 public:
     CAD_sprinkler_pipeTurn();
+    virtual ~CAD_sprinkler_pipeTurn();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

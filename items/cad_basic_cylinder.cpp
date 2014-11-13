@@ -3,19 +3,22 @@
 CAD_basic_cylinder::CAD_basic_cylinder() : CADitem(CADitem::Basic_Cylinder)
 {
     this->description = "Basic|Cylinder";
-    radius = 1.0;
-    center_base = QVector3D();
-    height = 1.0;
+    wizardParams.insert("Position x", QVariant::fromValue(0.0));
+    wizardParams.insert("Position y", QVariant::fromValue(0.0));
+    wizardParams.insert("Position z", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+    wizardParams.insert("Radius", QVariant::fromValue(1.0));
+    wizardParams.insert("Height", QVariant::fromValue(1.0));
 
-    wizardParams.insert(QObject::tr("Position x"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Position y"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Position z"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Height"), QVariant::fromValue(1.0));
-    wizardParams.insert(QObject::tr("Radius"), QVariant::fromValue(1.0));
-    wizardParams.insert(QObject::tr("Angle x"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Angle y"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Angle z"), QVariant::fromValue(0.0));
-    //    wizardParams.insert(QObject::tr("Name"), QVariant::fromValue(QString()));
+    processWizardInput();
+    calculate();
+}
+
+CAD_basic_cylinder::~CAD_basic_cylinder()
+{
+
 }
 
 QList<CADitem::ItemType> CAD_basic_cylinder::flangable_items()
@@ -42,18 +45,31 @@ QImage CAD_basic_cylinder::wizardImage()
 
 void CAD_basic_cylinder::calculate()
 {
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
+
+    boundingBox.reset();
+
+    this->snap_flanges.clear();
+    this->snap_center.clear();
+    this->snap_vertices.clear();
+
+    this->snap_basepoint = (position);
+
     this->snap_basepoint = this->center_base;
 }
 
 void CAD_basic_cylinder::processWizardInput()
 {
-    center_base.setX(wizardParams.value(QObject::tr("Position x")).toDouble());
-    center_base.setY(wizardParams.value(QObject::tr("Position y")).toDouble());
-    center_base.setZ(wizardParams.value(QObject::tr("Position z")).toDouble());
-    height = wizardParams.value(QObject::tr("Height")).toDouble();
-    radius = wizardParams.value(QObject::tr("Radius")).toDouble();
-    angle_x = wizardParams.value(QObject::tr("Angle x")).toDouble();
-    angle_y = wizardParams.value(QObject::tr("Angle y")).toDouble();
-    angle_z = wizardParams.value(QObject::tr("Angle z")).toDouble();
+    center_base.setX(wizardParams.value("Position x").toDouble());
+    center_base.setY(wizardParams.value("Position y").toDouble());
+    center_base.setZ(wizardParams.value("Position z").toDouble());
+    angle_x = wizardParams.value("Angle x").toDouble();
+    angle_y = wizardParams.value("Angle y").toDouble();
+    angle_z = wizardParams.value("Angle z").toDouble();
+    radius = wizardParams.value("Radius").toDouble();
+    height = wizardParams.value("Height").toDouble();
 
 }

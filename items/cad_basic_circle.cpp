@@ -3,19 +3,25 @@
 CAD_basic_circle::CAD_basic_circle() : CADitem(CADitem::Basic_Circle)
 {
     this->description = "Basic|Circle";
-    this->radius = 1;
-    this->center = QVector3D(0.0, 0.0, 0.0);
     this->width = 0.0;
     this->widthByLayer = true;
     this->widthByBlock = false;
 
-    wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Center y"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Center z"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Radius"), QVariant::fromValue(1.0));
-    wizardParams.insert(QObject::tr("Angle x"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Angle y"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Angle z"), QVariant::fromValue(0.0));
+    wizardParams.insert("Center x", QVariant::fromValue(0.0));
+    wizardParams.insert("Center y", QVariant::fromValue(0.0));
+    wizardParams.insert("Center z", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+    wizardParams.insert("Radius", QVariant::fromValue(1.0));
+
+    processWizardInput();
+    calculate();
+}
+
+CAD_basic_circle::~CAD_basic_circle()
+{
+
 }
 
 QList<CADitem::ItemType> CAD_basic_circle::flangable_items()
@@ -42,16 +48,29 @@ QImage CAD_basic_circle::wizardImage()
 
 void CAD_basic_circle::calculate()
 {
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
+
+    boundingBox.reset();
+
+    this->snap_flanges.clear();
+    this->snap_center.clear();
+    this->snap_vertices.clear();
+
+    this->snap_basepoint = (position);
+
     this->snap_basepoint = this->center;
 }
 
 void CAD_basic_circle::processWizardInput()
 {
-    center.setX(wizardParams.value(QObject::tr("Center x")).toDouble());
-    center.setY(wizardParams.value(QObject::tr("Center y")).toDouble());
-    center.setZ(wizardParams.value(QObject::tr("Center z")).toDouble());
-    radius = wizardParams.value(QObject::tr("Radius")).toDouble();
-    angle_x = wizardParams.value(QObject::tr("Angle x")).toDouble();
-    angle_y = wizardParams.value(QObject::tr("Angle y")).toDouble();
-    angle_z = wizardParams.value(QObject::tr("Angle z")).toDouble();
+    center.setX(wizardParams.value("Center x").toDouble());
+    center.setY(wizardParams.value("Center y").toDouble());
+    center.setZ(wizardParams.value("Center z").toDouble());
+    angle_x = wizardParams.value("Angle x").toDouble();
+    angle_y = wizardParams.value("Angle y").toDouble();
+    angle_z = wizardParams.value("Angle z").toDouble();
+    radius = wizardParams.value("Radius").toDouble();
 }

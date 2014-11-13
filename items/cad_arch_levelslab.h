@@ -7,6 +7,7 @@ class CAD_arch_levelSlab : public CADitem
 {
 public:
     CAD_arch_levelSlab();
+    virtual ~CAD_arch_levelSlab();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

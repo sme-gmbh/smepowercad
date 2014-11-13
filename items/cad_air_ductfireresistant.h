@@ -7,6 +7,7 @@ class CAD_air_ductFireResistant : public CADitem
 {
 public:
     CAD_air_ductFireResistant();
+    virtual ~CAD_air_ductFireResistant();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

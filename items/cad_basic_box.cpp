@@ -3,25 +3,23 @@
 CAD_basic_box::CAD_basic_box() : CADitem(CADitem::Basic_Box)
 {
     this->description = "Basic|Box";
+    wizardParams.insert("Position x", QVariant::fromValue(0.0));
+    wizardParams.insert("Position y", QVariant::fromValue(0.0));
+    wizardParams.insert("Position z", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+    wizardParams.insert("Size x", QVariant::fromValue(1.0));
+    wizardParams.insert("Size y", QVariant::fromValue(1.0));
+    wizardParams.insert("Size z", QVariant::fromValue(1.0));
 
-    pos_bot_1 = QVector3D(-1, -1,  1);
-    pos_bot_2 = QVector3D( 1, -1,  1);
-    pos_bot_3 = QVector3D( 1, -1, -1);
-    pos_bot_4 = QVector3D(-1, -1, -1);
-    pos_top_1 = QVector3D(-1,  1,  1);
-    pos_top_2 = QVector3D( 1,  1,  1);
-    pos_top_3 = QVector3D( 1,  1, -1);
-    pos_top_4 = QVector3D(-1,  1, -1);
+    processWizardInput();
+    calculate();
+}
 
-    wizardParams.insert(QObject::tr("Position x"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Position y"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Position z"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Size x"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Size y"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Size z"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Angle x"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Angle y"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Angle z"), QVariant::fromValue(0.0));
+CAD_basic_box::~CAD_basic_box()
+{
+
 }
 
 QList<CADitem::ItemType> CAD_basic_box::flangable_items()
@@ -48,14 +46,18 @@ QImage CAD_basic_box::wizardImage()
 
 void CAD_basic_box::calculate()
 {
-    this->snap_basepoint = ((pos_bot_1 +
-                            pos_bot_2 +
-                            pos_bot_3 +
-                            pos_bot_4 +
-                            pos_top_1 +
-                            pos_top_2 +
-                            pos_top_3 +
-                            pos_top_4) / 8.0);
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
+
+    boundingBox.reset();
+
+    this->snap_flanges.clear();
+    this->snap_center.clear();
+    this->snap_vertices.clear();
+
+    this->snap_basepoint = (position);
 
     this->snap_vertices.append(pos_bot_1);
     this->snap_vertices.append(pos_bot_2);
@@ -97,15 +99,15 @@ void CAD_basic_box::processWizardInput()
 {
     QVector3D size;
 
-    position.setX(wizardParams.value(QObject::tr("Position x")).toDouble());
-    position.setY(wizardParams.value(QObject::tr("Position y")).toDouble());
-    position.setZ(wizardParams.value(QObject::tr("Position z")).toDouble());
-    size.setX(wizardParams.value(QObject::tr("Size x")).toDouble());
-    size.setY(wizardParams.value(QObject::tr("Size y")).toDouble());
-    size.setZ(wizardParams.value(QObject::tr("Size z")).toDouble());
-    angle_x = wizardParams.value(QObject::tr("Angle x")).toDouble();
-    angle_y = wizardParams.value(QObject::tr("Angle y")).toDouble();
-    angle_z = wizardParams.value(QObject::tr("Angle z")).toDouble();
+    position.setX(wizardParams.value("Position x").toDouble());
+    position.setY(wizardParams.value("Position y").toDouble());
+    position.setZ(wizardParams.value("Position z").toDouble());
+    angle_x = wizardParams.value("Angle x").toDouble();
+    angle_y = wizardParams.value("Angle y").toDouble();
+    angle_z = wizardParams.value("Angle z").toDouble();
+    size.setX(wizardParams.value("Size x").toDouble());
+    size.setY(wizardParams.value("Size y").toDouble());
+    size.setZ(wizardParams.value("Size z").toDouble());
 
     pos_bot_1 = position;
     pos_bot_2 = position;
@@ -116,21 +118,12 @@ void CAD_basic_box::processWizardInput()
     pos_top_3 = position;
     pos_top_4 = position;
 
-//    pos_bot_1 = QVector3D(-1, -1,  1);
-//    pos_bot_2 = QVector3D( 1, -1,  1);
-//    pos_bot_3 = QVector3D( 1, -1, -1);
-//    pos_bot_4 = QVector3D(-1, -1, -1);
-//    pos_top_1 = QVector3D(-1,  1,  1);
-//    pos_top_2 = QVector3D( 1,  1,  1);
-//    pos_top_3 = QVector3D( 1,  1, -1);
-//    pos_top_4 = QVector3D(-1,  1, -1);
-
     pos_bot_1 += QVector3D(-0.5, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z();
     pos_bot_2 += QVector3D( 0.5, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z();
-    pos_bot_3 += QVector3D( 0.5, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z();
-    pos_bot_4 += QVector3D(-0.5, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z();
-    pos_top_1 += QVector3D(-0.5, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z();
-    pos_top_2 += QVector3D( 0.5, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z();
+    pos_bot_3 += QVector3D( 0.5, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z();
+    pos_bot_4 += QVector3D(-0.5, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z();
+    pos_top_1 += QVector3D(-0.5, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z();
+    pos_top_2 += QVector3D( 0.5, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z();
     pos_top_3 += QVector3D( 0.5, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z();
     pos_top_4 += QVector3D(-0.5, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z();
 }

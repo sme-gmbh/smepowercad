@@ -7,6 +7,7 @@ class CAD_air_pipeTeeConnector : public CADitem
 {
 public:
     CAD_air_pipeTeeConnector();
+    virtual ~CAD_air_pipeTeeConnector();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

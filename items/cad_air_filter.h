@@ -7,6 +7,7 @@ class CAD_air_filter : public CADitem
 {
 public:
     CAD_air_filter();
+    virtual ~CAD_air_filter();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

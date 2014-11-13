@@ -7,6 +7,7 @@ class CAD_heatcool_filter : public CADitem
 {
 public:
     CAD_heatcool_filter();
+    virtual ~CAD_heatcool_filter();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

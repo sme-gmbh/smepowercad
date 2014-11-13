@@ -7,6 +7,7 @@ class M3dBoundingBox
 {
 public:
     M3dBoundingBox();
+    M3dBoundingBox(M3dBoundingBox &box);
 
     qreal x_min, x_max;
     qreal y_min, y_max;

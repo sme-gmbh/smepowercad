@@ -7,16 +7,23 @@ CAD_basic_turn::CAD_basic_turn() : CADitem(CADitem::Basic_Turn)
     radius_turn = 20.0;
     angle_turn = 90.0;
 
-    wizardParams.insert(QObject::tr("Position x"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Position y"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Position z"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Turn radius"), QVariant::fromValue(20.0));
-    wizardParams.insert(QObject::tr("Turn angle"), QVariant::fromValue(90.0));
-    wizardParams.insert(QObject::tr("Outer diameter"), QVariant::fromValue(10.0));
-    wizardParams.insert(QObject::tr("Wall thickness"), QVariant::fromValue(2.0));
-    wizardParams.insert(QObject::tr("Angle x"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Angle y"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Angle z"), QVariant::fromValue(0.0));
+    wizardParams.insert("Position x", QVariant::fromValue(0.0));
+    wizardParams.insert("Position y", QVariant::fromValue(0.0));
+    wizardParams.insert("Position z", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+    wizardParams.insert("Wall thickness", QVariant::fromValue(2.0));
+    wizardParams.insert("Turn radius", QVariant::fromValue(20.0));
+    wizardParams.insert("Turn angle", QVariant::fromValue(90.0));
+    wizardParams.insert("Outer diameter", QVariant::fromValue(10.0));
+
+    processWizardInput();
+    calculate();
+}
+
+CAD_basic_turn::~CAD_basic_turn()
+{
 
 }
 
@@ -45,7 +52,19 @@ QImage CAD_basic_turn::wizardImage()
 
 void CAD_basic_turn::calculate()
 {
-    this->boundingBox.reset();
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
+
+    boundingBox.reset();
+
+    this->snap_flanges.clear();
+    this->snap_center.clear();
+    this->snap_vertices.clear();
+
+    this->snap_basepoint = (position);
+
     this->snap_basepoint = this->position;
     this->snap_flanges.append(this->position);
 
@@ -105,16 +124,16 @@ void CAD_basic_turn::calculate()
 
 void CAD_basic_turn::processWizardInput()
 {
-    position.setX(wizardParams.value(QObject::tr("Position x")).toDouble());
-    position.setY(wizardParams.value(QObject::tr("Position y")).toDouble());
-    position.setZ(wizardParams.value(QObject::tr("Position z")).toDouble());
-    radius_turn = wizardParams.value(QObject::tr("Turn radius")).toDouble();
-    angle_turn = wizardParams.value(QObject::tr("Turn angle")).toDouble();
-    radius_pipe = wizardParams.value(QObject::tr("Outer diameter")).toDouble() / 2.0;
-    wallThickness = wizardParams.value(QObject::tr("Wall thickness")).toDouble();
-    angle_x = wizardParams.value(QObject::tr("Angle x")).toDouble();
-    angle_y = wizardParams.value(QObject::tr("Angle y")).toDouble();
-    angle_z = wizardParams.value(QObject::tr("Angle z")).toDouble();
+    position.setX(wizardParams.value("Position x").toDouble());
+    position.setY(wizardParams.value("Position y").toDouble());
+    position.setZ(wizardParams.value("Position z").toDouble());
+    angle_x = wizardParams.value("Angle x").toDouble();
+    angle_y = wizardParams.value("Angle y").toDouble();
+    angle_z = wizardParams.value("Angle z").toDouble();
+    wallThickness = wizardParams.value("Wall thickness").toDouble();
+    radius_turn = wizardParams.value("Turn radius").toDouble();
+    angle_turn = wizardParams.value("Turn angle").toDouble();
+    radius_pipe = wizardParams.value("Outer diameter").toDouble() / 2.0;
 
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);

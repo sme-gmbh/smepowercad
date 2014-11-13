@@ -7,6 +7,7 @@ class CAD_air_canvasFlange : public CADitem
 {
 public:
     CAD_air_canvasFlange();
+    virtual ~CAD_air_canvasFlange();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

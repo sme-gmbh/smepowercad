@@ -7,6 +7,7 @@ class CAD_air_pipeVolumetricFlowController : public CADitem
 {
 public:
     CAD_air_pipeVolumetricFlowController();
+    virtual ~CAD_air_pipeVolumetricFlowController();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

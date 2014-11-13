@@ -7,6 +7,7 @@ class CAD_arch_boredPile : public CADitem
 {
 public:
     CAD_arch_boredPile();
+    virtual ~CAD_arch_boredPile();
     static QList<CADitem::ItemType> flangable_items();
     static QImage wizardImage();
     virtual void calculate();

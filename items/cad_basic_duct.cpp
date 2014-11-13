@@ -3,20 +3,23 @@
 CAD_basic_duct::CAD_basic_duct() : CADitem(CADitem::Basic_Duct)
 {
     this->description = "Basic|Duct";
-    wizardParams.insert(QObject::tr("Position x"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Position y"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Position z"), QVariant::fromValue(0.0));
-
-    wizardParams.insert(QObject::tr("Length (l)"), QVariant::fromValue(10.0));
-    wizardParams.insert(QObject::tr("Width (b)"), QVariant::fromValue(5.0));
-    wizardParams.insert(QObject::tr("Height (a)"), QVariant::fromValue(5.0));
-    wizardParams.insert(QObject::tr("Wall thickness"), QVariant::fromValue(1.0));
+    wizardParams.insert("Position x", QVariant::fromValue(0.0));
+    wizardParams.insert("Position y", QVariant::fromValue(0.0));
+    wizardParams.insert("Position z", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
 
 
-    wizardParams.insert(QObject::tr("Angle x"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Angle y"), QVariant::fromValue(0.0));
-    wizardParams.insert(QObject::tr("Angle z"), QVariant::fromValue(0.0));
+    wizardParams.insert("Wall thickness", QVariant::fromValue(1.0));
+    wizardParams.insert("Length (l)", QVariant::fromValue(10.0));
+    wizardParams.insert("Width (b)", QVariant::fromValue(5.0));
+    wizardParams.insert("Height (a)", QVariant::fromValue(5.0));
 
+
+
+    processWizardInput();
+    calculate();
 }
 
 CAD_basic_duct::~CAD_basic_duct()
@@ -52,6 +55,14 @@ void CAD_basic_duct::calculate()
     matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 
+    boundingBox.reset();
+
+    this->snap_flanges.clear();
+    this->snap_center.clear();
+    this->snap_vertices.clear();
+
+    this->snap_basepoint = (position);
+
     pos_bot_1 = matrix_rotation * (QVector3D(-1.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + position);
     pos_bot_2 = matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + position);
     pos_bot_3 = matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + position);
@@ -85,17 +96,10 @@ void CAD_basic_duct::calculate()
 
 
 
-    this->snap_basepoint = ((pos_bot_1 +
-                                pos_bot_2 +
-                                pos_bot_3 +
-                                pos_bot_4 +
-                                pos_top_1 +
-                                pos_top_2 +
-                                pos_top_3 +
-                                pos_top_4) / 8.0);
 
-    this->snap_flanges.append((pos_bot_1+pos_top_4) / 2);
-    this->snap_flanges.append((pos_bot_2+pos_top_3) / 2);
+
+    this->snap_flanges.append((pos_bot_1 + pos_top_4) / 2);
+    this->snap_flanges.append((pos_bot_2 + pos_top_3) / 2);
 
     this->snap_vertices.append(pos_top_1);
     this->snap_vertices.append(pos_top_2);
@@ -112,19 +116,19 @@ void CAD_basic_duct::calculate()
 void CAD_basic_duct::processWizardInput()
 {
 
-    position.setX(wizardParams.value(QObject::tr("Position x")).toDouble());
-    position.setY(wizardParams.value(QObject::tr("Position y")).toDouble());
-    position.setZ(wizardParams.value(QObject::tr("Position z")).toDouble());
+    position.setX(wizardParams.value("Position x").toDouble());
+    position.setY(wizardParams.value("Position y").toDouble());
+    position.setZ(wizardParams.value("Position z").toDouble());
+    angle_x = wizardParams.value("Angle x").toDouble();
+    angle_y = wizardParams.value("Angle y").toDouble();
+    angle_z = wizardParams.value("Angle z").toDouble();
 
-    size.setX(wizardParams.value(QObject::tr("Length (l)")).toDouble());
-    size.setY(wizardParams.value(QObject::tr("Width (b)")).toDouble());
-    size.setZ(wizardParams.value(QObject::tr("Height (a)")).toDouble());
+    size.setX(wizardParams.value("Length (l)").toDouble());
+    size.setY(wizardParams.value("Width (b)").toDouble());
+    size.setZ(wizardParams.value("Height (a)").toDouble());
 
-    angle_x = wizardParams.value(QObject::tr("Angle x")).toDouble();
-    angle_y = wizardParams.value(QObject::tr("Angle y")).toDouble();
-    angle_z = wizardParams.value(QObject::tr("Angle z")).toDouble();
 
-    wall_thickness = wizardParams.value(QObject::tr("Wall thickness")).toDouble();
+    wall_thickness = wizardParams.value("Wall thickness").toDouble();
 
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
