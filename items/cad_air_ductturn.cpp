@@ -22,8 +22,8 @@ CAD_air_ductTurn::CAD_air_ductTurn() : CADitem(CADitem::Air_DuctTurn)
     wizardParams.insert("Flange size", QVariant::fromValue(1.0));
     wizardParams.insert("Angle (alpha)", QVariant::fromValue(90.0));
 
-    flange_left_duct = new CAD_basic_duct;
-    flange_right_duct = new CAD_basic_duct;
+    flange_left_duct = new CAD_basic_duct();
+    flange_right_duct = new CAD_basic_duct();
     this->subItems.append(flange_left_duct);
     this->subItems.append(flange_right_duct);
 
@@ -169,7 +169,6 @@ void CAD_air_ductTurn::calculate()
             qreal angle_turn = this->angle * i;
 
             matrix_turn.setToIdentity();
-            //matrix_turn.translate(this->radius, 0.0, 0.0);
             matrix_turn.rotate(-angle_turn, 0.0, 0.0, 1.0);
 
             // Pipe angle iteration

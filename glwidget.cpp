@@ -4,11 +4,11 @@
 
 GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, ItemGripModifier *itemGripModifier, QGLFormat glFormat) :
     QGLWidget(glFormat, parent)
-// Qt 5
-//    m_context(0),
-//    m_device(0)
+  // Qt 5
+  //    m_context(0),
+  //    m_device(0)
 {
-//    setSurfaceType(QWidget::OpenGLSurface);
+    //    setSurfaceType(QWidget::OpenGLSurface);
     //    qDebug() << "Created GLWidget";
     this->itemDB = itemDB;
     this->itemWizard = itemWizard;
@@ -72,9 +72,9 @@ GLWidget::~GLWidget()
 
 QPointF GLWidget::mapFromScene(QVector3D &scenePoint)
 {
-//    QVector4D screenCoords;
+    //    QVector4D screenCoords;
 
-//    screenCoords = matrix_all * scenePoint;
+    //    screenCoords = matrix_all * scenePoint;
 
     qreal x;
     qreal y;
@@ -85,12 +85,12 @@ QPointF GLWidget::mapFromScene(QVector3D &scenePoint)
     x = row0.x() * scenePoint.x() + row0.y() * scenePoint.y() + row0.z() * scenePoint.z() + row0.w();
     y = row1.x() * scenePoint.x() + row1.y() * scenePoint.y() + row1.z() * scenePoint.z() + row1.w();
 
-//    QPointF pixelCoords = screenCoords.toPointF() ;
+    //    QPointF pixelCoords = screenCoords.toPointF() ;
 
-//    pixelCoords.setX((pixelCoords.x() / 2.0) * this->width());
-//    pixelCoords.setY((pixelCoords.y() / 2.0) * this->height());
+    //    pixelCoords.setX((pixelCoords.x() / 2.0) * this->width());
+    //    pixelCoords.setY((pixelCoords.y() / 2.0) * this->height());
 
-//    return pixelCoords;
+    //    return pixelCoords;
 
     return QPointF(x / 2.0 * this->width(), y / 2.0 * this->height());
 }
@@ -532,24 +532,6 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
 QVector3D GLWidget::pointOnSphere(QPoint pointOnScreen)
 {
-//    QPoint lookAtScreenCoords = mapFromScene(lookAtPosition).toPoint();
-//    double x = pointOnScreen.x() - lookAtScreenCoords.x();
-//    double y = pointOnScreen.y() + lookAtScreenCoords.y();
-//    double center_x = lookAtPosition.x();
-//    double center_y = lookAtPosition.y();
-//    QVector3D v;
-//    v.setX((x - center_x) / arcballRadius);
-//    v.setY((y - center_y) / arcballRadius);
-//    double mag = v.x() * v.x() + v.y() * v.y();
-//    if (mag > 1.0d)
-//    {
-//        v.normalize();
-//    }
-//    else
-//    {
-//        v.setZ( sqrt(1.0 - mag) );
-//    }
-//    return v;
     QPoint lookAtScreenCoords = mapFromScene(lookAtPosition).toPoint();
     double x = pointOnScreen.x();
     double y = pointOnScreen.y();
@@ -1276,43 +1258,43 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundin
     {
         if(checkBoundingBox)
         {
-        // Global culling performance test
-//                    // Exclude all items from painting that do not reach the canvas with their boundingRect
-//                    int screen_x_min = -this->width() / 2;
-//                    //            int screen_x_max =  this->width() / 2;
-//                    int screen_y_min = -this->height() / 2;
-//                    //            int screen_y_max =  this->height() / 2;
+            // Global culling performance test
+            //                    // Exclude all items from painting that do not reach the canvas with their boundingRect
+            //                    int screen_x_min = -this->width() / 2;
+            //                    //            int screen_x_max =  this->width() / 2;
+            //                    int screen_y_min = -this->height() / 2;
+            //                    //            int screen_y_max =  this->height() / 2;
 
-//                    int p_x_min =  100000;
-//                    int p_x_max = -100000;
-//                    int p_y_min =  100000;
-//                    int p_y_max = -100000;
-
-
-//                    for (int i=0; i < 8; i++)
-//                    {
-//                        QVector3D boxPoint = item->boundingBox.p(i);
-//                        QPointF screen_p = mapFromScene(boxPoint);    // Remark: INEFFICIENT!
-
-//                        if (screen_p.x() < p_x_min)     p_x_min = screen_p.x();
-//                        if (screen_p.x() > p_x_max)     p_x_max = screen_p.x();
-//                        if (screen_p.y() < p_y_min)     p_y_min = screen_p.y();
-//                        if (screen_p.y() > p_y_max)     p_y_max = screen_p.y();
-//                    }
-
-//                    QRect screenRect;
-//                    QRect itemRect;
-
-//                    screenRect = QRect(screen_x_min, screen_y_min, this->width(), this->height());
-//                    itemRect = QRect(p_x_min, p_y_min, (p_x_max - p_x_min), (p_y_max - p_y_min));
+            //                    int p_x_min =  100000;
+            //                    int p_x_max = -100000;
+            //                    int p_y_min =  100000;
+            //                    int p_y_max = -100000;
 
 
-//                    if (!screenRect.intersects(itemRect))
-//                    {
-//                        if(!isSubItem)
-//                            glName++;
-//                        continue;
-//                    }
+            //                    for (int i=0; i < 8; i++)
+            //                    {
+            //                        QVector3D boxPoint = item->boundingBox.p(i);
+            //                        QPointF screen_p = mapFromScene(boxPoint);    // Remark: INEFFICIENT!
+
+            //                        if (screen_p.x() < p_x_min)     p_x_min = screen_p.x();
+            //                        if (screen_p.x() > p_x_max)     p_x_max = screen_p.x();
+            //                        if (screen_p.y() < p_y_min)     p_y_min = screen_p.y();
+            //                        if (screen_p.y() > p_y_max)     p_y_max = screen_p.y();
+            //                    }
+
+            //                    QRect screenRect;
+            //                    QRect itemRect;
+
+            //                    screenRect = QRect(screen_x_min, screen_y_min, this->width(), this->height());
+            //                    itemRect = QRect(p_x_min, p_y_min, (p_x_max - p_x_min), (p_y_max - p_y_min));
+
+
+            //                    if (!screenRect.intersects(itemRect))
+            //                    {
+            //                        if(!isSubItem)
+            //                            glName++;
+            //                        continue;
+            //                    }
         }
 
 
@@ -2753,6 +2735,90 @@ void GLWidget::paintAirDuctTeeConnector(Layer *layer, CAD_air_ductTeeConnector *
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+
+    int a;
+    int b;
+
+    int count_a = 11;
+    int count_b = 2;
+
+    // Wall thickness iteration
+    for (int w = 0; w <= 1; w++)
+    {
+        if (this->render_solid)
+        {
+            setPaintingColor(color_brush);
+
+            for (a=1; a < count_a; a ++)
+            {
+                glBegin(GL_QUADS);
+
+                QVector3D vertex_1 = item->vertices_turn1[w][a][0];
+                QVector3D vertex_2 = item->vertices_turn1[w][a - 1][0];
+                QVector3D vertex_3 = item->vertices_turn1[w][a - 1][1];
+                QVector3D vertex_4 = item->vertices_turn1[w][a][1];
+
+                glVertex3f((GLfloat)vertex_1.x(), (GLfloat)vertex_1.y(), (GLfloat)vertex_1.z());
+                glVertex3f((GLfloat)vertex_2.x(), (GLfloat)vertex_2.y(), (GLfloat)vertex_2.z());
+                glVertex3f((GLfloat)vertex_3.x(), (GLfloat)vertex_3.y(), (GLfloat)vertex_3.z());
+                glVertex3f((GLfloat)vertex_4.x(), (GLfloat)vertex_4.y(), (GLfloat)vertex_4.z());
+                glEnd();
+            }
+            for (a=1; a < count_a; a ++)
+            {
+                glBegin(GL_QUADS);
+
+                QVector3D vertex_1 = item->vertices_turn2[w][a][0];
+                QVector3D vertex_2 = item->vertices_turn2[w][a - 1][0];
+                QVector3D vertex_3 = item->vertices_turn2[w][a - 1][1];
+                QVector3D vertex_4 = item->vertices_turn2[w][a][1];
+
+                glVertex3f((GLfloat)vertex_1.x(), (GLfloat)vertex_1.y(), (GLfloat)vertex_1.z());
+                glVertex3f((GLfloat)vertex_2.x(), (GLfloat)vertex_2.y(), (GLfloat)vertex_2.z());
+                glVertex3f((GLfloat)vertex_3.x(), (GLfloat)vertex_3.y(), (GLfloat)vertex_3.z());
+                glVertex3f((GLfloat)vertex_4.x(), (GLfloat)vertex_4.y(), (GLfloat)vertex_4.z());
+                glEnd();
+            }
+        }
+
+        if (this->render_outline)
+        {
+            setPaintingColor(color_pen);
+            glLineWidth(1.0);
+
+
+            setPaintingColor(color_brush);
+
+            for (a=1; a < count_a; a ++)
+            {
+                glBegin(GL_LINE_STRIP);
+
+
+                QVector3D vertex_1 = item->vertices_turn1[w][a][0];
+                QVector3D vertex_2 = item->vertices_turn1[w][a - 1][0];
+                QVector3D vertex_3 = item->vertices_turn1[w][a - 1][1];
+                QVector3D vertex_4 = item->vertices_turn1[w][a][1];
+
+                glVertex3f((GLfloat)vertex_1.x(), (GLfloat)vertex_1.y(), (GLfloat)vertex_1.z());
+                glVertex3f((GLfloat)vertex_2.x(), (GLfloat)vertex_2.y(), (GLfloat)vertex_2.z());
+                glVertex3f((GLfloat)vertex_3.x(), (GLfloat)vertex_3.y(), (GLfloat)vertex_3.z());
+                glVertex3f((GLfloat)vertex_4.x(), (GLfloat)vertex_4.y(), (GLfloat)vertex_4.z());
+                glEnd();
+                glBegin(GL_LINE_STRIP);
+                vertex_1 = item->vertices_turn2[w][a][0];
+                vertex_2 = item->vertices_turn2[w][a - 1][0];
+                vertex_3 = item->vertices_turn2[w][a - 1][1];
+                vertex_4 = item->vertices_turn2[w][a][1];
+
+                glVertex3f((GLfloat)vertex_1.x(), (GLfloat)vertex_1.y(), (GLfloat)vertex_1.z());
+                glVertex3f((GLfloat)vertex_2.x(), (GLfloat)vertex_2.y(), (GLfloat)vertex_2.z());
+                glVertex3f((GLfloat)vertex_3.x(), (GLfloat)vertex_3.y(), (GLfloat)vertex_3.z());
+                glVertex3f((GLfloat)vertex_4.x(), (GLfloat)vertex_4.y(), (GLfloat)vertex_4.z());
+
+                glEnd();
+            }
+        }
+    }
 }
 
 void GLWidget::paintAirDuctTransiton(Layer *layer, CAD_air_ductTransition *item)
@@ -3197,7 +3263,7 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
 
 
     glViewport(0, 0, width(), height());
-//    glViewport(pos.x(), pos.y(), (GLsizei)_cursorPickboxSize, (GLsizei)_cursorPickboxSize);
+    //    glViewport(pos.x(), pos.y(), (GLsizei)_cursorPickboxSize, (GLsizei)_cursorPickboxSize);
     glGetIntegerv(GL_VIEWPORT, viewport);
     glSelectBuffer(HITBUFFER_SIZE, buffer);
     glRenderMode(GL_SELECT);
@@ -3206,7 +3272,7 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
     glPushName(0);
 
     glDisable(GL_BLEND);
-//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glDisable(GL_MULTISAMPLE);
     glDisable(GL_CULL_FACE);
