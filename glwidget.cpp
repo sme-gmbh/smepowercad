@@ -434,15 +434,15 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
         matrix_arcball.translate(this->lookAtPosition);
         matrix_arcball.rotate(-angle/PI*180,axis4D.toVector3D());
         matrix_arcball.translate(-1 * this->lookAtPosition);
-        qDebug() << matrix_arcball.determinant();
+
 
         matrix_rotation = matrix_rotation_old * matrix_arcball;
+
         updateMatrixAll();
         emit signal_matrix_rotation_changed(matrix_rotation);
 
 
 
-        //        this->updateArcball(mouseMoveDelta.manhattanLength());
     }
 
     if (event->buttons() == 0)
@@ -532,23 +532,40 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
 QVector3D GLWidget::pointOnSphere(QPoint pointOnScreen)
 {
+//    QPoint lookAtScreenCoords = mapFromScene(lookAtPosition).toPoint();
+//    double x = pointOnScreen.x() - lookAtScreenCoords.x();
+//    double y = pointOnScreen.y() + lookAtScreenCoords.y();
+//    double center_x = lookAtPosition.x();
+//    double center_y = lookAtPosition.y();
+//    QVector3D v;
+//    v.setX((x - center_x) / arcballRadius);
+//    v.setY((y - center_y) / arcballRadius);
+//    double mag = v.x() * v.x() + v.y() * v.y();
+//    if (mag > 1.0d)
+//    {
+//        v.normalize();
+//    }
+//    else
+//    {
+//        v.setZ( sqrt(1.0 - mag) );
+//    }
+//    return v;
     QPoint lookAtScreenCoords = mapFromScene(lookAtPosition).toPoint();
-    qDebug() << lookAtScreenCoords << "  " << pointOnScreen;
-    double x = pointOnScreen.x() - lookAtScreenCoords.x();
-    double y = pointOnScreen.y() + lookAtScreenCoords.y();
-    double center_x = lookAtPosition.x();
-    double center_y = lookAtPosition.y();
+    double x = pointOnScreen.x();
+    double y = pointOnScreen.y();
+    double center_x = lookAtScreenCoords.x();
+    double center_y = lookAtScreenCoords.y();
     QVector3D v;
     v.setX((x - center_x) / arcballRadius);
     v.setY((y - center_y) / arcballRadius);
-    double mag = v.x() * v.x() + v.y() * v.y();
-    if (mag > 1.0d)
+    double r = v.x() * v.x() + v.y() * v.y();
+    if (r > 1.0d)
     {
         v.normalize();
     }
     else
     {
-        v.setZ( sqrt(1.0 - mag) );
+        v.setZ( sqrt(1.0 - r) );
     }
     return v;
 }
@@ -893,9 +910,9 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glDisable(GL_DEPTH_TEST);
 
     // Coordinate orientation display
-    QVector3D xAxis = matrix_rotation * QVector3D(50.0,  0.0,  0.0);
-    QVector3D yAxis = matrix_rotation * QVector3D(0.0,  50.0,  0.0);
-    QVector3D zAxis = matrix_rotation * QVector3D(0.0,   0.0, 50.0);
+    QVector4D xAxis = matrix_rotation * QVector4D(-50.0,  0.0,  0.0, 0.0);
+    QVector4D yAxis = matrix_rotation * QVector4D(0.0,  -50.0,  0.0, 0.0);
+    QVector4D zAxis = matrix_rotation * QVector4D(0.0,   0.0, 50.0, 0.0);
     glBegin(GL_LINES);
     glLineWidth(1.0);
     setPaintingColor(Qt::red);
