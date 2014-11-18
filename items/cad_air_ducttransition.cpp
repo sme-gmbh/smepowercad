@@ -105,11 +105,11 @@ void CAD_air_ductTransition::calculate()
 //    pos_top_4 = QVector3D(-1.0, 0.0, 0.0) * l + QVector3D(0.0,  0.0, 0.0) * b + QVector3D(0.0, 0.0,  0.0) * a + position;
 
     // Left end duct
-    QVector3D position_led = position + matrix_rotation * QVector3D(0.0, 0.0, 0.0);
+    QVector3D position_led = position + QVector3D(0.0, 0.0, 0.0);
     // Right end duct
     QVector3D position_red = position + matrix_rotation * QVector3D(-l,(b - d) / 2 + e, (a - c) / 2 + f);
     // Left flange duct
-    QVector3D position_lfd = position + matrix_rotation * QVector3D(0, 0.0, 0.0);
+    QVector3D position_lfd = position + QVector3D(0, 0.0, 0.0);
     // Right flange duct
     QVector3D position_rfd = position + matrix_rotation * QVector3D(flange_size - l - endcap, (b - d) / 2 + e, (a-c) / 2 + f);
 

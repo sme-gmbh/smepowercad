@@ -51,9 +51,11 @@ QImage CAD_basic_duct::wizardImage()
 void CAD_basic_duct::calculate()
 {
     matrix_rotation.setToIdentity();
+    matrix_rotation.translate(position);
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
     matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
+    matrix_rotation.translate(-position);
 
     boundingBox.reset();
 

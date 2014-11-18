@@ -94,6 +94,59 @@
         <file>itemGraphic/cad_air_ducttransition.png</file>
         <file>itemGraphic/cad_air_duct.png</file>
         <file>icons/cad_arch/cad_arch_bored_pile.svg</file>
+        <file>itemGraphic/cad_air_canvasflange.png</file>
+        <file>itemGraphic/cad_air_ductfiredamper.png</file>
+        <file>itemGraphic/cad_air_ductsilencer.png</file>
+        <file>itemGraphic/cad_air_ductteeconnector.png</file>
+        <file>itemGraphic/cad_air_ducttransitionrectround.png</file>
+        <file>itemGraphic/cad_air_ductvolumetricflowcontroller.png</file>
+        <file>itemGraphic/cad_air_ductypiece.png</file>
+        <file>itemGraphic/cad_air_heatexchangerairair.png</file>
+        <file>itemGraphic/cad_air_heatexchangerwaterair.png</file>
+        <file>itemGraphic/cad_air_pipe.png</file>
+        <file>itemGraphic/cad_air_pipefiredamper.png</file>
+        <file>itemGraphic/cad_air_pipesilencer.png</file>
+        <file>itemGraphic/cad_air_pipeturn.png</file>
+        <file>itemGraphic/cad_air_pipevolumetricflowcontroller.png</file>
+        <file>itemGraphic/cad_air_symbol_fan.png</file>
+        <file>itemGraphic/cad_arch_beam.png</file>
+        <file>itemGraphic/cad_arch_blockout.png</file>
+        <file>itemGraphic/cad_arch_door.png</file>
+        <file>itemGraphic/cad_arch_levelslab.png</file>
+        <file>itemGraphic/cad_arch_support.png</file>
+        <file>itemGraphic/cad_arch_wall_loadbearing.png</file>
+        <file>itemGraphic/cad_arch_wall_nonloadbearing.png</file>
+        <file>itemGraphic/cad_arch_window.png</file>
+        <file>itemGraphic/cad_basic_arc.png</file>
+        <file>itemGraphic/cad_basic_box.png</file>
+        <file>itemGraphic/cad_basic_circle.png</file>
+        <file>itemGraphic/cad_basic_cylinder.png</file>
+        <file>itemGraphic/cad_basic_line.png</file>
+        <file>itemGraphic/cad_basic_plane.png</file>
+        <file>itemGraphic/cad_basic_point.png</file>
+        <file>itemGraphic/cad_basic_polyline.png</file>
+        <file>itemGraphic/cad_basic_sphere.png</file>
+        <file>itemGraphic/cad_sanitary_cleaningpiece.png</file>
+        <file>itemGraphic/cad_sanitary_cleaningpipe.png</file>
+        <file>itemGraphic/cad_sanitary_eccentricpipereducerlong.png</file>
+        <file>itemGraphic/cad_sanitary_eccentricpipereducershort.png</file>
+        <file>itemGraphic/cad_sanitary_electroweldingfitting.png</file>
+        <file>itemGraphic/cad_sanitary_mapressfitting.png</file>
+        <file>itemGraphic/cad_sanitary_mapressreducer.png</file>
+        <file>itemGraphic/cad_sanitary_mapresssealingcap.png</file>
+        <file>itemGraphic/cad_sanitary_mapressstainlesssteelslidingfitting.png</file>
+        <file>itemGraphic/cad_sanitary_mapressteeconnectorequal.png</file>
+        <file>itemGraphic/cad_sanitary_mapressteeconnectorreduced.png</file>
+        <file>itemGraphic/cad_sanitary_pipebranch.png</file>
+        <file>itemGraphic/cad_sanitary_pipebranch45degree.png</file>
+        <file>itemGraphic/cad_sanitary_pipebranch88degree.png</file>
+        <file>itemGraphic/cad_sanitary_pipesealingcap.png</file>
+        <file>itemGraphic/cad_sanitary_pipeyconnector30degree.png</file>
+        <file>itemGraphic/cad_sprinkler_compressedairwatercontaine.png</file>
+        <file>itemGraphic/cad_sprinkler_compressorset_40-90Li_330Li pro Min_400V_10bar.png</file>
+        <file>itemGraphic/cad_sprinkler_feedtank-500liter.png</file>
+        <file>itemGraphic/cad_sprinkler_gatevalve.png</file>
+        <file>itemGraphic/cad_sprinkler_wetpipealarmvalves_FL-NAV.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>

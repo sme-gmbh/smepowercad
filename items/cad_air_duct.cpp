@@ -100,7 +100,7 @@ void CAD_air_duct::calculate()
     main_duct->calculate();
 
 
-    QVector3D pos_rot = position + (QVector3D(-(length - flange_size), 0.0, 0.0));
+    QVector3D pos_rot = position + matrix_rotation * (QVector3D(-(length - flange_size), 0.0, 0.0));
     flange_duct_left->wizardParams.insert("Position x", QVariant::fromValue(pos_rot.x()));
     flange_duct_left->wizardParams.insert("Position y", QVariant::fromValue(pos_rot.y()));
     flange_duct_left->wizardParams.insert("Position z", QVariant::fromValue(pos_rot.z()));
@@ -126,7 +126,6 @@ void CAD_air_duct::calculate()
     flange_duct_right->wizardParams.insert("Wall thickness", QVariant::fromValue(flange_size));
     flange_duct_right->processWizardInput();
     flange_duct_right->calculate();
-    qDebug() << "angle x" << angle_x;
 
 
     // tbd: not all vertices are needed here!

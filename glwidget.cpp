@@ -428,12 +428,13 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
         QVector3D rotationEnd = pointOnSphere( mousePos );
         double angle = acos( QVector3D::dotProduct( rotationStart, rotationEnd ));
-        QVector4D axis4D = matrix_rotation_old.transposed() *QVector4D(QVector3D::crossProduct(rotationStart, rotationEnd),0);
+        QVector4D axis4D = matrix_rotation_old.transposed() * QVector3D::crossProduct(rotationStart, rotationEnd);
 
         matrix_arcball.setToIdentity();
         matrix_arcball.translate(this->lookAtPosition);
         matrix_arcball.rotate(-angle/PI*180,axis4D.toVector3D());
         matrix_arcball.translate(-1 * this->lookAtPosition);
+        qDebug() << matrix_arcball.determinant();
 
         matrix_rotation = matrix_rotation_old * matrix_arcball;
         updateMatrixAll();
@@ -529,9 +530,10 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     event->accept();
 }
 
-QVector3D GLWidget::pointOnSphere( QPoint pointOnScreen )
+QVector3D GLWidget::pointOnSphere(QPoint pointOnScreen)
 {
     QPoint lookAtScreenCoords = mapFromScene(lookAtPosition).toPoint();
+    qDebug() << lookAtScreenCoords << "  " << pointOnScreen;
     double x = pointOnScreen.x() - lookAtScreenCoords.x();
     double y = pointOnScreen.y() + lookAtScreenCoords.y();
     double center_x = lookAtPosition.x();
@@ -2610,6 +2612,106 @@ void GLWidget::paintAirDuctTurn(Layer *layer, CAD_air_ductTurn *item)
     QColor color_brush = getColorBrush(item, layer);
 
 
+    int a;
+    int b;
+
+    int count_a = 13;
+    int count_b = 5;
+
+    // level of detail
+    int lod = 1;
+
+    // Wall thickness iteration
+    for (int w = 0; w <= 1; w++)
+    {
+        if (this->render_solid)
+        {
+            setPaintingColor(color_brush);
+
+            // Outer and inner surfaces
+            for (a=lod; a < count_a; a += lod)
+            {
+                if (a >= count_a) a = (count_a - 1);
+                glBegin(GL_QUADS);
+                for (b=lod; b < count_b; b += lod)
+                {
+                    if (b >= count_b) b = (count_b - 1);
+
+                    QVector3D vertex_1 = item->vertices[w][a][b - lod];
+                    QVector3D vertex_2 = item->vertices[w][a - lod][b - lod];
+                    QVector3D vertex_3 = item->vertices[w][a - lod][b];
+                    QVector3D vertex_4 = item->vertices[w][a][b];
+
+                    glVertex3f((GLfloat)vertex_1.x(), (GLfloat)vertex_1.y(), (GLfloat)vertex_1.z());
+                    glVertex3f((GLfloat)vertex_2.x(), (GLfloat)vertex_2.y(), (GLfloat)vertex_2.z());
+                    glVertex3f((GLfloat)vertex_3.x(), (GLfloat)vertex_3.y(), (GLfloat)vertex_3.z());
+                    glVertex3f((GLfloat)vertex_4.x(), (GLfloat)vertex_4.y(), (GLfloat)vertex_4.z());
+                }
+                glEnd();
+            }
+        }
+
+        if (this->render_outline)
+        {
+            setPaintingColor(color_pen);
+            glLineWidth(1.0);
+
+            // Rings
+            for (a=0; a < count_a; a += lod)
+            {
+                if (a >= count_a) a = (count_a - 1);
+
+                glBegin(GL_LINE_STRIP);
+                for (b=0; b < count_b; b += lod)
+                {
+                    if (b >= count_b) b = (count_b - 1);
+                    QVector3D linePos = item->vertices[w][a][b];
+                    glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
+                }
+                glEnd();
+            }
+
+            // Lines
+            for (b=0; b < (count_b - 1); b += lod)
+            {
+                if (b >= count_b) b = (count_b - 1);
+                glBegin(GL_LINE_STRIP);
+                for (a=0; a < count_a; a += lod)
+                {
+                    if (a >= count_a) a = (count_a - 1);
+
+                    QVector3D linePos = item->vertices[w][a][b];
+                    glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
+                }
+                glEnd();
+            }
+        }
+    }
+
+    // Front and rear faces (discs)
+    if (this->render_solid)
+    {
+        setPaintingColor(color_brush);
+
+        for (a=0; a < count_a; a+=(count_a - 1))
+        {
+            glBegin(GL_QUADS);
+            for (b=lod; b < count_b; b += lod)
+            {
+                if (b >= count_b) b = (count_b - 1);
+                QVector3D vertex_1 = item->vertices[0][a][b - lod];
+                QVector3D vertex_2 = item->vertices[1][a][b - lod];
+                QVector3D vertex_3 = item->vertices[1][a][b];
+                QVector3D vertex_4 = item->vertices[0][a][b];
+
+                glVertex3f((GLfloat)vertex_1.x(), (GLfloat)vertex_1.y(), (GLfloat)vertex_1.z());
+                glVertex3f((GLfloat)vertex_2.x(), (GLfloat)vertex_2.y(), (GLfloat)vertex_2.z());
+                glVertex3f((GLfloat)vertex_3.x(), (GLfloat)vertex_3.y(), (GLfloat)vertex_3.z());
+                glVertex3f((GLfloat)vertex_4.x(), (GLfloat)vertex_4.y(), (GLfloat)vertex_4.z());
+            }
+            glEnd();
+        }
+    }
 }
 
 void GLWidget::paintAirPipeTurn(Layer *layer, CAD_air_pipeTurn *item)
