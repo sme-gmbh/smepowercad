@@ -2,6 +2,21 @@
 
 CAD_air_ductTeeConnector::CAD_air_ductTeeConnector() : CADitem(CADitem::Air_DuctTeeConnector)
 {
+    for(int i = 0; i < 2; i++)
+    {
+        for(int j = 0; j < 12; j++)
+        {
+            for(int k = 0; k < 2; k++)
+            {
+                vertices_turn1[i][j][k] = QVector3D(0.0, 0.0, 0.0);
+                vertices_turn2[i][j][k] = QVector3D(0.0, 0.0, 0.0);
+
+            }
+        }
+    }
+    for(int i = 0; i < 4; i++)
+        vertices_backside[i] = QVector3D(0.0, 0.0, 0.0);
+
     endcap_1 = new CAD_basic_duct();
     endcap_2 = new CAD_basic_duct();
     endcap_3 = new CAD_basic_duct();
@@ -180,7 +195,15 @@ void CAD_air_ductTeeConnector::calculate()
     snap_flanges.append(position_e2);
     snap_flanges.append(position_e3);
 
-    int x = 0;
+
+
+    vertices_turn1[0][0][0] = matrix_rotation * QVector3D(this->u, -b/2, -a/2);
+    vertices_turn1[0][0][1] = matrix_rotation * QVector3D(this->u, -b/2, a/2);
+
+    vertices_turn2[0][0][0] = matrix_rotation * QVector3D(n + h, -b/2 - r1, -a/2);
+    vertices_turn2[0][0][1] = matrix_rotation * QVector3D(n + h, -b/2 - r1, a/2);
+
+    int x = 1;
     int y = 0;
     QMatrix4x4 matrix_turn;
     for(int w = 0; w <= 1; w++)
@@ -192,21 +215,21 @@ void CAD_air_ductTeeConnector::calculate()
             matrix_turn.setToIdentity();
             matrix_turn.rotate(-angle_turn, 0.0, 0.0, 1.0);
 
-            QVector3D linePos_turn1_1 = matrix_rotation * (matrix_turn * QVector3D(0.0, r1, -a/2) + QVector3D(n-r1,-b/2 -r1, 0.0));
-            QVector3D linePos_turn1_2 = matrix_rotation * (matrix_turn * QVector3D(0.0, r1, a/2) + QVector3D(n-r1,-b/2 -r1, 0.0));
-            QVector3D linePos_turn2_1 = matrix_rotation * (matrix_turn * QVector3D(-r2, 0.0, -a/2) + QVector3D(n+h+r2,-e-d-r2/2, 0.0));
-            QVector3D linePos_turn2_2 = matrix_rotation * (matrix_turn * QVector3D(-r2, 0.0, a/2) + QVector3D(n+h+r2,-e-d-r2/2, 0.0));
-            vertices_turn1[w][x][y] = linePos_turn1_1;
-            vertices_turn2[w][x][y] = linePos_turn2_1;
+            vertices_turn1[w][x][y] = matrix_rotation * (matrix_turn * QVector3D(0.0, r1, -a/2) + QVector3D(n-r1,-b/2 -r1, 0.0));
+            vertices_turn2[w][x][y] = matrix_rotation * (matrix_turn * QVector3D(-r2, 0.0, -a/2) + QVector3D(n+h+r2, b/2 -e-d-r2, 0.0));
             y++;
-            vertices_turn1[w][x][y] = linePos_turn1_2;
-            vertices_turn2[w][x][y] = linePos_turn2_2;
+            vertices_turn1[w][x][y] = matrix_rotation * (matrix_turn * QVector3D(0.0, r1, a/2) + QVector3D(n-r1,-b/2 -r1, 0.0));
+            vertices_turn2[w][x][y] = matrix_rotation * (matrix_turn * QVector3D(-r2, 0.0, a/2) + QVector3D(n+h+r2, b/2 -e-d-r2, 0.0));
             y++;
         }
         y = 0;
         x++;
     }
 
+    vertices_backside[0] = matrix_rotation * QVector3D(u, b/2, a/2);
+    vertices_backside[1] = matrix_rotation * QVector3D(l - u, b/2 - e, a/2);
+    vertices_backside[2] = matrix_rotation * QVector3D(l - u, b/2 - e, -a/2);
+    vertices_backside[3] = matrix_rotation * QVector3D(u, b/2, -a/2);
 
 
 }
@@ -235,10 +258,10 @@ void CAD_air_ductTeeConnector::processWizardInput()
     this->flange_size = wizardParams.value("Flange size").toDouble();
     this->wall_thickness = wizardParams.value("Wall thickness").toDouble();
 
-    if((u + r1 + b) != (e + d + m))
+    if(fabs((u + r1 + b) - (e + d + m)) < 10E-8)
         qDebug() << "This item can not be drawn! (u + r1 + b) != (e + d + m)";
 
-    if((n + h + r2 + u) != l)
+    if(fabs((n + h + r2 + u) - l) < 10E-8)
         qDebug() << "This item can not be drawn! (n + h + r2 + u) != l";
 
 }
