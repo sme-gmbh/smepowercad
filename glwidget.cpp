@@ -1309,47 +1309,49 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundin
         {
         case CADitem::None:
             break;
-        case CADitem::Basic_Point:
-            break;
-        case CADitem::Basic_Line:
+
+        case CADitem::Basic_Arc:
             if (this->render_outline)
-                paintBasicLine(layer, (CAD_basic_line*)item);
+                paintBasicArc( layer, (CAD_basic_arc*)item);
             break;
-        case CADitem::Basic_Polyline:
-            if (this->render_outline)
-                paintBasicPolyLine(layer, (CAD_basic_polyline*)item);
+        case CADitem::Basic_Box:
+            paintBasicBox(layer, (CAD_basic_box*)item);
             break;
         case CADitem::Basic_Circle:
             if (this->render_outline)
                 paintBasicCircle(layer, (CAD_basic_circle*)item);
             break;
-        case CADitem::Basic_Arc:
-            if (this->render_outline)
-                paintBasicArc( layer, (CAD_basic_arc*)item);
+        case CADitem::Basic_Cylinder:
+            paintBasicCylinder(layer, (CAD_basic_cylinder*)item);
+            break;
+        case CADitem::Basic_Duct:
+            paintBasicDuct(layer, (CAD_basic_duct*)item);
             break;
         case CADitem::Basic_Face:
             paintBasicFace(layer, (CAD_basic_3Dface*)item);
             break;
-        case CADitem::Basic_Plane:
-            paintBasicPlane(layer, (CAD_basic_plane*)item);
-            break;
-        case CADitem::Basic_Box:
-            paintBasicBox(layer, (CAD_basic_box*)item);
-            break;
-        case CADitem::Basic_Cylinder:
-            paintBasicCylinder(layer, (CAD_basic_cylinder*)item);
+        case CADitem::Basic_Line:
+            if (this->render_outline)
+                paintBasicLine(layer, (CAD_basic_line*)item);
             break;
         case CADitem::Basic_Pipe:
             paintBasicPipe(layer, (CAD_basic_pipe*)item);
             break;
-        case CADitem::Basic_Turn:
-            paintBasicTurn(layer, (CAD_basic_turn*)item);
+        case CADitem::Basic_Plane:
+            paintBasicPlane(layer, (CAD_basic_plane*)item);
+            break;
+        case CADitem::Basic_Polyline:
+            if (this->render_outline)
+                paintBasicPolyLine(layer, (CAD_basic_polyline*)item);
+            break;
+        case CADitem::Basic_Point:
             break;
         case CADitem::Basic_Sphere:
             paintBasicSphere(layer, (CAD_basic_sphere*)item);
             break;
-        case CADitem::Basic_Duct:
-            paintBasicDuct(layer, (CAD_basic_duct*)item);
+        case CADitem::Basic_Turn:
+            paintBasicTurn(layer, (CAD_basic_turn*)item);
+            break;
 
         case CADitem::Arch_Beam:
             break;
@@ -1380,29 +1382,22 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundin
             paintArchWindow(layer, (CAD_arch_window*)item);
             break;
 
-
-
-
-
+        case CADitem::Air_CanvasFlange:
+            paintAirCanvasFlange(layer, (CAD_air_canvasFlange*)item);
+            break;
         case CADitem::Air_Duct:
             paintAirDuct(layer, (CAD_air_duct*)item);
             break;
-        case CADitem::Air_Pipe:
-            paintAirPipe(layer, (CAD_air_pipe*)item);
+        case CADitem::Air_DuctBaffleSilencer:
+            paintAirDuctBaffleSilencer(layer, (CAD_air_ductBaffleSilencer*)item);
+            break;
+        case CADitem::Air_DuctEndPlate:
+            paintAirDuctEndPlate(layer, (CAD_air_ductEndPlate*)item);
+            break;
+        case CADitem::Air_DuctFireDamper:
+            paintAirDuctFireDamper(layer, (CAD_air_ductFireDamper*)item);
             break;
         case CADitem::Air_DuctFireResistant:
-            break;
-        case CADitem::Air_DuctTurn:
-            paintAirDuctTurn(layer, (CAD_air_ductTurn*)item);
-            break;
-        case CADitem::Air_PipeTurn:
-            paintAirPipeTurn(layer, (CAD_air_pipeTurn*)item);
-            break;
-        case CADitem::Air_PipeReducer:
-            paintAirPipeReducer(layer, (CAD_air_pipeReducer*)item);
-            break;
-        case CADitem::Air_PipeTeeConnector:
-            paintAirPipeTeeConnector(layer, (CAD_air_pipeTeeConnector*)item);
             break;
         case CADitem::Air_DuctTeeConnector:
             paintAirDuctTeeConnector(layer, (CAD_air_ductTeeConnector*)item);
@@ -1413,59 +1408,14 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundin
         case CADitem::Air_DuctTransitionRectRound:
             paintAirDuctTransitionRectRound(layer, (CAD_air_ductTransitionRectRound*)item);
             break;
-        case CADitem::Air_DuctYpiece:
-            paintAirDuctYpiece(layer, (CAD_air_ductYpiece*)item);
-            break;
-        case CADitem::Air_DuctEndPlate:
-            paintAirDuctEndPlate(layer, (CAD_air_ductEndPlate*)item);
-            break;
-        case CADitem::Air_PipeEndCap:
-            paintAirPipeEndCap(layer, (CAD_air_pipeEndCap*)item);
-            break;
-        case CADitem::Air_ThrottleValve:
-            paintAirThrottleValve(layer, (CAD_air_throttleValve*)item);
-            break;
-        case CADitem::Air_MultiLeafDamper:
-            paintAirMultiLeafDamper(layer, (CAD_air_multiLeafDamper*)item);
-            break;
-        case CADitem::Air_PressureReliefDamper:
-            paintAirPressureReliefDamper(layer, (CAD_air_pressureReliefDamper*)item);
-            break;
-        case CADitem::Air_PipeFireDamper:
-            paintAirPipeFireDamper(layer, (CAD_air_pipeFireDamper*)item);
-            break;
-        case CADitem::Air_DuctFireDamper:
-            paintAirDuctFireDamper(layer, (CAD_air_ductFireDamper*)item);
+        case CADitem::Air_DuctTurn:
+            paintAirDuctTurn(layer, (CAD_air_ductTurn*)item);
             break;
         case CADitem::Air_DuctVolumetricFlowController:
             paintAirDuctVolumetricFlowController(layer, (CAD_air_ductVolumetricFlowController*)item);
             break;
-        case CADitem::Air_PipeVolumetricFlowController:
-            paintAirPipeVolumetricFlowController(layer, (CAD_air_pipeVolumetricFlowController*)item);
-            break;
-        case CADitem::Air_HeatExchangerWaterAir:
-            paintAirHeatExchangerWaterAir(layer, (CAD_air_heatExchangerWaterAir*)item);
-            break;
-        case CADitem::Air_HeatExchangerAirAir:
-            paintAirHeatExchangerAirAir(layer, (CAD_air_heatExchangerAirAir*)item);
-            break;
-        case CADitem::Air_CanvasFlange:
-            paintAirCanvasFlange(layer, (CAD_air_canvasFlange*)item);
-            break;
-        case CADitem::Air_Filter:
-            paintAirFilter(layer, (CAD_air_filter*)item);
-            break;
-        case CADitem::Air_PipeSilencer:
-            paintAirPipeSilencer(layer, (CAD_air_pipeSilencer*)item);
-            break;
-        case CADitem::Air_DuctBaffleSilencer:
-            paintAirDuctBaffleSilencer(layer, (CAD_air_ductBaffleSilencer*)item);
-            break;
-        case CADitem::Air_Fan:
-            paintAirFan(layer, (CAD_air_fan*)item);
-            break;
-        case CADitem::Air_Humidifier:
-            paintAirHumidifier(layer, (CAD_air_humidifier*)item);
+        case CADitem::Air_DuctYpiece:
+            paintAirDuctYpiece(layer, (CAD_air_ductYpiece*)item);
             break;
         case CADitem::Air_EmptyCabinet:
             paintAirEmptyCabinet(layer, (CAD_air_emptyCabinet*)item);
@@ -1473,6 +1423,55 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundin
         case CADitem::Air_EquipmentFrame:
             paintAirEquipmentFrame(layer, (CAD_air_equipmentFrame*)item);
             break;
+        case CADitem::Air_Fan:
+            paintAirFan(layer, (CAD_air_fan*)item);
+            break;
+        case CADitem::Air_Filter:
+            paintAirFilter(layer, (CAD_air_filter*)item);
+            break;
+        case CADitem::Air_HeatExchangerAirAir:
+            paintAirHeatExchangerAirAir(layer, (CAD_air_heatExchangerAirAir*)item);
+            break;
+        case CADitem::Air_HeatExchangerWaterAir:
+            paintAirHeatExchangerWaterAir(layer, (CAD_air_heatExchangerWaterAir*)item);
+            break;
+        case CADitem::Air_Humidifier:
+            paintAirHumidifier(layer, (CAD_air_humidifier*)item);
+            break;
+        case CADitem::Air_MultiLeafDamper:
+            paintAirMultiLeafDamper(layer, (CAD_air_multiLeafDamper*)item);
+            break;
+        case CADitem::Air_Pipe:
+            paintAirPipe(layer, (CAD_air_pipe*)item);
+            break;
+        case CADitem::Air_PipeEndCap:
+            paintAirPipeEndCap(layer, (CAD_air_pipeEndCap*)item);
+            break;
+        case CADitem::Air_PipeFireDamper:
+            paintAirPipeFireDamper(layer, (CAD_air_pipeFireDamper*)item);
+            break;
+        case CADitem::Air_PipeReducer:
+            paintAirPipeReducer(layer, (CAD_air_pipeReducer*)item);
+            break;
+        case CADitem::Air_PipeSilencer:
+            paintAirPipeSilencer(layer, (CAD_air_pipeSilencer*)item);
+            break;
+        case CADitem::Air_PipeTeeConnector:
+            paintAirPipeTeeConnector(layer, (CAD_air_pipeTeeConnector*)item);
+            break;
+       case CADitem::Air_PipeTurn:
+            paintAirPipeTurn(layer, (CAD_air_pipeTurn*)item);
+            break;
+        case CADitem::Air_PipeVolumetricFlowController:
+            paintAirPipeVolumetricFlowController(layer, (CAD_air_pipeVolumetricFlowController*)item);
+            break;
+        case CADitem::Air_PressureReliefDamper:
+            paintAirPressureReliefDamper(layer, (CAD_air_pressureReliefDamper*)item);
+            break;
+        case CADitem::Air_ThrottleValve:
+            paintAirThrottleValve(layer, (CAD_air_throttleValve*)item);
+            break;
+
 
         case CADitem::HeatCool_Adjustvalve:
             paintHeatCoolAdjustvalve(layer, (CAD_heatcool_adjustvalve*)item);
