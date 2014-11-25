@@ -10,10 +10,10 @@ CAD_air_ductTurn::CAD_air_ductTurn() : CADitem(CADitem::Air_DuctTurn)
     wizardParams.insert("Angle y", QVariant::fromValue(0.0));
     wizardParams.insert("Angle z", QVariant::fromValue(0.0));
 
-    wizardParams.insert("Radius (r)", QVariant::fromValue(10.0));
-    wizardParams.insert("Width 1 (b)", QVariant::fromValue(5.0));
-    wizardParams.insert("Width 2 (d)", QVariant::fromValue(5.0));
-    wizardParams.insert("Height (a)", QVariant::fromValue(5.0));
+    wizardParams.insert("Radius (r)", QVariant::fromValue(100.0));
+    wizardParams.insert("Width 1 (b)", QVariant::fromValue(30.0));
+    wizardParams.insert("Width 2 (d)", QVariant::fromValue(30.0));
+    wizardParams.insert("Height (a)", QVariant::fromValue(20.0));
 
     wizardParams.insert("Endcap 1 (f)", QVariant::fromValue(5.0));
     wizardParams.insert("Endcap 2 (e)", QVariant::fromValue(5.0));
@@ -129,15 +129,23 @@ void CAD_air_ductTurn::calculate()
         {
             QVector3D lp1 = this->matrix_rotation * QVector3D(0.0, this->width_1 / 2, this->height / 2) + position;
             this->vertices[w][a][b] = lp1;
+            this->boundingBox.enterVertex(lp1);
+            this->snap_vertices.append(lp1);
             b++;
             QVector3D lp2 = this->matrix_rotation * QVector3D(0.0, this->width_1 / 2, -this->height / 2) + position;
             this->vertices[w][a][b] = lp2;
+            this->boundingBox.enterVertex(lp2);
+            this->snap_vertices.append(lp2);
             b++;
             QVector3D lp3 = this->matrix_rotation * QVector3D(0.0, -this->width_1 / 2, -this->height / 2) + position;
             this->vertices[w][a][b] = lp3;
+            this->boundingBox.enterVertex(lp3);
+            this->snap_vertices.append(lp3);
             b++;
             QVector3D lp4 = this->matrix_rotation * QVector3D(0.0, -this->width_1/2, this->height / 2) + position;
             this->vertices[w][a][b] = lp4;
+            this->boundingBox.enterVertex(lp4);
+            this->snap_vertices.append(lp4);
             b++;
             QVector3D lp5 = this->matrix_rotation * QVector3D(0.0, this->width_1 / 2, this->height / 2) + position;
             this->vertices[w][a][b] = lp5;
@@ -295,21 +303,29 @@ void CAD_air_ductTurn::calculate()
                                                + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2, 0.0)
                                                + QVector3D(cos(angle_turn_rad) * this->endcap_2, -sin(angle_turn_rad) * this->endcap_2, 0.0)) + position;
             this->vertices[w][a][b] = lp1;
+            this->boundingBox.enterVertex(lp1);
+            this->snap_vertices.append(lp1);
             b++;
             QVector3D lp2 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->width_1 + (this->width_2 - this->width_1), -this->height / 2)
                                                + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2, 0.0)
                                                + QVector3D(cos(angle_turn_rad) * this->endcap_2, -sin(angle_turn_rad) * this->endcap_2, 0.0)) + position;
             this->vertices[w][a][b] = lp2;
+            this->boundingBox.enterVertex(lp2);
+            this->snap_vertices.append(lp2);
             b++;
             QVector3D lp3 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius, -this->height / 2)
                                                + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2, 0.0)
                                                + QVector3D(cos(angle_turn_rad) * this->endcap_2, -sin(angle_turn_rad) * this->endcap_2, 0.0)) + position;
             this->vertices[w][a][b] = lp3;
+            this->boundingBox.enterVertex(lp3);
+            this->snap_vertices.append(lp3);
             b++;
             QVector3D lp4 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius, this->height / 2)
                                                + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2, 0.0)
                                                + QVector3D(cos(angle_turn_rad) * this->endcap_2, -sin(angle_turn_rad) * this->endcap_2, 0.0)) + position;
             this->vertices[w][a][b] = lp4;
+            this->boundingBox.enterVertex(lp4);
+            this->snap_vertices.append(lp4);
             b++;
             QVector3D lp5 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->width_1 + (this->width_2 - this->width_1), this->height / 2)
                                                + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2, 0.0)
@@ -366,6 +382,26 @@ void CAD_air_ductTurn::calculate()
     flange_right_duct->wizardParams.insert("Wall thickness", QVariant::fromValue(flange_size));
     flange_right_duct->processWizardInput();
     flange_right_duct->calculate();
+
+    boundingBox.enterVertex(flange_left_duct->pos_bot_1);
+    boundingBox.enterVertex(flange_left_duct->pos_bot_2);
+    boundingBox.enterVertex(flange_left_duct->pos_bot_3);
+    boundingBox.enterVertex(flange_left_duct->pos_bot_4);
+    boundingBox.enterVertex(flange_left_duct->pos_top_1);
+    boundingBox.enterVertex(flange_left_duct->pos_top_2);
+    boundingBox.enterVertex(flange_left_duct->pos_top_3);
+    boundingBox.enterVertex(flange_left_duct->pos_top_4);
+
+
+    boundingBox.enterVertex(flange_right_duct->pos_bot_1);
+    boundingBox.enterVertex(flange_right_duct->pos_bot_2);
+    boundingBox.enterVertex(flange_right_duct->pos_bot_3);
+    boundingBox.enterVertex(flange_right_duct->pos_bot_4);
+    boundingBox.enterVertex(flange_right_duct->pos_top_1);
+    boundingBox.enterVertex(flange_right_duct->pos_top_2);
+    boundingBox.enterVertex(flange_right_duct->pos_top_3);
+    boundingBox.enterVertex(flange_right_duct->pos_top_4);
+
 
 }
 

@@ -2,6 +2,7 @@
 #define CAD_AIR_DUCTROUND_H
 
 #include "caditem.h"
+#include "cad_basic_pipe.h"
 
 class CAD_air_pipe : public CADitem
 {
@@ -12,6 +13,11 @@ public:
     static QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
+    qreal d;
+    qreal s;
+    qreal l;
+
+    CAD_basic_pipe *pipe;
 };
 
 #endif // CAD_AIR_DUCTROUND_H

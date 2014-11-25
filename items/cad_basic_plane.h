@@ -12,6 +12,9 @@ public:
     static QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
+
+    qreal a, b;
+    QVector3D vertices[4];
 };
 
 #endif // CAD_BASIC_PLANE_H

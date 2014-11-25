@@ -2,6 +2,10 @@
 
 CAD_air_ductTransitionRectRound::CAD_air_ductTransitionRectRound() : CADitem(CADitem::Air_DuctTransitionRectRound)
 {
+    this->flange_rect = new CAD_basic_duct();
+    this->flange_round =new CAD_basic_pipe();
+    this->subItems.append(flange_rect);
+    this->subItems.append(flange_round);
     this->description = "Air|Duct transition rect/round";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
@@ -9,6 +13,16 @@ CAD_air_ductTransitionRectRound::CAD_air_ductTransitionRectRound() : CADitem(CAD
     wizardParams.insert("Angle x", QVariant::fromValue(0.0));
     wizardParams.insert("Angle y", QVariant::fromValue(0.0));
     wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+
+    wizardParams.insert("Wall thickness", QVariant::fromValue(1.0));
+    wizardParams.insert("Length (l)", QVariant::fromValue(100.0));
+    wizardParams.insert("Width (b)", QVariant::fromValue(30.0));
+    wizardParams.insert("Height (a)", QVariant::fromValue(20.0));
+    wizardParams.insert("Flange size", QVariant::fromValue(1.0));
+    wizardParams.insert("Offset y (e)", QVariant::fromValue(0.0));
+    wizardParams.insert("Offset z (f)", QVariant::fromValue(0.0));
+    wizardParams.insert("Length endcap (u)", QVariant::fromValue(5.0));
+    wizardParams.insert("Diameter (d)", QVariant::fromValue(20.0));
 
     processWizardInput();
     calculate();
@@ -62,6 +76,83 @@ void CAD_air_ductTransitionRectRound::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, b/2 - e - d/2, a/2 - f - d/2 ));
+
+    //front <-> back
+    for(int i = 0; i < 2; i++)
+    {
+        //inner <-> outer
+        for(int j = 0; j < 2; j++)
+        {
+            int k = 0;
+            //circle
+            for(qreal step = 0; step <= 1; step += 0.03125)
+            {
+                QVector3D rad = QVector3D(0.0, d/2 - j * wall_thickness, 0.0);
+                QMatrix4x4 matrix_turn = QMatrix4x4();
+                matrix_turn.setToIdentity();
+                matrix_turn.rotate(step * 360, 1.0, 0.0, 0.0);
+                roundside[i][j][k] = position + matrix_rotation * (matrix_turn * rad + QVector3D(l - i * u, b/2 - e - d/2, a/2 - f - d/2 ));
+                boundingBox.enterVertex(roundside[i][j][k]);
+                k++;
+            }
+        }
+    }
+    //front <-> back
+    for(int i = 0; i < 2; i++)
+    {
+        //inner <-> outer
+        for(int j = 0; j < 2; j++)
+        {
+            rectside[i][j][0] = position + matrix_rotation * QVector3D(i * u,  b/2 - j * wall_thickness, -a/2 + j * wall_thickness);
+            rectside[i][j][1] = position + matrix_rotation * QVector3D(i * u,  b/2 - j * wall_thickness,  a/2 - j * wall_thickness);
+            rectside[i][j][2] = position + matrix_rotation * QVector3D(i * u, -b/2 + j * wall_thickness,  a/2 - j * wall_thickness);
+            rectside[i][j][3] = position + matrix_rotation * QVector3D(i * u, -b/2 + j * wall_thickness, -a/2 + j * wall_thickness);
+            boundingBox.enterVertex(rectside[i][j][0]);
+            boundingBox.enterVertex(rectside[i][j][1]);
+            boundingBox.enterVertex(rectside[i][j][2]);
+            boundingBox.enterVertex(rectside[i][j][3]);
+        }
+    }
+
+    //calculate flanges
+    flange_rect->wizardParams.insert("Position x", QVariant::fromValue(position.x()));
+    flange_rect->wizardParams.insert("Position y", QVariant::fromValue(position.y()));
+    flange_rect->wizardParams.insert("Position z", QVariant::fromValue(position.z()));
+    flange_rect->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
+    flange_rect->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
+    flange_rect->wizardParams.insert("Angle z", QVariant::fromValue(angle_z+180));
+    flange_rect->wizardParams.insert("Length (l)", QVariant::fromValue(flange_size));
+    flange_rect->wizardParams.insert("Width (b)", QVariant::fromValue(b + 2 * flange_size));
+    flange_rect->wizardParams.insert("Height (a)", QVariant::fromValue(a + 2 * flange_size));
+    flange_rect->wizardParams.insert("Wall thickness", QVariant::fromValue(flange_size));
+    flange_rect->processWizardInput();
+    flange_rect->calculate();
+
+    QVector3D position_fr = position + matrix_rotation *  QVector3D(l, b/2 - e - d/2, a/2 - f - d/2 );
+    flange_round->wizardParams.insert("Position x", QVariant::fromValue(position_fr.x()));
+    flange_round->wizardParams.insert("Position y", QVariant::fromValue(position_fr.y()));
+    flange_round->wizardParams.insert("Position z", QVariant::fromValue(position_fr.z()));
+    flange_round->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
+    flange_round->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
+    flange_round->wizardParams.insert("Angle z", QVariant::fromValue(angle_z+90));
+    flange_round->wizardParams.insert("Length", QVariant::fromValue(flange_size));
+    flange_round->wizardParams.insert("Outer diameter", QVariant::fromValue(d + 2 * flange_size));
+    flange_round->wizardParams.insert("Wall thickness", QVariant::fromValue(flange_size));
+    flange_round->processWizardInput();
+    flange_round->calculate();
+
+    this->snap_vertices.append(rectside[0][0][0]);
+    this->snap_vertices.append(rectside[0][0][1]);
+    this->snap_vertices.append(rectside[0][0][2]);
+    this->snap_vertices.append(rectside[0][0][3]);
+
+
+    this->snap_vertices.append(roundside[0][0][0]);
+    this->snap_vertices.append(roundside[0][0][7]);
+    this->snap_vertices.append(roundside[0][0][15]);
+    this->snap_vertices.append(roundside[0][0][23]);
 }
 
 void CAD_air_ductTransitionRectRound::processWizardInput()
@@ -69,8 +160,26 @@ void CAD_air_ductTransitionRectRound::processWizardInput()
     position.setX(wizardParams.value("Position x").toDouble());
     position.setY(wizardParams.value("Position y").toDouble());
     position.setZ(wizardParams.value("Position z").toDouble());
+
+    l = wizardParams.value("Length (l)").toDouble();
+    b = wizardParams.value("Width (b)").toDouble();
+    a = wizardParams.value("Height (a)").toDouble();
+    d = wizardParams.value("Diameter (d)").toDouble();
+
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    wall_thickness = wizardParams.value("Wall thickness").toDouble();
+    flange_size = wizardParams.value("Flange size").toDouble();
+    u = wizardParams.value("Length endcap (u)").toDouble();
+    e = wizardParams.value("Offset y (e)").toDouble();
+    f = wizardParams.value("Offset z (f)").toDouble();
+    d = wizardParams.value("Diameter (d)").toDouble();
+
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 
 }

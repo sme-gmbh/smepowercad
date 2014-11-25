@@ -2,6 +2,8 @@
 #define CAD_AIR_DUCTENDPLATE_H
 
 #include "caditem.h"
+#include "cad_basic_duct.h"
+#include "cad_basic_box.h"
 
 class CAD_air_ductEndPlate : public CADitem
 {
@@ -12,6 +14,17 @@ public:
     static QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
+
+    qreal a; //height
+    qreal b; //width
+    qreal l; //length
+    qreal flange_size;
+    qreal wall_thickness;
+
+    CAD_basic_duct *duct;
+    CAD_basic_duct *flange;
+    CAD_basic_box *plate;
+
 };
 
 #endif // CAD_AIR_DUCTENDPLATE_H

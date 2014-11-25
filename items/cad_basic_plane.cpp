@@ -9,6 +9,9 @@ CAD_basic_plane::CAD_basic_plane() : CADitem(CADitem::Basic_Plane)
     wizardParams.insert("Angle x", QVariant::fromValue(0.0));
     wizardParams.insert("Angle y", QVariant::fromValue(0.0));
     wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+    wizardParams.insert("Length (A)", QVariant::fromValue(10.0));
+    wizardParams.insert("Width (B)", QVariant::fromValue(10.0));
+
 
     processWizardInput();
     calculate();
@@ -55,6 +58,20 @@ void CAD_basic_plane::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+    vertices[0] = position + matrix_rotation * QVector3D(-a/2, -b/2, 0.0);
+    vertices[1] = position + matrix_rotation * QVector3D( a/2, -b/2, 0.0);
+    vertices[2] = position + matrix_rotation * QVector3D( a/2,  b/2, 0.0);
+    vertices[3] = position + matrix_rotation * QVector3D(-a/2,  b/2, 0.0);
+
+    boundingBox.enterVertex(vertices[0]);
+    boundingBox.enterVertex(vertices[1]);
+    boundingBox.enterVertex(vertices[2]);
+    boundingBox.enterVertex(vertices[3]);
+
+    this->snap_vertices.append(vertices[0]);
+    this->snap_vertices.append(vertices[1]);
+    this->snap_vertices.append(vertices[2]);
+    this->snap_vertices.append(vertices[3]);
 }
 
 void CAD_basic_plane::processWizardInput()
@@ -65,5 +82,7 @@ void CAD_basic_plane::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+    a = wizardParams.value("Length (A)").toDouble();
+    b = wizardParams.value("Width (B)").toDouble();
 
 }

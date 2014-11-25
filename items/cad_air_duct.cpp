@@ -12,9 +12,9 @@ CAD_air_duct::CAD_air_duct() : CADitem(CADitem::Air_Duct)
     wizardParams.insert("Angle z", QVariant::fromValue(0.0));
 
     wizardParams.insert("Wall thickness", QVariant::fromValue(1.0));
-    wizardParams.insert("Length (l)", QVariant::fromValue(10.0));
-    wizardParams.insert("Width (b)", QVariant::fromValue(5.0));
-    wizardParams.insert("Height (a)", QVariant::fromValue(5.0));
+    wizardParams.insert("Length (l)", QVariant::fromValue(100.0));
+    wizardParams.insert("Width (b)", QVariant::fromValue(30.0));
+    wizardParams.insert("Height (a)", QVariant::fromValue(20.0));
     wizardParams.insert("Flange size", QVariant::fromValue(1.0));
 
 

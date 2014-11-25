@@ -547,7 +547,7 @@ QVector3D GLWidget::pointOnSphere(QPoint pointOnScreen)
     }
     else
     {
-        v.setZ( sqrt(1.0 - r) );
+        v.setZ( sqrt(1.0d - r) );
     }
     return v;
 }
@@ -892,8 +892,8 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glDisable(GL_DEPTH_TEST);
 
     // Coordinate orientation display
-    QVector4D xAxis = matrix_rotation * QVector4D(-50.0,  0.0,  0.0, 0.0);
-    QVector4D yAxis = matrix_rotation * QVector4D(0.0,  -50.0,  0.0, 0.0);
+    QVector4D xAxis = matrix_rotation * QVector4D(50.0,  0.0,  0.0, 0.0);
+    QVector4D yAxis = matrix_rotation * QVector4D(0.0,  50.0,  0.0, 0.0);
     QVector4D zAxis = matrix_rotation * QVector4D(0.0,   0.0, 50.0, 0.0);
     glBegin(GL_LINES);
     glLineWidth(1.0);
@@ -1331,6 +1331,7 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundin
             paintBasicFace(layer, (CAD_basic_3Dface*)item);
             break;
         case CADitem::Basic_Plane:
+            paintBasicPlane(layer, (CAD_basic_plane*)item);
             break;
         case CADitem::Basic_Box:
             paintBasicBox(layer, (CAD_basic_box*)item);
@@ -1810,6 +1811,29 @@ void GLWidget::paintBasicPolyLine(Layer *layer, CAD_basic_polyline *item)
         }
     }
     glEnd();
+}
+
+void GLWidget::paintBasicPlane(Layer *layer, CAD_basic_plane *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
+
+    if (this->render_solid)
+    {
+        setPaintingColor(color_brush);
+        glBegin(GL_QUADS);
+        for(int k = 0; k < 4; k++)
+            glVertex3f((GLfloat)item->vertices[k].x(), (GLfloat)item->vertices[k].y(), (GLfloat)item->vertices[k].z());
+        glEnd();
+    }
+    if (this->render_outline)
+    {
+        setPaintingColor(color_pen);
+        glBegin(GL_LINE_LOOP);
+        for(int k = 0; k < 4; k++)
+            glVertex3f((GLfloat)item->vertices[k].x(), (GLfloat)item->vertices[k].y(), (GLfloat)item->vertices[k].z());
+        glEnd();
+    }
 }
 
 void GLWidget::paintBasicFace(Layer *layer, CAD_basic_3Dface *item)
@@ -2887,12 +2911,448 @@ void GLWidget::paintAirDuctTransitionRectRound(Layer *layer, CAD_air_ductTransit
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+
+    int count_k = 32;
+    if (this->render_solid)
+    {
+        setPaintingColor(color_brush);
+
+        //front face round
+        glBegin(GL_QUADS);
+        for(int k = 0; k < count_k - 1; k++)
+        {
+            glVertex3f((GLfloat)item->roundside[0][0][k].x(), (GLfloat)item->roundside[0][0][k].y(), (GLfloat)item->roundside[0][0][k].z());
+            glVertex3f((GLfloat)item->roundside[0][1][k].x(), (GLfloat)item->roundside[0][1][k].y(), (GLfloat)item->roundside[0][1][k].z());
+            glVertex3f((GLfloat)item->roundside[0][1][k+1].x(), (GLfloat)item->roundside[0][1][k+1].y(), (GLfloat)item->roundside[0][1][k+1].z());
+            glVertex3f((GLfloat)item->roundside[0][0][k+1].x(), (GLfloat)item->roundside[0][0][k+1].y(), (GLfloat)item->roundside[0][0][k+1].z());
+        }
+        glVertex3f((GLfloat)item->roundside[0][0][count_k - 1].x(), (GLfloat)item->roundside[0][0][count_k - 1].y(), (GLfloat)item->roundside[0][0][count_k - 1].z());
+        glVertex3f((GLfloat)item->roundside[0][1][count_k - 1].x(), (GLfloat)item->roundside[0][1][count_k - 1].y(), (GLfloat)item->roundside[0][1][count_k - 1].z());
+        glVertex3f((GLfloat)item->roundside[0][1][0].x(), (GLfloat)item->roundside[0][1][0].y(), (GLfloat)item->roundside[0][1][0].z());
+        glVertex3f((GLfloat)item->roundside[0][0][0].x(), (GLfloat)item->roundside[0][0][0].y(), (GLfloat)item->roundside[0][0][0].z());
+
+        //outer faces round
+        for(int k = 0; k < count_k - 1; k++)
+        {
+            glVertex3f((GLfloat)item->roundside[0][0][k].x(), (GLfloat)item->roundside[0][0][k].y(), (GLfloat)item->roundside[0][0][k].z());
+            glVertex3f((GLfloat)item->roundside[1][0][k].x(), (GLfloat)item->roundside[1][0][k].y(), (GLfloat)item->roundside[1][0][k].z());
+            glVertex3f((GLfloat)item->roundside[1][0][k+1].x(), (GLfloat)item->roundside[1][0][k+1].y(), (GLfloat)item->roundside[1][0][k+1].z());
+            glVertex3f((GLfloat)item->roundside[0][0][k+1].x(), (GLfloat)item->roundside[0][0][k+1].y(), (GLfloat)item->roundside[0][0][k+1].z());
+        }
+        glVertex3f((GLfloat)item->roundside[0][0][count_k - 1].x(), (GLfloat)item->roundside[0][0][count_k - 1].y(), (GLfloat)item->roundside[0][0][count_k - 1].z());
+        glVertex3f((GLfloat)item->roundside[1][0][count_k - 1].x(), (GLfloat)item->roundside[1][0][count_k - 1].y(), (GLfloat)item->roundside[1][0][count_k - 1].z());
+        glVertex3f((GLfloat)item->roundside[1][0][0].x(), (GLfloat)item->roundside[1][0][0].y(), (GLfloat)item->roundside[1][0][0].z());
+        glVertex3f((GLfloat)item->roundside[0][0][0].x(), (GLfloat)item->roundside[0][0][0].y(), (GLfloat)item->roundside[0][0][0].z());
+
+
+        //inner faces round
+        for(int k = 0; k < count_k - 1; k++)
+        {
+            glVertex3f((GLfloat)item->roundside[0][1][k].x(), (GLfloat)item->roundside[0][1][k].y(), (GLfloat)item->roundside[0][1][k].z());
+            glVertex3f((GLfloat)item->roundside[1][1][k].x(), (GLfloat)item->roundside[1][1][k].y(), (GLfloat)item->roundside[1][1][k].z());
+            glVertex3f((GLfloat)item->roundside[1][1][k+1].x(), (GLfloat)item->roundside[1][1][k+1].y(), (GLfloat)item->roundside[1][1][k+1].z());
+            glVertex3f((GLfloat)item->roundside[0][1][k+1].x(), (GLfloat)item->roundside[0][1][k+1].y(), (GLfloat)item->roundside[0][1][k+1].z());
+        }
+        glVertex3f((GLfloat)item->roundside[0][1][count_k - 1].x(), (GLfloat)item->roundside[0][1][count_k - 1].y(), (GLfloat)item->roundside[0][1][count_k - 1].z());
+        glVertex3f((GLfloat)item->roundside[1][1][count_k - 1].x(), (GLfloat)item->roundside[1][1][count_k - 1].y(), (GLfloat)item->roundside[1][1][count_k - 1].z());
+        glVertex3f((GLfloat)item->roundside[1][1][0].x(), (GLfloat)item->roundside[1][1][0].y(), (GLfloat)item->roundside[1][1][0].z());
+        glVertex3f((GLfloat)item->roundside[0][1][0].x(), (GLfloat)item->roundside[0][1][0].y(), (GLfloat)item->roundside[0][1][0].z());
+
+
+        //inner faces rect
+        glBegin(GL_QUADS);
+        glVertex3f((GLfloat)item->rectside[0][1][0].x(), (GLfloat)item->rectside[0][1][0].y(), (GLfloat)item->rectside[0][1][0].z());
+        glVertex3f((GLfloat)item->rectside[1][1][0].x(), (GLfloat)item->rectside[1][1][0].y(), (GLfloat)item->rectside[1][1][0].z());
+        glVertex3f((GLfloat)item->rectside[1][1][1].x(), (GLfloat)item->rectside[1][1][1].y(), (GLfloat)item->rectside[1][1][1].z());
+        glVertex3f((GLfloat)item->rectside[0][1][1].x(), (GLfloat)item->rectside[0][1][1].y(), (GLfloat)item->rectside[0][1][1].z());
+
+        glVertex3f((GLfloat)item->rectside[0][1][1].x(), (GLfloat)item->rectside[0][1][1].y(), (GLfloat)item->rectside[0][1][1].z());
+        glVertex3f((GLfloat)item->rectside[1][1][1].x(), (GLfloat)item->rectside[1][1][1].y(), (GLfloat)item->rectside[1][1][1].z());
+        glVertex3f((GLfloat)item->rectside[1][1][2].x(), (GLfloat)item->rectside[1][1][2].y(), (GLfloat)item->rectside[1][1][2].z());
+        glVertex3f((GLfloat)item->rectside[0][1][2].x(), (GLfloat)item->rectside[0][1][2].y(), (GLfloat)item->rectside[0][1][2].z());
+
+        glVertex3f((GLfloat)item->rectside[0][1][2].x(), (GLfloat)item->rectside[0][1][2].y(), (GLfloat)item->rectside[0][1][2].z());
+        glVertex3f((GLfloat)item->rectside[1][1][2].x(), (GLfloat)item->rectside[1][1][2].y(), (GLfloat)item->rectside[1][1][2].z());
+        glVertex3f((GLfloat)item->rectside[1][1][3].x(), (GLfloat)item->rectside[1][1][3].y(), (GLfloat)item->rectside[1][1][3].z());
+        glVertex3f((GLfloat)item->rectside[0][1][3].x(), (GLfloat)item->rectside[0][1][3].y(), (GLfloat)item->rectside[0][1][3].z());
+
+        glVertex3f((GLfloat)item->rectside[0][1][3].x(), (GLfloat)item->rectside[0][1][3].y(), (GLfloat)item->rectside[0][1][3].z());
+        glVertex3f((GLfloat)item->rectside[1][1][3].x(), (GLfloat)item->rectside[1][1][3].y(), (GLfloat)item->rectside[1][1][3].z());
+        glVertex3f((GLfloat)item->rectside[1][1][0].x(), (GLfloat)item->rectside[1][1][0].y(), (GLfloat)item->rectside[1][1][0].z());
+        glVertex3f((GLfloat)item->rectside[0][1][0].x(), (GLfloat)item->rectside[0][1][0].y(), (GLfloat)item->rectside[0][1][0].z());
+
+        //outer faces rect
+        glVertex3f((GLfloat)item->rectside[0][0][0].x(), (GLfloat)item->rectside[0][0][0].y(), (GLfloat)item->rectside[0][0][0].z());
+        glVertex3f((GLfloat)item->rectside[1][0][0].x(), (GLfloat)item->rectside[1][0][0].y(), (GLfloat)item->rectside[1][0][0].z());
+        glVertex3f((GLfloat)item->rectside[1][0][1].x(), (GLfloat)item->rectside[1][0][1].y(), (GLfloat)item->rectside[1][0][1].z());
+        glVertex3f((GLfloat)item->rectside[0][0][1].x(), (GLfloat)item->rectside[0][0][1].y(), (GLfloat)item->rectside[0][0][1].z());
+
+        glVertex3f((GLfloat)item->rectside[0][0][1].x(), (GLfloat)item->rectside[0][0][1].y(), (GLfloat)item->rectside[0][0][1].z());
+        glVertex3f((GLfloat)item->rectside[1][0][1].x(), (GLfloat)item->rectside[1][0][1].y(), (GLfloat)item->rectside[1][0][1].z());
+        glVertex3f((GLfloat)item->rectside[1][0][2].x(), (GLfloat)item->rectside[1][0][2].y(), (GLfloat)item->rectside[1][0][2].z());
+        glVertex3f((GLfloat)item->rectside[0][0][2].x(), (GLfloat)item->rectside[0][0][2].y(), (GLfloat)item->rectside[0][0][2].z());
+
+        glVertex3f((GLfloat)item->rectside[0][0][2].x(), (GLfloat)item->rectside[0][0][2].y(), (GLfloat)item->rectside[0][0][2].z());
+        glVertex3f((GLfloat)item->rectside[1][0][2].x(), (GLfloat)item->rectside[1][0][2].y(), (GLfloat)item->rectside[1][0][2].z());
+        glVertex3f((GLfloat)item->rectside[1][0][3].x(), (GLfloat)item->rectside[1][0][3].y(), (GLfloat)item->rectside[1][0][3].z());
+        glVertex3f((GLfloat)item->rectside[0][0][3].x(), (GLfloat)item->rectside[0][0][3].y(), (GLfloat)item->rectside[0][0][3].z());
+
+        glVertex3f((GLfloat)item->rectside[0][0][3].x(), (GLfloat)item->rectside[0][0][3].y(), (GLfloat)item->rectside[0][0][3].z());
+        glVertex3f((GLfloat)item->rectside[1][0][3].x(), (GLfloat)item->rectside[1][0][3].y(), (GLfloat)item->rectside[1][0][3].z());
+        glVertex3f((GLfloat)item->rectside[1][0][0].x(), (GLfloat)item->rectside[1][0][0].y(), (GLfloat)item->rectside[1][0][0].z());
+        glVertex3f((GLfloat)item->rectside[0][0][0].x(), (GLfloat)item->rectside[0][0][0].y(), (GLfloat)item->rectside[0][0][0].z());
+
+        //front faces rect
+        glVertex3f((GLfloat)item->rectside[0][0][0].x(), (GLfloat)item->rectside[0][0][0].y(), (GLfloat)item->rectside[0][0][0].z());
+        glVertex3f((GLfloat)item->rectside[0][1][0].x(), (GLfloat)item->rectside[0][1][0].y(), (GLfloat)item->rectside[0][1][0].z());
+        glVertex3f((GLfloat)item->rectside[0][1][1].x(), (GLfloat)item->rectside[0][1][1].y(), (GLfloat)item->rectside[0][1][1].z());
+        glVertex3f((GLfloat)item->rectside[0][0][1].x(), (GLfloat)item->rectside[0][0][1].y(), (GLfloat)item->rectside[0][0][1].z());
+
+        glVertex3f((GLfloat)item->rectside[0][0][1].x(), (GLfloat)item->rectside[0][0][1].y(), (GLfloat)item->rectside[0][0][1].z());
+        glVertex3f((GLfloat)item->rectside[0][1][1].x(), (GLfloat)item->rectside[0][1][1].y(), (GLfloat)item->rectside[0][1][1].z());
+        glVertex3f((GLfloat)item->rectside[0][1][2].x(), (GLfloat)item->rectside[0][1][2].y(), (GLfloat)item->rectside[0][1][2].z());
+        glVertex3f((GLfloat)item->rectside[0][0][2].x(), (GLfloat)item->rectside[0][0][2].y(), (GLfloat)item->rectside[0][0][2].z());
+
+        glVertex3f((GLfloat)item->rectside[0][0][2].x(), (GLfloat)item->rectside[0][0][2].y(), (GLfloat)item->rectside[0][0][2].z());
+        glVertex3f((GLfloat)item->rectside[0][1][2].x(), (GLfloat)item->rectside[0][1][2].y(), (GLfloat)item->rectside[0][1][2].z());
+        glVertex3f((GLfloat)item->rectside[0][1][3].x(), (GLfloat)item->rectside[0][1][3].y(), (GLfloat)item->rectside[0][1][3].z());
+        glVertex3f((GLfloat)item->rectside[0][0][3].x(), (GLfloat)item->rectside[0][0][3].y(), (GLfloat)item->rectside[0][0][3].z());
+
+        glVertex3f((GLfloat)item->rectside[0][0][3].x(), (GLfloat)item->rectside[0][0][3].y(), (GLfloat)item->rectside[0][0][3].z());
+        glVertex3f((GLfloat)item->rectside[0][1][3].x(), (GLfloat)item->rectside[0][1][3].y(), (GLfloat)item->rectside[0][1][3].z());
+        glVertex3f((GLfloat)item->rectside[0][1][0].x(), (GLfloat)item->rectside[0][1][0].y(), (GLfloat)item->rectside[0][1][0].z());
+        glVertex3f((GLfloat)item->rectside[0][0][0].x(), (GLfloat)item->rectside[0][0][0].y(), (GLfloat)item->rectside[0][0][0].z());
+        glEnd();
+
+        //triangle rect-round-transition
+        glBegin(GL_TRIANGLE_FAN);
+        glVertex3f((GLfloat)item->rectside[1][0][1].x(),   (GLfloat)item->rectside[1][0][1].y(),   (GLfloat)item->rectside[1][0][1].z());
+        for(int k = 0; k < 8; k++)
+        {
+            glVertex3f((GLfloat)item->roundside[1][0][k].x(),   (GLfloat)item->roundside[1][0][k].y(),   (GLfloat)item->roundside[1][0][k].z());
+
+        }
+        glEnd();
+        glBegin(GL_TRIANGLE_FAN);
+        glVertex3f((GLfloat)item->rectside[1][0][2].x(),   (GLfloat)item->rectside[1][0][2].y(),   (GLfloat)item->rectside[1][0][2].z());
+        for(int k = 8; k < 16; k++)
+        {
+            glVertex3f((GLfloat)item->roundside[1][0][k].x(),   (GLfloat)item->roundside[1][0][k].y(),   (GLfloat)item->roundside[1][0][k].z());
+
+        }
+        glEnd();
+        glBegin(GL_TRIANGLE_FAN);
+        glVertex3f((GLfloat)item->rectside[1][0][3].x(),   (GLfloat)item->rectside[1][0][3].y(),   (GLfloat)item->rectside[1][0][3].z());
+        for(int k = 16; k < 24; k++)
+        {
+            glVertex3f((GLfloat)item->roundside[1][0][k].x(),   (GLfloat)item->roundside[1][0][k].y(),   (GLfloat)item->roundside[1][0][k].z());
+
+        }
+        glEnd();
+        glBegin(GL_TRIANGLE_FAN);
+        glVertex3f((GLfloat)item->rectside[1][0][0].x(),   (GLfloat)item->rectside[1][0][0].y(),   (GLfloat)item->rectside[1][0][0].z());
+        for(int k = 24; k < 32; k++)
+        {
+            glVertex3f((GLfloat)item->roundside[1][0][k].x(),   (GLfloat)item->roundside[1][0][k].y(),   (GLfloat)item->roundside[1][0][k].z());
+
+        }
+        glEnd();
+
+        glBegin(GL_QUADS);
+
+        glVertex3f((GLfloat)item->rectside[1][0][0].x(),   (GLfloat)item->rectside[1][0][0].y(),   (GLfloat)item->rectside[1][0][0].z());
+        glVertex3f((GLfloat)item->rectside[1][0][1].x(),   (GLfloat)item->rectside[1][0][1].y(),   (GLfloat)item->rectside[1][0][1].z());
+        glVertex3f((GLfloat)item->roundside[1][0][0].x(),   (GLfloat)item->roundside[1][0][0].y(),   (GLfloat)item->roundside[1][0][0].z());
+        glVertex3f((GLfloat)item->roundside[1][0][31].x(),   (GLfloat)item->roundside[1][0][31].y(),   (GLfloat)item->roundside[1][0][31].z());
+
+        glVertex3f((GLfloat)item->rectside[1][0][1].x(),   (GLfloat)item->rectside[1][0][1].y(),   (GLfloat)item->rectside[1][0][1].z());
+        glVertex3f((GLfloat)item->rectside[1][0][2].x(),   (GLfloat)item->rectside[1][0][2].y(),   (GLfloat)item->rectside[1][0][2].z());
+        glVertex3f((GLfloat)item->roundside[1][0][8].x(),   (GLfloat)item->roundside[1][0][8].y(),   (GLfloat)item->roundside[1][0][8].z());
+        glVertex3f((GLfloat)item->roundside[1][0][7].x(),   (GLfloat)item->roundside[1][0][7].y(),   (GLfloat)item->roundside[1][0][7].z());
+
+        glVertex3f((GLfloat)item->rectside[1][0][2].x(),   (GLfloat)item->rectside[1][0][2].y(),   (GLfloat)item->rectside[1][0][2].z());
+        glVertex3f((GLfloat)item->rectside[1][0][3].x(),   (GLfloat)item->rectside[1][0][3].y(),   (GLfloat)item->rectside[1][0][3].z());
+        glVertex3f((GLfloat)item->roundside[1][0][16].x(),   (GLfloat)item->roundside[1][0][16].y(),   (GLfloat)item->roundside[1][0][16].z());
+        glVertex3f((GLfloat)item->roundside[1][0][15].x(),   (GLfloat)item->roundside[1][0][15].y(),   (GLfloat)item->roundside[1][0][15].z());
+
+        glVertex3f((GLfloat)item->rectside[1][0][3].x(),   (GLfloat)item->rectside[1][0][3].y(),   (GLfloat)item->rectside[1][0][3].z());
+        glVertex3f((GLfloat)item->rectside[1][0][0].x(),   (GLfloat)item->rectside[1][0][0].y(),   (GLfloat)item->rectside[1][0][0].z());
+        glVertex3f((GLfloat)item->roundside[1][0][24].x(),   (GLfloat)item->roundside[1][0][24].y(),   (GLfloat)item->roundside[1][0][24].z());
+        glVertex3f((GLfloat)item->roundside[1][0][23].x(),   (GLfloat)item->roundside[1][0][23].y(),   (GLfloat)item->roundside[1][0][23].z());
+
+        glEnd();
+
+
+    }
+
+    if (this->render_outline)
+    {
+        setPaintingColor(color_pen);
+
+        //        //front face round
+        //        for(int k = 0; k < count_k - 1; k++)
+        //        {
+        //            glBegin(GL_LINE_LOOP);
+        //            glVertex3f((GLfloat)item->roundside[0][0][k].x(), (GLfloat)item->roundside[0][0][k].y(), (GLfloat)item->roundside[0][0][k].z());
+        //            glVertex3f((GLfloat)item->roundside[0][1][k].x(), (GLfloat)item->roundside[0][1][k].y(), (GLfloat)item->roundside[0][1][k].z());
+        //            glVertex3f((GLfloat)item->roundside[0][1][k+1].x(), (GLfloat)item->roundside[0][1][k+1].y(), (GLfloat)item->roundside[0][1][k+1].z());
+        //            glVertex3f((GLfloat)item->roundside[0][0][k+1].x(), (GLfloat)item->roundside[0][0][k+1].y(), (GLfloat)item->roundside[0][0][k+1].z());
+
+        //        }
+        //        glVertex3f((GLfloat)item->roundside[0][0][count_k - 1].x(), (GLfloat)item->roundside[0][0][count_k - 1].y(), (GLfloat)item->roundside[0][0][count_k - 1].z());
+        //        glVertex3f((GLfloat)item->roundside[0][1][count_k - 1].x(), (GLfloat)item->roundside[0][1][count_k - 1].y(), (GLfloat)item->roundside[0][1][count_k - 1].z());
+        //        glVertex3f((GLfloat)item->roundside[0][1][0].x(), (GLfloat)item->roundside[0][1][0].y(), (GLfloat)item->roundside[0][1][0].z());
+        //        glVertex3f((GLfloat)item->roundside[0][0][0].x(), (GLfloat)item->roundside[0][0][0].y(), (GLfloat)item->roundside[0][0][0].z());
+        //        glEnd();
+
+        //outer faces round
+        for(int k = 0; k < count_k - 1; k++)
+        {
+            glBegin(GL_LINE_LOOP);
+            glVertex3f((GLfloat)item->roundside[0][0][k].x(), (GLfloat)item->roundside[0][0][k].y(), (GLfloat)item->roundside[0][0][k].z());
+            glVertex3f((GLfloat)item->roundside[1][0][k].x(), (GLfloat)item->roundside[1][0][k].y(), (GLfloat)item->roundside[1][0][k].z());
+            glVertex3f((GLfloat)item->roundside[1][0][k+1].x(), (GLfloat)item->roundside[1][0][k+1].y(), (GLfloat)item->roundside[1][0][k+1].z());
+            glVertex3f((GLfloat)item->roundside[0][0][k+1].x(), (GLfloat)item->roundside[0][0][k+1].y(), (GLfloat)item->roundside[0][0][k+1].z());
+            glEnd();
+        }
+        glBegin(GL_LINE_LOOP);
+        glVertex3f((GLfloat)item->roundside[0][0][count_k - 1].x(), (GLfloat)item->roundside[0][0][count_k - 1].y(), (GLfloat)item->roundside[0][0][count_k - 1].z());
+        glVertex3f((GLfloat)item->roundside[1][0][count_k - 1].x(), (GLfloat)item->roundside[1][0][count_k - 1].y(), (GLfloat)item->roundside[1][0][count_k - 1].z());
+        glVertex3f((GLfloat)item->roundside[1][0][0].x(), (GLfloat)item->roundside[1][0][0].y(), (GLfloat)item->roundside[1][0][0].z());
+        glVertex3f((GLfloat)item->roundside[0][0][0].x(), (GLfloat)item->roundside[0][0][0].y(), (GLfloat)item->roundside[0][0][0].z());
+        glEnd();
+
+        //inner faces round
+        for(int k = 0; k < count_k - 1; k++)
+        {
+            glBegin(GL_LINE_LOOP);
+            glVertex3f((GLfloat)item->roundside[0][1][k].x(), (GLfloat)item->roundside[0][1][k].y(), (GLfloat)item->roundside[0][1][k].z());
+            glVertex3f((GLfloat)item->roundside[1][1][k].x(), (GLfloat)item->roundside[1][1][k].y(), (GLfloat)item->roundside[1][1][k].z());
+            glVertex3f((GLfloat)item->roundside[1][1][k+1].x(), (GLfloat)item->roundside[1][1][k+1].y(), (GLfloat)item->roundside[1][1][k+1].z());
+            glVertex3f((GLfloat)item->roundside[0][1][k+1].x(), (GLfloat)item->roundside[0][1][k+1].y(), (GLfloat)item->roundside[0][1][k+1].z());
+            glEnd();
+        }
+        glBegin(GL_LINE_LOOP);
+        glVertex3f((GLfloat)item->roundside[0][1][count_k - 1].x(), (GLfloat)item->roundside[0][1][count_k - 1].y(), (GLfloat)item->roundside[0][1][count_k - 1].z());
+        glVertex3f((GLfloat)item->roundside[1][1][count_k - 1].x(), (GLfloat)item->roundside[1][1][count_k - 1].y(), (GLfloat)item->roundside[1][1][count_k - 1].z());
+        glVertex3f((GLfloat)item->roundside[1][1][0].x(), (GLfloat)item->roundside[1][1][0].y(), (GLfloat)item->roundside[1][1][0].z());
+        glVertex3f((GLfloat)item->roundside[0][1][0].x(), (GLfloat)item->roundside[0][1][0].y(), (GLfloat)item->roundside[0][1][0].z());
+        glEnd();
+
+        //inner faces rect
+        glBegin(GL_LINE_LOOP);
+        for(int k = 0; k < 4; k++)
+        {
+            glVertex3f((GLfloat)item->rectside[1][0][k].x(),   (GLfloat)item->rectside[1][0][k].y(),   (GLfloat)item->rectside[1][0][k].z());
+        }
+        glEnd();
+        glBegin(GL_LINE_LOOP);
+        for(int k = 0; k < 4; k++)
+        {
+            glVertex3f((GLfloat)item->rectside[1][1][k].x(),   (GLfloat)item->rectside[1][1][k].y(),   (GLfloat)item->rectside[1][1][k].z());
+        }
+        glEnd();
+        glBegin(GL_LINES);
+        for(int k = 0; k < 4; k++)
+        {
+            glVertex3f((GLfloat)item->rectside[0][1][k].x(),   (GLfloat)item->rectside[0][1][k].y(),   (GLfloat)item->rectside[0][1][k].z());
+            glVertex3f((GLfloat)item->rectside[1][1][k].x(),   (GLfloat)item->rectside[1][1][k].y(),   (GLfloat)item->rectside[1][1][k].z());
+        }
+        glEnd();
+
+
+        //outer faces rect
+        glBegin(GL_LINE_LOOP);
+        for(int k = 0; k < 4; k++)
+        {
+            glVertex3f((GLfloat)item->rectside[0][0][k].x(),   (GLfloat)item->rectside[0][0][k].y(),   (GLfloat)item->rectside[0][0][k].z());
+        }
+        glEnd();
+        glBegin(GL_LINE_LOOP);
+        for(int k = 0; k < 4; k++)
+        {
+            glVertex3f((GLfloat)item->rectside[0][1][k].x(),   (GLfloat)item->rectside[0][1][k].y(),   (GLfloat)item->rectside[0][1][k].z());
+        }
+        glEnd();
+        glBegin(GL_LINES);
+        for(int k = 0; k < 4; k++)
+        {
+            glVertex3f((GLfloat)item->rectside[0][0][k].x(),   (GLfloat)item->rectside[0][0][k].y(),   (GLfloat)item->rectside[0][0][k].z());
+            glVertex3f((GLfloat)item->rectside[1][0][k].x(),   (GLfloat)item->rectside[1][0][k].y(),   (GLfloat)item->rectside[1][0][k].z());
+        }
+        glEnd();
+
+        //inner faces rect
+        glBegin(GL_LINE_LOOP);
+        for(int k = 0; k < 4; k++)
+        {
+            glVertex3f((GLfloat)item->rectside[1][0][k].x(),   (GLfloat)item->rectside[1][0][k].y(),   (GLfloat)item->rectside[1][0][k].z());
+        }
+        glEnd();
+        glBegin(GL_LINE_LOOP);
+        for(int k = 0; k < 4; k++)
+        {
+            glVertex3f((GLfloat)item->rectside[1][1][k].x(),   (GLfloat)item->rectside[1][1][k].y(),   (GLfloat)item->rectside[1][1][k].z());
+        }
+        glEnd();
+        glBegin(GL_LINES);
+        for(int k = 0; k < 4; k++)
+        {
+            glVertex3f((GLfloat)item->rectside[0][1][k].x(),   (GLfloat)item->rectside[0][1][k].y(),   (GLfloat)item->rectside[0][1][k].z());
+            glVertex3f((GLfloat)item->rectside[1][1][k].x(),   (GLfloat)item->rectside[1][1][k].y(),   (GLfloat)item->rectside[1][1][k].z());
+        }
+        glEnd();
+
+        //rect-round transition
+
+        glBegin(GL_LINES);
+        for(int k = 0; k < 8; k++)
+        {
+            glVertex3f((GLfloat)item->rectside[1][0][1].x(),   (GLfloat)item->rectside[1][0][1].y(),   (GLfloat)item->rectside[1][0][1].z());
+            glVertex3f((GLfloat)item->roundside[1][0][k].x(),   (GLfloat)item->roundside[1][0][k].y(),   (GLfloat)item->roundside[1][0][k].z());
+
+        }
+        glEnd();
+        glBegin(GL_LINES);
+        for(int k = 8; k < 16; k++)
+        {
+            glVertex3f((GLfloat)item->rectside[1][0][2].x(),   (GLfloat)item->rectside[1][0][2].y(),   (GLfloat)item->rectside[1][0][2].z());
+            glVertex3f((GLfloat)item->roundside[1][0][k].x(),   (GLfloat)item->roundside[1][0][k].y(),   (GLfloat)item->roundside[1][0][k].z());
+
+        }
+        glEnd();
+
+        glBegin(GL_LINES);
+        for(int k = 16; k < 24; k++)
+        {
+            glVertex3f((GLfloat)item->rectside[1][0][3].x(),   (GLfloat)item->rectside[1][0][3].y(),   (GLfloat)item->rectside[1][0][3].z());
+            glVertex3f((GLfloat)item->roundside[1][0][k].x(),   (GLfloat)item->roundside[1][0][k].y(),   (GLfloat)item->roundside[1][0][k].z());
+
+        }
+        glEnd();
+
+        glBegin(GL_LINES);
+        for(int k = 24; k < 32; k++)
+        {
+            glVertex3f((GLfloat)item->rectside[1][0][0].x(),   (GLfloat)item->rectside[1][0][0].y(),   (GLfloat)item->rectside[1][0][0].z());
+            glVertex3f((GLfloat)item->roundside[1][0][k].x(),   (GLfloat)item->roundside[1][0][k].y(),   (GLfloat)item->roundside[1][0][k].z());
+
+        }
+        glEnd();
+
+
+
+
+
+
+
+    }
 }
 
 void GLWidget::paintAirDuctYpiece(Layer *layer, CAD_air_ductYpiece *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+
+    if (this->render_solid)
+    {
+        setPaintingColor(color_brush);
+        glBegin(GL_QUADS);
+
+        //top and bottom
+        glVertex3f((GLfloat)item->endcap_1->pos_bot_2.x(), (GLfloat)item->endcap_1->pos_bot_2.y(), (GLfloat)item->endcap_1->pos_bot_2.z());
+        glVertex3f((GLfloat)item->endcap_3->pos_bot_1.x(), (GLfloat)item->endcap_3->pos_bot_1.y(), (GLfloat)item->endcap_3->pos_bot_1.z());
+        glVertex3f((GLfloat)item->endcap_3->pos_top_1.x(), (GLfloat)item->endcap_3->pos_top_1.y(), (GLfloat)item->endcap_3->pos_top_1.z());
+        glVertex3f((GLfloat)item->endcap_1->pos_top_2.x(), (GLfloat)item->endcap_1->pos_top_2.y(), (GLfloat)item->endcap_1->pos_top_2.z());
+
+
+        glVertex3f((GLfloat)item->splitPoint[0].x(), (GLfloat)item->splitPoint[0].y(), (GLfloat)item->splitPoint[0].z());
+        glVertex3f((GLfloat)item->endcap_3->pos_bot_4.x(), (GLfloat)item->endcap_3->pos_bot_4.y(), (GLfloat)item->endcap_3->pos_bot_4.z());
+        glVertex3f((GLfloat)item->endcap_3->pos_top_4.x(), (GLfloat)item->endcap_3->pos_top_4.y(), (GLfloat)item->endcap_3->pos_top_4.z());
+        glVertex3f((GLfloat)item->splitPoint[1].x(), (GLfloat)item->splitPoint[1].y(), (GLfloat)item->splitPoint[1].z());
+
+
+        glVertex3f((GLfloat)item->splitPoint[0].x(), (GLfloat)item->splitPoint[0].y(), (GLfloat)item->splitPoint[0].z());
+        glVertex3f((GLfloat)item->endcap_2->pos_bot_1.x(), (GLfloat)item->endcap_2->pos_bot_1.y(), (GLfloat)item->endcap_2->pos_bot_1.z());
+        glVertex3f((GLfloat)item->endcap_2->pos_top_1.x(), (GLfloat)item->endcap_2->pos_top_1.y(), (GLfloat)item->endcap_2->pos_top_1.z());
+        glVertex3f((GLfloat)item->splitPoint[1].x(), (GLfloat)item->splitPoint[1].y(), (GLfloat)item->splitPoint[1].z());
+
+        glVertex3f((GLfloat)item->endcap_1->pos_bot_3.x(), (GLfloat)item->endcap_1->pos_bot_3.y(), (GLfloat)item->endcap_1->pos_bot_3.z());
+        glVertex3f((GLfloat)item->endcap_2->pos_bot_4.x(), (GLfloat)item->endcap_2->pos_bot_4.y(), (GLfloat)item->endcap_2->pos_bot_4.z());
+        glVertex3f((GLfloat)item->endcap_2->pos_top_4.x(), (GLfloat)item->endcap_2->pos_top_4.y(), (GLfloat)item->endcap_2->pos_top_4.z());
+        glVertex3f((GLfloat)item->endcap_1->pos_top_3.x(), (GLfloat)item->endcap_1->pos_top_3.y(), (GLfloat)item->endcap_1->pos_top_3.z());
+
+        //front
+        glVertex3f((GLfloat)item->endcap_1->pos_bot_2.x(), (GLfloat)item->endcap_1->pos_bot_2.y(), (GLfloat)item->endcap_1->pos_bot_2.z());
+        glVertex3f((GLfloat)item->endcap_3->pos_bot_1.x(), (GLfloat)item->endcap_3->pos_bot_1.y(), (GLfloat)item->endcap_3->pos_bot_1.z());
+        glVertex3f((GLfloat)item->endcap_3->pos_bot_4.x(), (GLfloat)item->endcap_3->pos_bot_4.y(), (GLfloat)item->endcap_3->pos_bot_4.z());
+        glVertex3f((GLfloat)item->splitPoint[0].x(), (GLfloat)item->splitPoint[0].y(), (GLfloat)item->splitPoint[0].z());
+
+        glVertex3f((GLfloat)item->endcap_2->pos_bot_4.x(), (GLfloat)item->endcap_2->pos_bot_4.y(), (GLfloat)item->endcap_2->pos_bot_4.z());
+        glVertex3f((GLfloat)item->endcap_2->pos_bot_1.x(), (GLfloat)item->endcap_2->pos_bot_1.y(), (GLfloat)item->endcap_2->pos_bot_1.z());
+        glVertex3f((GLfloat)item->splitPoint[0].x(), (GLfloat)item->splitPoint[0].y(), (GLfloat)item->splitPoint[0].z());
+        glVertex3f((GLfloat)item->endcap_1->pos_bot_3.x(), (GLfloat)item->endcap_1->pos_bot_3.y(), (GLfloat)item->endcap_1->pos_bot_3.z());
+        //back
+        glVertex3f((GLfloat)item->endcap_1->pos_top_2.x(), (GLfloat)item->endcap_1->pos_top_2.y(), (GLfloat)item->endcap_1->pos_top_2.z());
+        glVertex3f((GLfloat)item->endcap_3->pos_top_1.x(), (GLfloat)item->endcap_3->pos_top_1.y(), (GLfloat)item->endcap_3->pos_top_1.z());
+        glVertex3f((GLfloat)item->endcap_3->pos_top_4.x(), (GLfloat)item->endcap_3->pos_top_4.y(), (GLfloat)item->endcap_3->pos_top_4.z());
+        glVertex3f((GLfloat)item->splitPoint[1].x(), (GLfloat)item->splitPoint[1].y(), (GLfloat)item->splitPoint[1].z());
+
+        glVertex3f((GLfloat)item->endcap_1->pos_top_3.x(), (GLfloat)item->endcap_1->pos_top_3.y(), (GLfloat)item->endcap_1->pos_top_3.z());
+        glVertex3f((GLfloat)item->endcap_2->pos_top_4.x(), (GLfloat)item->endcap_2->pos_top_4.y(), (GLfloat)item->endcap_2->pos_top_4.z());
+        glVertex3f((GLfloat)item->endcap_2->pos_top_1.x(), (GLfloat)item->endcap_2->pos_top_1.y(), (GLfloat)item->endcap_2->pos_top_1.z());
+        glVertex3f((GLfloat)item->splitPoint[1].x(), (GLfloat)item->splitPoint[1].y(), (GLfloat)item->splitPoint[1].z());
+
+        glEnd();
+        glBegin(GL_TRIANGLES);
+        glVertex3f((GLfloat)item->endcap_1->pos_bot_3.x(), (GLfloat)item->endcap_1->pos_bot_3.y(), (GLfloat)item->endcap_1->pos_bot_3.z());
+        glVertex3f((GLfloat)item->splitPoint[0].x(), (GLfloat)item->splitPoint[0].y(), (GLfloat)item->splitPoint[0].z());
+        glVertex3f((GLfloat)item->endcap_1->pos_bot_2.x(), (GLfloat)item->endcap_1->pos_bot_2.y(), (GLfloat)item->endcap_1->pos_bot_2.z());
+
+        glVertex3f((GLfloat)item->endcap_1->pos_top_2.x(), (GLfloat)item->endcap_1->pos_top_2.y(), (GLfloat)item->endcap_1->pos_top_2.z());
+        glVertex3f((GLfloat)item->splitPoint[1].x(), (GLfloat)item->splitPoint[1].y(), (GLfloat)item->splitPoint[1].z());
+        glVertex3f((GLfloat)item->endcap_1->pos_top_3.x(), (GLfloat)item->endcap_1->pos_top_3.y(), (GLfloat)item->endcap_1->pos_top_3.z());
+
+
+        glEnd();
+
+    }
+
+    if (this->render_outline)
+    {
+        setPaintingColor(color_pen);
+        glBegin(GL_LINES);
+        //lower
+        glVertex3f((GLfloat)item->endcap_1->pos_bot_2.x(), (GLfloat)item->endcap_1->pos_bot_2.y(), (GLfloat)item->endcap_1->pos_bot_2.z());
+        glVertex3f((GLfloat)item->endcap_3->pos_bot_1.x(), (GLfloat)item->endcap_3->pos_bot_1.y(), (GLfloat)item->endcap_3->pos_bot_1.z());
+
+        glVertex3f((GLfloat)item->endcap_3->pos_bot_4.x(), (GLfloat)item->endcap_3->pos_bot_4.y(), (GLfloat)item->endcap_3->pos_bot_4.z());
+        glVertex3f((GLfloat)item->splitPoint[0].x(), (GLfloat)item->splitPoint[0].y(), (GLfloat)item->splitPoint[0].z());
+
+        glVertex3f((GLfloat)item->splitPoint[0].x(), (GLfloat)item->splitPoint[0].y(), (GLfloat)item->splitPoint[0].z());
+        glVertex3f((GLfloat)item->endcap_2->pos_bot_1.x(), (GLfloat)item->endcap_2->pos_bot_1.y(), (GLfloat)item->endcap_2->pos_bot_1.z());
+
+        glVertex3f((GLfloat)item->endcap_2->pos_bot_4.x(), (GLfloat)item->endcap_2->pos_bot_4.y(), (GLfloat)item->endcap_2->pos_bot_4.z());
+        glVertex3f((GLfloat)item->endcap_1->pos_bot_3.x(), (GLfloat)item->endcap_1->pos_bot_3.y(), (GLfloat)item->endcap_1->pos_bot_3.z());
+        //upper
+        glVertex3f((GLfloat)item->endcap_1->pos_top_2.x(), (GLfloat)item->endcap_1->pos_top_2.y(), (GLfloat)item->endcap_1->pos_top_2.z());
+        glVertex3f((GLfloat)item->endcap_3->pos_top_1.x(), (GLfloat)item->endcap_3->pos_top_1.y(), (GLfloat)item->endcap_3->pos_top_1.z());
+
+        glVertex3f((GLfloat)item->endcap_3->pos_top_4.x(), (GLfloat)item->endcap_3->pos_top_4.y(), (GLfloat)item->endcap_3->pos_top_4.z());
+        glVertex3f((GLfloat)item->splitPoint[1].x(), (GLfloat)item->splitPoint[1].y(), (GLfloat)item->splitPoint[1].z());
+
+        glVertex3f((GLfloat)item->splitPoint[1].x(), (GLfloat)item->splitPoint[1].y(), (GLfloat)item->splitPoint[1].z());
+        glVertex3f((GLfloat)item->endcap_2->pos_top_1.x(), (GLfloat)item->endcap_2->pos_top_1.y(), (GLfloat)item->endcap_2->pos_top_1.z());
+
+        glVertex3f((GLfloat)item->endcap_2->pos_top_4.x(), (GLfloat)item->endcap_2->pos_top_4.y(), (GLfloat)item->endcap_2->pos_top_4.z());
+        glVertex3f((GLfloat)item->endcap_1->pos_top_3.x(), (GLfloat)item->endcap_1->pos_top_3.y(), (GLfloat)item->endcap_1->pos_top_3.z());
+
+
+        glVertex3f((GLfloat)item->splitPoint[1].x(), (GLfloat)item->splitPoint[1].y(), (GLfloat)item->splitPoint[1].z());
+        glVertex3f((GLfloat)item->splitPoint[0].x(), (GLfloat)item->splitPoint[0].y(), (GLfloat)item->splitPoint[0].z());
+        glEnd();
+    }
+
 }
 
 void GLWidget::paintAirDuctEndPlate(Layer *layer, CAD_air_ductEndPlate *item)

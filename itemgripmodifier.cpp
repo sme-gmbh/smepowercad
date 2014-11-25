@@ -606,7 +606,6 @@ void ItemGripModifier::showAppendBox()
     foreach(CADitem::ItemType type, flangable_items)
     {
         QIcon icon = itemDB->getIconByItemType(type, QSize(64, 64));
-
         QToolButton* button = new QToolButton(this);
         button->setMinimumSize(64, 64);
         button->setFocusPolicy(Qt::NoFocus);

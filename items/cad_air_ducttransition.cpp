@@ -10,11 +10,11 @@ CAD_air_ductTransition::CAD_air_ductTransition() : CADitem(CADitem::Air_DuctTran
     wizardParams.insert("Angle y", QVariant::fromValue(0.0));
     wizardParams.insert("Angle z", QVariant::fromValue(0.0));
 
-    wizardParams.insert("Length (l)", QVariant::fromValue(20.0));
-    wizardParams.insert("Width 1 (b)", QVariant::fromValue(10.0));
-    wizardParams.insert("Height 1 (a)", QVariant::fromValue(10.0));
-    wizardParams.insert("Width 2 (d)", QVariant::fromValue(5.0));
-    wizardParams.insert("Height 2 (c)", QVariant::fromValue(5.0));
+    wizardParams.insert("Length (l)", QVariant::fromValue(100.0));
+    wizardParams.insert("Width 1 (b)", QVariant::fromValue(30.0));
+    wizardParams.insert("Height 1 (a)", QVariant::fromValue(20.0));
+    wizardParams.insert("Width 2 (d)", QVariant::fromValue(20.0));
+    wizardParams.insert("Height 2 (c)", QVariant::fromValue(30.0));
 
     wizardParams.insert("Offset y (e)", QVariant::fromValue(0.0));
     wizardParams.insert("Offset z (f)", QVariant::fromValue(0.0));
@@ -204,24 +204,34 @@ void CAD_air_ductTransition::calculate()
     transition_duct->inner_pos_top_3 = endcap_right_duct->inner_pos_top_3;
     transition_duct->inner_pos_top_4 = endcap_left_duct->inner_pos_top_4;
 
-    boundingBox.enterVertex(endcap_left_duct->pos_bot_1);
-    boundingBox.enterVertex(endcap_left_duct->pos_top_1);
-    boundingBox.enterVertex(endcap_left_duct->pos_bot_2);
-    boundingBox.enterVertex(endcap_left_duct->pos_top_2);
-    boundingBox.enterVertex(endcap_left_duct->pos_bot_3);
-    boundingBox.enterVertex(endcap_left_duct->pos_top_3);
-    boundingBox.enterVertex(endcap_left_duct->pos_bot_4);
-    boundingBox.enterVertex(endcap_left_duct->pos_top_4);
+    boundingBox.enterVertex(flange_left_duct->pos_bot_1);
+    boundingBox.enterVertex(flange_left_duct->pos_top_1);
+    boundingBox.enterVertex(flange_left_duct->pos_bot_2);
+    boundingBox.enterVertex(flange_left_duct->pos_top_2);
+    boundingBox.enterVertex(flange_left_duct->pos_bot_3);
+    boundingBox.enterVertex(flange_left_duct->pos_top_3);
+    boundingBox.enterVertex(flange_left_duct->pos_bot_4);
+    boundingBox.enterVertex(flange_left_duct->pos_top_4);
 
 
-    boundingBox.enterVertex(endcap_right_duct->pos_bot_1);
-    boundingBox.enterVertex(endcap_right_duct->pos_top_1);
-    boundingBox.enterVertex(endcap_right_duct->pos_bot_2);
-    boundingBox.enterVertex(endcap_right_duct->pos_top_2);
-    boundingBox.enterVertex(endcap_right_duct->pos_bot_3);
-    boundingBox.enterVertex(endcap_right_duct->pos_top_3);
-    boundingBox.enterVertex(endcap_right_duct->pos_bot_4);
-    boundingBox.enterVertex(endcap_right_duct->pos_top_4);
+    boundingBox.enterVertex(flange_right_duct->pos_bot_1);
+    boundingBox.enterVertex(flange_right_duct->pos_top_1);
+    boundingBox.enterVertex(flange_right_duct->pos_bot_2);
+    boundingBox.enterVertex(flange_right_duct->pos_top_2);
+    boundingBox.enterVertex(flange_right_duct->pos_bot_3);
+    boundingBox.enterVertex(flange_right_duct->pos_top_3);
+    boundingBox.enterVertex(flange_right_duct->pos_bot_4);
+    boundingBox.enterVertex(flange_right_duct->pos_top_4);
+
+    this->snap_vertices.append(endcap_left_duct->pos_bot_2);
+    this->snap_vertices.append(endcap_left_duct->pos_bot_3);
+    this->snap_vertices.append(endcap_left_duct->pos_top_2);
+    this->snap_vertices.append(endcap_left_duct->pos_top_3);
+
+    this->snap_vertices.append(endcap_right_duct->pos_bot_1);
+    this->snap_vertices.append(endcap_right_duct->pos_bot_4);
+    this->snap_vertices.append(endcap_right_duct->pos_top_1);
+    this->snap_vertices.append(endcap_right_duct->pos_top_4);
 
 
 
@@ -262,7 +272,6 @@ void CAD_air_ductTransition::processWizardInput()
 
     wall_thickness = wizardParams.value("Wall thickness").toDouble();
     flange_size = wizardParams.value("Flange size").toDouble();
-    qDebug() << flange_size;
     endcap = wizardParams.value("Length endcap (u)").toDouble();
     e = wizardParams.value("Offset y (e)").toDouble();
     f = wizardParams.value("Offset z (f)").toDouble();

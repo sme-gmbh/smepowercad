@@ -217,6 +217,7 @@ private:
 
     void paintBasicLine(Layer* layer, CAD_basic_line* item);
     void paintBasicPolyLine(Layer *layer, CAD_basic_polyline *item);
+    void paintBasicPlane(Layer *layer, CAD_basic_plane *item);
     void paintBasicFace(Layer *layer, CAD_basic_3Dface *item);
     void paintBasicCircle(Layer *layer, CAD_basic_circle *item);
     void paintBasicBox(Layer *layer, CAD_basic_box *item);
