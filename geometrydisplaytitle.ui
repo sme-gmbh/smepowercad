@@ -522,7 +522,10 @@ QComboBox QAbstractItemView {
       <double>214748365.000000000000000</double>
      </property>
      <property name="singleStep">
-      <double>500.000000000000000</double>
+      <double>100.000000000000000</double>
+     </property>
+     <property name="value">
+      <double>100000.000000000000000</double>
      </property>
     </widget>
    </item>
@@ -742,7 +745,10 @@ QComboBox QAbstractItemView {
       <double>214748365.000000000000000</double>
      </property>
      <property name="singleStep">
-      <double>500.000000000000000</double>
+      <double>100.000000000000000</double>
+     </property>
+     <property name="value">
+      <double>200000.000000000000000</double>
      </property>
     </widget>
    </item>

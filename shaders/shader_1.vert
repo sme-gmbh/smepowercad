@@ -1,20 +1,24 @@
 #version 440
 
 layout (location = 0) in vec3 VertexPosition;
-layout (location = 1) in vec4 VertexColor;
-layout (location = 2) in vec4 TexCoord;
+layout (location = 11) in vec4 VertexColor;
+layout (location = 12) in vec4 TexCoord;
 uniform int UseTexture;
-uniform int UseClipping;
+uniform int UseClippingX;
+uniform int UseClippingY;
+uniform int UseClippingZ;
 uniform mat4x4 Matrix;
-uniform int Depth_of_view;
-//uniform vec3 Height_of_intersection;
+uniform vec3 Depth_of_view;
+uniform vec3 Height_of_intersection;
 
 out vec4 Color;
 out vec4 vTexCoord;
-flat out int vDepth_of_view;
+flat out vec3 vDepth_of_view;
+flat out vec3 vHeight_of_intersection;
 flat out int vUseTexture;
-flat out int vUseClipping;
-//flat out vec4 vHeight_of_intersection;
+flat out int vUseClippingX;
+flat out int vUseClippingY;
+flat out int vUseClippingZ;
 out vec4 vVertexPosition;
 
 void main(void)
@@ -22,9 +26,11 @@ void main(void)
     Color = VertexColor;
     vTexCoord = TexCoord;
     vUseTexture = UseTexture;
-    vUseClipping = UseClipping;
+    vUseClippingX = UseClippingX;
+    vUseClippingY = UseClippingY;
+    vUseClippingZ = UseClippingZ;
     vDepth_of_view = Depth_of_view;
-//    vHeight_of_intersection = Matrix * vec4(Height_of_intersection, 1.0);
+    vHeight_of_intersection = Height_of_intersection;
     vVertexPosition = vec4(VertexPosition, 1.0);
     gl_Position = Matrix * vec4(VertexPosition, 1.0);
 }

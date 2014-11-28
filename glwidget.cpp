@@ -20,8 +20,8 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, Item
     this->centerOfViewInScene = QVector3D();
     this->displayCenter = QPoint();
     this->cuttingplane = CuttingPlane_nZ;
-    this->height_of_intersection = 0.0;
-    this->depth_of_view = 1000000.0;
+    this->height_of_intersection = QVector3D(0.0, 0.0, 0.0);
+    this->depth_of_view = QVector3D(0.0, 0.0, 0.0);
     this->render_solid = true;
     this->render_outline = true;
     this->cameraPosition = QVector3D();
@@ -48,11 +48,10 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, Item
     this->setPalette(Qt::transparent);
     this->setAttribute(Qt::WA_TransparentForMouseEvents, false);
 
-    initializeGL();
+//    initializeGL();
 
     //    shaderProgram->setAttributeArray(shader_colorLocation, );
     //    shaderProgram->enableAttributeArray(shader_colorLocation);
-    //    shaderProgram->setUniformValue(shader_useClippingLocation, 1);
     connect(&timer_findItemAtPosition, SIGNAL(timeout()), this, SLOT(slot_timer_findItemAtPosition_triggered()));
     timer_findItemAtPosition.setInterval(200);
     timer_findItemAtPosition.setSingleShot(true);
@@ -736,6 +735,13 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             }
         }
         break;
+    case Qt::Key_L:                         // Change length of item
+        if (item_lastHighlight != NULL)
+        {
+            this->itemGripModifier->setItem(item_lastHighlight);
+            this->itemGripModifier->activateGrip(ItemGripModifier::Grip_Length, QCursor::pos(), snapPos_scene);
+        }
+        break;
     case Qt::Key_M:                         // Move item
         if (item_lastHighlight != NULL)
         {
@@ -808,10 +814,12 @@ void GLWidget::resizeEvent(QResizeEvent *event)
 
 void GLWidget::slot_set_cuttingplane_values_changed(qreal height, qreal depth)
 {
-    this->height_of_intersection = height;
-    this->depth_of_view = depth;
-    //    shaderProgram->setUniformValue(shader_Height_of_intersection_location, QVector3D(0,0,height));
-    shaderProgram->setUniformValue(shader_Depth_of_view_location, (int)(height+depth));
+    this->height_of_intersection.setZ(height);
+    this->depth_of_view.setZ(depth);
+
+    shaderProgram->setUniformValue(shader_Height_of_intersection_location, this->height_of_intersection);
+    shaderProgram->setUniformValue(shader_Depth_of_view_location,  this->height_of_intersection - this->depth_of_view);
+
     slot_repaint();
 }
 
@@ -873,11 +881,15 @@ void GLWidget::paintEvent(QPaintEvent *event)
     //    glEnable(GL_TEXTURE_2D);
 
 
+    shaderProgram->setUniformValue(shader_useClippingXLocation, (GLint)0);   // Enable X-Clipping Plane
+    shaderProgram->setUniformValue(shader_useClippingYLocation, (GLint)0);   // Enable Y-Clipping Plane
+    shaderProgram->setUniformValue(shader_useClippingZLocation, (GLint)1);   // Enable Z-Clipping Plane
 
-    shaderProgram->setAttributeValue(shader_useClippingLocation, 1);
     glName = 0;
     paintContent(itemDB->layers);
-    shaderProgram->setAttributeValue(shader_useClippingLocation,0);
+    shaderProgram->setUniformValue(shader_useClippingXLocation,(GLint)0);
+    shaderProgram->setUniformValue(shader_useClippingYLocation,(GLint)0);
+    shaderProgram->setUniformValue(shader_useClippingZLocation,(GLint)0);
 
     restoreGLState();
 
@@ -1218,11 +1230,6 @@ void GLWidget::paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFon
     setVertex(boundingRect.topRight());
     setTextureCoords(0.0, 0.001, 0.0);
     setVertex(boundingRect.topLeft());
-
-    //    glVertex2i(boundingRect.bottomLeft().x(), boundingRect.bottomLeft().y());
-    //    glVertex2i(boundingRect.bottomRight().x(), boundingRect.bottomRight().y());
-    //    glVertex2i(boundingRect.topRight().x(), boundingRect.topRight().y());
-    //    glVertex2i(boundingRect.topLeft().x(), boundingRect.topLeft().y());
     glEnd();
     setUseTexture(false);
     this->deleteTexture(textureID);
@@ -4074,9 +4081,11 @@ void GLWidget::initializeGL()
     shader_textureCoordLocation = shaderProgram->attributeLocation("TexCoord");
     shader_textureSamplerLocation = shaderProgram->uniformLocation("uTexUnit0");
     shader_useTextureLocation = shaderProgram->uniformLocation("UseTexture");
-    shader_useClippingLocation = shaderProgram->uniformLocation("UseClipping");
+    shader_useClippingXLocation = shaderProgram->uniformLocation("UseClippingX");
+    shader_useClippingYLocation = shaderProgram->uniformLocation("UseClippingY");
+    shader_useClippingZLocation = shaderProgram->uniformLocation("UseClippingZ");
     shader_Depth_of_view_location = shaderProgram->uniformLocation("Depth_of_view");
-    //    shader_Height_of_intersection_location = shaderProgram->uniformLocation("Height_of_intersection");
+    shader_Height_of_intersection_location = shaderProgram->uniformLocation("Height_of_intersection");
 
     if (shader_vertexLocation < 0)
         QMessageBox::information(this, "Vertex Location invalid", QString().setNum(shader_vertexLocation));
@@ -4088,19 +4097,25 @@ void GLWidget::initializeGL()
         QMessageBox::information(this, "Matrix Location invalid", QString().setNum(shader_matrixLocation));
     if (shader_useTextureLocation < 0)
         QMessageBox::information(this, "Use Texture Location invalid", QString().setNum(shader_useTextureLocation));
-    if (shader_useClippingLocation < 0)
-        QMessageBox::information(this, "Use Clipping Location invalid", QString().setNum(shader_useClippingLocation));
+    if (shader_useClippingXLocation < 0)
+        QMessageBox::information(this, "Use ClippingX Location invalid", QString().setNum(shader_useClippingXLocation));
+    if (shader_useClippingYLocation < 0)
+        QMessageBox::information(this, "Use ClippingY Location invalid", QString().setNum(shader_useClippingYLocation));
+    if (shader_useClippingZLocation < 0)
+        QMessageBox::information(this, "Use ClippingZ Location invalid", QString().setNum(shader_useClippingZLocation));
     if (shader_Depth_of_view_location < 0)
         QMessageBox::information(this, "Depth of View Location invalid", QString().setNum(shader_Depth_of_view_location));
-    //    if (shader_Height_of_intersection_location < 0)
-    //        QMessageBox::information(this, "Height of Intersection Location invalid", QString().setNum(shader_Height_of_intersection_location));
+    if (shader_Height_of_intersection_location < 0)
+        QMessageBox::information(this, "Height of Intersection Location invalid", QString().setNum(shader_Height_of_intersection_location));
 
     qDebug() << "vertex location" << shader_vertexLocation;
     qDebug() << "matrix location" << shader_matrixLocation;
     qDebug() << "color location" << shader_colorLocation;
     qDebug() << "texture coord location" << shader_textureCoordLocation;
     qDebug() << "use texture location" << shader_useTextureLocation;
-    qDebug() << "use clipping location" << shader_useClippingLocation;
+    qDebug() << "use clippingX location" << shader_useClippingXLocation;
+    qDebug() << "use clippingY location" << shader_useClippingYLocation;
+    qDebug() << "use clippingZ location" << shader_useClippingZLocation;
     qDebug() << "depth of view location" << shader_Depth_of_view_location;
     qDebug() << "height of intersection location" << shader_Height_of_intersection_location;
 }

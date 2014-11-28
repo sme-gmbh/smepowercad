@@ -12,7 +12,7 @@ CAD_air_pipe::CAD_air_pipe() : CADitem(CADitem::Air_Pipe)
     wizardParams.insert("Angle y", QVariant::fromValue(0.0));
     wizardParams.insert("Angle z", QVariant::fromValue(0.0));
     wizardParams.insert("Diameter (d)", QVariant::fromValue(20.0));
-    wizardParams.insert("Wall thickness (s)", QVariant::fromValue(19.0));
+    wizardParams.insert("Wall thickness (s)", QVariant::fromValue(0.5));
     wizardParams.insert("Length", QVariant::fromValue(100.0));
 
     processWizardInput();

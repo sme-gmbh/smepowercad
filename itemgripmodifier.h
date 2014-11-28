@@ -25,6 +25,7 @@ public:
 
     enum ItemGripType
     {
+        Grip_None,
         Grip_Append,
         Grip_Move,
         Grip_Length,
@@ -36,6 +37,7 @@ public:
     void setItem(CADitem* item);
     void activateGrip(ItemGripModifier::ItemGripType gripType, QPoint mousePos, QVector3D scenePos);
     void finishGrip();
+    ItemGripType getActiveGrip();
 
 private slots:
     void slot_rejected();
@@ -47,6 +49,7 @@ private:
     ItemWizard* itemWizard;
     CADitem* item;
     QVector3D scenePos;
+    ItemGripType activeGrip;
 
     void deleteWdgs(QLayout *layout);
     void showAppendBox();

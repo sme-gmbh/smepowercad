@@ -13,6 +13,7 @@ ItemGripModifier::ItemGripModifier(ItemDB *itemDB, ItemWizard *itemWizard, QWidg
     this->itemDB = itemDB;
     this->itemWizard = itemWizard;
     this->item = NULL;
+    this->activeGrip = Grip_None;
 
     connect(this, SIGNAL(rejected()), this, SLOT(slot_rejected()));
 }
@@ -30,6 +31,7 @@ void ItemGripModifier::setItem(CADitem *item)
 void ItemGripModifier::activateGrip(ItemGripModifier::ItemGripType gripType, QPoint mousePos, QVector3D scenePos)
 {
     this->scenePos = scenePos;
+    this->activeGrip = gripType;
 
     switch (gripType)
     {
@@ -64,8 +66,14 @@ void ItemGripModifier::activateGrip(ItemGripModifier::ItemGripType gripType, QPo
 void ItemGripModifier::finishGrip()
 {
     this->item = NULL;
+    this->activeGrip = Grip_None;
     hide();
     deleteWdgs(ui->gridLayout);
+}
+
+ItemGripModifier::ItemGripType ItemGripModifier::getActiveGrip()
+{
+    return this->activeGrip;
 }
 
 void ItemGripModifier::slot_rejected()
@@ -104,17 +112,25 @@ void ItemGripModifier::deleteWdgs(QLayout *layout)
         {
             deleteWdgs(item->layout());
             delete item->layout();
+            qDebug() << "Deleting a layout";
         }
         if (item->widget())
         {
             delete item->widget();
+            qDebug() << "Deleting a widget";
         }
         delete item;
+        qDebug() << "Deleting an item";
+
     }
-//    this->layout()->removeItem(ui->verticalLayout);
-//    ui->verticalLayout->deleteLater();
-//    ui->verticalLayout = new QVBoxLayout(this);
-//    ((QVBoxLayout*)this->layout())->insertLayout(0, ui->verticalLayout);
+
+    qDebug() << "layout count:" << layout->count();
+
+
+    this->layout()->removeItem(ui->gridLayout);
+    ui->gridLayout->deleteLater();
+    ui->gridLayout = new QGridLayout(this);
+    ((QVBoxLayout*)this->layout())->insertLayout(1, ui->gridLayout);
 }
 
 void ItemGripModifier::showAppendBox()
@@ -593,10 +609,8 @@ void ItemGripModifier::showAppendBox()
         break;
     }
 
+    deleteWdgs(ui->gridLayout);
     ui->label->setText(tr("Choose new item"));
-
-
-//    QToolButton().setFocusPolicy(Qt::NoFocus);
 
     int buttonCount = flangable_items.count();
     int columnCount = sqrt(buttonCount);
@@ -607,9 +621,10 @@ void ItemGripModifier::showAppendBox()
     {
         QIcon icon = itemDB->getIconByItemType(type, QSize(64, 64));
         QToolButton* button = new QToolButton(this);
-        button->setMinimumSize(64, 64);
+        button->setMinimumSize(74, 74);
+        button->setMaximumSize(74, 74);
         button->setFocusPolicy(Qt::NoFocus);
-        button->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+        button->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
         button->setIconSize(QSize(64, 64));
         button->setIcon(icon);
         button->setProperty("ItemType", QVariant((int)type));

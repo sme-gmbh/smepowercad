@@ -78,8 +78,8 @@ private:
     QSettings settings;
     QPoint mousePosOld;
     CuttingPlane cuttingplane;
-    qreal height_of_intersection;
-    qreal depth_of_view;
+    QVector3D height_of_intersection;
+    QVector3D depth_of_view;
 //    QList<Layer*> layers;
     QPoint translationOffset;
     qreal zoomFactor;
@@ -171,7 +171,9 @@ private:
     int shader_textureCoordLocation;
     int shader_textureSamplerLocation;
     int shader_useTextureLocation;
-    int shader_useClippingLocation;
+    int shader_useClippingXLocation;
+    int shader_useClippingYLocation;
+    int shader_useClippingZLocation;
     int shader_Depth_of_view_location;
     int shader_Height_of_intersection_location;
 
