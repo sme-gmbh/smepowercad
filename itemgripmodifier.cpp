@@ -28,6 +28,11 @@ void ItemGripModifier::setItem(CADitem *item)
     this->item = item;
 }
 
+CADitem *ItemGripModifier::getItem()
+{
+    return this->item;
+}
+
 void ItemGripModifier::activateGrip(ItemGripModifier::ItemGripType gripType, QPoint mousePos, QVector3D scenePos)
 {
     this->scenePos = scenePos;

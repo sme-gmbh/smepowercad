@@ -145,7 +145,7 @@ void ItemWizard::deleteWdgs(QLayout *layout)
     this->layout()->removeItem(ui->formLayout);
     ui->formLayout->deleteLater();
     ui->formLayout = new QFormLayout;
-    ((QVBoxLayout*)this->layout())->insertLayout(0, ui->formLayout);
+    ((QVBoxLayout*)this->layout())->insertLayout(1, ui->formLayout);
 
     qDebug() << ui->formLayout->rowCount();
 }
