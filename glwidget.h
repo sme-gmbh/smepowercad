@@ -335,6 +335,7 @@ private:
     void selectionAddItems(QList<CADitem*> items);
     void selectionAddSubItems(QList<CADitem*> items);
     void selectionRemoveItem(CADitem* item);
+    void selectionRemoveSubItems(QList<CADitem*> items);
     void selectionClear();
     void selectionClear_processLayers(QList<Layer*> layers);
     void selectionClear_processItems(QList<CADitem*> items);

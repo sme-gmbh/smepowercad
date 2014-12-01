@@ -48,6 +48,8 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, ItemWizard *itemWizard, ItemGri
     connect(glwidget, SIGNAL(signal_matrix_rotation_changed(QMatrix4x4)), this, SLOT(slot_matrix_rotation_changed(QMatrix4x4)));
     connect(titleWidget, SIGNAL(signal_cuttingplane_values_changed(qreal,qreal)), glwidget, SLOT(slot_set_cuttingplane_values_changed(qreal,qreal)));
 
+    this->slot_changeCuttingplane("Z-");
+
     this->resize(400, 250);
     this->setFloating(false);
     this->setMinimumSize(400, 250);
@@ -193,27 +195,27 @@ void GeometryDisplay::paintAnchor(QPainter *painter, CuttingPlane cuttingplane)
 
 void GeometryDisplay::slot_changeCuttingplane(QString directionOfView)
 {
-    if (directionOfView == "X+")
+    if (directionOfView == "X-")
     {
         glwidget->set_WorldRotation(-90.0, 0.0, 90.0);
     }
-    else if (directionOfView == "X-")
+    else if (directionOfView == "X+")
     {
         glwidget->set_WorldRotation(-90.0, 0.0, -90.0);
     }
-    else if (directionOfView == "Y+")
+    else if (directionOfView == "Y-")
     {
         glwidget->set_WorldRotation(-90.0, 0.0, 0.0);   // richtig
     }
-    else if (directionOfView == "Y-")
+    else if (directionOfView == "Y+")
     {
         glwidget->set_WorldRotation(90.0, 180.0, 0.0);
     }
-    else if (directionOfView == "Z+")
+    else if (directionOfView == "Z-")
     {
         glwidget->set_WorldRotation(0.0, 180.0, 0.0);   // richtig
     }
-    else if (directionOfView == "Z-")
+    else if (directionOfView == "Z+")
     {
         glwidget->set_WorldRotation(0.0, 0.0, 0.0); // richtig
     }

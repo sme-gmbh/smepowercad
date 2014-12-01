@@ -20,7 +20,7 @@ void main(void)
     {
         vec4 texColor0 = texture2D(texture0, vec2(vTexCoord.x, vTexCoord.y));
         vec4 texColor1 = texture2D(texture1, vTexCoord.xy);
-        FragColor = texColor0;
+        FragColor = texColor0 + Color;
         return;
     }
 

@@ -149,10 +149,8 @@ Qt::ItemSelectionMode GLWidget::selectionMode()
 {
     if (this->mousePos.x() - this->pickStartPos.x() > 0)
         return Qt::ContainsItemShape;
-    //return Qt::ContainsItemBoundingRect;
     else
         return Qt::IntersectsItemShape;
-    //return Qt::IntersectsItemBoundingRect;
 }
 
 void GLWidget::snap_enable(bool on)
@@ -444,7 +442,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
     }
 
-    if (event->buttons() == 0)
+    if ((event->buttons() == 0) && (this->pickActive == false))
     {
         //        timer_findItemAtPosition.start();
         // Item highlighting
@@ -683,28 +681,18 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         else
         {
             QList<CADitem*> pickedItems = this->itemsAtPosition(this->selection().center(), this->selection().width(), this->selection().height());
-            selectionAddItems(pickedItems);
-//            this->selection()
-            // Selection of items finished
-            //            QList<QGraphicsItem*> new_selectedItems = this->items(this->overlay->selection(), this->overlay->selectionMode());
-            //            qDebug() << QString("Selection finished: ") + QString().setNum(new_selectedItems.count()) + " items found.";
+            if (this->selectionMode() == Qt::IntersectsItemShape)
+                selectionAddItems(pickedItems);
+            else if (this->selectionMode() == Qt::ContainsItemShape)
+            {
+                QSet<CADitem*> surroundingItems;
+                surroundingItems.unite(this->itemsAtPosition(((this->selection().topLeft() + this->selection().topRight()) / 2), this->selection().width(), 2).toSet());
+                surroundingItems.unite(this->itemsAtPosition(((this->selection().bottomLeft() + this->selection().bottomRight()) / 2), this->selection().width(), 2).toSet());
+                surroundingItems.unite(this->itemsAtPosition(((this->selection().topLeft() + this->selection().bottomLeft()) / 2), 2, this->selection().height()).toSet());
+                surroundingItems.unite(this->itemsAtPosition(((this->selection().topRight() + this->selection().bottomRight()) / 2), 2, this->selection().height()).toSet());
+                selectionAddItems(pickedItems.toSet().subtract(surroundingItems).toList());
+            }
 
-            //            foreach (QGraphicsItem* new_selectedItem, new_selectedItems)
-            //            {
-            //                // Ignore items that have been selected already
-            //                if (this->selectedItems.contains(new_selectedItem))
-            //                {
-            //                    // Check if user wants to deselect it using the shift button
-            //                    if (event->modifiers() & Qt::ShiftModifier)
-            //                        this->selection_deselectSingleItem(new_selectedItem);
-            //                    continue;
-            //                }
-
-            //                if (!(event->modifiers() & Qt::ShiftModifier))
-            //                    this->selection_selectSingleItem(new_selectedItem);
-            //            }
-
-            //            this->overlay->pickEnd();
             this->pickEnd();
             event->accept();
             return;
@@ -940,30 +928,177 @@ void GLWidget::paintEvent(QPaintEvent *event)
 
     // Overlay
     saveGLState();
+    glClear(GL_DEPTH_BUFFER_BIT);
     glViewport(0, 0, width(), height());
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // Set a matrix to the shader that does not rotate or scale, just transform to screen coordinate system
-    shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection);
-    glDisable(GL_DEPTH_TEST);
+    QMatrix4x4 matrix_coordinateBoxScale;
+    matrix_coordinateBoxScale.translate(90 - this->width() / 2, 90 - this->height() / 2);
+    matrix_coordinateBoxScale.scale(40.0, 40.0, 0.1);
+    QMatrix4x4 matrix_rotationOnly = matrix_rotation;
+    matrix_rotationOnly.setColumn(3, QVector4D(0.0, 0.0, 0.0, 1.0));
+    shaderProgram->setUniformValue(shader_matrixLocation,matrix_projection * matrix_coordinateBoxScale * matrix_rotationOnly);
+    glEnable(GL_DEPTH_TEST);
 
     // Coordinate orientation display
-    QVector4D xAxis = matrix_rotation * QVector4D(50.0,  0.0,  0.0, 0.0);
-    QVector4D yAxis = matrix_rotation * QVector4D(0.0,  50.0,  0.0, 0.0);
-    QVector4D zAxis = matrix_rotation * QVector4D(0.0,   0.0, 50.0, 0.0);
-    glBegin(GL_LINES);
-    glLineWidth(1.0);
-    setPaintingColor(Qt::red);
-    glVertex3i(-width() / 2 + 50, -height() / 2 + 50, 0);
-    glVertex3i((GLint)xAxis.x() - width() / 2 + 50, (GLint)xAxis.y() - height() / 2 + 50, 0);
-    setPaintingColor(QColor(50, 255, 50));
-    glVertex3i(-width() / 2 + 50, -height() / 2 + 50, 0);
-    glVertex3i((GLint)yAxis.x() - width() / 2 + 50, (GLint)yAxis.y() - height() / 2 + 50, 0);
+    QImage textImage(80, 80, QImage::Format_ARGB32);
+    QPainter painter(&textImage);
+    painter.setPen(Qt::white);
+    QFont font_big;
+    font_big.setPixelSize(25);
+    QFont font_small;
+    font_small.setPixelSize(12);
+
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    GLuint textureID;
+    setUseTexture(true);
+
+    // Bottom face
+    textImage.fill(Qt::black);
+    painter.setFont(font_big);
+    painter.drawText(textImage.rect(), Qt::AlignCenter, "Z+");
+    painter.setFont(font_small);
+    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking up");
+    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
     setPaintingColor(QColor(50, 50, 255));
-    glVertex3i(-width() / 2 + 50, -height() / 2 + 50, 0);
-    glVertex3i((GLint)zAxis.x() - width() / 2 + 50, (GLint)zAxis.y() - height() / 2 + 50, 0);
+    glBegin(GL_QUADS);
+    setTextureCoords(0.0, 0.0, 0.0);
+    glVertex3f(-1, -1, -1);
+    setTextureCoords(1.0, 0.0, 0.0);
+    glVertex3f( 1, -1, -1);
+    setTextureCoords(1.0, 1.0, 0.0);
+    glVertex3f( 1,  1, -1);
+    setTextureCoords(0.0, 1.0, 0.0);
+    glVertex3f(-1,  1, -1);
     glEnd();
+    this->deleteTexture(textureID);
+
+    // Top face
+    textImage.fill(Qt::black);
+    painter.setFont(font_big);
+    painter.drawText(textImage.rect(), Qt::AlignCenter, "Z-");
+    painter.setFont(font_small);
+    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking down");
+    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
+    glBegin(GL_QUADS);
+    setTextureCoords(0.0, 0.0, 0.0);
+    glVertex3f( 1, -1, 1);
+    setTextureCoords(1.0, 0.0, 0.0);
+    glVertex3f(-1, -1, 1);
+    setTextureCoords(1.0, 1.0, 0.0);
+    glVertex3f(-1,  1, 1);
+    setTextureCoords(0.0, 1.0, 0.0);
+    glVertex3f( 1,  1, 1);
+    glEnd();
+    this->deleteTexture(textureID);
+
+    // Front face
+    textImage.fill(Qt::black);
+    painter.setFont(font_big);
+    painter.drawText(textImage.rect(), Qt::AlignCenter, "Y-");
+    painter.setFont(font_small);
+    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking south");
+    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
+    setPaintingColor(QColor(10, 110, 10));
+    glBegin(GL_QUADS);
+    setTextureCoords(0.0, 0.0, 0.0);
+    glVertex3i(-1,  1, -1);
+    setTextureCoords(1.0, 0.0, 0.0);
+    glVertex3i( 1,  1, -1);
+    setTextureCoords(1.0, 1.0, 0.0);
+    glVertex3i( 1,  1,  1);
+    setTextureCoords(0.0, 1.0, 0.0);
+    glVertex3i(-1,  1,  1);
+    glEnd();
+    this->deleteTexture(textureID);
+
+    // Back face
+    textImage.fill(Qt::black);
+    painter.setFont(font_big);
+    painter.drawText(textImage.rect(), Qt::AlignCenter, "Y+");
+    painter.setFont(font_small);
+    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking north");
+    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
+    glBegin(GL_QUADS);
+    setTextureCoords(1.0, 0.0, 0.0);
+    glVertex3i(-1, -1, -1);
+    setTextureCoords(0.0, 0.0, 0.0);
+    glVertex3i( 1, -1, -1);
+    setTextureCoords(0.0, 1.0, 0.0);
+    glVertex3i( 1, -1,  1);
+    setTextureCoords(1.0, 1.0, 0.0);
+    glVertex3i(-1, -1,  1);
+    glEnd();
+    this->deleteTexture(textureID);
+
+    // Left face
+    textImage.fill(Qt::black);
+    painter.setFont(font_big);
+    painter.drawText(textImage.rect(), Qt::AlignCenter, "X+");
+    painter.setFont(font_small);
+    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking east");
+    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
+    setPaintingColor(QColor(150, 0, 0));
+    glBegin(GL_QUADS);
+    setTextureCoords(0.0, 0.0, 0.0);
+    glVertex3i(-1, -1, -1);
+    setTextureCoords(1.0, 0.0, 0.0);
+    glVertex3i(-1,  1, -1);
+    setTextureCoords(1.0, 1.0, 0.0);
+    glVertex3i(-1,  1,  1);
+    setTextureCoords(0.0, 1.0, 0.0);
+    glVertex3i(-1, -1,  1);
+    glEnd();
+    this->deleteTexture(textureID);
+
+    // Right face
+    textImage.fill(Qt::black);
+    painter.setFont(font_big);
+    painter.drawText(textImage.rect(), Qt::AlignCenter, "X-");
+    painter.setFont(font_small);
+    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking west");
+    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
+    glBegin(GL_QUADS);
+    setTextureCoords(1.0, 0.0, 0.0);
+    glVertex3i( 1, -1, -1);
+    setTextureCoords(0.0, 0.0, 0.0);
+    glVertex3i( 1,  1, -1);
+    setTextureCoords(0.0, 1.0, 0.0);
+    glVertex3i( 1,  1,  1);
+    setTextureCoords(1.0, 1.0, 0.0);
+    glVertex3i( 1, -1,  1);
+    glEnd();
+    this->deleteTexture(textureID);
+
+    setUseTexture(false);
+    painter.end();
+
+
+//    QVector4D xAxis = QVector4D(50.0,  0.0,  0.0, 0.0);
+//    QVector4D yAxis = QVector4D(0.0,  50.0,  0.0, 0.0);
+//    QVector4D zAxis = QVector4D(0.0,   0.0, 50.0, 0.0);
+//    glBegin(GL_LINES);
+//    glLineWidth(1.0);
+//    setPaintingColor(Qt::red);
+//    glVertex3i(-width() / 2 + 50, -height() / 2 + 50, 0);
+//    glVertex3i((GLint)xAxis.x() - width() / 2 + 50, (GLint)xAxis.y() - height() / 2 + 50, 0);
+//    setPaintingColor(QColor(50, 255, 50));
+//    glVertex3i(-width() / 2 + 50, -height() / 2 + 50, 0);
+//    glVertex3i((GLint)yAxis.x() - width() / 2 + 50, (GLint)yAxis.y() - height() / 2 + 50, 0);
+//    setPaintingColor(QColor(50, 50, 255));
+//    glVertex3i(-width() / 2 + 50, -height() / 2 + 50, 0);
+//    glVertex3i((GLint)zAxis.x() - width() / 2 + 50, (GLint)zAxis.y() - height() / 2 + 50, 0);
+//    glEnd();
+
+    // Set a matrix to the shader that does not rotate or scale, just transform to screen coordinate system
+    shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection);
+    glDisable(GL_DEPTH_TEST);
 
     if (this->cursorShown)
     {
@@ -1301,7 +1436,7 @@ void GLWidget::paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFon
 
 
     // Draw background
-    //    setPaintingColor(colorBackground);
+    setPaintingColor(Qt::transparent);
     glBegin(GL_QUADS);
     setTextureCoords(0.0, 1.0, 0.0);
     setVertex(boundingRect.bottomLeft());
@@ -4095,7 +4230,16 @@ void GLWidget::selectionRemoveItem(CADitem *item)
             return;
         this->selection_itemList.removeOne(item);
         item->selected = false;
+        selectionRemoveSubItems(item->subItems);
         emit signal_selectionChanged(selection_itemList);
+    }
+}
+
+void GLWidget::selectionRemoveSubItems(QList<CADitem *> items)
+{
+    foreach(CADitem * item, items) {
+        item->selected = false;
+        selectionRemoveSubItems(item->subItems);
     }
 }
 
