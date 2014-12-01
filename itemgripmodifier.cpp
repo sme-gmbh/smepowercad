@@ -45,6 +45,10 @@ void ItemGripModifier::activateGrip(ItemGripModifier::ItemGripType gripType, QPo
         showAppendBox();
         break;
     }
+    case Grip_Copy:
+    {
+        break;
+    }
     case Grip_Length:
     {
         break;

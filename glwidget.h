@@ -321,9 +321,9 @@ private:
     void paintSanitaryEmergencyEyeShower(Layer *layer, CAD_sanitary_emergencyEyeShower *item);
     void paintSanitaryLiftingUnit(Layer *layer, CAD_sanitary_liftingUnit *item);
 
-    CADitem *itemAtPosition(QPoint pos);
-    CADitem *itemAtPosition_processLayers(QList<Layer*> layers, GLuint glName);
-    CADitem *itemAtPosition_processItems(QList<CADitem*> items, GLuint glName);
+    QList<CADitem *> itemsAtPosition(QPoint pos, int size_x, int size_y);
+    CADitem *itemsAtPosition_processLayers(QList<Layer*> layers, GLuint glName);
+    CADitem *itemsAtPosition_processItems(QList<CADitem*> items, GLuint glName);
     void highlightItemAtPosition(QPoint pos);
     void highlightItems(QList<CADitem*> items);
     void highlightClear();
@@ -332,6 +332,7 @@ private:
 
 // Selection
     void selectionAddItem(CADitem* item);
+    void selectionAddItems(QList<CADitem*> items);
     void selectionAddSubItems(QList<CADitem*> items);
     void selectionRemoveItem(CADitem* item);
     void selectionClear();

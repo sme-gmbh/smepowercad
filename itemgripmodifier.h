@@ -27,6 +27,7 @@ public:
     {
         Grip_None,
         Grip_Append,
+        Grip_Copy,
         Grip_Move,
         Grip_Length,
         Grip_Rotate_X,

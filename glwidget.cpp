@@ -238,7 +238,7 @@ void GLWidget::slot_itemDeleted(CADitem *item)
     if (item == item_lastHighlight)
     {
         item_lastHighlight = NULL;
-        snapMode == SnapNo;
+        snapMode = SnapNo;
     }
 }
 
@@ -639,9 +639,25 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
                 item->wizardParams.insert("Position x", QVariant::fromValue(snapPos_scene.x()));
                 item->wizardParams.insert("Position y", QVariant::fromValue(snapPos_scene.y()));
                 item->wizardParams.insert("Position z", QVariant::fromValue(snapPos_scene.z()));
-                this->itemGripModifier->finishGrip();
                 item->processWizardInput();
                 item->calculate();
+                this->itemGripModifier->finishGrip();
+                this->slot_repaint();
+            }
+        }
+        else if (this->itemGripModifier->getActiveGrip() == ItemGripModifier::Grip_Copy)
+        {
+            if (snapMode != SnapNo)
+            {
+                CADitem* item = this->itemGripModifier->getItem();
+                CADitem* newItem = this->itemDB->drawItem(item->layerName, item->getType());
+                newItem->wizardParams = item->wizardParams;
+                newItem->wizardParams.insert("Position x", QVariant::fromValue(snapPos_scene.x()));
+                newItem->wizardParams.insert("Position y", QVariant::fromValue(snapPos_scene.y()));
+                newItem->wizardParams.insert("Position z", QVariant::fromValue(snapPos_scene.z()));
+                newItem->processWizardInput();
+                newItem->calculate();
+                this->itemGripModifier->finishGrip();
                 this->slot_repaint();
             }
         }
@@ -650,7 +666,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         //        if (!this->overlay->isPickActive())
         //            this->overlay->pickStart();
 
-        else if (this->item_lastHighlight != NULL)   // There is an item beyond the cursor, so if it is clicked, select it.
+        else if ((this->item_lastHighlight != NULL) && (!this->isPickActive()))   // There is an item beyond the cursor, so if it is clicked, select it.
         {
             if (event->modifiers() && Qt::ShiftModifier)
                 selectionRemoveItem(item_lastHighlight);
@@ -666,6 +682,9 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
             this->pickStart();
         else
         {
+            QList<CADitem*> pickedItems = this->itemsAtPosition(this->selection().center(), this->selection().width(), this->selection().height());
+            selectionAddItems(pickedItems);
+//            this->selection()
             // Selection of items finished
             //            QList<QGraphicsItem*> new_selectedItems = this->items(this->overlay->selection(), this->overlay->selectionMode());
             //            qDebug() << QString("Selection finished: ") + QString().setNum(new_selectedItems.count()) + " items found.";
@@ -690,7 +709,6 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
             event->accept();
             return;
         }
-
     }
     event->accept();
 }
@@ -732,6 +750,17 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         {
             this->itemGripModifier->finishGrip();
             this->slot_repaint();
+        }
+        break;
+    case Qt::Key_C:                         // Copy item
+        if (item_lastHighlight != NULL)
+        {
+            if (snapMode == SnapBasepoint)
+            {
+                this->itemGripModifier->setItem(item_lastHighlight);
+                this->itemGripModifier->activateGrip(ItemGripModifier::Grip_Copy, QCursor::pos(), snapPos_scene);
+                this->slot_repaint();
+            }
         }
         break;
     case Qt::Key_E:                         // Edit item
@@ -1012,6 +1041,16 @@ void GLWidget::paintEvent(QPaintEvent *event)
         QVector3D pos = this->itemGripModifier->getItem()->position;
         QString itemPosition_from = QString().sprintf(" @{%.3lf|%.3lf|%.3lf}", pos.x(), pos.y(), pos.z());
         infoText = "Move " + itemDescription + itemPosition_from;
+        if (snapMode != SnapNo)
+            infoText += " to\n";
+        focusRect.moveCenter(this->mousePos);
+    }
+    if (this->itemGripModifier->getActiveGrip() == ItemGripModifier::Grip_Copy)
+    {
+        QString itemDescription = "[" + this->itemGripModifier->getItem()->description + "]";
+        QVector3D pos = this->itemGripModifier->getItem()->position;
+        QString itemPosition_from = QString().sprintf(" @{%.3lf|%.3lf|%.3lf}", pos.x(), pos.y(), pos.z());
+        infoText = "Copy " + itemDescription + itemPosition_from;
         if (snapMode != SnapNo)
             infoText += " to\n";
         focusRect.moveCenter(this->mousePos);
@@ -3817,7 +3856,7 @@ void GLWidget::paintSanitaryLiftingUnit(Layer *layer, CAD_sanitary_liftingUnit *
     QColor color_brush = getColorBrush(item, layer);
 }
 
-CADitem* GLWidget::itemAtPosition(QPoint pos)
+QList<CADitem*> GLWidget::itemsAtPosition(QPoint pos, int size_x, int size_y)
 {
 #define HITBUFFER_SIZE 512000
     GLuint buffer[HITBUFFER_SIZE];
@@ -3848,7 +3887,7 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
     //    glRotatef(rot_z, 0.0f, 0.0f, 1.0f);
 
     matrix_glSelect.setToIdentity();
-    matrix_glSelect.scale(1.0 / ((qreal)_cursorPickboxSize / this->width()), 1.0 / ((qreal)_cursorPickboxSize / this->height()), 1.0);
+    matrix_glSelect.scale(1.0 / ((qreal)size_x / this->width()), 1.0 / ((qreal)size_y / this->height()), 1.0);
     matrix_glSelect.translate(-(qreal)pos.x(), -(qreal)pos.y(), 0.0);
     updateMatrixAll();
     //    shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection * matrix_glSelect * matrix_modelview * matrix_rotation);
@@ -3870,8 +3909,11 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
     matrix_glSelect.setToIdentity();
     updateMatrixAll();
 
+    QList<CADitem*> foundItems;
+    QMap<int,CADitem*> itemsDepthMap;
+
     if (hits == 0)
-        return NULL;
+        return foundItems;
 
     int i = 0;
     GLint hit = 1;
@@ -3885,11 +3927,13 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
 
         if (numberOfNames > 0)
         {
-            if (minDepth < globalMinDepth)
-            {
-                glName = buffer[i + 3];
-                globalMinDepth = minDepth;
-            }
+            glName = buffer[i + 3];
+//            if (minDepth < globalMinDepth)
+//            {
+//                globalMinDepth = minDepth;
+//            }
+            CADitem* item = itemsAtPosition_processLayers(itemDB->layers, glName);
+            itemsDepthMap.insertMulti(minDepth, item);
         }
 
         i += 3;
@@ -3903,26 +3947,31 @@ CADitem* GLWidget::itemAtPosition(QPoint pos)
     if (i >= HITBUFFER_SIZE)
         QMessageBox::warning(this, "GLWidget::itemAtPosition()", "HITBUFFER_SIZE too small - too many objects in findbox!");
 
-    CADitem* item = itemAtPosition_processLayers(itemDB->layers, glName);
-    if (item)
-        return item;
 
-    return NULL;
+    foundItems = itemsDepthMap.values();
+
+    return foundItems;
+
+//    CADitem* item = itemAtPosition_processLayers(itemDB->layers, glName);
+//    if (item)
+//        return item;
+
+//    return NULL;
 }
 
-CADitem *GLWidget::itemAtPosition_processLayers(QList<Layer *> layers, GLuint glName)
+CADitem *GLWidget::itemsAtPosition_processLayers(QList<Layer *> layers, GLuint glName)
 {
     foreach (Layer* layer, layers)
     {
         if (!layer->on)
             continue;
 
-        CADitem* item = itemAtPosition_processItems(layer->items, glName);
+        CADitem* item = itemsAtPosition_processItems(layer->items, glName);
         if (item)
             return item;
 
 
-        item = itemAtPosition_processLayers(layer->subLayers, glName);
+        item = itemsAtPosition_processLayers(layer->subLayers, glName);
         if (item)
             return item;
     }
@@ -3930,7 +3979,7 @@ CADitem *GLWidget::itemAtPosition_processLayers(QList<Layer *> layers, GLuint gl
     return NULL;
 }
 
-CADitem *GLWidget::itemAtPosition_processItems(QList<CADitem *> items, GLuint glName)
+CADitem *GLWidget::itemsAtPosition_processItems(QList<CADitem *> items, GLuint glName)
 {
     foreach (CADitem* item, items)
     {
@@ -3939,7 +3988,7 @@ CADitem *GLWidget::itemAtPosition_processItems(QList<CADitem *> items, GLuint gl
             return item;
         }
 
-        item = itemAtPosition_processItems(item->subItems, glName);
+        item = itemsAtPosition_processItems(item->subItems, glName);
         if (item)
             return item;
     }
@@ -3949,10 +3998,16 @@ CADitem *GLWidget::itemAtPosition_processItems(QList<CADitem *> items, GLuint gl
 
 void GLWidget::highlightItemAtPosition(QPoint pos)
 {
-    CADitem* item = this->itemAtPosition(pos);
+    QList<CADitem*> itemList = this->itemsAtPosition(pos, _cursorPickboxSize, _cursorPickboxSize);
+    CADitem* item;
+    if (itemList.isEmpty())
+        item = NULL;
+    else
+        item = itemList.at(0);
+
     // tst
     this->item_lastHighlight = item;
-    //this->item_lastHighlight->
+
     if (item != NULL)
     {
         item->highlight = true;
@@ -4006,6 +4061,22 @@ void GLWidget::selectionAddItem(CADitem *item)
         selectionAddSubItems(item->subItems);
         emit signal_selectionChanged(selection_itemList);
     }
+}
+
+void GLWidget::selectionAddItems(QList<CADitem *> items)
+{
+    foreach (CADitem* item, items)
+    {
+        if (item != NULL)
+        {
+            if (selection_itemList.contains(item))
+                continue;
+            this->selection_itemList.append(item);
+            item->selected = true;
+            selectionAddSubItems(item->subItems);
+        }
+    }
+    emit signal_selectionChanged(selection_itemList);
 }
 
 void GLWidget::selectionAddSubItems(QList<CADitem *> items)
