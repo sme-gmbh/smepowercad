@@ -185,6 +185,19 @@ QTreeView {
       </column>
       <column>
        <property name="text">
+        <string>S</string>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Solo: Only the layers marked as solo are shown when at least one layer is solo&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+      </column>
+      <column>
+       <property name="text">
         <string>Fill color</string>
        </property>
        <property name="toolTip">
@@ -219,6 +232,7 @@ Color of line objects</string>
        </property>
        <property name="font">
         <font>
+         <family>Cantarell</family>
          <pointsize>9</pointsize>
         </font>
        </property>

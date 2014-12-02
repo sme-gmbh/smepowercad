@@ -29,6 +29,7 @@ public:
     void updateAllLayers();
     void updateLayer(Layer* layer);
     Layer* getCurrentLayer();
+    bool isSoloActive();
 
 private:
     Ui::LayerManager *ui;
@@ -45,6 +46,9 @@ private:
     QMenu* menu_noItem;
     QMenu* menu_onItem;
     QTreeWidgetItem* item_atContextMenuRequest;
+
+    void updateSoloActive();
+    void updateSoloActive_processLayers(QList<Layer*> layers);
 
 public slots:
     void slot_layerAdded(Layer* newLayer, Layer* parentLayer);

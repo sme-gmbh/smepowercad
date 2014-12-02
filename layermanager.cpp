@@ -23,6 +23,7 @@ LayerManager::LayerManager(QWidget *parent, Layer* topLevelLayer, ItemDB* itemDB
 
     ui->treeWidget_layer->setColumnWidth(1, 24);
     ui->treeWidget_layer->setColumnWidth(2, 24);
+    ui->treeWidget_layer->setColumnWidth(3, 24);
 
     icon_layerOn = QPixmap(":/ui/layermanager/icons/check.svg").scaledToWidth(24, Qt::SmoothTransformation);
     icon_layerOff = QPixmap(":/ui/layermanager/icons/hide_layer.svg").scaledToWidth(24, Qt::SmoothTransformation);
@@ -157,21 +158,73 @@ void LayerManager::updateLayer(Layer *layer)
         item->setBackgroundColor(2, QColor(49, 49, 41));
     }
 
+    if (layer->solo)
+    {
+        QLabel *label = static_cast<QLabel *>(ui->treeWidget_layer->itemWidget(item, 3));
+        if (label == NULL)
+        {
+            label = new QLabel();
+            ui->treeWidget_layer->setItemWidget(item, 3, label);
+        }
+        label->setPixmap(icon_layerOn);
+        item->setBackgroundColor(3, QColor(200, 200, 0));
+    }
+    else
+    {
+        QLabel *label = static_cast<QLabel *>(ui->treeWidget_layer->itemWidget(item, 3));
+        if (label == NULL)
+        {
+            label = new QLabel();
+            ui->treeWidget_layer->setItemWidget(item, 3, label);
+        }
+        label->setPixmap(icon_layerOff);
+        item->setBackgroundColor(3, QColor(49, 49, 41));
+    }
+
     item->setText(0, layer->name);
-    item->setText(3, layer->brush.color().name());
+    item->setText(4, layer->brush.color().name());
     QPixmap colorPixmap(16, 16);
     colorPixmap.fill(layer->brush.color());
-    item->setIcon(3, QIcon(colorPixmap));
-    item->setText(4, layer->pen.color().name());
-    colorPixmap.fill(layer->pen.color());
     item->setIcon(4, QIcon(colorPixmap));
-    item->setText(5, QString().sprintf("%i", layer->width));
-    item->setText(6, layer->lineType);
+    item->setText(5, layer->pen.color().name());
+    colorPixmap.fill(layer->pen.color());
+    item->setIcon(5, QIcon(colorPixmap));
+    item->setText(6, QString().sprintf("%i", layer->width));
+    item->setText(7, layer->lineType);
 }
 
 Layer *LayerManager::getCurrentLayer()
 {
     return currentLayer;
+}
+
+bool LayerManager::isSoloActive()
+{
+    return itemDB->layerSoloActive;
+}
+
+void LayerManager::updateSoloActive()
+{
+    itemDB->layerSoloActive = false;
+    updateSoloActive_processLayers(itemDB->getTopLevelLayer()->subLayers);
+    if (itemDB->layerSoloActive)
+    {
+        this->setWindowTitle(tr("Layermanager") + " [solo active]");
+    }
+    else
+    {
+        this->setWindowTitle(tr("Layermanager"));
+    }
+}
+
+void LayerManager::updateSoloActive_processLayers(QList<Layer *> layers)
+{
+    foreach (Layer* layer, layers)
+    {
+        if (layer->solo)
+            itemDB->layerSoloActive = true;
+        updateSoloActive_processLayers(layer->subLayers);
+    }
 }
 
 void LayerManager::on_treeWidget_layer_itemClicked(QTreeWidgetItem *item, int column)
@@ -196,7 +249,13 @@ void LayerManager::on_treeWidget_layer_itemClicked(QTreeWidgetItem *item, int co
         layer->writable = (!layer->writable);
         break;
     }
-    case 3:     // Fillcolor
+    case 3:
+    {
+        layer->solo = (!layer->solo);
+        this->updateSoloActive();
+        break;
+    }
+    case 4:     // Fillcolor
     {
         QColorDialog colorDialog(layer->brush.color(), this);
         colorDialog.setWindowTitle(tr("Fillcolor of layer %1").arg(layer->name));
@@ -207,7 +266,7 @@ void LayerManager::on_treeWidget_layer_itemClicked(QTreeWidgetItem *item, int co
         layer->brush.setColor(colorDialog.currentColor());
         break;
     }
-    case 4:     // Linecolor
+    case 5:     // Linecolor
     {
         QColorDialog colorDialog(layer->pen.color(), this);
         colorDialog.setWindowTitle(tr("Linecolor of layer %1").arg(layer->name));
@@ -218,11 +277,11 @@ void LayerManager::on_treeWidget_layer_itemClicked(QTreeWidgetItem *item, int co
         layer->pen.setColor(colorDialog.currentColor());
         break;
     }
-    case 5:     // Linewidth
+    case 6:     // Linewidth
     {
         break;
     }
-    case 6:     // Linetype
+    case 7:     // Linetype
     {
         break;
     }

@@ -131,6 +131,7 @@ public:
     explicit ItemDB(QObject *parent = 0);
     ~ItemDB();
     QList<Layer*> layers;
+    bool layerSoloActive;
 
     Layer *addLayer(QString layerName, QString parentLayerName = QString());
     Layer *addLayer(QString layerName, Layer* parentLayer);

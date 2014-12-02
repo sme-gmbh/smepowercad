@@ -20,6 +20,7 @@ public:
     QPen pen;
     QBrush brush;
     bool on;
+    bool solo;
     bool writable;
     int width;
     QString lineType;

@@ -872,6 +872,8 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glDepthFunc(GL_LEQUAL);
 //    glDepthFunc(GL_GREATER);
     glDepthRange(1,0);
+    glPolygonOffset(0.0, 3.0);
+    glEnable(GL_POLYGON_OFFSET_FILL);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_ALPHA_TEST);
     glEnable(GL_LIGHTING);
@@ -1452,7 +1454,10 @@ void GLWidget::paintContent(QList<Layer*> layers)
     //    qDebug() << "GLWidget::paintContent: painting"<< layers.count() << "layers...";
     foreach (Layer* layer, layers)
     {
-        if (!layer->on)
+        if ((itemDB->layerSoloActive) && (!layer->solo))
+            continue;
+
+        if ((!layer->on) && (!layer->solo))
             continue;
 
         paintItems(layer->items, layer);
@@ -4015,6 +4020,7 @@ QList<CADitem*> GLWidget::itemsAtPosition(QPoint pos, int size_x, int size_y)
 
 
     glDepthFunc(GL_LESS);
+    glDepthRange(1,0);
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_ALPHA_TEST);
 

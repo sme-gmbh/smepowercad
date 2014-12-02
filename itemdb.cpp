@@ -6,7 +6,9 @@ ItemDB::ItemDB(QObject *parent) :
     currentItemId = 0;
     topLevelLayer = new Layer(this);
     topLevelLayer->name = "$$ToplevelLayer";
+    topLevelLayer->solo = true;
     layers.append(topLevelLayer);
+    layerSoloActive = false;
 
     this->activeDrawCommand = CADitem::None;
 }

@@ -4,6 +4,7 @@ Layer::Layer(QObject *parent) :
     QObject(parent)
 {
     on = true;
+    solo = false;
     writable = true;
     width = 0;
     lineType.clear();
