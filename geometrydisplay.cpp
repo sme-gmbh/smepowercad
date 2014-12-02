@@ -197,27 +197,27 @@ void GeometryDisplay::slot_changeCuttingplane(QString directionOfView)
 {
     if (directionOfView == "X-")
     {
-        glwidget->set_WorldRotation(-90.0, 0.0, 90.0);
+        glwidget->set_WorldRotation(-90.0, 0.0, -90.0);
     }
     else if (directionOfView == "X+")
     {
-        glwidget->set_WorldRotation(-90.0, 0.0, -90.0);
+        glwidget->set_WorldRotation(-90.0, 0.0, 90.0);
     }
     else if (directionOfView == "Y-")
     {
-        glwidget->set_WorldRotation(-90.0, 0.0, 0.0);   // richtig
+        glwidget->set_WorldRotation(90.0, 180.0, 0.0);
     }
     else if (directionOfView == "Y+")
     {
-        glwidget->set_WorldRotation(90.0, 180.0, 0.0);
+        glwidget->set_WorldRotation(-90.0, 0.0, 0.0);   // richtig
     }
     else if (directionOfView == "Z-")
     {
-        glwidget->set_WorldRotation(0.0, 180.0, 0.0);   // richtig
+        glwidget->set_WorldRotation(0.0, 0.0, 0.0);   // richtig
     }
     else if (directionOfView == "Z+")
     {
-        glwidget->set_WorldRotation(0.0, 0.0, 0.0); // richtig
+        glwidget->set_WorldRotation(0.0, 180.0, 0.0); // richtig
     }
 }
 

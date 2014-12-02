@@ -409,37 +409,19 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
     if (event->buttons() == Qt::RightButton)
     {
-        //        qreal dx = mouseMoveDelta.x()/5.0f;
-        //        qreal dy = mouseMoveDelta.y()/5.0f;
-
-
-        //        QVector4D axis_1, axis_2;
-        //        axis_1 = matrix_rotation.transposed() * QVector4D(1.0f, 0.0f, 0.0f, 0.0f);
-        //        axis_2 = matrix_rotation.transposed() * QVector4D(0.0f, 1.0f, 0.0f, 0.0f);
-
-        //        matrix_arcball.setToIdentity();
-        //        matrix_arcball.translate(this->lookAtPosition);
-        //        matrix_arcball.rotate(dy, axis_1.toVector3D());
-        //        matrix_arcball.rotate(-dx, axis_2.toVector3D());
-        //        matrix_arcball.translate(-1 * this->lookAtPosition);
-
         QVector3D rotationEnd = pointOnSphere( mousePos );
         double angle = acos( QVector3D::dotProduct( rotationStart, rotationEnd ));
-        QVector4D axis4D = matrix_rotation_old.transposed() * QVector3D::crossProduct(rotationStart, rotationEnd);
+        QVector4D axis4D = matrix_rotation_old.transposed() * QVector4D(QVector3D::crossProduct(rotationStart, rotationEnd), 0.0);
 
         matrix_arcball.setToIdentity();
         matrix_arcball.translate(this->lookAtPosition);
-        matrix_arcball.rotate(-angle/PI*180,axis4D.toVector3D());
-        matrix_arcball.translate(-1 * this->lookAtPosition);
-
+        matrix_arcball.rotate(angle/PI*180,axis4D.toVector3D());
+        matrix_arcball.translate(-1.0 * this->lookAtPosition);
 
         matrix_rotation = matrix_rotation_old * matrix_arcball;
 
         updateMatrixAll();
         emit signal_matrix_rotation_changed(matrix_rotation);
-
-
-
     }
 
     if ((event->buttons() == 0) && (this->pickActive == false))
@@ -888,6 +870,8 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glEnable(GL_MULTISAMPLE);
     glDisable(GL_CULL_FACE);
     glDepthFunc(GL_LEQUAL);
+//    glDepthFunc(GL_GREATER);
+    glDepthRange(1,0);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_ALPHA_TEST);
     glEnable(GL_LIGHTING);
@@ -929,6 +913,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
     // Overlay
     saveGLState();
     glClear(GL_DEPTH_BUFFER_BIT);
+    glDepthRange(1,0);
     glViewport(0, 0, width(), height());
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -968,13 +953,13 @@ void GLWidget::paintEvent(QPaintEvent *event)
     textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
     setPaintingColor(QColor(50, 50, 255));
     glBegin(GL_QUADS);
-    setTextureCoords(0.0, 0.0, 0.0);
-    glVertex3f(-1, -1, -1);
     setTextureCoords(1.0, 0.0, 0.0);
+    glVertex3f(-1, -1, -1);
+    setTextureCoords(0.0, 0.0, 0.0);
     glVertex3f( 1, -1, -1);
-    setTextureCoords(1.0, 1.0, 0.0);
-    glVertex3f( 1,  1, -1);
     setTextureCoords(0.0, 1.0, 0.0);
+    glVertex3f( 1,  1, -1);
+    setTextureCoords(1.0, 1.0, 0.0);
     glVertex3f(-1,  1, -1);
     glEnd();
     this->deleteTexture(textureID);
@@ -987,13 +972,13 @@ void GLWidget::paintEvent(QPaintEvent *event)
     painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking down");
     textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
     glBegin(GL_QUADS);
-    setTextureCoords(0.0, 0.0, 0.0);
-    glVertex3f( 1, -1, 1);
     setTextureCoords(1.0, 0.0, 0.0);
+    glVertex3f( 1, -1, 1);
+    setTextureCoords(0.0, 0.0, 0.0);
     glVertex3f(-1, -1, 1);
-    setTextureCoords(1.0, 1.0, 0.0);
-    glVertex3f(-1,  1, 1);
     setTextureCoords(0.0, 1.0, 0.0);
+    glVertex3f(-1,  1, 1);
+    setTextureCoords(1.0, 1.0, 0.0);
     glVertex3f( 1,  1, 1);
     glEnd();
     this->deleteTexture(textureID);
@@ -1007,13 +992,13 @@ void GLWidget::paintEvent(QPaintEvent *event)
     textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
     setPaintingColor(QColor(10, 110, 10));
     glBegin(GL_QUADS);
-    setTextureCoords(0.0, 0.0, 0.0);
-    glVertex3i(-1,  1, -1);
     setTextureCoords(1.0, 0.0, 0.0);
+    glVertex3i(-1,  1, -1);
+    setTextureCoords(0.0, 0.0, 0.0);
     glVertex3i( 1,  1, -1);
-    setTextureCoords(1.0, 1.0, 0.0);
-    glVertex3i( 1,  1,  1);
     setTextureCoords(0.0, 1.0, 0.0);
+    glVertex3i( 1,  1,  1);
+    setTextureCoords(1.0, 1.0, 0.0);
     glVertex3i(-1,  1,  1);
     glEnd();
     this->deleteTexture(textureID);
@@ -1026,13 +1011,13 @@ void GLWidget::paintEvent(QPaintEvent *event)
     painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking north");
     textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
     glBegin(GL_QUADS);
-    setTextureCoords(1.0, 0.0, 0.0);
-    glVertex3i(-1, -1, -1);
     setTextureCoords(0.0, 0.0, 0.0);
+    glVertex3i(-1, -1, -1);
+    setTextureCoords(1.0, 0.0, 0.0);
     glVertex3i( 1, -1, -1);
-    setTextureCoords(0.0, 1.0, 0.0);
-    glVertex3i( 1, -1,  1);
     setTextureCoords(1.0, 1.0, 0.0);
+    glVertex3i( 1, -1,  1);
+    setTextureCoords(0.0, 1.0, 0.0);
     glVertex3i(-1, -1,  1);
     glEnd();
     this->deleteTexture(textureID);
@@ -1046,13 +1031,13 @@ void GLWidget::paintEvent(QPaintEvent *event)
     textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
     setPaintingColor(QColor(150, 0, 0));
     glBegin(GL_QUADS);
-    setTextureCoords(0.0, 0.0, 0.0);
-    glVertex3i(-1, -1, -1);
     setTextureCoords(1.0, 0.0, 0.0);
+    glVertex3i(-1, -1, -1);
+    setTextureCoords(0.0, 0.0, 0.0);
     glVertex3i(-1,  1, -1);
-    setTextureCoords(1.0, 1.0, 0.0);
-    glVertex3i(-1,  1,  1);
     setTextureCoords(0.0, 1.0, 0.0);
+    glVertex3i(-1,  1,  1);
+    setTextureCoords(1.0, 1.0, 0.0);
     glVertex3i(-1, -1,  1);
     glEnd();
     this->deleteTexture(textureID);
@@ -1065,13 +1050,13 @@ void GLWidget::paintEvent(QPaintEvent *event)
     painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking west");
     textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
     glBegin(GL_QUADS);
-    setTextureCoords(1.0, 0.0, 0.0);
-    glVertex3i( 1, -1, -1);
     setTextureCoords(0.0, 0.0, 0.0);
+    glVertex3i( 1, -1, -1);
+    setTextureCoords(1.0, 0.0, 0.0);
     glVertex3i( 1,  1, -1);
-    setTextureCoords(0.0, 1.0, 0.0);
-    glVertex3i( 1,  1,  1);
     setTextureCoords(1.0, 1.0, 0.0);
+    glVertex3i( 1,  1,  1);
+    setTextureCoords(0.0, 1.0, 0.0);
     glVertex3i( 1, -1,  1);
     glEnd();
     this->deleteTexture(textureID);
@@ -1158,11 +1143,11 @@ void GLWidget::paintEvent(QPaintEvent *event)
     //draw Arcball
     if(arcballShown)
     {
-        QPoint lookAtScreenCoords = mapFromScene(lookAtPosition).toPoint();
+        QPointF lookAtScreenCoords = mapFromScene(lookAtPosition);
         glBegin(GL_LINE_LOOP);
         for(int i = 0; i < 60; i++ )
         {
-            glVertex3i(arcballRadius * qSin(i * PI / 30) + lookAtScreenCoords.x(), arcballRadius * qCos(i * PI / 30) + lookAtScreenCoords.y(), 0);
+            glVertex3f(arcballRadius * qSin(i * PI / 30.0) + lookAtScreenCoords.x(), arcballRadius * qCos(i * PI / 30.0) + lookAtScreenCoords.y(), 0.0);
         }
         glEnd();
     }
@@ -4332,7 +4317,7 @@ void GLWidget::initializeGL()
         QMessageBox::critical(this, "Shader program", "Shader could not be bound to gl context!");
     }
 
-    //shader_vertexLocation = shaderProgram->attributeLocation("VertexPosition");
+    shader_vertexLocation = shaderProgram->attributeLocation("VertexPosition");
     shader_matrixLocation = shaderProgram->uniformLocation("Matrix");
     shader_colorLocation = shaderProgram->attributeLocation("VertexColor");
     shader_textureCoordLocation = shaderProgram->attributeLocation("TexCoord");
