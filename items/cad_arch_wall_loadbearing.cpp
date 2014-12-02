@@ -10,7 +10,7 @@ CAD_arch_wall_loadBearing::CAD_arch_wall_loadBearing() : CADitem(CADitem::Arch_W
     wizardParams.insert("Angle y", QVariant::fromValue(0.0));
     wizardParams.insert("Angle z", QVariant::fromValue(0.0));
 
-    wizardParams.insert("Wall thickness", QVariant::fromValue(200.0));
+    wizardParams.insert("s", QVariant::fromValue(200.0));
     wizardParams.insert("Length (l)", QVariant::fromValue(10000.0));
     wizardParams.insert("Height (a)", QVariant::fromValue(3000.0));
 
@@ -64,7 +64,7 @@ void CAD_arch_wall_loadBearing::calculate()
 
     this->snap_basepoint = (position);
 
-    QVector3D center = (matrix_rotation * QVector3D(length, wall_thickness, height) / 2.0) + position;
+    QVector3D center = (matrix_rotation * QVector3D(length, s, height) / 2.0) + position;
     basic_box->wizardParams.insert("Position x", QVariant::fromValue(center.x()));
     basic_box->wizardParams.insert("Position y", QVariant::fromValue(center.y()));
     basic_box->wizardParams.insert("Position z", QVariant::fromValue(center.z()));
@@ -72,7 +72,7 @@ void CAD_arch_wall_loadBearing::calculate()
     basic_box->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
     basic_box->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
     basic_box->wizardParams.insert("Size x", QVariant::fromValue(length));
-    basic_box->wizardParams.insert("Size y", QVariant::fromValue(wall_thickness));
+    basic_box->wizardParams.insert("Size y", QVariant::fromValue(s));
     basic_box->wizardParams.insert("Size z", QVariant::fromValue(height));
     basic_box->processWizardInput();
     basic_box->calculate();
@@ -97,7 +97,7 @@ void CAD_arch_wall_loadBearing::processWizardInput()
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
 
-    wall_thickness = wizardParams.value("Wall thickness").toDouble();
+    s = wizardParams.value("s").toDouble();
     length = wizardParams.value("Length (l)").toDouble();
     height = wizardParams.value("Height (a)").toDouble();
 }

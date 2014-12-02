@@ -23,6 +23,13 @@ public:
     qreal length;
     qreal wallThickness;
     QVector3D direction;
+
+    QList<QVector3D> vertices_outer_bottom;
+    QList<QVector3D> vertices_inner_bottom;
+
+    QList<QVector3D> vertices_outer_top;
+    QList<QVector3D> vertices_inner_top;
+
 };
 
 #endif // CAD_BASIC_PIPE_H

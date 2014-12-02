@@ -15,7 +15,7 @@ public:
     virtual void processWizardInput();
 
 private:
-    qreal wall_thickness;
+    qreal s;
     qreal length;
     qreal height;
 

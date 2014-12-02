@@ -10,17 +10,17 @@ CAD_air_ductTurn::CAD_air_ductTurn() : CADitem(CADitem::Air_DuctTurn)
     wizardParams.insert("Angle y", QVariant::fromValue(0.0));
     wizardParams.insert("Angle z", QVariant::fromValue(0.0));
 
-    wizardParams.insert("Radius (r)", QVariant::fromValue(100.0));
-    wizardParams.insert("Width 1 (b)", QVariant::fromValue(30.0));
-    wizardParams.insert("Width 2 (d)", QVariant::fromValue(30.0));
-    wizardParams.insert("Height (a)", QVariant::fromValue(20.0));
+    wizardParams.insert("r", QVariant::fromValue(100.0));
+    wizardParams.insert("b", QVariant::fromValue(30.0));
+    wizardParams.insert("b2", QVariant::fromValue(30.0));
+    wizardParams.insert("a", QVariant::fromValue(20.0));
 
-    wizardParams.insert("Endcap 1 (f)", QVariant::fromValue(5.0));
-    wizardParams.insert("Endcap 2 (e)", QVariant::fromValue(5.0));
+    wizardParams.insert("f", QVariant::fromValue(5.0));
+    wizardParams.insert("e", QVariant::fromValue(5.0));
 
-    wizardParams.insert("Wall thickness", QVariant::fromValue(1.0));
+    wizardParams.insert("s", QVariant::fromValue(1.0));
     wizardParams.insert("Flange size", QVariant::fromValue(1.0));
-    wizardParams.insert("Angle (alpha)", QVariant::fromValue(90.0));
+    wizardParams.insert("alpha", QVariant::fromValue(90.0));
 
     flange_left_duct = new CAD_basic_duct();
     flange_right_duct = new CAD_basic_duct();
@@ -100,12 +100,12 @@ void CAD_air_ductTurn::calculate()
     flange_left_duct->wizardParams.insert("Position y", QVariant::fromValue(position.y()));
     flange_left_duct->wizardParams.insert("Position z", QVariant::fromValue(position.z()));
     flange_left_duct->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    flange_left_duct->wizardParams.insert("Angle y", QVariant::fromValue(angle_y+180));
-    flange_left_duct->wizardParams.insert("Angle z", QVariant::fromValue(angle_z+180));
-    flange_left_duct->wizardParams.insert("Length (l)", QVariant::fromValue(flange_size));
-    flange_left_duct->wizardParams.insert("Width (b)", QVariant::fromValue(width_1+2*flange_size));
-    flange_left_duct->wizardParams.insert("Height (a)", QVariant::fromValue(height+2*flange_size));
-    flange_left_duct->wizardParams.insert("Wall thickness", QVariant::fromValue(flange_size));
+    flange_left_duct->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
+    flange_left_duct->wizardParams.insert("Angle z", QVariant::fromValue(-angle_z));
+    flange_left_duct->wizardParams.insert("l", QVariant::fromValue(flange_size));
+    flange_left_duct->wizardParams.insert("b", QVariant::fromValue(b+2*flange_size));
+    flange_left_duct->wizardParams.insert("a", QVariant::fromValue(a+2*flange_size));
+    flange_left_duct->wizardParams.insert("s", QVariant::fromValue(flange_size));
     flange_left_duct->processWizardInput();
     flange_left_duct->calculate();
 
@@ -116,7 +116,7 @@ void CAD_air_ductTurn::calculate()
     //    int count_a = 11;
     //    int count_b = 21;
 
-    // Wall thickness iteration
+    // s iteration
     QMatrix4x4 matrix_turn;
     QVector3D position_rfd;
     for (int w = 0; w <= 1; w++)
@@ -127,45 +127,45 @@ void CAD_air_ductTurn::calculate()
         //add small endcap
         if(w == 0)
         {
-            QVector3D lp1 = this->matrix_rotation * QVector3D(0.0, this->width_1 / 2, this->height / 2) + position;
+            QVector3D lp1 = this->matrix_rotation * QVector3D(0.0, this->b / 2, this->a / 2) + position;
             this->vertices[w][a][b] = lp1;
             this->boundingBox.enterVertex(lp1);
             this->snap_vertices.append(lp1);
             b++;
-            QVector3D lp2 = this->matrix_rotation * QVector3D(0.0, this->width_1 / 2, -this->height / 2) + position;
+            QVector3D lp2 = this->matrix_rotation * QVector3D(0.0, this->b / 2, -this->a / 2) + position;
             this->vertices[w][a][b] = lp2;
             this->boundingBox.enterVertex(lp2);
             this->snap_vertices.append(lp2);
             b++;
-            QVector3D lp3 = this->matrix_rotation * QVector3D(0.0, -this->width_1 / 2, -this->height / 2) + position;
+            QVector3D lp3 = this->matrix_rotation * QVector3D(0.0, -this->b / 2, -this->a / 2) + position;
             this->vertices[w][a][b] = lp3;
             this->boundingBox.enterVertex(lp3);
             this->snap_vertices.append(lp3);
             b++;
-            QVector3D lp4 = this->matrix_rotation * QVector3D(0.0, -this->width_1/2, this->height / 2) + position;
+            QVector3D lp4 = this->matrix_rotation * QVector3D(0.0, -this->b/2, this->a / 2) + position;
             this->vertices[w][a][b] = lp4;
             this->boundingBox.enterVertex(lp4);
             this->snap_vertices.append(lp4);
             b++;
-            QVector3D lp5 = this->matrix_rotation * QVector3D(0.0, this->width_1 / 2, this->height / 2) + position;
+            QVector3D lp5 = this->matrix_rotation * QVector3D(0.0, this->b / 2, this->a / 2) + position;
             this->vertices[w][a][b] = lp5;
             b++;
         }
         else
         {
-            QVector3D lp1 = this->matrix_rotation * QVector3D(0.0, this->width_1 / 2 - this->wall_thickness,  this->height / 2 - this->wall_thickness) + position;
+            QVector3D lp1 = this->matrix_rotation * QVector3D(0.0, this->b / 2 - this->s,  this->a / 2 - this->s) + position;
             this->vertices[w][a][b] = lp1;
             b++;
-            QVector3D lp2 = this->matrix_rotation * QVector3D(0.0, this->width_1 / 2 - this->wall_thickness, -this->height / 2 + this->wall_thickness) + position;
+            QVector3D lp2 = this->matrix_rotation * QVector3D(0.0, this->b / 2 - this->s, -this->a / 2 + this->s) + position;
             this->vertices[w][a][b] = lp2;
             b++;
-            QVector3D lp3 = this->matrix_rotation * QVector3D(0.0, -this->width_1 / 2 + this->wall_thickness, -this->height / 2  + this->wall_thickness) + position;
+            QVector3D lp3 = this->matrix_rotation * QVector3D(0.0, -this->b / 2 + this->s, -this->a / 2  + this->s) + position;
             this->vertices[w][a][b] = lp3;
             b++;
-            QVector3D lp4 = this->matrix_rotation * QVector3D(0.0, -this->width_1 / 2 + this->wall_thickness,  this->height / 2 - this->wall_thickness) + position;
+            QVector3D lp4 = this->matrix_rotation * QVector3D(0.0, -this->b / 2 + this->s,  this->a / 2 - this->s) + position;
             this->vertices[w][a][b] = lp4;
             b++;
-            QVector3D lp5 = this->matrix_rotation * QVector3D(0.0, this->width_1 / 2 -this->wall_thickness,  this->height / 2 - this->wall_thickness) + position;
+            QVector3D lp5 = this->matrix_rotation * QVector3D(0.0, this->b / 2 -this->s,  this->a / 2 - this->s) + position;
             this->vertices[w][a][b] = lp5;
             b++;
         }
@@ -174,60 +174,60 @@ void CAD_air_ductTurn::calculate()
         //add turn
         for (qreal i=0.0; i < 1.01; i += 0.10)    // 10 edges (11 vertices)
         {
-            qreal angle_turn = this->angle * i;
+            qreal angle_turn = this->alpha * i;
 
             matrix_turn.setToIdentity();
-            matrix_turn.rotate(-angle_turn, 0.0, 0.0, 1.0);
+            matrix_turn.rotate(angle_turn, 0.0, 0.0, 1.0);
 
             // Pipe angle iteration
 
             if(w == 0)
             {
                 // Width2 >= Width1 && draw outer
-                if(this->width_2 >= this->width_1)
+                if(this->b2 >= this->b)
                 {
-                    QVector3D lp1 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->width_1, this->height / 2)
-                                                       + QVector3D(this->endcap_1 + this->width_2 - this->width_1, - this->radius - this->width_1 / 2, 0.0)) + position;
+                    QVector3D lp1 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b, this->a / 2)
+                                                       + QVector3D(-this->f + this->b2 - this->b, - this->r - this->b / 2, 0.0)) + position;
                     this->vertices[w][a][b] = lp1;
                     b++;
-                    QVector3D lp2 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->width_1, -this->height / 2)
-                                                       + QVector3D(this->endcap_1 + this->width_2 - this->width_1, - this->radius - this->width_1 / 2, 0.0)) + position;
+                    QVector3D lp2 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b, -this->a / 2)
+                                                       + QVector3D(-this->f + this->b2 - this->b, - this->r - this->b / 2, 0.0)) + position;
                     this->vertices[w][a][b] = lp2;
                     b++;
-                    QVector3D lp3 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius, -this->height / 2)
-                                                       + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2, 0.0)) + position;
+                    QVector3D lp3 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r, -this->a / 2)
+                                                       + QVector3D(-this->f, - this->r - this->b / 2, 0.0)) + position;
                     this->vertices[w][a][b] = lp3;
                     b++;
-                    QVector3D lp4 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius, this->height / 2)
-                                                       + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2, 0.0)) + position;
+                    QVector3D lp4 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r, this->a / 2)
+                                                       + QVector3D(-this->f, - this->r - this->b / 2, 0.0)) + position;
                     this->vertices[w][a][b] = lp4;
                     b++;
-                    QVector3D lp5 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->width_1, this->height / 2)
-                                                       + QVector3D(this->endcap_1 + this->width_2 - this->width_1, - this->radius - this->width_1 / 2, 0.0)) + position;
+                    QVector3D lp5 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b, this->a / 2)
+                                                       + QVector3D(-this->f + this->b2 - this->b, - this->r - this->b / 2, 0.0)) + position;
                     this->vertices[w][a][b] = lp5;
                     b++;
                 }
                 // Width2 < Width1 && draw outer
                 else
                 {
-                    QVector3D lp1 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->width_2, this->height / 2)
-                                                       + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2 + this->width_1 - this->width_2, 0.0)) + position;
+                    QVector3D lp1 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b2, this->a / 2)
+                                                       + QVector3D(-this->f, - this->r - this->b / 2 + this->b - this->b2, 0.0)) + position;
                     this->vertices[w][a][b] = lp1;
                     b++;
-                    QVector3D lp2 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->width_2, -this->height / 2)
-                                                       + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2 + this->width_1 - this->width_2, 0.0)) + position;
+                    QVector3D lp2 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b2, -this->a / 2)
+                                                       + QVector3D(-this->f, - this->r - this->b / 2 + this->b - this->b2, 0.0)) + position;
                     this->vertices[w][a][b] = lp2;
                     b++;
-                    QVector3D lp3 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius, -this->height / 2)
-                                                       + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2, 0.0)) + position;
+                    QVector3D lp3 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r, -this->a / 2)
+                                                       + QVector3D(-this->f, - this->r - this->b / 2, 0.0)) + position;
                     this->vertices[w][a][b] = lp3;
                     b++;
-                    QVector3D lp4 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius, this->height / 2)
-                                                       + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2, 0.0)) + position;
+                    QVector3D lp4 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r, this->a / 2)
+                                                       + QVector3D(-this->f, - this->r - this->b / 2, 0.0)) + position;
                     this->vertices[w][a][b] = lp4;
                     b++;
-                    QVector3D lp5 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->width_2, this->height / 2)
-                                                       + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2  + this->width_1 - this->width_2, 0.0)) + position;
+                    QVector3D lp5 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b2, this->a / 2)
+                                                       + QVector3D(-this->f, - this->r - this->b / 2  + this->b - this->b2, 0.0)) + position;
                     this->vertices[w][a][b] = lp5;
                     b++;
                 }
@@ -235,50 +235,50 @@ void CAD_air_ductTurn::calculate()
             else
             {
                 // Width2 >= Width1 && draw inner
-                if(this->width_2 >= this->width_1)
+                if(this->b2 >= this->b)
                 {
-                    QVector3D lp1 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->width_1 - this->wall_thickness,  this->height / 2 - this->wall_thickness)
-                                                       + QVector3D(this->endcap_1 + this->width_2 - this->width_1, - this->radius - this->width_1 / 2, 0.0)) + position;
+                    QVector3D lp1 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b - this->s,  this->a / 2 - this->s)
+                                                       + QVector3D(-this->f + this->b2 - this->b, - this->r - this->b / 2, 0.0)) + position;
                     this->vertices[w][a][b] = lp1;
                     b++;
-                    QVector3D lp2 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->width_1 - this->wall_thickness, -this->height / 2 + this->wall_thickness)
-                                                       + QVector3D(this->endcap_1 + this->width_2 - this->width_1, - this->radius - this->width_1 / 2, 0.0)) + position;
+                    QVector3D lp2 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b - this->s, -this->a / 2 + this->s)
+                                                       + QVector3D(-this->f + this->b2 - this->b, - this->r - this->b / 2, 0.0)) + position;
                     this->vertices[w][a][b] = lp2;
                     b++;
-                    QVector3D lp3 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->wall_thickness                , -this->height / 2 + this->wall_thickness)
-                                                       + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2, 0.0)) + position;
+                    QVector3D lp3 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->s                , -this->a / 2 + this->s)
+                                                       + QVector3D(-this->f, - this->r - this->b / 2, 0.0)) + position;
                     this->vertices[w][a][b] = lp3;
                     b++;
-                    QVector3D lp4 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->wall_thickness                ,  this->height / 2 - this->wall_thickness)
-                                                       + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2, 0.0)) + position;
+                    QVector3D lp4 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->s                ,  this->a / 2 - this->s)
+                                                       + QVector3D(-this->f, - this->r - this->b / 2, 0.0)) + position;
                     this->vertices[w][a][b] = lp4;
                     b++;
-                    QVector3D lp5 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->width_1 - this->wall_thickness,  this->height / 2 - this->wall_thickness)
-                                                       + QVector3D(this->endcap_1 + this->width_2 - this->width_1, - this->radius - this->width_1 / 2, 0.0)) + position;
+                    QVector3D lp5 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b - this->s,  this->a / 2 - this->s)
+                                                       + QVector3D(-this->f + this->b2 - this->b, - this->r - this->b / 2, 0.0)) + position;
                     this->vertices[w][a][b] = lp5;
                     b++;
                 }
                 // Width2 < Width1 && draw inner
                 else
                 {
-                    QVector3D lp1 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->width_2 - this->wall_thickness,  this->height / 2 - this->wall_thickness)
-                                                       + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2 + this->width_1 - this->width_2, 0.0)) + position;
+                    QVector3D lp1 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b2 - this->s,  this->a / 2 - this->s)
+                                                       + QVector3D(-this->f, - this->r - this->b / 2 + this->b - this->b2, 0.0)) + position;
                     this->vertices[w][a][b] = lp1;
                     b++;
-                    QVector3D lp2 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->width_2 - this->wall_thickness, -this->height / 2 + this->wall_thickness)
-                                                       + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2 + this->width_1 - this->width_2, 0.0)) + position;
+                    QVector3D lp2 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b2 - this->s, -this->a / 2 + this->s)
+                                                       + QVector3D(-this->f, - this->r - this->b / 2 + this->b - this->b2, 0.0)) + position;
                     this->vertices[w][a][b] = lp2;
                     b++;
-                    QVector3D lp3 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->wall_thickness                , -this->height / 2 + this->wall_thickness)
-                                                       + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2, 0.0)) + position;
+                    QVector3D lp3 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->s                , -this->a / 2 + this->s)
+                                                       + QVector3D(-this->f, - this->r - this->b / 2, 0.0)) + position;
                     this->vertices[w][a][b] = lp3;
                     b++;
-                    QVector3D lp4 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->wall_thickness                ,  this->height / 2 - this->wall_thickness)
-                                                       + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2, 0.0)) + position;
+                    QVector3D lp4 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->s                ,  this->a / 2 - this->s)
+                                                       + QVector3D(-this->f, - this->r - this->b / 2, 0.0)) + position;
                     this->vertices[w][a][b] = lp4;
                     b++;
-                    QVector3D lp5 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->width_2 - this->wall_thickness,  this->height / 2 - this->wall_thickness)
-                                                       + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2  + this->width_1 - this->width_2, 0.0)) + position;
+                    QVector3D lp5 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b2 - this->s,  this->a / 2 - this->s)
+                                                       + QVector3D(-this->f, - this->r - this->b / 2  + this->b - this->b2, 0.0)) + position;
                     this->vertices[w][a][b] = lp5;
                     b++;
 
@@ -288,77 +288,77 @@ void CAD_air_ductTurn::calculate()
             a++;
         }
         //add big endcap
-        qreal angle_turn = this->angle;
+        qreal angle_turn = this->alpha;
 
         matrix_turn.setToIdentity();
         //matrix_turn.translate(this->radius, 0.0, 0.0);
-        matrix_turn.rotate(-angle_turn, 0.0, 0.0, 1.0);
+        matrix_turn.rotate(angle_turn, 0.0, 0.0, 1.0);
         qreal angle_turn_rad = angle_turn / 180 * PI;
 
         if(w == 0)
         {
 
 
-            QVector3D lp1 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->width_1 + (this->width_2 - this->width_1), this->height / 2)
-                                               + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2, 0.0)
-                                               + QVector3D(cos(angle_turn_rad) * this->endcap_2, -sin(angle_turn_rad) * this->endcap_2, 0.0)) + position;
+            QVector3D lp1 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b + (this->b2 - this->b), this->a / 2)
+                                               + QVector3D(-this->f, - this->r - this->b / 2, 0.0)
+                                                     + QVector3D(-cos(angle_turn_rad) * this->e, -sin(angle_turn_rad) * this->e, 0.0)) + position;
             this->vertices[w][a][b] = lp1;
             this->boundingBox.enterVertex(lp1);
             this->snap_vertices.append(lp1);
             b++;
-            QVector3D lp2 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->width_1 + (this->width_2 - this->width_1), -this->height / 2)
-                                               + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2, 0.0)
-                                               + QVector3D(cos(angle_turn_rad) * this->endcap_2, -sin(angle_turn_rad) * this->endcap_2, 0.0)) + position;
+            QVector3D lp2 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b + (this->b2 - this->b), -this->a / 2)
+                                               + QVector3D(-this->f, - this->r - this->b / 2, 0.0)
+                                                     + QVector3D(-cos(angle_turn_rad) * this->e, -sin(angle_turn_rad) * this->e, 0.0)) + position;
             this->vertices[w][a][b] = lp2;
             this->boundingBox.enterVertex(lp2);
             this->snap_vertices.append(lp2);
             b++;
-            QVector3D lp3 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius, -this->height / 2)
-                                               + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2, 0.0)
-                                               + QVector3D(cos(angle_turn_rad) * this->endcap_2, -sin(angle_turn_rad) * this->endcap_2, 0.0)) + position;
+            QVector3D lp3 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r, -this->a / 2)
+                                               + QVector3D(-this->f, - this->r - this->b / 2, 0.0)
+                                                     + QVector3D(-cos(angle_turn_rad) * this->e, -sin(angle_turn_rad) * this->e, 0.0)) + position;
             this->vertices[w][a][b] = lp3;
             this->boundingBox.enterVertex(lp3);
             this->snap_vertices.append(lp3);
             b++;
-            QVector3D lp4 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius, this->height / 2)
-                                               + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2, 0.0)
-                                               + QVector3D(cos(angle_turn_rad) * this->endcap_2, -sin(angle_turn_rad) * this->endcap_2, 0.0)) + position;
+            QVector3D lp4 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r, this->a / 2)
+                                               + QVector3D(-this->f, - this->r - this->b / 2, 0.0)
+                                                     + QVector3D(-cos(angle_turn_rad) * this->e, -sin(angle_turn_rad) * this->e, 0.0)) + position;
             this->vertices[w][a][b] = lp4;
             this->boundingBox.enterVertex(lp4);
             this->snap_vertices.append(lp4);
             b++;
-            QVector3D lp5 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->width_1 + (this->width_2 - this->width_1), this->height / 2)
-                                               + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2, 0.0)
-                                               + QVector3D(cos(angle_turn_rad) * this->endcap_2, -sin(angle_turn_rad) * this->endcap_2, 0.0)) + position;
+            QVector3D lp5 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b + (this->b2 - this->b), this->a / 2)
+                                               + QVector3D(-this->f, - this->r - this->b / 2, 0.0)
+                                                     + QVector3D(-cos(angle_turn_rad) * this->e, -sin(angle_turn_rad) * this->e, 0.0)) + position;
             this->vertices[w][a][b] = lp5;
             b++;
 
         }
         else
         {
-            QVector3D lp1 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->width_1 - this->wall_thickness,  this->height / 2 - this->wall_thickness)
-                                               + QVector3D(this->endcap_1 + (this->width_2 - this->width_1), - this->radius - this->width_1 / 2, 0.0)
-                                               + QVector3D(cos(angle_turn_rad) * this->endcap_2, -sin(angle_turn_rad) * this->endcap_2, 0.0)) + position;
+            QVector3D lp1 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b - this->s,  this->a / 2 - this->s)
+                                               + QVector3D(-this->f + (this->b2 - this->b), - this->r - this->b / 2, 0.0)
+                                               + QVector3D(-cos(angle_turn_rad) * this->e, -sin(angle_turn_rad) * this->e, 0.0)) + position;
             this->vertices[w][a][b] = lp1;
             b++;
-            QVector3D lp2 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->width_1 - this->wall_thickness, -this->height / 2 + this->wall_thickness)
-                                               + QVector3D(this->endcap_1 + (this->width_2 - this->width_1), - this->radius - this->width_1 / 2, 0.0)
-                                               + QVector3D(cos(angle_turn_rad) * this->endcap_2, -sin(angle_turn_rad) * this->endcap_2, 0.0)) + position;
+            QVector3D lp2 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b - this->s, -this->a / 2 + this->s)
+                                               + QVector3D(-this->f + (this->b2 - this->b), - this->r - this->b / 2, 0.0)
+                                               + QVector3D(-cos(angle_turn_rad) * this->e, -sin(angle_turn_rad) * this->e, 0.0)) + position;
             this->vertices[w][a][b] = lp2;
             b++;
-            QVector3D lp3 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->wall_thickness                , -this->height / 2 + this->wall_thickness)
-                                               + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2, 0.0)
-                                               + QVector3D(cos(angle_turn_rad) * this->endcap_2, -sin(angle_turn_rad) * this->endcap_2, 0.0)) + position;
+            QVector3D lp3 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->s, -this->a / 2 + this->s)
+                                               + QVector3D(-this->f, - this->r - this->b / 2, 0.0)
+                                               + QVector3D(-cos(angle_turn_rad) * this->e, -sin(angle_turn_rad) * this->e, 0.0)) + position;
             this->vertices[w][a][b] = lp3;
             b++;
-            QVector3D lp4 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->wall_thickness                ,  this->height / 2 - this->wall_thickness)
-                                               + QVector3D(this->endcap_1, - this->radius - this->width_1 / 2, 0.0)
-                                               + QVector3D(cos(angle_turn_rad) * this->endcap_2, -sin(angle_turn_rad) * this->endcap_2, 0.0)) + position;
+            QVector3D lp4 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->s,  this->a / 2 - this->s)
+                                               + QVector3D(-this->f, - this->r - this->b / 2, 0.0)
+                                               + QVector3D(-cos(angle_turn_rad) * this->e, -sin(angle_turn_rad) * this->e, 0.0)) + position;
             this->vertices[w][a][b] = lp4;
             b++;
-            QVector3D lp5 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius + this->width_1 - this->wall_thickness,  this->height / 2 - this->wall_thickness)
-                                               + QVector3D(this->endcap_1 + (this->width_2 - this->width_1), - this->radius - this->width_1 / 2, 0.0)
-                                               + QVector3D(cos(angle_turn_rad) * this->endcap_2, -sin(angle_turn_rad) * this->endcap_2, 0.0)) + position;
+            QVector3D lp5 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b - this->s,  this->a / 2 - this->s)
+                                               + QVector3D(-this->f + (this->b2 - this->b), - this->r - this->b / 2, 0.0)
+                                               + QVector3D(-cos(angle_turn_rad) * this->e, -sin(angle_turn_rad) * this->e, 0.0)) + position;
             this->vertices[w][a][b] = lp5;
             b++;
             this->snap_flanges.append((lp1 + lp3 ) / 2);
@@ -375,11 +375,11 @@ void CAD_air_ductTurn::calculate()
     flange_right_duct->wizardParams.insert("Position z", QVariant::fromValue(position_rfd.z()));
     flange_right_duct->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
     flange_right_duct->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    flange_right_duct->wizardParams.insert("Angle z", QVariant::fromValue(-angle_z+angle+180));
-    flange_right_duct->wizardParams.insert("Length (l)", QVariant::fromValue(flange_size));
-    flange_right_duct->wizardParams.insert("Width (b)", QVariant::fromValue(width_2+2*flange_size));
-    flange_right_duct->wizardParams.insert("Height (a)", QVariant::fromValue(height+2*flange_size));
-    flange_right_duct->wizardParams.insert("Wall thickness", QVariant::fromValue(flange_size));
+    flange_right_duct->wizardParams.insert("Angle z", QVariant::fromValue(-angle_z-alpha+180));
+    flange_right_duct->wizardParams.insert("l", QVariant::fromValue(flange_size));
+    flange_right_duct->wizardParams.insert("b", QVariant::fromValue(b2+2*flange_size));
+    flange_right_duct->wizardParams.insert("a", QVariant::fromValue(this->a+2*flange_size));
+    flange_right_duct->wizardParams.insert("s", QVariant::fromValue(flange_size));
     flange_right_duct->processWizardInput();
     flange_right_duct->calculate();
 
@@ -417,18 +417,18 @@ void CAD_air_ductTurn::processWizardInput()
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
 
-    wall_thickness = wizardParams.value("Wall thickness").toDouble();
+    s = wizardParams.value("s").toDouble();
     flange_size = wizardParams.value("Flange size").toDouble();
 
-    radius = wizardParams.value("Radius (r)").toDouble();
-    width_1 = wizardParams.value("Width 1 (b)").toDouble();
-    width_2 = wizardParams.value("Width 2 (d)").toDouble();
-    height = wizardParams.value("Height (a)").toDouble();
-    angle = wizardParams.value("Angle (alpha)").toDouble();
-    endcap_1 = wizardParams.value("Endcap 1 (f)").toDouble();
-    endcap_2 = wizardParams.value("Endcap 2 (e)").toDouble();
+    r = wizardParams.value("r").toDouble();
+    b = wizardParams.value("b").toDouble();
+    b2 = wizardParams.value("b2").toDouble();
+    a = wizardParams.value("a").toDouble();
+    alpha = wizardParams.value("alpha").toDouble();
+    f = wizardParams.value("f").toDouble();
+    e = wizardParams.value("e").toDouble();
 
-    if(angle != 90 && width_1 != width_1)
+    if(abs(alpha - 90) > 10E-8 && abs(b - b2) > 10E-8)
         qDebug() << "Different width for input and output is only acceptable if angle = 90°";
 
 }

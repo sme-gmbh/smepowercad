@@ -39,19 +39,19 @@ CAD_air_ductTeeConnector::CAD_air_ductTeeConnector() : CADitem(CADitem::Air_Duct
     wizardParams.insert("Angle y", QVariant::fromValue(0.0));
     wizardParams.insert("Angle z", QVariant::fromValue(0.0));
 
-    wizardParams.insert("Height (a)", QVariant::fromValue(20.0));
-    wizardParams.insert("Width 1 (b)", QVariant::fromValue(30.0));
-    wizardParams.insert("Width 2 (d)", QVariant::fromValue(30.0));
-    wizardParams.insert("Offset (e)", QVariant::fromValue(00.0));
-    wizardParams.insert("Width 3 (h)", QVariant::fromValue(50.0));
-    wizardParams.insert("Length l", QVariant::fromValue(260.0));
-    wizardParams.insert("Offset (m)", QVariant::fromValue(100.0));
-    wizardParams.insert("Offset (n)", QVariant::fromValue(110.0));
-    wizardParams.insert("Radius 1 (r1)", QVariant::fromValue(50.0));
-    wizardParams.insert("Radius 2 (r2)", QVariant::fromValue(50.0));
-    wizardParams.insert("Endcap (u)", QVariant::fromValue(50.0));
+    wizardParams.insert("a", QVariant::fromValue(20.0));
+    wizardParams.insert("b", QVariant::fromValue(30.0));
+    wizardParams.insert("b2", QVariant::fromValue(30.0));
+    wizardParams.insert("e", QVariant::fromValue(00.0));
+    wizardParams.insert("b3", QVariant::fromValue(50.0));
+    wizardParams.insert("l", QVariant::fromValue(260.0));
+    wizardParams.insert("m", QVariant::fromValue(100.0));
+    wizardParams.insert("n", QVariant::fromValue(110.0));
+    wizardParams.insert("r1", QVariant::fromValue(50.0));
+    wizardParams.insert("r2", QVariant::fromValue(50.0));
+    wizardParams.insert("u", QVariant::fromValue(50.0));
     wizardParams.insert("Flange size", QVariant::fromValue(1.0));
-    wizardParams.insert("Wall thickness", QVariant::fromValue(1.0));
+    wizardParams.insert("s", QVariant::fromValue(1.0));
 
 
     processWizardInput();
@@ -117,11 +117,11 @@ void CAD_air_ductTeeConnector::calculate()
     endcap_1->wizardParams.insert("Position z", QVariant::fromValue(position.z()));
     endcap_1->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
     endcap_1->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    endcap_1->wizardParams.insert("Angle z", QVariant::fromValue(angle_z+180));
-    endcap_1->wizardParams.insert("Length (l)", QVariant::fromValue(u));
-    endcap_1->wizardParams.insert("Width (b)", QVariant::fromValue(b));
-    endcap_1->wizardParams.insert("Height (a)", QVariant::fromValue(a));
-    endcap_1->wizardParams.insert("Wall thickness", QVariant::fromValue(wall_thickness));
+    endcap_1->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
+    endcap_1->wizardParams.insert("l", QVariant::fromValue(u));
+    endcap_1->wizardParams.insert("b", QVariant::fromValue(b));
+    endcap_1->wizardParams.insert("a", QVariant::fromValue(a));
+    endcap_1->wizardParams.insert("s", QVariant::fromValue(s));
     endcap_1->processWizardInput();
     endcap_1->calculate();
 
@@ -130,25 +130,25 @@ void CAD_air_ductTeeConnector::calculate()
     flange_1->wizardParams.insert("Position z", QVariant::fromValue(position.z()));
     flange_1->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
     flange_1->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    flange_1->wizardParams.insert("Angle z", QVariant::fromValue(angle_z+180));
-    flange_1->wizardParams.insert("Length (l)", QVariant::fromValue(flange_size));
-    flange_1->wizardParams.insert("Width (b)", QVariant::fromValue(b + 2 * flange_size));
-    flange_1->wizardParams.insert("Height (a)", QVariant::fromValue(a + 2 * flange_size));
-    flange_1->wizardParams.insert("Wall thickness", QVariant::fromValue(flange_size));
+    flange_1->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
+    flange_1->wizardParams.insert("l", QVariant::fromValue(flange_size));
+    flange_1->wizardParams.insert("b", QVariant::fromValue(b + 2 * flange_size));
+    flange_1->wizardParams.insert("a", QVariant::fromValue(a + 2 * flange_size));
+    flange_1->wizardParams.insert("s", QVariant::fromValue(flange_size));
     flange_1->processWizardInput();
     flange_1->calculate();
 
-    QVector3D position_e2 = position + matrix_rotation * QVector3D(l, b/2 - e - d/2, 0);
+    QVector3D position_e2 = position + matrix_rotation * QVector3D(l, b/2 - e - b2/2, 0);
     endcap_2->wizardParams.insert("Position x", QVariant::fromValue(position_e2.x()));
     endcap_2->wizardParams.insert("Position y", QVariant::fromValue(position_e2.y()));
     endcap_2->wizardParams.insert("Position z", QVariant::fromValue(position_e2.z()));
     endcap_2->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
     endcap_2->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    endcap_2->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    endcap_2->wizardParams.insert("Length (l)", QVariant::fromValue(u));
-    endcap_2->wizardParams.insert("Width (b)", QVariant::fromValue(d));
-    endcap_2->wizardParams.insert("Height (a)", QVariant::fromValue(a));
-    endcap_2->wizardParams.insert("Wall thickness", QVariant::fromValue(wall_thickness));
+    endcap_2->wizardParams.insert("Angle z", QVariant::fromValue(angle_z+180));
+    endcap_2->wizardParams.insert("l", QVariant::fromValue(u));
+    endcap_2->wizardParams.insert("b", QVariant::fromValue(b2));
+    endcap_2->wizardParams.insert("a", QVariant::fromValue(a));
+    endcap_2->wizardParams.insert("s", QVariant::fromValue(s));
     endcap_2->processWizardInput();
     endcap_2->calculate();
 
@@ -157,25 +157,25 @@ void CAD_air_ductTeeConnector::calculate()
     flange_2->wizardParams.insert("Position z", QVariant::fromValue(position_e2.z()));
     flange_2->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
     flange_2->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    flange_2->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    flange_2->wizardParams.insert("Length (l)", QVariant::fromValue(flange_size));
-    flange_2->wizardParams.insert("Width (b)", QVariant::fromValue(d + 2 * flange_size));
-    flange_2->wizardParams.insert("Height (a)", QVariant::fromValue(a + 2 * flange_size));
-    flange_2->wizardParams.insert("Wall thickness", QVariant::fromValue(flange_size));
+    flange_2->wizardParams.insert("Angle z", QVariant::fromValue(angle_z+180));
+    flange_2->wizardParams.insert("l", QVariant::fromValue(flange_size));
+    flange_2->wizardParams.insert("b", QVariant::fromValue(b2 + 2 * flange_size));
+    flange_2->wizardParams.insert("a", QVariant::fromValue(a + 2 * flange_size));
+    flange_2->wizardParams.insert("s", QVariant::fromValue(flange_size));
     flange_2->processWizardInput();
     flange_2->calculate();
 
-    QVector3D position_e3 = position + matrix_rotation * QVector3D(n + h/2, b/2 -e - d - m, 0);
+    QVector3D position_e3 = position + matrix_rotation * QVector3D(n + b3/2, b/2 -e - b2 - m, 0);
     endcap_3->wizardParams.insert("Position x", QVariant::fromValue(position_e3.x()));
     endcap_3->wizardParams.insert("Position y", QVariant::fromValue(position_e3.y()));
     endcap_3->wizardParams.insert("Position z", QVariant::fromValue(position_e3.z()));
     endcap_3->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
     endcap_3->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    endcap_3->wizardParams.insert("Angle z", QVariant::fromValue(angle_z-90));
-    endcap_3->wizardParams.insert("Length (l)", QVariant::fromValue(u));
-    endcap_3->wizardParams.insert("Width (b)", QVariant::fromValue(h));
-    endcap_3->wizardParams.insert("Height (a)", QVariant::fromValue(a));
-    endcap_3->wizardParams.insert("Wall thickness", QVariant::fromValue(wall_thickness));
+    endcap_3->wizardParams.insert("Angle z", QVariant::fromValue(angle_z+90));
+    endcap_3->wizardParams.insert("l", QVariant::fromValue(u));
+    endcap_3->wizardParams.insert("b", QVariant::fromValue(b3));
+    endcap_3->wizardParams.insert("a", QVariant::fromValue(a));
+    endcap_3->wizardParams.insert("s", QVariant::fromValue(s));
     endcap_3->processWizardInput();
     endcap_3->calculate();
 
@@ -184,11 +184,11 @@ void CAD_air_ductTeeConnector::calculate()
     flange_3->wizardParams.insert("Position z", QVariant::fromValue(position_e3.z()));
     flange_3->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
     flange_3->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    flange_3->wizardParams.insert("Angle z", QVariant::fromValue(angle_z-90));
-    flange_3->wizardParams.insert("Length (l)", QVariant::fromValue(flange_size));
-    flange_3->wizardParams.insert("Width (b)", QVariant::fromValue(h + 2 * flange_size));
-    flange_3->wizardParams.insert("Height (a)", QVariant::fromValue(a + 2 * flange_size));
-    flange_3->wizardParams.insert("Wall thickness", QVariant::fromValue(flange_size));
+    flange_3->wizardParams.insert("Angle z", QVariant::fromValue(angle_z+90));
+    flange_3->wizardParams.insert("l", QVariant::fromValue(flange_size));
+    flange_3->wizardParams.insert("b", QVariant::fromValue(b3 + 2 * flange_size));
+    flange_3->wizardParams.insert("a", QVariant::fromValue(a + 2 * flange_size));
+    flange_3->wizardParams.insert("s", QVariant::fromValue(flange_size));
     flange_3->processWizardInput();
     flange_3->calculate();
 
@@ -201,8 +201,8 @@ void CAD_air_ductTeeConnector::calculate()
     vertices_turn1[0][0][0] = position + matrix_rotation * QVector3D(this->u, -b/2, -a/2);
     vertices_turn1[0][0][1] = position + matrix_rotation * QVector3D(this->u, -b/2, a/2);
 
-    vertices_turn2[0][0][0] = position + matrix_rotation * QVector3D(n + h, -b/2 - r1, -a/2);
-    vertices_turn2[0][0][1] = position + matrix_rotation * QVector3D(n + h, -b/2 - r1, a/2);
+    vertices_turn2[0][0][0] = position + matrix_rotation * QVector3D(n + b3, -b/2 - r1, -a/2);
+    vertices_turn2[0][0][1] = position + matrix_rotation * QVector3D(n + b3, -b/2 - r1, a/2);
 
     int x = 1;
     int y = 0;
@@ -217,10 +217,10 @@ void CAD_air_ductTeeConnector::calculate()
             matrix_turn.rotate(-angle_turn, 0.0, 0.0, 1.0);
 
             vertices_turn1[w][x][y] = position + matrix_rotation * (matrix_turn * QVector3D(0.0, r1, -a/2) + QVector3D(n-r1,-b/2 -r1, 0.0));
-            vertices_turn2[w][x][y] = position + matrix_rotation * (matrix_turn * QVector3D(-r2, 0.0, -a/2) + QVector3D(n+h+r2, b/2 +e-d-r2, 0.0));
+            vertices_turn2[w][x][y] = position + matrix_rotation * (matrix_turn * QVector3D(-r2, 0.0, -a/2) + QVector3D(n+b3+r2, b/2 +e-b2-r2, 0.0));
             y++;
             vertices_turn1[w][x][y] = position + matrix_rotation * (matrix_turn * QVector3D(0.0, r1, a/2) + QVector3D(n-r1,-b/2 -r1, 0.0));
-            vertices_turn2[w][x][y] = position + matrix_rotation * (matrix_turn * QVector3D(-r2, 0.0, a/2) + QVector3D(n+h+r2, b/2 +e-d-r2, 0.0));
+            vertices_turn2[w][x][y] = position + matrix_rotation * (matrix_turn * QVector3D(-r2, 0.0, a/2) + QVector3D(n+b3+r2, b/2 +e-b2-r2, 0.0));
             y++;
         }
         y = 0;
@@ -287,24 +287,24 @@ void CAD_air_ductTeeConnector::processWizardInput()
     angle_z = wizardParams.value("Angle z").toDouble();
 
 
-    this->a = wizardParams.value("Height (a)").toDouble();
-    this->b = wizardParams.value("Width 1 (b)").toDouble();
-    this->d = wizardParams.value("Width 2 (d)").toDouble();
-    this->e = wizardParams.value("Offset (e)").toDouble();
-    this->h = wizardParams.value("Width 3 (h)").toDouble();
-    this->l = wizardParams.value("Length l").toDouble();
-    this->m = wizardParams.value("Offset (m)").toDouble();
-    this->n = wizardParams.value("Offset (n)").toDouble();
-    this->r1 = wizardParams.value("Radius 1 (r1)").toDouble();
-    this->r2 = wizardParams.value("Radius 2 (r2)").toDouble();
-    this->u = wizardParams.value("Endcap (u)").toDouble();
+    this->a = wizardParams.value("a").toDouble();
+    this->b = wizardParams.value("b").toDouble();
+    this->b2 = wizardParams.value("b2").toDouble();
+    this->e = wizardParams.value("e").toDouble();
+    this->b3 = wizardParams.value("b3").toDouble();
+    this->l = wizardParams.value("l").toDouble();
+    this->m = wizardParams.value("m").toDouble();
+    this->n = wizardParams.value("n").toDouble();
+    this->r1 = wizardParams.value("r1").toDouble();
+    this->r2 = wizardParams.value("r2").toDouble();
+    this->u = wizardParams.value("u").toDouble();
     this->flange_size = wizardParams.value("Flange size").toDouble();
-    this->wall_thickness = wizardParams.value("Wall thickness").toDouble();
+    this->s = wizardParams.value("s").toDouble();
 
-    if(fabs((u + r1 + b) - (e + d + m)) > 10E-8)
+    if(fabs((u + r1 + b) - (e + b2 + m)) > 10E-8)
         qDebug() << "This item can not be drawn! (u + r1 + b) != (e + d + m)";
 
-    if(fabs((n + h + r2 + u) - l) > 10E-8)
+    if(fabs((n + b3 + r2 + u) - l) > 10E-8)
         qDebug() << "This item can not be drawn! (n + h + r2 + u) != l";
 
 }

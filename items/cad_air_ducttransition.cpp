@@ -10,18 +10,18 @@ CAD_air_ductTransition::CAD_air_ductTransition() : CADitem(CADitem::Air_DuctTran
     wizardParams.insert("Angle y", QVariant::fromValue(0.0));
     wizardParams.insert("Angle z", QVariant::fromValue(0.0));
 
-    wizardParams.insert("Length (l)", QVariant::fromValue(100.0));
-    wizardParams.insert("Width 1 (b)", QVariant::fromValue(30.0));
-    wizardParams.insert("Height 1 (a)", QVariant::fromValue(20.0));
-    wizardParams.insert("Width 2 (d)", QVariant::fromValue(20.0));
-    wizardParams.insert("Height 2 (c)", QVariant::fromValue(30.0));
+    wizardParams.insert("l", QVariant::fromValue(100.0));
+    wizardParams.insert("b", QVariant::fromValue(30.0));
+    wizardParams.insert("a", QVariant::fromValue(20.0));
+    wizardParams.insert("b2", QVariant::fromValue(20.0));
+    wizardParams.insert("a2", QVariant::fromValue(30.0));
 
-    wizardParams.insert("Offset y (e)", QVariant::fromValue(0.0));
-    wizardParams.insert("Offset z (f)", QVariant::fromValue(0.0));
+    wizardParams.insert("e", QVariant::fromValue(0.0));
+    wizardParams.insert("f", QVariant::fromValue(0.0));
 
-    wizardParams.insert("Length endcap (u)", QVariant::fromValue(5.0));
+    wizardParams.insert("u", QVariant::fromValue(5.0));
 
-    wizardParams.insert("Wall thickness", QVariant::fromValue(1.0));
+    wizardParams.insert("s", QVariant::fromValue(1.0));
     wizardParams.insert("Flange size", QVariant::fromValue(1.0));
 
 
@@ -107,11 +107,11 @@ void CAD_air_ductTransition::calculate()
     // Left end duct
     QVector3D position_led = position + QVector3D(0.0, 0.0, 0.0);
     // Right end duct
-    QVector3D position_red = position + matrix_rotation * QVector3D(-l,(b - d) / 2 + e, (a - c) / 2 + f);
+    QVector3D position_red = position + matrix_rotation * QVector3D(l, (b - b2) / 2 + e, (a - a2) / 2 + f);
     // Left flange duct
     QVector3D position_lfd = position + QVector3D(0, 0.0, 0.0);
     // Right flange duct
-    QVector3D position_rfd = position + matrix_rotation * QVector3D(flange_size - l - endcap, (b - d) / 2 + e, (a-c) / 2 + f);
+    QVector3D position_rfd = position + matrix_rotation * QVector3D(l, (b - b2) / 2 + e, (a - a2) / 2 + f);
 
 
 
@@ -122,10 +122,10 @@ void CAD_air_ductTransition::calculate()
     endcap_left_duct->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
     endcap_left_duct->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
     endcap_left_duct->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    endcap_left_duct->wizardParams.insert("Length (l)", QVariant::fromValue(endcap));
-    endcap_left_duct->wizardParams.insert("Width (b)", QVariant::fromValue(b));
-    endcap_left_duct->wizardParams.insert("Height (a)", QVariant::fromValue(a));
-    endcap_left_duct->wizardParams.insert("Wall thickness", QVariant::fromValue(wall_thickness));
+    endcap_left_duct->wizardParams.insert("l", QVariant::fromValue(endcap));
+    endcap_left_duct->wizardParams.insert("b", QVariant::fromValue(b));
+    endcap_left_duct->wizardParams.insert("a", QVariant::fromValue(a));
+    endcap_left_duct->wizardParams.insert("s", QVariant::fromValue(s));
     endcap_left_duct->processWizardInput();
     endcap_left_duct->calculate();
 
@@ -135,11 +135,11 @@ void CAD_air_ductTransition::calculate()
     endcap_right_duct->wizardParams.insert("Position z", QVariant::fromValue(position_red.z()));//position.z()+(a-c)/2+f));
     endcap_right_duct->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
     endcap_right_duct->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    endcap_right_duct->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    endcap_right_duct->wizardParams.insert("Length (l)", QVariant::fromValue(endcap));
-    endcap_right_duct->wizardParams.insert("Width (b)", QVariant::fromValue(d));
-    endcap_right_duct->wizardParams.insert("Height (a)", QVariant::fromValue(c));
-    endcap_right_duct->wizardParams.insert("Wall thickness", QVariant::fromValue(wall_thickness));
+    endcap_right_duct->wizardParams.insert("Angle z", QVariant::fromValue(angle_z+180));
+    endcap_right_duct->wizardParams.insert("l", QVariant::fromValue(endcap));
+    endcap_right_duct->wizardParams.insert("b", QVariant::fromValue(b2));
+    endcap_right_duct->wizardParams.insert("a", QVariant::fromValue(a2));
+    endcap_right_duct->wizardParams.insert("s", QVariant::fromValue(s));
     endcap_right_duct->processWizardInput();
     endcap_right_duct->calculate();
 
@@ -148,11 +148,11 @@ void CAD_air_ductTransition::calculate()
     flange_left_duct->wizardParams.insert("Position z", QVariant::fromValue(position_lfd.z()));
     flange_left_duct->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
     flange_left_duct->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    flange_left_duct->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    flange_left_duct->wizardParams.insert("Length (l)", QVariant::fromValue(flange_size));
-    flange_left_duct->wizardParams.insert("Width (b)", QVariant::fromValue(b+2*flange_size));
-    flange_left_duct->wizardParams.insert("Height (a)", QVariant::fromValue(a+2*flange_size));
-    flange_left_duct->wizardParams.insert("Wall thickness", QVariant::fromValue(flange_size));
+    flange_left_duct->wizardParams.insert("Angle z", QVariant::fromValue(angle_z+180));
+    flange_left_duct->wizardParams.insert("l", QVariant::fromValue(flange_size));
+    flange_left_duct->wizardParams.insert("b", QVariant::fromValue(b+2*flange_size));
+    flange_left_duct->wizardParams.insert("a", QVariant::fromValue(a+2*flange_size));
+    flange_left_duct->wizardParams.insert("s", QVariant::fromValue(flange_size));
     flange_left_duct->processWizardInput();
     flange_left_duct->calculate();
 
@@ -161,11 +161,11 @@ void CAD_air_ductTransition::calculate()
     flange_right_duct->wizardParams.insert("Position z", QVariant::fromValue(position_rfd.z()));//position.z()+(a-c)/2+f));
     flange_right_duct->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
     flange_right_duct->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    flange_right_duct->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    flange_right_duct->wizardParams.insert("Length (l)", QVariant::fromValue(flange_size));
-    flange_right_duct->wizardParams.insert("Width (b)", QVariant::fromValue(d+2*flange_size));
-    flange_right_duct->wizardParams.insert("Height (a)", QVariant::fromValue(c+2*flange_size));
-    flange_right_duct->wizardParams.insert("Wall thickness", QVariant::fromValue(flange_size));
+    flange_right_duct->wizardParams.insert("Angle z", QVariant::fromValue(angle_z+180));
+    flange_right_duct->wizardParams.insert("l", QVariant::fromValue(flange_size));
+    flange_right_duct->wizardParams.insert("b", QVariant::fromValue(b2+2*flange_size));
+    flange_right_duct->wizardParams.insert("a", QVariant::fromValue(a2+2*flange_size));
+    flange_right_duct->wizardParams.insert("s", QVariant::fromValue(flange_size));
     flange_right_duct->processWizardInput();
     flange_right_duct->calculate();
 
@@ -175,33 +175,33 @@ void CAD_air_ductTransition::calculate()
     transition_duct->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
     transition_duct->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
     transition_duct->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    transition_duct->wizardParams.insert("Length (l)", QVariant::fromValue(l -2*endcap));
-    transition_duct->wizardParams.insert("Width (b)", QVariant::fromValue(b));
-    transition_duct->wizardParams.insert("Height (a)", QVariant::fromValue(a));
-    transition_duct->wizardParams.insert("Wall thickness", QVariant::fromValue(wall_thickness));
+    transition_duct->wizardParams.insert("l", QVariant::fromValue(l -2*endcap));
+    transition_duct->wizardParams.insert("b", QVariant::fromValue(b));
+    transition_duct->wizardParams.insert("a", QVariant::fromValue(a));
+    transition_duct->wizardParams.insert("s", QVariant::fromValue(s));
     transition_duct->processWizardInput();
     transition_duct->calculate();
 
     //set Outer Points
     transition_duct->pos_bot_1 = endcap_left_duct->pos_bot_1;
-    transition_duct->pos_bot_2 = endcap_right_duct->pos_bot_2;
-    transition_duct->pos_bot_3 = endcap_right_duct->pos_bot_3;
+    transition_duct->pos_bot_2 = endcap_right_duct->pos_bot_4;
+    transition_duct->pos_bot_3 = endcap_right_duct->pos_bot_1;
     transition_duct->pos_bot_4 = endcap_left_duct->pos_bot_4;
 
     transition_duct->pos_top_1 = endcap_left_duct->pos_top_1;
-    transition_duct->pos_top_2 = endcap_right_duct->pos_top_2;
-    transition_duct->pos_top_3 = endcap_right_duct->pos_top_3;
+    transition_duct->pos_top_2 = endcap_right_duct->pos_top_4;
+    transition_duct->pos_top_3 = endcap_right_duct->pos_top_1;
     transition_duct->pos_top_4 = endcap_left_duct->pos_top_4;
 
     //set inner Points
     transition_duct->inner_pos_bot_1 = endcap_left_duct->inner_pos_bot_1;
-    transition_duct->inner_pos_bot_2 = endcap_right_duct->inner_pos_bot_2;
-    transition_duct->inner_pos_bot_3 = endcap_right_duct->inner_pos_bot_3;
+    transition_duct->inner_pos_bot_2 = endcap_right_duct->inner_pos_bot_4;
+    transition_duct->inner_pos_bot_3 = endcap_right_duct->inner_pos_bot_1;
     transition_duct->inner_pos_bot_4 = endcap_left_duct->inner_pos_bot_4;
 
     transition_duct->inner_pos_top_1 = endcap_left_duct->inner_pos_top_1;
-    transition_duct->inner_pos_top_2 = endcap_right_duct->inner_pos_top_2;
-    transition_duct->inner_pos_top_3 = endcap_right_duct->inner_pos_top_3;
+    transition_duct->inner_pos_top_2 = endcap_right_duct->inner_pos_top_4;
+    transition_duct->inner_pos_top_3 = endcap_right_duct->inner_pos_top_1;
     transition_duct->inner_pos_top_4 = endcap_left_duct->inner_pos_top_4;
 
     boundingBox.enterVertex(flange_left_duct->pos_bot_1);
@@ -228,10 +228,10 @@ void CAD_air_ductTransition::calculate()
     this->snap_vertices.append(endcap_left_duct->pos_top_2);
     this->snap_vertices.append(endcap_left_duct->pos_top_3);
 
-    this->snap_vertices.append(endcap_right_duct->pos_bot_1);
-    this->snap_vertices.append(endcap_right_duct->pos_bot_4);
-    this->snap_vertices.append(endcap_right_duct->pos_top_1);
-    this->snap_vertices.append(endcap_right_duct->pos_top_4);
+    this->snap_vertices.append(endcap_right_duct->pos_bot_2);
+    this->snap_vertices.append(endcap_right_duct->pos_bot_3);
+    this->snap_vertices.append(endcap_right_duct->pos_top_2);
+    this->snap_vertices.append(endcap_right_duct->pos_top_3);
 
 
 
@@ -260,21 +260,21 @@ void CAD_air_ductTransition::processWizardInput()
     position.setY(wizardParams.value("Position y").toDouble());
     position.setZ(wizardParams.value("Position z").toDouble());
 
-    l = wizardParams.value("Length (l)").toDouble();
-    b = wizardParams.value("Width 1 (b)").toDouble();
-    a = wizardParams.value("Height 1 (a)").toDouble();
-    d = wizardParams.value("Width 2 (d)").toDouble();
-    c = wizardParams.value("Height 2 (c)").toDouble();
+    l = wizardParams.value("l").toDouble();
+    b = wizardParams.value("b").toDouble();
+    a = wizardParams.value("a").toDouble();
+    b2 = wizardParams.value("b2").toDouble();
+    a2 = wizardParams.value("a2").toDouble();
 
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
 
-    wall_thickness = wizardParams.value("Wall thickness").toDouble();
+    s = wizardParams.value("s").toDouble();
     flange_size = wizardParams.value("Flange size").toDouble();
-    endcap = wizardParams.value("Length endcap (u)").toDouble();
-    e = wizardParams.value("Offset y (e)").toDouble();
-    f = wizardParams.value("Offset z (f)").toDouble();
+    endcap = wizardParams.value("u").toDouble();
+    e = wizardParams.value("e").toDouble();
+    f = wizardParams.value("f").toDouble();
 
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);

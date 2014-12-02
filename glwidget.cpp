@@ -1572,6 +1572,7 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundin
             paintArchBlockOut(layer, (CAD_arch_blockOut*)item);
             break;
         case CADitem::Arch_BoredPile:
+            paintArchBoredPile(layer, (CAD_arch_boredPile*)item);
             break;
         case CADitem::Arch_Door:
             paintArchDoor(layer, (CAD_arch_door*)item);
@@ -2337,82 +2338,76 @@ void GLWidget::paintBasicPipe(Layer *layer, CAD_basic_pipe *item)
 
     if (this->render_solid)
     {
-        QList<QVector3D> vertices_outer_bottom;
-        QList<QVector3D> vertices_inner_bottom;
 
-        // Outer bottom circle
-        for (qreal i=0.0; i < 1.0; i += 0.02)    // 50 edges
-        {
-            qreal angle = 2 * PI * i;
-            QVector3D linePos;
-
-            linePos = item->matrix_rotation * QVector3D(sin(angle) * item->radius, 0.0, cos(angle) * item->radius);
-            linePos += item->position;
-            vertices_outer_bottom.append(linePos);
-            vertices_inner_bottom.append(linePos + (item->position - linePos).normalized() * item->wallThickness);
-        }
 
         // Vertical connections (faces)
         setPaintingColor(color_brush);
         glBegin(GL_QUADS);
         // Outer cylinder
-        QVector3D last_vertex_bottom = vertices_outer_bottom.at(vertices_outer_bottom.count() - 1);
-        for (int i = 0; i < vertices_outer_bottom.count(); i++)
+        QVector3D last_vertex_bottom = item->vertices_outer_bottom.at(item->vertices_outer_bottom.count() - 1);
+        QVector3D last_vertex_top = item->vertices_outer_top.at(item->vertices_outer_bottom.count() - 1);
+        for (int i = 0; i < item->vertices_outer_bottom.count(); i++)
         {
-            QVector3D vertex_bottom = vertices_outer_bottom.at(i);
+            QVector3D vertex_bottom = item->vertices_outer_bottom.at(i);
+            QVector3D vertex_top = item->vertices_outer_top.at(i);
             glVertex3f((GLfloat)last_vertex_bottom.x(), (GLfloat)last_vertex_bottom.y(), (GLfloat)last_vertex_bottom.z());
-            glVertex3f((GLfloat)(last_vertex_bottom.x() + item->direction.x()), (GLfloat)(last_vertex_bottom.y() + item->direction.y()), (GLfloat)(last_vertex_bottom.z()  + item->direction.z()));
-            glVertex3f((GLfloat)(vertex_bottom.x() + item->direction.x()), (GLfloat)(vertex_bottom.y() + item->direction.y()), (GLfloat)(vertex_bottom.z() + item->direction.z()));
+            glVertex3f((GLfloat)last_vertex_top.x(), (GLfloat)last_vertex_top.y(), (GLfloat)last_vertex_top.z());
+            glVertex3f((GLfloat)vertex_top.x(), (GLfloat)vertex_top.y(), (GLfloat)vertex_top.z());
             glVertex3f((GLfloat)vertex_bottom.x(), (GLfloat)vertex_bottom.y(), (GLfloat)vertex_bottom.z());
             last_vertex_bottom = vertex_bottom;
+            last_vertex_top = vertex_top;
         }
         // Inner cylinder
-        last_vertex_bottom = vertices_inner_bottom.at(vertices_inner_bottom.count() - 1);
-        for (int i = 0; i < vertices_inner_bottom.count(); i++)
+        last_vertex_bottom = item->vertices_inner_bottom.at(item->vertices_inner_bottom.count() - 1);
+        last_vertex_top = item->vertices_inner_top.at(item->vertices_inner_top.count() - 1);
+        for (int i = 0; i < item->vertices_inner_bottom.count(); i++)
         {
-            QVector3D vertex_bottom = vertices_inner_bottom.at(i);
+            QVector3D vertex_bottom = item->vertices_inner_bottom.at(i);
+            QVector3D vertex_top = item->vertices_inner_top.at(i);
             glVertex3f((GLfloat)last_vertex_bottom.x(), (GLfloat)last_vertex_bottom.y(), (GLfloat)last_vertex_bottom.z());
-            glVertex3f((GLfloat)(last_vertex_bottom.x() + item->direction.x()), (GLfloat)(last_vertex_bottom.y() + item->direction.y()), (GLfloat)(last_vertex_bottom.z()  + item->direction.z()));
-            glVertex3f((GLfloat)(vertex_bottom.x() + item->direction.x()), (GLfloat)(vertex_bottom.y() + item->direction.y()), (GLfloat)(vertex_bottom.z() + item->direction.z()));
+            glVertex3f((GLfloat)last_vertex_top.x(), (GLfloat)last_vertex_top.y(), (GLfloat)last_vertex_top.z());
+            glVertex3f((GLfloat)vertex_top.x(), (GLfloat)vertex_top.y(), (GLfloat)vertex_top.z());
             glVertex3f((GLfloat)vertex_bottom.x(), (GLfloat)vertex_bottom.y(), (GLfloat)vertex_bottom.z());
             last_vertex_bottom = vertex_bottom;
+            last_vertex_top = vertex_top;
         }
         // End disks
         // Pipe length iteration
         for (int l = 0; l <= 1; l++)
         {
-            QVector3D last_vertex_outer_bottom = vertices_outer_bottom.at(vertices_outer_bottom.count() - 1);
-            QVector3D last_vertex_inner_bottom = vertices_inner_bottom.at(vertices_inner_bottom.count() - 1);
+
+            QVector3D last_vertex_outer = item->vertices_outer_bottom.at(item->vertices_outer_bottom.count() - 1);
+            QVector3D last_vertex_inner = item->vertices_inner_bottom.at(item->vertices_inner_bottom.count() - 1);
             if (l == 1)
             {
-                last_vertex_outer_bottom += item->direction;
-                last_vertex_inner_bottom += item->direction;
+                last_vertex_outer = item->vertices_outer_top.at(item->vertices_outer_top.count() - 1);
+                last_vertex_inner = item->vertices_inner_top.at(item->vertices_inner_top.count() - 1);
             }
 
-            for (int i = 0; i < vertices_outer_bottom.count(); i++)
+            for (int i = 0; i < item->vertices_outer_bottom.count(); i++)
             {
-                QVector3D vertex_outer_bottom = vertices_outer_bottom.at(i);
-                QVector3D vertex_inner_bottom = vertices_inner_bottom.at(i);
 
+                QVector3D vertex_outer = item->vertices_outer_bottom.at(i);
+                QVector3D vertex_inner = item->vertices_inner_bottom.at(i);
                 if (l == 0)
                 {
-                    glVertex3f((GLfloat)last_vertex_inner_bottom.x(), (GLfloat)last_vertex_inner_bottom.y(), (GLfloat)last_vertex_inner_bottom.z());
-                    glVertex3f((GLfloat)last_vertex_outer_bottom.x(), (GLfloat)last_vertex_outer_bottom.y(), (GLfloat)last_vertex_outer_bottom.z());
-                    glVertex3f((GLfloat)vertex_outer_bottom.x(), (GLfloat)vertex_outer_bottom.y(), (GLfloat)vertex_outer_bottom.z());
-                    glVertex3f((GLfloat)vertex_inner_bottom.x(), (GLfloat)vertex_inner_bottom.y(), (GLfloat)vertex_inner_bottom.z());
+                    glVertex3f((GLfloat)last_vertex_inner.x(), (GLfloat)last_vertex_inner.y(), (GLfloat)last_vertex_inner.z());
+                    glVertex3f((GLfloat)last_vertex_outer.x(), (GLfloat)last_vertex_outer.y(), (GLfloat)last_vertex_outer.z());
+                    glVertex3f((GLfloat)vertex_outer.x(), (GLfloat)vertex_outer.y(), (GLfloat)vertex_outer.z());
+                    glVertex3f((GLfloat)vertex_inner.x(), (GLfloat)vertex_inner.y(), (GLfloat)vertex_inner.z());
                 }
                 else
                 {
-                    vertex_outer_bottom += item->direction;
-                    vertex_inner_bottom += item->direction;
-                    glVertex3f((GLfloat)last_vertex_inner_bottom.x(), (GLfloat)last_vertex_inner_bottom.y(), (GLfloat)last_vertex_inner_bottom.z());
-                    glVertex3f((GLfloat)last_vertex_outer_bottom.x(), (GLfloat)last_vertex_outer_bottom.y(), (GLfloat)last_vertex_outer_bottom.z());
-                    glVertex3f((GLfloat)vertex_outer_bottom.x(), (GLfloat)vertex_outer_bottom.y(), (GLfloat)vertex_outer_bottom.z());
-                    glVertex3f((GLfloat)vertex_inner_bottom.x(), (GLfloat)vertex_inner_bottom.y(), (GLfloat)vertex_inner_bottom.z());
+                    vertex_outer = item->vertices_outer_top.at(i);
+                    vertex_inner = item->vertices_inner_top.at(i);
+                    glVertex3f((GLfloat)last_vertex_inner.x(), (GLfloat)last_vertex_inner.y(), (GLfloat)last_vertex_inner.z());
+                    glVertex3f((GLfloat)last_vertex_outer.x(), (GLfloat)last_vertex_outer.y(), (GLfloat)last_vertex_outer.z());
+                    glVertex3f((GLfloat)vertex_outer.x(), (GLfloat)vertex_outer.y(), (GLfloat)vertex_outer.z());
+                    glVertex3f((GLfloat)vertex_inner.x(), (GLfloat)vertex_inner.y(), (GLfloat)vertex_inner.z());
                 }
 
-                last_vertex_outer_bottom = vertex_outer_bottom;
-                last_vertex_inner_bottom = vertex_inner_bottom;
+                last_vertex_outer = vertex_outer;
+                last_vertex_inner = vertex_inner;
             }
         }
         glEnd();
@@ -2420,58 +2415,110 @@ void GLWidget::paintBasicPipe(Layer *layer, CAD_basic_pipe *item)
 
     if (this->render_outline)
     {
-        QList<QVector3D> vertices_bottom;
         setPaintingColor(color_pen);
         glLineWidth(1.0);
 
-        // Wall thickness iteration
-        for (int w = 0; w <= 1; w++)
+
+        // Vertical connections (lines)
+        glBegin(GL_LINES);
+        // Outer cylinder
+        QVector3D last_vertex_bottom = item->vertices_outer_bottom.at(item->vertices_outer_bottom.count() - 1);
+        for (int i = 0; i < item->vertices_outer_bottom.count(); i++)
         {
-            vertices_bottom.clear();
-            // Bottom circle
-            glBegin(GL_LINE_LOOP);
-            for (qreal i=0.0; i < 1.0; i += 0.02)    // 50 edges
-            {
-                qreal angle = 2 * PI * i;
-                QVector3D linePos;
+            QVector3D vertex_bottom = item->vertices_outer_bottom.at(i);
+            glVertex3f((GLfloat)last_vertex_bottom.x(), (GLfloat)last_vertex_bottom.y(), (GLfloat)last_vertex_bottom.z());
+            glVertex3f((GLfloat)(last_vertex_bottom.x() + item->direction.x()), (GLfloat)(last_vertex_bottom.y() + item->direction.y()), (GLfloat)(last_vertex_bottom.z()  + item->direction.z()));
+            glVertex3f((GLfloat)(vertex_bottom.x() + item->direction.x()), (GLfloat)(vertex_bottom.y() + item->direction.y()), (GLfloat)(vertex_bottom.z() + item->direction.z()));
+            glVertex3f((GLfloat)vertex_bottom.x(), (GLfloat)vertex_bottom.y(), (GLfloat)vertex_bottom.z());
+            last_vertex_bottom = vertex_bottom;
+        }
+        // Inner cylinder
+        last_vertex_bottom = item->vertices_inner_bottom.at(item->vertices_inner_bottom.count() - 1);
+        for (int i = 0; i < item->vertices_inner_bottom.count(); i++)
+        {
+            QVector3D vertex_bottom = item->vertices_inner_bottom.at(i);
+            glVertex3f((GLfloat)last_vertex_bottom.x(), (GLfloat)last_vertex_bottom.y(), (GLfloat)last_vertex_bottom.z());
+            glVertex3f((GLfloat)(last_vertex_bottom.x() + item->direction.x()), (GLfloat)(last_vertex_bottom.y() + item->direction.y()), (GLfloat)(last_vertex_bottom.z()  + item->direction.z()));
+            glVertex3f((GLfloat)(vertex_bottom.x() + item->direction.x()), (GLfloat)(vertex_bottom.y() + item->direction.y()), (GLfloat)(vertex_bottom.z() + item->direction.z()));
+            glVertex3f((GLfloat)vertex_bottom.x(), (GLfloat)vertex_bottom.y(), (GLfloat)vertex_bottom.z());
+            last_vertex_bottom = vertex_bottom;
+        }
+        glEnd();
+        //Radial connections (lines)
+        glBegin(GL_LINE_LOOP);
+        for (int i = 0; i < item->vertices_inner_bottom.count(); i++)
+        {
+            glVertex3f((GLfloat)item->vertices_inner_bottom.at(i).x(), (GLfloat)item->vertices_inner_bottom.at(i).y(), (GLfloat)item->vertices_inner_bottom.at(i).z());
+        }
+        glEnd();
+        glBegin(GL_LINE_LOOP);
+        for (int i = 0; i < item->vertices_outer_bottom.count(); i++)
+        {
+            glVertex3f((GLfloat)item->vertices_outer_bottom.at(i).x(), (GLfloat)item->vertices_outer_bottom.at(i).y(), (GLfloat)item->vertices_outer_bottom.at(i).z());
+        }
+        glEnd();
 
-                if (w == 0)
-                    linePos = item->matrix_rotation * QVector3D(sin(angle) * item->radius, 0.0, cos(angle) * item->radius);
-                else
-                    linePos = item->matrix_rotation * QVector3D(sin(angle) * (item->radius - item->wallThickness), 0.0, cos(angle) * (item->radius - item->wallThickness));
-                linePos += item->position;
-                vertices_bottom.append(linePos);
+        glBegin(GL_LINE_LOOP);
+        for (int i = 0; i < item->vertices_inner_top.count(); i++)
+        {
+            glVertex3f((GLfloat)item->vertices_inner_top.at(i).x(), (GLfloat)item->vertices_inner_top.at(i).y(), (GLfloat)item->vertices_inner_top.at(i).z());
+        }
+        glEnd();
+        glBegin(GL_LINE_LOOP);
+        for (int i = 0; i < item->vertices_outer_top.count(); i++)
+        {
+            glVertex3f((GLfloat)item->vertices_outer_top.at(i).x(), (GLfloat)item->vertices_outer_top.at(i).y(), (GLfloat)item->vertices_outer_top.at(i).z());
+        }
+        glEnd();
+        // s iteration
+//        for (int w = 0; w <= 1; w++)
+//        {
 
-                glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
-            }
-            glEnd();
+////            // Bottom circle
+////            glBegin(GL_LINE_LOOP);
+////            for (qreal i=0.0; i < 1.0; i += 0.02)    // 50 edges
+////            {
+////                qreal angle = 2 * PI * i;
+////                QVector3D linePos;
 
-            // Top circle
-            glBegin(GL_LINE_LOOP);
-            for (qreal i=0.0; i < 1.0; i += 0.02)    // 50 edges
-            {
-                qreal angle = 2 * PI * i;
-                QVector3D linePos;
-                if (w == 0)
-                    linePos = item->matrix_rotation * QVector3D(sin(angle) * item->radius, 0.0, cos(angle) * item->radius);
-                else
-                    linePos = item->matrix_rotation * QVector3D(sin(angle) * (item->radius - item->wallThickness), 0.0, cos(angle) * (item->radius - item->wallThickness));
-                linePos += item->position + item->direction;
+////                if (w == 0)
+////                    linePos = item->matrix_rotation * QVector3D(0.0, sin(angle) * item->radius, cos(angle) * item->radius);
+////                else
+////                    linePos = item->matrix_rotation * QVector3D(0.0, sin(angle) * (item->radius - item->wallThickness), cos(angle) * (item->radius - item->wallThickness));
+////                linePos += item->position;
+////                item->vertices_outer_bottom_lines.append(linePos);
 
-                glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
-            }
-            glEnd();
+////                glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
+////            }
+////            glEnd();
+
+
+//            // Top circle
+//            glBegin(GL_LINE_LOOP);
+//            for (qreal i=0.0; i < 1.0; i += 0.02)    // 50 edges
+//            {
+//                qreal angle = 2 * PI * i;
+//                QVector3D linePos;
+//                if (w == 0)
+//                    linePos = item->matrix_rotation * QVector3D(0.0, sin(angle) * item->radius, cos(angle) * item->radius);
+//                else
+//                    linePos = item->matrix_rotation * QVector3D(0.0, sin(angle) * (item->radius - item->wallThickness), cos(angle) * (item->radius - item->wallThickness));
+//                linePos += item->position + item->direction;
+
+//                glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
+//            }
+//            glEnd();
 
             // Vertical connections
 
-            glBegin(GL_LINES);
-            foreach (QVector3D vertex_bottom, vertices_bottom)
-            {
-                glVertex3f((GLfloat)vertex_bottom.x(), (GLfloat)vertex_bottom.y(), (GLfloat)vertex_bottom.z());
-                glVertex3f((GLfloat)(vertex_bottom.x() + item->direction.x()), (GLfloat)(vertex_bottom.y() + item->direction.y()), (GLfloat)(vertex_bottom.z() + item->direction.z()));
-            }
-            glEnd();
-        }
+//            glBegin(GL_LINES);
+//            foreach (QVector3D vertex_bottom, item->vertices_outer_bottom_lines)
+//            {
+//                glVertex3f((GLfloat)vertex_bottom.x(), (GLfloat)vertex_bottom.y(), (GLfloat)vertex_bottom.z());
+//                glVertex3f((GLfloat)(vertex_bottom.x() + item->direction.x()), (GLfloat)(vertex_bottom.y() + item->direction.y()), (GLfloat)(vertex_bottom.z() + item->direction.z()));
+//            }
+//            glEnd();
+//        }
 
         // Center line
         glLineWidth(3.0);
@@ -2499,7 +2546,7 @@ void GLWidget::paintBasicTurn(Layer *layer, CAD_basic_turn *item)
     // level of detail
     int lod = 1;
 
-    // Wall thickness iteration
+    // s iteration
     for (int w = 0; w <= 1; w++)
     {
         if (this->render_solid)
@@ -2790,6 +2837,24 @@ void GLWidget::paintBasicDuct(Layer *layer, CAD_basic_duct *item)
     }
 }
 
+void GLWidget::paintArchBlockOut(Layer *layer, CAD_arch_blockOut *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
+}
+
+void GLWidget::paintArchBoredPile(Layer *layer ,CAD_arch_boredPile *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
+}
+
+void GLWidget::paintArchDoor(Layer *layer, CAD_arch_door *item)
+{
+    QColor color_pen = getColorPen(item, layer);
+    QColor color_brush = getColorBrush(item, layer);
+}
+
 void GLWidget::paintArchLevelSlab(Layer *layer, CAD_arch_levelSlab *item)
 {
     QColor color_pen = getColorPen(item, layer);
@@ -2808,23 +2873,15 @@ void GLWidget::paintArchWallNonLoadBearing(Layer *layer, CAD_arch_wall_nonLoadBe
     QColor color_brush = getColorBrush(item, layer);
 }
 
-void GLWidget::paintArchBlockOut(Layer *layer, CAD_arch_blockOut *item)
-{
-    QColor color_pen = getColorPen(item, layer);
-    QColor color_brush = getColorBrush(item, layer);
-}
-
-void GLWidget::paintArchDoor(Layer *layer, CAD_arch_door *item)
-{
-    QColor color_pen = getColorPen(item, layer);
-    QColor color_brush = getColorBrush(item, layer);
-}
-
 void GLWidget::paintArchWindow(Layer *layer, CAD_arch_window *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
 }
+
+
+
+
 
 void GLWidget::paintAirDuct(Layer *layer, CAD_air_duct *item)
 {
@@ -2856,7 +2913,7 @@ void GLWidget::paintAirDuctTurn(Layer *layer, CAD_air_ductTurn *item)
     // level of detail
     int lod = 1;
 
-    // Wall thickness iteration
+    // s iteration
     for (int w = 0; w <= 1; w++)
     {
         if (this->render_solid)
@@ -2979,7 +3036,7 @@ void GLWidget::paintAirDuctTeeConnector(Layer *layer, CAD_air_ductTeeConnector *
     int count_b = 2;
 
     //draw turns
-    // Wall thickness iteration
+    // s iteration
     for (int w = 0; w <= 0; w++)
     {
         if (this->render_solid)
@@ -3473,46 +3530,46 @@ void GLWidget::paintAirDuctYpiece(Layer *layer, CAD_air_ductYpiece *item)
 
         //top and bottom
         glVertex3f((GLfloat)item->endcap_1->pos_bot_2.x(), (GLfloat)item->endcap_1->pos_bot_2.y(), (GLfloat)item->endcap_1->pos_bot_2.z());
-        glVertex3f((GLfloat)item->endcap_3->pos_bot_1.x(), (GLfloat)item->endcap_3->pos_bot_1.y(), (GLfloat)item->endcap_3->pos_bot_1.z());
-        glVertex3f((GLfloat)item->endcap_3->pos_top_1.x(), (GLfloat)item->endcap_3->pos_top_1.y(), (GLfloat)item->endcap_3->pos_top_1.z());
+        glVertex3f((GLfloat)item->endcap_3->pos_bot_4.x(), (GLfloat)item->endcap_3->pos_bot_4.y(), (GLfloat)item->endcap_3->pos_bot_4.z());
+        glVertex3f((GLfloat)item->endcap_3->pos_top_4.x(), (GLfloat)item->endcap_3->pos_top_4.y(), (GLfloat)item->endcap_3->pos_top_4.z());
         glVertex3f((GLfloat)item->endcap_1->pos_top_2.x(), (GLfloat)item->endcap_1->pos_top_2.y(), (GLfloat)item->endcap_1->pos_top_2.z());
 
 
         glVertex3f((GLfloat)item->splitPoint[0].x(), (GLfloat)item->splitPoint[0].y(), (GLfloat)item->splitPoint[0].z());
-        glVertex3f((GLfloat)item->endcap_3->pos_bot_4.x(), (GLfloat)item->endcap_3->pos_bot_4.y(), (GLfloat)item->endcap_3->pos_bot_4.z());
-        glVertex3f((GLfloat)item->endcap_3->pos_top_4.x(), (GLfloat)item->endcap_3->pos_top_4.y(), (GLfloat)item->endcap_3->pos_top_4.z());
+        glVertex3f((GLfloat)item->endcap_3->pos_bot_1.x(), (GLfloat)item->endcap_3->pos_bot_1.y(), (GLfloat)item->endcap_3->pos_bot_1.z());
+        glVertex3f((GLfloat)item->endcap_3->pos_top_1.x(), (GLfloat)item->endcap_3->pos_top_1.y(), (GLfloat)item->endcap_3->pos_top_1.z());
         glVertex3f((GLfloat)item->splitPoint[1].x(), (GLfloat)item->splitPoint[1].y(), (GLfloat)item->splitPoint[1].z());
 
 
         glVertex3f((GLfloat)item->splitPoint[0].x(), (GLfloat)item->splitPoint[0].y(), (GLfloat)item->splitPoint[0].z());
-        glVertex3f((GLfloat)item->endcap_2->pos_bot_1.x(), (GLfloat)item->endcap_2->pos_bot_1.y(), (GLfloat)item->endcap_2->pos_bot_1.z());
-        glVertex3f((GLfloat)item->endcap_2->pos_top_1.x(), (GLfloat)item->endcap_2->pos_top_1.y(), (GLfloat)item->endcap_2->pos_top_1.z());
+        glVertex3f((GLfloat)item->endcap_2->pos_bot_4.x(), (GLfloat)item->endcap_2->pos_bot_4.y(), (GLfloat)item->endcap_2->pos_bot_4.z());
+        glVertex3f((GLfloat)item->endcap_2->pos_top_4.x(), (GLfloat)item->endcap_2->pos_top_4.y(), (GLfloat)item->endcap_2->pos_top_4.z());
         glVertex3f((GLfloat)item->splitPoint[1].x(), (GLfloat)item->splitPoint[1].y(), (GLfloat)item->splitPoint[1].z());
 
         glVertex3f((GLfloat)item->endcap_1->pos_bot_3.x(), (GLfloat)item->endcap_1->pos_bot_3.y(), (GLfloat)item->endcap_1->pos_bot_3.z());
-        glVertex3f((GLfloat)item->endcap_2->pos_bot_4.x(), (GLfloat)item->endcap_2->pos_bot_4.y(), (GLfloat)item->endcap_2->pos_bot_4.z());
-        glVertex3f((GLfloat)item->endcap_2->pos_top_4.x(), (GLfloat)item->endcap_2->pos_top_4.y(), (GLfloat)item->endcap_2->pos_top_4.z());
+        glVertex3f((GLfloat)item->endcap_2->pos_bot_1.x(), (GLfloat)item->endcap_2->pos_bot_1.y(), (GLfloat)item->endcap_2->pos_bot_1.z());
+        glVertex3f((GLfloat)item->endcap_2->pos_top_1.x(), (GLfloat)item->endcap_2->pos_top_1.y(), (GLfloat)item->endcap_2->pos_top_1.z());
         glVertex3f((GLfloat)item->endcap_1->pos_top_3.x(), (GLfloat)item->endcap_1->pos_top_3.y(), (GLfloat)item->endcap_1->pos_top_3.z());
 
         //front
         glVertex3f((GLfloat)item->endcap_1->pos_bot_2.x(), (GLfloat)item->endcap_1->pos_bot_2.y(), (GLfloat)item->endcap_1->pos_bot_2.z());
-        glVertex3f((GLfloat)item->endcap_3->pos_bot_1.x(), (GLfloat)item->endcap_3->pos_bot_1.y(), (GLfloat)item->endcap_3->pos_bot_1.z());
         glVertex3f((GLfloat)item->endcap_3->pos_bot_4.x(), (GLfloat)item->endcap_3->pos_bot_4.y(), (GLfloat)item->endcap_3->pos_bot_4.z());
+        glVertex3f((GLfloat)item->endcap_3->pos_bot_1.x(), (GLfloat)item->endcap_3->pos_bot_1.y(), (GLfloat)item->endcap_3->pos_bot_1.z());
         glVertex3f((GLfloat)item->splitPoint[0].x(), (GLfloat)item->splitPoint[0].y(), (GLfloat)item->splitPoint[0].z());
 
-        glVertex3f((GLfloat)item->endcap_2->pos_bot_4.x(), (GLfloat)item->endcap_2->pos_bot_4.y(), (GLfloat)item->endcap_2->pos_bot_4.z());
         glVertex3f((GLfloat)item->endcap_2->pos_bot_1.x(), (GLfloat)item->endcap_2->pos_bot_1.y(), (GLfloat)item->endcap_2->pos_bot_1.z());
+        glVertex3f((GLfloat)item->endcap_2->pos_bot_4.x(), (GLfloat)item->endcap_2->pos_bot_4.y(), (GLfloat)item->endcap_2->pos_bot_4.z());
         glVertex3f((GLfloat)item->splitPoint[0].x(), (GLfloat)item->splitPoint[0].y(), (GLfloat)item->splitPoint[0].z());
         glVertex3f((GLfloat)item->endcap_1->pos_bot_3.x(), (GLfloat)item->endcap_1->pos_bot_3.y(), (GLfloat)item->endcap_1->pos_bot_3.z());
         //back
         glVertex3f((GLfloat)item->endcap_1->pos_top_2.x(), (GLfloat)item->endcap_1->pos_top_2.y(), (GLfloat)item->endcap_1->pos_top_2.z());
-        glVertex3f((GLfloat)item->endcap_3->pos_top_1.x(), (GLfloat)item->endcap_3->pos_top_1.y(), (GLfloat)item->endcap_3->pos_top_1.z());
         glVertex3f((GLfloat)item->endcap_3->pos_top_4.x(), (GLfloat)item->endcap_3->pos_top_4.y(), (GLfloat)item->endcap_3->pos_top_4.z());
+        glVertex3f((GLfloat)item->endcap_3->pos_top_1.x(), (GLfloat)item->endcap_3->pos_top_1.y(), (GLfloat)item->endcap_3->pos_top_1.z());
         glVertex3f((GLfloat)item->splitPoint[1].x(), (GLfloat)item->splitPoint[1].y(), (GLfloat)item->splitPoint[1].z());
 
         glVertex3f((GLfloat)item->endcap_1->pos_top_3.x(), (GLfloat)item->endcap_1->pos_top_3.y(), (GLfloat)item->endcap_1->pos_top_3.z());
-        glVertex3f((GLfloat)item->endcap_2->pos_top_4.x(), (GLfloat)item->endcap_2->pos_top_4.y(), (GLfloat)item->endcap_2->pos_top_4.z());
         glVertex3f((GLfloat)item->endcap_2->pos_top_1.x(), (GLfloat)item->endcap_2->pos_top_1.y(), (GLfloat)item->endcap_2->pos_top_1.z());
+        glVertex3f((GLfloat)item->endcap_2->pos_top_4.x(), (GLfloat)item->endcap_2->pos_top_4.y(), (GLfloat)item->endcap_2->pos_top_4.z());
         glVertex3f((GLfloat)item->splitPoint[1].x(), (GLfloat)item->splitPoint[1].y(), (GLfloat)item->splitPoint[1].z());
 
         glEnd();
@@ -3536,27 +3593,27 @@ void GLWidget::paintAirDuctYpiece(Layer *layer, CAD_air_ductYpiece *item)
         glBegin(GL_LINES);
         //lower
         glVertex3f((GLfloat)item->endcap_1->pos_bot_2.x(), (GLfloat)item->endcap_1->pos_bot_2.y(), (GLfloat)item->endcap_1->pos_bot_2.z());
-        glVertex3f((GLfloat)item->endcap_3->pos_bot_1.x(), (GLfloat)item->endcap_3->pos_bot_1.y(), (GLfloat)item->endcap_3->pos_bot_1.z());
-
         glVertex3f((GLfloat)item->endcap_3->pos_bot_4.x(), (GLfloat)item->endcap_3->pos_bot_4.y(), (GLfloat)item->endcap_3->pos_bot_4.z());
+
+        glVertex3f((GLfloat)item->endcap_3->pos_bot_1.x(), (GLfloat)item->endcap_3->pos_bot_1.y(), (GLfloat)item->endcap_3->pos_bot_1.z());
         glVertex3f((GLfloat)item->splitPoint[0].x(), (GLfloat)item->splitPoint[0].y(), (GLfloat)item->splitPoint[0].z());
 
         glVertex3f((GLfloat)item->splitPoint[0].x(), (GLfloat)item->splitPoint[0].y(), (GLfloat)item->splitPoint[0].z());
-        glVertex3f((GLfloat)item->endcap_2->pos_bot_1.x(), (GLfloat)item->endcap_2->pos_bot_1.y(), (GLfloat)item->endcap_2->pos_bot_1.z());
-
         glVertex3f((GLfloat)item->endcap_2->pos_bot_4.x(), (GLfloat)item->endcap_2->pos_bot_4.y(), (GLfloat)item->endcap_2->pos_bot_4.z());
+
+        glVertex3f((GLfloat)item->endcap_2->pos_bot_1.x(), (GLfloat)item->endcap_2->pos_bot_1.y(), (GLfloat)item->endcap_2->pos_bot_1.z());
         glVertex3f((GLfloat)item->endcap_1->pos_bot_3.x(), (GLfloat)item->endcap_1->pos_bot_3.y(), (GLfloat)item->endcap_1->pos_bot_3.z());
         //upper
         glVertex3f((GLfloat)item->endcap_1->pos_top_2.x(), (GLfloat)item->endcap_1->pos_top_2.y(), (GLfloat)item->endcap_1->pos_top_2.z());
-        glVertex3f((GLfloat)item->endcap_3->pos_top_1.x(), (GLfloat)item->endcap_3->pos_top_1.y(), (GLfloat)item->endcap_3->pos_top_1.z());
-
         glVertex3f((GLfloat)item->endcap_3->pos_top_4.x(), (GLfloat)item->endcap_3->pos_top_4.y(), (GLfloat)item->endcap_3->pos_top_4.z());
+
+        glVertex3f((GLfloat)item->endcap_3->pos_top_1.x(), (GLfloat)item->endcap_3->pos_top_1.y(), (GLfloat)item->endcap_3->pos_top_1.z());
         glVertex3f((GLfloat)item->splitPoint[1].x(), (GLfloat)item->splitPoint[1].y(), (GLfloat)item->splitPoint[1].z());
 
         glVertex3f((GLfloat)item->splitPoint[1].x(), (GLfloat)item->splitPoint[1].y(), (GLfloat)item->splitPoint[1].z());
-        glVertex3f((GLfloat)item->endcap_2->pos_top_1.x(), (GLfloat)item->endcap_2->pos_top_1.y(), (GLfloat)item->endcap_2->pos_top_1.z());
-
         glVertex3f((GLfloat)item->endcap_2->pos_top_4.x(), (GLfloat)item->endcap_2->pos_top_4.y(), (GLfloat)item->endcap_2->pos_top_4.z());
+
+        glVertex3f((GLfloat)item->endcap_2->pos_top_1.x(), (GLfloat)item->endcap_2->pos_top_1.y(), (GLfloat)item->endcap_2->pos_top_1.z());
         glVertex3f((GLfloat)item->endcap_1->pos_top_3.x(), (GLfloat)item->endcap_1->pos_top_3.y(), (GLfloat)item->endcap_1->pos_top_3.z());
 
 

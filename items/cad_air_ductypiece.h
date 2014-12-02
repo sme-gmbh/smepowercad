@@ -16,15 +16,15 @@ public:
 
     qreal a; //height 1
     qreal b; //width 1
-    qreal c; //height 2
-    qreal d; //width 2
+    qreal a2; //height 2
+    qreal b2; //width 2
     qreal e; //offset y 1
     qreal f; //offset z 1
-    qreal h; //width 3
+    qreal b3; //width 3
     qreal l; //length;
     qreal m; //offset y 2
     qreal u; //endcap
-    qreal wall_thickness;
+    qreal s;
     qreal flange_size;
 
     CAD_basic_duct *endcap_1;

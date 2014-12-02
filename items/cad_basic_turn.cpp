@@ -13,7 +13,7 @@ CAD_basic_turn::CAD_basic_turn() : CADitem(CADitem::Basic_Turn)
     wizardParams.insert("Angle x", QVariant::fromValue(0.0));
     wizardParams.insert("Angle y", QVariant::fromValue(0.0));
     wizardParams.insert("Angle z", QVariant::fromValue(0.0));
-    wizardParams.insert("Wall thickness", QVariant::fromValue(2.0));
+    wizardParams.insert("s", QVariant::fromValue(2.0));
     wizardParams.insert("Turn radius", QVariant::fromValue(20.0));
     wizardParams.insert("Turn angle", QVariant::fromValue(90.0));
     wizardParams.insert("Outer diameter", QVariant::fromValue(10.0));
@@ -80,7 +80,7 @@ void CAD_basic_turn::calculate()
 //    int count_a = 11;
 //    int count_b = 21;
 
-    // Wall thickness iteration
+    // s iteration
     QMatrix4x4 matrix_turn;
     for (int w = 0; w <= 1; w++)
     {
@@ -130,7 +130,7 @@ void CAD_basic_turn::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
-    wallThickness = wizardParams.value("Wall thickness").toDouble();
+    wallThickness = wizardParams.value("s").toDouble();
     radius_turn = wizardParams.value("Turn radius").toDouble();
     angle_turn = wizardParams.value("Turn angle").toDouble();
     radius_pipe = wizardParams.value("Outer diameter").toDouble() / 2.0;

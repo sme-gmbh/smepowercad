@@ -15,11 +15,11 @@ public:
     virtual void processWizardInput();
 
 private:
-    qreal wall_thickness;
+    qreal s;
     qreal endcap;
     qreal e, f; //offset dy and dz
     qreal flange_size;
-    qreal a, b, c, d, l;
+    qreal a, b, a2, b2, l;
 
     CAD_basic_duct *transition_duct;
     CAD_basic_duct *endcap_left_duct;

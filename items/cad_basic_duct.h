@@ -33,7 +33,7 @@ public:
 
     QVector3D size;
 
-    qreal wall_thickness;
+    qreal s;
 };
 
 #endif // CAD_BASIC_DUCT_H
