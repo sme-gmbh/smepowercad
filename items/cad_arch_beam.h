@@ -2,6 +2,7 @@
 #define CAD_ARCH_BEAM_H
 
 #include "caditem.h"
+#include "cad_basic_box.h"
 
 class CAD_arch_beam : public CADitem
 {
@@ -12,6 +13,10 @@ public:
     static QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
+
+    qreal a,b,l;
+
+    CAD_basic_box *beam;
 };
 
 #endif // CAD_ARCH_BEAM_H

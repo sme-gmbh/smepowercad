@@ -14,16 +14,16 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
 
-    qreal wall_thickness;
+    qreal s;
     qreal flange_size;
 
-    qreal radius;
-    qreal width_1;
-    qreal width_2;
-    qreal height;
-    qreal angle;
-    qreal endcap_1;
-    qreal endcap_2;
+    qreal r;
+    qreal b;
+    qreal b2;
+    qreal a;
+    qreal alpha;
+    qreal f;
+    qreal e;
 
     QVector3D vertices[2][13][5];
 

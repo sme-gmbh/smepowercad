@@ -24,7 +24,7 @@ public:
     qreal u; //endcap length
 
     qreal flange_size;
-    qreal wall_thickness;
+    qreal s;
 
     QVector3D roundside[2][2][32]; //front <-> back, inner <-> outer, discrete circle
     QVector3D rectside[2][2][4]; //front <-> back, inner <-> outer, "discrete circle"

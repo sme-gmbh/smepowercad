@@ -230,11 +230,12 @@ private:
     void paintBasicArc(Layer *layer, CAD_basic_arc *item);
     void paintBasicDuct(Layer *layer, CAD_basic_duct *item);
 
+    void paintArchBlockOut(Layer *layer, CAD_arch_blockOut *item);
+    void paintArchBoredPile(Layer *layer, CAD_arch_boredPile *item);
+    void paintArchDoor(Layer *layer, CAD_arch_door *item);
     void paintArchLevelSlab(Layer *layer, CAD_arch_levelSlab *item);
     void paintArchWallLoadBearing(Layer *layer, CAD_arch_wall_loadBearing *item);
     void paintArchWallNonLoadBearing(Layer *layer, CAD_arch_wall_nonLoadBearing *item);
-    void paintArchBlockOut(Layer *layer, CAD_arch_blockOut *item);
-    void paintArchDoor(Layer *layer, CAD_arch_door *item);
     void paintArchWindow(Layer *layer, CAD_arch_window *item);
 
     void paintAirDuct(Layer *layer, CAD_air_duct *item);

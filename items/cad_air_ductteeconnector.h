@@ -16,16 +16,16 @@ public:
 
     qreal a;    //height of duct
     qreal b;    //width of first outlet
-    qreal d;    //width of second outlet
+    qreal b2;    //width of second outlet
     qreal e;    //offset of second outlet in y
-    qreal h;    //width of third outlet
+    qreal b3;    //width of third outlet
     qreal l;    //length from first outlet to second outlet
     qreal m;    //offset of second outlet to third outlet in y
     qreal n;    //offset of third outlet to first outlet in x
     qreal r1;   //radius of "left" turn
     qreal r2;   //radius of "right" turn
     qreal u;    //length of endcap
-    qreal wall_thickness;
+    qreal s;
     qreal flange_size;
 
     CAD_basic_duct *endcap_1;

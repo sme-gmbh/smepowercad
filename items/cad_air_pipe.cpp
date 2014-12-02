@@ -11,8 +11,8 @@ CAD_air_pipe::CAD_air_pipe() : CADitem(CADitem::Air_Pipe)
     wizardParams.insert("Angle x", QVariant::fromValue(0.0));
     wizardParams.insert("Angle y", QVariant::fromValue(0.0));
     wizardParams.insert("Angle z", QVariant::fromValue(0.0));
-    wizardParams.insert("Diameter (d)", QVariant::fromValue(20.0));
-    wizardParams.insert("Wall thickness (s)", QVariant::fromValue(0.5));
+    wizardParams.insert("d", QVariant::fromValue(20.0));
+    wizardParams.insert("s", QVariant::fromValue(0.5));
     wizardParams.insert("Length", QVariant::fromValue(100.0));
 
     processWizardInput();
@@ -68,19 +68,21 @@ void CAD_air_pipe::calculate()
 
     this->snap_basepoint = (position);
     this->snap_flanges.append(position);
-    this->snap_flanges.append(position + matrix_rotation * QVector3D(-l,0.0, 0.0));
 
     pipe->wizardParams.insert("Position x", QVariant::fromValue(position.x()));
     pipe->wizardParams.insert("Position y", QVariant::fromValue(position.y()));
     pipe->wizardParams.insert("Position z", QVariant::fromValue(position.z()));
     pipe->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
     pipe->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    pipe->wizardParams.insert("Angle z", QVariant::fromValue(angle_z+90));
+    pipe->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
     pipe->wizardParams.insert("Length", QVariant::fromValue(l));
     pipe->wizardParams.insert("Outer diameter", QVariant::fromValue(d));
-    pipe->wizardParams.insert("Wall thickness", QVariant::fromValue(s));
+    pipe->wizardParams.insert("s", QVariant::fromValue(s));
     pipe->processWizardInput();
     pipe->calculate();
+
+    this->snap_flanges.append(pipe->snap_flanges);
+    this->snap_vertices.append(pipe->snap_vertices);
 }
 
 void CAD_air_pipe::processWizardInput()
@@ -93,8 +95,8 @@ void CAD_air_pipe::processWizardInput()
     angle_z = wizardParams.value("Angle z").toDouble();
 
 
-    d = wizardParams.value("Diameter (d)").toDouble();
-    s = wizardParams.value("Wall thickness (s)").toDouble();
+    d = wizardParams.value("d").toDouble();
+    s = wizardParams.value("s").toDouble();
     l = wizardParams.value("Length").toDouble();
 
 }

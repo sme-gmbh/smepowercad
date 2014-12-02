@@ -28,7 +28,7 @@ public:
 
 //    QVector3D size;
 
-    qreal wall_thickness;
+    qreal s;
     qreal flange_size;
 
     CAD_basic_duct *main_duct, *flange_duct_left, *flange_duct_right;

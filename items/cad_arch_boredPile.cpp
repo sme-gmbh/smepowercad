@@ -2,6 +2,8 @@
 
 CAD_arch_boredPile::CAD_arch_boredPile() : CADitem(CADitem::Arch_BoredPile)
 {
+    this->pile = new CAD_basic_pipe;
+    this->subItems.append(this->pile);
     this->description = "Architecture|BoredPile";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
@@ -9,6 +11,10 @@ CAD_arch_boredPile::CAD_arch_boredPile() : CADitem(CADitem::Arch_BoredPile)
     wizardParams.insert("Angle x", QVariant::fromValue(0.0));
     wizardParams.insert("Angle y", QVariant::fromValue(0.0));
     wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+
+
+    wizardParams.insert("d", QVariant::fromValue(1000));
+    wizardParams.insert("a", QVariant::fromValue(5000));
 
     processWizardInput();
     calculate();
@@ -55,6 +61,22 @@ void CAD_arch_boredPile::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+    this->snap_flanges.append(position);
+
+    pile->wizardParams.insert("Position x", QVariant::fromValue(position.x()));
+    pile->wizardParams.insert("Position y", QVariant::fromValue(position.y()));
+    pile->wizardParams.insert("Position z", QVariant::fromValue(position.z()));
+    pile->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
+    pile->wizardParams.insert("Angle y", QVariant::fromValue(angle_y+90));
+    pile->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
+    pile->wizardParams.insert("l", QVariant::fromValue(a));
+    pile->wizardParams.insert("d", QVariant::fromValue(d));
+    pile->wizardParams.insert("s", QVariant::fromValue(d/2));
+    pile->processWizardInput();
+    pile->calculate();
+
+    this->snap_flanges.append(pile->snap_flanges);
+
 }
 
 void CAD_arch_boredPile::processWizardInput()
@@ -65,5 +87,8 @@ void CAD_arch_boredPile::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    a = wizardParams.value("a").toDouble();
+    d = wizardParams.value("d").toDouble();
 
 }

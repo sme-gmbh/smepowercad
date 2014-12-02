@@ -19,7 +19,7 @@ public:
     qreal b; //width
     qreal l; //length
     qreal flange_size;
-    qreal wall_thickness;
+    qreal s;
 
     CAD_basic_duct *duct;
     CAD_basic_duct *flange;

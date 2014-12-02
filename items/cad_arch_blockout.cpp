@@ -2,6 +2,9 @@
 
 CAD_arch_blockOut::CAD_arch_blockOut() : CADitem(CADitem::Arch_BlockOut)
 {
+    this->blockout = new CAD_basic_box();
+    this->subItems.append(blockout);
+
     this->description = "Architecture|Blockout";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
@@ -9,6 +12,10 @@ CAD_arch_blockOut::CAD_arch_blockOut() : CADitem(CADitem::Arch_BlockOut)
     wizardParams.insert("Angle x", QVariant::fromValue(0.0));
     wizardParams.insert("Angle y", QVariant::fromValue(0.0));
     wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+
+    wizardParams.insert("g", QVariant::fromValue(30.0));
+    wizardParams.insert("h", QVariant::fromValue(20.0));
+    wizardParams.insert("b", QVariant::fromValue(5.0));
 
     processWizardInput();
     calculate();
@@ -55,6 +62,30 @@ void CAD_arch_blockOut::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+
+    qDebug() << g << h << b;
+    QVector3D position_b = position + matrix_rotation * QVector3D(b / 2, g / 2, h / 2);
+    blockout->wizardParams.insert("Position x", QVariant::fromValue(position_b.x()));
+    blockout->wizardParams.insert("Position y", QVariant::fromValue(position_b.y()));
+    blockout->wizardParams.insert("Position z", QVariant::fromValue(position_b.z()));
+    blockout->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
+    blockout->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
+    blockout->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
+    blockout->wizardParams.insert("Size x", QVariant::fromValue(b));
+    blockout->wizardParams.insert("Size y", QVariant::fromValue(g));
+    blockout->wizardParams.insert("Size z", QVariant::fromValue(h));
+    blockout->processWizardInput();
+    blockout->calculate();
+
+    this->snap_vertices.append(blockout->snap_vertices);
+
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(0.0,   g, 0.0));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(  b,   g, 0.0));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(  b, 0.0, 0.0));
+
+    foreach(QVector3D vec, blockout->snap_vertices)
+        boundingBox.enterVertex(vec);
 }
 
 void CAD_arch_blockOut::processWizardInput()
@@ -65,5 +96,10 @@ void CAD_arch_blockOut::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    g = wizardParams.value("g").toDouble();
+    h = wizardParams.value("h").toDouble();
+    b = wizardParams.value("b").toDouble();
+
 
 }
