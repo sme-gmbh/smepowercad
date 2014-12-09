@@ -107,6 +107,16 @@ void ItemGripModifier::slot_button_clicked()
     newItem->wizardParams.insert("Angle y", QVariant::fromValue(this->item->angle_y));
     newItem->wizardParams.insert("Angle z", QVariant::fromValue(this->item->angle_z));
 
+    // Copy parameters that are parameters of the flange, but ony if they exist in the both items
+    foreach (QString key, newItem->wizardParams.keys())
+    {
+        if ((key == "a") || (key == "b") || (key == "s") || (key == "fe") || (key == "ff") || (key == "g") || (key == "h"))
+        {
+            if (this->item->wizardParams.keys().contains(key))
+                newItem->wizardParams.insert(key, this->item->wizardParams.value(key));
+        }
+    }
+
     itemWizard->showWizard(newItem);
 
     finishGrip();

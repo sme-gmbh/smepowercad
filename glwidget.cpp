@@ -776,6 +776,8 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             item_lastHighlight->processWizardInput();
             item_lastHighlight->calculate();
             slot_repaint();
+
+            qDebug() << "Bin da";
         }
         break;
     case Qt::Key_Y:                         // Turn item around y axis
@@ -4100,13 +4102,13 @@ QList<CADitem*> GLWidget::itemsAtPosition(QPoint pos, int size_x, int size_y)
 
     int i = 0;
     GLint hit = 1;
-    GLuint globalMinDepth = 0xffffffff;
+//    GLuint globalMinDepth = 0xffffffff;
     GLuint glName;
     while (i < HITBUFFER_SIZE)
     {
         GLuint numberOfNames = buffer[i];
         GLuint minDepth = buffer[i + 1];
-        //        GLuint maxDepth = buffer[i + 2];
+        GLuint maxDepth = buffer[i + 2];
 
         if (numberOfNames > 0)
         {
@@ -4116,7 +4118,7 @@ QList<CADitem*> GLWidget::itemsAtPosition(QPoint pos, int size_x, int size_y)
 //                globalMinDepth = minDepth;
 //            }
             CADitem* item = itemsAtPosition_processLayers(itemDB->layers, glName);
-            itemsDepthMap.insertMulti(minDepth, item);
+            itemsDepthMap.insertMulti(maxDepth, item);
         }
 
         i += 3;
