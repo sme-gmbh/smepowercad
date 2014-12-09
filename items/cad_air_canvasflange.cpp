@@ -136,8 +136,8 @@ void CAD_air_canvasFlange::calculate()
     canvas2->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
     canvas2->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
     canvas2->wizardParams.insert("l", QVariant::fromValue((l - 2 * fe) / 3));
-    canvas2->wizardParams.insert("b", QVariant::fromValue(b - 2 * ff));
-    canvas2->wizardParams.insert("a", QVariant::fromValue(a - 2 * ff));
+    canvas2->wizardParams.insert("b", QVariant::fromValue(b - 2 * s));
+    canvas2->wizardParams.insert("a", QVariant::fromValue(a - 2 * s));
     canvas2->wizardParams.insert("s", QVariant::fromValue(s));
     canvas2->processWizardInput();
     canvas2->calculate();

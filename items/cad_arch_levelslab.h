@@ -2,6 +2,7 @@
 #define CAD_ARCH_LEVELSLAB_H
 
 #include "caditem.h"
+#include "cad_basic_box.h"
 
 class CAD_arch_levelSlab : public CADitem
 {
@@ -12,6 +13,9 @@ public:
     static QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
+
+    qreal a,b,l;
+    CAD_basic_box *slab;
 };
 
 #endif // CAD_ARCH_LEVELSLAB_H

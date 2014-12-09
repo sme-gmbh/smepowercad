@@ -2,6 +2,7 @@
 #define CAD_ARCH_WALL_NONLOADBEARING_H
 
 #include "caditem.h"
+#include "cad_basic_box.h"
 
 class CAD_arch_wall_nonLoadBearing : public CADitem
 {
@@ -12,6 +13,13 @@ public:
     static QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
+
+private:
+    qreal b;
+    qreal l;
+    qreal a;
+
+    CAD_basic_box* basic_box;
 };
 
 #endif // CAD_ARCH_WALL_NONLOADBEARING_H

@@ -66,9 +66,9 @@ void CAD_arch_boredPile::calculate()
     pile->wizardParams.insert("Position x", QVariant::fromValue(position.x()));
     pile->wizardParams.insert("Position y", QVariant::fromValue(position.y()));
     pile->wizardParams.insert("Position z", QVariant::fromValue(position.z()));
-    pile->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    pile->wizardParams.insert("Angle y", QVariant::fromValue(angle_y+90));
-    pile->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
+    pile->wizardParams.insert("Angle x", QVariant::fromValue(0.0));
+    pile->wizardParams.insert("Angle y", QVariant::fromValue(90));
+    pile->wizardParams.insert("Angle z", QVariant::fromValue(0.0));
     pile->wizardParams.insert("l", QVariant::fromValue(a));
     pile->wizardParams.insert("d", QVariant::fromValue(d));
     pile->wizardParams.insert("s", QVariant::fromValue(d/2));

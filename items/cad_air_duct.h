@@ -14,9 +14,9 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
 
-    qreal length;
-    qreal width;
-    qreal height;
+    qreal l;
+    qreal b;
+    qreal a;
     QVector3D pos_bot_1;
     QVector3D pos_bot_2;
     QVector3D pos_bot_3;
@@ -29,7 +29,7 @@ public:
 //    QVector3D size;
 
     qreal s;
-    qreal flange_size;
+    qreal ff, fe;
 
     CAD_basic_duct *main_duct, *flange_duct_left, *flange_duct_right;
 };

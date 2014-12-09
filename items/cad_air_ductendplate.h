@@ -18,7 +18,7 @@ public:
     qreal a; //height
     qreal b; //width
     qreal l; //length
-    qreal flange_size;
+    qreal ff, fe;
     qreal s;
 
     CAD_basic_duct *duct;

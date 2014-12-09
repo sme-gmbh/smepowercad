@@ -3,12 +3,19 @@
 CAD_air_pipeReducer::CAD_air_pipeReducer() : CADitem(CADitem::Air_PipeReducer)
 {
     this->description = "Air|Pipe reducer";
+    this->reducer = new CAD_basic_pipe();
+    this->subItems.append(reducer);
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
     wizardParams.insert("Angle x", QVariant::fromValue(0.0));
     wizardParams.insert("Angle y", QVariant::fromValue(0.0));
     wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+
+    wizardParams.insert("d", QVariant::fromValue(30.0));
+    wizardParams.insert("d2", QVariant::fromValue(20.0));
+    wizardParams.insert("s", QVariant::fromValue(1.0));
+    wizardParams.insert("l", QVariant::fromValue(40.0));
 
     processWizardInput();
     calculate();
@@ -62,6 +69,32 @@ void CAD_air_pipeReducer::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
+    reducer->snap_flanges.clear();
+    reducer->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
+
+    qreal radius = d/2;
+    qreal radius2 = d2/2;
+    reducer->vertices_inner_bottom.clear();
+    reducer->vertices_inner_top.clear();
+    reducer->vertices_outer_top.clear();
+    reducer->vertices_outer_bottom.clear();
+    for (qreal i=0.0; i < 1.0; i += 0.02)    // 50 edges
+    {
+        qreal angle = 2 * PI * i;
+        QVector3D linePos;
+
+        linePos = matrix_rotation * QVector3D(0.0, sin(angle) * radius, cos(angle) * radius);
+        linePos += position;
+        reducer->vertices_outer_bottom.append(linePos);
+        reducer->vertices_inner_bottom.append(linePos + (position - linePos).normalized() * s);
+        QVector3D pos_top = position + matrix_rotation * QVector3D(l, 0.0, 0.0);
+        linePos = matrix_rotation * QVector3D(0.0, sin(angle) * radius2, cos(angle) * radius2);
+        linePos += pos_top;
+        reducer->vertices_outer_top.append(linePos);
+        reducer->vertices_inner_top.append(linePos + (pos_top - linePos).normalized() * s);
+    }
 }
 
 void CAD_air_pipeReducer::processWizardInput()
@@ -72,5 +105,10 @@ void CAD_air_pipeReducer::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    s = wizardParams.value("s").toDouble();
+    d = wizardParams.value("d").toDouble();
+    d2 = wizardParams.value("d2").toDouble();
+    l = wizardParams.value("l").toDouble();
 
 }

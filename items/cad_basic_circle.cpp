@@ -6,6 +6,7 @@ CAD_basic_circle::CAD_basic_circle() : CADitem(CADitem::Basic_Circle)
     this->width = 0.0;
     this->widthByLayer = true;
     this->widthByBlock = false;
+    this->circle = QList<QVector3D>();
 
     wizardParams.insert("Center x", QVariant::fromValue(0.0));
     wizardParams.insert("Center y", QVariant::fromValue(0.0));
@@ -62,6 +63,17 @@ void CAD_basic_circle::calculate()
     this->snap_basepoint = (position);
 
     this->snap_basepoint = this->center;
+
+    circle.clear();
+    for (qreal i=0.0; i < 1.0; i += 0.02)    // 50 edges
+    {
+        qreal angle = 2 * PI * i;
+        QVector3D linePos;
+        linePos = this->center;
+
+        linePos += matrix_rotation * QVector3D(sin(angle) * this->radius, cos(angle) * this->radius, 0.0);
+        circle.append(linePos);
+    }
 }
 
 void CAD_basic_circle::processWizardInput()

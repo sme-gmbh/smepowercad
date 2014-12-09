@@ -26,7 +26,7 @@ public:
     qreal r2;   //radius of "right" turn
     qreal u;    //length of endcap
     qreal s;
-    qreal flange_size;
+    qreal ff,fe;
 
     CAD_basic_duct *endcap_1;
     CAD_basic_duct *endcap_2;

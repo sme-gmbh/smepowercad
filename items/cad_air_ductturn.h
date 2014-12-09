@@ -15,7 +15,7 @@ public:
     virtual void processWizardInput();
 
     qreal s;
-    qreal flange_size;
+    qreal ff, fe;
 
     qreal r;
     qreal b;

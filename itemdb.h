@@ -60,6 +60,7 @@
 #include "items/cad_air_humidifier.h"
 #include "items/cad_air_multileafdamper.h"
 #include "items/cad_air_pipe.h"
+#include "items/cad_air_pipebranch.h"
 #include "items/cad_air_pipeendcap.h"
 #include "items/cad_air_pipefiredamper.h"
 #include "items/cad_air_pipereducer.h"

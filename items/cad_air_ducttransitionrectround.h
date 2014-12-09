@@ -23,7 +23,7 @@ public:
     qreal l; //length of transition
     qreal u; //endcap length
 
-    qreal flange_size;
+    qreal ff, fe;
     qreal s;
 
     QVector3D roundside[2][2][32]; //front <-> back, inner <-> outer, discrete circle

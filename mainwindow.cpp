@@ -1284,3 +1284,13 @@ void MainWindow::on_actionBasic_Duct_triggered()
     CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Duct);
     this->itemWizard->showWizard(item);
 }
+
+
+void MainWindow::on_action_air_pipe_branch_triggered()
+{
+    qDebug() << "Action name" << ((QAction*)sender())->objectName();
+    qDebug() << "Action text" << ((QAction*)sender())->text();
+
+    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_PipeBranch);
+    this->itemWizard->showWizard(item);
+}

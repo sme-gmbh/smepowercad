@@ -278,6 +278,8 @@ private slots:
 
     void on_actionBasic_Duct_triggered();
 
+    void on_action_air_pipe_branch_triggered();
+
 signals:
     void signal_command_prompt_input(QString str);
     void signal_repaintNeeded();

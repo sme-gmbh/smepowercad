@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!-- <?xml version="1.0" encoding="UTF-8"?> -->
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
@@ -403,6 +403,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <addaction name="action_air_Humidifier"/>
    <addaction name="action_air_multi_leaf_damper"/>
    <addaction name="action_air_pipe"/>
+   <addaction name="action_air_pipe_branch"/>
    <addaction name="action_air_pipe_end_cap"/>
    <addaction name="action_air_pipe_fire_damper"/>
    <addaction name="action_air_pipe_reducer"/>
@@ -1791,6 +1792,14 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
    <property name="toolTip">
     <string>Basic Duct</string>
+   </property>
+  </action>
+  <action name="action_air_pipe_branch">
+   <property name="text">
+    <string>Air Pipe Branch</string>
+   </property>
+   <property name="toolTip">
+    <string>Air Pipe Branch</string>
    </property>
   </action>
  </widget>
