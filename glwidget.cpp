@@ -878,8 +878,8 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glEnable(GL_POLYGON_OFFSET_FILL);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_ALPHA_TEST);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
+//    glEnable(GL_LIGHTING);
+//    glEnable(GL_LIGHT0);
 
 
 
@@ -4076,6 +4076,8 @@ QList<CADitem*> GLWidget::itemsAtPosition(QPoint pos, int size_x, int size_y)
     glViewport(0, 0, width(), height());
     //    glViewport(pos.x(), pos.y(), (GLsizei)_cursorPickboxSize, (GLsizei)_cursorPickboxSize);
     glGetIntegerv(GL_VIEWPORT, viewport);
+    glDepthFunc(GL_LEQUAL);
+    glDepthRange(1,0);
     glSelectBuffer(HITBUFFER_SIZE, buffer);
     glRenderMode(GL_SELECT);
 
@@ -4083,27 +4085,16 @@ QList<CADitem*> GLWidget::itemsAtPosition(QPoint pos, int size_x, int size_y)
     glPushName(0);
 
     glDisable(GL_BLEND);
-    //    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glDisable(GL_MULTISAMPLE);
     glDisable(GL_CULL_FACE);
-
-    //    glTranslatef((qreal)translationOffset.x() / (qreal)this->width() * 2, (qreal)translationOffset.y() / (qreal)this->height() * 2, 0.0);
-    //    glScalef(this->zoomFactor / screenRatio / (qreal)this->height(), this->zoomFactor / (qreal)this->height(), 1.0 / 100000.0);
-    //    glRotatef(rot_x, 1.0f, 0.0f, 0.0f);
-    //    glRotatef(rot_y, 0.0f, 1.0f, 0.0f);
-    //    glRotatef(rot_z, 0.0f, 0.0f, 1.0f);
 
     matrix_glSelect.setToIdentity();
     matrix_glSelect.scale(1.0 / ((qreal)size_x / this->width()), 1.0 / ((qreal)size_y / this->height()), 1.0);
     matrix_glSelect.translate(-(qreal)pos.x(), -(qreal)pos.y(), 0.0);
     updateMatrixAll();
-    //    shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection * matrix_glSelect * matrix_modelview * matrix_rotation);
     shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
 
-
-    glDepthFunc(GL_LESS);
-    glDepthRange(1,0);
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_ALPHA_TEST);
 
@@ -4119,30 +4110,25 @@ QList<CADitem*> GLWidget::itemsAtPosition(QPoint pos, int size_x, int size_y)
     updateMatrixAll();
 
     QList<CADitem*> foundItems;
-    QMap<int,CADitem*> itemsDepthMap;
+    QMap<quint32,CADitem*> itemsDepthMap;
 
     if (hits == 0)
         return foundItems;
 
     int i = 0;
     GLint hit = 1;
-//    GLuint globalMinDepth = 0xffffffff;
     GLuint glName;
     while (i < HITBUFFER_SIZE)
     {
         GLuint numberOfNames = buffer[i];
-        GLuint minDepth = buffer[i + 1];
+        GLuint minDepth = buffer[i + 1];    // Smaller number means closer to the eye
         GLuint maxDepth = buffer[i + 2];
 
         if (numberOfNames > 0)
         {
             glName = buffer[i + 3];
-            //            if (minDepth < globalMinDepth)
-            //            {
-            //                globalMinDepth = minDepth;
-            //            }
             CADitem* item = itemsAtPosition_processLayers(itemDB->layers, glName);
-            itemsDepthMap.insertMulti(maxDepth, item);
+            itemsDepthMap.insertMulti(minDepth, item);
         }
 
         i += 3;
@@ -4158,6 +4144,8 @@ QList<CADitem*> GLWidget::itemsAtPosition(QPoint pos, int size_x, int size_y)
 
 
     foundItems = itemsDepthMap.values();
+
+    qDebug() << itemsDepthMap;
 
     return foundItems;
 
