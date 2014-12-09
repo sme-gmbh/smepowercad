@@ -2,6 +2,7 @@
 #define CAD_BASIC_CYLINDER_H
 
 #include "caditem.h"
+#include <QList>
 
 class CAD_basic_cylinder : public CADitem
 {
@@ -16,6 +17,7 @@ public:
     qreal radius;
     QVector3D center_base;
     qreal height;
+    QList<QVector3D> vertices_bottom, vertices_top;
 };
 
 #endif // CADCYLINDER_H

@@ -80,7 +80,7 @@ void CAD_basic_pipe::calculate()
     vertices_inner_top.clear();
     vertices_outer_bottom.clear();
     vertices_outer_top.clear();
-    // Bottom circle
+
     for (qreal i=0.0; i < 1.0; i += 0.02)    // 50 edges
     {
         qreal angle = 2 * PI * i;
@@ -89,11 +89,13 @@ void CAD_basic_pipe::calculate()
         linePos = matrix_rotation * QVector3D(0.0, sin(angle) * radius, cos(angle) * radius);
         linePos += position;
         vertices_outer_bottom.append(linePos);
+        this->boundingBox.enterVertex(linePos);
         vertices_inner_bottom.append(linePos + (position - linePos).normalized() * wallThickness);
-        QVector3D pos_top = matrix_rotation * QVector3D(length, 0.0, 0.0);
+        QVector3D pos_top = position + matrix_rotation * QVector3D(length, 0.0, 0.0);
         linePos = matrix_rotation * QVector3D(0.0, sin(angle) * radius, cos(angle) * radius);
         linePos += pos_top;
         vertices_outer_top.append(linePos);
+        this->boundingBox.enterVertex(linePos);
         vertices_inner_top.append(linePos + (pos_top - linePos).normalized() * wallThickness);
     }
 

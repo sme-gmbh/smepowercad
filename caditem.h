@@ -74,6 +74,7 @@ public:
         Air_CanvasFlange,                       // Segeltuchstutzen
         Air_Filter,                             // Luftfilter
         Air_PipeSilencer,                       // Rohr-Schalldämpfer
+        Air_PipeBranch,                         // Rohr-Abzweig
         Air_DuctBaffleSilencer,                 // Kanal-Kulissenschalldämpfer
         Air_Fan,                                // Ventilator
         Air_Humidifier,                         // Befeuchter

@@ -2,6 +2,7 @@
 #define CAD_ARCH_SUPPORT_H
 
 #include "caditem.h"
+#include "cad_basic_box.h"
 
 class CAD_arch_support : public CADitem
 {
@@ -12,6 +13,10 @@ public:
     static QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
+
+    qreal a, b, l;
+    CAD_basic_box *support;
+
 };
 
 #endif // CAD_ARCH_SUPPORT_H

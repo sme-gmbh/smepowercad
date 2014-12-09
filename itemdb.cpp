@@ -923,6 +923,9 @@ CADitem* ItemDB::drawItem(Layer* layer, CADitem::ItemType type)
     case CADitem::Air_PipeFireDamper:
         newItem = new CAD_air_pipeFireDamper();
         break;
+    case CADitem::Air_PipeBranch:
+        newItem = new CAD_air_pipeBranch();
+        break;
     case CADitem::Air_DuctFireDamper:
         newItem = new CAD_air_ductFireDamper();
         break;

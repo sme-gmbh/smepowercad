@@ -2,6 +2,7 @@
 #define CAD_BASIC_ARC_H
 
 #include "caditem.h"
+#include <QList>
 #include <qmath.h>
 
 class CAD_basic_arc : public CADitem
@@ -21,7 +22,7 @@ public:
     qreal width;
     bool widthByLayer;
     bool widthByBlock;
-
+    QList<QVector3D> arc;
 
 };
 

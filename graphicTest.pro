@@ -151,7 +151,8 @@ SOURCES += main.cpp\
     items/cad_arch_grating.cpp \
     items/cad_arch_foundation.cpp \
     items/cad_basic_face.cpp \
-    itemgripmodifier.cpp
+    itemgripmodifier.cpp \
+    items/cad_air_pipebranch.cpp
 
 HEADERS  += mainwindow.h \
     overlay.h \
@@ -291,7 +292,8 @@ HEADERS  += mainwindow.h \
     items/cad_arch_foundation.cpp, cad_arch_foundation.h \
     items/cad_arch_foundation.h \
     items/cad_basic_face.h \
-    itemgripmodifier.h
+    itemgripmodifier.h \
+    items/cad_air_pipebranch.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

@@ -18,7 +18,8 @@ CAD_air_ductTransitionRectRound::CAD_air_ductTransitionRectRound() : CADitem(CAD
     wizardParams.insert("l", QVariant::fromValue(100.0));
     wizardParams.insert("b", QVariant::fromValue(30.0));
     wizardParams.insert("a", QVariant::fromValue(20.0));
-    wizardParams.insert("Flange size", QVariant::fromValue(1.0));
+    wizardParams.insert("ff", QVariant::fromValue(1.0));
+    wizardParams.insert("fe", QVariant::fromValue(1.0));
     wizardParams.insert("e", QVariant::fromValue(0.0));
     wizardParams.insert("f", QVariant::fromValue(0.0));
     wizardParams.insert("u", QVariant::fromValue(5.0));
@@ -123,10 +124,10 @@ void CAD_air_ductTransitionRectRound::calculate()
     flange_rect->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
     flange_rect->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
     flange_rect->wizardParams.insert("Angle z", QVariant::fromValue(angle_z+180));
-    flange_rect->wizardParams.insert("l", QVariant::fromValue(flange_size));
-    flange_rect->wizardParams.insert("b", QVariant::fromValue(b + 2 * flange_size));
-    flange_rect->wizardParams.insert("a", QVariant::fromValue(a + 2 * flange_size));
-    flange_rect->wizardParams.insert("s", QVariant::fromValue(flange_size));
+    flange_rect->wizardParams.insert("l", QVariant::fromValue(fe));
+    flange_rect->wizardParams.insert("b", QVariant::fromValue(b + 2 * ff));
+    flange_rect->wizardParams.insert("a", QVariant::fromValue(a + 2 * ff));
+    flange_rect->wizardParams.insert("s", QVariant::fromValue(ff));
     flange_rect->processWizardInput();
     flange_rect->calculate();
 
@@ -136,10 +137,10 @@ void CAD_air_ductTransitionRectRound::calculate()
     flange_round->wizardParams.insert("Position z", QVariant::fromValue(position_fr.z()));
     flange_round->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
     flange_round->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    flange_round->wizardParams.insert("Angle z", QVariant::fromValue(angle_z+90));
-    flange_round->wizardParams.insert("Length", QVariant::fromValue(flange_size));
-    flange_round->wizardParams.insert("Outer diameter", QVariant::fromValue(d + 2 * flange_size));
-    flange_round->wizardParams.insert("s", QVariant::fromValue(flange_size));
+    flange_round->wizardParams.insert("Angle z", QVariant::fromValue(angle_z+180));
+    flange_round->wizardParams.insert("l", QVariant::fromValue(fe));
+    flange_round->wizardParams.insert("d", QVariant::fromValue(d + 2 * ff));
+    flange_round->wizardParams.insert("s", QVariant::fromValue(ff));
     flange_round->processWizardInput();
     flange_round->calculate();
 
@@ -171,7 +172,8 @@ void CAD_air_ductTransitionRectRound::processWizardInput()
     angle_z = wizardParams.value("Angle z").toDouble();
 
     s = wizardParams.value("s").toDouble();
-    flange_size = wizardParams.value("Flange size").toDouble();
+    ff = wizardParams.value("ff").toDouble();
+    fe = wizardParams.value("fe").toDouble();
     u = wizardParams.value("u").toDouble();
     e = wizardParams.value("e").toDouble();
     f = wizardParams.value("f").toDouble();

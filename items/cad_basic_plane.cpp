@@ -58,10 +58,10 @@ void CAD_basic_plane::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
-    vertices[0] = position + matrix_rotation * QVector3D(-a/2, -b/2, 0.0);
-    vertices[1] = position + matrix_rotation * QVector3D( a/2, -b/2, 0.0);
-    vertices[2] = position + matrix_rotation * QVector3D( a/2,  b/2, 0.0);
-    vertices[3] = position + matrix_rotation * QVector3D(-a/2,  b/2, 0.0);
+    vertices[0] = position + matrix_rotation * QVector3D(a, 0.0, 0.0);
+    vertices[1] = position + matrix_rotation * QVector3D(a, b, 0.0);
+    vertices[2] = position + matrix_rotation * QVector3D(0.0,  b, 0.0);
+    vertices[3] = position + matrix_rotation * QVector3D(0.0,  0.0, 0.0);
 
     boundingBox.enterVertex(vertices[0]);
     boundingBox.enterVertex(vertices[1]);

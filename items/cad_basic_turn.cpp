@@ -93,7 +93,7 @@ void CAD_basic_turn::calculate()
 
             matrix_turn.setToIdentity();
             matrix_turn.translate(this->radius_turn, 0.0, 0.0);
-            matrix_turn.rotate(angle_turn, 0.0, 0.0, 1.0);
+            matrix_turn.rotate(-angle_turn, 0.0, 0.0, 1.0);
 
             // Pipe angle iteration
 
@@ -103,9 +103,9 @@ void CAD_basic_turn::calculate()
                 QVector3D linePos;
 
                 if (w == 0)
-                    linePos = this->matrix_rotation * matrix_turn * QVector3D(-this->radius_turn + sin(angle_pipe) * (this->radius_pipe), 0.0, cos(angle_pipe) * (this->radius_pipe));
+                    linePos = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius_turn + sin(angle_pipe) * (this->radius_pipe), cos(angle_pipe) * (this->radius_pipe)) + QVector3D(-this->radius_turn, -this->radius_turn, 0.0));
                 else
-                    linePos = this->matrix_rotation * matrix_turn * QVector3D(-this->radius_turn + sin(angle_pipe) * (this->radius_pipe - this->wallThickness), 0.0, cos(angle_pipe) * (this->radius_pipe - this->wallThickness));
+                    linePos = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius_turn + sin(angle_pipe) * (this->radius_pipe - this->wallThickness), cos(angle_pipe) * (this->radius_pipe - this->wallThickness)) + QVector3D(-this->radius_turn, -this->radius_turn, 0.0));
                 linePos += this->position;
 
                 this->vertices[w][a][b] = linePos;
@@ -117,7 +117,7 @@ void CAD_basic_turn::calculate()
         }
     }
 
-    QVector3D endOfTurn = this->position + (matrix_rotation * matrix_turn * QVector3D(-this->radius_turn, 0.0, 0.0));
+    QVector3D endOfTurn = this->position + this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius_turn, 0.0) + QVector3D(-this->radius_turn, -this->radius_turn, 0.0));
     this->snap_vertices.append(endOfTurn);
     this->snap_flanges.append(endOfTurn);
 }

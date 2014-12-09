@@ -15,9 +15,9 @@ public:
     virtual void processWizardInput();
 
 private:
-    qreal s;
-    qreal length;
-    qreal height;
+    qreal b;
+    qreal l;
+    qreal a;
 
     CAD_basic_box* basic_box;
 };

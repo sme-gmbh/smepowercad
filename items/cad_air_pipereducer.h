@@ -2,6 +2,7 @@
 #define CAD_AIR_PIPEREDUCER_H
 
 #include "caditem.h"
+#include "cad_basic_pipe.h"
 
 class CAD_air_pipeReducer : public CADitem
 {
@@ -12,6 +13,11 @@ public:
     static QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
+
+    qreal d, d2;
+    qreal s, l;
+
+    CAD_basic_pipe *reducer;
 };
 
 #endif // CAD_AIR_PIPEREDUCER_H

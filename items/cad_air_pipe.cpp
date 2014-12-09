@@ -13,7 +13,7 @@ CAD_air_pipe::CAD_air_pipe() : CADitem(CADitem::Air_Pipe)
     wizardParams.insert("Angle z", QVariant::fromValue(0.0));
     wizardParams.insert("d", QVariant::fromValue(20.0));
     wizardParams.insert("s", QVariant::fromValue(0.5));
-    wizardParams.insert("Length", QVariant::fromValue(100.0));
+    wizardParams.insert("l", QVariant::fromValue(100.0));
 
     processWizardInput();
     calculate();
@@ -75,14 +75,15 @@ void CAD_air_pipe::calculate()
     pipe->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
     pipe->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
     pipe->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    pipe->wizardParams.insert("Length", QVariant::fromValue(l));
-    pipe->wizardParams.insert("Outer diameter", QVariant::fromValue(d));
+    pipe->wizardParams.insert("l", QVariant::fromValue(l));
+    pipe->wizardParams.insert("d", QVariant::fromValue(d));
     pipe->wizardParams.insert("s", QVariant::fromValue(s));
     pipe->processWizardInput();
     pipe->calculate();
 
     this->snap_flanges.append(pipe->snap_flanges);
     this->snap_vertices.append(pipe->snap_vertices);
+    this->boundingBox = pipe->boundingBox;
 }
 
 void CAD_air_pipe::processWizardInput()
@@ -97,6 +98,6 @@ void CAD_air_pipe::processWizardInput()
 
     d = wizardParams.value("d").toDouble();
     s = wizardParams.value("s").toDouble();
-    l = wizardParams.value("Length").toDouble();
+    l = wizardParams.value("l").toDouble();
 
 }

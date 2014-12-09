@@ -19,7 +19,8 @@ CAD_air_ductEndPlate::CAD_air_ductEndPlate() : CADitem(CADitem::Air_DuctEndPlate
     wizardParams.insert("b", QVariant::fromValue(30.0));
     wizardParams.insert("a", QVariant::fromValue(20.0));
     wizardParams.insert("s", QVariant::fromValue(1.0));
-    wizardParams.insert("Flange size", QVariant::fromValue(1.0));
+    wizardParams.insert("ff", QVariant::fromValue(1.0));
+    wizardParams.insert("fe", QVariant::fromValue(1.0));
 
 
 
@@ -91,10 +92,10 @@ void CAD_air_ductEndPlate::calculate()
     flange->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
     flange->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
     flange->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    flange->wizardParams.insert("l", QVariant::fromValue(flange_size));
-    flange->wizardParams.insert("b", QVariant::fromValue(b + 2 * flange_size));
-    flange->wizardParams.insert("a", QVariant::fromValue(a + 2 * flange_size));
-    flange->wizardParams.insert("s", QVariant::fromValue(s));
+    flange->wizardParams.insert("l", QVariant::fromValue(fe));
+    flange->wizardParams.insert("b", QVariant::fromValue(b + 2 * ff));
+    flange->wizardParams.insert("a", QVariant::fromValue(a + 2 * ff));
+    flange->wizardParams.insert("s", QVariant::fromValue(ff));
     flange->processWizardInput();
     flange->calculate();
 
@@ -153,6 +154,7 @@ void CAD_air_ductEndPlate::processWizardInput()
     b = wizardParams.value("b").toDouble();
     a = wizardParams.value("a").toDouble();
 
-    flange_size = wizardParams.value("Flange size").toDouble();
+    ff = wizardParams.value("ff").toDouble();
+    fe = wizardParams.value("fe").toDouble();
     s = wizardParams.value("s").toDouble();
 }

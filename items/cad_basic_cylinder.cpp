@@ -59,6 +59,21 @@ void CAD_basic_cylinder::calculate()
     this->snap_basepoint = (position);
 
     this->snap_basepoint = this->center_base;
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,0.0, this->height));
+
+    vertices_bottom.clear();
+    vertices_top.clear();
+    for (qreal i=0.0; i < 1.0; i += 0.02)    // 50 edges
+    {
+        qreal angle = 2 * PI * i;
+        QVector3D linePos;
+        linePos = center_base;
+
+        linePos += matrix_rotation * QVector3D(sin(angle) * radius, cos(angle) * radius, 0.0);
+        vertices_bottom.append(linePos);
+        linePos += matrix_rotation * QVector3D(0.0,0.0, this->height);
+        vertices_top.append(linePos);
+    }
 }
 
 void CAD_basic_cylinder::processWizardInput()

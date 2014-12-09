@@ -25,7 +25,7 @@ public:
     qreal m; //offset y 2
     qreal u; //endcap
     qreal s;
-    qreal flange_size;
+    qreal ff, fe;
 
     CAD_basic_duct *endcap_1;
     CAD_basic_duct *endcap_2;

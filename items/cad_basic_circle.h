@@ -2,6 +2,7 @@
 #define CAD_BASIC_CIRCLE_H
 
 #include "caditem.h"
+#include <QList>
 
 class CAD_basic_circle : public CADitem
 {
@@ -18,6 +19,7 @@ public:
     qreal width;
     bool widthByLayer;
     bool widthByBlock;
+    QList<QVector3D> circle;
 };
 
 #endif // CAD_BASIC_CIRCLE_H

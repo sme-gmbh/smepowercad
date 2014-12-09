@@ -18,7 +18,7 @@ private:
     qreal s;
     qreal endcap;
     qreal e, f; //offset dy and dz
-    qreal flange_size;
+    qreal ff, fe;
     qreal a, b, a2, b2, l;
 
     CAD_basic_duct *transition_duct;

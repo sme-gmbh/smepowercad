@@ -5,7 +5,7 @@
 CAD_basic_arc::CAD_basic_arc() : CADitem(CADitem::Basic_Arc)
 {
     this->description = "Basic|Arc";
-
+    arc = QList<QVector3D>();
     wizardParams.insert("Center x", QVariant::fromValue(0.0));
     wizardParams.insert("Center y", QVariant::fromValue(0.0));
     wizardParams.insert("Center z", QVariant::fromValue(0.0));
@@ -63,9 +63,22 @@ void CAD_basic_arc::calculate()
 
     this->snap_basepoint = (position);
 
-    this->snap_vertices.append(QVector3D(position.x()+radius, position.y(), position.z()));
-    this->snap_vertices.append(QVector3D(position.x()+radius*qCos(centralAngle/180.0f*PI), position.y()+radius*qSin(centralAngle/180.0f*PI), position.z()));
-    this->snap_vertices.append(QVector3D(position.x()+radius*qCos(centralAngle/360.0f*PI), position.y()+radius*qSin(centralAngle/360.0f*PI), position.z()));
+//    this->snap_vertices.append(QVector3D(position.x()+radius, position.y(), position.z()));
+//    this->snap_vertices.append(QVector3D(position.x()+radius*qCos(centralAngle/180.0f*PI), position.y()+radius*qSin(centralAngle/180.0f*PI), position.z()));
+//    this->snap_vertices.append(QVector3D(position.x()+radius*qCos(centralAngle/360.0f*PI), position.y()+radius*qSin(centralAngle/360.0f*PI), position.z()));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0, this->radius, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(sin(centralAngle/180.0f*PI) * this->radius, cos(centralAngle/180.0f*PI) * this->radius, 0.0));
+    arc.clear();
+    for (qreal i=0.0; i <= 1.05; i += 0.05)    // 100 edges
+    {
+        qreal angle = this->centralAngle/180.0f*PI * i;
+        QVector3D linePos;
+        linePos = this->position;
+
+        linePos += matrix_rotation * (QVector3D(sin(angle) * this->radius, cos(angle) * this->radius, 0.0));
+        arc.append(linePos);
+    }
+
 
 }
 
