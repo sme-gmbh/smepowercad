@@ -49,6 +49,11 @@ void ItemGripModifier::activateGrip(ItemGripModifier::ItemGripType gripType, QPo
     {
         break;
     }
+    case Grip_CopyMulti:
+    {
+        showCopyMultiBox();
+        break;
+    }
     case Grip_Length:
     {
         break;
@@ -140,6 +145,45 @@ void ItemGripModifier::slot_button_clicked()
     itemWizard->showWizard(newItem);
 
     finishGrip();
+}
+
+void ItemGripModifier::slot_button_copyMulty()
+{
+    CADitem* item = this->item;
+    CADitem* newItem;
+    qreal deltaX;
+    qreal deltaY;
+    qreal deltaZ;
+
+    for (int x=0; x < copyMulti_spinBox_countX->value(); x++)
+    {
+        deltaX = (qreal)x * copyMulti_doubleSpinBox_distanceX->value();
+        for (int y=0; y < copyMulti_spinBox_countY->value(); y++)
+        {
+            deltaY = (qreal)y * copyMulti_doubleSpinBox_distanceY->value();
+            for (int z=0; z < copyMulti_spinBox_countZ->value(); z++)
+            {
+                // Do not make an in place copy of the source item
+                if ((x == 0) && (y == 0) && (z == 0))
+                    continue;
+
+                deltaZ = (qreal)z * copyMulti_doubleSpinBox_distanceZ->value();
+                QVector3D pos = item->position + QVector3D(deltaX, deltaY, deltaZ);
+
+                // Copy Item
+                newItem = this->itemDB->drawItem(item->layerName, item->getType());
+                newItem->wizardParams = item->wizardParams;
+                newItem->wizardParams.insert("Position x", QVariant::fromValue(pos.x()));
+                newItem->wizardParams.insert("Position y", QVariant::fromValue(pos.y()));
+                newItem->wizardParams.insert("Position z", QVariant::fromValue(pos.z()));
+                newItem->processWizardInput();
+                newItem->calculate();
+            }
+        }
+    }
+
+    finishGrip();
+    emit signal_sceneRepaintNeeded();
 }
 
 void ItemGripModifier::deleteWdgs(QLayout *layout)
@@ -672,6 +716,67 @@ void ItemGripModifier::showAppendBox()
             row++;
         }
     }
+
+    this->move(QCursor::pos());
+    this->show();
+}
+
+void ItemGripModifier::showCopyMultiBox()
+{
+    deleteWdgs(ui->gridLayout);
+    ui->label->setText(tr("Multi Copy"));
+
+    copyMulti_spinBox_countX = new QSpinBox(this);
+    copyMulti_doubleSpinBox_distanceX = new QDoubleSpinBox(this);
+    copyMulti_spinBox_countY = new QSpinBox(this);
+    copyMulti_doubleSpinBox_distanceY = new QDoubleSpinBox(this);
+    copyMulti_spinBox_countZ = new QSpinBox(this);
+    copyMulti_doubleSpinBox_distanceZ = new QDoubleSpinBox(this);
+
+    copyMulti_doubleSpinBox_distanceX->setMinimum(-10e+20);
+    copyMulti_doubleSpinBox_distanceX->setMaximum( 10e+20);
+    copyMulti_doubleSpinBox_distanceY->setMinimum(-10e+20);
+    copyMulti_doubleSpinBox_distanceY->setMaximum( 10e+20);
+    copyMulti_doubleSpinBox_distanceZ->setMinimum(-10e+20);
+    copyMulti_doubleSpinBox_distanceZ->setMaximum( 10e+20);
+    copyMulti_spinBox_countX->setMinimum(1);
+    copyMulti_spinBox_countX->setMaximum(INT_MAX);
+    copyMulti_spinBox_countY->setMinimum(1);
+    copyMulti_spinBox_countY->setMaximum(INT_MAX);
+    copyMulti_spinBox_countZ->setMinimum(1);
+    copyMulti_spinBox_countZ->setMaximum(INT_MAX);
+
+    ui->gridLayout->addWidget(new QLabel(tr("Count X")),    0, 0);
+    ui->gridLayout->addWidget(new QLabel(tr("Distance X")), 1, 0);
+    ui->gridLayout->addWidget(new QLabel(tr("Count Y")),    2, 0);
+    ui->gridLayout->addWidget(new QLabel(tr("Distance Y")), 3, 0);
+    ui->gridLayout->addWidget(new QLabel(tr("Count Z")),    4, 0);
+    ui->gridLayout->addWidget(new QLabel(tr("Distance Z")), 5, 0);
+
+    ui->gridLayout->addWidget(copyMulti_spinBox_countX,          0, 1);
+    ui->gridLayout->addWidget(copyMulti_doubleSpinBox_distanceX, 1, 1);
+    ui->gridLayout->addWidget(copyMulti_spinBox_countY,          2, 1);
+    ui->gridLayout->addWidget(copyMulti_doubleSpinBox_distanceY, 3, 1);
+    ui->gridLayout->addWidget(copyMulti_spinBox_countZ,          4, 1);
+    ui->gridLayout->addWidget(copyMulti_doubleSpinBox_distanceZ, 5, 1);
+
+    QToolButton* button_cancel = new QToolButton(this);
+    button_cancel->setText(tr("Cancel"));
+    button_cancel->setFocusPolicy(Qt::NoFocus);
+    button_cancel->setMinimumSize(150, 40);
+    button_cancel->setMaximumSize(200, 40);
+    button_cancel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    connect(button_cancel, SIGNAL(clicked()), this, SLOT(slot_rejected()));
+    ui->gridLayout->addWidget(button_cancel, 6, 0);
+
+    QToolButton* button_ok = new QToolButton(this);
+    button_ok->setText(tr("Ok"));
+    button_ok->setFocusPolicy(Qt::NoFocus);
+    button_ok->setMinimumSize(150, 40);
+    button_ok->setMaximumSize(200, 40);
+    button_ok->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    connect(button_ok, SIGNAL(clicked()), this, SLOT(slot_button_copyMulty()));
+    ui->gridLayout->addWidget(button_ok, 6, 1);
 
     this->move(QCursor::pos());
     this->show();

@@ -643,9 +643,6 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         }
 
         // Pickbox
-        //        if (!this->overlay->isPickActive())
-        //            this->overlay->pickStart();
-
         else if ((this->item_lastHighlight != NULL) && (!this->isPickActive()))   // There is an item beyond the cursor, so if it is clicked, select it.
         {
             if (event->modifiers() && Qt::ShiftModifier)
@@ -728,7 +725,10 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             if (snapMode == SnapBasepoint)
             {
                 this->itemGripModifier->setItem(item_lastHighlight);
-                this->itemGripModifier->activateGrip(ItemGripModifier::Grip_Copy, QCursor::pos(), snapPos_scene);
+                if (event->modifiers() & Qt::ShiftModifier)
+                    this->itemGripModifier->activateGrip(ItemGripModifier::Grip_CopyMulti, QCursor::pos(), snapPos_scene);
+                else
+                    this->itemGripModifier->activateGrip(ItemGripModifier::Grip_Copy, QCursor::pos(), snapPos_scene);
                 this->slot_repaint();
             }
         }

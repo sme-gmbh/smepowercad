@@ -4,7 +4,9 @@
 #include <QDialog>
 #include <QLabel>
 #include <QAction>
-//#include <QToolButton>
+#include <QToolButton>
+#include <QSpinBox>
+#include <QDoubleSpinBox>
 #include <QLayout>
 
 #include "caditem.h"
@@ -28,6 +30,7 @@ public:
         Grip_None,
         Grip_Append,
         Grip_Copy,
+        Grip_CopyMulti,
         Grip_Move,
         Grip_Length,
         Grip_Rotate_X,
@@ -44,6 +47,7 @@ public:
 private slots:
     void slot_rejected();
     void slot_button_clicked();
+    void slot_button_copyMulty();
 
 private:
     Ui::ItemGripModifier *ui;
@@ -53,8 +57,17 @@ private:
     QVector3D scenePos;
     ItemGripType activeGrip;
 
+    QSpinBox* copyMulti_spinBox_countX;
+    QSpinBox* copyMulti_spinBox_countY;
+    QSpinBox* copyMulti_spinBox_countZ;
+    QDoubleSpinBox* copyMulti_doubleSpinBox_distanceX;
+    QDoubleSpinBox* copyMulti_doubleSpinBox_distanceY;
+    QDoubleSpinBox* copyMulti_doubleSpinBox_distanceZ;
+
+
     void deleteWdgs(QLayout *layout);
     void showAppendBox();
+    void showCopyMultiBox();
 
 signals:
     void signal_sceneRepaintNeeded();
