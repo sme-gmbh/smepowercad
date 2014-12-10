@@ -776,8 +776,6 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             item_lastHighlight->processWizardInput();
             item_lastHighlight->calculate();
             slot_repaint();
-
-            qDebug() << "Bin da";
         }
         break;
     case Qt::Key_Y:                         // Turn item around y axis
@@ -1196,9 +1194,6 @@ void GLWidget::paintEvent(QPaintEvent *event)
             glVertex2i(focusRect.topRight().x(), focusRect.topRight().y());
             glEnd();
             infoText.append(tr("Basepoint"));
-
-            //            paintTextInfoBox(textAnchorPos, snapText, textAnchorType);
-
             break;
         }
         case SnapFlange:
@@ -1212,9 +1207,9 @@ void GLWidget::paintEvent(QPaintEvent *event)
             glVertex2i(focusRect.left(), (focusRect.center().y() + focusRect.bottom()) / 2);
             glVertex2i(focusRect.right(), (focusRect.center().y() + focusRect.bottom()) / 2);
             glEnd();
-            infoText.append("Flange");
-
-            //            paintTextInfoBox(textAnchorPos, snapText, textAnchorType);
+            infoText.append("Flange ");
+            int flangeIndex = item_lastHighlight->snap_flanges.indexOf(snapPos_scene) + 1;
+            infoText.append(QString().setNum(flangeIndex));
             break;
         }
         case SnapEndpoint:
@@ -1227,9 +1222,6 @@ void GLWidget::paintEvent(QPaintEvent *event)
             glVertex2i(focusRect.topLeft().x(), focusRect.topLeft().y());
             glEnd();
             infoText.append("Endpoint/Vertex");
-
-            //            paintTextInfoBox(textAnchorPos, snapText, textAnchorType);
-
             break;
         }
         case SnapCenter:
@@ -1242,9 +1234,6 @@ void GLWidget::paintEvent(QPaintEvent *event)
             glVertex2i(this->snapPos_screen.x() + 5, this->snapPos_screen.y() - 5);
             glEnd();
             infoText.append("Center");
-
-            //            paintTextInfoBox(textAnchorPos, snapText, textAnchorType);
-
             break;
         }
         case SnapNo:
@@ -4145,8 +4134,6 @@ QList<CADitem*> GLWidget::itemsAtPosition(QPoint pos, int size_x, int size_y)
 
     foundItems = itemsDepthMap.values();
 
-    qDebug() << itemsDepthMap;
-
     return foundItems;
 
     //    CADitem* item = itemAtPosition_processLayers(itemDB->layers, glName);
@@ -4427,16 +4414,16 @@ void GLWidget::initializeGL()
     if (shader_Height_of_intersection_location < 0)
         QMessageBox::information(this, "Height of Intersection Location invalid", QString().setNum(shader_Height_of_intersection_location));
 
-    qDebug() << "vertex location" << shader_vertexLocation;
-    qDebug() << "matrix location" << shader_matrixLocation;
-    qDebug() << "color location" << shader_colorLocation;
-    qDebug() << "texture coord location" << shader_textureCoordLocation;
-    qDebug() << "use texture location" << shader_useTextureLocation;
-    qDebug() << "use clippingX location" << shader_useClippingXLocation;
-    qDebug() << "use clippingY location" << shader_useClippingYLocation;
-    qDebug() << "use clippingZ location" << shader_useClippingZLocation;
-    qDebug() << "depth of view location" << shader_Depth_of_view_location;
-    qDebug() << "height of intersection location" << shader_Height_of_intersection_location;
+//    qDebug() << "vertex location" << shader_vertexLocation;
+//    qDebug() << "matrix location" << shader_matrixLocation;
+//    qDebug() << "color location" << shader_colorLocation;
+//    qDebug() << "texture coord location" << shader_textureCoordLocation;
+//    qDebug() << "use texture location" << shader_useTextureLocation;
+//    qDebug() << "use clippingX location" << shader_useClippingXLocation;
+//    qDebug() << "use clippingY location" << shader_useClippingYLocation;
+//    qDebug() << "use clippingZ location" << shader_useClippingZLocation;
+//    qDebug() << "depth of view location" << shader_Depth_of_view_location;
+//    qDebug() << "height of intersection location" << shader_Height_of_intersection_location;
 }
 
 void GLWidget::resizeGL()

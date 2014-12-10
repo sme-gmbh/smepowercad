@@ -116,6 +116,7 @@ private:
     bool cursorShown;
     bool arcballShown;
     SnapMode snapMode;
+//    int snapIndex;      // The index of the current snap in the snap liest of the object currently highlighted
     QPoint snapPos_screen;
     QVector3D snapPos_scene;
 

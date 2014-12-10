@@ -85,8 +85,6 @@ void CAD_air_duct::calculate()
 
     this->snap_basepoint = (position);
 
-
-
     main_duct->wizardParams.insert("Position x", QVariant::fromValue(position.x()));
     main_duct->wizardParams.insert("Position y", QVariant::fromValue(position.y()));
     main_duct->wizardParams.insert("Position z", QVariant::fromValue(position.z()));
@@ -99,7 +97,6 @@ void CAD_air_duct::calculate()
     main_duct->wizardParams.insert("s", QVariant::fromValue(s));
     main_duct->processWizardInput();
     main_duct->calculate();
-
 
     QVector3D pos_rot = position + matrix_rotation * (QVector3D((l - fe), 0.0, 0.0));
     flange_duct_left->wizardParams.insert("Position x", QVariant::fromValue(pos_rot.x()));
@@ -128,7 +125,6 @@ void CAD_air_duct::calculate()
     flange_duct_right->processWizardInput();
     flange_duct_right->calculate();
 
-
     // tbd: not all vertices are needed here!
     boundingBox.enterVertex(flange_duct_left->pos_top_1);
     boundingBox.enterVertex(flange_duct_left->pos_top_2);
@@ -147,8 +143,6 @@ void CAD_air_duct::calculate()
     boundingBox.enterVertex(flange_duct_right->pos_bot_2);
     boundingBox.enterVertex(flange_duct_right->pos_bot_3);
     boundingBox.enterVertex(flange_duct_right->pos_bot_4);
-
-
 
     this->snap_vertices.append(main_duct->snap_vertices);
     this->snap_flanges.append(main_duct->snap_flanges);

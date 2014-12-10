@@ -96,6 +96,7 @@ void ItemGripModifier::slot_button_clicked()
 {
     QToolButton* button = (QToolButton*)this->sender();
     CADitem::ItemType type = (CADitem::ItemType)button->property("ItemType").toInt();
+    int flangeIndex = this->item->snap_flanges.indexOf(this->scenePos) + 1;
 
     CADitem* newItem = itemDB->drawItem(this->item->layerName, type);
 
@@ -112,8 +113,27 @@ void ItemGripModifier::slot_button_clicked()
     {
         if ((key == "a") || (key == "b") || (key == "s") || (key == "fe") || (key == "ff") || (key == "g") || (key == "h"))
         {
-            if (this->item->wizardParams.keys().contains(key))
-                newItem->wizardParams.insert(key, this->item->wizardParams.value(key));
+            QString sourceKey = key;
+            int flangeIndexOffset = 0;
+
+            // Reverse search of indexed parameter in source flange parameters
+            do
+            {
+                if ((flangeIndex + flangeIndexOffset) > 1)
+                {
+                    sourceKey = key + QString().setNum(flangeIndex + flangeIndexOffset);
+                }
+                else
+                {
+                    sourceKey = key;
+                    break;
+                }
+                flangeIndexOffset--;
+            }while(!this->item->wizardParams.keys().contains(sourceKey));
+
+
+            if (this->item->wizardParams.keys().contains(sourceKey))
+                newItem->wizardParams.insert(key, this->item->wizardParams.value(sourceKey));
         }
     }
 
@@ -131,20 +151,13 @@ void ItemGripModifier::deleteWdgs(QLayout *layout)
         {
             deleteWdgs(item->layout());
             delete item->layout();
-            qDebug() << "Deleting a layout";
         }
         if (item->widget())
         {
             delete item->widget();
-            qDebug() << "Deleting a widget";
         }
         delete item;
-        qDebug() << "Deleting an item";
-
     }
-
-    qDebug() << "layout count:" << layout->count();
-
 
     this->layout()->removeItem(ui->gridLayout);
     ui->gridLayout->deleteLater();

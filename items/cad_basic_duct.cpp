@@ -96,12 +96,8 @@ void CAD_basic_duct::calculate()
     boundingBox.enterVertex(pos_top_3);
     boundingBox.enterVertex(pos_top_4);
 
-
-
-
-
-    this->snap_flanges.append((pos_bot_1 + pos_top_4) / 2);
     this->snap_flanges.append((pos_bot_2 + pos_top_3) / 2);
+    this->snap_flanges.append((pos_bot_1 + pos_top_4) / 2);
 
     this->snap_vertices.append(pos_top_1);
     this->snap_vertices.append(pos_top_2);
@@ -111,8 +107,6 @@ void CAD_basic_duct::calculate()
     this->snap_vertices.append(pos_bot_2);
     this->snap_vertices.append(pos_bot_3);
     this->snap_vertices.append(pos_bot_4);
-
-
 }
 
 void CAD_basic_duct::processWizardInput()
