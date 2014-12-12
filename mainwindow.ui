@@ -1,4 +1,4 @@
-<!-- <?xml version="1.0" encoding="UTF-8"?> -->
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
@@ -119,7 +119,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
      <x>0</x>
      <y>0</y>
      <width>1061</width>
-     <height>20</height>
+     <height>27</height>
     </rect>
    </property>
    <property name="nativeMenuBar">
@@ -608,9 +608,6 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <property name="text">
     <string>Line</string>
    </property>
-   <property name="shortcut">
-    <string>L</string>
-   </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
    </property>
@@ -623,9 +620,6 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <property name="text">
     <string>Arc</string>
    </property>
-   <property name="shortcut">
-    <string>B</string>
-   </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
    </property>
@@ -637,9 +631,6 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
    <property name="text">
     <string>Circle</string>
-   </property>
-   <property name="shortcut">
-    <string>K</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>

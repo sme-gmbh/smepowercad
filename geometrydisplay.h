@@ -22,9 +22,7 @@
 #include <QLabel>
 
 
-#include "overlay.h"
 #include "itemdb.h"
-#include "snapengine.h"
 #include "glwidget.h"
 #include "geometrydisplaytitle.h"
 #include "itemgripmodifier.h"

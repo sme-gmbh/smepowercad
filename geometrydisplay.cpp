@@ -26,13 +26,13 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, ItemWizard *itemWizard, ItemGri
     this->setWindowTitle(tr("Drawing %1").arg("x"));
 
 
-    QGLFormat glFormat;
-    glFormat.setVersion(4, 3);
-    glFormat.setProfile(QGLFormat::CompatibilityProfile);
-    glFormat.setSampleBuffers(true);
-    glFormat.setAlphaBufferSize(8);
+//    QGLFormat glFormat;
+//    glFormat.setVersion(4, 3);
+//    glFormat.setProfile(QGLFormat::CompatibilityProfile);
+//    glFormat.setSampleBuffers(true);
+//    glFormat.setAlphaBufferSize(8);
 
-    glwidget = new GLWidget(this, itemDB, itemWizard, itemGripModifier, glFormat);
+    glwidget = new GLWidget(this, itemDB, itemWizard, itemGripModifier);
 //    glwidget = new GLWidget(this, itemDB, itemWizard);
     this->setWidget(glwidget);
     connect(this, SIGNAL(signal_repaintNeeded()), glwidget, SLOT(slot_repaint()));
@@ -79,7 +79,8 @@ QStringList GeometryDisplay::getOpenGLinfo()
 void GeometryDisplay::paintEvent(QPaintEvent *event)
 {
     event->accept();
-    glwidget->updateGL();
+//    glwidget->updateGL();
+    glwidget->update();
 
     return;
 }

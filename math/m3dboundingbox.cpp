@@ -40,6 +40,7 @@ void M3dBoundingBox::enterVertex(QVector3D vertex)
     if (z > z_max)  z_max = z;
 }
 
+// returns a given point of the box
 QVector3D M3dBoundingBox::p(int num)
 {
     switch (num)
@@ -69,6 +70,7 @@ QVector3D M3dBoundingBox::p(int num)
         return QVector3D(x_max, y_max, z_max);
         break;
     }
+    return QVector3D(); // happens if an invalid vertex is given
 }
 
 QVector3D M3dBoundingBox::p1()

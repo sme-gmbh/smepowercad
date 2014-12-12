@@ -13,9 +13,9 @@ CAD_arch_beam::CAD_arch_beam() : CADitem(CADitem::Arch_Beam)
     wizardParams.insert("Angle y", QVariant::fromValue(0.0));
     wizardParams.insert("Angle z", QVariant::fromValue(0.0));
 
-    wizardParams.insert("a", QVariant::fromValue(10.0));
-    wizardParams.insert("b", QVariant::fromValue(10.0));
-    wizardParams.insert("l", QVariant::fromValue(20.0));
+    wizardParams.insert("a", QVariant::fromValue(500.0));
+    wizardParams.insert("b", QVariant::fromValue(200.0));
+    wizardParams.insert("l", QVariant::fromValue(5000.0));
 
     processWizardInput();
     calculate();

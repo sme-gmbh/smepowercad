@@ -2,8 +2,8 @@
 
 //#define PI 3.1415926535897
 
-GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, ItemGripModifier *itemGripModifier, QGLFormat glFormat) :
-    QGLWidget(glFormat, parent)
+GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, ItemGripModifier *itemGripModifier) :
+    QOpenGLWidget(parent)
   // Qt 5
   //    m_context(0),
   //    m_device(0)
@@ -155,7 +155,7 @@ Qt::ItemSelectionMode GLWidget::selectionMode()
 
 void GLWidget::snap_enable(bool on)
 {
-
+    Q_UNUSED(on);
 }
 
 void GLWidget::set_snap_mode(SnapMode mode)
@@ -259,7 +259,7 @@ void GLWidget::slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c)
     else
         zoomFactor += zoomStep;
 
-    // rot
+    // rot tbd.
     //    rot_x += -((float)a / 15.0);
     //    rot_y += -((float)b / 15.0);
     //    rot_z += -((float)c / 15.0);
@@ -814,18 +814,20 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     event->accept();
 }
 
-void GLWidget::resizeEvent(QResizeEvent *event)
-{
-    displayCenter = QPoint(this->width(), this->height()) / 2;
+//void GLWidget::resizeEvent(QResizeEvent *event)
+//{
+//    qDebug() << "rezizeEvent()";
 
-    matrix_projection.setToIdentity();
-    matrix_projection.scale(2.0 / (qreal)this->width(), 2.0 / (qreal)this->height(), 1.0);
-    matrix_projection.translate(-0.5, -0.5);
+////    displayCenter = QPoint(this->width(), this->height()) / 2;
 
-    updateMatrixAll();
-    slot_repaint();
-    event->accept();
-}
+////    matrix_projection.setToIdentity();
+////    matrix_projection.scale(2.0 / (qreal)this->width(), 2.0 / (qreal)this->height(), 1.0);
+////    matrix_projection.translate(-0.5, -0.5);
+
+////    updateMatrixAll();
+////    slot_repaint();
+//    event->accept();
+//}
 
 void GLWidget::slot_set_cuttingplane_values_changed(qreal height, qreal depth)
 {
@@ -838,18 +840,15 @@ void GLWidget::slot_set_cuttingplane_values_changed(qreal height, qreal depth)
     slot_repaint();
 }
 
-void GLWidget::paintEvent(QPaintEvent *event)
+//void GLWidget::paintEvent(QPaintEvent *event)
+void GLWidget::paintGL()
 {
-    if (event->rect().isNull())
-    {
-        event->accept();
+    qDebug() << "paintGL()";
+
+    if (this->size().isNull())
         return;
-    }
 
-    makeCurrent();
     saveGLState();
-
-    //    qreal screenRatio = (qreal)this->width() / (qreal)this->height();
 
     matrix_modelview.setToIdentity();
     matrix_modelview.translate(translationOffset.x(), translationOffset.y(), 0.0);
@@ -859,50 +858,30 @@ void GLWidget::paintEvent(QPaintEvent *event)
     //    shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection * matrix_modelview * matrix_rotation);
     shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
 
-
-    qglClearColor(_backgroundColor);
+    glClearColor(_backgroundColor.redF(), _backgroundColor.greenF(), _backgroundColor.blueF(), _backgroundColor.alphaF());
+//    qglClearColor(_backgroundColor);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glViewport(0.0, 0.0, width(), height());
+//    glViewport(0.0, 0.0, width(), height());
     glEnable(GL_BLEND);
     //    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
 
-    glEnable(GL_MULTISAMPLE);
+//    glEnable(GL_MULTISAMPLE);
     glDisable(GL_CULL_FACE);
     glDepthFunc(GL_LEQUAL);
-    //    glDepthFunc(GL_GREATER);
     glDepthRange(1,0);
-    glPolygonOffset(0.0, 3.0);
-    glEnable(GL_POLYGON_OFFSET_FILL);
+//    glPolygonOffset(0.0, 3.0);
+//    glEnable(GL_POLYGON_OFFSET_FILL);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_ALPHA_TEST);
 //    glEnable(GL_LIGHTING);
 //    glEnable(GL_LIGHT0);
 
-
-
-
-    //    QGLFramebufferObjectFormat format;
-    //    format.setSamples(4);
-    //    //format.setAttachment(QGLFramebufferObject::CombinedDepthStencil);
-    //    QGLFramebufferObject* fbo = new QGLFramebufferObject(50, 50, format);
-
-    //    QPainter fbo_painter(fbo);
-    //    fbo_painter.setPen(Qt::cyan);
-    //    fbo_painter.drawText(30, 30, "Hello World");
-    //    fbo_painter.end();
-
-    //    glBindTexture(GL_TEXTURE_2D, fbo->texture());
-    //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    //    glEnable(GL_TEXTURE_2D);
-
-
     shaderProgram->setUniformValue(shader_useClippingXLocation, (GLint)0);   // Enable X-Clipping Plane
     shaderProgram->setUniformValue(shader_useClippingYLocation, (GLint)0);   // Enable Y-Clipping Plane
-    shaderProgram->setUniformValue(shader_useClippingZLocation, (GLint)1);   // Enable Z-Clipping Plane
+    shaderProgram->setUniformValue(shader_useClippingZLocation, (GLint)0);   // Enable Z-Clipping Plane     // BUG: everything except z=0 plane is clipped if on...
+
+    setUseTexture(false);
 
     glName = 0;
     paintContent(itemDB->layers);
@@ -916,7 +895,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
     saveGLState();
     glClear(GL_DEPTH_BUFFER_BIT);
     glDepthRange(1,0);
-    glViewport(0, 0, width(), height());
+//    glViewport(0, 0, width(), height());
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -928,6 +907,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
     matrix_rotationOnly.setColumn(3, QVector4D(0.0, 0.0, 0.0, 1.0));
     shaderProgram->setUniformValue(shader_matrixLocation,matrix_projection * matrix_coordinateBoxScale * matrix_rotationOnly);
     glEnable(GL_DEPTH_TEST);
+
 
     // Coordinate orientation display
     QImage textImage(80, 80, QImage::Format_ARGB32);
@@ -943,7 +923,8 @@ void GLWidget::paintEvent(QPaintEvent *event)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    GLuint textureID;
+//    GLuint textureID;
+    QOpenGLTexture* texture = new QOpenGLTexture(QOpenGLTexture::Target2D);
     setUseTexture(true);
 
     // Bottom face
@@ -952,19 +933,22 @@ void GLWidget::paintEvent(QPaintEvent *event)
     painter.drawText(textImage.rect(), Qt::AlignCenter, "Z+");
     painter.setFont(font_small);
     painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking up");
-    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
+//    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
+    texture->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
+    texture->bind();
     setPaintingColor(QColor(50, 50, 255));
     glBegin(GL_QUADS);
-    setTextureCoords(1.0, 0.0, 0.0);
-    glVertex3f(-1, -1, -1);
-    setTextureCoords(0.0, 0.0, 0.0);
-    glVertex3f( 1, -1, -1);
-    setTextureCoords(0.0, 1.0, 0.0);
-    glVertex3f( 1,  1, -1);
     setTextureCoords(1.0, 1.0, 0.0);
+    glVertex3f(-1, -1, -1);
+    setTextureCoords(0.0, 1.0, 0.0);
+    glVertex3f( 1, -1, -1);
+    setTextureCoords(0.0, 0.0, 0.0);
+    glVertex3f( 1,  1, -1);
+    setTextureCoords(1.0, 0.0, 0.0);
     glVertex3f(-1,  1, -1);
     glEnd();
-    this->deleteTexture(textureID);
+    texture->destroy();
+
 
     // Top face
     textImage.fill(Qt::black);
@@ -972,18 +956,21 @@ void GLWidget::paintEvent(QPaintEvent *event)
     painter.drawText(textImage.rect(), Qt::AlignCenter, "Z-");
     painter.setFont(font_small);
     painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking down");
-    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
+//    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
+    texture->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
+    texture->bind();
     glBegin(GL_QUADS);
-    setTextureCoords(1.0, 0.0, 0.0);
-    glVertex3f( 1, -1, 1);
-    setTextureCoords(0.0, 0.0, 0.0);
-    glVertex3f(-1, -1, 1);
-    setTextureCoords(0.0, 1.0, 0.0);
-    glVertex3f(-1,  1, 1);
     setTextureCoords(1.0, 1.0, 0.0);
+    glVertex3f( 1, -1, 1);
+    setTextureCoords(0.0, 1.0, 0.0);
+    glVertex3f(-1, -1, 1);
+    setTextureCoords(0.0, 0.0, 0.0);
+    glVertex3f(-1,  1, 1);
+    setTextureCoords(1.0, 0.0, 0.0);
     glVertex3f( 1,  1, 1);
     glEnd();
-    this->deleteTexture(textureID);
+    texture->destroy();
+
 
     // Front face
     textImage.fill(Qt::black);
@@ -991,19 +978,22 @@ void GLWidget::paintEvent(QPaintEvent *event)
     painter.drawText(textImage.rect(), Qt::AlignCenter, "Y-");
     painter.setFont(font_small);
     painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking south");
-    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
+//    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
+    texture->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
+    texture->bind();
     setPaintingColor(QColor(10, 110, 10));
     glBegin(GL_QUADS);
-    setTextureCoords(1.0, 0.0, 0.0);
-    glVertex3i(-1,  1, -1);
-    setTextureCoords(0.0, 0.0, 0.0);
-    glVertex3i( 1,  1, -1);
-    setTextureCoords(0.0, 1.0, 0.0);
-    glVertex3i( 1,  1,  1);
     setTextureCoords(1.0, 1.0, 0.0);
+    glVertex3i(-1,  1, -1);
+    setTextureCoords(0.0, 1.0, 0.0);
+    glVertex3i( 1,  1, -1);
+    setTextureCoords(0.0, 0.0, 0.0);
+    glVertex3i( 1,  1,  1);
+    setTextureCoords(1.0, 0.0, 0.0);
     glVertex3i(-1,  1,  1);
     glEnd();
-    this->deleteTexture(textureID);
+    texture->destroy();
+
 
     // Back face
     textImage.fill(Qt::black);
@@ -1011,18 +1001,21 @@ void GLWidget::paintEvent(QPaintEvent *event)
     painter.drawText(textImage.rect(), Qt::AlignCenter, "Y+");
     painter.setFont(font_small);
     painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking north");
-    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
+//    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
+    texture->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
+    texture->bind();
     glBegin(GL_QUADS);
-    setTextureCoords(0.0, 0.0, 0.0);
-    glVertex3i(-1, -1, -1);
-    setTextureCoords(1.0, 0.0, 0.0);
-    glVertex3i( 1, -1, -1);
-    setTextureCoords(1.0, 1.0, 0.0);
-    glVertex3i( 1, -1,  1);
     setTextureCoords(0.0, 1.0, 0.0);
+    glVertex3i(-1, -1, -1);
+    setTextureCoords(1.0, 1.0, 0.0);
+    glVertex3i( 1, -1, -1);
+    setTextureCoords(1.0, 0.0, 0.0);
+    glVertex3i( 1, -1,  1);
+    setTextureCoords(0.0, 0.0, 0.0);
     glVertex3i(-1, -1,  1);
     glEnd();
-    this->deleteTexture(textureID);
+    texture->destroy();
+
 
     // Left face
     textImage.fill(Qt::black);
@@ -1030,19 +1023,22 @@ void GLWidget::paintEvent(QPaintEvent *event)
     painter.drawText(textImage.rect(), Qt::AlignCenter, "X+");
     painter.setFont(font_small);
     painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking east");
-    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
+//    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
+    texture->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
+    texture->bind();
     setPaintingColor(QColor(150, 0, 0));
     glBegin(GL_QUADS);
-    setTextureCoords(1.0, 0.0, 0.0);
-    glVertex3i(-1, -1, -1);
-    setTextureCoords(0.0, 0.0, 0.0);
-    glVertex3i(-1,  1, -1);
-    setTextureCoords(0.0, 1.0, 0.0);
-    glVertex3i(-1,  1,  1);
     setTextureCoords(1.0, 1.0, 0.0);
+    glVertex3i(-1, -1, -1);
+    setTextureCoords(0.0, 1.0, 0.0);
+    glVertex3i(-1,  1, -1);
+    setTextureCoords(0.0, 0.0, 0.0);
+    glVertex3i(-1,  1,  1);
+    setTextureCoords(1.0, 0.0, 0.0);
     glVertex3i(-1, -1,  1);
     glEnd();
-    this->deleteTexture(textureID);
+    texture->destroy();
+
 
     // Right face
     textImage.fill(Qt::black);
@@ -1050,21 +1046,25 @@ void GLWidget::paintEvent(QPaintEvent *event)
     painter.drawText(textImage.rect(), Qt::AlignCenter, "X-");
     painter.setFont(font_small);
     painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking west");
-    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
+//    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
+    texture->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
+    texture->bind();
     glBegin(GL_QUADS);
-    setTextureCoords(0.0, 0.0, 0.0);
-    glVertex3i( 1, -1, -1);
-    setTextureCoords(1.0, 0.0, 0.0);
-    glVertex3i( 1,  1, -1);
-    setTextureCoords(1.0, 1.0, 0.0);
-    glVertex3i( 1,  1,  1);
     setTextureCoords(0.0, 1.0, 0.0);
+    glVertex3i( 1, -1, -1);
+    setTextureCoords(1.0, 1.0, 0.0);
+    glVertex3i( 1,  1, -1);
+    setTextureCoords(1.0, 0.0, 0.0);
+    glVertex3i( 1,  1,  1);
+    setTextureCoords(0.0, 0.0, 0.0);
     glVertex3i( 1, -1,  1);
     glEnd();
-    this->deleteTexture(textureID);
+    texture->destroy();
+
 
     setUseTexture(false);
     painter.end();
+    delete texture;
 
 
     //    QVector4D xAxis = QVector4D(50.0,  0.0,  0.0, 0.0);
@@ -1277,14 +1277,16 @@ void GLWidget::paintEvent(QPaintEvent *event)
 
     glFlush();
 
+
     restoreGLState();
-    event->accept();
+//    event->accept();
 }
 
 void GLWidget::slot_repaint()
 {
-    repaint();
-    updateGL();
+//    repaint();
+//    updateGL();
+    update();
 }
 
 void GLWidget::slot_wireframe(bool on)
@@ -1396,13 +1398,16 @@ void GLWidget::paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFon
         break;
     }
 
-    GLuint textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-    float color[] = { 1.0f, 0.0f, 0.0f, 1.0f };
-    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, color);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    QOpenGLTexture* texture = new QOpenGLTexture(textImage, QOpenGLTexture::DontGenerateMipMaps);
+    texture->setMinMagFilters(QOpenGLTexture::Nearest, QOpenGLTexture::Nearest);
+    texture->setWrapMode(QOpenGLTexture::ClampToEdge);
+    texture->bind();
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+//    float color[] = { 1.0f, 0.0f, 0.0f, 1.0f };
+//    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, color);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 
     //    qDebug() << textureID;
@@ -1416,17 +1421,18 @@ void GLWidget::paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFon
     // Draw background
     setPaintingColor(Qt::transparent);
     glBegin(GL_QUADS);
-    setTextureCoords(0.0, 1.0, 0.0);
-    setVertex(boundingRect.bottomLeft());
-    setTextureCoords(1.0, 1.0, 0.0);
-    setVertex(boundingRect.bottomRight());
-    setTextureCoords(1.0, 0.001, 0.0);
-    setVertex(boundingRect.topRight());
     setTextureCoords(0.0, 0.001, 0.0);
+    setVertex(boundingRect.bottomLeft());
+    setTextureCoords(1.0, 0.001, 0.0);
+    setVertex(boundingRect.bottomRight());
+    setTextureCoords(1.0, 1.0, 0.0);
+    setVertex(boundingRect.topRight());
+    setTextureCoords(0.0, 1.0, 0.0);
     setVertex(boundingRect.topLeft());
     glEnd();
     setUseTexture(false);
-    this->deleteTexture(textureID);
+    texture->release();
+    delete texture;
 
 
     //    // Draw outline
@@ -1648,6 +1654,8 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundin
             break;
         case CADitem::Air_Pipe:
             paintAirPipe(layer, (CAD_air_pipe*)item);
+            break;
+        case CADitem::Air_PipeBranch:
             break;
         case CADitem::Air_PipeEndCap:
             paintAirPipeEndCap(layer, (CAD_air_pipeEndCap*)item);
@@ -2803,61 +2811,73 @@ void GLWidget::paintArchBlockOut(Layer *layer, CAD_arch_blockOut *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintArchBoredPile(Layer *layer ,CAD_arch_boredPile *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintArchDoor(Layer *layer, CAD_arch_door *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintArchLevelSlab(Layer *layer, CAD_arch_levelSlab *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintArchWallLoadBearing(Layer *layer, CAD_arch_wall_loadBearing *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintArchWallNonLoadBearing(Layer *layer, CAD_arch_wall_nonLoadBearing *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintArchWindow(Layer *layer, CAD_arch_window *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
-
-
-
-
 
 void GLWidget::paintAirDuct(Layer *layer, CAD_air_duct *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
-
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
-
 
 
 void GLWidget::paintAirPipe(Layer *layer, CAD_air_pipe *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintAirDuctTurn(Layer *layer, CAD_air_ductTurn *item)
@@ -2972,18 +2992,24 @@ void GLWidget::paintAirPipeTurn(Layer *layer, CAD_air_pipeTurn *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintAirPipeReducer(Layer *layer, CAD_air_pipeReducer *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintAirPipeTeeConnector(Layer *layer, CAD_air_pipeTeeConnector *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintAirDuctTeeConnector(Layer *layer, CAD_air_ductTeeConnector *item)
@@ -2992,10 +3018,10 @@ void GLWidget::paintAirDuctTeeConnector(Layer *layer, CAD_air_ductTeeConnector *
     QColor color_brush = getColorBrush(item, layer);
 
     int a;
-    int b;
+//    int b;
 
     int count_a = 12;
-    int count_b = 2;
+//    int count_b = 2;
 
     //draw turns
     // s iteration
@@ -3136,6 +3162,8 @@ void GLWidget::paintAirDuctTransiton(Layer *layer, CAD_air_ductTransition *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintAirDuctTransitionRectRound(Layer *layer, CAD_air_ductTransitionRectRound *item)
@@ -3590,60 +3618,80 @@ void GLWidget::paintAirDuctEndPlate(Layer *layer, CAD_air_ductEndPlate *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintAirPipeEndCap(Layer *layer, CAD_air_pipeEndCap *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintAirThrottleValve(Layer *layer, CAD_air_throttleValve *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintAirMultiLeafDamper(Layer *layer, CAD_air_multiLeafDamper *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintAirPressureReliefDamper(Layer *layer, CAD_air_pressureReliefDamper *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintAirPipeFireDamper(Layer *layer, CAD_air_pipeFireDamper *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintAirDuctFireDamper(Layer *layer, CAD_air_ductFireDamper *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintAirDuctVolumetricFlowController(Layer *layer, CAD_air_ductVolumetricFlowController *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintAirPipeVolumetricFlowController(Layer *layer, CAD_air_pipeVolumetricFlowController *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintAirHeatExchangerWaterAir(Layer *layer, CAD_air_heatExchangerWaterAir *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintAirHeatExchangerAirAir(Layer *layer, CAD_air_heatExchangerAirAir *item)
@@ -3709,348 +3757,464 @@ void GLWidget::paintAirCanvasFlange(Layer *layer, CAD_air_canvasFlange *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintAirFilter(Layer *layer, CAD_air_filter *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintAirPipeSilencer(Layer *layer, CAD_air_pipeSilencer *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintAirDuctBaffleSilencer(Layer *layer, CAD_air_ductBaffleSilencer *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintAirFan(Layer *layer, CAD_air_fan *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintAirHumidifier(Layer *layer, CAD_air_humidifier *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintAirEmptyCabinet(Layer *layer, CAD_air_emptyCabinet *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintAirEquipmentFrame(Layer *layer, CAD_air_equipmentFrame *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolAdjustvalve(Layer *layer, CAD_heatcool_adjustvalve *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolChiller(Layer *layer, CAD_heatcool_chiller *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolControlvalve(Layer *layer, CAD_heatcool_controlvalve *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolCoolingTower(Layer *layer, CAD_heatcool_coolingTower *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolHeatExchanger(Layer *layer, CAD_heatcool_heatExchanger *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolPipe(Layer *layer, CAD_heatcool_pipe *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolPump(Layer *layer, CAD_heatcool_pump *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolSensor(Layer *layer, CAD_heatcool_sensor *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolPipeTurn(Layer *layer, CAD_heatcool_pipeTurn *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolPipeReducer(Layer *layer, CAD_heatcool_pipeReducer *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolPipeTeeConnector(Layer *layer, CAD_heatcool_pipeTeeConnector *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolPipeEndCap(Layer *layer, CAD_heatcool_pipeEndCap *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolFlange(Layer *layer, CAD_heatcool_flange *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolExpansionChamber(Layer *layer, CAD_heatcool_expansionChamber *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolBoiler(Layer *layer, CAD_heatcool_boiler *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolWaterHeater(Layer *layer, CAD_heatcool_waterHeater *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolStorageBoiler(Layer *layer, CAD_heatcool_storageBoiler *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolRadiator(Layer *layer, CAD_heatcool_radiator *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolFilter(Layer *layer, CAD_heatcool_filter *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolBallValve(Layer *layer, CAD_heatcool_ballValve *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolButterflyValve(Layer *layer, CAD_heatcool_butterflyValve *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolSafteyValve(Layer *layer, CAD_heatcool_safetyValve *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintHeatCoolFlowmeter(Layer *layer, CAD_heatcool_flowmeter *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSprinklerCompressedAirWaterContainer(Layer *layer, CAD_sprinkler_compressedAirWaterContainer *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSprinklerDistribution(Layer *layer, CAD_sprinkler_distribution *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSprinklerHead(Layer *layer, CAD_sprinkler_head *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSprinklerPipe(Layer *layer, CAD_sprinkler_pipe *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSprinklerPump(Layer *layer, CAD_sprinkler_pump *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSprinklerTeeConnector(Layer *layer, CAD_sprinkler_teeConnector *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSprinklerValve(Layer *layer, CAD_sprinkler_valve *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSprinklerWetAlarmValve(Layer *layer, CAD_sprinkler_wetAlarmValve *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSprinklerZoneCheck(Layer *layer, CAD_sprinkler_zoneCheck *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSprinklerPipeTurn(Layer *layer, CAD_sprinkler_pipeTurn *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSprinklerPipeEndCap(Layer *layer, CAD_sprinkler_pipeEndCap *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSprinklerPipeReducer(Layer *layer, CAD_sprinkler_pipeReducer *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintElectricalCabinet(Layer *layer, CAD_electrical_cabinet *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintElectricalCabletray(Layer *layer, CAD_electrical_cableTray *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSanitaryPipe(Layer *layer, CAD_sanitary_pipe *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSanitaryPipeTurn(Layer *layer, CAD_sanitary_pipeTurn *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSanitaryPipeReducer(Layer *layer, CAD_sanitary_pipeReducer *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSanitaryPipeTeeConnector(Layer *layer, CAD_sanitary_pipeTeeConnector *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSanitaryPipeEndCap(Layer *layer, CAD_sanitary_pipeEndCap *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSanitaryFlange(Layer *layer, CAD_sanitary_flange *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSanitaryElectricWaterHeater(Layer *layer, CAD_sanitary_electricWaterHeater *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSanitaryWashBasin(Layer *layer, CAD_sanitary_washBasin *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSanitarySink(Layer *layer, CAD_sanitary_sink *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSanitaryShower(Layer *layer, CAD_sanitary_shower *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSanitaryEmergencyShower(Layer *layer, CAD_sanitary_emergencyShower *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSanitaryEmergencyEyeShower(Layer *layer, CAD_sanitary_emergencyEyeShower *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 void GLWidget::paintSanitaryLiftingUnit(Layer *layer, CAD_sanitary_liftingUnit *item)
 {
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
+    Q_UNUSED(color_pen);
+    Q_UNUSED(color_brush);
 }
 
 QList<CADitem*> GLWidget::itemsAtPosition(QPoint pos, int size_x, int size_y)
@@ -4111,7 +4275,7 @@ QList<CADitem*> GLWidget::itemsAtPosition(QPoint pos, int size_x, int size_y)
     {
         GLuint numberOfNames = buffer[i];
         GLuint minDepth = buffer[i + 1];    // Smaller number means closer to the eye
-        GLuint maxDepth = buffer[i + 2];
+//        GLuint maxDepth = buffer[i + 2];
 
         if (numberOfNames > 0)
         {
@@ -4319,12 +4483,16 @@ void GLWidget::selectionClear_processItems(QList<CADitem *> items)
 
 void GLWidget::initializeGL()
 {
+    qDebug() << "initializeGL()";
+
+    initializeOpenGLFunctions();
     makeCurrent();
 
 
     //    GLfloat mat_specular[] = { 0.5, 0.5, 0.5, 1.0 };
     //    GLfloat mat_shininess[] = { 0.2 };
     //    glShadeModel (GL_FLAT);
+// Qt5: to comment
     glShadeModel(GL_SMOOTH);
     glEnable(GL_FRAMEBUFFER_SRGB);
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE | GL_EMISSION);
@@ -4353,15 +4521,32 @@ void GLWidget::initializeGL()
 
     //    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 
-    shader_1_frag = new QGLShader(QGLShader::Fragment, this);
+
+    // Template for Qt 5.4.0 shader allocation
+//    m_shader_vert = new QOpenGLShader(QOpenGLShader::Vertex);
+//    m_shader_frag = new QOpenGLShader(QOpenGLShader::Fragment);
+
+//    m_shader_vert->compileSourceCode(QString());
+//    m_shader_frag->compileSourceCode(QString());
+
+
+//    m_program = new QOpenGLShaderProgram(this);
+//    m_program->addShader(m_shader_frag);
+//    m_program->addShader(m_shader_vert);
+//    m_program->link();
+//    m_program->bind();
+
+
+
+    shader_1_frag = new QOpenGLShader(QOpenGLShader::Fragment);
     bool shaderOk = shader_1_frag->compileSourceFile(":/shaders/test.frag");
     if (!shaderOk)
         QMessageBox::critical(this, "Shader compiler", "Fragment shader failed to compile!");
 
-    shader_1_vert = new QGLShader(QGLShader::Vertex, this);
+    shader_1_vert = new QOpenGLShader(QOpenGLShader::Vertex);
     shaderOk = shader_1_vert->compileSourceFile(":/shaders/shader_1.vert");
 
-    shaderProgram = new QGLShaderProgram(this);
+    shaderProgram = new QOpenGLShaderProgram(this);
     shaderProgram->addShader(shader_1_vert);
     shaderProgram->addShader(shader_1_frag);
     shaderOk = shaderProgram->link();
@@ -4426,14 +4611,24 @@ void GLWidget::initializeGL()
 //    qDebug() << "height of intersection location" << shader_Height_of_intersection_location;
 }
 
-void GLWidget::resizeGL()
+void GLWidget::resizeGL(int w, int h)
 {
+    qDebug() << "rezizeGL()";
+//    displayCenter = QPoint(this->width(), this->height()) / 2;
+    displayCenter = QPoint(w, h) / 2;
 
+    matrix_projection.setToIdentity();
+//    matrix_projection.scale(2.0 / (qreal)this->width(), 2.0 / (qreal)this->height(), 1.0);
+    matrix_projection.scale(2.0 / (qreal)w, 2.0 / (qreal)h, 1.0);
+    matrix_projection.translate(-0.5, -0.5);
+
+    updateMatrixAll();
+    slot_repaint();
 }
 
-void GLWidget::paintGL()
-{
-
-}
+//void GLWidget::paintGL()
+//{
+//    qDebug() << "paintGL()";
+//}
 
 

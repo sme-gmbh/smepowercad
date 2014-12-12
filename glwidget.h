@@ -2,20 +2,23 @@
 #define GLWIDGET_H
 
 // Qt 4
-#include <QGLWidget>
-#include <QGLFramebufferObject>
-#include <QGLShader>
-#include <QGLShaderProgram>
+//#include <QGLWidget>
+//#include <QGLFramebufferObject>
+//#include <QGLShader>
+//#include <QGLShaderProgram>
 
 // Qt 5
-//#include <QtOpenGL/QGLWidget>
-//#include <QOpenGLContext>
-//#include <QOpenGLFramebufferObject>
-//#include <QOpenGLFunctions>
-//#include <QOpenGLFunctions_4_3_Compatibility>
-//#include <QOpenGLPaintDevice>
-//#include <QOpenGLShader>
-//#include <QOpenGLShaderProgram>
+#include <QOpenGLWidget>
+#include <QOpenGLContext>
+#include <QOpenGLFramebufferObject>
+#include <QOpenGLFunctions_4_3_Compatibility>
+#include <QOpenGLPaintDevice>
+
+#include <QOpenGLVertexArrayObject>
+#include <QOpenGLBuffer>
+#include <QOpenGLShader>
+#include <QOpenGLShaderProgram>
+#include <QOpenGLTexture>
 
 #include <QDebug>
 #include <QEvent>
@@ -35,17 +38,16 @@
 #include "itemdb.h"
 #include "itemwizard.h"
 #include "itemgripmodifier.h"
-#include "snapengine.h"
 
 
-class GLWidget : public QGLWidget
+class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions_4_3_Compatibility
 {
     Q_OBJECT
 public:
     enum CuttingPlane{CuttingPlane_pX = 0, CuttingPlane_nX = 1, CuttingPlane_pY = 2, CuttingPlane_nY = 3, CuttingPlane_pZ = 4, CuttingPlane_nZ = 5, CuttingPlane_ISO_001 = 6};
 
 
-    explicit GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, ItemGripModifier* itemGripModifier, QGLFormat glFormat);
+    explicit GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, ItemGripModifier* itemGripModifier);
     ~GLWidget();
 
     QPointF mapFromScene(QVector3D &scenePoint);
@@ -159,13 +161,13 @@ private:
 
     // OpenGL
 // Qt 4
-    QGLShaderProgram* shaderProgram;
-    QGLShader* shader_1_frag;
-    QGLShader* shader_1_vert;
+//    QGLShaderProgram* shaderProgram;
+//    QGLShader* shader_1_frag;
+//    QGLShader* shader_1_vert;
 // Qt 5
-//    QOpenGLShaderProgram* shaderProgram;
-//    QOpenGLShader* shader_1_frag;
-//    QOpenGLShader* shader_1_vert;
+    QOpenGLShaderProgram* shaderProgram;
+    QOpenGLShader* shader_1_frag;
+    QOpenGLShader* shader_1_vert;
     int shader_vertexLocation;
     int shader_matrixLocation;
     int shader_colorLocation;
@@ -348,7 +350,7 @@ signals:
 // General event handlers
 protected:
     virtual void initializeGL();
-    virtual void resizeGL();
+    virtual void resizeGL(int w, int h);
     virtual void paintGL();
 
     virtual void wheelEvent(QWheelEvent *event);
@@ -361,8 +363,8 @@ protected:
 
     virtual void keyPressEvent(QKeyEvent *event);
 
-    virtual void resizeEvent(QResizeEvent *event);
-    virtual void paintEvent(QPaintEvent *event);
+//    virtual void resizeEvent(QResizeEvent *event);
+//    virtual void paintEvent(QPaintEvent *event);
 
 signals:
     void signal_mouseMoved(QVector3D coords);

@@ -35,11 +35,14 @@ CADitem *ItemGripModifier::getItem()
 
 void ItemGripModifier::activateGrip(ItemGripModifier::ItemGripType gripType, QPoint mousePos, QVector3D scenePos)
 {
+    Q_UNUSED(mousePos);
     this->scenePos = scenePos;
     this->activeGrip = gripType;
 
     switch (gripType)
     {
+    case Grip_None:
+        break;
     case Grip_Append:
     {
         showAppendBox();

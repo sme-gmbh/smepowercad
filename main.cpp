@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QSettings>
 //#include <QtOpenGL/QGL>
+#include <QSurfaceFormat>
 
 int main(int argc, char *argv[])
 {
@@ -12,11 +13,21 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain("sme-gmbh.net");
     QCoreApplication::setApplicationName("SME PowerCAD");
 
-    QGL::setPreferredPaintEngine(QPaintEngine::OpenGL);
+//    QGL::setPreferredPaintEngine(QPaintEngine::OpenGL);
 
 
 
     QApplication a(argc, argv);
+
+    // Qt 5 specific opengl settings
+    QSurfaceFormat format;
+    format.setDepthBufferSize(24);
+    format.setStencilBufferSize(8);
+    format.setVersion(4, 3);
+    format.setSamples(4);
+    format.setProfile(QSurfaceFormat::CompatibilityProfile);
+    QSurfaceFormat::setDefaultFormat(format);
+    // End of Qt 5 specific opengl settings
 
     QString locale = QLocale::system().name();
     qDebug("Locale: " + locale.toUtf8()); // de_DE , en_US, ru_RU

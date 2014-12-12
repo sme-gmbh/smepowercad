@@ -24,7 +24,6 @@ TRANSLATIONS =  lang/powercad-de_DE.ts \
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    overlay.cpp \
     layer.cpp \
     layermanager.cpp \
     cadcommand.cpp \
@@ -35,7 +34,6 @@ SOURCES += main.cpp\
     itemdb.cpp \
     caditem.cpp \
     math/m3dbox.cpp \
-    snapengine.cpp \
     glwidget.cpp \
     geometrydisplaytitle.cpp \
     items/cad_basic_point.cpp \
@@ -155,7 +153,6 @@ SOURCES += main.cpp\
     items/cad_air_pipebranch.cpp
 
 HEADERS  += mainwindow.h \
-    overlay.h \
     layer.h \
     layermanager.h \
     cadcommand.h \
@@ -175,7 +172,6 @@ HEADERS  += mainwindow.h \
     itemdb.h \
     caditem.h \
     math/m3dbox.h \
-    snapengine.h \
     glwidget.h \
     geometrydisplaytitle.h \
     items/cad_basic_point.h \
