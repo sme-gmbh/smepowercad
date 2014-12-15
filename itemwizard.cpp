@@ -54,6 +54,7 @@ void ItemWizard::showWizard(CADitem *item)
             ((QDoubleSpinBox*)wdg)->setValue(it.value().toDouble());
             break;
         default:
+            qDebug() << "ItemWizard::showWizard() Unhandled value type:" << it.value().type();
             break;
         }
         wdg->setObjectName(it.key());

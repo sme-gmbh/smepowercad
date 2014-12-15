@@ -108,13 +108,13 @@ void ItemGripModifier::slot_button_clicked()
 
     CADitem* newItem = itemDB->drawItem(this->item->layerName, type);
 
-    newItem->wizardParams.insert("Position x", QVariant::fromValue(scenePos.x()));
-    newItem->wizardParams.insert("Position y", QVariant::fromValue(scenePos.y()));
-    newItem->wizardParams.insert("Position z", QVariant::fromValue(scenePos.z()));
+    newItem->wizardParams.insert("Position x", QVariant::fromValue((qreal)scenePos.x()));
+    newItem->wizardParams.insert("Position y", QVariant::fromValue((qreal)scenePos.y()));
+    newItem->wizardParams.insert("Position z", QVariant::fromValue((qreal)scenePos.z()));
     // tbd: add flange angles
-    newItem->wizardParams.insert("Angle x", QVariant::fromValue(this->item->angle_x));
-    newItem->wizardParams.insert("Angle y", QVariant::fromValue(this->item->angle_y));
-    newItem->wizardParams.insert("Angle z", QVariant::fromValue(this->item->angle_z));
+    newItem->wizardParams.insert("Angle x", QVariant::fromValue((qreal)this->item->angle_x));
+    newItem->wizardParams.insert("Angle y", QVariant::fromValue((qreal)this->item->angle_y));
+    newItem->wizardParams.insert("Angle z", QVariant::fromValue((qreal)this->item->angle_z));
 
     // Copy parameters that are parameters of the flange, but ony if they exist in the both items
     foreach (QString key, newItem->wizardParams.keys())
@@ -176,9 +176,9 @@ void ItemGripModifier::slot_button_copyMulty()
                 // Copy Item
                 newItem = this->itemDB->drawItem(item->layerName, item->getType());
                 newItem->wizardParams = item->wizardParams;
-                newItem->wizardParams.insert("Position x", QVariant::fromValue(pos.x()));
-                newItem->wizardParams.insert("Position y", QVariant::fromValue(pos.y()));
-                newItem->wizardParams.insert("Position z", QVariant::fromValue(pos.z()));
+                newItem->wizardParams.insert("Position x", QVariant::fromValue((qreal)pos.x()));
+                newItem->wizardParams.insert("Position y", QVariant::fromValue((qreal)pos.y()));
+                newItem->wizardParams.insert("Position z", QVariant::fromValue((qreal)pos.z()));
                 newItem->processWizardInput();
                 newItem->calculate();
             }
