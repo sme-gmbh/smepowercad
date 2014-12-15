@@ -56,7 +56,7 @@ QImage CAD_heatcool_storageBoiler::wizardImage()
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
 
-    qDebug() << imageFileName;
+    ;
 
     image.load(imageFileName, "PNG");
 

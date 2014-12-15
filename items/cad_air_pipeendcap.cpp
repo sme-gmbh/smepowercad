@@ -40,7 +40,7 @@ QImage CAD_air_pipeEndCap::wizardImage()
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
 
-    qDebug() << imageFileName;
+    ;
 
     image.load(imageFileName, "PNG");
 

@@ -298,7 +298,6 @@ void LayerManager::on_treeWidget_layer_currentItemChanged(QTreeWidgetItem *curre
     if (newCurrentLayer != NULL)
     {
         this->currentLayer = newCurrentLayer;
-        qDebug() << "Selected Layer" << newCurrentLayer->name;
     }
     else
     {

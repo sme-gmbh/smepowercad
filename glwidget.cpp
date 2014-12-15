@@ -40,6 +40,7 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, Item
     this->arcballShown = false;
     this->snapMode = SnapNo;
     this->item_lastHighlight = NULL;
+    this->selectItemsByColor = false;
 
     slot_update_settings();
 
@@ -48,13 +49,8 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, Item
     this->setPalette(Qt::transparent);
     this->setAttribute(Qt::WA_TransparentForMouseEvents, false);
 
-    //    initializeGL();
-
     //    shaderProgram->setAttributeArray(shader_colorLocation, );
     //    shaderProgram->enableAttributeArray(shader_colorLocation);
-    connect(&timer_findItemAtPosition, SIGNAL(timeout()), this, SLOT(slot_timer_findItemAtPosition_triggered()));
-    timer_findItemAtPosition.setInterval(200);
-    timer_findItemAtPosition.setSingleShot(true);
 }
 
 GLWidget::~GLWidget()
@@ -290,66 +286,6 @@ void GLWidget::slot_update_settings()
     slot_repaint();
 }
 
-void GLWidget::slot_timer_findItemAtPosition_triggered()
-{
-    //    // Item highlighting
-    //    highlightClear();
-    //    highlightItemAtPosition(mousePos);
-
-    //    // Object Snap
-    //    if (item_lastHighlight != NULL)
-    //    {
-    //        // Basepoint snap
-    //        QList<QVector3D> snap_basepoints;
-    //        if ((mapFromScene(item_lastHighlight->snap_basepoint) - mousePos).manhattanLength() < 50)
-    //            snap_basepoints.append(item_lastHighlight->snap_basepoint);
-
-    //        // Endpoint / Vertex snap
-    //        QList<QVector3D> snap_vertex_points;
-    //        foreach (QVector3D snap_vertex, item_lastHighlight->snap_vertices)
-    //        {
-    //            if ((mapFromScene(snap_vertex) - mousePos).manhattanLength() < 10)
-    //                snap_vertex_points.append(snap_vertex);
-    //        }
-
-    //        // Center Snap
-    //        QList<QVector3D> snap_center_points;
-    //        foreach (QVector3D snap_center, item_lastHighlight->snap_center)
-    //        {
-    //            if ((mapFromScene(snap_center) - mousePos).manhattanLength() < 10)
-    //                snap_center_points.append(snap_center);
-    //        }
-
-    //        if (!snap_basepoints.isEmpty())
-    //        {
-    //            this->set_snap_mode(GLWidget::SnapBasepoint);
-    //            this->set_snapPos(snap_basepoints.at(0));
-    //        }
-    //        else if (!snap_vertex_points.isEmpty())
-    //        {
-    //            this->set_snap_mode(GLWidget::SnapEndpoint);
-    //            this->set_snapPos(snap_vertex_points.at(0));
-    //        }
-    //        else if (!snap_center_points.isEmpty())
-    //        {
-    //            this->set_snap_mode(GLWidget::SnapCenter);
-    //            this->set_snapPos(snap_center_points.at(0));
-    //        }
-    //        else
-    //        {
-    //            this->set_snap_mode(GLWidget::SnapNo);
-    //        }
-
-    //        emit signal_snapFired(this->snapPos_scene, this->snapMode);
-    //    }
-    //    else
-    //    {
-    //        this->set_snap_mode(GLWidget::SnapNo);
-    //        emit signal_snapFired(this->snapPos_scene, this->snapMode);
-    //    }
-    //    slot_repaint();
-}
-
 void GLWidget::wheelEvent(QWheelEvent* event)
 {
     qreal zoomStep = 1.15;
@@ -374,13 +310,10 @@ void GLWidget::wheelEvent(QWheelEvent* event)
     zoomStep = qPow(zoomStep, steps);
     zoomFactor *= zoomStep;
 
-    //    translationOffset += (mousePos - QPoint(this->width() / 2, this->height() / 2) - translationOffset) * (1.0 - zoomStep);
     translationOffset += (mousePos - translationOffset) * (1.0 - zoomStep);
 
     event->accept();
 
-    // todo: Map to scene
-    //    emit signal_sceneCoordinateChanged(mapToScene(event->pos()));
     slot_repaint();
 }
 
@@ -391,11 +324,6 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     mousePos -= QPoint(this->width() / 2, this->height() / 2);
     QPoint mouseMoveDelta = mousePos - mousePosOld;
     mousePosOld = mousePos;
-
-    // Update mouse coordinates and scene coordinates
-    // TODO
-    //    if (!(event->buttons() & Qt::MidButton))
-    //        emit signal_sceneCoordinateChanged(mapToScene(mousePos));
 
     if (event->buttons() == Qt::LeftButton)
     {
@@ -426,7 +354,6 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
     if ((event->buttons() == 0) && (this->pickActive == false))
     {
-        //        timer_findItemAtPosition.start();
         // Item highlighting
         highlightClear();
         highlightItemAtPosition(mousePos);
@@ -659,16 +586,16 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
             this->pickStart();
         else
         {
-            QList<CADitem*> pickedItems = this->itemsAtPosition(this->selection().center(), this->selection().width(), this->selection().height());
+            QList<CADitem*> pickedItems = this->itemsAtPosition_v2(this->selection().center(), this->selection().width(), this->selection().height());
             if (this->selectionMode() == Qt::IntersectsItemShape)
                 selectionAddItems(pickedItems);
             else if (this->selectionMode() == Qt::ContainsItemShape)
             {
                 QSet<CADitem*> surroundingItems;
-                surroundingItems.unite(this->itemsAtPosition(((this->selection().topLeft() + this->selection().topRight()) / 2), this->selection().width(), 2).toSet());
-                surroundingItems.unite(this->itemsAtPosition(((this->selection().bottomLeft() + this->selection().bottomRight()) / 2), this->selection().width(), 2).toSet());
-                surroundingItems.unite(this->itemsAtPosition(((this->selection().topLeft() + this->selection().bottomLeft()) / 2), 2, this->selection().height()).toSet());
-                surroundingItems.unite(this->itemsAtPosition(((this->selection().topRight() + this->selection().bottomRight()) / 2), 2, this->selection().height()).toSet());
+                surroundingItems.unite(this->itemsAtPosition_v2(((this->selection().topLeft() + this->selection().topRight()) / 2), this->selection().width(), 2).toSet());
+                surroundingItems.unite(this->itemsAtPosition_v2(((this->selection().bottomLeft() + this->selection().bottomRight()) / 2), this->selection().width(), 2).toSet());
+                surroundingItems.unite(this->itemsAtPosition_v2(((this->selection().topLeft() + this->selection().bottomLeft()) / 2), 2, this->selection().height()).toSet());
+                surroundingItems.unite(this->itemsAtPosition_v2(((this->selection().topRight() + this->selection().bottomRight()) / 2), 2, this->selection().height()).toSet());
                 selectionAddItems(pickedItems.toSet().subtract(surroundingItems).toList());
             }
 
@@ -843,8 +770,6 @@ void GLWidget::slot_set_cuttingplane_values_changed(qreal height, qreal depth)
 //void GLWidget::paintEvent(QPaintEvent *event)
 void GLWidget::paintGL()
 {
-    qDebug() << "paintGL()";
-
     if (this->size().isNull())
         return;
 
@@ -855,23 +780,20 @@ void GLWidget::paintGL()
     matrix_modelview.scale(this->zoomFactor, this->zoomFactor, 1.0 / 100000.0);
     updateMatrixAll();
 
-    //    shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection * matrix_modelview * matrix_rotation);
     shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
 
     glClearColor(_backgroundColor.redF(), _backgroundColor.greenF(), _backgroundColor.blueF(), _backgroundColor.alphaF());
-//    qglClearColor(_backgroundColor);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//    glViewport(0.0, 0.0, width(), height());
-    glEnable(GL_BLEND);
-    //    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
+//    glEnable(GL_BLEND);
+//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
 
-//    glEnable(GL_MULTISAMPLE);
+    glEnable(GL_MULTISAMPLE);
     glDisable(GL_CULL_FACE);
     glDepthFunc(GL_LEQUAL);
     glDepthRange(1,0);
-//    glPolygonOffset(0.0, 3.0);
-//    glEnable(GL_POLYGON_OFFSET_FILL);
+    glPolygonOffset(0.0, 3.0);
+    glEnable(GL_POLYGON_OFFSET_FILL);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_ALPHA_TEST);
 //    glEnable(GL_LIGHTING);
@@ -1303,20 +1225,20 @@ void GLWidget::slot_solid(bool on)
 
 void GLWidget::saveGLState()
 {
-    glPushAttrib(GL_ALL_ATTRIB_BITS);
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
+//    glPushAttrib(GL_ALL_ATTRIB_BITS);
+//    glMatrixMode(GL_PROJECTION);
+//    glPushMatrix();
+//    glMatrixMode(GL_MODELVIEW);
+//    glPushMatrix();
 }
 
 void GLWidget::restoreGLState()
 {
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
-    glMatrixMode(GL_MODELVIEW);
-    glPopMatrix();
-    glPopAttrib();
+//    glMatrixMode(GL_PROJECTION);
+//    glPopMatrix();
+//    glMatrixMode(GL_MODELVIEW);
+//    glPopMatrix();
+//    glPopAttrib();
 }
 
 void GLWidget::setVertex(QVector3D pos)
@@ -1332,6 +1254,14 @@ void GLWidget::setVertex(QPoint pos)
 
 void GLWidget::setPaintingColor(QColor color)
 {
+    if (selectItemsByColor)
+    {
+        color.setRed(  (glName >> 16) & 0xff);
+        color.setGreen((glName >>  8) & 0xff);
+        color.setBlue( (glName)       & 0xff);
+        color.setAlpha(255);
+    }
+
     vertex_color = QVector4D(color.redF(), color.greenF(), color.blueF(), color.alphaF());
     shaderProgram->setAttributeValue(shader_colorLocation, vertex_color);
 }
@@ -1511,7 +1441,7 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundin
 
         if(!isSubItem)
             glName++;
-        glLoadName(glName);
+//        glLoadName(glName);
         item->index = glName;
 
         // Paint it
@@ -4221,14 +4151,13 @@ QList<CADitem*> GLWidget::itemsAtPosition(QPoint pos, int size_x, int size_y)
 {
 #define HITBUFFER_SIZE 512000
     GLuint buffer[HITBUFFER_SIZE];
-    GLint viewport[4];
+//    GLint viewport[4];
 
     saveGLState();
 
-
-    glViewport(0, 0, width(), height());
+//    glViewport(0, 0, width(), height());
     //    glViewport(pos.x(), pos.y(), (GLsizei)_cursorPickboxSize, (GLsizei)_cursorPickboxSize);
-    glGetIntegerv(GL_VIEWPORT, viewport);
+//    glGetIntegerv(GL_VIEWPORT, viewport);
     glDepthFunc(GL_LEQUAL);
     glDepthRange(1,0);
     glSelectBuffer(HITBUFFER_SIZE, buffer);
@@ -4238,9 +4167,10 @@ QList<CADitem*> GLWidget::itemsAtPosition(QPoint pos, int size_x, int size_y)
     glPushName(0);
 
     glDisable(GL_BLEND);
-
     glDisable(GL_MULTISAMPLE);
     glDisable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_ALPHA_TEST);
 
     matrix_glSelect.setToIdentity();
     matrix_glSelect.scale(1.0 / ((qreal)size_x / this->width()), 1.0 / ((qreal)size_y / this->height()), 1.0);
@@ -4248,14 +4178,11 @@ QList<CADitem*> GLWidget::itemsAtPosition(QPoint pos, int size_x, int size_y)
     updateMatrixAll();
     shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
 
-    glEnable(GL_DEPTH_TEST);
-    glDisable(GL_ALPHA_TEST);
-
     glName = 0;
     paintContent(itemDB->layers);
 
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
+//    glMatrixMode(GL_PROJECTION);
+//    glPopMatrix();
 
     GLint hits = glRenderMode(GL_RENDER);   // Number of hits is returned by glRenderMode
     restoreGLState();
@@ -4299,12 +4226,79 @@ QList<CADitem*> GLWidget::itemsAtPosition(QPoint pos, int size_x, int size_y)
     foundItems = itemsDepthMap.values();
 
     return foundItems;
+}
 
-    //    CADitem* item = itemAtPosition_processLayers(itemDB->layers, glName);
-    //    if (item)
-    //        return item;
+QList<CADitem*> GLWidget::itemsAtPosition_v2(QPoint pos, int size_x, int size_y)
+{
+    makeCurrent();
+    QOpenGLFramebufferObjectFormat format;
+    format.setSamples(1);
+    format.setAttachment(QOpenGLFramebufferObject::Depth);
+    format.setInternalTextureFormat(GL_RGBA);
+    format.setMipmap(false);
+    format.setTextureTarget(GL_TEXTURE_2D);
+    QOpenGLFramebufferObject* fbo = new QOpenGLFramebufferObject(size_x, size_y, format);
 
-    //    return NULL;
+    matrix_glSelect.setToIdentity();
+    matrix_glSelect.translate(-(qreal)(pos.x() + (this->width() - size_x) / 2), -(qreal)(pos.y() + (this->height() - size_y) / 2), 0.0);
+    updateMatrixAll();
+    shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
+
+    fbo->bind();
+
+    glDepthFunc(GL_LEQUAL);
+    glDepthRange(1,0);
+    glDisable(GL_BLEND);
+    glDisable(GL_MULTISAMPLE);
+    glDisable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_ALPHA_TEST);
+    glClearColor(0.0, 0.0, 0.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glName = 1;
+    selectItemsByColor = true;
+    paintContent(itemDB->layers);
+    selectItemsByColor = false;
+
+    QImage image = fbo->toImage();
+
+    fbo->release();
+    delete fbo;
+
+    matrix_glSelect.setToIdentity();
+    updateMatrixAll();
+    doneCurrent();
+
+    QList<CADitem*> foundItems;
+    QMap<quint32,quint32> itemsDistMap;
+
+    for (int x = 0; x < size_x; x++)
+    {
+        for (int y = 0; y < size_y; y++)
+        {
+            QRgb pixel = image.pixel(x, y);
+            if ((pixel & 0xffffff) != 0)
+            {
+                quint32 itemName;
+                itemName = (quint32)pixel & 0xffffff;
+                itemsDistMap.insertMulti(qAbs(size_x/2 - x) + qAbs(size_y/2 - y), itemName);
+            }
+        }
+    }
+
+    QList<quint32> processedNames;
+    foreach(quint32 itemName, itemsDistMap.values())
+    {
+        if (!processedNames.contains(itemName))
+        {
+            CADitem* item = itemsAtPosition_processLayers(itemDB->layers, itemName);
+            foundItems.append(item);
+            processedNames.append(itemName);
+        }
+    }
+
+    return foundItems;
 }
 
 CADitem *GLWidget::itemsAtPosition_processLayers(QList<Layer *> layers, GLuint glName)
@@ -4346,7 +4340,7 @@ CADitem *GLWidget::itemsAtPosition_processItems(QList<CADitem *> items, GLuint g
 
 void GLWidget::highlightItemAtPosition(QPoint pos)
 {
-    QList<CADitem*> itemList = this->itemsAtPosition(pos, _cursorPickboxSize, _cursorPickboxSize);
+    QList<CADitem*> itemList = this->itemsAtPosition_v2(pos, _cursorPickboxSize, _cursorPickboxSize);
     CADitem* item;
     if (itemList.isEmpty())
         item = NULL;
@@ -4491,7 +4485,7 @@ void GLWidget::initializeGL()
 
     //    GLfloat mat_specular[] = { 0.5, 0.5, 0.5, 1.0 };
     //    GLfloat mat_shininess[] = { 0.2 };
-    //    glShadeModel (GL_FLAT);
+    glShadeModel (GL_FLAT);
 // Qt5: to comment
     glShadeModel(GL_SMOOTH);
     glEnable(GL_FRAMEBUFFER_SRGB);
@@ -4613,22 +4607,12 @@ void GLWidget::initializeGL()
 
 void GLWidget::resizeGL(int w, int h)
 {
-    qDebug() << "rezizeGL()";
-//    displayCenter = QPoint(this->width(), this->height()) / 2;
     displayCenter = QPoint(w, h) / 2;
 
     matrix_projection.setToIdentity();
-//    matrix_projection.scale(2.0 / (qreal)this->width(), 2.0 / (qreal)this->height(), 1.0);
     matrix_projection.scale(2.0 / (qreal)w, 2.0 / (qreal)h, 1.0);
     matrix_projection.translate(-0.5, -0.5);
 
     updateMatrixAll();
     slot_repaint();
 }
-
-//void GLWidget::paintGL()
-//{
-//    qDebug() << "paintGL()";
-//}
-
-

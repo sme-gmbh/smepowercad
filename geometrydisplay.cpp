@@ -11,7 +11,7 @@
 GeometryDisplay::GeometryDisplay(ItemDB *itemDB, ItemWizard *itemWizard, ItemGripModifier *itemGripModifier, QWidget *parent) :
     QDockWidget(parent)
 {
-    qDebug() << "GeometryDisplay created";
+//    qDebug() << "GeometryDisplay created";
     this->itemDB = itemDB;
     this->itemWizard = itemWizard;
     this->itemGripModifier = itemGripModifier;
@@ -63,7 +63,7 @@ GeometryDisplay::~GeometryDisplay()
 {
     //delete this->glwidget;
 
-    qDebug() << "GeometryDisplay destroyed";
+//    qDebug() << "GeometryDisplay destroyed";
 }
 
 void GeometryDisplay::hideButtons()

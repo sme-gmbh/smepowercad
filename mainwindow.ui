@@ -1762,6 +1762,10 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
   </action>
   <action name="actionArchitecture_Grating">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/cad_arch/cad_arch_grating.svg</normaloff>:/icons/cad_arch/cad_arch_grating.svg</iconset>
+   </property>
    <property name="text">
     <string>Architecture Grating</string>
    </property>
@@ -1770,6 +1774,10 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
   </action>
   <action name="actionArchitecture_Foundation">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/cad_arch/cad_arch_foundation.svg</normaloff>:/icons/cad_arch/cad_arch_foundation.svg</iconset>
+   </property>
    <property name="text">
     <string>Architecture Foundation</string>
    </property>
@@ -1778,6 +1786,10 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
   </action>
   <action name="actionBasic_Duct">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/cad_basic/cad_basic_duct.svg</normaloff>:/icons/cad_basic/cad_basic_duct.svg</iconset>
+   </property>
    <property name="text">
     <string>Basic Duct</string>
    </property>

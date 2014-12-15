@@ -30,6 +30,8 @@
 #include <QFontMetrics>
 #include <QSettings>
 #include <QTimer>
+#include <QColor>
+#include <QRgb>
 
 #include <qmath.h>
 #include <qgl.h>
@@ -109,7 +111,6 @@ private:
 
     QMap<GLuint, CADitem*> glNameMap;
     quint32 glName;
-    QTimer timer_findItemAtPosition;
 
     // Overlay
     QPoint mousePos;
@@ -209,6 +210,7 @@ private:
 
     QColor getColorPen(CADitem* item, Layer *layer);
     QColor getColorBrush(CADitem* item, Layer *layer);
+    bool selectItemsByColor;
 
     typedef enum {
         topLeft,
@@ -326,6 +328,7 @@ private:
     void paintSanitaryLiftingUnit(Layer *layer, CAD_sanitary_liftingUnit *item);
 
     QList<CADitem *> itemsAtPosition(QPoint pos, int size_x, int size_y);
+    QList<CADitem *> itemsAtPosition_v2(QPoint pos, int size_x, int size_y);
     CADitem *itemsAtPosition_processLayers(QList<Layer*> layers, GLuint glName);
     CADitem *itemsAtPosition_processItems(QList<CADitem*> items, GLuint glName);
     void highlightItemAtPosition(QPoint pos);
@@ -380,7 +383,7 @@ public slots:
     void slot_set_cuttingplane_values_changed(qreal height, qreal depth);
 
 private slots:
-    void slot_timer_findItemAtPosition_triggered();
+
 };
 
 #endif // GLWIDGET_H

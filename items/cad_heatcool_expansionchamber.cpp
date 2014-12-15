@@ -56,7 +56,7 @@ QImage CAD_heatcool_expansionChamber::wizardImage()
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
 
-    qDebug() << imageFileName;
+    ;
 
     image.load(imageFileName, "PNG");
 

@@ -34,7 +34,7 @@ QImage CAD_basic_sphere::wizardImage()
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
 
-    qDebug() << imageFileName;
+    ;
 
     image.load(imageFileName, "PNG");
 

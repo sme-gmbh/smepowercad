@@ -147,6 +147,9 @@
         <file>itemGraphic/cad_sprinkler_feedtank-500liter.png</file>
         <file>itemGraphic/cad_sprinkler_gatevalve.png</file>
         <file>itemGraphic/cad_sprinkler_wetpipealarmvalves_FL-NAV.png</file>
+        <file>icons/cad_arch/cad_arch_grating.svg</file>
+        <file>icons/cad_arch/cad_arch_foundation.svg</file>
+        <file>icons/cad_basic/cad_basic_duct.svg</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>

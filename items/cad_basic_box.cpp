@@ -37,7 +37,7 @@ QImage CAD_basic_box::wizardImage()
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
 
-    qDebug() << imageFileName;
+    ;
 
     image.load(imageFileName, "PNG");
 
@@ -91,8 +91,6 @@ void CAD_basic_box::calculate()
     this->normal_right = (pos_bot_2 - pos_bot_1).normalized();
     this->normal_front = (pos_bot_2 - pos_bot_3).normalized();
     this->normal_back  = (pos_bot_3 - pos_bot_2).normalized();
-
-    qDebug() << "calculating a box";
 }
 
 void CAD_basic_box::processWizardInput()

@@ -243,8 +243,6 @@ void MainWindow::updateRecentFileActions()
 
     int numRecentFiles = qMin(files.size(), (int)MAX_RECENT_FILES);
 
-    qDebug() << numRecentFiles;
-
     if (numRecentFiles < 1)
     {
         ui->menuDatei->actions().at(1)->setEnabled(false);
@@ -284,8 +282,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::slot_file_open_action()
 {
-    qDebug() << "slot_file_open_action()";
-
     QString filename;
     filename = QFileDialog::getOpenFileName(this, tr("Load drawing"), QString(), tr("dxf-Datei (*.dxf)"));
 
@@ -514,10 +510,6 @@ void MainWindow::on_action_basic_box_triggered()
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
 
-    //    CAD_basic_box* box = new CAD_basic_box();
-    //    box->calculate();
-    //    itemDB->addItem(box, "Testlayer");
-
     CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Box);
     this->itemWizard->showWizard(item);
 }
@@ -526,11 +518,6 @@ void MainWindow::on_action_basic_circle_triggered()
 {
     qDebug() << "Action name" << ((QAction*)sender())->objectName();
     qDebug() << "Action text" << ((QAction*)sender())->text();
-
-    //    CAD_basic_circle* circle = new CAD_basic_circle();
-    //    circle->center = QVector3D(-2.0, 0.0, 0.0);
-    //    circle->calculate();
-    //    itemDB->addItem(circle, "Testlayer");
 
     CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Circle);
     this->itemWizard->showWizard(item);
