@@ -13,13 +13,27 @@ CAD_basic_box::CAD_basic_box() : CADitem(CADitem::Basic_Box)
     wizardParams.insert("Size y", QVariant::fromValue(1.0));
     wizardParams.insert("Size z", QVariant::fromValue(1.0));
 
+    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    arrayBufVertices.create();
+    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufFaces.create();
+    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufLines.create();
+    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
     processWizardInput();
     calculate();
 }
 
 CAD_basic_box::~CAD_basic_box()
 {
-
+    arrayBufVertices.destroy();
+    indexBufFaces.destroy();
+    indexBufLines.destroy();
 }
 
 QList<CADitem::ItemType> CAD_basic_box::flangable_items()
@@ -59,6 +73,24 @@ void CAD_basic_box::calculate()
 
     this->snap_basepoint = (position);
 
+    pos_bot_1 = position;
+    pos_bot_2 = position;
+    pos_bot_3 = position;
+    pos_bot_4 = position;
+    pos_top_1 = position;
+    pos_top_2 = position;
+    pos_top_3 = position;
+    pos_top_4 = position;
+
+    pos_bot_1 += matrix_rotation * (QVector3D(-0.5, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z());
+    pos_bot_2 += matrix_rotation * (QVector3D( 0.5, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z());
+    pos_bot_3 += matrix_rotation * (QVector3D( 0.5, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z());
+    pos_bot_4 += matrix_rotation * (QVector3D(-0.5, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z());
+    pos_top_1 += matrix_rotation * (QVector3D(-0.5, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z());
+    pos_top_2 += matrix_rotation * (QVector3D( 0.5, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z());
+    pos_top_3 += matrix_rotation * (QVector3D( 0.5, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z());
+    pos_top_4 += matrix_rotation * (QVector3D(-0.5, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z());
+
     this->snap_vertices.append(pos_bot_1);
     this->snap_vertices.append(pos_bot_2);
     this->snap_vertices.append(pos_bot_3);
@@ -91,12 +123,50 @@ void CAD_basic_box::calculate()
     this->normal_right = (pos_bot_2 - pos_bot_1).normalized();
     this->normal_front = (pos_bot_2 - pos_bot_3).normalized();
     this->normal_back  = (pos_bot_3 - pos_bot_2).normalized();
+
+    QVector3D vertices[] = {
+        pos_bot_1,
+        pos_bot_2,
+        pos_bot_3,
+        pos_bot_4,
+        pos_top_1,
+        pos_top_2,
+        pos_top_3,
+        pos_top_4
+    };
+
+    static const GLushort indicesFaces[] = {
+        5, 6, 7, 3, 4, 0, 1, 3, 2, 6, 1, 5, 4, 7
+    };
+
+    static const GLushort indicesLines[] = {
+        0, 1,
+        1, 2,
+        2, 3,
+        3, 0,
+        4, 5,
+        5, 6,
+        6, 7,
+        7, 4,
+        0, 4,
+        1, 5,
+        2, 6,
+        3, 7
+    };
+
+
+    arrayBufVertices.bind();
+    arrayBufVertices.allocate(vertices, sizeof(vertices));
+
+    indexBufFaces.bind();
+    indexBufFaces.allocate(indicesFaces, sizeof(indicesFaces));
+
+    indexBufLines.bind();
+    indexBufLines.allocate(indicesLines, sizeof(indicesLines));
 }
 
 void CAD_basic_box::processWizardInput()
 {
-    QVector3D size;
-
     position.setX(wizardParams.value("Position x").toDouble());
     position.setY(wizardParams.value("Position y").toDouble());
     position.setZ(wizardParams.value("Position z").toDouble());
@@ -106,28 +176,4 @@ void CAD_basic_box::processWizardInput()
     size.setX(wizardParams.value("Size x").toDouble());
     size.setY(wizardParams.value("Size y").toDouble());
     size.setZ(wizardParams.value("Size z").toDouble());
-
-    pos_bot_1 = position;
-    pos_bot_2 = position;
-    pos_bot_3 = position;
-    pos_bot_4 = position;
-    pos_top_1 = position;
-    pos_top_2 = position;
-    pos_top_3 = position;
-    pos_top_4 = position;
-
-    matrix_rotation.setToIdentity();
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-
-    pos_bot_1 += matrix_rotation * (QVector3D(-0.5, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z());
-    pos_bot_2 += matrix_rotation * (QVector3D( 0.5, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z());
-    pos_bot_3 += matrix_rotation * (QVector3D( 0.5, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z());
-    pos_bot_4 += matrix_rotation * (QVector3D(-0.5, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z());
-    pos_top_1 += matrix_rotation * (QVector3D(-0.5, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z());
-    pos_top_2 += matrix_rotation * (QVector3D( 0.5, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z());
-    pos_top_3 += matrix_rotation * (QVector3D( 0.5, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z());
-    pos_top_4 += matrix_rotation * (QVector3D(-0.5, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z());
-
 }

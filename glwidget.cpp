@@ -1971,6 +1971,7 @@ void GLWidget::paintBasicPlane(Layer *layer, CAD_basic_plane *item)
     if (this->render_outline)
     {
         setPaintingColor(color_pen);
+        glLineWidth(1.0);
         glBegin(GL_LINE_LOOP);
         for(int k = 0; k < 4; k++)
             glVertex3f((GLfloat)item->vertices[k].x(), (GLfloat)item->vertices[k].y(), (GLfloat)item->vertices[k].z());
@@ -1996,8 +1997,9 @@ void GLWidget::paintBasicFace(Layer *layer, CAD_basic_3Dface *item)
 
     if (this->render_outline)
     {
-        glBegin(GL_LINE_LOOP);
         setPaintingColor(color_pen);
+        glLineWidth(1.0);
+        glBegin(GL_LINE_LOOP);
         foreach (CAD_basic_3Dface::Vertex vertex, item->vertices)
         {
             glVertex3f((GLfloat)vertex.pos.x(), (GLfloat)vertex.pos.y(), (GLfloat)vertex.pos.z());
@@ -2076,54 +2078,64 @@ void GLWidget::paintBasicBox(Layer *layer, CAD_basic_box *item)
     QColor color_pen = getColorPen(item, layer);
     QColor color_brush = getColorBrush(item, layer);
 
+    item->arrayBufVertices.bind();
+    shaderProgram->enableAttributeArray(shader_vertexLocation);
+    shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
+
     if (this->render_solid)
     {
-        glBegin(GL_QUADS);
+//        glBegin(GL_QUADS);
         setPaintingColor(color_brush);
 
-        // Bottom face
-        glNormal3f((GLfloat)item->normal_bot.x(), (GLfloat)item->normal_bot.y(), (GLfloat)item->normal_bot.z());
-        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
-        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
-        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
-        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
+        item->indexBufFaces.bind();
+        glDrawElements(GL_TRIANGLE_STRIP, item->indexBufFaces.size(), GL_UNSIGNED_SHORT, 0);
 
-        // Top face
-        glNormal3f((GLfloat)item->normal_top.x(), (GLfloat)item->normal_top.y(), (GLfloat)item->normal_top.z());
-        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
-        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
-        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
-        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
+        item->indexBufFaces.release();
 
-        // Front face
-        glNormal3f((GLfloat)item->normal_front.x(), (GLfloat)item->normal_front.y(), (GLfloat)item->normal_front.z());
-        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
-        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
-        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
-        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
 
-        // Left face
-        glNormal3f((GLfloat)item->normal_left.x(), (GLfloat)item->normal_left.y(), (GLfloat)item->normal_left.z());
-        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
-        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
-        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
-        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
+//        // Bottom face
+//        glNormal3f((GLfloat)item->normal_bot.x(), (GLfloat)item->normal_bot.y(), (GLfloat)item->normal_bot.z());
+//        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
+//        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
+//        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
+//        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
 
-        // Right face
-        glNormal3f((GLfloat)item->normal_right.x(), (GLfloat)item->normal_right.y(), (GLfloat)item->normal_right.z());
-        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
-        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
-        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
-        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
+//        // Top face
+//        glNormal3f((GLfloat)item->normal_top.x(), (GLfloat)item->normal_top.y(), (GLfloat)item->normal_top.z());
+//        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
+//        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
+//        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
+//        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
 
-        // Back face
-        glNormal3f((GLfloat)item->normal_back.x(), (GLfloat)item->normal_back.y(), (GLfloat)item->normal_back.z());
-        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
-        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
-        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
-        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
+//        // Front face
+//        glNormal3f((GLfloat)item->normal_front.x(), (GLfloat)item->normal_front.y(), (GLfloat)item->normal_front.z());
+//        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
+//        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
+//        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
+//        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
 
-        glEnd();
+//        // Left face
+//        glNormal3f((GLfloat)item->normal_left.x(), (GLfloat)item->normal_left.y(), (GLfloat)item->normal_left.z());
+//        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
+//        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
+//        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
+//        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
+
+//        // Right face
+//        glNormal3f((GLfloat)item->normal_right.x(), (GLfloat)item->normal_right.y(), (GLfloat)item->normal_right.z());
+//        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
+//        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
+//        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
+//        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
+
+//        // Back face
+//        glNormal3f((GLfloat)item->normal_back.x(), (GLfloat)item->normal_back.y(), (GLfloat)item->normal_back.z());
+//        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
+//        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
+//        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
+//        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
+
+//        glEnd();
     }
 
     if (this->render_outline)
@@ -2131,37 +2143,44 @@ void GLWidget::paintBasicBox(Layer *layer, CAD_basic_box *item)
         setPaintingColor(color_pen);
         glLineWidth(1.0);
 
-        // Bottom face
-        glBegin(GL_LINE_LOOP);
-        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
-        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
-        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
-        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
-        glEnd();
+        item->indexBufLines.bind();
+        glDrawElements(GL_LINES, item->indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
+        item->indexBufLines.release();
 
-        // Top face
-        glBegin(GL_LINE_LOOP);
-        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
-        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
-        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
-        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
-        glEnd();
 
-        // Vertical edges
-        glBegin(GL_LINES);
-        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
-        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
+//        // Bottom face
+//        glBegin(GL_LINE_LOOP);
+//        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
+//        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
+//        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
+//        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
+//        glEnd();
 
-        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
-        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
+//        // Top face
+//        glBegin(GL_LINE_LOOP);
+//        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
+//        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
+//        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
+//        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
+//        glEnd();
 
-        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
-        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
+//        // Vertical edges
+//        glBegin(GL_LINES);
+//        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
+//        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
 
-        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
-        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
-        glEnd();
+//        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
+//        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
+
+//        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
+//        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
+
+//        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
+//        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
+//        glEnd();
     }
+
+    item->arrayBufVertices.release();
 }
 
 void GLWidget::paintBasicCylinder(Layer *layer, CAD_basic_cylinder *item)
@@ -2560,6 +2579,7 @@ void GLWidget::paintBasicSphere(Layer *layer, CAD_basic_sphere *item)
     }
     if (this->render_outline)
     {
+        glLineWidth(1.0);
         setPaintingColor(color_pen);
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         gluSphere(sphere, radius * 1.001, 32, 32);
@@ -2576,8 +2596,8 @@ void GLWidget::paintBasicDuct(Layer *layer, CAD_basic_duct *item)
 
     if (this->render_solid)
     {
-        glBegin(GL_QUADS);
         setPaintingColor(color_brush);
+        glBegin(GL_QUADS);
 
         // Bottom face
         glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
@@ -2676,7 +2696,7 @@ void GLWidget::paintBasicDuct(Layer *layer, CAD_basic_duct *item)
     if (this->render_outline)
     {
         setPaintingColor(color_pen);
-        glLineWidth(1.5);
+        glLineWidth(1.0);
 
         glBegin(GL_LINE_LOOP);
 
@@ -3277,6 +3297,7 @@ void GLWidget::paintAirDuctTransitionRectRound(Layer *layer, CAD_air_ductTransit
     if (this->render_outline)
     {
         setPaintingColor(color_pen);
+        glLineWidth(1.0);
 
         //        //front face round
         //        for(int k = 0; k < count_k - 1; k++)
@@ -3510,6 +3531,7 @@ void GLWidget::paintAirDuctYpiece(Layer *layer, CAD_air_ductYpiece *item)
     if (this->render_outline)
     {
         setPaintingColor(color_pen);
+        glLineWidth(1.0);
         glBegin(GL_LINES);
         //lower
         glVertex3f((GLfloat)item->endcap_1->pos_bot_2.x(), (GLfloat)item->endcap_1->pos_bot_2.y(), (GLfloat)item->endcap_1->pos_bot_2.z());
@@ -3659,8 +3681,8 @@ void GLWidget::paintAirHeatExchangerAirAir(Layer *layer, CAD_air_heatExchangerAi
     if (this->render_outline)
     {
         setPaintingColor(color_pen);
+        glLineWidth(1.0);
         glBegin(GL_LINE_LOOP);
-
         glVertex3f((GLfloat)item->points[0][0].x(), (GLfloat)item->points[0][0].y(), (GLfloat)item->points[0][0].z());
         glVertex3f((GLfloat)item->points[0][1].x(), (GLfloat)item->points[0][1].y(), (GLfloat)item->points[0][1].z());
         glVertex3f((GLfloat)item->points[0][2].x(), (GLfloat)item->points[0][2].y(), (GLfloat)item->points[0][2].z());
@@ -3673,7 +3695,6 @@ void GLWidget::paintAirHeatExchangerAirAir(Layer *layer, CAD_air_heatExchangerAi
         glVertex3f((GLfloat)item->points[1][3].x(), (GLfloat)item->points[1][3].y(), (GLfloat)item->points[1][3].z());
         glEnd();
         glBegin(GL_LINES);
-
         glVertex3f((GLfloat)item->points[0][1].x(), (GLfloat)item->points[0][1].y(), (GLfloat)item->points[0][1].z());
         glVertex3f((GLfloat)item->points[1][1].x(), (GLfloat)item->points[1][1].y(), (GLfloat)item->points[1][1].z());
         glVertex3f((GLfloat)item->points[0][3].x(), (GLfloat)item->points[0][3].y(), (GLfloat)item->points[0][3].z());
@@ -4486,10 +4507,10 @@ void GLWidget::initializeGL()
     //    GLfloat mat_specular[] = { 0.5, 0.5, 0.5, 1.0 };
     //    GLfloat mat_shininess[] = { 0.2 };
     glShadeModel (GL_FLAT);
-// Qt5: to comment
     glShadeModel(GL_SMOOTH);
     glEnable(GL_FRAMEBUFFER_SRGB);
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE | GL_EMISSION);
+//    glEnableClientState(GL_VERTEX_ARRAY);
 
     //tbd: glProvokingVertex(GL_FIRST_VERTEX_CONVENTION);
 

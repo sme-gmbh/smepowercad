@@ -119,6 +119,8 @@ void CAD_air_ductVolumetricFlowController::calculate()
     flap->wizardParams.insert("Size z", QVariant::fromValue(0.1 * a));
     flap->processWizardInput();
     flap->calculate();
+
+    this->snap_flanges = this->duct->snap_flanges;
 }
 
 void CAD_air_ductVolumetricFlowController::processWizardInput()

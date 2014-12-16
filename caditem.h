@@ -14,10 +14,13 @@
 #include <QFileInfo>
 #include <QDataStream>
 #include <QDebug>
+#include <QOpenGLBuffer>
 #include <math.h>
 #include "math/m3dboundingbox.h"
 
 #define PI 3.1415926535897
+//#define OPENGL_LOCATION_POSITION 0
+//#define OPENGL_LOCATION_COLOR 11
 
 class CADitem
 {

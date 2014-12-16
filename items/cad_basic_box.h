@@ -13,6 +13,10 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
 
+    QOpenGLBuffer arrayBufVertices;
+    QOpenGLBuffer indexBufFaces;
+    QOpenGLBuffer indexBufLines;
+
     QVector3D pos_bot_1;
     QVector3D pos_bot_2;
     QVector3D pos_bot_3;
@@ -21,6 +25,8 @@ public:
     QVector3D pos_top_2;
     QVector3D pos_top_3;
     QVector3D pos_top_4;
+
+    QVector3D size;
 
     QVector3D normal_bot;
     QVector3D normal_top;
