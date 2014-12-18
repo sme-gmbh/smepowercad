@@ -86,3 +86,8 @@ void CAD_basic_circle::processWizardInput()
     angle_z = wizardParams.value("Angle z").toDouble();
     radius = wizardParams.value("Radius").toDouble();
 }
+
+void CAD_basic_circle::paint(GLWidget *glwidget)
+{
+
+}

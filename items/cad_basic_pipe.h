@@ -12,10 +12,11 @@ class CAD_basic_pipe : public CADitem
 public:
     CAD_basic_pipe();
     virtual ~CAD_basic_pipe();
-    static QList<CADitem::ItemType> flangable_items();
-    static QImage wizardImage();
+    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
+    virtual void paint(GLWidget* glwidget);
 
    QMatrix4x4 matrix_rotation;
 

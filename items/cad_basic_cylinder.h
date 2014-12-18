@@ -9,10 +9,11 @@ class CAD_basic_cylinder : public CADitem
 public:
     CAD_basic_cylinder();
     virtual ~CAD_basic_cylinder();
-    static QList<CADitem::ItemType> flangable_items();
-    static QImage wizardImage();
+    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
+    virtual void paint(GLWidget* glwidget);
 
     qreal radius;
     QVector3D center_base;

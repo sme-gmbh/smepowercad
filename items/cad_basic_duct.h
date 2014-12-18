@@ -8,10 +8,11 @@ class CAD_basic_duct : public CADitem
 public:
     CAD_basic_duct();
     virtual ~CAD_basic_duct();
-    static QList<CADitem::ItemType> flangable_items();
-    static QImage wizardImage();
+    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
+    virtual void paint(GLWidget* glwidget);
 
     QVector3D pos_bot_1;
     QVector3D pos_bot_2;

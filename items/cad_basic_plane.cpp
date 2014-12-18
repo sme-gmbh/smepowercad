@@ -86,3 +86,8 @@ void CAD_basic_plane::processWizardInput()
     b = wizardParams.value("Width (B)").toDouble();
 
 }
+
+void CAD_basic_plane::paint(GLWidget *glwidget)
+{
+
+}

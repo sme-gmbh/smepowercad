@@ -8,10 +8,11 @@ class CAD_basic_box : public CADitem
 public:
     CAD_basic_box();
     virtual ~CAD_basic_box();
-    static QList<CADitem::ItemType> flangable_items();
-    static QImage wizardImage();
+    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
+    virtual void paint(GLWidget* glwidget);
 
     QOpenGLBuffer arrayBufVertices;
     QOpenGLBuffer indexBufFaces;

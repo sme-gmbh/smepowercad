@@ -8,8 +8,8 @@ class CAD_sanitary_electricWaterHeater : public CADitem
 public:
     CAD_sanitary_electricWaterHeater();
     virtual ~CAD_sanitary_electricWaterHeater();
-    static QList<CADitem::ItemType> flangable_items();
-    static QImage wizardImage();
+    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
 };

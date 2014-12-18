@@ -124,3 +124,8 @@ void CAD_basic_pipe::processWizardInput()
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
     direction =  matrix_rotation * QVector3D(1.0, 0.0, 0.0) * length;
 }
+
+void CAD_basic_pipe::paint(GLWidget *glwidget)
+{
+
+}

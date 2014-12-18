@@ -90,3 +90,8 @@ void CAD_basic_polyline::processWizardInput()
 {
 
 }
+
+void CAD_basic_polyline::paint(GLWidget *glwidget)
+{
+
+}

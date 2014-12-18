@@ -713,7 +713,8 @@ void ItemDB::addItem(CADitem *item, Layer *layer)
         return;
     }
 
-    item->layerName = layer->name;
+//    item->layerName = layer->name;
+    item->layer = layer;
     item->id = currentItemId;
     itemMap.insert(item->id, item);
     currentItemId++;
@@ -723,7 +724,8 @@ void ItemDB::addItem(CADitem *item, Layer *layer)
 
 void ItemDB::deleteItem(CADitem *item)
 {
-    Layer* layer = getLayerByName(item->layerName);
+//    Layer* layer = getLayerByName(item->layerName);
+    Layer* layer = item->layer;
 
     layer->items.removeOne(item);
     itemMap.remove(item->id);
@@ -761,12 +763,14 @@ bool ItemDB::changeLayerOfItem(CADitem *item, Layer *newLayer)
     if (newLayer == NULL)
         return false;
 
-    Layer* oldLayer = getLayerByName(item->layerName);
+//    Layer* oldLayer = getLayerByName(item->layerName);
+    Layer* oldLayer = item->layer;
     if (oldLayer == NULL)
         return false;
 
     oldLayer->items.removeOne(item);
-    item->layerName = newLayer->name;
+//    item->layerName = newLayer->name;
+    item->layer = newLayer;
     newLayer->items.append(item);
     emit signal_repaintNeeded();
     return true;

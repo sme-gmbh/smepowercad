@@ -8,8 +8,8 @@ class CAD_sanitary_pipe : public CADitem
 public:
     CAD_sanitary_pipe();
     virtual ~CAD_sanitary_pipe();
-    static QList<CADitem::ItemType> flangable_items();
-    static QImage wizardImage();
+    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
 };

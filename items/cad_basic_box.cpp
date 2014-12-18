@@ -1,4 +1,5 @@
 #include "cad_basic_box.h"
+#include "glwidget.h"
 
 CAD_basic_box::CAD_basic_box() : CADitem(CADitem::Basic_Box)
 {
@@ -176,4 +177,36 @@ void CAD_basic_box::processWizardInput()
     size.setX(wizardParams.value("Size x").toDouble());
     size.setY(wizardParams.value("Size y").toDouble());
     size.setZ(wizardParams.value("Size z").toDouble());
+}
+
+void CAD_basic_box::paint(GLWidget *glwidget)
+{
+    QColor color_pen_tmp = getColorPen();
+    QColor color_brush_tmp = getColorBrush();
+
+    arrayBufVertices.bind();
+    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
+    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
+
+    if (glwidget->render_solid)
+    {
+        glwidget->setPaintingColor(color_brush_tmp);
+
+        indexBufFaces.bind();
+        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces.size(), GL_UNSIGNED_SHORT, 0);
+
+        indexBufFaces.release();
+    }
+
+    if (glwidget->render_outline)
+    {
+        glwidget->setPaintingColor(color_pen_tmp);
+        glwidget->glLineWidth(1.0);
+
+        indexBufLines.bind();
+        glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
+        indexBufLines.release();
+    }
+
+    arrayBufVertices.release();
 }

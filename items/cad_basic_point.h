@@ -8,10 +8,11 @@ class CAD_basic_point : public CADitem
 public:
     CAD_basic_point();
     virtual ~CAD_basic_point();
-    static QList<CADitem::ItemType> flangable_items();
-    static QImage wizardImage();
+    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
+    virtual void paint(GLWidget* glwidget);
 };
 
 #endif // CAD_BASIC_POINT_H

@@ -9,8 +9,8 @@ class CAD_arch_wall_loadBearing : public CADitem
 public:
     CAD_arch_wall_loadBearing();
     virtual ~CAD_arch_wall_loadBearing();
-    static QList<CADitem::ItemType> flangable_items();
-    static QImage wizardImage();
+    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
 

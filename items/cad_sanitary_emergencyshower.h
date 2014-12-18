@@ -8,8 +8,8 @@ class CAD_sanitary_emergencyShower : public CADitem
 public:
     CAD_sanitary_emergencyShower();
     virtual ~CAD_sanitary_emergencyShower();
-    static QList<CADitem::ItemType> flangable_items();
-    static QImage wizardImage();
+    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
 };

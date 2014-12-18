@@ -132,3 +132,8 @@ void CAD_basic_duct::processWizardInput()
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 
 }
+
+void CAD_basic_duct::paint(GLWidget *glwidget)
+{
+
+}

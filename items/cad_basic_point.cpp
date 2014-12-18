@@ -61,3 +61,8 @@ void CAD_basic_point::processWizardInput()
     position.setY(wizardParams.value("Position y").toDouble());
     position.setZ(wizardParams.value("Position z").toDouble());
 }
+
+void CAD_basic_point::paint(GLWidget *glwidget)
+{
+
+}

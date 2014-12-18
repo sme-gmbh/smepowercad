@@ -8,8 +8,8 @@ class CAD_heatcool_pump : public CADitem
 public:
     CAD_heatcool_pump();
     virtual ~CAD_heatcool_pump();
-    static QList<CADitem::ItemType> flangable_items();
-    static QImage wizardImage();
+    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
 };

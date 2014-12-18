@@ -8,10 +8,11 @@ class CAD_basic_face : public CADitem
 public:
     CAD_basic_face();
     virtual ~CAD_basic_face();
-    static QList<CADitem::ItemType> flangable_items();
-    static QImage wizardImage();
+    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
+    virtual void paint(GLWidget* glwidget);
 
     QVector3D p1;
     QVector3D p2;

@@ -42,7 +42,7 @@
 #include "itemgripmodifier.h"
 
 
-class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions_4_3_Compatibility
+class GLWidget : public QOpenGLWidget, public QOpenGLFunctions_4_3_Compatibility
 {
     Q_OBJECT
 public:
@@ -94,20 +94,10 @@ private:
 
     QVector3D centerOfRotationSphere;
     QVector3D rotationStart;
-//    float rot_x, rot_y, rot_z;
 
     QPoint arcballPosOld;
     QMatrix4x4 matrix_arcball;
     qreal arcballRadius;
-
-
-//    QMatrix4x4 matrix_projection;
-
-
-    bool render_solid;
-    bool render_outline;
-
-    GLuint tile_list;
 
     QMap<GLuint, CADitem*> glNameMap;
     quint32 glName;
@@ -119,7 +109,6 @@ private:
     bool cursorShown;
     bool arcballShown;
     SnapMode snapMode;
-//    int snapIndex;      // The index of the current snap in the snap liest of the object currently highlighted
     QPoint snapPos_screen;
     QVector3D snapPos_scene;
 
@@ -157,15 +146,8 @@ private:
 
 
     // Drawing
-
-
-
     // OpenGL
-// Qt 4
-//    QGLShaderProgram* shaderProgram;
-//    QGLShader* shader_1_frag;
-//    QGLShader* shader_1_vert;
-// Qt 5
+public:
     QOpenGLShaderProgram* shaderProgram;
     QOpenGLShader* shader_1_frag;
     QOpenGLShader* shader_1_vert;
@@ -181,6 +163,11 @@ private:
     int shader_Depth_of_view_location;
     int shader_Height_of_intersection_location;
 
+    bool render_solid;
+    bool render_outline;
+
+
+private:
     QVector4D vertex_color;
     QVector3D vertex_position;
     QMatrix4x4 matrix_projection;
@@ -189,16 +176,18 @@ private:
     QMatrix4x4 matrix_rotation_old;
     QMatrix4x4 matrix_glSelect;
     QMatrix4x4 matrix_all;
+//    void saveGLState();
+//    void restoreGLState();
 
-    void saveGLState();
-    void restoreGLState();
-
+public:
     void setVertex(QVector3D pos);
     void setVertex(QPoint pos);
     void setPaintingColor(QColor color);
     void setTextureCoords(QPoint coord);
     void setTextureCoords(qreal x, qreal y, qreal z);
     void setUseTexture(bool on);
+
+private:
     void paintContent(QList<Layer*> layers);
     void paintItems(QList<CADitem *> items, Layer *layer, bool checkBoundingBox = true, bool isSubItem = false);
 
@@ -327,7 +316,6 @@ private:
     void paintSanitaryEmergencyEyeShower(Layer *layer, CAD_sanitary_emergencyEyeShower *item);
     void paintSanitaryLiftingUnit(Layer *layer, CAD_sanitary_liftingUnit *item);
 
-    QList<CADitem *> itemsAtPosition(QPoint pos, int size_x, int size_y);
     QList<CADitem *> itemsAtPosition_v2(QPoint pos, int size_x, int size_y);
     CADitem *itemsAtPosition_processLayers(QList<Layer*> layers, GLuint glName);
     CADitem *itemsAtPosition_processItems(QList<CADitem*> items, GLuint glName);

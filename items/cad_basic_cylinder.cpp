@@ -88,3 +88,8 @@ void CAD_basic_cylinder::processWizardInput()
     height = wizardParams.value("Height").toDouble();
 
 }
+
+void CAD_basic_cylinder::paint(GLWidget *glwidget)
+{
+
+}

@@ -9,10 +9,11 @@ class CAD_basic_circle : public CADitem
 public:
     CAD_basic_circle();
     virtual ~CAD_basic_circle();
-    static QList<CADitem::ItemType> flangable_items();
-    static QImage wizardImage();
+    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
+    virtual void paint(GLWidget* glwidget);
 
     QVector3D center;
     qreal radius;

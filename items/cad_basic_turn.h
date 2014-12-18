@@ -12,10 +12,11 @@ class CAD_basic_turn : public CADitem
 public:
     CAD_basic_turn();
     virtual ~CAD_basic_turn();
-    static QList<CADitem::ItemType> flangable_items();
-    static QImage wizardImage();
+    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
+    virtual void paint(GLWidget* glwidget);
 
 
     qreal radius_pipe;

@@ -8,8 +8,8 @@ class CAD_heatcool_pipeEndCap : public CADitem
 public:
     CAD_heatcool_pipeEndCap();
     virtual ~CAD_heatcool_pipeEndCap();
-    static QList<CADitem::ItemType> flangable_items();
-    static QImage wizardImage();
+    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
 };

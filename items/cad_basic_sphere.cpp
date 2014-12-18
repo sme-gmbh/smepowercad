@@ -66,3 +66,8 @@ void CAD_basic_sphere::processWizardInput()
     position.setZ(wizardParams.value("Position z").toDouble());
     radius = wizardParams.value("Radius").toDouble();
 }
+
+void CAD_basic_sphere::paint(GLWidget *glwidget)
+{
+
+}

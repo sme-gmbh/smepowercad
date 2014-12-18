@@ -1,14 +1,8 @@
 #include "glwidget.h"
 
-//#define PI 3.1415926535897
-
 GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, ItemGripModifier *itemGripModifier) :
     QOpenGLWidget(parent)
-  // Qt 5
-  //    m_context(0),
-  //    m_device(0)
 {
-    //    setSurfaceType(QWidget::OpenGLSurface);
     //    qDebug() << "Created GLWidget";
     this->itemDB = itemDB;
     this->itemWizard = itemWizard;
@@ -48,16 +42,11 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, Item
 
     this->setPalette(Qt::transparent);
     this->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-
-    //    shaderProgram->setAttributeArray(shader_colorLocation, );
-    //    shaderProgram->enableAttributeArray(shader_colorLocation);
 }
 
 GLWidget::~GLWidget()
 {
     //    qDebug() << "GLWidget destroyed";
-
-    //    glDeleteLists(tile_list, 1);
     shaderProgram->release();
     shaderProgram->removeAllShaders();
     delete shader_1_vert;
@@ -67,10 +56,6 @@ GLWidget::~GLWidget()
 
 QPointF GLWidget::mapFromScene(QVector3D &scenePoint)
 {
-    //    QVector4D screenCoords;
-
-    //    screenCoords = matrix_all * scenePoint;
-
     qreal x;
     qreal y;
 
@@ -79,13 +64,6 @@ QPointF GLWidget::mapFromScene(QVector3D &scenePoint)
 
     x = row0.x() * scenePoint.x() + row0.y() * scenePoint.y() + row0.z() * scenePoint.z() + row0.w();
     y = row1.x() * scenePoint.x() + row1.y() * scenePoint.y() + row1.z() * scenePoint.z() + row1.w();
-
-    //    QPointF pixelCoords = screenCoords.toPointF() ;
-
-    //    pixelCoords.setX((pixelCoords.x() / 2.0) * this->width());
-    //    pixelCoords.setY((pixelCoords.y() / 2.0) * this->height());
-
-    //    return pixelCoords;
 
     return QPointF(x / 2.0 * this->width(), y / 2.0 * this->height());
 }
@@ -97,7 +75,6 @@ void GLWidget::updateMatrixAll()
 
 void GLWidget::moveCursor(QPoint pos)
 {
-    //    qDebug() << "GLWidget: moveCursor " << pos.x() << " " << pos.y();
     this->mousePos = pos;
     this->cursorShown = true;
     slot_repaint();
@@ -290,11 +267,6 @@ void GLWidget::wheelEvent(QWheelEvent* event)
 {
     qreal zoomStep = 1.15;
 
-    //    centerOfViewInScene = mapToScene(event->pos());
-    //    displayCenter = event->pos();
-
-    //    QPointF cursorPosF_normal = QPointF((qreal)event->pos().x() / (this->width() - 1), (qreal)event->pos().y() / (this->height() - 1));
-
     int steps = abs(event->delta() / 8 / 15);
 
     // Scale the view
@@ -319,7 +291,7 @@ void GLWidget::wheelEvent(QWheelEvent* event)
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    mousePos = event->pos();// - QPoint(1, 1);
+    mousePos = event->pos();
     mousePos.setY((this->height() - 1) - mousePos.y());
     mousePos -= QPoint(this->width() / 2, this->height() / 2);
     QPoint mouseMoveDelta = mousePos - mousePosOld;
@@ -458,36 +430,6 @@ QVector3D GLWidget::pointOnSphere(QPoint pointOnScreen)
     return v;
 }
 
-//void GLWidget::updateArcball(int steps)
-//{
-//    QPoint arcballDelta = (mousePos - arcballPosOld);
-//    //    QVector3D v = getArcBallVector(arcballPos.x(), arcballPos.y());
-//    //    QVector3D u = getArcBallVector(arcballPosOld.x(), arcballPosOld.y());
-
-//    //    qreal angle = qAcos(qMin(1.0, QVector3D::dotProduct(u, v)));
-
-//    //    QVector3D rotAxis = QVector3D::crossProduct(v, u);
-
-//    //    QMatrix4x4 eyeToObject = arcballRotationMatrix;
-
-//    //    QVector3D objSpaceRotAx = eyeToObject * rotAxis;
-//}
-
-//QVector3D GLWidget::getArcBallVector(int x, int y)
-//{
-//    QVector3D pt = QVector3D(2.0 * x / this->width() - 1.0, 2.0 * y / this->height() - 1.0, 0);
-//    pt.setY(pt.y() * -1);
-
-//    float xySquared = qPow(pt.x(), 2) + qPow(pt.y(), 2);
-
-//    if (xySquared <= 1.0)
-//        pt.setZ(sqrt(1.0 - xySquared));
-//    else
-//        pt.normalize();
-
-//    return pt;
-//}
-
 void GLWidget::enterEvent(QEvent *event)
 {
     this->setFocus();
@@ -543,9 +485,9 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
             if (snapMode != SnapNo)
             {
                 CADitem* item = this->itemGripModifier->getItem();
-                item->wizardParams.insert("Position x", QVariant::fromValue(snapPos_scene.x()));
-                item->wizardParams.insert("Position y", QVariant::fromValue(snapPos_scene.y()));
-                item->wizardParams.insert("Position z", QVariant::fromValue(snapPos_scene.z()));
+                item->wizardParams.insert("Position x", QVariant::fromValue((qreal)snapPos_scene.x()));
+                item->wizardParams.insert("Position y", QVariant::fromValue((qreal)snapPos_scene.y()));
+                item->wizardParams.insert("Position z", QVariant::fromValue((qreal)snapPos_scene.z()));
                 item->processWizardInput();
                 item->calculate();
                 this->itemGripModifier->finishGrip();
@@ -557,11 +499,11 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
             if (snapMode != SnapNo)
             {
                 CADitem* item = this->itemGripModifier->getItem();
-                CADitem* newItem = this->itemDB->drawItem(item->layerName, item->getType());
+                CADitem* newItem = this->itemDB->drawItem(item->layer->name, item->getType());
                 newItem->wizardParams = item->wizardParams;
-                newItem->wizardParams.insert("Position x", QVariant::fromValue(snapPos_scene.x()));
-                newItem->wizardParams.insert("Position y", QVariant::fromValue(snapPos_scene.y()));
-                newItem->wizardParams.insert("Position z", QVariant::fromValue(snapPos_scene.z()));
+                newItem->wizardParams.insert("Position x", QVariant::fromValue((qreal)snapPos_scene.x()));
+                newItem->wizardParams.insert("Position y", QVariant::fromValue((qreal)snapPos_scene.y()));
+                newItem->wizardParams.insert("Position z", QVariant::fromValue((qreal)snapPos_scene.z()));
                 newItem->processWizardInput();
                 newItem->calculate();
                 this->itemGripModifier->finishGrip();
@@ -741,21 +683,6 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     event->accept();
 }
 
-//void GLWidget::resizeEvent(QResizeEvent *event)
-//{
-//    qDebug() << "rezizeEvent()";
-
-////    displayCenter = QPoint(this->width(), this->height()) / 2;
-
-////    matrix_projection.setToIdentity();
-////    matrix_projection.scale(2.0 / (qreal)this->width(), 2.0 / (qreal)this->height(), 1.0);
-////    matrix_projection.translate(-0.5, -0.5);
-
-////    updateMatrixAll();
-////    slot_repaint();
-//    event->accept();
-//}
-
 void GLWidget::slot_set_cuttingplane_values_changed(qreal height, qreal depth)
 {
     this->height_of_intersection.setZ(height);
@@ -767,13 +694,12 @@ void GLWidget::slot_set_cuttingplane_values_changed(qreal height, qreal depth)
     slot_repaint();
 }
 
-//void GLWidget::paintEvent(QPaintEvent *event)
 void GLWidget::paintGL()
 {
     if (this->size().isNull())
         return;
 
-    saveGLState();
+//    saveGLState();
 
     matrix_modelview.setToIdentity();
     matrix_modelview.translate(translationOffset.x(), translationOffset.y(), 0.0);
@@ -796,8 +722,6 @@ void GLWidget::paintGL()
     glEnable(GL_POLYGON_OFFSET_FILL);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_ALPHA_TEST);
-//    glEnable(GL_LIGHTING);
-//    glEnable(GL_LIGHT0);
 
     shaderProgram->setUniformValue(shader_useClippingXLocation, (GLint)0);   // Enable X-Clipping Plane
     shaderProgram->setUniformValue(shader_useClippingYLocation, (GLint)0);   // Enable Y-Clipping Plane
@@ -811,13 +735,12 @@ void GLWidget::paintGL()
     shaderProgram->setUniformValue(shader_useClippingYLocation,(GLint)0);
     shaderProgram->setUniformValue(shader_useClippingZLocation,(GLint)0);
 
-    restoreGLState();
+//    restoreGLState();
 
     // Overlay
-    saveGLState();
+//    saveGLState();
     glClear(GL_DEPTH_BUFFER_BIT);
     glDepthRange(1,0);
-//    glViewport(0, 0, width(), height());
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -845,7 +768,6 @@ void GLWidget::paintGL()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-//    GLuint textureID;
     QOpenGLTexture* texture = new QOpenGLTexture(QOpenGLTexture::Target2D);
     setUseTexture(true);
 
@@ -855,7 +777,6 @@ void GLWidget::paintGL()
     painter.drawText(textImage.rect(), Qt::AlignCenter, "Z+");
     painter.setFont(font_small);
     painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking up");
-//    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
     texture->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
     texture->bind();
     setPaintingColor(QColor(50, 50, 255));
@@ -878,7 +799,6 @@ void GLWidget::paintGL()
     painter.drawText(textImage.rect(), Qt::AlignCenter, "Z-");
     painter.setFont(font_small);
     painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking down");
-//    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
     texture->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
     texture->bind();
     glBegin(GL_QUADS);
@@ -900,7 +820,6 @@ void GLWidget::paintGL()
     painter.drawText(textImage.rect(), Qt::AlignCenter, "Y-");
     painter.setFont(font_small);
     painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking south");
-//    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
     texture->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
     texture->bind();
     setPaintingColor(QColor(10, 110, 10));
@@ -923,7 +842,6 @@ void GLWidget::paintGL()
     painter.drawText(textImage.rect(), Qt::AlignCenter, "Y+");
     painter.setFont(font_small);
     painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking north");
-//    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
     texture->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
     texture->bind();
     glBegin(GL_QUADS);
@@ -945,7 +863,6 @@ void GLWidget::paintGL()
     painter.drawText(textImage.rect(), Qt::AlignCenter, "X+");
     painter.setFont(font_small);
     painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking east");
-//    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
     texture->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
     texture->bind();
     setPaintingColor(QColor(150, 0, 0));
@@ -968,7 +885,6 @@ void GLWidget::paintGL()
     painter.drawText(textImage.rect(), Qt::AlignCenter, "X-");
     painter.setFont(font_small);
     painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking west");
-//    textureID = this->bindTexture(textImage, GL_TEXTURE_2D, GL_RGBA);
     texture->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
     texture->bind();
     glBegin(GL_QUADS);
@@ -987,23 +903,6 @@ void GLWidget::paintGL()
     setUseTexture(false);
     painter.end();
     delete texture;
-
-
-    //    QVector4D xAxis = QVector4D(50.0,  0.0,  0.0, 0.0);
-    //    QVector4D yAxis = QVector4D(0.0,  50.0,  0.0, 0.0);
-    //    QVector4D zAxis = QVector4D(0.0,   0.0, 50.0, 0.0);
-    //    glBegin(GL_LINES);
-    //    glLineWidth(1.0);
-    //    setPaintingColor(Qt::red);
-    //    glVertex3i(-width() / 2 + 50, -height() / 2 + 50, 0);
-    //    glVertex3i((GLint)xAxis.x() - width() / 2 + 50, (GLint)xAxis.y() - height() / 2 + 50, 0);
-    //    setPaintingColor(QColor(50, 255, 50));
-    //    glVertex3i(-width() / 2 + 50, -height() / 2 + 50, 0);
-    //    glVertex3i((GLint)yAxis.x() - width() / 2 + 50, (GLint)yAxis.y() - height() / 2 + 50, 0);
-    //    setPaintingColor(QColor(50, 50, 255));
-    //    glVertex3i(-width() / 2 + 50, -height() / 2 + 50, 0);
-    //    glVertex3i((GLint)zAxis.x() - width() / 2 + 50, (GLint)zAxis.y() - height() / 2 + 50, 0);
-    //    glEnd();
 
     // Set a matrix to the shader that does not rotate or scale, just transform to screen coordinate system
     shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection);
@@ -1200,14 +1099,11 @@ void GLWidget::paintGL()
     glFlush();
 
 
-    restoreGLState();
-//    event->accept();
+//    restoreGLState();
 }
 
 void GLWidget::slot_repaint()
 {
-//    repaint();
-//    updateGL();
     update();
 }
 
@@ -1223,23 +1119,23 @@ void GLWidget::slot_solid(bool on)
     slot_repaint();
 }
 
-void GLWidget::saveGLState()
-{
+//void GLWidget::saveGLState()
+//{
 //    glPushAttrib(GL_ALL_ATTRIB_BITS);
 //    glMatrixMode(GL_PROJECTION);
 //    glPushMatrix();
 //    glMatrixMode(GL_MODELVIEW);
 //    glPushMatrix();
-}
+//}
 
-void GLWidget::restoreGLState()
-{
+//void GLWidget::restoreGLState()
+//{
 //    glMatrixMode(GL_PROJECTION);
 //    glPopMatrix();
 //    glMatrixMode(GL_MODELVIEW);
 //    glPopMatrix();
 //    glPopAttrib();
-}
+//}
 
 void GLWidget::setVertex(QVector3D pos)
 {
@@ -1332,19 +1228,6 @@ void GLWidget::paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFon
     texture->setMinMagFilters(QOpenGLTexture::Nearest, QOpenGLTexture::Nearest);
     texture->setWrapMode(QOpenGLTexture::ClampToEdge);
     texture->bind();
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-//    float color[] = { 1.0f, 0.0f, 0.0f, 1.0f };
-//    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, color);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-
-    //    qDebug() << textureID;
-
-    //    glActiveTexture(GL_TEXTURE0);
-    //    glBindTexture(GL_TEXTURE_2D, textureID);
-    //    glActiveTexture(0);
     setUseTexture(true);
 
 
@@ -1441,7 +1324,7 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundin
 
         if(!isSubItem)
             glName++;
-//        glLoadName(glName);
+
         item->index = glName;
 
         // Paint it
@@ -1771,6 +1654,7 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundin
             break;
         }
 
+        item->paint(this);
         paintItems(item->subItems, layer, false, true);
     }
 }
@@ -1852,28 +1736,8 @@ void GLWidget::paintBasicLine(Layer* layer, CAD_basic_line *item)
     //  Crop lines that exceed the paint area (heightOfIntersection to depthOfView)
     QVector3D p1 = item->p1;
     QVector3D p2 = item->p2;
-    //    qreal h1 = heightInScene(p1);
-    //    qreal h2 = heightInScene(p2);
-
-    //    if ((h1 < height_of_intersection) && (h2 < height_of_intersection))
-    //        return;
-
-    //    if (h1 < height_of_intersection)
-    //    {
-    //        // modify p1
-    //        p1 = (p1 - p2) * ((height_of_intersection - h2) / (h1 - h2)) + p2;
-    //    }
-    //    else if (h2 < height_of_intersection)
-    //    {
-    //        // modify p2
-    //        p2 = (p2 - p1) * ((height_of_intersection - h1) / (h2 - h1)) + p1;
-    //    }
-
-    //    painter->drawLine(mapFromScene(p1), mapFromScene(p2));
-    //    qDebug() << "GeometryRenderengine: Painting a line";
 
     glLineWidth(penWidth);
-    //    glColor4f(color_pen.redF(), color_pen.greenF(), color_pen.blueF(), color_pen.alphaF());
     setPaintingColor(color_pen);
     glBegin(GL_LINES);
     glVertex3f((GLfloat)p1.x(), (GLfloat)p1.y(), (GLfloat)p1.z());
@@ -1900,29 +1764,6 @@ void GLWidget::paintBasicPolyLine(Layer *layer, CAD_basic_polyline *item)
         {
             p2 = vertex.pos;
 
-            //  Crop lines that exceed the paint area (heightOfIntersection to depthOfView)
-            //            qreal h1 = heightInScene(p1);
-            //            qreal h2 = heightInScene(p2);
-
-            //            if ((h1 < height_of_intersection) && (h2 < height_of_intersection))
-            //            {
-            //                p1 = p2;
-            //                continue;
-            //            }
-
-            //            if (h1 < height_of_intersection)
-            //            {
-            //                // modify p1
-            //                p1 = (p1 - p2) * ((height_of_intersection - h2) / (h1 - h2)) + p2;
-            //            }
-            //            else if (h2 < height_of_intersection)
-            //            {
-            //                // modify p2
-            //                p2 = (p2 - p1) * ((height_of_intersection - h1) / (h2 - h1)) + p1;
-            //            }
-
-
-
             qreal penWidth = 1.0;
             if (item->widthByLayer)
             {
@@ -1946,8 +1787,6 @@ void GLWidget::paintBasicPolyLine(Layer *layer, CAD_basic_polyline *item)
 
             glVertex3f((GLfloat)p1.x(), (GLfloat)p1.y(), (GLfloat)p1.z());
             glVertex3f((GLfloat)p2.x(), (GLfloat)p2.y(), (GLfloat)p2.z());
-
-
 
             p1 = p2;
         }
@@ -2075,112 +1914,34 @@ void GLWidget::paintBasicCircle(Layer *layer, CAD_basic_circle *item)
 
 void GLWidget::paintBasicBox(Layer *layer, CAD_basic_box *item)
 {
-    QColor color_pen = getColorPen(item, layer);
-    QColor color_brush = getColorBrush(item, layer);
+//    QColor color_pen = getColorPen(item, layer);
+//    QColor color_brush = getColorBrush(item, layer);
 
-    item->arrayBufVertices.bind();
-    shaderProgram->enableAttributeArray(shader_vertexLocation);
-    shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
+//    item->arrayBufVertices.bind();
+//    shaderProgram->enableAttributeArray(shader_vertexLocation);
+//    shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
 
-    if (this->render_solid)
-    {
-//        glBegin(GL_QUADS);
-        setPaintingColor(color_brush);
+//    if (this->render_solid)
+//    {
+//        setPaintingColor(color_brush);
 
-        item->indexBufFaces.bind();
-        glDrawElements(GL_TRIANGLE_STRIP, item->indexBufFaces.size(), GL_UNSIGNED_SHORT, 0);
+//        item->indexBufFaces.bind();
+//        glDrawElements(GL_TRIANGLE_STRIP, item->indexBufFaces.size(), GL_UNSIGNED_SHORT, 0);
 
-        item->indexBufFaces.release();
+//        item->indexBufFaces.release();
+//    }
 
+//    if (this->render_outline)
+//    {
+//        setPaintingColor(color_pen);
+//        glLineWidth(1.0);
 
-//        // Bottom face
-//        glNormal3f((GLfloat)item->normal_bot.x(), (GLfloat)item->normal_bot.y(), (GLfloat)item->normal_bot.z());
-//        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
-//        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
-//        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
-//        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
+//        item->indexBufLines.bind();
+//        glDrawElements(GL_LINES, item->indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
+//        item->indexBufLines.release();
+//    }
 
-//        // Top face
-//        glNormal3f((GLfloat)item->normal_top.x(), (GLfloat)item->normal_top.y(), (GLfloat)item->normal_top.z());
-//        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
-//        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
-//        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
-//        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
-
-//        // Front face
-//        glNormal3f((GLfloat)item->normal_front.x(), (GLfloat)item->normal_front.y(), (GLfloat)item->normal_front.z());
-//        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
-//        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
-//        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
-//        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
-
-//        // Left face
-//        glNormal3f((GLfloat)item->normal_left.x(), (GLfloat)item->normal_left.y(), (GLfloat)item->normal_left.z());
-//        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
-//        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
-//        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
-//        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
-
-//        // Right face
-//        glNormal3f((GLfloat)item->normal_right.x(), (GLfloat)item->normal_right.y(), (GLfloat)item->normal_right.z());
-//        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
-//        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
-//        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
-//        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
-
-//        // Back face
-//        glNormal3f((GLfloat)item->normal_back.x(), (GLfloat)item->normal_back.y(), (GLfloat)item->normal_back.z());
-//        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
-//        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
-//        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
-//        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
-
-//        glEnd();
-    }
-
-    if (this->render_outline)
-    {
-        setPaintingColor(color_pen);
-        glLineWidth(1.0);
-
-        item->indexBufLines.bind();
-        glDrawElements(GL_LINES, item->indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
-        item->indexBufLines.release();
-
-
-//        // Bottom face
-//        glBegin(GL_LINE_LOOP);
-//        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
-//        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
-//        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
-//        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
-//        glEnd();
-
-//        // Top face
-//        glBegin(GL_LINE_LOOP);
-//        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
-//        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
-//        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
-//        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
-//        glEnd();
-
-//        // Vertical edges
-//        glBegin(GL_LINES);
-//        glVertex3f((GLfloat)item->pos_bot_1.x(), (GLfloat)item->pos_bot_1.y(), (GLfloat)item->pos_bot_1.z());
-//        glVertex3f((GLfloat)item->pos_top_1.x(), (GLfloat)item->pos_top_1.y(), (GLfloat)item->pos_top_1.z());
-
-//        glVertex3f((GLfloat)item->pos_bot_2.x(), (GLfloat)item->pos_bot_2.y(), (GLfloat)item->pos_bot_2.z());
-//        glVertex3f((GLfloat)item->pos_top_2.x(), (GLfloat)item->pos_top_2.y(), (GLfloat)item->pos_top_2.z());
-
-//        glVertex3f((GLfloat)item->pos_bot_3.x(), (GLfloat)item->pos_bot_3.y(), (GLfloat)item->pos_bot_3.z());
-//        glVertex3f((GLfloat)item->pos_top_3.x(), (GLfloat)item->pos_top_3.y(), (GLfloat)item->pos_top_3.z());
-
-//        glVertex3f((GLfloat)item->pos_bot_4.x(), (GLfloat)item->pos_bot_4.y(), (GLfloat)item->pos_bot_4.z());
-//        glVertex3f((GLfloat)item->pos_top_4.x(), (GLfloat)item->pos_top_4.y(), (GLfloat)item->pos_top_4.z());
-//        glEnd();
-    }
-
-    item->arrayBufVertices.release();
+//    item->arrayBufVertices.release();
 }
 
 void GLWidget::paintBasicCylinder(Layer *layer, CAD_basic_cylinder *item)
@@ -4168,87 +3929,6 @@ void GLWidget::paintSanitaryLiftingUnit(Layer *layer, CAD_sanitary_liftingUnit *
     Q_UNUSED(color_brush);
 }
 
-QList<CADitem*> GLWidget::itemsAtPosition(QPoint pos, int size_x, int size_y)
-{
-#define HITBUFFER_SIZE 512000
-    GLuint buffer[HITBUFFER_SIZE];
-//    GLint viewport[4];
-
-    saveGLState();
-
-//    glViewport(0, 0, width(), height());
-    //    glViewport(pos.x(), pos.y(), (GLsizei)_cursorPickboxSize, (GLsizei)_cursorPickboxSize);
-//    glGetIntegerv(GL_VIEWPORT, viewport);
-    glDepthFunc(GL_LEQUAL);
-    glDepthRange(1,0);
-    glSelectBuffer(HITBUFFER_SIZE, buffer);
-    glRenderMode(GL_SELECT);
-
-    glInitNames();
-    glPushName(0);
-
-    glDisable(GL_BLEND);
-    glDisable(GL_MULTISAMPLE);
-    glDisable(GL_CULL_FACE);
-    glEnable(GL_DEPTH_TEST);
-    glDisable(GL_ALPHA_TEST);
-
-    matrix_glSelect.setToIdentity();
-    matrix_glSelect.scale(1.0 / ((qreal)size_x / this->width()), 1.0 / ((qreal)size_y / this->height()), 1.0);
-    matrix_glSelect.translate(-(qreal)pos.x(), -(qreal)pos.y(), 0.0);
-    updateMatrixAll();
-    shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
-
-    glName = 0;
-    paintContent(itemDB->layers);
-
-//    glMatrixMode(GL_PROJECTION);
-//    glPopMatrix();
-
-    GLint hits = glRenderMode(GL_RENDER);   // Number of hits is returned by glRenderMode
-    restoreGLState();
-    matrix_glSelect.setToIdentity();
-    updateMatrixAll();
-
-    QList<CADitem*> foundItems;
-    QMap<quint32,CADitem*> itemsDepthMap;
-
-    if (hits == 0)
-        return foundItems;
-
-    int i = 0;
-    GLint hit = 1;
-    GLuint glName;
-    while (i < HITBUFFER_SIZE)
-    {
-        GLuint numberOfNames = buffer[i];
-        GLuint minDepth = buffer[i + 1];    // Smaller number means closer to the eye
-//        GLuint maxDepth = buffer[i + 2];
-
-        if (numberOfNames > 0)
-        {
-            glName = buffer[i + 3];
-            CADitem* item = itemsAtPosition_processLayers(itemDB->layers, glName);
-            itemsDepthMap.insertMulti(minDepth, item);
-        }
-
-        i += 3;
-        i += numberOfNames;
-
-        hit++;
-        if (hit > hits)
-            break;
-    }
-
-    if (i >= HITBUFFER_SIZE)
-        QMessageBox::warning(this, "GLWidget::itemAtPosition()", "HITBUFFER_SIZE too small - too many objects in findbox!");
-
-
-    foundItems = itemsDepthMap.values();
-
-    return foundItems;
-}
-
 QList<CADitem*> GLWidget::itemsAtPosition_v2(QPoint pos, int size_x, int size_y)
 {
     makeCurrent();
@@ -4504,52 +4184,12 @@ void GLWidget::initializeGL()
     makeCurrent();
 
 
-    //    GLfloat mat_specular[] = { 0.5, 0.5, 0.5, 1.0 };
-    //    GLfloat mat_shininess[] = { 0.2 };
-    glShadeModel (GL_FLAT);
-    glShadeModel(GL_SMOOTH);
+//    glShadeModel (GL_FLAT);
+//    glShadeModel(GL_SMOOTH);
     glEnable(GL_FRAMEBUFFER_SRGB);
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE | GL_EMISSION);
 //    glEnableClientState(GL_VERTEX_ARRAY);
 
-    //tbd: glProvokingVertex(GL_FIRST_VERTEX_CONVENTION);
-
-    //    glColorMaterial(GL_FRONT_AND_BACK, GL_EMISSION);
-    //    glEnable(GL_COLOR_MATERIAL);
-    //    glEnable(GL_NORMALIZE);
-
-    //    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
-    //    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
-
-
-    //    GLfloat specular[] = { 0.2f, 0.2f, 0.2f, 1.0f};
-    //    GLfloat diffuseLight[] = { 0.2f, 0.2f, 0.2f, 1.0f};
-    //    GLfloat light_position[] = { 500.0, 15.0, -800.0, 0.0 };
-
-    //    glLightfv(GL_LIGHT0, GL_DIFFUSE,diffuseLight);
-    //    glLightfv(GL_LIGHT0,GL_SPECULAR,specular);
-    //    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-
-    //    glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.2);
-    //    glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.3);
-    //    glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.8);
-
-    //    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
-
-
-    // Template for Qt 5.4.0 shader allocation
-//    m_shader_vert = new QOpenGLShader(QOpenGLShader::Vertex);
-//    m_shader_frag = new QOpenGLShader(QOpenGLShader::Fragment);
-
-//    m_shader_vert->compileSourceCode(QString());
-//    m_shader_frag->compileSourceCode(QString());
-
-
-//    m_program = new QOpenGLShaderProgram(this);
-//    m_program->addShader(m_shader_frag);
-//    m_program->addShader(m_shader_vert);
-//    m_program->link();
-//    m_program->bind();
 
 
 

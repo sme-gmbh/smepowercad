@@ -8,8 +8,8 @@ class CAD_air_emptyCabinet : public CADitem
 public:
     CAD_air_emptyCabinet();
     virtual ~CAD_air_emptyCabinet();
-    static QList<CADitem::ItemType> flangable_items();
-    static QImage wizardImage();
+    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
 };

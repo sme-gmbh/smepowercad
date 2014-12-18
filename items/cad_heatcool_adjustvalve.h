@@ -8,8 +8,8 @@ class CAD_heatcool_adjustvalve : public CADitem
 public:
     CAD_heatcool_adjustvalve();
     virtual ~CAD_heatcool_adjustvalve();
-    static QList<CADitem::ItemType> flangable_items();
-    static QImage wizardImage();
+    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
 };

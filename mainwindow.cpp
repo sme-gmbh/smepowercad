@@ -219,6 +219,15 @@ MainWindow::MainWindow(QWidget *parent) :
 //        }
 //    }
 
+//    // Memory usage test
+//    CAD_sprinkler_valve* item;  // An item that is empty at the moment
+
+//    for (int i=0; i < 1000000; i++)
+//    {
+//        item = (CAD_sprinkler_valve*)itemDB->drawItem("X", CADitem::Sprinkler_Valve);
+//        item->processWizardInput();
+//        item->calculate();
+//    }
 
     this->layerManager->updateAllLayers();
 

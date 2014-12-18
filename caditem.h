@@ -19,8 +19,9 @@
 #include "math/m3dboundingbox.h"
 
 #define PI 3.1415926535897
-//#define OPENGL_LOCATION_POSITION 0
-//#define OPENGL_LOCATION_COLOR 11
+
+class GLWidget;
+class Layer;
 
 class CADitem
 {
@@ -139,15 +140,21 @@ public:
 
     CADitem(ItemType type);
     virtual ~CADitem() {}
+    virtual QList<CADitem::ItemType> flangable_items() = 0;
+    virtual QImage wizardImage() = 0;
     virtual void calculate() {}
     virtual void processWizardInput() {}
+    virtual void paint(GLWidget* glwidget) {Q_UNUSED(glwidget)}
+    QColor getColorPen();
+    QColor getColorBrush();
     void serialOut(QByteArray *out);
     bool serialIn(QByteArray *in);
 
     // data types tbd.
     ItemType getType();
     QString description;
-    QString layerName;
+//    QString layerName;
+    Layer* layer;
     QColor color_pen;       // Transparent means "BYLAYER"
     QColor color_brush;       // Transparent means "BYLAYER"
     QMap<QString, QString> attributes;

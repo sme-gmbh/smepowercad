@@ -113,3 +113,8 @@ void CAD_basic_3Dface::processWizardInput()
     angle_z = wizardParams.value("Angle z").toDouble();
 
 }
+
+void CAD_basic_3Dface::paint(GLWidget *glwidget)
+{
+
+}

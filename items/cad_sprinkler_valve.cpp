@@ -2,13 +2,13 @@
 
 CAD_sprinkler_valve::CAD_sprinkler_valve() : CADitem(CADitem::Sprinkler_Valve)
 {
-    this->description = "Sprinkler|Valve";
-    wizardParams.insert("Position x", QVariant::fromValue(0.0));
-    wizardParams.insert("Position y", QVariant::fromValue(0.0));
-    wizardParams.insert("Position z", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+//    this->description = "Sprinkler|Valve";
+//    wizardParams.insert("Position x", QVariant::fromValue(0.0));
+//    wizardParams.insert("Position y", QVariant::fromValue(0.0));
+//    wizardParams.insert("Position z", QVariant::fromValue(0.0));
+//    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
+//    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
+//    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
 
     processWizardInput();
     calculate();

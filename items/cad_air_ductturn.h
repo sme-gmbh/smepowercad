@@ -9,8 +9,8 @@ class CAD_air_ductTurn : public CADitem
 public:
     CAD_air_ductTurn();
     virtual ~CAD_air_ductTurn();
-    static QList<CADitem::ItemType> flangable_items();
-    static QImage wizardImage();
+    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
 
