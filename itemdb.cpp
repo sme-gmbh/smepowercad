@@ -714,8 +714,8 @@ void ItemDB::addItem(CADitem *item, Layer *layer)
     }
 
 //    item->layerName = layer->name;
-    item->layer = layer;
-    item->id = currentItemId;
+    item->setLayer(layer);
+    item->setID(currentItemId);
     itemMap.insert(item->id, item);
     currentItemId++;
     layer->items.append(item);
@@ -770,7 +770,7 @@ bool ItemDB::changeLayerOfItem(CADitem *item, Layer *newLayer)
 
     oldLayer->items.removeOne(item);
 //    item->layerName = newLayer->name;
-    item->layer = newLayer;
+    item->setLayer(newLayer);
     newLayer->items.append(item);
     emit signal_repaintNeeded();
     return true;

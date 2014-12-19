@@ -147,6 +147,8 @@ public:
     virtual void paint(GLWidget* glwidget) {Q_UNUSED(glwidget)}
     QColor getColorPen();
     QColor getColorBrush();
+    void setLayer(Layer* layer);
+    void setID(quint64 id);
     void serialOut(QByteArray *out);
     bool serialIn(QByteArray *in);
 
@@ -187,6 +189,8 @@ public:
     bool selected;  // Selection shows that the item is selected as an operand for commands
 
 private:
+    void setLayer_processItems(QList<CADitem*> subItems);
+    void setID_processItems(QList<CADitem*> subItems);
     ItemType type;
 };
 

@@ -1,4 +1,5 @@
 #include "cad_basic_cylinder.h"
+#include "glwidget.h"
 
 CAD_basic_cylinder::CAD_basic_cylinder() : CADitem(CADitem::Basic_Cylinder)
 {
@@ -91,5 +92,61 @@ void CAD_basic_cylinder::processWizardInput()
 
 void CAD_basic_cylinder::paint(GLWidget *glwidget)
 {
+    QColor color_pen_tmp = getColorPen();
+    QColor color_brush_tmp = getColorBrush();
 
+    if (glwidget->render_solid)
+    {
+        int count = vertices_bottom.count();
+        // Vertical connections (faces)
+        glwidget->setPaintingColor(color_brush_tmp);
+        glwidget->glBegin(GL_QUADS);
+        QVector3D last_vertex_bottom = vertices_bottom.at(count - 1);
+        QVector3D last_vertex_top = vertices_top.at(count - 1);
+        for (int i = 0; i < count; i++)
+        {
+            QVector3D vertex_bottom = vertices_bottom.at(i);
+            QVector3D vertex_top = vertices_top.at(i);
+            glwidget->glVertex3f((GLfloat)last_vertex_bottom.x(), (GLfloat)last_vertex_bottom.y(), (GLfloat)last_vertex_bottom.z());
+            glwidget->glVertex3f((GLfloat)last_vertex_top.x(), (GLfloat)last_vertex_top.y(), (GLfloat)last_vertex_top.z());
+            glwidget->glVertex3f((GLfloat)vertex_top.x(), (GLfloat)vertex_top.y(), (GLfloat)vertex_top.z());
+            glwidget->glVertex3f((GLfloat)vertex_bottom.x(), (GLfloat)vertex_bottom.y(), (GLfloat)vertex_bottom.z());
+            last_vertex_bottom = vertex_bottom;
+            last_vertex_top = vertex_top;
+        }
+
+        glEnd();
+    }
+
+    if (glwidget->render_outline)
+    {
+        int count = vertices_bottom.count();
+        glwidget->setPaintingColor(color_pen_tmp);
+        glwidget->glLineWidth(1.0);
+        // Bottom circle
+        glwidget->glBegin(GL_LINE_LOOP);
+        foreach (QVector3D linePos, vertices_bottom)
+        {
+            glwidget->glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
+        }
+        glwidget->glEnd();
+
+        // Top circle
+        glwidget->glBegin(GL_LINE_LOOP);
+        foreach (QVector3D linePos, vertices_top)    // 50 edges
+        {
+            glwidget->glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
+        }
+        glwidget->glEnd();
+
+        // Vertical connections
+        glwidget->glBegin(GL_LINES);
+        for (int i = 0; i < count; i++)
+        {
+            glwidget->glVertex3f((GLfloat)vertices_bottom.at(i).x(), (GLfloat)vertices_bottom.at(i).y(), (GLfloat)vertices_bottom.at(i).z());
+            glwidget->glVertex3f((GLfloat)vertices_top.at(i).x(), (GLfloat)vertices_top.at(i).y(), (GLfloat)vertices_top.at(i).z());
+        }
+
+        glwidget->glEnd();
+    }
 }

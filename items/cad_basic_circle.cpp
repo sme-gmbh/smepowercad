@@ -1,4 +1,5 @@
 #include "cad_basic_circle.h"
+#include "glwidget.h"
 
 CAD_basic_circle::CAD_basic_circle() : CADitem(CADitem::Basic_Circle)
 {
@@ -89,5 +90,32 @@ void CAD_basic_circle::processWizardInput()
 
 void CAD_basic_circle::paint(GLWidget *glwidget)
 {
+    QColor color_pen = getColorPen();
 
+    qreal penWidth = 1.0;
+    if (widthByLayer)
+    {
+        penWidth = layer->width / 100.0 / glwidget->zoomFactor;
+    }
+    else if (widthByBlock)
+    {
+
+    }
+    else
+    {
+        penWidth = width / glwidget->zoomFactor;
+    }
+
+    // Default width setting
+    if (penWidth < 1.0)
+        penWidth = 1.0;
+
+    glwidget->setPaintingColor(color_pen);
+    glwidget->glLineWidth(penWidth);
+    glwidget->glBegin(GL_LINE_LOOP);
+    foreach (QVector3D linePos, circle)    // 50 edges
+    {
+        glwidget->glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
+    }
+    glwidget->glEnd();
 }

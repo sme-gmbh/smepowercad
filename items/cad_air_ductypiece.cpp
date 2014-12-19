@@ -1,4 +1,5 @@
 #include "cad_air_ductypiece.h"
+#include "glwidget.h"
 
 CAD_air_ductYpiece::CAD_air_ductYpiece() : CADitem(CADitem::Air_DuctYpiece)
 {
@@ -252,4 +253,107 @@ void CAD_air_ductYpiece::processWizardInput()
     fe = wizardParams.value("fe").toDouble();
 
 
+}
+
+void CAD_air_ductYpiece::paint(GLWidget *glwidget)
+{
+    QColor color_pen = getColorPen();
+    QColor color_brush = getColorBrush();
+
+    if (glwidget->render_solid)
+    {
+        glwidget->setPaintingColor(color_brush);
+        glwidget->glBegin(GL_QUADS);
+
+        //top and bottom
+        glwidget->glVertex3f((GLfloat)endcap_1->pos_bot_2.x(), (GLfloat)endcap_1->pos_bot_2.y(), (GLfloat)endcap_1->pos_bot_2.z());
+        glwidget->glVertex3f((GLfloat)endcap_3->pos_bot_4.x(), (GLfloat)endcap_3->pos_bot_4.y(), (GLfloat)endcap_3->pos_bot_4.z());
+        glwidget->glVertex3f((GLfloat)endcap_3->pos_top_4.x(), (GLfloat)endcap_3->pos_top_4.y(), (GLfloat)endcap_3->pos_top_4.z());
+        glwidget->glVertex3f((GLfloat)endcap_1->pos_top_2.x(), (GLfloat)endcap_1->pos_top_2.y(), (GLfloat)endcap_1->pos_top_2.z());
+
+
+        glwidget->glVertex3f((GLfloat)splitPoint[0].x(), (GLfloat)splitPoint[0].y(), (GLfloat)splitPoint[0].z());
+        glwidget->glVertex3f((GLfloat)endcap_3->pos_bot_1.x(), (GLfloat)endcap_3->pos_bot_1.y(), (GLfloat)endcap_3->pos_bot_1.z());
+        glwidget->glVertex3f((GLfloat)endcap_3->pos_top_1.x(), (GLfloat)endcap_3->pos_top_1.y(), (GLfloat)endcap_3->pos_top_1.z());
+        glwidget->glVertex3f((GLfloat)splitPoint[1].x(), (GLfloat)splitPoint[1].y(), (GLfloat)splitPoint[1].z());
+
+
+        glwidget->glVertex3f((GLfloat)splitPoint[0].x(), (GLfloat)splitPoint[0].y(), (GLfloat)splitPoint[0].z());
+        glwidget->glVertex3f((GLfloat)endcap_2->pos_bot_4.x(), (GLfloat)endcap_2->pos_bot_4.y(), (GLfloat)endcap_2->pos_bot_4.z());
+        glwidget->glVertex3f((GLfloat)endcap_2->pos_top_4.x(), (GLfloat)endcap_2->pos_top_4.y(), (GLfloat)endcap_2->pos_top_4.z());
+        glwidget->glVertex3f((GLfloat)splitPoint[1].x(), (GLfloat)splitPoint[1].y(), (GLfloat)splitPoint[1].z());
+
+        glwidget->glVertex3f((GLfloat)endcap_1->pos_bot_3.x(), (GLfloat)endcap_1->pos_bot_3.y(), (GLfloat)endcap_1->pos_bot_3.z());
+        glwidget->glVertex3f((GLfloat)endcap_2->pos_bot_1.x(), (GLfloat)endcap_2->pos_bot_1.y(), (GLfloat)endcap_2->pos_bot_1.z());
+        glwidget->glVertex3f((GLfloat)endcap_2->pos_top_1.x(), (GLfloat)endcap_2->pos_top_1.y(), (GLfloat)endcap_2->pos_top_1.z());
+        glwidget->glVertex3f((GLfloat)endcap_1->pos_top_3.x(), (GLfloat)endcap_1->pos_top_3.y(), (GLfloat)endcap_1->pos_top_3.z());
+
+        //front
+        glwidget->glVertex3f((GLfloat)endcap_1->pos_bot_2.x(), (GLfloat)endcap_1->pos_bot_2.y(), (GLfloat)endcap_1->pos_bot_2.z());
+        glwidget->glVertex3f((GLfloat)endcap_3->pos_bot_4.x(), (GLfloat)endcap_3->pos_bot_4.y(), (GLfloat)endcap_3->pos_bot_4.z());
+        glwidget->glVertex3f((GLfloat)endcap_3->pos_bot_1.x(), (GLfloat)endcap_3->pos_bot_1.y(), (GLfloat)endcap_3->pos_bot_1.z());
+        glwidget->glVertex3f((GLfloat)splitPoint[0].x(), (GLfloat)splitPoint[0].y(), (GLfloat)splitPoint[0].z());
+
+        glwidget->glVertex3f((GLfloat)endcap_2->pos_bot_1.x(), (GLfloat)endcap_2->pos_bot_1.y(), (GLfloat)endcap_2->pos_bot_1.z());
+        glwidget->glVertex3f((GLfloat)endcap_2->pos_bot_4.x(), (GLfloat)endcap_2->pos_bot_4.y(), (GLfloat)endcap_2->pos_bot_4.z());
+        glwidget->glVertex3f((GLfloat)splitPoint[0].x(), (GLfloat)splitPoint[0].y(), (GLfloat)splitPoint[0].z());
+        glwidget->glVertex3f((GLfloat)endcap_1->pos_bot_3.x(), (GLfloat)endcap_1->pos_bot_3.y(), (GLfloat)endcap_1->pos_bot_3.z());
+        //back
+        glwidget->glVertex3f((GLfloat)endcap_1->pos_top_2.x(), (GLfloat)endcap_1->pos_top_2.y(), (GLfloat)endcap_1->pos_top_2.z());
+        glwidget->glVertex3f((GLfloat)endcap_3->pos_top_4.x(), (GLfloat)endcap_3->pos_top_4.y(), (GLfloat)endcap_3->pos_top_4.z());
+        glwidget->glVertex3f((GLfloat)endcap_3->pos_top_1.x(), (GLfloat)endcap_3->pos_top_1.y(), (GLfloat)endcap_3->pos_top_1.z());
+        glwidget->glVertex3f((GLfloat)splitPoint[1].x(), (GLfloat)splitPoint[1].y(), (GLfloat)splitPoint[1].z());
+
+        glwidget->glVertex3f((GLfloat)endcap_1->pos_top_3.x(), (GLfloat)endcap_1->pos_top_3.y(), (GLfloat)endcap_1->pos_top_3.z());
+        glwidget->glVertex3f((GLfloat)endcap_2->pos_top_1.x(), (GLfloat)endcap_2->pos_top_1.y(), (GLfloat)endcap_2->pos_top_1.z());
+        glwidget->glVertex3f((GLfloat)endcap_2->pos_top_4.x(), (GLfloat)endcap_2->pos_top_4.y(), (GLfloat)endcap_2->pos_top_4.z());
+        glwidget->glVertex3f((GLfloat)splitPoint[1].x(), (GLfloat)splitPoint[1].y(), (GLfloat)splitPoint[1].z());
+
+        glwidget->glEnd();
+        glwidget->glBegin(GL_TRIANGLES);
+        glwidget->glVertex3f((GLfloat)endcap_1->pos_bot_3.x(), (GLfloat)endcap_1->pos_bot_3.y(), (GLfloat)endcap_1->pos_bot_3.z());
+        glwidget->glVertex3f((GLfloat)splitPoint[0].x(), (GLfloat)splitPoint[0].y(), (GLfloat)splitPoint[0].z());
+        glwidget->glVertex3f((GLfloat)endcap_1->pos_bot_2.x(), (GLfloat)endcap_1->pos_bot_2.y(), (GLfloat)endcap_1->pos_bot_2.z());
+
+        glwidget->glVertex3f((GLfloat)endcap_1->pos_top_2.x(), (GLfloat)endcap_1->pos_top_2.y(), (GLfloat)endcap_1->pos_top_2.z());
+        glwidget->glVertex3f((GLfloat)splitPoint[1].x(), (GLfloat)splitPoint[1].y(), (GLfloat)splitPoint[1].z());
+        glwidget->glVertex3f((GLfloat)endcap_1->pos_top_3.x(), (GLfloat)endcap_1->pos_top_3.y(), (GLfloat)endcap_1->pos_top_3.z());
+
+        glwidget->glEnd();
+    }
+
+    if (glwidget->render_outline)
+    {
+        glwidget->setPaintingColor(color_pen);
+        glwidget->glLineWidth(1.0);
+        glwidget->glBegin(GL_LINES);
+        //lower
+        glwidget->glVertex3f((GLfloat)endcap_1->pos_bot_2.x(), (GLfloat)endcap_1->pos_bot_2.y(), (GLfloat)endcap_1->pos_bot_2.z());
+        glwidget->glVertex3f((GLfloat)endcap_3->pos_bot_4.x(), (GLfloat)endcap_3->pos_bot_4.y(), (GLfloat)endcap_3->pos_bot_4.z());
+
+        glwidget->glVertex3f((GLfloat)endcap_3->pos_bot_1.x(), (GLfloat)endcap_3->pos_bot_1.y(), (GLfloat)endcap_3->pos_bot_1.z());
+        glwidget->glVertex3f((GLfloat)splitPoint[0].x(), (GLfloat)splitPoint[0].y(), (GLfloat)splitPoint[0].z());
+
+        glwidget->glVertex3f((GLfloat)splitPoint[0].x(), (GLfloat)splitPoint[0].y(), (GLfloat)splitPoint[0].z());
+        glwidget->glVertex3f((GLfloat)endcap_2->pos_bot_4.x(), (GLfloat)endcap_2->pos_bot_4.y(), (GLfloat)endcap_2->pos_bot_4.z());
+
+        glwidget->glVertex3f((GLfloat)endcap_2->pos_bot_1.x(), (GLfloat)endcap_2->pos_bot_1.y(), (GLfloat)endcap_2->pos_bot_1.z());
+        glwidget->glVertex3f((GLfloat)endcap_1->pos_bot_3.x(), (GLfloat)endcap_1->pos_bot_3.y(), (GLfloat)endcap_1->pos_bot_3.z());
+        //upper
+        glwidget->glVertex3f((GLfloat)endcap_1->pos_top_2.x(), (GLfloat)endcap_1->pos_top_2.y(), (GLfloat)endcap_1->pos_top_2.z());
+        glwidget->glVertex3f((GLfloat)endcap_3->pos_top_4.x(), (GLfloat)endcap_3->pos_top_4.y(), (GLfloat)endcap_3->pos_top_4.z());
+
+        glwidget->glVertex3f((GLfloat)endcap_3->pos_top_1.x(), (GLfloat)endcap_3->pos_top_1.y(), (GLfloat)endcap_3->pos_top_1.z());
+        glwidget->glVertex3f((GLfloat)splitPoint[1].x(), (GLfloat)splitPoint[1].y(), (GLfloat)splitPoint[1].z());
+
+        glwidget->glVertex3f((GLfloat)splitPoint[1].x(), (GLfloat)splitPoint[1].y(), (GLfloat)splitPoint[1].z());
+        glwidget->glVertex3f((GLfloat)endcap_2->pos_top_4.x(), (GLfloat)endcap_2->pos_top_4.y(), (GLfloat)endcap_2->pos_top_4.z());
+
+        glwidget->glVertex3f((GLfloat)endcap_2->pos_top_1.x(), (GLfloat)endcap_2->pos_top_1.y(), (GLfloat)endcap_2->pos_top_1.z());
+        glwidget->glVertex3f((GLfloat)endcap_1->pos_top_3.x(), (GLfloat)endcap_1->pos_top_3.y(), (GLfloat)endcap_1->pos_top_3.z());
+
+        glwidget->glVertex3f((GLfloat)splitPoint[1].x(), (GLfloat)splitPoint[1].y(), (GLfloat)splitPoint[1].z());
+        glwidget->glVertex3f((GLfloat)splitPoint[0].x(), (GLfloat)splitPoint[0].y(), (GLfloat)splitPoint[0].z());
+        glwidget->glEnd();
+    }
 }

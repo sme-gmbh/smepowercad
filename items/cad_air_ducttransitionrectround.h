@@ -14,6 +14,7 @@ public:
     virtual QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
+    virtual void paint(GLWidget* glwidget);
 
     qreal a; //height of rect side
     qreal b; //width of rect side

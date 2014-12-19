@@ -4,6 +4,7 @@
 CADitem::CADitem(ItemType type)
 {
     this->type = type;
+    this->layer = NULL;
     this->highlight = false;
     this->selected = false;
     this->index = 0;
@@ -68,6 +69,36 @@ QColor CADitem::getColorBrush()
     return color_brush_tmp;
 }
 
+void CADitem::setLayer(Layer *layer)
+{
+    this->layer = layer;
+    this->setLayer_processItems(this->subItems);
+}
+
+void CADitem::setLayer_processItems(QList<CADitem *> subItems)
+{
+    foreach (CADitem* item, subItems)
+    {
+        item->layer = this->layer;
+        this->setLayer_processItems(item->subItems);
+    }
+}
+
+void CADitem::setID(quint64 id)
+{
+    this->id = id;
+    this->setID_processItems(this->subItems);
+}
+
+void CADitem::setID_processItems(QList<CADitem*> subItems)
+{
+    foreach (CADitem* item, subItems)
+    {
+        item->id = this->id;
+        this->setID_processItems(item->subItems);
+    }
+}
+
 void CADitem::serialOut(QByteArray* out)
 {
     QList<QString> keys = wizardParams.keys();
@@ -95,7 +126,6 @@ CADitem::ItemType CADitem::getType()
 {
     return type;
 }
-
 
 // Item switch template
 /*

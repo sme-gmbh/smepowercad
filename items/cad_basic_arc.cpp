@@ -1,4 +1,5 @@
 #include "cad_basic_arc.h"
+#include "glwidget.h"
 
 #define PI 3.1415926535897
 
@@ -100,5 +101,33 @@ void CAD_basic_arc::processWizardInput()
 
 void CAD_basic_arc::paint(GLWidget *glwidget)
 {
+    QColor color_pen_tmp = getColorPen();
 
+    qreal penWidth = 1.0;
+    if (widthByLayer)
+    {
+        penWidth = layer->width / 100.0;
+    }
+    else if (widthByBlock)
+    {
+
+    }
+    else
+    {
+        penWidth = width;
+    }
+
+    // Default width setting
+    if (penWidth < 1.0)
+        penWidth = 1.0;
+
+    glwidget->setPaintingColor(color_pen_tmp);
+    glwidget->glLineWidth(penWidth);
+    glwidget->glBegin(GL_LINE_STRIP);
+    foreach (QVector3D linePos, arc)
+    {
+        glwidget->glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
+    }
+
+    glwidget->glEnd();
 }

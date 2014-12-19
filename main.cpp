@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
     format.setVersion(4, 3);
     format.setSamples(4);
     format.setProfile(QSurfaceFormat::CompatibilityProfile);
+    format.setSwapInterval(0);
     QSurfaceFormat::setDefaultFormat(format);
     // End of Qt 5 specific opengl settings
 

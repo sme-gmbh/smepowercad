@@ -1,5 +1,5 @@
 #ifndef CAD_BASIC_POLYLINE_H
-#define CAD_BASICPOLYLINE_H
+#define CAD_BASIC_POLYLINE_H
 
 #include "caditem.h"
 

@@ -1,4 +1,5 @@
 #include "cad_basic_3Dface.h"
+#include "glwidget.h"
 #include <QDebug>
 #include <QPen>
 
@@ -116,5 +117,29 @@ void CAD_basic_3Dface::processWizardInput()
 
 void CAD_basic_3Dface::paint(GLWidget *glwidget)
 {
+    QColor color_pen_tmp = getColorPen();
+    QColor color_brush_tmp = getColorBrush();
 
+    if (glwidget->render_solid)
+    {
+        glwidget->glBegin(GL_POLYGON);
+        glwidget->setPaintingColor(color_brush_tmp);
+        foreach (CAD_basic_3Dface::Vertex vertex, vertices)
+        {
+            glwidget->glVertex3f((GLfloat)vertex.pos.x(), (GLfloat)vertex.pos.y(), (GLfloat)vertex.pos.z());
+        }
+        glwidget->glEnd();
+    }
+
+    if (glwidget->render_outline)
+    {
+        glwidget->setPaintingColor(color_pen_tmp);
+        glwidget->glLineWidth(1.0);
+        glwidget->glBegin(GL_LINE_LOOP);
+        foreach (CAD_basic_3Dface::Vertex vertex, vertices)
+        {
+            glwidget->glVertex3f((GLfloat)vertex.pos.x(), (GLfloat)vertex.pos.y(), (GLfloat)vertex.pos.z());
+        }
+        glwidget->glEnd();
+    }
 }

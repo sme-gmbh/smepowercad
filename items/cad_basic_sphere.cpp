@@ -1,4 +1,6 @@
 #include "cad_basic_sphere.h"
+#include "glwidget.h"
+#include <GL/glu.h>
 
 CAD_basic_sphere::CAD_basic_sphere() : CADitem(CADitem::Basic_Sphere)
 {
@@ -69,5 +71,31 @@ void CAD_basic_sphere::processWizardInput()
 
 void CAD_basic_sphere::paint(GLWidget *glwidget)
 {
+    QColor color_pen = getColorPen();
+    QColor color_brush = getColorBrush();
 
+    GLdouble radius = (GLdouble)radius;
+
+    GLUquadricObj* sphere = gluNewQuadric();
+
+    glwidget->glPushMatrix();
+    glwidget->glTranslatef(position.x(), position.y(), position.z());
+    gluQuadricNormals(sphere, GLU_SMOOTH);
+    gluQuadricTexture(sphere, GL_TRUE);
+
+    if (glwidget->render_solid)
+    {
+        glwidget->setPaintingColor(color_brush);
+        gluSphere(sphere, radius, 32, 32);
+    }
+    if (glwidget->render_outline)
+    {
+        glwidget->glLineWidth(1.0);
+        glwidget->setPaintingColor(color_pen);
+        glwidget->glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        gluSphere(sphere, radius * 1.001, 32, 32);
+        glwidget->glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    }
+    glwidget->glPopMatrix();
+    gluDeleteQuadric(sphere);
 }

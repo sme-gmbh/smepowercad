@@ -1,4 +1,5 @@
 #include "cad_basic_plane.h"
+#include "glwidget.h"
 
 CAD_basic_plane::CAD_basic_plane() : CADitem(CADitem::Basic_Plane)
 {
@@ -89,5 +90,24 @@ void CAD_basic_plane::processWizardInput()
 
 void CAD_basic_plane::paint(GLWidget *glwidget)
 {
+    QColor color_pen_tmp = getColorPen();
+    QColor color_brush_tmp = getColorBrush();
 
+    if (glwidget->render_solid)
+    {
+        glwidget->setPaintingColor(color_brush_tmp);
+        glwidget->glBegin(GL_QUADS);
+        for(int k = 0; k < 4; k++)
+            glwidget->glVertex3f((GLfloat)vertices[k].x(), (GLfloat)vertices[k].y(), (GLfloat)vertices[k].z());
+        glwidget->glEnd();
+    }
+    if (glwidget->render_outline)
+    {
+        glwidget->setPaintingColor(color_pen_tmp);
+        glwidget->glLineWidth(1.0);
+        glwidget->glBegin(GL_LINE_LOOP);
+        for(int k = 0; k < 4; k++)
+            glwidget->glVertex3f((GLfloat)vertices[k].x(), (GLfloat)vertices[k].y(), (GLfloat)vertices[k].z());
+        glwidget->glEnd();
+    }
 }

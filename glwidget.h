@@ -1,13 +1,6 @@
 #ifndef GLWIDGET_H
 #define GLWIDGET_H
 
-// Qt 4
-//#include <QGLWidget>
-//#include <QGLFramebufferObject>
-//#include <QGLShader>
-//#include <QGLShaderProgram>
-
-// Qt 5
 #include <QOpenGLWidget>
 #include <QOpenGLContext>
 #include <QOpenGLFramebufferObject>
@@ -19,6 +12,7 @@
 #include <QOpenGLShader>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
+#include <QOpenGLTimerQuery>
 
 #include <QDebug>
 #include <QEvent>
@@ -34,8 +28,6 @@
 #include <QRgb>
 
 #include <qmath.h>
-#include <qgl.h>
-#include <GL/glu.h>
 
 #include "itemdb.h"
 #include "itemwizard.h"
@@ -86,7 +78,6 @@ private:
     QVector3D depth_of_view;
 //    QList<Layer*> layers;
     QPoint translationOffset;
-    qreal zoomFactor;
     QVector3D centerOfViewInScene;  // in coordsOnScene
     QPoint displayCenter;           // The Center of the widget in PixelsOnScreen, related to bottomLeft of Widget
     QVector3D cameraPosition;
@@ -163,11 +154,14 @@ public:
     int shader_Depth_of_view_location;
     int shader_Height_of_intersection_location;
 
+    qreal zoomFactor;
     bool render_solid;
     bool render_outline;
 
 
 private:
+    QOpenGLTimerQuery* openGLTimerQuery;
+    quint64 rendertime_ns_per_frame;
     QVector4D vertex_color;
     QVector3D vertex_position;
     QMatrix4x4 matrix_projection;
@@ -176,8 +170,6 @@ private:
     QMatrix4x4 matrix_rotation_old;
     QMatrix4x4 matrix_glSelect;
     QMatrix4x4 matrix_all;
-//    void saveGLState();
-//    void restoreGLState();
 
 public:
     void setVertex(QVector3D pos);
@@ -197,8 +189,6 @@ private:
 
     void updateMatrixAll();
 
-    QColor getColorPen(CADitem* item, Layer *layer);
-    QColor getColorBrush(CADitem* item, Layer *layer);
     bool selectItemsByColor;
 
     typedef enum {
@@ -211,111 +201,7 @@ private:
 
     void paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFont font = QFont(), QColor colorText = QColor(255, 255, 30, 255), QColor colorBackground = QColor(0, 0, 0, 230), QColor colorOutline = QColor(200, 200, 200, 150));
 
-    void paintBasicLine(Layer* layer, CAD_basic_line* item);
-    void paintBasicPolyLine(Layer *layer, CAD_basic_polyline *item);
-    void paintBasicPlane(Layer *layer, CAD_basic_plane *item);
-    void paintBasicFace(Layer *layer, CAD_basic_3Dface *item);
-    void paintBasicCircle(Layer *layer, CAD_basic_circle *item);
-    void paintBasicBox(Layer *layer, CAD_basic_box *item);
-    void paintBasicCylinder(Layer *layer, CAD_basic_cylinder *item);
-    void paintBasicPipe(Layer *layer, CAD_basic_pipe *item);
-    void paintBasicTurn(Layer *layer, CAD_basic_turn *item);
-    void paintBasicSphere(Layer *layer, CAD_basic_sphere *item);
-    void paintBasicArc(Layer *layer, CAD_basic_arc *item);
-    void paintBasicDuct(Layer *layer, CAD_basic_duct *item);
-
-    void paintArchBlockOut(Layer *layer, CAD_arch_blockOut *item);
-    void paintArchBoredPile(Layer *layer, CAD_arch_boredPile *item);
-    void paintArchDoor(Layer *layer, CAD_arch_door *item);
-    void paintArchLevelSlab(Layer *layer, CAD_arch_levelSlab *item);
-    void paintArchWallLoadBearing(Layer *layer, CAD_arch_wall_loadBearing *item);
-    void paintArchWallNonLoadBearing(Layer *layer, CAD_arch_wall_nonLoadBearing *item);
-    void paintArchWindow(Layer *layer, CAD_arch_window *item);
-
-    void paintAirDuct(Layer *layer, CAD_air_duct *item);
-    void paintAirPipe(Layer *layer, CAD_air_pipe *item);
-    void paintAirDuctTurn(Layer *layer, CAD_air_ductTurn *item);
-    void paintAirPipeTurn(Layer *layer, CAD_air_pipeTurn *item);
-    void paintAirPipeReducer(Layer *layer, CAD_air_pipeReducer *item);
-    void paintAirPipeTeeConnector(Layer *layer, CAD_air_pipeTeeConnector *item);
-    void paintAirDuctTeeConnector(Layer *layer, CAD_air_ductTeeConnector *item);
-    void paintAirDuctTransiton(Layer *layer, CAD_air_ductTransition *item);
-    void paintAirDuctTransitionRectRound(Layer *layer, CAD_air_ductTransitionRectRound *item);
-    void paintAirDuctYpiece(Layer *layer, CAD_air_ductYpiece *item);
-    void paintAirDuctEndPlate(Layer *layer, CAD_air_ductEndPlate *item);
-    void paintAirPipeEndCap(Layer *layer, CAD_air_pipeEndCap *item);
-    void paintAirThrottleValve(Layer *layer, CAD_air_throttleValve *item);
-    void paintAirMultiLeafDamper(Layer *layer, CAD_air_multiLeafDamper *item);
-    void paintAirPressureReliefDamper(Layer *layer, CAD_air_pressureReliefDamper *item);
-    void paintAirPipeFireDamper(Layer *layer, CAD_air_pipeFireDamper *item);
-    void paintAirDuctFireDamper(Layer *layer, CAD_air_ductFireDamper *item);
-    void paintAirDuctVolumetricFlowController(Layer *layer, CAD_air_ductVolumetricFlowController *item);
-    void paintAirPipeVolumetricFlowController(Layer *layer, CAD_air_pipeVolumetricFlowController *item);
-    void paintAirHeatExchangerWaterAir(Layer *layer, CAD_air_heatExchangerWaterAir *item);
-    void paintAirHeatExchangerAirAir(Layer *layer, CAD_air_heatExchangerAirAir *item);
-    void paintAirCanvasFlange(Layer *layer, CAD_air_canvasFlange *item);
-    void paintAirFilter(Layer *layer, CAD_air_filter *item);
-    void paintAirPipeSilencer(Layer *layer, CAD_air_pipeSilencer *item);
-    void paintAirDuctBaffleSilencer(Layer *layer, CAD_air_ductBaffleSilencer *item);
-    void paintAirFan(Layer *layer, CAD_air_fan *item);
-    void paintAirHumidifier(Layer *layer, CAD_air_humidifier *item);
-    void paintAirEmptyCabinet(Layer *layer, CAD_air_emptyCabinet *item);
-    void paintAirEquipmentFrame(Layer *layer, CAD_air_equipmentFrame *item);
-
-    void paintHeatCoolAdjustvalve(Layer *layer, CAD_heatcool_adjustvalve *item);
-    void paintHeatCoolChiller(Layer *layer, CAD_heatcool_chiller *item);
-    void paintHeatCoolControlvalve(Layer *layer, CAD_heatcool_controlvalve *item);
-    void paintHeatCoolCoolingTower(Layer *layer, CAD_heatcool_coolingTower *item);
-    void paintHeatCoolHeatExchanger(Layer *layer, CAD_heatcool_heatExchanger *item);
-    void paintHeatCoolPipe(Layer *layer, CAD_heatcool_pipe *item);
-    void paintHeatCoolPump(Layer *layer, CAD_heatcool_pump *item);
-    void paintHeatCoolSensor(Layer *layer, CAD_heatcool_sensor *item);
-    void paintHeatCoolPipeTurn(Layer *layer, CAD_heatcool_pipeTurn *item);
-    void paintHeatCoolPipeReducer(Layer *layer, CAD_heatcool_pipeReducer *item);
-    void paintHeatCoolPipeTeeConnector(Layer *layer, CAD_heatcool_pipeTeeConnector *item);
-    void paintHeatCoolPipeEndCap(Layer *layer, CAD_heatcool_pipeEndCap *item);
-    void paintHeatCoolFlange(Layer *layer, CAD_heatcool_flange *item);
-    void paintHeatCoolExpansionChamber(Layer *layer, CAD_heatcool_expansionChamber *item);
-    void paintHeatCoolBoiler(Layer *layer, CAD_heatcool_boiler *item);
-    void paintHeatCoolWaterHeater(Layer *layer, CAD_heatcool_waterHeater *item);
-    void paintHeatCoolStorageBoiler(Layer *layer, CAD_heatcool_storageBoiler *item);
-    void paintHeatCoolRadiator(Layer *layer, CAD_heatcool_radiator *item);
-    void paintHeatCoolFilter(Layer *layer, CAD_heatcool_filter *item);
-    void paintHeatCoolBallValve(Layer *layer, CAD_heatcool_ballValve *item);
-    void paintHeatCoolButterflyValve(Layer *layer, CAD_heatcool_butterflyValve *item);
-    void paintHeatCoolSafteyValve(Layer *layer, CAD_heatcool_safetyValve *item);
-    void paintHeatCoolFlowmeter(Layer *layer, CAD_heatcool_flowmeter *item);
-
-    void paintSprinklerCompressedAirWaterContainer(Layer *layer, CAD_sprinkler_compressedAirWaterContainer *item);
-    void paintSprinklerDistribution(Layer *layer, CAD_sprinkler_distribution *item);
-    void paintSprinklerHead(Layer *layer, CAD_sprinkler_head *item);
-    void paintSprinklerPipe(Layer *layer, CAD_sprinkler_pipe *item);
-    void paintSprinklerPump(Layer *layer, CAD_sprinkler_pump *item);
-    void paintSprinklerTeeConnector(Layer *layer, CAD_sprinkler_teeConnector *item);
-    void paintSprinklerValve(Layer *layer, CAD_sprinkler_valve *item);
-    void paintSprinklerWetAlarmValve(Layer *layer, CAD_sprinkler_wetAlarmValve *item);
-    void paintSprinklerZoneCheck(Layer *layer, CAD_sprinkler_zoneCheck *item);
-    void paintSprinklerPipeTurn(Layer *layer, CAD_sprinkler_pipeTurn *item);
-    void paintSprinklerPipeEndCap(Layer *layer, CAD_sprinkler_pipeEndCap *item);
-    void paintSprinklerPipeReducer(Layer *layer, CAD_sprinkler_pipeReducer *item);
-
-    void paintElectricalCabinet(Layer *layer, CAD_electrical_cabinet *item);
-    void paintElectricalCabletray(Layer *layer, CAD_electrical_cableTray *item);
-
-    void paintSanitaryPipe(Layer *layer, CAD_sanitary_pipe *item);
-    void paintSanitaryPipeTurn(Layer *layer, CAD_sanitary_pipeTurn *item);
-    void paintSanitaryPipeReducer(Layer *layer, CAD_sanitary_pipeReducer *item);
-    void paintSanitaryPipeTeeConnector(Layer *layer, CAD_sanitary_pipeTeeConnector *item);
-    void paintSanitaryPipeEndCap(Layer *layer, CAD_sanitary_pipeEndCap *item);
-    void paintSanitaryFlange(Layer *layer, CAD_sanitary_flange *item);
-    void paintSanitaryElectricWaterHeater(Layer *layer, CAD_sanitary_electricWaterHeater *item);
-    void paintSanitaryWashBasin(Layer *layer, CAD_sanitary_washBasin *item);
-    void paintSanitarySink(Layer *layer, CAD_sanitary_sink *item);
-    void paintSanitaryShower(Layer *layer, CAD_sanitary_shower *item);
-    void paintSanitaryEmergencyShower(Layer *layer, CAD_sanitary_emergencyShower *item);
-    void paintSanitaryEmergencyEyeShower(Layer *layer, CAD_sanitary_emergencyEyeShower *item);
-    void paintSanitaryLiftingUnit(Layer *layer, CAD_sanitary_liftingUnit *item);
-
+    QOpenGLFramebufferObject* fbo_select;
     QList<CADitem *> itemsAtPosition_v2(QPoint pos, int size_x, int size_y);
     CADitem *itemsAtPosition_processLayers(QList<Layer*> layers, GLuint glName);
     CADitem *itemsAtPosition_processItems(QList<CADitem*> items, GLuint glName);

@@ -56,7 +56,11 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, ItemWizard *itemWizard, ItemGri
     this->setMaximumSize(4096, 3072);   // 4k
     this->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 
-    this->setMouseTracking(true);
+//    this->setMouseTracking(false);
+
+    this->setAttribute(Qt::WA_ForceUpdatesDisabled, true);
+    this->setAttribute(Qt::WA_Hover, false);
+    this->setAttribute(Qt::WA_MouseTracking, false);
 }
 
 GeometryDisplay::~GeometryDisplay()

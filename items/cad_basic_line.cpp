@@ -1,4 +1,5 @@
 #include "cad_basic_line.h"
+#include "glwidget.h"
 #include <QDebug>
 #include <QPen>
 
@@ -94,5 +95,31 @@ void CAD_basic_line::processWizardInput()
 
 void CAD_basic_line::paint(GLWidget *glwidget)
 {
+    QColor color_pen_tmp = getColorPen();
 
+    qreal penWidth = 1.0;
+    if (widthByLayer)
+    {
+        penWidth = layer->width / 100.0;
+    }
+    else if (widthByBlock)
+    {
+
+    }
+    else
+    {
+        penWidth = width;
+    }
+
+    // Default width setting
+    if (penWidth < 1.0)
+        penWidth = 1.0;
+
+    glwidget->glLineWidth(penWidth);
+    glwidget->setPaintingColor(color_pen_tmp);
+    glwidget->glBegin(GL_LINES);
+    glwidget->glVertex3f((GLfloat)p1.x(), (GLfloat)p1.y(), (GLfloat)p1.z());
+    glwidget->glVertex3f((GLfloat)p2.x(), (GLfloat)p2.y(), (GLfloat)p2.z());
+
+    glwidget->glEnd();
 }

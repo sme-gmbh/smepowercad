@@ -1,4 +1,5 @@
 #include "cad_basic_polyline.h"
+#include "glwidget.h"
 #include <QDebug>
 #include <QPen>
 
@@ -93,5 +94,47 @@ void CAD_basic_polyline::processWizardInput()
 
 void CAD_basic_polyline::paint(GLWidget *glwidget)
 {
+    QColor color_pen_tmp = getColorPen();
 
+    QVector3D p1 = QVector3D();
+    QVector3D p2 = QVector3D();
+    glwidget->glBegin(GL_LINES);
+    foreach (CAD_basic_polyline::Vertex vertex, vertices)
+    {
+        if (p1 == p2)
+        {
+            p1 = vertex.pos;
+        }
+        else
+        {
+            p2 = vertex.pos;
+
+            qreal penWidth = 1.0;
+            if (widthByLayer)
+            {
+                penWidth = layer->width / 100.0;
+            }
+            else if (widthByBlock)
+            {
+
+            }
+            else
+            {
+                penWidth = vertex.widthStart;
+            }
+
+            // Default width setting
+            if (penWidth < 1.0)
+                penWidth = 1.0;
+
+            glwidget->glLineWidth(penWidth);
+            glwidget->setPaintingColor(color_pen_tmp);
+
+            glwidget->glVertex3f((GLfloat)p1.x(), (GLfloat)p1.y(), (GLfloat)p1.z());
+            glwidget->glVertex3f((GLfloat)p2.x(), (GLfloat)p2.y(), (GLfloat)p2.z());
+
+            p1 = p2;
+        }
+    }
+    glwidget->glEnd();
 }

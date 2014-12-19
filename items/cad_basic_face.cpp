@@ -1,4 +1,5 @@
 #include "cad_basic_face.h"
+#include "glwidget.h"
 #include <QDebug>
 #include <QPen>
 

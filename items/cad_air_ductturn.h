@@ -13,6 +13,7 @@ public:
     virtual QImage wizardImage();
     virtual void calculate();
     virtual void processWizardInput();
+    virtual void paint(GLWidget* glwidget);
 
     qreal s;
     qreal ff, fe;
