@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="SME PowerCad : Collaborative cad-software for industrial building design">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>SME PowerCad</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/sme-gmbh/smepowercad">View on GitHub</a>
+
+          <h1 id="project_title">SME PowerCad</h1>
+          <h2 id="project_tagline">Collaborative cad-software for industrial building design</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/sme-gmbh/smepowercad/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/sme-gmbh/smepowercad/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+<a id="welcome-to-sme-powercad" class="anchor" href="#welcome-to-sme-powercad" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to SME PowerCad.</h3>
+
+<p>This is a 3d design software for industrial buildings.<br>
+It is designed to be used for builings up to a size 200 x 200 x 50 meters (or larger if configured differently).<br>
+All collaborating designers and engineers have simultaneously and instantly access to the model of the building. An intelligent collision detection prevents designs that can't be built later.<br>
+This system is fully object oriented which gives you a high speed and accuracy.</p>
+
+<p>Many types of typical building installation objects are supported, e.g.: </p>
+
+<ul>
+<li>Basic architecture elements (Walls, Doors...)</li>
+<li>Heating, Ventilation, Air Conditioning elements (Fans, Filters, Ducts, Pipes...)</li>
+<li>Electrical Elements (Transformers, Switchgear, Distribution...)</li>
+<li>Sanitary Elements (Pipes, Boilers, Heatexchangers, Washbasins...)</li>
+<li>Fire extinguishing system elements (Sprinkler, gaseous extinbguishing systems...)</li>
+<li>Clean room components (Floor, Ceiling, Walls, Filter-Fan-Units...)</li>
+<li>Gas supply systems</li>
+<li>Chemical supply systems</li>
+<li>and many more</li>
+</ul>
+
+<p>Once you selected an object to be inserted in the scene, an object wizard comes up. All the basic parameters of an object (e.g. length, diameter and wall strength of a pipe) are entered in this wizard.<br>
+Once the object is drawn in the scene you may flange other items. E.g. a pipe with diameter of 50 mm has two flanges. One at the beginning and one at the end. If you click at one of these flanges, a flange wizard will come up. You may select one of some items that fit to that flange. In the case of a pipe e.g. a pipe-turn may fit. If the turn is selected to be flanged to the pipe, all necessary dimentions are automatically copied to the new object, so there is no need to set the diameter or wall strength once again.<br>
+So the design engineer is able to focus on the important things and will save a lot of time due to all the automatic settings performed when flanging items together.</p>
+
+<p>Development started 2014/06. First alpha release is planned 2015/03.
+At the moment we are working with 2 software engineers. Please feel free to contact us if you like to contribute.</p>
+
+<h3>
+<a id="programming-lanuage" class="anchor" href="#programming-lanuage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Programming lanuage</h3>
+
+<p>C++, Qt 5.4.0</p>
+
+<h3>
+<a id="system-requirements" class="anchor" href="#system-requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>System requirements</h3>
+
+<ul>
+<li>x86_64 compatible PC</li>
+<li>OpenGL 4.3 or later; NVIDIA Titan black is used on the master development machine and recommended for use on heavy projects.</li>
+<li>2 Monitors 1920x1080 or larger</li>
+<li>Any operating system qt can be compiled for; Fedora 20 or later is recommended.</li>
+</ul>
+
+<h3>
+<a id="improve-performance" class="anchor" href="#improve-performance" aria-hidden="true"><span class="octicon octicon-link"></span></a>Improve performance</h3>
+
+<ul>
+<li>Using a CPU with higher clock frequency will help a lot more than using one with more cores; </li>
+<li>Select and run your RAM as fast as possible. We do not recommend to overclock, but using 2400 MHz clock rate is basically a good idea.</li>
+<li>CAD object data is stored in RAM. So using a bigger RAM will enable you to work on bigger projects. Using more RAM will NOT improve performance. If RAM is enouch you can work. If not - you can't.</li>
+<li>CAD object data is not fetched in realtime from HDD, so using the latest ultra-fast HDDs or SSDs will not help improving system performace, except at the point of loading a project from disk (initial database start). You may choose a low-cost hdd storage system without having trouble with performance while working.</li>
+<li>Object data is shared with other cad machines across your local network. Improving network capacity WILL improve performance. 10 MBit/s Network will work well on smaller projects; 1000 MBit/s intranet is recommended.</li>
+<li>If you are running more than one different business locations that are connected to the internet, it is recommended to set up a mirror database server at each location. Otherwise all client traffic will be transferred across the internet (which is possible, but not a high end solution).</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">SME PowerCad maintained by <a href="https://github.com/sme-gmbh">sme-gmbh</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
