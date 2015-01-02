@@ -150,6 +150,10 @@
         <file>icons/cad_arch/cad_arch_grating.svg</file>
         <file>icons/cad_arch/cad_arch_foundation.svg</file>
         <file>icons/cad_basic/cad_basic_duct.svg</file>
+        <file>shaders/shader_1_triangles.geom</file>
+        <file>shaders/shader_1_lines.geom</file>
+        <file>shaders/shader_2.frag</file>
+        <file>shaders/shader_2.vert</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>

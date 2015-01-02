@@ -1,35 +1,36 @@
 #version 430
 
-in vec4 Color;
-in vec4 vTexCoord;
-in vec4 vVertexPosition;
-flat in vec3 vDepth_of_view;
-flat in vec3 vHeight_of_intersection;
-flat in int vUseTexture;
-flat in int vUseClippingX;
-flat in int vUseClippingY;
-flat in int vUseClippingZ;
-uniform sampler2D texture0;
-uniform sampler2D texture1;
+in vec4 gColor;
+in vec4 gTexCoord;
+in vec4 gVertexPosition;
+layout (location = 40) uniform sampler2D texture0;
+layout (location = 41) uniform sampler2D texture1;
+layout (location = 42) uniform int UseTexture;
+layout (location = 43) uniform int UseClippingX;
+layout (location = 44) uniform int UseClippingY;
+layout (location = 45) uniform int UseClippingZ;
+layout (location = 46) uniform vec3 Depth_of_view;
+layout (location = 47) uniform vec3 Height_of_intersection;
+
 
 out vec4 FragColor;
 
 void main(void)
 {
-    if (vUseTexture == 1)
+    if (UseTexture == 1)
     {
-        vec4 texColor0 = texture2D(texture0, vec2(vTexCoord.x, vTexCoord.y));
-        vec4 texColor1 = texture2D(texture1, vTexCoord.xy);
-        FragColor = texColor0 + Color;
+        vec4 texColor0 = texture2D(texture0, vec2(gTexCoord.x, gTexCoord.y));
+        vec4 texColor1 = texture2D(texture1, gTexCoord.xy);
+        FragColor = texColor0 + gColor;
         return;
     }
 
-    if( (vUseClippingX == 1) && ((vVertexPosition.x > vHeight_of_intersection.x) || (vVertexPosition.x < vDepth_of_view.x)) )
+    if( (UseClippingX == 1) && ((gVertexPosition.x > Height_of_intersection.x) || (gVertexPosition.x < Depth_of_view.x)) )
         discard;
-    if( (vUseClippingY == 1) && ((vVertexPosition.y > vHeight_of_intersection.y) || (vVertexPosition.y < vDepth_of_view.y)) )
+    if( (UseClippingY == 1) && ((gVertexPosition.y > Height_of_intersection.y) || (gVertexPosition.y < Depth_of_view.y)) )
         discard;
-    if( (vUseClippingZ == 1) && ((vVertexPosition.z > vHeight_of_intersection.z) || (vVertexPosition.z < vDepth_of_view.z)) )
+    if( (UseClippingZ == 1) && ((gVertexPosition.z > Height_of_intersection.z) || (gVertexPosition.z < Depth_of_view.z)) )
         discard;
 
-    FragColor = Color;
+    FragColor = gColor;
 }

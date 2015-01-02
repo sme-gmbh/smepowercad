@@ -59,8 +59,14 @@ GLWidget::~GLWidget()
     delete fbo_select;
     delete openGLTimerQuery;
     delete shader_1_vert;
+    delete shader_1_lines_geom;
+    delete shader_1_triangles_geom;
     delete shader_1_frag;
-    delete shaderProgram;
+    delete shader_2_vert;
+    delete shader_2_frag;
+    delete shaderProgram_lines;
+    delete shaderProgram_triangles;
+    delete shaderProgram_overlay;
 }
 
 QPointF GLWidget::mapFromScene(QVector3D &scenePoint)
@@ -725,14 +731,16 @@ void GLWidget::paintGL()
     matrix_modelview.scale(this->zoomFactor, this->zoomFactor, 1.0 / 100000.0);
     updateMatrixAll();
 
-    shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
+//    shaderProgram = shaderProgram_lines;
+//    shaderProgram->bind();
+
+//    shaderProgram = shaderProgram_triangles;
+//    shaderProgram->bind();
+//    shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
+//    setUseTexture(false);
 
     glClearColor(_backgroundColor.redF(), _backgroundColor.greenF(), _backgroundColor.blueF(), _backgroundColor.alphaF());
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//    glEnable(GL_BLEND);
-//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
-
     glEnable(GL_MULTISAMPLE);
     glDisable(GL_CULL_FACE);
     glDepthFunc(GL_LEQUAL);
@@ -742,22 +750,12 @@ void GLWidget::paintGL()
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_ALPHA_TEST);
 
-    shaderProgram->setUniformValue(shader_useClippingXLocation, (GLint)0);   // Enable X-Clipping Plane
-    shaderProgram->setUniformValue(shader_useClippingYLocation, (GLint)0);   // Enable Y-Clipping Plane
-    shaderProgram->setUniformValue(shader_useClippingZLocation, (GLint)0);   // Enable Z-Clipping Plane     // BUG: everything except z=0 plane is clipped if on...
-
-    setUseTexture(false);
-
-    glName = 0;
-    paintContent(itemDB->layers);
-    shaderProgram->setUniformValue(shader_useClippingXLocation,(GLint)0);
-    shaderProgram->setUniformValue(shader_useClippingYLocation,(GLint)0);
-    shaderProgram->setUniformValue(shader_useClippingZLocation,(GLint)0);
-
-//    restoreGLState();
+    paintContent(itemDB->layers);   // After this: TRIANGLE SHADER IS ACTIVE!
 
     // Overlay
-//    saveGLState();
+    shaderProgram = shaderProgram_overlay;
+    shaderProgram->bind();
+
     glClear(GL_DEPTH_BUFFER_BIT);
     glDepthRange(1,0);
     glEnable(GL_BLEND);
@@ -923,9 +921,10 @@ void GLWidget::paintGL()
     painter.end();
     delete texture;
 
+    glDisable(GL_DEPTH_TEST);
+
     // Set a matrix to the shader that does not rotate or scale, just transform to screen coordinate system
     shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection);
-    glDisable(GL_DEPTH_TEST);
 
     if (this->cursorShown)
     {
@@ -979,20 +978,20 @@ void GLWidget::paintGL()
             glVertex3i(rect.topLeft().x(), rect.topLeft().y(), 0);
             glEnd();
         }
-    }
 
-
-    //draw Arcball
-    if(arcballShown)
-    {
-        QPointF lookAtScreenCoords = mapFromScene(lookAtPosition);
-        glBegin(GL_LINE_LOOP);
-        for(int i = 0; i < 60; i++ )
+        //draw Arcball
+        if(arcballShown)
         {
-            glVertex3f(arcballRadius * qSin(i * PI / 30.0) + lookAtScreenCoords.x(), arcballRadius * qCos(i * PI / 30.0) + lookAtScreenCoords.y(), 0.0);
+            QPointF lookAtScreenCoords = mapFromScene(lookAtPosition);
+            glBegin(GL_LINE_LOOP);
+            for(int i = 0; i < 60; i++ )
+            {
+                glVertex3f(arcballRadius * qSin(i * PI / 30.0) + lookAtScreenCoords.x(), arcballRadius * qCos(i * PI / 30.0) + lookAtScreenCoords.y(), 0.0);
+            }
+            glEnd();
         }
-        glEnd();
     }
+
 
     QString infoText;
     QRect focusRect = QRect(0, 0, _snapIndicatorSize, _snapIndicatorSize);
@@ -1144,7 +1143,6 @@ void GLWidget::setVertex(QVector3D pos)
 
 void GLWidget::setVertex(QPoint pos)
 {
-    //    setVertex(QVector3D((qreal)pos.x(), (qreal)pos.y(), 0.0));
     glVertex2i((GLint)pos.x(), (GLint)pos.y());
 }
 
@@ -1156,10 +1154,18 @@ void GLWidget::setPaintingColor(QColor color)
         color.setGreen((glName >>  8) & 0xff);
         color.setBlue( (glName)       & 0xff);
         color.setAlpha(255);
+        vertex_color = QVector4D(color.redF(), color.greenF(), color.blueF(), color.alphaF());
+        shaderProgram->setAttributeValue(shader_colorLocation, vertex_color);
     }
-
-    vertex_color = QVector4D(color.redF(), color.greenF(), color.blueF(), color.alphaF());
-    shaderProgram->setAttributeValue(shader_colorLocation, vertex_color);
+    else
+    {
+        QVector4D vertex_color_new = QVector4D(color.redF(), color.greenF(), color.blueF(), color.alphaF());
+        if (vertex_color_new != vertex_color)
+        {
+            vertex_color = vertex_color_new;
+            shaderProgram->setAttributeValue(shader_colorLocation, vertex_color);
+        }
+    }
 }
 
 void GLWidget::setTextureCoords(QPoint coord)
@@ -1261,63 +1267,116 @@ void GLWidget::paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFon
 
 void GLWidget::paintContent(QList<Layer*> layers)
 {
-    //    qDebug() << "GLWidget::paintContent: painting"<< layers.count() << "layers...";
-    foreach (Layer* layer, layers)
+    bool render_outline_shadow = render_outline;
+    bool render_solid_shadow = render_solid;
+
+    // ********** LINES SHADER ON ********
+    shaderProgram = shaderProgram_lines;
+    shaderProgram->bind();
+
+    if (render_outline)
     {
-        if ((itemDB->layerSoloActive) && (!layer->solo))
-            continue;
+        shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
 
-        if ((!layer->on) && (!layer->solo))
-            continue;
+        render_solid = false;
+        foreach (Layer* layer, layers)
+        {
+            if ((itemDB->layerSoloActive) && (!layer->solo))
+                continue;
 
-        paintItems(layer->items, layer);
-        paintContent(layer->subLayers);
+            if ((!layer->on) && (!layer->solo))
+                continue;
+
+            paintItems(layer->items, layer);
+            paintContent(layer->subLayers);
+        }
     }
+    render_solid = render_solid_shadow;
+
+    shaderProgram->setUniformValue(shader_useClippingXLocation, (GLint)0);   // Enable X-Clipping Plane
+    shaderProgram->setUniformValue(shader_useClippingYLocation, (GLint)0);   // Enable Y-Clipping Plane
+    shaderProgram->setUniformValue(shader_useClippingZLocation, (GLint)0);   // Enable Z-Clipping Plane     // BUG: everything except z=0 plane is clipped if on...
+    setUseTexture(false);
+
+    // ********** TRIANGLES SHADER ON ********
+    shaderProgram = shaderProgram_triangles;
+    shaderProgram->bind();
+
+    shaderProgram->setUniformValue(shader_useClippingXLocation, (GLint)0);   // Enable X-Clipping Plane
+    shaderProgram->setUniformValue(shader_useClippingYLocation, (GLint)0);   // Enable Y-Clipping Plane
+    shaderProgram->setUniformValue(shader_useClippingZLocation, (GLint)0);   // Enable Z-Clipping Plane     // BUG: everything except z=0 plane is clipped if on...
+    setUseTexture(false);
+
+    glName = 0;
+
+    if (render_solid)
+    {
+        shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
+
+        render_outline = false;
+        foreach (Layer* layer, layers)
+        {
+            if ((itemDB->layerSoloActive) && (!layer->solo))
+                continue;
+
+            if ((!layer->on) && (!layer->solo))
+                continue;
+
+            paintItems(layer->items, layer);
+            paintContent(layer->subLayers);
+        }
+    }
+    render_outline = render_outline_shadow;
 }
 
 void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundingBox, bool isSubItem)
 {
-    foreach (CADitem* item, items)
+    int count = items.count();
+
+//    foreach (CADitem* item, items)
+//    {
+    for (int i = 0; i < count; i++)
     {
+        CADitem* item = items.at(i);
         if(checkBoundingBox)
         {
-            // Global culling performance test
-            //                    // Exclude all items from painting that do not reach the canvas with their boundingRect
-            //                    int screen_x_min = -this->width() / 2;
-            //                    //            int screen_x_max =  this->width() / 2;
-            //                    int screen_y_min = -this->height() / 2;
-            //                    //            int screen_y_max =  this->height() / 2;
+//             Global culling performance test
+                                // Exclude all items from painting that do not reach the canvas with their boundingRect
+                                int screen_x_min = -this->width() / 2;
+                                //            int screen_x_max =  this->width() / 2;
+                                int screen_y_min = -this->height() / 2;
+                                //            int screen_y_max =  this->height() / 2;
 
-            //                    int p_x_min =  100000;
-            //                    int p_x_max = -100000;
-            //                    int p_y_min =  100000;
-            //                    int p_y_max = -100000;
-
-
-            //                    for (int i=0; i < 8; i++)
-            //                    {
-            //                        QVector3D boxPoint = item->boundingBox.p(i);
-            //                        QPointF screen_p = mapFromScene(boxPoint);    // Remark: INEFFICIENT!
-
-            //                        if (screen_p.x() < p_x_min)     p_x_min = screen_p.x();
-            //                        if (screen_p.x() > p_x_max)     p_x_max = screen_p.x();
-            //                        if (screen_p.y() < p_y_min)     p_y_min = screen_p.y();
-            //                        if (screen_p.y() > p_y_max)     p_y_max = screen_p.y();
-            //                    }
-
-            //                    QRect screenRect;
-            //                    QRect itemRect;
-
-            //                    screenRect = QRect(screen_x_min, screen_y_min, this->width(), this->height());
-            //                    itemRect = QRect(p_x_min, p_y_min, (p_x_max - p_x_min), (p_y_max - p_y_min));
+                                int p_x_min =  100000;
+                                int p_x_max = -100000;
+                                int p_y_min =  100000;
+                                int p_y_max = -100000;
 
 
-            //                    if (!screenRect.intersects(itemRect))
-            //                    {
-            //                        if(!isSubItem)
-            //                            glName++;
-            //                        continue;
-            //                    }
+                                for (int i=0; i < 8; i++)
+                                {
+                                    QVector3D boxPoint = item->boundingBox.p(i);
+                                    QPointF screen_p = mapFromScene(boxPoint);
+
+                                    if (screen_p.x() < p_x_min)     p_x_min = screen_p.x();
+                                    if (screen_p.x() > p_x_max)     p_x_max = screen_p.x();
+                                    if (screen_p.y() < p_y_min)     p_y_min = screen_p.y();
+                                    if (screen_p.y() > p_y_max)     p_y_max = screen_p.y();
+                                }
+
+                                QRect screenRect;
+                                QRect itemRect;
+
+                                screenRect = QRect(screen_x_min, screen_y_min, this->width(), this->height());
+                                itemRect = QRect(p_x_min, p_y_min, (p_x_max - p_x_min), (p_y_max - p_y_min));
+
+
+                                if (!screenRect.intersects(itemRect))
+                                {
+                                    if(!isSubItem)
+                                        glName++;
+                                    continue;
+                                }
         }
 
 
@@ -1327,7 +1386,8 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundin
 
         item->index = glName;
         item->paint(this);
-        paintItems(item->subItems, layer, false, true);
+        if (item->subItems.count() > 0)
+            paintItems(item->subItems, layer, false, true);
     }
 }
 
@@ -1595,34 +1655,74 @@ void GLWidget::initializeGL()
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE | GL_EMISSION);
 //    glEnableClientState(GL_VERTEX_ARRAY);
 
-
-    shader_1_frag = new QOpenGLShader(QOpenGLShader::Fragment);
-    bool shaderOk = shader_1_frag->compileSourceFile(":/shaders/test.frag");
-    if (!shaderOk)
-        QMessageBox::critical(this, "Shader compiler", "Fragment shader failed to compile!");
-
     shader_1_vert = new QOpenGLShader(QOpenGLShader::Vertex);
-    shaderOk = shader_1_vert->compileSourceFile(":/shaders/shader_1.vert");
-
-    shaderProgram = new QOpenGLShaderProgram(this);
-    shaderProgram->addShader(shader_1_vert);
-    shaderProgram->addShader(shader_1_frag);
-    shaderOk = shaderProgram->link();
-    if (!shaderOk)
+    if (!shader_1_vert->compileSourceFile(":/shaders/shader_1.vert"))
         QMessageBox::critical(this, "Shader compiler", "Vertex shader failed to compile!");
 
-    if (!shaderOk)
+    shader_1_triangles_geom = new QOpenGLShader(QOpenGLShader::Geometry);
+    if (!shader_1_triangles_geom->compileSourceFile(":/shaders/shader_1_triangles.geom"))
+        QMessageBox::critical(this, "Shader compiler", "Triangle geometry shader failed to compile!");
+
+    shader_1_lines_geom = new QOpenGLShader(QOpenGLShader::Geometry);
+    if (!shader_1_lines_geom->compileSourceFile(":/shaders/shader_1_lines.geom"))
+        QMessageBox::critical(this, "Shader compiler", "Lines geometry shader failed to compile!");
+
+    shader_1_frag = new QOpenGLShader(QOpenGLShader::Fragment);
+    if (!shader_1_frag->compileSourceFile(":/shaders/test.frag"))
+        QMessageBox::critical(this, "Shader compiler", "Fragment shader failed to compile!");
+
+    shader_2_vert = new QOpenGLShader(QOpenGLShader::Vertex);
+    if (!shader_2_vert->compileSourceFile(":/shaders/shader_2.vert"))
+        QMessageBox::critical(this, "Shader compiler", "Vertex shader 2 failed to compile!");
+
+    shader_2_frag = new QOpenGLShader(QOpenGLShader::Fragment);
+    if (!shader_2_frag->compileSourceFile(":/shaders/shader_2.frag"))
+        QMessageBox::critical(this, "Shader compiler", "Fragment shader 2 failed to compile!");
+
+    // ********** LINE SHADER **********
+    shaderProgram_lines = new QOpenGLShaderProgram(this);
+    shaderProgram_lines->addShader(shader_1_vert);
+    shaderProgram_lines->addShader(shader_1_lines_geom);
+    shaderProgram_lines->addShader(shader_1_frag);
+    if (!shaderProgram_lines->link())
     {
-        QMessageBox::critical(this, "Shader linker", QString("Shader failed to link!\n\n") + shaderProgram->log());
+        QMessageBox::critical(this, "Shader linker", QString("Line Shader failed to link!\n\n") + shaderProgram->log());
+    }
+    if (!shaderProgram_lines->bind())
+    {
+        QMessageBox::critical(this, "Shader program", "Line Shaderprogram could not be bound to gl context!");
+    }
+
+    // ********** TRIANGLE SHADER **********
+    shaderProgram_triangles = new QOpenGLShaderProgram(this);
+    shaderProgram_triangles->addShader(shader_1_vert);
+    shaderProgram_triangles->addShader(shader_1_triangles_geom);
+    shaderProgram_triangles->addShader(shader_1_frag);
+    if (!shaderProgram_triangles->link())
+    {
+        QMessageBox::critical(this, "Shader linker", QString("Triangle Shader failed to link!\n\n") + shaderProgram->log());
+    }
+    if (!shaderProgram_triangles->bind())
+    {
+        QMessageBox::critical(this, "Shader program", "Triangle Shaderprogram could not be bound to gl context!");
+    }
+
+    // ********** OVERLAY SHADER **********
+    shaderProgram_overlay = new QOpenGLShaderProgram(this);
+    shaderProgram_overlay->addShader(shader_2_vert);
+    shaderProgram_overlay->addShader(shader_2_frag);
+    if (!shaderProgram_overlay->link())
+    {
+        QMessageBox::critical(this, "Shader linker", QString("Overlay Shader failed to link!\n\n") + shaderProgram->log());
+    }
+    if (!shaderProgram_overlay->bind())
+    {
+        QMessageBox::critical(this, "Shader program", "Overlay Shaderprogram could not be bound to gl context!");
     }
 
 
-    shaderOk = shaderProgram->bind();
+    shaderProgram = shaderProgram_triangles;
 
-    if (!shaderOk)
-    {
-        QMessageBox::critical(this, "Shader program", "Shader could not be bound to gl context!");
-    }
 
     shader_vertexLocation = shaderProgram->attributeLocation("VertexPosition");
     shader_matrixLocation = shaderProgram->uniformLocation("Matrix");

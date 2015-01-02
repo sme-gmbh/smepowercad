@@ -310,4 +310,8 @@ OTHER_FILES += \
     lang/powercad-ru_RU.qm \
     settings.xml \
     shaders/test.frag \
-    shaders/shader_1.vert
+    shaders/shader_1.vert \
+    shaders/shader_1_triangles.geom \
+    shaders/shader_1_lines.geom \
+    shaders/shader_2.frag \
+    shaders/shader_2.vert

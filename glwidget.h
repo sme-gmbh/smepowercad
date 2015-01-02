@@ -139,9 +139,16 @@ private:
     // Drawing
     // OpenGL
 public:
-    QOpenGLShaderProgram* shaderProgram;
-    QOpenGLShader* shader_1_frag;
+    QOpenGLShaderProgram* shaderProgram;    // the current one
+    QOpenGLShaderProgram* shaderProgram_lines;
+    QOpenGLShaderProgram* shaderProgram_triangles;
+    QOpenGLShaderProgram* shaderProgram_overlay;
     QOpenGLShader* shader_1_vert;
+    QOpenGLShader* shader_1_triangles_geom;
+    QOpenGLShader* shader_1_lines_geom;
+    QOpenGLShader* shader_1_frag;
+    QOpenGLShader* shader_2_vert;
+    QOpenGLShader* shader_2_frag;
     int shader_vertexLocation;
     int shader_matrixLocation;
     int shader_colorLocation;
@@ -239,9 +246,6 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent *event);
 
     virtual void keyPressEvent(QKeyEvent *event);
-
-//    virtual void resizeEvent(QResizeEvent *event);
-//    virtual void paintEvent(QPaintEvent *event);
 
 signals:
     void signal_mouseMoved(QVector3D coords);
