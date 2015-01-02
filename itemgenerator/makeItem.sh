@@ -15,8 +15,10 @@ mainll=`echo $mainul | tr "[:upper:]" "[:lower:]"`
 subll=`echo $subul | tr "[:upper:]" "[:lower:]"`
 #subspaced="s u b"
 
-cp cad_template.cpp cad_"$mainll"_"$subll".cpp
-cp cad_template.h   cad_"$mainll"_"$subll".h
+cp cad_template.cpp ../items/cad_"$mainll"_"$subll".cpp
+cp cad_template.h   ../items/cad_"$mainll"_"$subll".h
+mkdir -p            ../icons/cad_"$mainll"
+cp template.svg     ../icons/cad_"$mainll"/cad_"$mainll"_"$subll".svg
 
 sed -i 's/mainuu/'$mainuu'/g' cad_"$mainll"_"$subll".*
 sed -i 's/mainul/'$mainul'/g' cad_"$mainll"_"$subll".*
