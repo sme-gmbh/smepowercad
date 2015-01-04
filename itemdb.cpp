@@ -1435,6 +1435,7 @@ bool ItemDB::file_loadDB(QString filename)
     }
 
     file.close();
+    emit signal_layerManagerUpdateNeeded();
     return true;
 }
 

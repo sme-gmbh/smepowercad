@@ -203,6 +203,7 @@ signals:
     void signal_itemAdded(CADitem* item, Layer* layer);
     void signal_itemDeleted(CADitem* item);
 //    void signal_itemModified(CADitem* item, Layer* layer);
+    void signal_layerManagerUpdateNeeded();
     void signal_repaintNeeded();
 
 public slots:

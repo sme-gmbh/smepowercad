@@ -39,8 +39,6 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, Item
 
     slot_update_settings();
 
-//    this->setMouseTracking(true);
-
     this->setPalette(Qt::transparent);
     this->setAttribute(Qt::WA_TransparentForMouseEvents, false);
     this->setAttribute(Qt::WA_ForceUpdatesDisabled, true);
@@ -718,9 +716,6 @@ void GLWidget::slot_set_cuttingplane_values_changed(qreal height, qreal depth)
     this->height_of_intersection.setZ(height);
     this->depth_of_view.setZ(depth);
 
-    shaderProgram->setUniformValue(shader_Height_of_intersection_location, this->height_of_intersection);
-    shaderProgram->setUniformValue(shader_Depth_of_view_location,  this->height_of_intersection - this->depth_of_view);
-
     slot_repaint();
 }
 
@@ -801,7 +796,6 @@ void GLWidget::paintGL()
     glVertex3f(-1,  1, -1);
     glEnd();
     texture_cube1->release();
-//    texture->destroy();
 
 
     // Top face
@@ -817,7 +811,6 @@ void GLWidget::paintGL()
     glVertex3f( 1,  1, 1);
     glEnd();
     texture_cube2->release();
-//    texture->destroy();
 
 
     // Front face
@@ -834,7 +827,6 @@ void GLWidget::paintGL()
     glVertex3i(-1,  1,  1);
     glEnd();
     texture_cube3->release();
-//    texture->destroy();
 
 
     // Back face
@@ -850,7 +842,6 @@ void GLWidget::paintGL()
     glVertex3i(-1, -1,  1);
     glEnd();
     texture_cube4->release();
-//    texture->destroy();
 
 
     // Left face
@@ -867,7 +858,6 @@ void GLWidget::paintGL()
     glVertex3i(-1, -1,  1);
     glEnd();
     texture_cube5->release();
-//    texture->destroy();
 
 
     // Right face
@@ -883,13 +873,9 @@ void GLWidget::paintGL()
     glVertex3i( 1, -1,  1);
     glEnd();
     texture_cube6->release();
-//    texture->destroy();
 
 
     setUseTexture(false);
-
-//    delete texture;
-
     glDisable(GL_DEPTH_TEST);
 
     // Set a matrix to the shader that does not rotate or scale, just transform to screen coordinate system
@@ -1250,28 +1236,26 @@ void GLWidget::paintContent(QList<Layer*> layers)
     shaderProgram = shaderProgram_lines;
     shaderProgram->bind();
 
+    shaderProgram->setUniformValue(shader_useClippingXLocation, (GLint)0);   // Enable X-Clipping Plane
+    shaderProgram->setUniformValue(shader_useClippingYLocation, (GLint)0);   // Enable Y-Clipping Plane
+    shaderProgram->setUniformValue(shader_useClippingZLocation, (GLint)0);   // Enable Z-Clipping Plane
+    shaderProgram->setUniformValue(shader_Height_of_intersection_location, this->height_of_intersection);
+    shaderProgram->setUniformValue(shader_Depth_of_view_location,  this->height_of_intersection - this->depth_of_view);
+    shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
+
+    glName = 1;
+
     if (render_outline)
     {
-        shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
-
         render_solid = false;
-        foreach (Layer* layer, layers)
-        {
-            if ((itemDB->layerSoloActive) && (!layer->solo))
-                continue;
-
-            if ((!layer->on) && (!layer->solo))
-                continue;
-
-            paintItems(layer->items, layer);
-            paintContent(layer->subLayers);
-        }
+        paintLayers(layers);
     }
     render_solid = render_solid_shadow;
 
     shaderProgram->setUniformValue(shader_useClippingXLocation, (GLint)0);   // Enable X-Clipping Plane
     shaderProgram->setUniformValue(shader_useClippingYLocation, (GLint)0);   // Enable Y-Clipping Plane
-    shaderProgram->setUniformValue(shader_useClippingZLocation, (GLint)0);   // Enable Z-Clipping Plane     // BUG: everything except z=0 plane is clipped if on...
+    shaderProgram->setUniformValue(shader_useClippingZLocation, (GLint)0);   // Enable Z-Clipping Plane
+
     setUseTexture(false);
 
     // ********** TRIANGLES SHADER ON ********
@@ -1280,79 +1264,85 @@ void GLWidget::paintContent(QList<Layer*> layers)
 
     shaderProgram->setUniformValue(shader_useClippingXLocation, (GLint)0);   // Enable X-Clipping Plane
     shaderProgram->setUniformValue(shader_useClippingYLocation, (GLint)0);   // Enable Y-Clipping Plane
-    shaderProgram->setUniformValue(shader_useClippingZLocation, (GLint)0);   // Enable Z-Clipping Plane     // BUG: everything except z=0 plane is clipped if on...
+    shaderProgram->setUniformValue(shader_useClippingZLocation, (GLint)1);   // Enable Z-Clipping Plane
+    shaderProgram->setUniformValue(shader_Height_of_intersection_location, this->height_of_intersection);
+    shaderProgram->setUniformValue(shader_Depth_of_view_location,  this->height_of_intersection - this->depth_of_view);
+    shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
+
     setUseTexture(false);
 
-    glName = 0;
+    glName = 1;
 
     if (render_solid)
     {
-        shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
-
         render_outline = false;
-        foreach (Layer* layer, layers)
-        {
-            if ((itemDB->layerSoloActive) && (!layer->solo))
-                continue;
-
-            if ((!layer->on) && (!layer->solo))
-                continue;
-
-            paintItems(layer->items, layer);
-            paintContent(layer->subLayers);
-        }
+        paintLayers(layers);
     }
     render_outline = render_outline_shadow;
+
+    shaderProgram->setUniformValue(shader_useClippingXLocation, (GLint)0);   // Enable X-Clipping Plane
+    shaderProgram->setUniformValue(shader_useClippingYLocation, (GLint)0);   // Enable Y-Clipping Plane
+    shaderProgram->setUniformValue(shader_useClippingZLocation, (GLint)0);   // Enable Z-Clipping Plane
+}
+
+void GLWidget::paintLayers(QList<Layer *> layers)
+{
+    foreach (Layer* layer, layers)
+    {
+        if ((itemDB->layerSoloActive) && (!layer->solo))
+            continue;
+
+        if ((!layer->on) && (!layer->solo))
+            continue;
+
+        paintItems(layer->items, layer);
+        paintLayers(layer->subLayers);
+    }
 }
 
 void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundingBox, bool isSubItem)
 {
-    int count = items.count();
-
-//    foreach (CADitem* item, items)
-//    {
-    for (int i = 0; i < count; i++)
+    foreach (CADitem* item, items)
     {
-        CADitem* item = items.at(i);
         if(checkBoundingBox)
         {
 //             Global culling performance test
-                                // Exclude all items from painting that do not reach the canvas with their boundingRect
-                                int screen_x_min = -this->width() / 2;
-                                //            int screen_x_max =  this->width() / 2;
-                                int screen_y_min = -this->height() / 2;
-                                //            int screen_y_max =  this->height() / 2;
+            // Exclude all items from painting that do not reach the canvas with their boundingRect
+            int screen_x_min = -this->width() / 2;
+            //            int screen_x_max =  this->width() / 2;
+            int screen_y_min = -this->height() / 2;
+            //            int screen_y_max =  this->height() / 2;
 
-                                int p_x_min =  100000;
-                                int p_x_max = -100000;
-                                int p_y_min =  100000;
-                                int p_y_max = -100000;
-
-
-                                for (int i=0; i < 8; i++)
-                                {
-                                    QVector3D boxPoint = item->boundingBox.p(i);
-                                    QPointF screen_p = mapFromScene(boxPoint);
-
-                                    if (screen_p.x() < p_x_min)     p_x_min = screen_p.x();
-                                    if (screen_p.x() > p_x_max)     p_x_max = screen_p.x();
-                                    if (screen_p.y() < p_y_min)     p_y_min = screen_p.y();
-                                    if (screen_p.y() > p_y_max)     p_y_max = screen_p.y();
-                                }
-
-                                QRect screenRect;
-                                QRect itemRect;
-
-                                screenRect = QRect(screen_x_min, screen_y_min, this->width(), this->height());
-                                itemRect = QRect(p_x_min, p_y_min, (p_x_max - p_x_min), (p_y_max - p_y_min));
+            int p_x_min =  100000;
+            int p_x_max = -100000;
+            int p_y_min =  100000;
+            int p_y_max = -100000;
 
 
-                                if (!screenRect.intersects(itemRect))
-                                {
-                                    if(!isSubItem)
-                                        glName++;
-                                    continue;
-                                }
+            for (int i=0; i < 8; i++)
+            {
+                QVector3D boxPoint = item->boundingBox.p(i);
+                QPointF screen_p = mapFromScene(boxPoint);
+
+                if (screen_p.x() < p_x_min)     p_x_min = screen_p.x();
+                if (screen_p.x() > p_x_max)     p_x_max = screen_p.x();
+                if (screen_p.y() < p_y_min)     p_y_min = screen_p.y();
+                if (screen_p.y() > p_y_max)     p_y_max = screen_p.y();
+            }
+
+            QRect screenRect;
+            QRect itemRect;
+
+            screenRect = QRect(screen_x_min, screen_y_min, this->width(), this->height());
+            itemRect = QRect(p_x_min, p_y_min, (p_x_max - p_x_min), (p_y_max - p_y_min));
+
+
+            if (!screenRect.intersects(itemRect))
+            {
+                if(!isSubItem)
+                    glName++;
+                continue;
+            }
         }
 
 

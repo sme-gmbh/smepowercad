@@ -75,14 +75,15 @@ void CAD_arch_levelSlab::calculate()
 
     this->snap_vertices.append(slab->snap_vertices);
 
-    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(0.0, 0.0, 0.0)));
-    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(0.0, a,   0.0)));
-    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(0.0, a,   b)));
-    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(0.0, 0.0, b)));
-    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(l  , 0.0, 0.0)));
-    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(l  , a  , 0.0)));
-    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(l  , a  , b)));
-    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(l  , 0.0, b)));
+    this->boundingBox = slab->boundingBox;
+//    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(0.0, 0.0, 0.0)));
+//    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(0.0, a,   0.0)));
+//    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(0.0, a,   b)));
+//    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(0.0, 0.0, b)));
+//    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(l  , 0.0, 0.0)));
+//    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(l  , a  , 0.0)));
+//    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(l  , a  , b)));
+//    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(l  , 0.0, b)));
 }
 
 void CAD_arch_levelSlab::processWizardInput()

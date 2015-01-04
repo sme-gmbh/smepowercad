@@ -194,6 +194,7 @@ public:
 
 private:
     void paintContent(QList<Layer*> layers);
+    void paintLayers(QList<Layer*> layers);
     void paintItems(QList<CADitem *> items, Layer *layer, bool checkBoundingBox = true, bool isSubItem = false);
 
     void updateArcball(int steps);

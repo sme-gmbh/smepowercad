@@ -2,6 +2,7 @@
 #define M3DBOUNDINGBOX_H
 
 #include <QVector3D>
+#include <QList>
 
 class M3dBoundingBox
 {
@@ -15,6 +16,7 @@ public:
 
     void reset();
     void enterVertex(QVector3D vertex);
+    void enterVertices(QList<QVector3D> vertices);
 
     QVector3D p(int num);
     QVector3D p1();

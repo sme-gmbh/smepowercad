@@ -101,6 +101,8 @@ void CAD_basic_box::calculate()
     this->snap_vertices.append(pos_top_3);
     this->snap_vertices.append(pos_top_4);
 
+    boundingBox.enterVertices(this->snap_vertices);
+
     // Bottom edge centers
     this->snap_center.append((pos_bot_1 + pos_bot_2) / 2.0);
     this->snap_center.append((pos_bot_2 + pos_bot_3) / 2.0);

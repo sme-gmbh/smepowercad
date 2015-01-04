@@ -26,7 +26,6 @@ class LayerManager : public QDockWidget
 public:
     explicit LayerManager(QWidget *parent, Layer *topLevelLayer, ItemDB *itemDB);
     ~LayerManager();
-    void updateAllLayers();
     void updateLayer(Layer* layer);
     Layer* getCurrentLayer();
     bool isSoloActive();
@@ -51,6 +50,7 @@ private:
     void updateSoloActive_processLayers(QList<Layer*> layers);
 
 public slots:
+    void slot_updateAllLayers();
     void slot_layerAdded(Layer* newLayer, Layer* parentLayer);
     void slot_layerChanged(Layer* layer);
     void slot_layerDeleted(Layer* layer);

@@ -74,6 +74,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(layerManager, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(itemDB, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(itemDB, SIGNAL(signal_itemDeleted(CADitem*)), mainGeometryDisplay, SIGNAL(signal_itemDeleted(CADitem*)));
+    connect(itemDB, SIGNAL(signal_layerManagerUpdateNeeded()), layerManager, SLOT(slot_updateAllLayers()));
     connect(settingsDialog, SIGNAL(signal_settingsChanged()), mainGeometryDisplay, SIGNAL(signal_settingsChanged()));
     connect(mainGeometryDisplay, SIGNAL(signal_highlightItem(CADitem*)), this, SLOT(slot_highlightItem(CADitem*)));
     connect(mainGeometryDisplay, SIGNAL(signal_snapFired(QVector3D,int)), this, SLOT(slot_snapTo(QVector3D,int)));
@@ -229,7 +230,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //        item->calculate();
 //    }
 
-    this->layerManager->updateAllLayers();
+    this->layerManager->slot_updateAllLayers();
 
 
     //    emit signal_repaintNeeded();
@@ -328,8 +329,8 @@ void MainWindow::slot_file_open_dxf(QString filename)
     delete creationInterface;
 
 
-
-    this->layerManager->updateAllLayers();
+    this->project_filepath = filename;
+    this->layerManager->slot_updateAllLayers();
     emit signal_repaintNeeded();
 }
 
@@ -338,6 +339,8 @@ void MainWindow::slot_file_open_xml(QString filename)
     bool ok = itemDB->file_loadDB(filename);
     if (!ok)
         QMessageBox::critical(this, tr("Error while loading"), tr("Unable to open or parse file."));
+    else
+        this->project_filepath = filename;
 }
 
 void MainWindow::slot_file_save_action()

@@ -1,4 +1,4 @@
-#version 430
+#version 430 core
 
 layout ( lines ) in;
 layout ( line_strip, max_vertices = 2 ) out;
@@ -13,17 +13,6 @@ out vec4 gVertexPosition;
 
 void main()
 {
-//    for (int i=0; i < 2; i++)
-//    {
-//        vec4 pos = gl_in[i].gl_Position;
-//        if (pos.x < -1.0)   return;
-//        if (pos.x >  1.0)   return;
-//        if (pos.y < -1.0)   return;
-//        if (pos.y >  1.0)   return;
-//        if (pos.z < -1.0)   return;
-//        if (pos.z >  1.0)   return;
-//    }
-
     gVertexPosition = vVertexPosition[0];
     gColor = Color[0];
     gTexCoord = vTexCoord[0];

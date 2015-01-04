@@ -40,6 +40,14 @@ void M3dBoundingBox::enterVertex(QVector3D vertex)
     if (z > z_max)  z_max = z;
 }
 
+void M3dBoundingBox::enterVertices(QList<QVector3D> vertices)
+{
+    foreach (QVector3D vertex, vertices)
+    {
+        enterVertex(vertex);
+    }
+}
+
 // returns a given point of the box
 QVector3D M3dBoundingBox::p(int num)
 {

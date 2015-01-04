@@ -100,7 +100,7 @@ void LayerManager::slot_layerDeleted(Layer *layer)
     delete item;
 }
 
-void LayerManager::updateAllLayers()
+void LayerManager::slot_updateAllLayers()
 {
     foreach(Layer* layer, layerMap.keys())
     {
