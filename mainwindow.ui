@@ -129,18 +129,18 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionLaden"/>
+    <addaction name="actionLoad"/>
     <addaction name="actionLastEditedProjects"/>
-    <addaction name="actionSpeichern"/>
-    <addaction name="actionSpeichern_unter"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionSaveAs"/>
     <addaction name="separator"/>
-    <addaction name="actionPlotten"/>
+    <addaction name="actionPlot"/>
     <addaction name="actionPDF"/>
     <addaction name="separator"/>
     <addaction name="actionSettings"/>
     <addaction name="separator"/>
-    <addaction name="actionZeichnungClose"/>
-    <addaction name="actionBeenden"/>
+    <addaction name="actionClose"/>
+    <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuFormat">
     <property name="title">
@@ -151,7 +151,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <property name="title">
      <string>Window</string>
     </property>
-    <addaction name="actionNeues_Schnittfenster"/>
+    <addaction name="actionNewWindow"/>
    </widget>
    <widget class="QMenu" name="menuWerkzeugleisten">
     <property name="title">
@@ -503,7 +503,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <addaction name="action_sprinkler_wetalarmvalve"/>
    <addaction name="action_sprinkler_zonecheck"/>
   </widget>
-  <action name="actionLaden">
+  <action name="actionLoad">
    <property name="icon">
     <iconset theme="document-open">
      <normaloff/>
@@ -516,7 +516,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <bool>true</bool>
    </property>
   </action>
-  <action name="actionSpeichern">
+  <action name="actionSave">
    <property name="icon">
     <iconset theme="document-save">
      <normaloff/>
@@ -529,7 +529,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <bool>true</bool>
    </property>
   </action>
-  <action name="actionSpeichern_unter">
+  <action name="actionSaveAs">
    <property name="icon">
     <iconset theme="document-save-as">
      <normaloff/>
@@ -542,7 +542,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <bool>true</bool>
    </property>
   </action>
-  <action name="actionPlotten">
+  <action name="actionPlot">
    <property name="icon">
     <iconset theme="document-print">
      <normaloff/>
@@ -568,7 +568,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <bool>true</bool>
    </property>
   </action>
-  <action name="actionZeichnungClose">
+  <action name="actionClose">
    <property name="icon">
     <iconset theme="window-close">
      <normaloff/>
@@ -584,7 +584,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <bool>true</bool>
    </property>
   </action>
-  <action name="actionBeenden">
+  <action name="actionQuit">
    <property name="icon">
     <iconset theme="gtk-quit">
      <normaloff/>
@@ -636,7 +636,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     <bool>true</bool>
    </property>
   </action>
-  <action name="actionNeues_Schnittfenster">
+  <action name="actionNewWindow">
    <property name="text">
     <string>New window</string>
    </property>

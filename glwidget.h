@@ -149,6 +149,12 @@ public:
     QOpenGLShader* shader_1_frag;
     QOpenGLShader* shader_2_vert;
     QOpenGLShader* shader_2_frag;
+    QOpenGLTexture* texture_cube1;
+    QOpenGLTexture* texture_cube2;
+    QOpenGLTexture* texture_cube3;
+    QOpenGLTexture* texture_cube4;
+    QOpenGLTexture* texture_cube5;
+    QOpenGLTexture* texture_cube6;
     int shader_vertexLocation;
     int shader_matrixLocation;
     int shader_colorLocation;

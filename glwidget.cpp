@@ -56,6 +56,12 @@ GLWidget::~GLWidget()
     openGLTimerQuery->destroy();
     shaderProgram->release();
     shaderProgram->removeAllShaders();
+    texture_cube1->destroy();
+    texture_cube2->destroy();
+    texture_cube3->destroy();
+    texture_cube4->destroy();
+    texture_cube5->destroy();
+    texture_cube6->destroy();
     delete fbo_select;
     delete openGLTimerQuery;
     delete shader_1_vert;
@@ -67,6 +73,12 @@ GLWidget::~GLWidget()
     delete shaderProgram_lines;
     delete shaderProgram_triangles;
     delete shaderProgram_overlay;
+    delete texture_cube1;
+    delete texture_cube2;
+    delete texture_cube3;
+    delete texture_cube4;
+    delete texture_cube5;
+    delete texture_cube6;
 }
 
 QPointF GLWidget::mapFromScene(QVector3D &scenePoint)
@@ -481,6 +493,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         rotationStart = pointOnSphere( mousePos );
         matrix_rotation_old = matrix_rotation;
         this->arcballShown = true;
+        slot_repaint();
     }
 
     // Object drawing and manipulation
@@ -772,30 +785,10 @@ void GLWidget::paintGL()
 
 
     // Coordinate orientation display
-    QImage textImage(80, 80, QImage::Format_ARGB32);
-    QPainter painter(&textImage);
-    painter.setPen(Qt::white);
-    QFont font_big;
-    font_big.setPixelSize(25);
-    QFont font_small;
-    font_small.setPixelSize(12);
-
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    QOpenGLTexture* texture = new QOpenGLTexture(QOpenGLTexture::Target2D);
     setUseTexture(true);
 
     // Bottom face
-    textImage.fill(Qt::black);
-    painter.setFont(font_big);
-    painter.drawText(textImage.rect(), Qt::AlignCenter, "Z+");
-    painter.setFont(font_small);
-    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking up");
-    texture->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
-    texture->bind();
+    texture_cube1->bind();
     setPaintingColor(QColor(50, 50, 255));
     glBegin(GL_QUADS);
     setTextureCoords(1.0, 1.0, 0.0);
@@ -807,17 +800,12 @@ void GLWidget::paintGL()
     setTextureCoords(1.0, 0.0, 0.0);
     glVertex3f(-1,  1, -1);
     glEnd();
-    texture->destroy();
+    texture_cube1->release();
+//    texture->destroy();
 
 
     // Top face
-    textImage.fill(Qt::black);
-    painter.setFont(font_big);
-    painter.drawText(textImage.rect(), Qt::AlignCenter, "Z-");
-    painter.setFont(font_small);
-    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking down");
-    texture->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
-    texture->bind();
+    texture_cube2->bind();
     glBegin(GL_QUADS);
     setTextureCoords(1.0, 1.0, 0.0);
     glVertex3f( 1, -1, 1);
@@ -828,17 +816,12 @@ void GLWidget::paintGL()
     setTextureCoords(1.0, 0.0, 0.0);
     glVertex3f( 1,  1, 1);
     glEnd();
-    texture->destroy();
+    texture_cube2->release();
+//    texture->destroy();
 
 
     // Front face
-    textImage.fill(Qt::black);
-    painter.setFont(font_big);
-    painter.drawText(textImage.rect(), Qt::AlignCenter, "Y-");
-    painter.setFont(font_small);
-    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking south");
-    texture->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
-    texture->bind();
+    texture_cube3->bind();
     setPaintingColor(QColor(10, 110, 10));
     glBegin(GL_QUADS);
     setTextureCoords(1.0, 1.0, 0.0);
@@ -850,17 +833,12 @@ void GLWidget::paintGL()
     setTextureCoords(1.0, 0.0, 0.0);
     glVertex3i(-1,  1,  1);
     glEnd();
-    texture->destroy();
+    texture_cube3->release();
+//    texture->destroy();
 
 
     // Back face
-    textImage.fill(Qt::black);
-    painter.setFont(font_big);
-    painter.drawText(textImage.rect(), Qt::AlignCenter, "Y+");
-    painter.setFont(font_small);
-    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking north");
-    texture->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
-    texture->bind();
+    texture_cube4->bind();
     glBegin(GL_QUADS);
     setTextureCoords(0.0, 1.0, 0.0);
     glVertex3i(-1, -1, -1);
@@ -871,17 +849,12 @@ void GLWidget::paintGL()
     setTextureCoords(0.0, 0.0, 0.0);
     glVertex3i(-1, -1,  1);
     glEnd();
-    texture->destroy();
+    texture_cube4->release();
+//    texture->destroy();
 
 
     // Left face
-    textImage.fill(Qt::black);
-    painter.setFont(font_big);
-    painter.drawText(textImage.rect(), Qt::AlignCenter, "X+");
-    painter.setFont(font_small);
-    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking east");
-    texture->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
-    texture->bind();
+    texture_cube5->bind();
     setPaintingColor(QColor(150, 0, 0));
     glBegin(GL_QUADS);
     setTextureCoords(1.0, 1.0, 0.0);
@@ -893,17 +866,12 @@ void GLWidget::paintGL()
     setTextureCoords(1.0, 0.0, 0.0);
     glVertex3i(-1, -1,  1);
     glEnd();
-    texture->destroy();
+    texture_cube5->release();
+//    texture->destroy();
 
 
     // Right face
-    textImage.fill(Qt::black);
-    painter.setFont(font_big);
-    painter.drawText(textImage.rect(), Qt::AlignCenter, "X-");
-    painter.setFont(font_small);
-    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking west");
-    texture->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
-    texture->bind();
+    texture_cube6->bind();
     glBegin(GL_QUADS);
     setTextureCoords(0.0, 1.0, 0.0);
     glVertex3i( 1, -1, -1);
@@ -914,12 +882,13 @@ void GLWidget::paintGL()
     setTextureCoords(0.0, 0.0, 0.0);
     glVertex3i( 1, -1,  1);
     glEnd();
-    texture->destroy();
+    texture_cube6->release();
+//    texture->destroy();
 
 
     setUseTexture(false);
-    painter.end();
-    delete texture;
+
+//    delete texture;
 
     glDisable(GL_DEPTH_TEST);
 
@@ -983,6 +952,16 @@ void GLWidget::paintGL()
         if(arcballShown)
         {
             QPointF lookAtScreenCoords = mapFromScene(lookAtPosition);
+            setPaintingColor(QColor(255, 200, 0));
+            glLineWidth(3.0);
+            glBegin(GL_LINES);
+            glVertex3f(lookAtScreenCoords.x() - 15, lookAtScreenCoords.y()     , 0);
+            glVertex3f(lookAtScreenCoords.x() + 15, lookAtScreenCoords.y()     , 0);
+            glVertex3f(lookAtScreenCoords.x()     , lookAtScreenCoords.y() - 15, 0);
+            glVertex3f(lookAtScreenCoords.x()     , lookAtScreenCoords.y() + 15, 0);
+            glEnd();
+
+            glLineWidth(2.0);
             glBegin(GL_LINE_LOOP);
             for(int i = 0; i < 60; i++ )
             {
@@ -1160,11 +1139,8 @@ void GLWidget::setPaintingColor(QColor color)
     else
     {
         QVector4D vertex_color_new = QVector4D(color.redF(), color.greenF(), color.blueF(), color.alphaF());
-        if (vertex_color_new != vertex_color)
-        {
-            vertex_color = vertex_color_new;
-            shaderProgram->setAttributeValue(shader_colorLocation, vertex_color);
-        }
+        vertex_color = vertex_color_new;
+        shaderProgram->setAttributeValue(shader_colorLocation, vertex_color);
     }
 }
 
@@ -1767,6 +1743,77 @@ void GLWidget::initializeGL()
 //    qDebug() << "use clippingZ location" << shader_useClippingZLocation;
 //    qDebug() << "depth of view location" << shader_Depth_of_view_location;
 //    qDebug() << "height of intersection location" << shader_Height_of_intersection_location;
+
+    texture_cube1 = new QOpenGLTexture(QOpenGLTexture::Target2D);
+    texture_cube1->setMinMagFilters(QOpenGLTexture::Linear, QOpenGLTexture::Linear);
+    texture_cube1->setWrapMode(QOpenGLTexture::ClampToEdge);
+    texture_cube2 = new QOpenGLTexture(QOpenGLTexture::Target2D);
+    texture_cube2->setMinMagFilters(QOpenGLTexture::Linear, QOpenGLTexture::Linear);
+    texture_cube2->setWrapMode(QOpenGLTexture::ClampToEdge);
+    texture_cube3 = new QOpenGLTexture(QOpenGLTexture::Target2D);
+    texture_cube3->setMinMagFilters(QOpenGLTexture::Linear, QOpenGLTexture::Linear);
+    texture_cube3->setWrapMode(QOpenGLTexture::ClampToEdge);
+    texture_cube4 = new QOpenGLTexture(QOpenGLTexture::Target2D);
+    texture_cube4->setMinMagFilters(QOpenGLTexture::Linear, QOpenGLTexture::Linear);
+    texture_cube4->setWrapMode(QOpenGLTexture::ClampToEdge);
+    texture_cube5 = new QOpenGLTexture(QOpenGLTexture::Target2D);
+    texture_cube5->setMinMagFilters(QOpenGLTexture::Linear, QOpenGLTexture::Linear);
+    texture_cube5->setWrapMode(QOpenGLTexture::ClampToEdge);
+    texture_cube6 = new QOpenGLTexture(QOpenGLTexture::Target2D);
+    texture_cube6->setMinMagFilters(QOpenGLTexture::Linear, QOpenGLTexture::Linear);
+    texture_cube6->setWrapMode(QOpenGLTexture::ClampToEdge);
+
+    QImage textImage(80, 80, QImage::Format_ARGB32);
+    QPainter painter(&textImage);
+    painter.setPen(Qt::white);
+    QFont font_big;
+    font_big.setPixelSize(25);
+    QFont font_small;
+    font_small.setPixelSize(12);
+
+    textImage.fill(Qt::black);
+    painter.setFont(font_big);
+    painter.drawText(textImage.rect(), Qt::AlignCenter, "Z+");
+    painter.setFont(font_small);
+    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking up");
+    texture_cube1->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
+
+    textImage.fill(Qt::black);
+    painter.setFont(font_big);
+    painter.drawText(textImage.rect(), Qt::AlignCenter, "Z-");
+    painter.setFont(font_small);
+    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking down");
+    texture_cube2->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
+
+    textImage.fill(Qt::black);
+    painter.setFont(font_big);
+    painter.drawText(textImage.rect(), Qt::AlignCenter, "Y-");
+    painter.setFont(font_small);
+    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking south");
+    texture_cube3->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
+
+    textImage.fill(Qt::black);
+    painter.setFont(font_big);
+    painter.drawText(textImage.rect(), Qt::AlignCenter, "Y+");
+    painter.setFont(font_small);
+    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking north");
+    texture_cube4->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
+
+    textImage.fill(Qt::black);
+    painter.setFont(font_big);
+    painter.drawText(textImage.rect(), Qt::AlignCenter, "X+");
+    painter.setFont(font_small);
+    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking east");
+    texture_cube5->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
+
+    textImage.fill(Qt::black);
+    painter.setFont(font_big);
+    painter.drawText(textImage.rect(), Qt::AlignCenter, "X-");
+    painter.setFont(font_small);
+    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking west");
+    texture_cube6->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
+
+    painter.end();
 
     QOpenGLFramebufferObjectFormat format;
     format.setSamples(1);

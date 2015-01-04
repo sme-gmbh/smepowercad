@@ -48,14 +48,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // **** Menubar actions ****
-    connect(ui->actionLaden, SIGNAL(triggered()),           this, SLOT(slot_file_open_action()));
-    connect(ui->actionSpeichern, SIGNAL(triggered()),       this, SLOT(slot_file_save_action()));
-    connect(ui->actionSpeichern_unter, SIGNAL(triggered()), this, SLOT(slot_file_save_as_action()));
-    connect(ui->actionPlotten, SIGNAL(triggered()),         this, SLOT(slot_file_print_action()));
-    connect(ui->actionPDF, SIGNAL(triggered()),             this, SLOT(slot_file_pdf_export_action()));
-    connect(ui->actionZeichnungClose, SIGNAL(triggered()),  this, SLOT(slot_file_close_action()));
-    connect(ui->actionBeenden, SIGNAL(triggered()),         qApp, SLOT(quit()));
-    connect(ui->actionNeues_Schnittfenster, SIGNAL(triggered()), this, SLOT(slot_newGeometryDisplay()));
+    connect(ui->actionLoad,      SIGNAL(triggered()), this, SLOT(slot_file_open_action()));
+    connect(ui->actionSave,      SIGNAL(triggered()), this, SLOT(slot_file_save_action()));
+    connect(ui->actionSaveAs,    SIGNAL(triggered()), this, SLOT(slot_file_save_as_action()));
+    connect(ui->actionPlot,      SIGNAL(triggered()), this, SLOT(slot_file_print_action()));
+    connect(ui->actionPDF,       SIGNAL(triggered()), this, SLOT(slot_file_pdf_export_action()));
+    connect(ui->actionClose,     SIGNAL(triggered()), this, SLOT(slot_file_close_action()));
+    connect(ui->actionQuit,      SIGNAL(triggered()), qApp, SLOT(quit()));
+    connect(ui->actionNewWindow, SIGNAL(triggered()), this, SLOT(slot_newGeometryDisplay()));
 
 
     // ** Layer Manager **
@@ -123,29 +123,29 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // ***** Spielwiese *****
 
-    Layer* layer = itemDB->addLayer("Testlayer");
-    layer->pen.setColor(Qt::gray);
-    layer->brush.setColor(Qt::white);
-    layer->lineType = "Continuos";
-    layer->width = 1;
+//    Layer* layer = itemDB->addLayer("Testlayer");
+//    layer->pen.setColor(Qt::gray);
+//    layer->brush.setColor(Qt::white);
+//    layer->lineType = "Continuos";
+//    layer->width = 1;
 
-    Layer* layerX = itemDB->addLayer("X");
-    layerX->pen.setColor(Qt::gray);
-    layerX->brush.setColor(Qt::red);
-    layerX->lineType = "Continuos";
-    layerX->width = 1;
+//    Layer* layerX = itemDB->addLayer("X");
+//    layerX->pen.setColor(Qt::gray);
+//    layerX->brush.setColor(Qt::red);
+//    layerX->lineType = "Continuos";
+//    layerX->width = 1;
 
-    Layer* layerY = itemDB->addLayer("Y");
-    layerY->pen.setColor(Qt::gray);
-    layerY->brush.setColor(Qt::green);
-    layerY->lineType = "Continuos";
-    layerY->width = 1;
+//    Layer* layerY = itemDB->addLayer("Y");
+//    layerY->pen.setColor(Qt::gray);
+//    layerY->brush.setColor(Qt::green);
+//    layerY->lineType = "Continuos";
+//    layerY->width = 1;
 
-    Layer* layerZ = itemDB->addLayer("Z");
-    layerZ->pen.setColor(Qt::gray);
-    layerZ->brush.setColor(Qt::blue);
-    layerZ->lineType = "Continuos";
-    layerZ->width = 1;
+//    Layer* layerZ = itemDB->addLayer("Z");
+//    layerZ->pen.setColor(Qt::gray);
+//    layerZ->brush.setColor(Qt::blue);
+//    layerZ->lineType = "Continuos";
+//    layerZ->width = 1;
 
 
     //    CAD_basic_box* item;
@@ -292,13 +292,29 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 void MainWindow::slot_file_open_action()
 {
     QString filename;
-    filename = QFileDialog::getOpenFileName(this, tr("Load drawing"), QString(), tr("dxf-Datei (*.dxf)"));
+    filename = QFileDialog::getOpenFileName(this, tr("Load project or drawing"), QString(), tr("XML File (*.xml);;DXF File (*.dxf)"));
 
     if (filename.isEmpty())
         return;
 
-    qDebug() << "loading file: " + filename;
+    QSettings settings;
+    QStringList files = settings.value("recentFileList").toStringList();
+    files.removeAll(filename);
+    files.prepend(filename);
+    while (files.size() > MAX_RECENT_FILES)
+        files.removeLast();
 
+    settings.setValue("recentFileList", files);
+    updateRecentFileActions();
+
+    if (filename.endsWith(".dxf", Qt::CaseInsensitive))
+        slot_file_open_dxf(filename);
+    else if (filename.endsWith(".xml", Qt::CaseInsensitive))
+        slot_file_open_xml(filename);
+}
+
+void MainWindow::slot_file_open_dxf(QString filename)
+{
     // Load DXF file into memory:
     CreationInterface* creationInterface = new CreationInterface(this->itemDB);
     DL_Dxf* dxf = new DL_Dxf();
@@ -311,23 +327,41 @@ void MainWindow::slot_file_open_action()
     delete dxf;
     delete creationInterface;
 
-    QSettings settings;
-    QStringList files = settings.value("recentFileList").toStringList();
-    files.removeAll(filename);
-    files.prepend(filename);
-    while (files.size() > MAX_RECENT_FILES)
-        files.removeLast();
 
-    settings.setValue("recentFileList", files);
-    updateRecentFileActions();
 
     this->layerManager->updateAllLayers();
     emit signal_repaintNeeded();
 }
 
+void MainWindow::slot_file_open_xml(QString filename)
+{
+    bool ok = itemDB->file_loadDB(filename);
+    if (!ok)
+        QMessageBox::critical(this, tr("Error while loading"), tr("Unable to open or parse file."));
+}
+
 void MainWindow::slot_file_save_action()
 {
-    qDebug() << "slot_file_save_action()";
+    QString path = this->project_filepath;
+
+    QString filename;
+    if (path.isEmpty())
+        filename = QFileDialog::getSaveFileName(this, tr("Save project as file"), path, "XML File (*.xml)");
+    else
+        filename = path;
+
+    if (filename.isEmpty())
+        return;
+
+    if (!filename.endsWith(".xml"))
+        filename.append(".xml");
+
+    bool ok = itemDB->file_storeDB(filename);
+
+    if (ok)
+        this->project_filepath = filename;
+    else
+        QMessageBox::critical(this, tr("Error while saving"), tr("Unable to write file."));
 }
 
 void MainWindow::slot_file_save_as_action()
@@ -361,8 +395,6 @@ void MainWindow::on_prompt_input_returnPressed()
 
 void MainWindow::slot_openRecentFile()
 {
-    qDebug() << "slot_openRecentFile()";
-
     QString filename;
     QAction *action = qobject_cast<QAction *>(sender());
     if (action)
@@ -370,20 +402,6 @@ void MainWindow::slot_openRecentFile()
 
     if (filename.isEmpty())
         return;
-
-    qDebug() << "loading file: " + filename;
-
-    // Load DXF file into memory:
-    CreationInterface* creationInterface = new CreationInterface(this->itemDB);
-    DL_Dxf* dxf = new DL_Dxf();
-    if (!dxf->in(filename.toStdString(), creationInterface))
-    {
-        qDebug() << "unable to open file";
-        return;
-    }
-
-    delete dxf;
-    delete creationInterface;
 
     QSettings settings;
     QStringList files = settings.value("recentFileList").toStringList();
@@ -395,8 +413,10 @@ void MainWindow::slot_openRecentFile()
     settings.setValue("recentFileList", files);
     updateRecentFileActions();
 
-    this->layerManager->updateAllLayers();
-    emit signal_repaintNeeded();
+    if (filename.endsWith(".dxf", Qt::CaseInsensitive))
+        slot_file_open_dxf(filename);
+    else if (filename.endsWith(".xml", Qt::CaseInsensitive))
+        slot_file_open_xml(filename);
 }
 
 void MainWindow::slot_clearRecentFiles()
@@ -1290,3 +1310,4 @@ void MainWindow::on_action_air_pipe_branch_triggered()
     CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_PipeBranch);
     this->itemWizard->showWizard(item);
 }
+

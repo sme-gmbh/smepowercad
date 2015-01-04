@@ -71,11 +71,15 @@ private:
     ItemWizard *itemWizard;
     ItemGripModifier* itemGripModifier;
 
+    QString project_filepath;
+
 protected:
     void keyPressEvent(QKeyEvent *event);
 
 public slots:
     void slot_file_open_action();
+    void slot_file_open_dxf(QString filename);
+    void slot_file_open_xml(QString filename);
     void slot_file_save_action();
     void slot_file_save_as_action();
 

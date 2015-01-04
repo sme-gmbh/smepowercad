@@ -8,6 +8,11 @@
 #include <QDataStream>
 #include <QSvgRenderer>
 #include <QPainter>
+#include <QIODevice>
+#include <QFile>
+#include <QDomDocument>
+#include <QTextStream>
+#include <QMessageBox>
 #include <QDebug>
 
 #include "layer.h"
@@ -125,6 +130,7 @@
 #include "items/cad_sanitary_sink.h"
 #include "items/cad_sanitary_washbasin.h"
 
+
 class ItemDB : public QObject
 {
     Q_OBJECT
@@ -173,6 +179,12 @@ public:
     QByteArray network_modifyItem(quint64 id, QMap<QString, QString> data);
     QByteArray network_changeLayerOfItem(quint64 id, QMap<QString, QString> data);
     QByteArray network_deleteItem(quint64 id);
+
+    bool file_storeDB(QString filename);
+    void file_storeDB_processLayers(QDomDocument document, QDomElement parentElement, QList<Layer*> layers);
+    void file_storeDB_processItems(QDomDocument document, QDomElement parentElement, QList<CADitem*> items);
+    bool file_loadDB(QString filename);
+    void file_loadDB_parseDomElement(QDomElement element, Layer* currentLayer);
 
 private:
     Layer* topLevelLayer;

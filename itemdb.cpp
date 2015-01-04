@@ -1333,6 +1333,163 @@ QByteArray ItemDB::network_deleteItem(quint64 id)
         return QByteArray("Error while deleting item ") + QByteArray().setNum(id) + "\n";
 }
 
+bool ItemDB::file_storeDB(QString filename)
+{
+    QDomDocument document;
+    QDomElement root = document.createElement("SmePowerCadProject");
+    document.appendChild(root);
+    root.setAttribute("Version", QString());    //tbd.
+
+    file_storeDB_processLayers(document, root, this->topLevelLayer->subLayers);
+
+    QFile file(filename);
+
+    if (!file.open(QIODevice::WriteOnly))
+        return false;
+
+    QTextStream stream(&file);
+    document.save(stream, 1);   // Indent = 1
+    file.close();
+    return true;
+}
+
+void ItemDB::file_storeDB_processLayers(QDomDocument document, QDomElement parentElement, QList<Layer *> layers)
+{
+    foreach (Layer* layer, layers)
+    {
+        QDomElement element = document.createElement("L");
+        parentElement.appendChild(element);
+
+        element.setAttribute("Name", layer->name);
+        element.setAttribute("FillColor", layer->brush.color().name());
+        element.setAttribute("OutlineColor", layer->pen.color().name());
+        element.setAttribute("LineWidth", layer->width);
+        element.setAttribute("LineType", layer->lineType);
+
+        file_storeDB_processLayers(document, element, layer->subLayers);
+        file_storeDB_processItems(document, element, layer->items);
+    }
+}
+
+void ItemDB::file_storeDB_processItems(QDomDocument document, QDomElement parentElement, QList<CADitem *> items)
+{
+    foreach (CADitem* item, items)
+    {
+        QDomElement element = document.createElement(QString().sprintf("I%d", (unsigned int)item->getType()));
+        parentElement.appendChild(element);
+
+        foreach (QString key, item->wizardParams.keys())
+        {
+            element.setAttribute(key.replace(' ', '_'), item->wizardParams.value(key).toString());
+        }
+
+        // Do not store subitems as they are recovered automatically when loading the parent item
+//        file_storeDB_processItems(document, element, item->subItems);
+    }
+}
+
+bool ItemDB::file_loadDB(QString filename)
+{
+    QFile file(filename);
+
+    if (!file.open(QIODevice::ReadOnly))
+        return false;
+
+    QString errorStr;
+    int errorLine;
+    int errorColumn;
+
+    QDomDocument document;
+    if (!document.setContent(&file, true, &errorStr, &errorLine, &errorColumn))
+    {
+        file.close();
+//        QMessageBox::information(this, tr("Error while reading xml-file"),
+//                                 tr("line %1, column %2:\n%3")
+//                                 .arg(errorLine)
+//                                 .arg(errorColumn)
+//                                 .arg(errorStr));
+        return false;
+    }
+
+    QDomElement root = document.documentElement();
+    if (root.tagName() != "SmePowerCadProject")
+    {
+        file.close();
+//        QMessageBox::information(this, tr("Error"),
+//                                 tr("Root-Node has wrong tagName."));
+        return false;
+    }
+    else if (root.hasAttribute("Version") && root.attribute("Version") != "")
+    {
+        file.close();
+//        QMessageBox::information(this, tr("Error"),
+//                                 tr("Invalid file version"));
+        return false;
+    }
+
+    QDomElement child = root.firstChildElement("");
+    while (!child.isNull())
+    {
+        this->file_loadDB_parseDomElement(child, this->topLevelLayer);  // tbd. toplevellayer may be wrong here...
+        child = child.nextSiblingElement();
+    }
+
+    file.close();
+    return true;
+}
+
+void ItemDB::file_loadDB_parseDomElement(QDomElement element, Layer *currentLayer)
+{
+    QString tagName = element.tagName();
+    if (tagName == "L")
+    {
+        Layer* newLayer = this->addLayer(element.attribute("Name"), currentLayer);
+        newLayer->brush.setColor(QColor(element.attribute("FillColor")));
+        newLayer->pen.setColor(QColor(element.attribute("OutlineColor")));
+        newLayer->width = element.attribute("LineWidth").toDouble();
+        newLayer->lineType = element.attribute("LineType");
+        currentLayer = newLayer;
+    }
+    else if (tagName.startsWith('I'))
+    {
+        tagName.remove(0, 1);   // Strip "I"
+        int itemType = tagName.toInt();
+        CADitem* item = this->drawItem(currentLayer, (CADitem::ItemType)itemType);
+        foreach (QString key, item->wizardParams.keys())
+        {
+            QString elementKey = key;
+            elementKey.replace(' ', '_');
+
+            switch (item->wizardParams.value(key).type())
+            {
+            case QVariant::String:
+                item->wizardParams.insert(key, QString(element.attribute(elementKey)));
+                break;
+            case QVariant::Int:
+                item->wizardParams.insert(key, QString(element.attribute(elementKey)).toInt());
+                break;
+            case QVariant::Double:
+                item->wizardParams.insert(key, QString(element.attribute(elementKey)).toDouble());
+                break;
+            default:
+                qDebug() << "ItemDB::file_loadDB_parseDomElement() Unhandled value type:" << item->wizardParams.value(key).type();
+                break;
+            }
+        }
+
+        item->processWizardInput();
+        item->calculate();
+    }
+
+
+    QDomElement child = element.firstChildElement();
+    while (!child.isNull())
+    {
+        this->file_loadDB_parseDomElement(child, currentLayer);
+        child = child.nextSiblingElement();
+    }
+}
+
 void ItemDB::network_getAll_processLayers(QList<Layer *> layers, QByteArray* answer)
 {
     foreach (Layer* layer, layers)
