@@ -19,6 +19,12 @@ public:
     QVector3D center_base;
     qreal height;
     QList<QVector3D> vertices_bottom, vertices_top;
+
+    QOpenGLBuffer arrayBufVertices;
+    QOpenGLBuffer indexBufFaces;
+    QOpenGLBuffer indexBufLines;
+
+
 };
 
 #endif // CADCYLINDER_H

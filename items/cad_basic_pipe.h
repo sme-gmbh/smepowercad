@@ -31,6 +31,11 @@ public:
     QList<QVector3D> vertices_outer_top;
     QList<QVector3D> vertices_inner_top;
 
+    QOpenGLBuffer arrayBufVertices;
+    QOpenGLBuffer indexBufFaces;
+    QOpenGLBuffer indexBufLines;
+
+
 };
 
 #endif // CAD_BASIC_PIPE_H

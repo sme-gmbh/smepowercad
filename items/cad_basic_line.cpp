@@ -18,13 +18,22 @@ CAD_basic_line::CAD_basic_line() : CADitem(CADitem::Basic_Line)
     this->wizardParams.insert("Position z2", QVariant::fromValue(0.0));
     this->wizardParams.insert("Width", QVariant::fromValue(1.0));
 
+    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    arrayBufVertices.create();
+    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufLines.create();
+    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
     processWizardInput();
     calculate();
 }
 
 CAD_basic_line::~CAD_basic_line()
 {
-
+    arrayBufVertices.destroy();
+    indexBufLines.destroy();
 }
 
 QList<CADitem::ItemType> CAD_basic_line::flangable_items()
@@ -72,6 +81,21 @@ void CAD_basic_line::calculate()
     this->snap_vertices.append(p2);
 
     this->snap_center.append((p1 + p2) / 2.0);
+
+    QVector3D vertices[] = {
+        p1, p2
+    };
+
+    static GLushort indicesLines[] = {
+        0, 1
+    };
+
+
+    arrayBufVertices.bind();
+    arrayBufVertices.allocate(vertices, sizeof(vertices));
+
+    indexBufLines.bind();
+    indexBufLines.allocate(indicesLines, sizeof(indicesLines));
 }
 
 void CAD_basic_line::processWizardInput()
@@ -97,29 +121,19 @@ void CAD_basic_line::paint(GLWidget *glwidget)
 {
     QColor color_pen_tmp = getColorPen();
 
-    qreal penWidth = 1.0;
-    if (widthByLayer)
+    arrayBufVertices.bind();
+    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
+    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
+
+    if (glwidget->render_outline)
     {
-        penWidth = layer->width / 100.0;
-    }
-    else if (widthByBlock)
-    {
+        glwidget->setPaintingColor(color_pen_tmp);
+        glwidget->glLineWidth(1.0);
 
-    }
-    else
-    {
-        penWidth = width;
+        indexBufLines.bind();
+        glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
+        indexBufLines.release();
     }
 
-    // Default width setting
-    if (penWidth < 1.0)
-        penWidth = 1.0;
-
-    glwidget->glLineWidth(penWidth);
-    glwidget->setPaintingColor(color_pen_tmp);
-    glwidget->glBegin(GL_LINES);
-    glwidget->glVertex3f((GLfloat)p1.x(), (GLfloat)p1.y(), (GLfloat)p1.z());
-    glwidget->glVertex3f((GLfloat)p2.x(), (GLfloat)p2.y(), (GLfloat)p2.z());
-
-    glwidget->glEnd();
+    arrayBufVertices.release();
 }
