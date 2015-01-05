@@ -53,6 +53,16 @@ QImage CAD_sprinkler_zoneCheck::wizardImage()
     return image;
 }
 
+QString CAD_sprinkler_zoneCheck::iconPath()
+{
+    return ":/icons/cad_sprinkler/cad_sprinkler_zonecheck.svg";
+}
+
+QString CAD_sprinkler_zoneCheck::domain()
+{
+    return "Sprinkler";
+}
+
 void CAD_sprinkler_zoneCheck::calculate()
 {
     matrix_rotation.setToIdentity();

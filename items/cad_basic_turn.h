@@ -14,6 +14,8 @@ public:
     virtual ~CAD_basic_turn();
     virtual QList<CADitem::ItemType> flangable_items();
     virtual QImage wizardImage();
+    virtual QString iconPath();
+    virtual QString domain();
     virtual void calculate();
     virtual void processWizardInput();
     virtual void paint(GLWidget* glwidget);

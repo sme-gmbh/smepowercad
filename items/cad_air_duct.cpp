@@ -68,6 +68,16 @@ QImage CAD_air_duct::wizardImage()
     return image;
 }
 
+QString CAD_air_duct::iconPath()
+{
+    return ":/icons/cad_air/cad_air_duct.svg";
+}
+
+QString CAD_air_duct::domain()
+{
+    return "Air";
+}
+
 void CAD_air_duct::calculate()
 {
     matrix_rotation.setToIdentity();

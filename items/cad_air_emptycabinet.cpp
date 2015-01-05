@@ -41,6 +41,16 @@ QImage CAD_air_emptyCabinet::wizardImage()
     return image;
 }
 
+QString CAD_air_emptyCabinet::iconPath()
+{
+    return ":/icons/cad_air/cad_air_emptycabinet.svg";
+}
+
+QString CAD_air_emptyCabinet::domain()
+{
+    return "Air";
+}
+
 void CAD_air_emptyCabinet::calculate()
 {
     matrix_rotation.setToIdentity();

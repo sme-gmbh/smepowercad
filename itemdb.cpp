@@ -11,112 +11,9 @@ ItemDB::ItemDB(QObject *parent) :
     layerSoloActive = false;
 
     this->activeDrawCommand = CADitem::None;
-}
 
-Layer* ItemDB::addLayer(QString layerName, QString parentLayerName)
-{
-    // First: check if layer already exists
-    if (layerMap.contains(layerName))
-        return layerMap.value(layerName);
-
-    // Second: Find parent layer
-    Layer* parentLayer = getLayerByName(parentLayerName);
-    if (parentLayer == NULL)
-        parentLayer = topLevelLayer;
-
-    return addLayer(layerName, parentLayer);
-}
-
-Layer *ItemDB::addLayer(QString layerName, Layer *parentLayer)
-{
-    if (parentLayer == NULL)
-        return NULL;
-
-    // First: check if layer already exists
-    if (layerMap.contains(layerName))
-        return layerMap.value(layerName);
-
-    // Insert Layer in quickfind-map
-    Layer* newLayer = new Layer(this);
-    newLayer->name = layerName;
-    newLayer->parentLayer = parentLayer;
-    parentLayer->subLayers.append(newLayer);
-    layerMap.insert(layerName, newLayer);
-    emit signal_layerAdded(newLayer, parentLayer);
-    return newLayer;
-}
-
-bool ItemDB::moveLayer(QString layerName, QString newParentLayerName, quint32 position)
-{
-    Layer* layer = getLayerByName(layerName);
-    if (layer == NULL)
-        return false;
-    if (layer == topLevelLayer)
-        return false;
-
-    Layer* oldParentLayer = layer->parentLayer;
-    if (oldParentLayer == NULL)
-        return false;
-
-    Layer* newParentLayer = getLayerByName(newParentLayerName);
-    if (newParentLayer == NULL)
-        return false;
-
-
-
-
-    oldParentLayer->subLayers.removeOne(layer);
-    newParentLayer->subLayers.insert(position, layer);
-
-
-
-    emit signal_layerMoved(layer);
-    return true;
-}
-
-bool ItemDB::renameLayer(QString layerName, QString newLayerName)
-{
-    Layer* layer = getLayerByName(layerName);
-    if (layer == NULL)
-        return false;
-    if (layer == topLevelLayer)
-        return false;
-
-    return renameLayer(layer, newLayerName);
-}
-
-bool ItemDB::renameLayer(Layer *layer, QString newLayerName)
-{
-    if (layer == NULL)
-        return false;
-    if (newLayerName.isEmpty())
-        return false;
-
-    layerMap.remove(layer->name);
-    layer->name = newLayerName;
-    layerMap.insert(layer->name, layer);
-    emit signal_layerChanged(layer);
-    return true;
-}
-
-bool ItemDB::deleteLayer(Layer *layer)
-{
-    Layer* parentLayer = layer->parentLayer;
-    if (parentLayer == NULL)
-        return false;
-
-    if (!layer->isEmpty())
-        return false;
-
-    if (parentLayer->subLayers.removeOne(layer))
-    {
-        layerMap.remove(layer->name);
-        delete layer;
-        emit signal_layerDeleted(layer);
-        return true;
-    }
-    else
-        return false;
+    this->deriveDomainsAndItemTypes();
+    qDebug() << domains;
 }
 
 ItemDB::~ItemDB()
@@ -124,29 +21,48 @@ ItemDB::~ItemDB()
     // TODO delete all layers incl. sublayers
 }
 
-Layer* ItemDB::getLayerByName(QString layerName)
+void ItemDB::deriveDomainsAndItemTypes()
 {
-    if (layerName.isEmpty())
-        return topLevelLayer;
-    else
-        return layerMap.value(layerName, NULL);
+    CADitem* item;
+
+    int type = 1;
+
+    for (;;)
+    {
+        item = createItem((CADitem::ItemType)type);
+        if (item == NULL)
+            break;
+
+        itemTypesByDomain.insertMulti(item->domain(), (int)type);
+        iconPathByItemType.insert(type, item->iconPath());
+        itemDescriptionByItemType.insert(type, item->description);
+        delete item;
+        type++;
+    }
+
+    this->domains = itemTypesByDomain.uniqueKeys();
 }
 
-Layer* ItemDB::getTopLevelLayer()
+
+QList<QString> ItemDB::getDomains()
 {
-    return topLevelLayer;
+    return domains;
 }
 
-bool ItemDB::isLayerValid(Layer *layer)
+QList<int> ItemDB::getItemTypesByDomain(QString domain)
 {
-    if (layerMap.values().contains(layer))
-        return true;
-    else
-        return false;
+    return itemTypesByDomain.values(domain);
+}
+
+QString ItemDB::getItemDescriptionByItemType(CADitem::ItemType type)
+{
+    return itemDescriptionByItemType.value((int)type);
 }
 
 QString ItemDB::getIconPathByItemType(CADitem::ItemType type)
 {
+    return iconPathByItemType.value((int)type);
+/*
     QString path;
 
     switch (type)
@@ -256,6 +172,11 @@ QString ItemDB::getIconPathByItemType(CADitem::ItemType type)
         path = ":/icons/cad_air/cad_air_pipe.svg";
         break;
     }
+    case CADitem::Air_PipeBranch:
+    {
+        path = ":/icons/cad_air/cad_air_pipebranch.svg";
+        break;
+    }
     case CADitem::Air_PipeEndCap:
     {
         path = ":/icons/cad_air/cad_air_pipeendcap.svg";
@@ -324,12 +245,12 @@ QString ItemDB::getIconPathByItemType(CADitem::ItemType type)
     }
     case CADitem::Arch_Foundation:
     {
-        path = ":/icons/cad_arch/cad_arch_";
+        path = ":/icons/cad_arch/cad_arch_foundation.svg";
         break;
     }
     case CADitem::Arch_Grating:
     {
-        path = ":/icons/cad_arch/cad_arch_";
+        path = ":/icons/cad_arch/cad_arch_grating.svg";
         break;
     }
     case CADitem::Arch_LevelSlab:
@@ -684,6 +605,7 @@ QString ItemDB::getIconPathByItemType(CADitem::ItemType type)
     }
 
     return path;
+*/
 }
 
 QPixmap ItemDB::getIconByItemType(CADitem::ItemType type, QSize size)
@@ -694,6 +616,133 @@ QPixmap ItemDB::getIconByItemType(CADitem::ItemType type, QSize size)
     QPainter painter(&pixmap);
     svgRenderer.render(&painter);
     return pixmap;
+}
+
+Layer* ItemDB::addLayer(QString layerName, QString parentLayerName)
+{
+    // First: check if layer already exists
+    if (layerMap.contains(layerName))
+        return layerMap.value(layerName);
+
+    // Second: Find parent layer
+    Layer* parentLayer = getLayerByName(parentLayerName);
+    if (parentLayer == NULL)
+        parentLayer = topLevelLayer;
+
+    return addLayer(layerName, parentLayer);
+}
+
+Layer *ItemDB::addLayer(QString layerName, Layer *parentLayer)
+{
+    if (parentLayer == NULL)
+        return NULL;
+
+    // First: check if layer already exists
+    if (layerMap.contains(layerName))
+        return layerMap.value(layerName);
+
+    // Insert Layer in quickfind-map
+    Layer* newLayer = new Layer(this);
+    newLayer->name = layerName;
+    newLayer->parentLayer = parentLayer;
+    parentLayer->subLayers.append(newLayer);
+    layerMap.insert(layerName, newLayer);
+    emit signal_layerAdded(newLayer, parentLayer);
+    return newLayer;
+}
+
+bool ItemDB::moveLayer(QString layerName, QString newParentLayerName, quint32 position)
+{
+    Layer* layer = getLayerByName(layerName);
+    if (layer == NULL)
+        return false;
+    if (layer == topLevelLayer)
+        return false;
+
+    Layer* oldParentLayer = layer->parentLayer;
+    if (oldParentLayer == NULL)
+        return false;
+
+    Layer* newParentLayer = getLayerByName(newParentLayerName);
+    if (newParentLayer == NULL)
+        return false;
+
+
+
+
+    oldParentLayer->subLayers.removeOne(layer);
+    newParentLayer->subLayers.insert(position, layer);
+
+
+
+    emit signal_layerMoved(layer);
+    return true;
+}
+
+bool ItemDB::renameLayer(QString layerName, QString newLayerName)
+{
+    Layer* layer = getLayerByName(layerName);
+    if (layer == NULL)
+        return false;
+    if (layer == topLevelLayer)
+        return false;
+
+    return renameLayer(layer, newLayerName);
+}
+
+bool ItemDB::renameLayer(Layer *layer, QString newLayerName)
+{
+    if (layer == NULL)
+        return false;
+    if (newLayerName.isEmpty())
+        return false;
+
+    layerMap.remove(layer->name);
+    layer->name = newLayerName;
+    layerMap.insert(layer->name, layer);
+    emit signal_layerChanged(layer);
+    return true;
+}
+
+bool ItemDB::deleteLayer(Layer *layer)
+{
+    Layer* parentLayer = layer->parentLayer;
+    if (parentLayer == NULL)
+        return false;
+
+    if (!layer->isEmpty())
+        return false;
+
+    if (parentLayer->subLayers.removeOne(layer))
+    {
+        layerMap.remove(layer->name);
+        delete layer;
+        emit signal_layerDeleted(layer);
+        return true;
+    }
+    else
+        return false;
+}
+
+Layer* ItemDB::getLayerByName(QString layerName)
+{
+    if (layerName.isEmpty())
+        return topLevelLayer;
+    else
+        return layerMap.value(layerName, NULL);
+}
+
+Layer* ItemDB::getTopLevelLayer()
+{
+    return topLevelLayer;
+}
+
+bool ItemDB::isLayerValid(Layer *layer)
+{
+    if (layerMap.values().contains(layer))
+        return true;
+    else
+        return false;
 }
 
 void ItemDB::addItem(CADitem* item, QString LayerName)
@@ -783,22 +832,12 @@ bool ItemDB::changeLayerOfItem(quint64 id, QString newLayerName)
     return changeLayerOfItem(item, newLayer);
 }
 
-CADitem* ItemDB::drawItem(Layer* layer, CADitem::ItemType type)
+CADitem *ItemDB::createItem(CADitem::ItemType type)
 {
-    if (layer == NULL)
-    {
-        qDebug() << "ItemDB::drawItem(): layer is NULL.";
-        return NULL;
-    }
-
-    this->activeDrawCommand = type;
     CADitem* newItem = NULL;
 
     switch (type)
     {
-
-
-
     case CADitem::Basic_Arc:
         newItem = new CAD_basic_arc();
         break;
@@ -1090,6 +1129,21 @@ CADitem* ItemDB::drawItem(Layer* layer, CADitem::ItemType type)
     }
         break;
     }
+
+    return newItem;
+}
+
+CADitem* ItemDB::drawItem(Layer* layer, CADitem::ItemType type)
+{
+    if (layer == NULL)
+    {
+        qDebug() << "ItemDB::drawItem(): layer is NULL.";
+        return NULL;
+    }
+
+    this->activeDrawCommand = type;
+
+    CADitem* newItem = this->createItem(type);
 
     this->addItem(newItem, layer);
 

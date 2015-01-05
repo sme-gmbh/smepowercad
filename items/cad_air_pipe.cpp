@@ -53,6 +53,16 @@ QImage CAD_air_pipe::wizardImage()
     return image;
 }
 
+QString CAD_air_pipe::iconPath()
+{
+    return ":/icons/cad_air/cad_air_pipe.svg";
+}
+
+QString CAD_air_pipe::domain()
+{
+    return "Air";
+}
+
 void CAD_air_pipe::calculate()
 {
     matrix_rotation.setToIdentity();

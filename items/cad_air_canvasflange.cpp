@@ -70,6 +70,16 @@ QImage CAD_air_canvasFlange::wizardImage()
     return image;
 }
 
+QString CAD_air_canvasFlange::iconPath()
+{
+    return ":/icons/cad_air/cad_air_canvasflange.svg";
+}
+
+QString CAD_air_canvasFlange::domain()
+{
+    return "Air";
+}
+
 void CAD_air_canvasFlange::calculate()
 {
     matrix_rotation.setToIdentity();

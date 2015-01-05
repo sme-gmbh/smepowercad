@@ -39,6 +39,16 @@ QImage CAD_air_ductFireResistant::wizardImage()
     return image;
 }
 
+QString CAD_air_ductFireResistant::iconPath()
+{
+    return ":/icons/cad_air/cad_air_ductfireresistant.svg";
+}
+
+QString CAD_air_ductFireResistant::domain()
+{
+    return "Air";
+}
+
 void CAD_air_ductFireResistant::calculate()
 {
     matrix_rotation.setToIdentity();

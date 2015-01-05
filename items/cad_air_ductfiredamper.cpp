@@ -71,6 +71,16 @@ QImage CAD_air_ductFireDamper::wizardImage()
     return image;
 }
 
+QString CAD_air_ductFireDamper::iconPath()
+{
+    return ":/icons/cad_air/cad_air_ductfiredamper.svg";
+}
+
+QString CAD_air_ductFireDamper::domain()
+{
+    return "Air";
+}
+
 void CAD_air_ductFireDamper::calculate()
 {
     matrix_rotation.setToIdentity();

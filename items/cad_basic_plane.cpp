@@ -45,6 +45,16 @@ QImage CAD_basic_plane::wizardImage()
     return image;
 }
 
+QString CAD_basic_plane::iconPath()
+{
+    return ":/icons/cad_basic/cad_basic_plane.svg";
+}
+
+QString CAD_basic_plane::domain()
+{
+    return "Basic";
+}
+
 void CAD_basic_plane::calculate()
 {
     matrix_rotation.setToIdentity();

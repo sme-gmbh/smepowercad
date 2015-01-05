@@ -54,6 +54,16 @@ QImage CAD_sanitary_pipeEndCap::wizardImage()
     return image;
 }
 
+QString CAD_sanitary_pipeEndCap::iconPath()
+{
+    return ":/icons/cad_sanitary/cad_sanitary_pipeendcap.svg";
+}
+
+QString CAD_sanitary_pipeEndCap::domain()
+{
+    return "Sanitary";
+}
+
 void CAD_sanitary_pipeEndCap::calculate()
 {
     matrix_rotation.setToIdentity();

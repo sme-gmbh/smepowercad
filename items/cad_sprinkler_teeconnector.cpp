@@ -53,6 +53,16 @@ QImage CAD_sprinkler_teeConnector::wizardImage()
     return image;
 }
 
+QString CAD_sprinkler_teeConnector::iconPath()
+{
+    return ":/icons/cad_sprinkler/cad_sprinkler_teeconnector.svg";
+}
+
+QString CAD_sprinkler_teeConnector::domain()
+{
+    return "Sprinkler";
+}
+
 void CAD_sprinkler_teeConnector::calculate()
 {
     matrix_rotation.setToIdentity();

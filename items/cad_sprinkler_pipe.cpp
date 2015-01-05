@@ -53,6 +53,16 @@ QImage CAD_sprinkler_pipe::wizardImage()
     return image;
 }
 
+QString CAD_sprinkler_pipe::iconPath()
+{
+    return ":/icons/cad_sprinkler/cad_sprinkler_pipe.svg";
+}
+
+QString CAD_sprinkler_pipe::domain()
+{
+    return "Sprinkler";
+}
+
 void CAD_sprinkler_pipe::calculate()
 {
     matrix_rotation.setToIdentity();

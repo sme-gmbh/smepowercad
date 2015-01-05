@@ -41,6 +41,16 @@ QImage CAD_electrical_cableTray::wizardImage()
     return image;
 }
 
+QString CAD_electrical_cableTray::iconPath()
+{
+    return ":/icons/cad_electrical/cad_electrical_cabletray.svg";
+}
+
+QString CAD_electrical_cableTray::domain()
+{
+    return "Electrical";
+}
+
 void CAD_electrical_cableTray::calculate()
 {
     matrix_rotation.setToIdentity();

@@ -49,6 +49,16 @@ QImage CAD_arch_wall_loadBearing::wizardImage()
     return image;
 }
 
+QString CAD_arch_wall_loadBearing::iconPath()
+{
+    return ":/icons/cad_arch/cad_arch_wall_loadbearing.svg";
+}
+
+QString CAD_arch_wall_loadBearing::domain()
+{
+    return "Architecture";
+}
+
 void CAD_arch_wall_loadBearing::calculate()
 {
     matrix_rotation.setToIdentity();

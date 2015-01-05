@@ -55,6 +55,16 @@ QImage CAD_air_ductEndPlate::wizardImage()
     return image;
 }
 
+QString CAD_air_ductEndPlate::iconPath()
+{
+    return ":/icons/cad_air/cad_air_ductendplate.svg";
+}
+
+QString CAD_air_ductEndPlate::domain()
+{
+    return "Air";
+}
+
 void CAD_air_ductEndPlate::calculate()
 {
     matrix_rotation.setToIdentity();

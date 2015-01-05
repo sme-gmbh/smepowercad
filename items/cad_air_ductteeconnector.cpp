@@ -97,6 +97,16 @@ QImage CAD_air_ductTeeConnector::wizardImage()
     return image;
 }
 
+QString CAD_air_ductTeeConnector::iconPath()
+{
+    return ":/icons/cad_air/cad_air_ductteeconnector.svg";
+}
+
+QString CAD_air_ductTeeConnector::domain()
+{
+    return "Air";
+}
+
 void CAD_air_ductTeeConnector::calculate()
 {
     matrix_rotation.setToIdentity();
@@ -444,13 +454,15 @@ void CAD_air_ductTeeConnector::paint(GLWidget *glwidget)
 
                 glwidget->glEnd();
             }
+
+            glwidget->glBegin(GL_LINE_LOOP);
+            glwidget->glVertex3f((GLfloat)vertices_backside[0].x(), (GLfloat)vertices_backside[0].y(), (GLfloat)vertices_backside[0].z());
+            glwidget->glVertex3f((GLfloat)vertices_backside[1].x(), (GLfloat)vertices_backside[1].y(), (GLfloat)vertices_backside[1].z());
+            glwidget->glVertex3f((GLfloat)vertices_backside[2].x(), (GLfloat)vertices_backside[2].y(), (GLfloat)vertices_backside[2].z());
+            glwidget->glVertex3f((GLfloat)vertices_backside[3].x(), (GLfloat)vertices_backside[3].y(), (GLfloat)vertices_backside[3].z());
+            glwidget->glEnd();
         }
         // This breaks the pipeline... is it needed?
-//        glwidget->glBegin(GL_LINE_LOOP);
-//        glwidget->glVertex3f((GLfloat)vertices_backside[0].x(), (GLfloat)vertices_backside[0].y(), (GLfloat)vertices_backside[0].z());
-//        glwidget->glVertex3f((GLfloat)vertices_backside[1].x(), (GLfloat)vertices_backside[1].y(), (GLfloat)vertices_backside[1].z());
-//        glwidget->glVertex3f((GLfloat)vertices_backside[2].x(), (GLfloat)vertices_backside[2].y(), (GLfloat)vertices_backside[2].z());
-//        glwidget->glVertex3f((GLfloat)vertices_backside[3].x(), (GLfloat)vertices_backside[3].y(), (GLfloat)vertices_backside[3].z());
-//        glwidget->glEnd();
+
     }
 }

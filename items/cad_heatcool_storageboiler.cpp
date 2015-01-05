@@ -63,6 +63,16 @@ QImage CAD_heatcool_storageBoiler::wizardImage()
     return image;
 }
 
+QString CAD_heatcool_storageBoiler::iconPath()
+{
+    return ":/icons/cad_heatcool/cad_heatcool_storageboiler.svg";
+}
+
+QString CAD_heatcool_storageBoiler::domain()
+{
+    return "HeatCool";
+}
+
 void CAD_heatcool_storageBoiler::calculate()
 {
     matrix_rotation.setToIdentity();

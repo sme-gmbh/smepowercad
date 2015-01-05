@@ -59,6 +59,16 @@ QImage CAD_air_pipeFireDamper::wizardImage()
     return image;
 }
 
+QString CAD_air_pipeFireDamper::iconPath()
+{
+    return ":/icons/cad_air/cad_air_pipefiredamper.svg";
+}
+
+QString CAD_air_pipeFireDamper::domain()
+{
+    return "Air";
+}
+
 void CAD_air_pipeFireDamper::calculate()
 {
     matrix_rotation.setToIdentity();

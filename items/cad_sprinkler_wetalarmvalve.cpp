@@ -53,6 +53,16 @@ QImage CAD_sprinkler_wetAlarmValve::wizardImage()
     return image;
 }
 
+QString CAD_sprinkler_wetAlarmValve::iconPath()
+{
+    return ":/icons/cad_sprinkler/cad_sprinkler_wetalarmvalve.svg";
+}
+
+QString CAD_sprinkler_wetAlarmValve::domain()
+{
+    return "Sprinkler";
+}
+
 void CAD_sprinkler_wetAlarmValve::calculate()
 {
     matrix_rotation.setToIdentity();

@@ -41,6 +41,16 @@ QImage CAD_arch_grating::wizardImage()
     return image;
 }
 
+QString CAD_arch_grating::iconPath()
+{
+    return ":/icons/cad_arch/cad_arch_grating.svg";
+}
+
+QString CAD_arch_grating::domain()
+{
+    return "Architecture";
+}
+
 void CAD_arch_grating::calculate()
 {
     matrix_rotation.setToIdentity();

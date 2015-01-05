@@ -63,6 +63,16 @@ QImage CAD_heatcool_pump::wizardImage()
     return image;
 }
 
+QString CAD_heatcool_pump::iconPath()
+{
+    return ":/icons/cad_heatcool/cad_heatcool_pump.svg";
+}
+
+QString CAD_heatcool_pump::domain()
+{
+    return "HeatCool";
+}
+
 void CAD_heatcool_pump::calculate()
 {
     matrix_rotation.setToIdentity();

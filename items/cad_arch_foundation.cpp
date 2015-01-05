@@ -41,6 +41,16 @@ QImage CAD_arch_foundation::wizardImage()
     return image;
 }
 
+QString CAD_arch_foundation::iconPath()
+{
+    return ":/icons/cad_arch/cad_arch_foundation.svg";
+}
+
+QString CAD_arch_foundation::domain()
+{
+    return "Architecture";
+}
+
 void CAD_arch_foundation::calculate()
 {
     matrix_rotation.setToIdentity();

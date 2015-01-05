@@ -54,6 +54,16 @@ QImage CAD_sanitary_liftingUnit::wizardImage()
     return image;
 }
 
+QString CAD_sanitary_liftingUnit::iconPath()
+{
+    return ":/icons/cad_sanitary/cad_sanitary_liftingunit.svg";
+}
+
+QString CAD_sanitary_liftingUnit::domain()
+{
+    return "Sanitary";
+}
+
 void CAD_sanitary_liftingUnit::calculate()
 {
     matrix_rotation.setToIdentity();

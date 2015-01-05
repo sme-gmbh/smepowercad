@@ -142,8 +142,10 @@ public:
     virtual ~CADitem() {}
     virtual QList<CADitem::ItemType> flangable_items() = 0;
     virtual QImage wizardImage() = 0;
-    virtual void calculate() {}
-    virtual void processWizardInput() {}
+    virtual QString iconPath() = 0;
+    virtual QString domain() = 0;
+    virtual void calculate() = 0;
+    virtual void processWizardInput() = 0;
     virtual void paint(GLWidget* glwidget) {Q_UNUSED(glwidget)}
     QColor getColorPen();
     QColor getColorBrush();

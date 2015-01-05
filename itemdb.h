@@ -140,6 +140,13 @@ public:
     QList<Layer*> layers;
     bool layerSoloActive;
 
+    QList<QString> getDomains();
+    QList<int> getItemTypesByDomain(QString domain);
+    QString getItemDescriptionByItemType(CADitem::ItemType type);
+    QString getIconPathByItemType(CADitem::ItemType type);
+    QPixmap getIconByItemType(CADitem::ItemType type, QSize size);
+
+
     Layer *addLayer(QString layerName, QString parentLayerName = QString());
     Layer *addLayer(QString layerName, Layer* parentLayer);
     bool moveLayer(QString layerName, QString newParentLayerName, quint32 position);
@@ -149,8 +156,6 @@ public:
     Layer* getLayerByName(QString layerName);
     Layer* getTopLevelLayer();
     bool isLayerValid(Layer* layer);
-    QString getIconPathByItemType(CADitem::ItemType type);
-    QPixmap getIconByItemType(CADitem::ItemType type, QSize size);
 
     void addItem(CADitem* item, QString LayerName);
     void addItem(CADitem* item, Layer* layer);
@@ -159,6 +164,7 @@ public:
     void deleteItems(QList<CADitem*> items);
     bool changeLayerOfItem(CADitem* item, Layer* newLayer);
     bool changeLayerOfItem(quint64 id, QString newLayerName);
+    CADitem *createItem(CADitem::ItemType type);
     CADitem *drawItem(Layer *layer, CADitem::ItemType type);
     CADitem *drawItem(QString layerName, CADitem::ItemType type);
     CADitem *getItemById(quint64 id);
@@ -187,6 +193,12 @@ public:
     void file_loadDB_parseDomElement(QDomElement element, Layer* currentLayer);
 
 private:
+    QList<QString> domains;
+    QMap<QString, int> itemTypesByDomain;
+    QMap <int, QString> iconPathByItemType;
+    QMap <int, QString> itemDescriptionByItemType;
+    void deriveDomainsAndItemTypes();
+
     Layer* topLevelLayer;
     QMap<QString, Layer*> layerMap;
     QMap<quint64, CADitem*> itemMap;

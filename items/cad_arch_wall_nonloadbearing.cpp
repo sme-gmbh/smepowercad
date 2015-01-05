@@ -49,6 +49,16 @@ QImage CAD_arch_wall_nonLoadBearing::wizardImage()
     return image;
 }
 
+QString CAD_arch_wall_nonLoadBearing::iconPath()
+{
+    return ":/icons/cad_arch/cad_arch_wall_nonloadbearing.svg";
+}
+
+QString CAD_arch_wall_nonLoadBearing::domain()
+{
+    return "Architecture";
+}
+
 void CAD_arch_wall_nonLoadBearing::calculate()
 {
     matrix_rotation.setToIdentity();

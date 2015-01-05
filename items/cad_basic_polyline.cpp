@@ -41,6 +41,16 @@ QImage CAD_basic_polyline::wizardImage()
     return image;
 }
 
+QString CAD_basic_polyline::iconPath()
+{
+    return ":/icons/cad_basic/cad_basic_polyline.svg";
+}
+
+QString CAD_basic_polyline::domain()
+{
+    return "Basic";
+}
+
 void CAD_basic_polyline::calculate()
 {
     matrix_rotation.setToIdentity();

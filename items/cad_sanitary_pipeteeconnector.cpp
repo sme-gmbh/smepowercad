@@ -54,6 +54,16 @@ QImage CAD_sanitary_pipeTeeConnector::wizardImage()
     return image;
 }
 
+QString CAD_sanitary_pipeTeeConnector::iconPath()
+{
+    return ":/icons/cad_sanitary/cad_sanitary_pipeteeconnector.svg";
+}
+
+QString CAD_sanitary_pipeTeeConnector::domain()
+{
+    return "Sanitary";
+}
+
 void CAD_sanitary_pipeTeeConnector::calculate()
 {
     matrix_rotation.setToIdentity();

@@ -43,6 +43,16 @@ QImage CAD_basic_sphere::wizardImage()
     return image;
 }
 
+QString CAD_basic_sphere::iconPath()
+{
+    return ":/icons/cad_basic/cad_basic_sphere.svg";
+}
+
+QString CAD_basic_sphere::domain()
+{
+    return "Basic";
+}
+
 void CAD_basic_sphere::calculate()
 {
     matrix_rotation.setToIdentity();

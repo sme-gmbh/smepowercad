@@ -63,6 +63,16 @@ QImage CAD_heatcool_expansionChamber::wizardImage()
     return image;
 }
 
+QString CAD_heatcool_expansionChamber::iconPath()
+{
+    return ":/icons/cad_heatcool/cad_heatcool_expansionchamber.svg";
+}
+
+QString CAD_heatcool_expansionChamber::domain()
+{
+    return "HeatCool";
+}
+
 void CAD_heatcool_expansionChamber::calculate()
 {
     matrix_rotation.setToIdentity();

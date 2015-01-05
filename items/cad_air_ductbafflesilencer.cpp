@@ -67,6 +67,16 @@ QImage CAD_air_ductBaffleSilencer::wizardImage()
     return image;
 }
 
+QString CAD_air_ductBaffleSilencer::iconPath()
+{
+    return ":/icons/cad_air/cad_air_ductbafflesilencer.svg";
+}
+
+QString CAD_air_ductBaffleSilencer::domain()
+{
+    return "Air";
+}
+
 void CAD_air_ductBaffleSilencer::calculate()
 {
     matrix_rotation.setToIdentity();

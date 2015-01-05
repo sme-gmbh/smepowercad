@@ -54,6 +54,16 @@ QImage CAD_sanitary_sink::wizardImage()
     return image;
 }
 
+QString CAD_sanitary_sink::iconPath()
+{
+    return ":/icons/cad_sanitary/cad_sanitary_sink.svg";
+}
+
+QString CAD_sanitary_sink::domain()
+{
+    return "Sanitary";
+}
+
 void CAD_sanitary_sink::calculate()
 {
     matrix_rotation.setToIdentity();

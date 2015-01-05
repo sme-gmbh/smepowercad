@@ -54,6 +54,16 @@ QImage CAD_sanitary_pipeTurn::wizardImage()
     return image;
 }
 
+QString CAD_sanitary_pipeTurn::iconPath()
+{
+    return ":/icons/cad_sanitary/cad_sanitary_pipeturn.svg";
+}
+
+QString CAD_sanitary_pipeTurn::domain()
+{
+    return "Sanitary";
+}
+
 void CAD_sanitary_pipeTurn::calculate()
 {
     matrix_rotation.setToIdentity();

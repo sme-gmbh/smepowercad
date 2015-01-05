@@ -44,6 +44,16 @@ QImage CAD_basic_3Dface::wizardImage()
     return image;
 }
 
+QString CAD_basic_3Dface::iconPath()
+{
+    return ":/icons/cad_basic/cad_basic_3Dface.svg";
+}
+
+QString CAD_basic_3Dface::domain()
+{
+    return "Basic";
+}
+
 void CAD_basic_3Dface::calculate()
 {
     matrix_rotation.setToIdentity();

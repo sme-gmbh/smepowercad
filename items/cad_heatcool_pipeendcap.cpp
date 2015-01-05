@@ -63,6 +63,16 @@ QImage CAD_heatcool_pipeEndCap::wizardImage()
     return image;
 }
 
+QString CAD_heatcool_pipeEndCap::iconPath()
+{
+    return ":/icons/cad_heatcool/cad_heatcool_pipeendcap.svg";
+}
+
+QString CAD_heatcool_pipeEndCap::domain()
+{
+    return "HeatCool";
+}
+
 void CAD_heatcool_pipeEndCap::calculate()
 {
     matrix_rotation.setToIdentity();

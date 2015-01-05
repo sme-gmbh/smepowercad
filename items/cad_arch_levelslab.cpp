@@ -46,6 +46,16 @@ QImage CAD_arch_levelSlab::wizardImage()
     return image;
 }
 
+QString CAD_arch_levelSlab::iconPath()
+{
+    return ":/icons/cad_arch/cad_arch_levelslab.svg";
+}
+
+QString CAD_arch_levelSlab::domain()
+{
+    return "Architecture";
+}
+
 void CAD_arch_levelSlab::calculate()
 {
     matrix_rotation.setToIdentity();

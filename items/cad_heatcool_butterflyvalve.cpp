@@ -63,6 +63,16 @@ QImage CAD_heatcool_butterflyValve::wizardImage()
     return image;
 }
 
+QString CAD_heatcool_butterflyValve::iconPath()
+{
+    return ":/icons/cad_heatcool/cad_heatcool_butterflyvalve.svg";
+}
+
+QString CAD_heatcool_butterflyValve::domain()
+{
+    return "HeatCool";
+}
+
 void CAD_heatcool_butterflyValve::calculate()
 {
     matrix_rotation.setToIdentity();

@@ -48,6 +48,16 @@ QImage CAD_air_pipeTeeConnector::wizardImage()
     return image;
 }
 
+QString CAD_air_pipeTeeConnector::iconPath()
+{
+    return ":/icons/cad_air/cad_air_pipeteeconnector.svg";
+}
+
+QString CAD_air_pipeTeeConnector::domain()
+{
+    return "Air";
+}
+
 void CAD_air_pipeTeeConnector::calculate()
 {
     matrix_rotation.setToIdentity();

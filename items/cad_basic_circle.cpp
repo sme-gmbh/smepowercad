@@ -48,6 +48,16 @@ QImage CAD_basic_circle::wizardImage()
     return image;
 }
 
+QString CAD_basic_circle::iconPath()
+{
+    return ":/icons/cad_basic/cad_basic_circle.svg";
+}
+
+QString CAD_basic_circle::domain()
+{
+    return "Basic";
+}
+
 void CAD_basic_circle::calculate()
 {
     matrix_rotation.setToIdentity();

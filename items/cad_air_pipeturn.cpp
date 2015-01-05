@@ -48,6 +48,16 @@ QImage CAD_air_pipeTurn::wizardImage()
     return image;
 }
 
+QString CAD_air_pipeTurn::iconPath()
+{
+    return ":/icons/cad_air/cad_air_pipeturn.svg";
+}
+
+QString CAD_air_pipeTurn::domain()
+{
+    return "Air";
+}
+
 void CAD_air_pipeTurn::calculate()
 {
     matrix_rotation.setToIdentity();

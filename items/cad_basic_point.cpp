@@ -39,6 +39,16 @@ QImage CAD_basic_point::wizardImage()
     return image;
 }
 
+QString CAD_basic_point::iconPath()
+{
+    return ":/icons/cad_basic/cad_basic_point.svg";
+}
+
+QString CAD_basic_point::domain()
+{
+    return "Basic";
+}
+
 void CAD_basic_point::calculate()
 {
     matrix_rotation.setToIdentity();

@@ -41,6 +41,16 @@ QImage CAD_air_fan::wizardImage()
     return image;
 }
 
+QString CAD_air_fan::iconPath()
+{
+    return ":/icons/cad_air/cad_air_fan.svg";
+}
+
+QString CAD_air_fan::domain()
+{
+    return "Air";
+}
+
 void CAD_air_fan::calculate()
 {
     matrix_rotation.setToIdentity();

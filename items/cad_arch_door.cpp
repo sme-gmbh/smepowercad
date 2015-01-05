@@ -41,6 +41,16 @@ QImage CAD_arch_door::wizardImage()
     return image;
 }
 
+QString CAD_arch_door::iconPath()
+{
+    return ":/icons/cad_arch/cad_arch_door.svg";
+}
+
+QString CAD_arch_door::domain()
+{
+    return "Architecture";
+}
+
 void CAD_arch_door::calculate()
 {
     matrix_rotation.setToIdentity();

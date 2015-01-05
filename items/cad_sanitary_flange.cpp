@@ -54,6 +54,16 @@ QImage CAD_sanitary_flange::wizardImage()
     return image;
 }
 
+QString CAD_sanitary_flange::iconPath()
+{
+    return ":/icons/cad_sanitary/cad_sanitary_flange.svg";
+}
+
+QString CAD_sanitary_flange::domain()
+{
+    return "Sanitary";
+}
+
 void CAD_sanitary_flange::calculate()
 {
     matrix_rotation.setToIdentity();

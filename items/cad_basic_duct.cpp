@@ -49,6 +49,16 @@ QImage CAD_basic_duct::wizardImage()
     return image;
 }
 
+QString CAD_basic_duct::iconPath()
+{
+    return ":/icons/cad_basic/cad_basic_duct.svg";
+}
+
+QString CAD_basic_duct::domain()
+{
+    return "Basic";
+}
+
 void CAD_basic_duct::calculate()
 {
     matrix_rotation.setToIdentity();

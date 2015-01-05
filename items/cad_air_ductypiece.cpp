@@ -81,6 +81,16 @@ QImage CAD_air_ductYpiece::wizardImage()
     return image;
 }
 
+QString CAD_air_ductYpiece::iconPath()
+{
+    return ":/icons/cad_air/cad_air_ductypiece.svg";
+}
+
+QString CAD_air_ductYpiece::domain()
+{
+    return "Air";
+}
+
 void CAD_air_ductYpiece::calculate()
 {
     matrix_rotation.setToIdentity();

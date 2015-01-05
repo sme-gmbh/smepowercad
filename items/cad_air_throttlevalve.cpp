@@ -48,6 +48,16 @@ QImage CAD_air_throttleValve::wizardImage()
     return image;
 }
 
+QString CAD_air_throttleValve::iconPath()
+{
+    return ":/icons/cad_air/cad_air_throttlevalve.svg";
+}
+
+QString CAD_air_throttleValve::domain()
+{
+    return "Air";
+}
+
 void CAD_air_throttleValve::calculate()
 {
     matrix_rotation.setToIdentity();

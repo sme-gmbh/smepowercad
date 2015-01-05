@@ -10,6 +10,8 @@ public:
     virtual ~CAD_sanitary_pipe();
     virtual QList<CADitem::ItemType> flangable_items();
     virtual QImage wizardImage();
+    virtual QString iconPath();
+    virtual QString domain();
     virtual void calculate();
     virtual void processWizardInput();
 };

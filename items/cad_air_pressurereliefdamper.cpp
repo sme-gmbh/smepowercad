@@ -41,6 +41,16 @@ QImage CAD_air_pressureReliefDamper::wizardImage()
     return image;
 }
 
+QString CAD_air_pressureReliefDamper::iconPath()
+{
+    return ":/icons/cad_air/cad_air_pressurereliefdamper.svg";
+}
+
+QString CAD_air_pressureReliefDamper::domain()
+{
+    return "Air";
+}
+
 void CAD_air_pressureReliefDamper::calculate()
 {
     matrix_rotation.setToIdentity();

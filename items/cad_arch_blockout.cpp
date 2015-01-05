@@ -48,6 +48,16 @@ QImage CAD_arch_blockOut::wizardImage()
     return image;
 }
 
+QString CAD_arch_blockOut::iconPath()
+{
+    return ":/icons/cad_arch/cad_arch_blockout.svg";
+}
+
+QString CAD_arch_blockOut::domain()
+{
+    return "Architecture";
+}
+
 void CAD_arch_blockOut::calculate()
 {
     matrix_rotation.setToIdentity();

@@ -44,6 +44,16 @@ QImage CAD_basic_cylinder::wizardImage()
     return image;
 }
 
+QString CAD_basic_cylinder::iconPath()
+{
+    return ":/icons/cad_basic/cad_basic_cylinder.svg";
+}
+
+QString CAD_basic_cylinder::domain()
+{
+    return "Basic";
+}
+
 void CAD_basic_cylinder::calculate()
 {
     matrix_rotation.setToIdentity();

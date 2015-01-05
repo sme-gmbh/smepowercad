@@ -1374,7 +1374,7 @@ QList<CADitem*> GLWidget::itemsAtPosition_v2(QPoint pos, int size_x, int size_y)
     matrix_glSelect.setToIdentity();
     matrix_glSelect.translate(-(qreal)(pos.x() + (this->width() - size_x) / 2), -(qreal)(pos.y() + (this->height() - size_y) / 2), 0.0);
     updateMatrixAll();
-    shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
+//    shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
 
     fbo_select->bind();
 
@@ -1388,7 +1388,6 @@ QList<CADitem*> GLWidget::itemsAtPosition_v2(QPoint pos, int size_x, int size_y)
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glName = 1;
     selectItemsByColor = true;
     paintContent(itemDB->layers);
     selectItemsByColor = false;

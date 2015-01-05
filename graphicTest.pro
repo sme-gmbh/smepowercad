@@ -150,7 +150,8 @@ SOURCES += main.cpp\
     items/cad_arch_foundation.cpp \
     items/cad_basic_face.cpp \
     itemgripmodifier.cpp \
-    items/cad_air_pipebranch.cpp
+    items/cad_air_pipebranch.cpp \
+    toolwidget.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -289,7 +290,8 @@ HEADERS  += mainwindow.h \
     items/cad_arch_foundation.h \
     items/cad_basic_face.h \
     itemgripmodifier.h \
-    items/cad_air_pipebranch.h
+    items/cad_air_pipebranch.h \
+    toolwidget.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
@@ -297,7 +299,8 @@ FORMS    += mainwindow.ui \
     modaldialog.ui \
     settingsdialog.ui \
     itemwizard.ui \
-    itemgripmodifier.ui
+    itemgripmodifier.ui \
+    toolwidget.ui
 
 RESOURCES += \
     icons.qrc

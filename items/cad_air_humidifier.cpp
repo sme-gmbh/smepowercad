@@ -53,6 +53,16 @@ QImage CAD_air_humidifier::wizardImage()
     return image;
 }
 
+QString CAD_air_humidifier::iconPath()
+{
+    return ":/icons/cad_air/cad_air_humidifier.svg";
+}
+
+QString CAD_air_humidifier::domain()
+{
+    return "Air";
+}
+
 void CAD_air_humidifier::calculate()
 {
     matrix_rotation.setToIdentity();

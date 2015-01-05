@@ -63,6 +63,16 @@ QImage CAD_heatcool_adjustvalve::wizardImage()
     return image;
 }
 
+QString CAD_heatcool_adjustvalve::iconPath()
+{
+    return ":/icons/cad_heatcool/cad_heatcool_adjustvalve.svg";
+}
+
+QString CAD_heatcool_adjustvalve::domain()
+{
+    return "HeatCool";
+}
+
 void CAD_heatcool_adjustvalve::calculate()
 {
     matrix_rotation.setToIdentity();

@@ -53,6 +53,16 @@ QImage CAD_sanitary_electricWaterHeater::wizardImage()
     return image;
 }
 
+QString CAD_sanitary_electricWaterHeater::iconPath()
+{
+    return ":/icons/cad_sanitary/cad_sanitary_electricwaterheater.svg";
+}
+
+QString CAD_sanitary_electricWaterHeater::domain()
+{
+    return "Sanitary";
+}
+
 void CAD_sanitary_electricWaterHeater::calculate()
 {
     matrix_rotation.setToIdentity();

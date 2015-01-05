@@ -54,6 +54,16 @@ QImage CAD_sanitary_pipeReducer::wizardImage()
     return image;
 }
 
+QString CAD_sanitary_pipeReducer::iconPath()
+{
+    return ":/icons/cad_sanitary/cad_sanitary_pipereducer.svg";
+}
+
+QString CAD_sanitary_pipeReducer::domain()
+{
+    return "Sanitary";
+}
+
 void CAD_sanitary_pipeReducer::calculate()
 {
     matrix_rotation.setToIdentity();

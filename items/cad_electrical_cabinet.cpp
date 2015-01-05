@@ -41,6 +41,16 @@ QImage CAD_electrical_cabinet::wizardImage()
     return image;
 }
 
+QString CAD_electrical_cabinet::iconPath()
+{
+    return ":/icons/cad_electrical/cad_electrical_cabinet.svg";
+}
+
+QString CAD_electrical_cabinet::domain()
+{
+    return "Electrical";
+}
+
 void CAD_electrical_cabinet::calculate()
 {
     matrix_rotation.setToIdentity();

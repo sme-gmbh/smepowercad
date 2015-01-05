@@ -47,6 +47,16 @@ QImage CAD_air_pipeEndCap::wizardImage()
     return image;
 }
 
+QString CAD_air_pipeEndCap::iconPath()
+{
+    return ":/icons/cad_air/cad_air_pipeendcap.svg";
+}
+
+QString CAD_air_pipeEndCap::domain()
+{
+    return "Air";
+}
+
 void CAD_air_pipeEndCap::calculate()
 {
     matrix_rotation.setToIdentity();

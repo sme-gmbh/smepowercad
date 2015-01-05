@@ -54,6 +54,16 @@ QImage CAD_sanitary_washBasin::wizardImage()
     return image;
 }
 
+QString CAD_sanitary_washBasin::iconPath()
+{
+    return ":/icons/cad_sanitary/cad_sanitary_washbasin.svg";
+}
+
+QString CAD_sanitary_washBasin::domain()
+{
+    return "Sanitary";
+}
+
 void CAD_sanitary_washBasin::calculate()
 {
     matrix_rotation.setToIdentity();

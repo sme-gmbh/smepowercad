@@ -51,6 +51,16 @@ QImage CAD_basic_turn::wizardImage()
     return image;
 }
 
+QString CAD_basic_turn::iconPath()
+{
+    return ":/icons/cad_basic/cad_basic_turn.svg";
+}
+
+QString CAD_basic_turn::domain()
+{
+    return "Basic";
+}
+
 void CAD_basic_turn::calculate()
 {
     matrix_rotation.setToIdentity();

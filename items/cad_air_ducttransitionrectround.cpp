@@ -62,6 +62,16 @@ QImage CAD_air_ductTransitionRectRound::wizardImage()
     return image;
 }
 
+QString CAD_air_ductTransitionRectRound::iconPath()
+{
+    return ":/icons/cad_air/cad_air_ducttransitionrectround.svg";
+}
+
+QString CAD_air_ductTransitionRectRound::domain()
+{
+    return "Air";
+}
+
 void CAD_air_ductTransitionRectRound::calculate()
 {
     matrix_rotation.setToIdentity();

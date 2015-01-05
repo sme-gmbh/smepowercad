@@ -52,6 +52,16 @@ QImage CAD_air_multiLeafDamper::wizardImage()
     return image;
 }
 
+QString CAD_air_multiLeafDamper::iconPath()
+{
+    return ":/icons/cad_air/cad_air_multileafdamper.svg";
+}
+
+QString CAD_air_multiLeafDamper::domain()
+{
+    return "Air";
+}
+
 void CAD_air_multiLeafDamper::calculate()
 {
     matrix_rotation.setToIdentity();

@@ -47,6 +47,16 @@ QImage CAD_arch_boredPile::wizardImage()
     return image;
 }
 
+QString CAD_arch_boredPile::iconPath()
+{
+    return ":/icons/cad_arch/cad_arch_bored_pile.svg";
+}
+
+QString CAD_arch_boredPile::domain()
+{
+    return "Architecture";
+}
+
 void CAD_arch_boredPile::calculate()
 {
     matrix_rotation.setToIdentity();

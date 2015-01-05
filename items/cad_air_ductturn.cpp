@@ -72,6 +72,16 @@ QImage CAD_air_ductTurn::wizardImage()
     return image;
 }
 
+QString CAD_air_ductTurn::iconPath()
+{
+    return ":/icons/cad_air/cad_air_ductturn.svg";
+}
+
+QString CAD_air_ductTurn::domain()
+{
+    return "Air";
+}
+
 
 void CAD_air_ductTurn::calculate()
 {

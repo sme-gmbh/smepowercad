@@ -66,6 +66,16 @@ QImage CAD_air_heatExchangerAirAir::wizardImage()
     return image;
 }
 
+QString CAD_air_heatExchangerAirAir::iconPath()
+{
+    return ":/icons/cad_air/cad_air_heatexchangerairair.svg";
+}
+
+QString CAD_air_heatExchangerAirAir::domain()
+{
+    return "Air";
+}
+
 void CAD_air_heatExchangerAirAir::calculate()
 {
     matrix_rotation.setToIdentity();

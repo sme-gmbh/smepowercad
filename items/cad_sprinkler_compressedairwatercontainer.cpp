@@ -53,6 +53,16 @@ QImage CAD_sprinkler_compressedAirWaterContainer::wizardImage()
     return image;
 }
 
+QString CAD_sprinkler_compressedAirWaterContainer::iconPath()
+{
+    return ":/icons/cad_sprinkler/cad_sprinkler_compressedairwatercontainer.svg";
+}
+
+QString CAD_sprinkler_compressedAirWaterContainer::domain()
+{
+    return "Sprinkler";
+}
+
 void CAD_sprinkler_compressedAirWaterContainer::calculate()
 {
     matrix_rotation.setToIdentity();

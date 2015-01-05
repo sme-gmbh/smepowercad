@@ -54,6 +54,16 @@ QImage CAD_sanitary_emergencyEyeShower::wizardImage()
     return image;
 }
 
+QString CAD_sanitary_emergencyEyeShower::iconPath()
+{
+    return ":/icons/cad_sanitary/cad_sanitary_emergencyeyeshower.svg";
+}
+
+QString CAD_sanitary_emergencyEyeShower::domain()
+{
+    return "Sanitary";
+}
+
 void CAD_sanitary_emergencyEyeShower::calculate()
 {
     matrix_rotation.setToIdentity();

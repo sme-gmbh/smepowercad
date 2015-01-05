@@ -55,6 +55,16 @@ QImage CAD_basic_pipe::wizardImage()
     return image;
 }
 
+QString CAD_basic_pipe::iconPath()
+{
+    return ":/icons/cad_basic/cad_basic_pipe.svg";
+}
+
+QString CAD_basic_pipe::domain()
+{
+    return "Basic";
+}
+
 void CAD_basic_pipe::calculate()
 {
     matrix_rotation.setToIdentity();

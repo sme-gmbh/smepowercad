@@ -64,6 +64,16 @@ QImage CAD_air_ductVolumetricFlowController::wizardImage()
     return image;
 }
 
+QString CAD_air_ductVolumetricFlowController::iconPath()
+{
+    return ":/icons/cad_air/cad_air_ductvolumetricflowcontroller.svg";
+}
+
+QString CAD_air_ductVolumetricFlowController::domain()
+{
+    return "Air";
+}
+
 void CAD_air_ductVolumetricFlowController::calculate()
 {
     matrix_rotation.setToIdentity();
