@@ -316,7 +316,7 @@ void GLWidget::wheelEvent(QWheelEvent* event)
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    qDebug() << "mouseMove";
+    //qDebug() << "mouseMove";
 
     mousePos = event->pos();
     mousePos.setY((this->height() - 1) - mousePos.y());
@@ -1361,7 +1361,7 @@ QList<CADitem*> GLWidget::itemsAtPosition_v2(QPoint pos, int size_x, int size_y)
 {
     makeCurrent();
 
-    qDebug() << "highlight";
+    //qDebug() << "highlight";
 
     if (fbo_select->size() != QSize(size_x, size_y))
     {

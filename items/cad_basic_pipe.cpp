@@ -23,13 +23,28 @@ CAD_basic_pipe::CAD_basic_pipe() : CADitem(CADitem::Basic_Pipe)
     wizardParams.insert("d", QVariant::fromValue(10.0));
     wizardParams.insert("s", QVariant::fromValue(1.0));
 
+
+    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    arrayBufVertices.create();
+    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufFaces.create();
+    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufLines.create();
+    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
     processWizardInput();
     calculate();
 }
 
 CAD_basic_pipe::~CAD_basic_pipe()
 {
-
+    arrayBufVertices.destroy();
+    indexBufFaces.destroy();
+    indexBufLines.destroy();
 }
 
 QList<CADitem::ItemType> CAD_basic_pipe::flangable_items()
@@ -92,6 +107,8 @@ void CAD_basic_pipe::calculate()
     vertices_outer_bottom.clear();
     vertices_outer_top.clear();
 
+    QVector3D vertices[200];
+    int index = 0;
     for (qreal i=0.0; i < 1.0; i += 0.02)    // 50 edges
     {
         qreal angle = 2 * PI * i;
@@ -99,19 +116,74 @@ void CAD_basic_pipe::calculate()
 
         linePos = matrix_rotation * QVector3D(0.0, sin(angle) * radius, cos(angle) * radius);
         linePos += position;
-        vertices_outer_bottom.append(linePos);
+//        vertices_outer_bottom.append(linePos);
+        vertices[index] = linePos;
+        index++;
         this->boundingBox.enterVertex(linePos);
-        vertices_inner_bottom.append(linePos + (position - linePos).normalized() * wallThickness);
+//        vertices_inner_bottom.append(linePos + (position - linePos).normalized() * wallThickness);
+        vertices[index] = linePos + (position - linePos).normalized() * wallThickness;
+        index++;
         QVector3D pos_top = position + matrix_rotation * QVector3D(length, 0.0, 0.0);
         linePos = matrix_rotation * QVector3D(0.0, sin(angle) * radius, cos(angle) * radius);
         linePos += pos_top;
-        vertices_outer_top.append(linePos);
+//        vertices_outer_top.append(linePos);
+        vertices[index] = linePos;
+        index++;
         this->boundingBox.enterVertex(linePos);
-        vertices_inner_top.append(linePos + (pos_top - linePos).normalized() * wallThickness);
+//        vertices_inner_top.append(linePos + (pos_top - linePos).normalized() * wallThickness);
+        vertices[index] = linePos + (pos_top - linePos).normalized() * wallThickness;
+        index++;
     }
 
+    static GLushort indicesFaces[200];
+//    for(int i = 0; i < 100; i++)
+//        indicesFaces[i] = 2*i;
+//    indicesFaces[100] = 0;
+//    indicesFaces[101] = 2;
+    indicesFaces[102] = 0xABCD;
+    for(int i = 0; i < 100; i++)
+        indicesFaces[103+i] = 1+2*i;
 
+    static GLushort indicesLines[600];
+    //outer circles
+    for(int i = 0; i < 100; i++)
+    {
+        indicesLines[2*i] = 2*i;
+        indicesLines[2*i+1] = 2*i + 4;
+    }
+    indicesLines[199] = 2;
+    indicesLines[198] = 198;
+    indicesLines[197] = 0;
+    indicesLines[196] = 196;
 
+    //inner circles
+    for(int i = 0; i < 100; i++)
+    {
+        indicesLines[200 + 2*i] = 2*i+1;
+        indicesLines[200 + 2*i+1] = 2*i + 4 +1;
+    }
+    indicesLines[399] = 3;
+    indicesLines[398] = 199;
+    indicesLines[397] = 1;
+    indicesLines[396] = 197;
+
+    //in flow direction
+    for(int i = 0; i < 50; i++)
+    {
+        indicesLines[400 + 4*i] = 0 + 4*i;
+        indicesLines[401 + 4*i] = 2 + 4*i;
+        indicesLines[402 + 4*i] = 1 + 4*i;
+        indicesLines[403 + 4*i] = 3 + 4*i;
+    }
+
+    arrayBufVertices.bind();
+    arrayBufVertices.allocate(vertices, sizeof(vertices));
+
+    indexBufFaces.bind();
+    indexBufFaces.allocate(indicesFaces, sizeof(indicesFaces));
+
+    indexBufLines.bind();
+    indexBufLines.allocate(indicesLines, sizeof(indicesLines));
 
 
 
@@ -138,156 +210,188 @@ void CAD_basic_pipe::processWizardInput()
 
 void CAD_basic_pipe::paint(GLWidget *glwidget)
 {
-    QColor color_pen = getColorPen();
-    QColor color_brush = getColorBrush();
+//    QColor color_pen = getColorPen();
+//    QColor color_brush = getColorBrush();
+
+//    if (glwidget->render_solid)
+//    {
+//        // Vertical connections (faces)
+//        glwidget->setPaintingColor(color_brush);
+//        glwidget->glBegin(GL_QUADS);
+//        // Outer cylinder
+//        QVector3D last_vertex_bottom = vertices_outer_bottom.at(vertices_outer_bottom.count() - 1);
+//        QVector3D last_vertex_top = vertices_outer_top.at(vertices_outer_bottom.count() - 1);
+//        for (int i = 0; i < vertices_outer_bottom.count(); i++)
+//        {
+//            QVector3D vertex_bottom = vertices_outer_bottom.at(i);
+//            QVector3D vertex_top = vertices_outer_top.at(i);
+//            glwidget->glVertex3f((GLfloat)last_vertex_bottom.x(), (GLfloat)last_vertex_bottom.y(), (GLfloat)last_vertex_bottom.z());
+//            glwidget->glVertex3f((GLfloat)last_vertex_top.x(), (GLfloat)last_vertex_top.y(), (GLfloat)last_vertex_top.z());
+//            glwidget->glVertex3f((GLfloat)vertex_top.x(), (GLfloat)vertex_top.y(), (GLfloat)vertex_top.z());
+//            glwidget->glVertex3f((GLfloat)vertex_bottom.x(), (GLfloat)vertex_bottom.y(), (GLfloat)vertex_bottom.z());
+//            last_vertex_bottom = vertex_bottom;
+//            last_vertex_top = vertex_top;
+//        }
+//        // Inner cylinder
+//        last_vertex_bottom = vertices_inner_bottom.at(vertices_inner_bottom.count() - 1);
+//        last_vertex_top = vertices_inner_top.at(vertices_inner_top.count() - 1);
+//        for (int i = 0; i < vertices_inner_bottom.count(); i++)
+//        {
+//            QVector3D vertex_bottom = vertices_inner_bottom.at(i);
+//            QVector3D vertex_top = vertices_inner_top.at(i);
+//            glwidget->glVertex3f((GLfloat)last_vertex_bottom.x(), (GLfloat)last_vertex_bottom.y(), (GLfloat)last_vertex_bottom.z());
+//            glwidget->glVertex3f((GLfloat)last_vertex_top.x(), (GLfloat)last_vertex_top.y(), (GLfloat)last_vertex_top.z());
+//            glwidget->glVertex3f((GLfloat)vertex_top.x(), (GLfloat)vertex_top.y(), (GLfloat)vertex_top.z());
+//            glwidget->glVertex3f((GLfloat)vertex_bottom.x(), (GLfloat)vertex_bottom.y(), (GLfloat)vertex_bottom.z());
+//            last_vertex_bottom = vertex_bottom;
+//            last_vertex_top = vertex_top;
+//        }
+//        // End disks
+//        // Pipe length iteration
+//        for (int l = 0; l <= 1; l++)
+//        {
+
+//            QVector3D last_vertex_outer = vertices_outer_bottom.at(vertices_outer_bottom.count() - 1);
+//            QVector3D last_vertex_inner = vertices_inner_bottom.at(vertices_inner_bottom.count() - 1);
+//            if (l == 1)
+//            {
+//                last_vertex_outer = vertices_outer_top.at(vertices_outer_top.count() - 1);
+//                last_vertex_inner = vertices_inner_top.at(vertices_inner_top.count() - 1);
+//            }
+
+//            for (int i = 0; i < vertices_outer_bottom.count(); i++)
+//            {
+
+//                QVector3D vertex_outer = vertices_outer_bottom.at(i);
+//                QVector3D vertex_inner = vertices_inner_bottom.at(i);
+//                if (l == 0)
+//                {
+//                    glwidget->glVertex3f((GLfloat)last_vertex_inner.x(), (GLfloat)last_vertex_inner.y(), (GLfloat)last_vertex_inner.z());
+//                    glwidget->glVertex3f((GLfloat)last_vertex_outer.x(), (GLfloat)last_vertex_outer.y(), (GLfloat)last_vertex_outer.z());
+//                    glwidget->glVertex3f((GLfloat)vertex_outer.x(), (GLfloat)vertex_outer.y(), (GLfloat)vertex_outer.z());
+//                    glwidget->glVertex3f((GLfloat)vertex_inner.x(), (GLfloat)vertex_inner.y(), (GLfloat)vertex_inner.z());
+//                }
+//                else
+//                {
+//                    vertex_outer = vertices_outer_top.at(i);
+//                    vertex_inner = vertices_inner_top.at(i);
+//                    glwidget->glVertex3f((GLfloat)last_vertex_inner.x(), (GLfloat)last_vertex_inner.y(), (GLfloat)last_vertex_inner.z());
+//                    glwidget->glVertex3f((GLfloat)last_vertex_outer.x(), (GLfloat)last_vertex_outer.y(), (GLfloat)last_vertex_outer.z());
+//                    glwidget->glVertex3f((GLfloat)vertex_outer.x(), (GLfloat)vertex_outer.y(), (GLfloat)vertex_outer.z());
+//                    glwidget->glVertex3f((GLfloat)vertex_inner.x(), (GLfloat)vertex_inner.y(), (GLfloat)vertex_inner.z());
+//                }
+
+//                last_vertex_outer = vertex_outer;
+//                last_vertex_inner = vertex_inner;
+//            }
+//        }
+//        glwidget->glEnd();
+//    }
+
+//    if (glwidget->render_outline)
+//    {
+//        glwidget->setPaintingColor(color_pen);
+//        glwidget->glLineWidth(1.0);
+
+
+//        // Vertical connections (lines)
+//        glwidget->glBegin(GL_LINES);
+//        // Outer cylinder
+//        QVector3D last_vertex_bottom = vertices_outer_bottom.at(vertices_outer_bottom.count() - 1);
+//        QVector3D last_vertex_top = vertices_outer_top.at(vertices_outer_top.count() - 1);
+//        for (int i = 0; i < vertices_outer_bottom.count(); i++)
+//        {
+//            QVector3D vertex_bottom = vertices_outer_bottom.at(i);
+//            QVector3D vertex_top = vertices_outer_top.at(i);
+//            glwidget->glVertex3f((GLfloat)last_vertex_bottom.x(), (GLfloat)last_vertex_bottom.y(), (GLfloat)last_vertex_bottom.z());
+//            glwidget->glVertex3f((GLfloat)(last_vertex_top.x()), (GLfloat)(last_vertex_top.y()), (GLfloat)(last_vertex_top.z()));
+//            glwidget->glVertex3f((GLfloat)(vertex_top.x()), (GLfloat)(vertex_top.y()), (GLfloat)(vertex_top.z()));
+//            glwidget->glVertex3f((GLfloat)vertex_bottom.x(), (GLfloat)vertex_bottom.y(), (GLfloat)vertex_bottom.z());
+//            last_vertex_bottom = vertex_bottom;
+//            last_vertex_top = vertex_top;
+//        }
+//        // Inner cylinder
+//        last_vertex_bottom = vertices_inner_bottom.at(vertices_inner_bottom.count() - 1);
+//        last_vertex_top = vertices_inner_top.at(vertices_inner_top.count() - 1);
+//        for (int i = 0; i < vertices_inner_bottom.count(); i++)
+//        {
+//            QVector3D vertex_bottom = vertices_inner_bottom.at(i);
+//            QVector3D vertex_top = vertices_inner_top.at(i);
+//            glwidget->glVertex3f((GLfloat)last_vertex_bottom.x(), (GLfloat)last_vertex_bottom.y(), (GLfloat)last_vertex_bottom.z());
+//            glwidget->glVertex3f((GLfloat)(last_vertex_top.x()), (GLfloat)(last_vertex_top.y()), (GLfloat)(last_vertex_top.z()));
+//            glwidget->glVertex3f((GLfloat)(vertex_top.x()), (GLfloat)(vertex_top.y()), (GLfloat)(vertex_top.z()));
+//            glwidget->glVertex3f((GLfloat)vertex_bottom.x(), (GLfloat)vertex_bottom.y(), (GLfloat)vertex_bottom.z());
+//            last_vertex_bottom = vertex_bottom;
+//            last_vertex_top = vertex_top;
+//        }
+//        glwidget->glEnd();
+//        //Radial connections (lines)
+//        glwidget->glBegin(GL_LINE_LOOP);
+//        for (int i = 0; i < vertices_inner_bottom.count(); i++)
+//        {
+//            glwidget->glVertex3f((GLfloat)vertices_inner_bottom.at(i).x(), (GLfloat)vertices_inner_bottom.at(i).y(), (GLfloat)vertices_inner_bottom.at(i).z());
+//        }
+//        glwidget->glEnd();
+//        glwidget->glBegin(GL_LINE_LOOP);
+//        for (int i = 0; i < vertices_outer_bottom.count(); i++)
+//        {
+//            glwidget->glVertex3f((GLfloat)vertices_outer_bottom.at(i).x(), (GLfloat)vertices_outer_bottom.at(i).y(), (GLfloat)vertices_outer_bottom.at(i).z());
+//        }
+//        glwidget->glEnd();
+
+//        glwidget->glBegin(GL_LINE_LOOP);
+//        for (int i = 0; i < vertices_inner_top.count(); i++)
+//        {
+//            glwidget->glVertex3f((GLfloat)vertices_inner_top.at(i).x(), (GLfloat)vertices_inner_top.at(i).y(), (GLfloat)vertices_inner_top.at(i).z());
+//        }
+//        glwidget->glEnd();
+//        glwidget->glBegin(GL_LINE_LOOP);
+//        for (int i = 0; i < vertices_outer_top.count(); i++)
+//        {
+//            glwidget->glVertex3f((GLfloat)vertices_outer_top.at(i).x(), (GLfloat)vertices_outer_top.at(i).y(), (GLfloat)vertices_outer_top.at(i).z());
+//        }
+//        glwidget->glEnd();
+
+//        // Center line
+//        glwidget->glLineWidth(3.0);
+//        glwidget->glLineStipple(2, 0x00FF);
+//        glwidget->glEnable(GL_LINE_STIPPLE);
+//        glwidget->glBegin(GL_LINES);
+//        glwidget->glVertex3f((GLfloat)position.x(), (GLfloat)position.y(), (GLfloat)position.z());
+//        glwidget->glVertex3f((GLfloat)(snap_flanges.at(0).x()), (GLfloat)(snap_flanges.at(0).y()), (GLfloat)(snap_flanges.at(0).z()));
+//        glwidget->glEnd();
+//        glwidget->glDisable(GL_LINE_STIPPLE);
+//    }
+
+    glwidget->glEnable(GL_PRIMITIVE_RESTART);
+    glwidget->glPrimitiveRestartIndex(0xABCD);
+
+    QColor color_pen_tmp = getColorPen();
+    QColor color_brush_tmp = getColorBrush();
+
+    arrayBufVertices.bind();
+    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
+    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
 
     if (glwidget->render_solid)
     {
-        // Vertical connections (faces)
-        glwidget->setPaintingColor(color_brush);
-        glwidget->glBegin(GL_QUADS);
-        // Outer cylinder
-        QVector3D last_vertex_bottom = vertices_outer_bottom.at(vertices_outer_bottom.count() - 1);
-        QVector3D last_vertex_top = vertices_outer_top.at(vertices_outer_bottom.count() - 1);
-        for (int i = 0; i < vertices_outer_bottom.count(); i++)
-        {
-            QVector3D vertex_bottom = vertices_outer_bottom.at(i);
-            QVector3D vertex_top = vertices_outer_top.at(i);
-            glwidget->glVertex3f((GLfloat)last_vertex_bottom.x(), (GLfloat)last_vertex_bottom.y(), (GLfloat)last_vertex_bottom.z());
-            glwidget->glVertex3f((GLfloat)last_vertex_top.x(), (GLfloat)last_vertex_top.y(), (GLfloat)last_vertex_top.z());
-            glwidget->glVertex3f((GLfloat)vertex_top.x(), (GLfloat)vertex_top.y(), (GLfloat)vertex_top.z());
-            glwidget->glVertex3f((GLfloat)vertex_bottom.x(), (GLfloat)vertex_bottom.y(), (GLfloat)vertex_bottom.z());
-            last_vertex_bottom = vertex_bottom;
-            last_vertex_top = vertex_top;
-        }
-        // Inner cylinder
-        last_vertex_bottom = vertices_inner_bottom.at(vertices_inner_bottom.count() - 1);
-        last_vertex_top = vertices_inner_top.at(vertices_inner_top.count() - 1);
-        for (int i = 0; i < vertices_inner_bottom.count(); i++)
-        {
-            QVector3D vertex_bottom = vertices_inner_bottom.at(i);
-            QVector3D vertex_top = vertices_inner_top.at(i);
-            glwidget->glVertex3f((GLfloat)last_vertex_bottom.x(), (GLfloat)last_vertex_bottom.y(), (GLfloat)last_vertex_bottom.z());
-            glwidget->glVertex3f((GLfloat)last_vertex_top.x(), (GLfloat)last_vertex_top.y(), (GLfloat)last_vertex_top.z());
-            glwidget->glVertex3f((GLfloat)vertex_top.x(), (GLfloat)vertex_top.y(), (GLfloat)vertex_top.z());
-            glwidget->glVertex3f((GLfloat)vertex_bottom.x(), (GLfloat)vertex_bottom.y(), (GLfloat)vertex_bottom.z());
-            last_vertex_bottom = vertex_bottom;
-            last_vertex_top = vertex_top;
-        }
-        // End disks
-        // Pipe length iteration
-        for (int l = 0; l <= 1; l++)
-        {
+        glwidget->setPaintingColor(color_brush_tmp);
 
-            QVector3D last_vertex_outer = vertices_outer_bottom.at(vertices_outer_bottom.count() - 1);
-            QVector3D last_vertex_inner = vertices_inner_bottom.at(vertices_inner_bottom.count() - 1);
-            if (l == 1)
-            {
-                last_vertex_outer = vertices_outer_top.at(vertices_outer_top.count() - 1);
-                last_vertex_inner = vertices_inner_top.at(vertices_inner_top.count() - 1);
-            }
+        indexBufFaces.bind();
+        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces.size(), GL_UNSIGNED_SHORT, 0);
 
-            for (int i = 0; i < vertices_outer_bottom.count(); i++)
-            {
-
-                QVector3D vertex_outer = vertices_outer_bottom.at(i);
-                QVector3D vertex_inner = vertices_inner_bottom.at(i);
-                if (l == 0)
-                {
-                    glwidget->glVertex3f((GLfloat)last_vertex_inner.x(), (GLfloat)last_vertex_inner.y(), (GLfloat)last_vertex_inner.z());
-                    glwidget->glVertex3f((GLfloat)last_vertex_outer.x(), (GLfloat)last_vertex_outer.y(), (GLfloat)last_vertex_outer.z());
-                    glwidget->glVertex3f((GLfloat)vertex_outer.x(), (GLfloat)vertex_outer.y(), (GLfloat)vertex_outer.z());
-                    glwidget->glVertex3f((GLfloat)vertex_inner.x(), (GLfloat)vertex_inner.y(), (GLfloat)vertex_inner.z());
-                }
-                else
-                {
-                    vertex_outer = vertices_outer_top.at(i);
-                    vertex_inner = vertices_inner_top.at(i);
-                    glwidget->glVertex3f((GLfloat)last_vertex_inner.x(), (GLfloat)last_vertex_inner.y(), (GLfloat)last_vertex_inner.z());
-                    glwidget->glVertex3f((GLfloat)last_vertex_outer.x(), (GLfloat)last_vertex_outer.y(), (GLfloat)last_vertex_outer.z());
-                    glwidget->glVertex3f((GLfloat)vertex_outer.x(), (GLfloat)vertex_outer.y(), (GLfloat)vertex_outer.z());
-                    glwidget->glVertex3f((GLfloat)vertex_inner.x(), (GLfloat)vertex_inner.y(), (GLfloat)vertex_inner.z());
-                }
-
-                last_vertex_outer = vertex_outer;
-                last_vertex_inner = vertex_inner;
-            }
-        }
-        glwidget->glEnd();
+        indexBufFaces.release();
     }
 
     if (glwidget->render_outline)
     {
-        glwidget->setPaintingColor(color_pen);
+        glwidget->setPaintingColor(color_pen_tmp);
         glwidget->glLineWidth(1.0);
 
-
-        // Vertical connections (lines)
-        glwidget->glBegin(GL_LINES);
-        // Outer cylinder
-        QVector3D last_vertex_bottom = vertices_outer_bottom.at(vertices_outer_bottom.count() - 1);
-        QVector3D last_vertex_top = vertices_outer_top.at(vertices_outer_top.count() - 1);
-        for (int i = 0; i < vertices_outer_bottom.count(); i++)
-        {
-            QVector3D vertex_bottom = vertices_outer_bottom.at(i);
-            QVector3D vertex_top = vertices_outer_top.at(i);
-            glwidget->glVertex3f((GLfloat)last_vertex_bottom.x(), (GLfloat)last_vertex_bottom.y(), (GLfloat)last_vertex_bottom.z());
-            glwidget->glVertex3f((GLfloat)(last_vertex_top.x()), (GLfloat)(last_vertex_top.y()), (GLfloat)(last_vertex_top.z()));
-            glwidget->glVertex3f((GLfloat)(vertex_top.x()), (GLfloat)(vertex_top.y()), (GLfloat)(vertex_top.z()));
-            glwidget->glVertex3f((GLfloat)vertex_bottom.x(), (GLfloat)vertex_bottom.y(), (GLfloat)vertex_bottom.z());
-            last_vertex_bottom = vertex_bottom;
-            last_vertex_top = vertex_top;
-        }
-        // Inner cylinder
-        last_vertex_bottom = vertices_inner_bottom.at(vertices_inner_bottom.count() - 1);
-        last_vertex_top = vertices_inner_top.at(vertices_inner_top.count() - 1);
-        for (int i = 0; i < vertices_inner_bottom.count(); i++)
-        {
-            QVector3D vertex_bottom = vertices_inner_bottom.at(i);
-            QVector3D vertex_top = vertices_inner_top.at(i);
-            glwidget->glVertex3f((GLfloat)last_vertex_bottom.x(), (GLfloat)last_vertex_bottom.y(), (GLfloat)last_vertex_bottom.z());
-            glwidget->glVertex3f((GLfloat)(last_vertex_top.x()), (GLfloat)(last_vertex_top.y()), (GLfloat)(last_vertex_top.z()));
-            glwidget->glVertex3f((GLfloat)(vertex_top.x()), (GLfloat)(vertex_top.y()), (GLfloat)(vertex_top.z()));
-            glwidget->glVertex3f((GLfloat)vertex_bottom.x(), (GLfloat)vertex_bottom.y(), (GLfloat)vertex_bottom.z());
-            last_vertex_bottom = vertex_bottom;
-            last_vertex_top = vertex_top;
-        }
-        glwidget->glEnd();
-        //Radial connections (lines)
-        glwidget->glBegin(GL_LINE_LOOP);
-        for (int i = 0; i < vertices_inner_bottom.count(); i++)
-        {
-            glwidget->glVertex3f((GLfloat)vertices_inner_bottom.at(i).x(), (GLfloat)vertices_inner_bottom.at(i).y(), (GLfloat)vertices_inner_bottom.at(i).z());
-        }
-        glwidget->glEnd();
-        glwidget->glBegin(GL_LINE_LOOP);
-        for (int i = 0; i < vertices_outer_bottom.count(); i++)
-        {
-            glwidget->glVertex3f((GLfloat)vertices_outer_bottom.at(i).x(), (GLfloat)vertices_outer_bottom.at(i).y(), (GLfloat)vertices_outer_bottom.at(i).z());
-        }
-        glwidget->glEnd();
-
-        glwidget->glBegin(GL_LINE_LOOP);
-        for (int i = 0; i < vertices_inner_top.count(); i++)
-        {
-            glwidget->glVertex3f((GLfloat)vertices_inner_top.at(i).x(), (GLfloat)vertices_inner_top.at(i).y(), (GLfloat)vertices_inner_top.at(i).z());
-        }
-        glwidget->glEnd();
-        glwidget->glBegin(GL_LINE_LOOP);
-        for (int i = 0; i < vertices_outer_top.count(); i++)
-        {
-            glwidget->glVertex3f((GLfloat)vertices_outer_top.at(i).x(), (GLfloat)vertices_outer_top.at(i).y(), (GLfloat)vertices_outer_top.at(i).z());
-        }
-        glwidget->glEnd();
-
-        // Center line
-        glwidget->glLineWidth(3.0);
-        glwidget->glLineStipple(2, 0x00FF);
-        glwidget->glEnable(GL_LINE_STIPPLE);
-        glwidget->glBegin(GL_LINES);
-        glwidget->glVertex3f((GLfloat)position.x(), (GLfloat)position.y(), (GLfloat)position.z());
-        glwidget->glVertex3f((GLfloat)(snap_flanges.at(0).x()), (GLfloat)(snap_flanges.at(0).y()), (GLfloat)(snap_flanges.at(0).z()));
-        glwidget->glEnd();
-        glwidget->glDisable(GL_LINE_STIPPLE);
+        indexBufLines.bind();
+        glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
+        indexBufLines.release();
     }
+
+    arrayBufVertices.release();
 }

@@ -37,6 +37,11 @@ public:
     QVector3D size;
 
     qreal s;
+
+    QOpenGLBuffer arrayBufVertices;
+    QOpenGLBuffer indexBufFaces;
+    QOpenGLBuffer indexBufLines;
+
 };
 
 #endif // CAD_BASIC_DUCT_H

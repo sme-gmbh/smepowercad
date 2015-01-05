@@ -32,9 +32,7 @@ CAD_basic_box::CAD_basic_box() : CADitem(CADitem::Basic_Box)
 
 CAD_basic_box::~CAD_basic_box()
 {
-    arrayBufVertices.destroy();
-    indexBufFaces.destroy();
-    indexBufLines.destroy();
+
 }
 
 QList<CADitem::ItemType> CAD_basic_box::flangable_items()
@@ -148,11 +146,11 @@ void CAD_basic_box::calculate()
         pos_top_4
     };
 
-    static const GLushort indicesFaces[] = {
+    static GLushort indicesFaces[] = {
         5, 6, 7, 3, 4, 0, 1, 3, 2, 6, 1, 5, 4, 7
     };
 
-    static const GLushort indicesLines[] = {
+    static GLushort indicesLines[] = {
         0, 1,
         1, 2,
         2, 3,
