@@ -34,6 +34,10 @@ public:
 
     CAD_basic_pipe *flange_round;
     CAD_basic_duct *flange_rect;
+
+    QOpenGLBuffer arrayBufVertices;
+    QOpenGLBuffer indexBufFaces;
+    QOpenGLBuffer indexBufLines;
 };
 
 #endif // CAD_AIR_DUCTTRANSITIONRECTROUND_H

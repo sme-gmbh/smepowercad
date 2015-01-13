@@ -3,10 +3,10 @@
 
 CAD_basic_pipe::CAD_basic_pipe() : CADitem(CADitem::Basic_Pipe)
 {
-    vertices_inner_bottom = QList<QVector3D>();
-    vertices_outer_bottom = QList<QVector3D>();
-    vertices_outer_top = QList<QVector3D>();
-    vertices_inner_top = QList<QVector3D>();
+//    vertices_inner_bottom = QList<QVector3D>();
+//    vertices_outer_bottom = QList<QVector3D>();
+//    vertices_outer_top = QList<QVector3D>();
+//    vertices_inner_top = QList<QVector3D>();
 
     this->description = "Basic|Pipe";
     radius = 1.0;
@@ -102,10 +102,10 @@ void CAD_basic_pipe::calculate()
     this->boundingBox.enterVertex(this->position + this->direction);
 
 
-    vertices_inner_bottom.clear();
-    vertices_inner_top.clear();
-    vertices_outer_bottom.clear();
-    vertices_outer_top.clear();
+//    vertices_inner_bottom.clear();
+//    vertices_inner_top.clear();
+//    vertices_outer_bottom.clear();
+//    vertices_outer_top.clear();
 
     QVector3D vertices[200];
     int index = 0;
@@ -135,14 +135,32 @@ void CAD_basic_pipe::calculate()
         index++;
     }
 
-    static GLushort indicesFaces[200];
-//    for(int i = 0; i < 100; i++)
-//        indicesFaces[i] = 2*i;
-//    indicesFaces[100] = 0;
-//    indicesFaces[101] = 2;
-    indicesFaces[102] = 0xABCD;
+    static GLushort indicesFaces[409];
     for(int i = 0; i < 100; i++)
-        indicesFaces[103+i] = 1+2*i;
+        indicesFaces[i] = 2*i;
+    indicesFaces[100] = 0;
+    indicesFaces[101] = 2;
+    for(int i = 0; i < 100; i++)
+        indicesFaces[102+i] = 1+2*i;
+    indicesFaces[202] = 1;
+    indicesFaces[203] = 3;
+    indicesFaces[204] = 0xABCD;
+    for(int i = 0; i < 50; i++)
+    {
+        indicesFaces[205+2*i] = 4*i;
+        indicesFaces[205+2*i+1] = 4*i+1;
+    }
+    indicesFaces[305] = 0;
+    indicesFaces[306] = 1;
+    indicesFaces[307] = 0xABCD;
+    for(int i = 0; i < 50; i++)
+    {
+        indicesFaces[307+2*i] = 4*i+2;
+        indicesFaces[307+2*i+1] = 4*i+3;
+    }
+    indicesFaces[407] = 2;
+    indicesFaces[408] = 3;
+
 
     static GLushort indicesLines[600];
     //outer circles
@@ -208,8 +226,8 @@ void CAD_basic_pipe::processWizardInput()
     direction =  matrix_rotation * QVector3D(1.0, 0.0, 0.0) * length;
 }
 
-void CAD_basic_pipe::paint(GLWidget *glwidget)
-{
+//void CAD_basic_pipe::paint(GLWidget *glwidget)
+//{
 //    QColor color_pen = getColorPen();
 //    QColor color_brush = getColorBrush();
 
@@ -362,7 +380,10 @@ void CAD_basic_pipe::paint(GLWidget *glwidget)
 //        glwidget->glEnd();
 //        glwidget->glDisable(GL_LINE_STIPPLE);
 //    }
+// }
 
+void CAD_basic_pipe::paint(GLWidget *glwidget)
+{
     glwidget->glEnable(GL_PRIMITIVE_RESTART);
     glwidget->glPrimitiveRestartIndex(0xABCD);
 

@@ -13,6 +13,17 @@ CAD_basic_plane::CAD_basic_plane() : CADitem(CADitem::Basic_Plane)
     wizardParams.insert("Length (A)", QVariant::fromValue(10.0));
     wizardParams.insert("Width (B)", QVariant::fromValue(10.0));
 
+    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    arrayBufVertices.create();
+    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufFaces.create();
+    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufLines.create();
+    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
 
     processWizardInput();
     calculate();
@@ -69,10 +80,31 @@ void CAD_basic_plane::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
-    vertices[0] = position + matrix_rotation * QVector3D(a, 0.0, 0.0);
-    vertices[1] = position + matrix_rotation * QVector3D(a, b, 0.0);
-    vertices[2] = position + matrix_rotation * QVector3D(0.0,  b, 0.0);
-    vertices[3] = position + matrix_rotation * QVector3D(0.0,  0.0, 0.0);
+
+    QVector3D vertices[] = {
+        position + matrix_rotation * QVector3D(a, 0.0, 0.0),
+        position + matrix_rotation * QVector3D(a, b, 0.0),
+        position + matrix_rotation * QVector3D(0.0,  b, 0.0),
+        position + matrix_rotation * QVector3D(0.0,  0.0, 0.0),
+    };
+
+    static GLushort indicesFaces[] = {
+        0,1,2,3
+    };
+
+    static GLushort indicesLines[] = {
+        0,1,1,2,2,3,3,4
+    };
+
+
+    arrayBufVertices.bind();
+    arrayBufVertices.allocate(vertices, sizeof(vertices));
+
+    indexBufFaces.bind();
+    indexBufFaces.allocate(indicesFaces, sizeof(indicesFaces));
+
+    indexBufLines.bind();
+    indexBufLines.allocate(indicesLines, sizeof(indicesLines));
 
     boundingBox.enterVertex(vertices[0]);
     boundingBox.enterVertex(vertices[1]);
@@ -98,26 +130,61 @@ void CAD_basic_plane::processWizardInput()
 
 }
 
+//void CAD_basic_plane::paint(GLWidget *glwidget)
+//{
+//    QColor color_pen_tmp = getColorPen();
+//    QColor color_brush_tmp = getColorBrush();
+
+//    if (glwidget->render_solid)
+//    {
+//        glwidget->setPaintingColor(color_brush_tmp);
+//        glwidget->glBegin(GL_QUADS);
+//        for(int k = 0; k < 4; k++)
+//            glwidget->glVertex3f((GLfloat)vertices[k].x(), (GLfloat)vertices[k].y(), (GLfloat)vertices[k].z());
+//        glwidget->glEnd();
+//    }
+//    if (glwidget->render_outline)
+//    {
+//        glwidget->setPaintingColor(color_pen_tmp);
+//        glwidget->glLineWidth(1.0);
+//        glwidget->glBegin(GL_LINE_LOOP);
+//        for(int k = 0; k < 4; k++)
+//            glwidget->glVertex3f((GLfloat)vertices[k].x(), (GLfloat)vertices[k].y(), (GLfloat)vertices[k].z());
+//        glwidget->glEnd();
+//    }
+//}
+
 void CAD_basic_plane::paint(GLWidget *glwidget)
 {
+    glwidget->glEnable(GL_PRIMITIVE_RESTART);
+    glwidget->glPrimitiveRestartIndex(0xABCD);
+
     QColor color_pen_tmp = getColorPen();
     QColor color_brush_tmp = getColorBrush();
+
+    arrayBufVertices.bind();
+    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
+    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
 
     if (glwidget->render_solid)
     {
         glwidget->setPaintingColor(color_brush_tmp);
-        glwidget->glBegin(GL_QUADS);
-        for(int k = 0; k < 4; k++)
-            glwidget->glVertex3f((GLfloat)vertices[k].x(), (GLfloat)vertices[k].y(), (GLfloat)vertices[k].z());
-        glwidget->glEnd();
+
+        indexBufFaces.bind();
+        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces.size(), GL_UNSIGNED_SHORT, 0);
+
+        indexBufFaces.release();
     }
+
     if (glwidget->render_outline)
     {
         glwidget->setPaintingColor(color_pen_tmp);
         glwidget->glLineWidth(1.0);
-        glwidget->glBegin(GL_LINE_LOOP);
-        for(int k = 0; k < 4; k++)
-            glwidget->glVertex3f((GLfloat)vertices[k].x(), (GLfloat)vertices[k].y(), (GLfloat)vertices[k].z());
-        glwidget->glEnd();
+
+        indexBufLines.bind();
+        glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
+        indexBufLines.release();
     }
+
+    arrayBufVertices.release();
 }

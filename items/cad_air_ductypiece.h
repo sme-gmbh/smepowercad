@@ -39,6 +39,11 @@ public:
 
     QVector3D splitPoint[2];
 
+
+    QOpenGLBuffer arrayBufVertices;
+    QOpenGLBuffer indexBufFaces;
+    QOpenGLBuffer indexBufLines;
+
 };
 
 #endif // CAD_AIR_DUCTYPIECE_H

@@ -43,6 +43,10 @@ public:
     QVector3D vertices_turn2[2][12][2];
 
     QVector3D vertices_backside[4];
+
+    QOpenGLBuffer arrayBufVertices;
+    QOpenGLBuffer indexBufFaces;
+    QOpenGLBuffer indexBufLines;
 };
 
 #endif // CAD_AIR_DUCTTEECONNECTOR_H
