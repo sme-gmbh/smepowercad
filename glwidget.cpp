@@ -727,10 +727,10 @@ void GLWidget::paintGL()
     if (openGLTimerQuery->isResultAvailable())
     {
         rendertime_ns_per_frame = (quint64)openGLTimerQuery->waitForResult();
-        qDebug() << "rendertime [ns]:" << rendertime_ns_per_frame << "FPS:" << 1e9 / rendertime_ns_per_frame << "@" << QCursor::pos();
+//        qDebug() << "rendertime [ns]:" << rendertime_ns_per_frame << "FPS:" << 1e9 / rendertime_ns_per_frame << "@" << QCursor::pos();
     }
     else
-        qDebug() << "render without time" << "@" << QCursor::pos();
+//        qDebug() << "render without time" << "@" << QCursor::pos();
 
     openGLTimerQuery->begin();
 
