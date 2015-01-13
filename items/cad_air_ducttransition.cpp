@@ -191,27 +191,52 @@ void CAD_air_ductTransition::calculate()
     transition_duct->processWizardInput();
     transition_duct->calculate();
 
-    //set Outer Points
-    transition_duct->pos_bot_1 = endcap_left_duct->pos_bot_1;
-    transition_duct->pos_bot_2 = endcap_right_duct->pos_bot_4;
-    transition_duct->pos_bot_3 = endcap_right_duct->pos_bot_1;
-    transition_duct->pos_bot_4 = endcap_left_duct->pos_bot_4;
 
-    transition_duct->pos_top_1 = endcap_left_duct->pos_top_1;
-    transition_duct->pos_top_2 = endcap_right_duct->pos_top_4;
-    transition_duct->pos_top_3 = endcap_right_duct->pos_top_1;
-    transition_duct->pos_top_4 = endcap_left_duct->pos_top_4;
+    QVector3D vertices[] = {
+        //set Outer Points
+        endcap_left_duct->pos_bot_1,
+        endcap_right_duct->pos_bot_4,
+        endcap_right_duct->pos_bot_1,
+        endcap_left_duct->pos_bot_4,
+        endcap_left_duct->pos_top_1,
+        endcap_right_duct->pos_top_4,
+        endcap_right_duct->pos_top_1,
+        endcap_left_duct->pos_top_4,
+        //set inner Points
+        endcap_right_duct->inner_pos_bot_4,
+        endcap_left_duct->inner_pos_bot_1,
+        endcap_left_duct->inner_pos_bot_4,
+        endcap_right_duct->inner_pos_bot_1,
+        endcap_right_duct->inner_pos_top_4,
+        endcap_left_duct->inner_pos_top_1,
+        transition_duct->inner_pos_top_3,
+        endcap_right_duct->inner_pos_top_1,
+        endcap_left_duct->inner_pos_top_4
+    };
+//    //set Outer Points
+//    transition_duct->pos_bot_1 = endcap_left_duct->pos_bot_1;
+//    transition_duct->pos_bot_2 = endcap_right_duct->pos_bot_4;
+//    transition_duct->pos_bot_3 = endcap_right_duct->pos_bot_1;
+//    transition_duct->pos_bot_4 = endcap_left_duct->pos_bot_4;
 
-    //set inner Points
-    transition_duct->inner_pos_bot_1 = endcap_left_duct->inner_pos_bot_1;
-    transition_duct->inner_pos_bot_2 = endcap_right_duct->inner_pos_bot_4;
-    transition_duct->inner_pos_bot_3 = endcap_right_duct->inner_pos_bot_1;
-    transition_duct->inner_pos_bot_4 = endcap_left_duct->inner_pos_bot_4;
+//    transition_duct->pos_top_1 = endcap_left_duct->pos_top_1;
+//    transition_duct->pos_top_2 = endcap_right_duct->pos_top_4;
+//    transition_duct->pos_top_3 = endcap_right_duct->pos_top_1;
+//    transition_duct->pos_top_4 = endcap_left_duct->pos_top_4;
+//    //set Inner Points
+//    transition_duct->inner_pos_bot_1 = endcap_left_duct->inner_pos_bot_1;
+//    transition_duct->inner_pos_bot_2 = endcap_right_duct->inner_pos_bot_4;
+//    transition_duct->inner_pos_bot_3 = endcap_right_duct->inner_pos_bot_1;
+//    transition_duct->inner_pos_bot_4 = endcap_left_duct->inner_pos_bot_4;
 
-    transition_duct->inner_pos_top_1 = endcap_left_duct->inner_pos_top_1;
-    transition_duct->inner_pos_top_2 = endcap_right_duct->inner_pos_top_4;
-    transition_duct->inner_pos_top_3 = endcap_right_duct->inner_pos_top_1;
-    transition_duct->inner_pos_top_4 = endcap_left_duct->inner_pos_top_4;
+//    transition_duct->inner_pos_top_1 = endcap_left_duct->inner_pos_top_1;
+//    transition_duct->inner_pos_top_2 = endcap_right_duct->inner_pos_top_4;
+//    transition_duct->inner_pos_top_3 = endcap_right_duct->inner_pos_top_1;
+//    transition_duct->inner_pos_top_4 = endcap_left_duct->inner_pos_top_4;
+
+    transition_duct->arrayBufVertices.bind();
+    transition_duct->arrayBufVertices.allocate(vertices, sizeof(vertices));
+
 
     boundingBox.enterVertex(flange_left_duct->pos_bot_1);
     boundingBox.enterVertex(flange_left_duct->pos_top_1);

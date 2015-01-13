@@ -18,6 +18,10 @@ public:
 
 //    QVector3D pos;
     qreal radius;
+
+    QOpenGLBuffer arrayBufVertices;
+    QOpenGLBuffer indexBufFaces;
+    QOpenGLBuffer indexBufLines;
 };
 
 #endif // CAD_BASIC_SPHERE_H

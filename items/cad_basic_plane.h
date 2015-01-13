@@ -17,7 +17,11 @@ public:
     virtual void paint(GLWidget* glwidget);
 
     qreal a, b;
-    QVector3D vertices[4];
+
+    QOpenGLBuffer arrayBufVertices;
+    QOpenGLBuffer indexBufFaces;
+    QOpenGLBuffer indexBufLines;
+
 };
 
 #endif // CAD_BASIC_PLANE_H

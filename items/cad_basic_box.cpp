@@ -194,6 +194,9 @@ void CAD_basic_box::paint(GLWidget *glwidget)
     QColor color_pen_tmp = getColorPen();
     QColor color_brush_tmp = getColorBrush();
 
+    glwidget->glEnable(GL_PRIMITIVE_RESTART);
+    glwidget->glPrimitiveRestartIndex(0xABCD);
+
     arrayBufVertices.bind();
     glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
     glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
