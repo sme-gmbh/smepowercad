@@ -25,7 +25,7 @@ public:
     qreal b2;
     qreal a;
     qreal alpha;
-    qreal f;
+    qreal  g;
     qreal e;
 
 //    QVector3D vertices[2][13][5];

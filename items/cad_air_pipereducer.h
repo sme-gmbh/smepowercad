@@ -20,6 +20,7 @@ public:
     qreal s, l;
 
     CAD_basic_pipe *reducer;
+
 };
 
 #endif // CAD_AIR_PIPEREDUCER_H

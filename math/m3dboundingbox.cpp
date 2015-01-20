@@ -120,3 +120,17 @@ QVector3D M3dBoundingBox::p8()
 {
     return QVector3D(x_max, y_max, z_max);
 }
+
+QList<QVector3D> M3dBoundingBox::getVertices()
+{
+    QList<QVector3D> ret = QList<QVector3D>();
+    ret.append(this->p1());
+    ret.append(this->p2());
+    ret.append(this->p3());
+    ret.append(this->p4());
+    ret.append(this->p5());
+    ret.append(this->p6());
+    ret.append(this->p7());
+    ret.append(this->p8());
+    return ret;
+}

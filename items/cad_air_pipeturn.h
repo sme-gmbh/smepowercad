@@ -2,6 +2,7 @@
 #define CAD_AIR_PIPETURN_H
 
 #include "caditem.h"
+#include "cad_basic_turn.h"
 
 class CAD_air_pipeTurn : public CADitem
 {
@@ -14,6 +15,10 @@ public:
     virtual QString domain();
     virtual void calculate();
     virtual void processWizardInput();
+
+    qreal alpha, r;
+    qreal d, s;
+    CAD_basic_turn* turn;
 };
 
 #endif // CAD_AIR_PIPETURN_H

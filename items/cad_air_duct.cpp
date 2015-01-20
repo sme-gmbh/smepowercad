@@ -38,6 +38,7 @@ CAD_air_duct::~CAD_air_duct()
 QList<CADitem::ItemType> CAD_air_duct::flangable_items()
 {
     QList<CADitem::ItemType> flangable_items;
+    flangable_items.append(CADitem::Air_CanvasFlange);
     flangable_items.append(CADitem::Air_Duct);
     flangable_items.append(CADitem::Air_DuctEndPlate);
     flangable_items.append(CADitem::Air_DuctBaffleSilencer);

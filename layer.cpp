@@ -9,6 +9,8 @@ Layer::Layer(QObject *parent) :
     width = 0;
     lineType.clear();
     parentLayer = NULL;
+//    pen = Qt::transparent
+//    brush = QBrush(QColor(255, 255, 255));
 }
 
 bool Layer::isEmpty()

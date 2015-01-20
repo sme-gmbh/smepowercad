@@ -15,6 +15,7 @@ CAD_air_heatExchangerAirAir::CAD_air_heatExchangerAirAir() : CADitem(CADitem::Ai
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
     wizardParams.insert("Angle x", QVariant::fromValue(0.0));
     wizardParams.insert("Angle y", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
 
     wizardParams.insert("ff", QVariant::fromValue(1.0));
     wizardParams.insert("s", QVariant::fromValue(1.0));

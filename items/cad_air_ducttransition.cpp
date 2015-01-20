@@ -157,7 +157,7 @@ void CAD_air_ductTransition::calculate()
     flange_left_duct->wizardParams.insert("Position z", QVariant::fromValue(position_lfd.z()));
     flange_left_duct->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
     flange_left_duct->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    flange_left_duct->wizardParams.insert("Angle z", QVariant::fromValue(angle_z+180));
+    flange_left_duct->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
     flange_left_duct->wizardParams.insert("l", QVariant::fromValue(fe));
     flange_left_duct->wizardParams.insert("b", QVariant::fromValue(b+2*ff));
     flange_left_duct->wizardParams.insert("a", QVariant::fromValue(a+2*ff));
@@ -209,7 +209,7 @@ void CAD_air_ductTransition::calculate()
         endcap_right_duct->inner_pos_bot_1,
         endcap_right_duct->inner_pos_top_4,
         endcap_left_duct->inner_pos_top_1,
-        transition_duct->inner_pos_top_3,
+        endcap_left_duct->inner_pos_top_4,
         endcap_right_duct->inner_pos_top_1,
         endcap_left_duct->inner_pos_top_4
     };
@@ -283,7 +283,7 @@ void CAD_air_ductTransition::calculate()
 //    this->snap_vertices.append(pos_top_4);
 
     this->snap_flanges.append(position);
-    this->snap_flanges.append(flange_right_duct->snap_flanges.at(1));
+    this->snap_flanges.append(flange_right_duct->snap_flanges.at(0));
 
 }
 

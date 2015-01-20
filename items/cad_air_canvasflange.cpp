@@ -2,16 +2,7 @@
 
 CAD_air_canvasFlange::CAD_air_canvasFlange() : CADitem(CADitem::Air_CanvasFlange)
 {
-    this->flange_left = new CAD_basic_duct();
-    this->flange_right = new CAD_basic_duct();
-    this->canvas1 = new CAD_basic_duct();
-    this->canvas2 = new CAD_basic_duct();
-    this->canvas3 = new CAD_basic_duct();
-    this->subItems.append(flange_left);
-    this->subItems.append(flange_right);
-    this->subItems.append(canvas1);
-    this->subItems.append(canvas2);
-    this->subItems.append(canvas3);
+
     this->description = "Air|Canvas flange";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
@@ -26,6 +17,19 @@ CAD_air_canvasFlange::CAD_air_canvasFlange() : CADitem(CADitem::Air_CanvasFlange
     wizardParams.insert("ff", QVariant::fromValue(1.0));
     wizardParams.insert("fe", QVariant::fromValue(1.0));
     wizardParams.insert("s", QVariant::fromValue(1.0));
+
+    this->flange_left = new CAD_basic_duct();
+    this->flange_right = new CAD_basic_duct();
+    this->canvas1 = new CAD_basic_duct();
+    this->canvas2 = new CAD_basic_duct();
+    this->canvas3 = new CAD_basic_duct();
+
+    this->subItems.append(flange_left);
+    this->subItems.append(flange_right);
+    this->subItems.append(canvas1);
+    this->subItems.append(canvas2);
+    this->subItems.append(canvas3);
+
     processWizardInput();
     calculate();
 }
@@ -105,6 +109,7 @@ void CAD_air_canvasFlange::calculate()
     flange_left->wizardParams.insert("b", QVariant::fromValue(b+2*ff));
     flange_left->wizardParams.insert("a", QVariant::fromValue(a+2*ff));
     flange_left->wizardParams.insert("s", QVariant::fromValue(ff + s));
+    flange_left->layer = this->layer;
     flange_left->processWizardInput();
     flange_left->calculate();
 
@@ -119,6 +124,7 @@ void CAD_air_canvasFlange::calculate()
     flange_right->wizardParams.insert("b", QVariant::fromValue(b + 2 * ff));
     flange_right->wizardParams.insert("a", QVariant::fromValue(a + 2 * ff));
     flange_right->wizardParams.insert("s", QVariant::fromValue(ff + s));
+    flange_right->layer = this->layer;
     flange_right->processWizardInput();
     flange_right->calculate();
 
@@ -133,6 +139,7 @@ void CAD_air_canvasFlange::calculate()
     canvas1->wizardParams.insert("b", QVariant::fromValue(b));
     canvas1->wizardParams.insert("a", QVariant::fromValue(a));
     canvas1->wizardParams.insert("s", QVariant::fromValue(s));
+    canvas1->layer = this->layer;
     canvas1->processWizardInput();
     canvas1->calculate();
 
@@ -147,6 +154,7 @@ void CAD_air_canvasFlange::calculate()
     canvas2->wizardParams.insert("b", QVariant::fromValue(b - 2 * s));
     canvas2->wizardParams.insert("a", QVariant::fromValue(a - 2 * s));
     canvas2->wizardParams.insert("s", QVariant::fromValue(s));
+    canvas2->layer = this->layer;
     canvas2->processWizardInput();
     canvas2->calculate();
 
@@ -161,8 +169,12 @@ void CAD_air_canvasFlange::calculate()
     canvas3->wizardParams.insert("b", QVariant::fromValue(b));
     canvas3->wizardParams.insert("a", QVariant::fromValue(a));
     canvas3->wizardParams.insert("s", QVariant::fromValue(s));
+    canvas3->layer = this->layer;
     canvas3->processWizardInput();
     canvas3->calculate();
+
+    boundingBox.enterVertices(flange_left->boundingBox.getVertices());
+    boundingBox.enterVertices(flange_right->boundingBox.getVertices());
 }
 
 void CAD_air_canvasFlange::processWizardInput()
@@ -180,4 +192,5 @@ void CAD_air_canvasFlange::processWizardInput()
     this->ff = wizardParams.value("ff").toDouble();
     this->fe = wizardParams.value("fe").toDouble();
     this->s = wizardParams.value("s").toDouble();
+
 }

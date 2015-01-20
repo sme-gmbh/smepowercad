@@ -102,6 +102,7 @@ void CAD_air_ductBaffleSilencer::calculate()
     main_duct->wizardParams.insert("b", QVariant::fromValue(b));
     main_duct->wizardParams.insert("a", QVariant::fromValue(a));
     main_duct->wizardParams.insert("s", QVariant::fromValue(s));
+    main_duct->layer = this->layer;
     main_duct->processWizardInput();
     main_duct->calculate();
 
@@ -117,6 +118,7 @@ void CAD_air_ductBaffleSilencer::calculate()
     flange_duct_left->wizardParams.insert("b", QVariant::fromValue(b + 2 * ff));
     flange_duct_left->wizardParams.insert("a", QVariant::fromValue(a + 2 * ff));
     flange_duct_left->wizardParams.insert("s", QVariant::fromValue(ff));
+    flange_duct_left->layer = this->layer;
     flange_duct_left->processWizardInput();
     flange_duct_left->calculate();
 
@@ -130,9 +132,16 @@ void CAD_air_ductBaffleSilencer::calculate()
     flange_duct_right->wizardParams.insert("b", QVariant::fromValue(b + 2 * ff));
     flange_duct_right->wizardParams.insert("a", QVariant::fromValue(a + 2 * ff));
     flange_duct_right->wizardParams.insert("s", QVariant::fromValue(ff));
+    flange_duct_right->layer = this->layer;
     flange_duct_right->processWizardInput();
     flange_duct_right->calculate();
 
+    foreach(CADitem* item, subItems)
+    {
+        if(item == main_duct || item == flange_duct_left || item == flange_duct_right)
+            continue;
+        delete item;
+    }
     subItems.clear();
     subItems.append(main_duct);
     subItems.append(flange_duct_left);
@@ -141,6 +150,7 @@ void CAD_air_ductBaffleSilencer::calculate()
     for(int i = 0; i < n; i++)
     {
         CAD_basic_box* plate = new CAD_basic_box();
+        subItems.append(plate);
         qreal offset = (b - 2 * s) / (2 * n);
         QVector3D position_sl = position + matrix_rotation * QVector3D(l / 2, b/2 - (2 * i + 1) * offset - s, 0.0);
         plate->wizardParams.insert("Position x", QVariant::fromValue(position_sl.x()));
@@ -152,9 +162,9 @@ void CAD_air_ductBaffleSilencer::calculate()
         plate->wizardParams.insert("Size x", QVariant::fromValue(l));
         plate->wizardParams.insert("Size y", QVariant::fromValue(d));
         plate->wizardParams.insert("Size z", QVariant::fromValue(a - 2 * s));
+        plate->layer = this->layer;
         plate->processWizardInput();
         plate->calculate();
-        subItems.append(plate);
 
     }
 

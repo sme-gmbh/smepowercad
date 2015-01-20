@@ -18,6 +18,8 @@ public:
     void enterVertex(QVector3D vertex);
     void enterVertices(QList<QVector3D> vertices);
 
+    QList<QVector3D> getVertices();
+
     QVector3D p(int num);
     QVector3D p1();
     QVector3D p2();

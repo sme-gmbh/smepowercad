@@ -3,12 +3,17 @@
 CAD_air_pipeTurn::CAD_air_pipeTurn() : CADitem(CADitem::Air_PipeTurn)
 {
     this->description = "Air|Pipe turn";
+    this->turn = new CAD_basic_turn();
+    this->subItems.append(turn);
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
     wizardParams.insert("Angle x", QVariant::fromValue(0.0));
     wizardParams.insert("Angle y", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+    wizardParams.insert("r", QVariant::fromValue(100));
+    wizardParams.insert("alpha", QVariant::fromValue(90.0));
+    wizardParams.insert("d", QVariant::fromValue(20));
+    wizardParams.insert("s", QVariant::fromValue(1));
 
     processWizardInput();
     calculate();
@@ -72,6 +77,24 @@ void CAD_air_pipeTurn::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+
+    turn->wizardParams.insert("Position x", QVariant::fromValue(position.x()));
+    turn->wizardParams.insert("Position y", QVariant::fromValue(position.y()));
+    turn->wizardParams.insert("Position z", QVariant::fromValue(position.z()));
+    turn->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
+    turn->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
+    turn->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
+    turn->wizardParams.insert("s", QVariant::fromValue(s));
+    turn->wizardParams.insert("Turn radius", QVariant::fromValue(r));
+    turn->wizardParams.insert("Turn angle", QVariant::fromValue(alpha));
+    turn->wizardParams.insert("Outer diameter", QVariant::fromValue(d));
+    turn->processWizardInput();
+    turn->calculate();
+
+    this->snap_flanges = turn->snap_flanges;
+    this->snap_center = turn->snap_center;
+    this->snap_vertices = turn->snap_vertices;
+    this->boundingBox = turn->boundingBox;
 }
 
 void CAD_air_pipeTurn::processWizardInput()
@@ -82,5 +105,9 @@ void CAD_air_pipeTurn::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+    alpha = wizardParams.value("alpha").toDouble();
+    r = wizardParams.value("r").toDouble();
+    d = wizardParams.value("d").toDouble();
+    s = wizardParams.value("s").toDouble();
 
 }
