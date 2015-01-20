@@ -34,7 +34,10 @@ void ToolWidget::mouseMoveEvent(QMouseEvent *event)
 
 void ToolWidget::mousePressEvent(QMouseEvent *event)
 {
-    this->displayItemButtons();
+    if (!this->isOpen)
+        this->displayItemButtons();
+    else
+        this->deleteWdgs(ui->gridLayout);
     event->accept();
 }
 
@@ -46,7 +49,7 @@ void ToolWidget::enterEvent(QEvent *event)
 
 void ToolWidget::leaveEvent(QEvent *event)
 {
-    this->deleteWdgs(ui->gridLayout);
+//    this->deleteWdgs(ui->gridLayout);
     event->accept();
 }
 
@@ -59,14 +62,15 @@ void ToolWidget::displayItemButtons()
 
     QList<int> items = itemDB->getItemTypesByDomain(this->domain);
 
-    int buttonCount = items.count();
-    int columnCount = sqrt(buttonCount);
+//    int columnCount = sqrt(buttonCount);
+    int columnCount = 15;
     int column = 0;
     int row = 0;
 
     foreach(int type, items)
     {
         QIcon icon = itemDB->getIconByItemType((CADitem::ItemType)type, QSize(32, 32));
+        QString description = itemDB->getItemDescriptionByItemType((CADitem::ItemType)type);
         QToolButton* button = new QToolButton(this);
         button->setMinimumSize(42, 42);
         button->setMaximumSize(42, 42);
@@ -74,6 +78,7 @@ void ToolWidget::displayItemButtons()
         button->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
         button->setIconSize(QSize(32, 32));
         button->setIcon(icon);
+        button->setToolTip(description);
         button->setProperty("ItemType", QVariant(type));
 
         connect(button, SIGNAL(clicked()), this, SLOT(slot_button_clicked()));
