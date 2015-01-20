@@ -6,7 +6,7 @@
 CAD_basic_arc::CAD_basic_arc() : CADitem(CADitem::Basic_Arc)
 {
     this->description = "Basic|Arc";
-    arc = QList<QVector3D>();
+    //arc = QList<QVector3D>();
     wizardParams.insert("Center x", QVariant::fromValue(0.0));
     wizardParams.insert("Center y", QVariant::fromValue(0.0));
     wizardParams.insert("Center z", QVariant::fromValue(0.0));
@@ -17,6 +17,14 @@ CAD_basic_arc::CAD_basic_arc() : CADitem(CADitem::Basic_Arc)
 
     wizardParams.insert("Radius", QVariant::fromValue(1.0));
     wizardParams.insert("Central Angle", QVariant::fromValue(90.0));
+
+    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    arrayBufVertices.create();
+    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufLines.create();
+    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
 
     processWizardInput();
     calculate();
@@ -79,17 +87,47 @@ void CAD_basic_arc::calculate()
 //    this->snap_vertices.append(QVector3D(position.x()+radius*qCos(centralAngle/360.0f*PI), position.y()+radius*qSin(centralAngle/360.0f*PI), position.z()));
     this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0, this->radius, 0.0));
     this->snap_vertices.append(position + matrix_rotation * QVector3D(sin(centralAngle/180.0f*PI) * this->radius, cos(centralAngle/180.0f*PI) * this->radius, 0.0));
-    arc.clear();
-    for (qreal i=0.0; i <= 1.05; i += 0.05)    // 100 edges
+
+    QVector3D vertices[21];
+    for (int i = 0; i < 21; i++)
     {
-        qreal angle = this->centralAngle/180.0f*PI * i;
+        qreal angle = this->centralAngle/180.0f * PI * i / 20;
         QVector3D linePos;
         linePos = this->position;
 
         linePos += matrix_rotation * (QVector3D(sin(angle) * this->radius, cos(angle) * this->radius, 0.0));
-        arc.append(linePos);
+        boundingBox.enterVertex(linePos);
+        vertices[i] = linePos;
     }
 
+    GLushort indicesLines[] = {
+        0,1,
+        1,2,
+        2,3,
+        3,4,
+        4,5,
+        5,6,
+        6,7,
+        7,8,
+        8,9,
+        9,10,
+        10,11,
+        11,12,
+        12,13,
+        13,14,
+        14,15,
+        15,16,
+        16,17,
+        17,18,
+        18,19,
+        19,20};
+
+
+    arrayBufVertices.bind();
+    arrayBufVertices.allocate(vertices, sizeof(vertices));
+
+    indexBufLines.bind();
+    indexBufLines.allocate(indicesLines, sizeof(indicesLines));
 
 }
 
@@ -109,35 +147,59 @@ void CAD_basic_arc::processWizardInput()
 
 }
 
+//void CAD_basic_arc::paint(GLWidget *glwidget)
+//{
+//    QColor color_pen_tmp = getColorPen();
+
+//    qreal penWidth = 1.0;
+//    if (widthByLayer)
+//    {
+//        penWidth = layer->width / 100.0;
+//    }
+//    else if (widthByBlock)
+//    {
+
+//    }
+//    else
+//    {
+//        penWidth = width;
+//    }
+
+//    // Default width setting
+//    if (penWidth < 1.0)
+//        penWidth = 1.0;
+
+//    glwidget->setPaintingColor(color_pen_tmp);
+//    glwidget->glLineWidth(penWidth);
+//    glwidget->glBegin(GL_LINE_STRIP);
+//    foreach (QVector3D linePos, arc)
+//    {
+//        glwidget->glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
+//    }
+
+//    glwidget->glEnd();
+//}
+
 void CAD_basic_arc::paint(GLWidget *glwidget)
 {
     QColor color_pen_tmp = getColorPen();
 
-    qreal penWidth = 1.0;
-    if (widthByLayer)
-    {
-        penWidth = layer->width / 100.0;
-    }
-    else if (widthByBlock)
-    {
+    glwidget->glEnable(GL_PRIMITIVE_RESTART);
+    glwidget->glPrimitiveRestartIndex(0xABCD);
 
-    }
-    else
-    {
-        penWidth = width;
-    }
+    arrayBufVertices.bind();
+    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
+    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
 
-    // Default width setting
-    if (penWidth < 1.0)
-        penWidth = 1.0;
-
-    glwidget->setPaintingColor(color_pen_tmp);
-    glwidget->glLineWidth(penWidth);
-    glwidget->glBegin(GL_LINE_STRIP);
-    foreach (QVector3D linePos, arc)
+    if (glwidget->render_outline)
     {
-        glwidget->glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
+        glwidget->setPaintingColor(color_pen_tmp);
+        glwidget->glLineWidth(1.0);
+
+        indexBufLines.bind();
+        glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
+        indexBufLines.release();
     }
 
-    glwidget->glEnd();
+    arrayBufVertices.release();
 }

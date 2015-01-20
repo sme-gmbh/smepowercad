@@ -29,6 +29,19 @@ CAD_air_ductTurn::CAD_air_ductTurn() : CADitem(CADitem::Air_DuctTurn)
     this->subItems.append(flange_left_duct);
     this->subItems.append(flange_right_duct);
 
+    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    arrayBufVertices.create();
+    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufFaces.create();
+    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufLines.create();
+    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+
     processWizardInput();
     calculate();
 
@@ -122,61 +135,84 @@ void CAD_air_ductTurn::calculate()
     // Vertex data
     int a;
     int b;
-
+    int index = 0;
     //    int count_a = 11;
     //    int count_b = 21;
 
     // s iteration
     QMatrix4x4 matrix_turn;
     QVector3D position_rfd;
+    QVector3D vertices[130];
     for (int w = 0; w <= 1; w++)
     {
         // Turn angle iteration
         a = 0;
         b = 0;
-        //add small endcap
+        //add "small" endcap
+        //outer
         if(w == 0)
         {
             QVector3D lp1 = this->matrix_rotation * QVector3D(0.0, this->b / 2, this->a / 2) + position;
-            this->vertices[w][a][b] = lp1;
+//                this->vertics[w][a][b]= lp1;
+            vertices[index] = lp1;
+            index++;
             this->boundingBox.enterVertex(lp1);
             this->snap_vertices.append(lp1);
             b++;
             QVector3D lp2 = this->matrix_rotation * QVector3D(0.0, this->b / 2, -this->a / 2) + position;
-            this->vertices[w][a][b] = lp2;
+//                this->vertics[w][a][b]= lp2;
+            vertices[index] = lp2;
+            index++;
             this->boundingBox.enterVertex(lp2);
             this->snap_vertices.append(lp2);
             b++;
             QVector3D lp3 = this->matrix_rotation * QVector3D(0.0, -this->b / 2, -this->a / 2) + position;
-            this->vertices[w][a][b] = lp3;
+//                this->vertics[w][a][b]= lp3;
+            vertices[index] = lp3;
+            index++;
             this->boundingBox.enterVertex(lp3);
             this->snap_vertices.append(lp3);
             b++;
             QVector3D lp4 = this->matrix_rotation * QVector3D(0.0, -this->b/2, this->a / 2) + position;
-            this->vertices[w][a][b] = lp4;
+//                this->vertics[w][a][b]= lp4;
+            vertices[index] = lp4;
+            index++;
             this->boundingBox.enterVertex(lp4);
             this->snap_vertices.append(lp4);
             b++;
             QVector3D lp5 = this->matrix_rotation * QVector3D(0.0, this->b / 2, this->a / 2) + position;
-            this->vertices[w][a][b] = lp5;
+//                this->vertics[w][a][b]= lp5;
+            vertices[index] = lp5;
+            index++;
             b++;
         }
+        //inner
         else
         {
             QVector3D lp1 = this->matrix_rotation * QVector3D(0.0, this->b / 2 - this->s,  this->a / 2 - this->s) + position;
-            this->vertices[w][a][b] = lp1;
+//                this->vertics[w][a][b]= lp1;
+            vertices[index] = lp1;
+            index++;
             b++;
             QVector3D lp2 = this->matrix_rotation * QVector3D(0.0, this->b / 2 - this->s, -this->a / 2 + this->s) + position;
-            this->vertices[w][a][b] = lp2;
+//                this->vertics[w][a][b]= lp2;
+            vertices[index] = lp2;
+            index++;
             b++;
             QVector3D lp3 = this->matrix_rotation * QVector3D(0.0, -this->b / 2 + this->s, -this->a / 2  + this->s) + position;
-            this->vertices[w][a][b] = lp3;
+//                this->vertics[w][a][b]= lp3;
+            vertices[index] = lp3;
+            index++;
             b++;
             QVector3D lp4 = this->matrix_rotation * QVector3D(0.0, -this->b / 2 + this->s,  this->a / 2 - this->s) + position;
-            this->vertices[w][a][b] = lp4;
+//                this->vertics[w][a][b]= lp4;
+            vertices[index] = lp4;
+            index++;
             b++;
             QVector3D lp5 = this->matrix_rotation * QVector3D(0.0, this->b / 2 -this->s,  this->a / 2 - this->s) + position;
-            this->vertices[w][a][b] = lp5;
+//                this->vertics[w][a][b]= lp5;
+            vertices[index] = lp5;
+            index++;
             b++;
         }
         b = 0;
@@ -198,23 +234,33 @@ void CAD_air_ductTurn::calculate()
                 {
                     QVector3D lp1 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b, this->a / 2)
                                                        + QVector3D(-this->f + this->b2 - this->b, - this->r - this->b / 2, 0.0)) + position;
-                    this->vertices[w][a][b] = lp1;
+        //                this->vertics[w][a][b]= lp1;
+                    vertices[index] = lp1;
+                    index++;
                     b++;
                     QVector3D lp2 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b, -this->a / 2)
                                                        + QVector3D(-this->f + this->b2 - this->b, - this->r - this->b / 2, 0.0)) + position;
-                    this->vertices[w][a][b] = lp2;
+        //                this->vertics[w][a][b]= lp2;
+                    vertices[index] = lp2;
+                    index++;
                     b++;
                     QVector3D lp3 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r, -this->a / 2)
                                                        + QVector3D(-this->f, - this->r - this->b / 2, 0.0)) + position;
-                    this->vertices[w][a][b] = lp3;
+        //                this->vertics[w][a][b]= lp3;
+                    vertices[index] = lp3;
+                    index++;
                     b++;
                     QVector3D lp4 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r, this->a / 2)
                                                        + QVector3D(-this->f, - this->r - this->b / 2, 0.0)) + position;
-                    this->vertices[w][a][b] = lp4;
+        //                this->vertics[w][a][b]= lp4;
+                    vertices[index] = lp4;
+                    index++;
                     b++;
                     QVector3D lp5 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b, this->a / 2)
                                                        + QVector3D(-this->f + this->b2 - this->b, - this->r - this->b / 2, 0.0)) + position;
-                    this->vertices[w][a][b] = lp5;
+        //                this->vertics[w][a][b]= lp5;
+                    vertices[index] = lp5;
+                    index++;
                     b++;
                 }
                 // Width2 < Width1 && draw outer
@@ -222,23 +268,33 @@ void CAD_air_ductTurn::calculate()
                 {
                     QVector3D lp1 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b2, this->a / 2)
                                                        + QVector3D(-this->f, - this->r - this->b / 2 + this->b - this->b2, 0.0)) + position;
-                    this->vertices[w][a][b] = lp1;
+        //                this->vertics[w][a][b]= lp1;
+                    vertices[index] = lp1;
+                    index++;
                     b++;
                     QVector3D lp2 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b2, -this->a / 2)
                                                        + QVector3D(-this->f, - this->r - this->b / 2 + this->b - this->b2, 0.0)) + position;
-                    this->vertices[w][a][b] = lp2;
+        //                this->vertics[w][a][b]= lp2;
+                    vertices[index] = lp2;
+                    index++;
                     b++;
                     QVector3D lp3 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r, -this->a / 2)
                                                        + QVector3D(-this->f, - this->r - this->b / 2, 0.0)) + position;
-                    this->vertices[w][a][b] = lp3;
+        //                this->vertics[w][a][b]= lp3;
+                    vertices[index] = lp3;
+                    index++;
                     b++;
                     QVector3D lp4 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r, this->a / 2)
                                                        + QVector3D(-this->f, - this->r - this->b / 2, 0.0)) + position;
-                    this->vertices[w][a][b] = lp4;
+        //                this->vertics[w][a][b]= lp4;
+                    vertices[index] = lp4;
+                    index++;
                     b++;
                     QVector3D lp5 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b2, this->a / 2)
                                                        + QVector3D(-this->f, - this->r - this->b / 2  + this->b - this->b2, 0.0)) + position;
-                    this->vertices[w][a][b] = lp5;
+        //                this->vertics[w][a][b]= lp5;
+                    vertices[index] = lp5;
+                    index++;
                     b++;
                 }
             }
@@ -249,23 +305,33 @@ void CAD_air_ductTurn::calculate()
                 {
                     QVector3D lp1 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b - this->s,  this->a / 2 - this->s)
                                                        + QVector3D(-this->f + this->b2 - this->b, - this->r - this->b / 2, 0.0)) + position;
-                    this->vertices[w][a][b] = lp1;
+        //                this->vertics[w][a][b]= lp1;
+                    vertices[index] = lp1;
+                    index++;
                     b++;
                     QVector3D lp2 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b - this->s, -this->a / 2 + this->s)
                                                        + QVector3D(-this->f + this->b2 - this->b, - this->r - this->b / 2, 0.0)) + position;
-                    this->vertices[w][a][b] = lp2;
+        //                this->vertics[w][a][b]= lp2;
+                    vertices[index] = lp2;
+                    index++;
                     b++;
                     QVector3D lp3 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->s                , -this->a / 2 + this->s)
                                                        + QVector3D(-this->f, - this->r - this->b / 2, 0.0)) + position;
-                    this->vertices[w][a][b] = lp3;
+        //                this->vertics[w][a][b]= lp3;
+                    vertices[index] = lp3;
+                    index++;
                     b++;
                     QVector3D lp4 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->s                ,  this->a / 2 - this->s)
                                                        + QVector3D(-this->f, - this->r - this->b / 2, 0.0)) + position;
-                    this->vertices[w][a][b] = lp4;
+        //                this->vertics[w][a][b]= lp4;
+                    vertices[index] = lp4;
+                    index++;
                     b++;
                     QVector3D lp5 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b - this->s,  this->a / 2 - this->s)
                                                        + QVector3D(-this->f + this->b2 - this->b, - this->r - this->b / 2, 0.0)) + position;
-                    this->vertices[w][a][b] = lp5;
+        //                this->vertics[w][a][b]= lp5;
+                    vertices[index] = lp5;
+                    index++;
                     b++;
                 }
                 // Width2 < Width1 && draw inner
@@ -273,23 +339,33 @@ void CAD_air_ductTurn::calculate()
                 {
                     QVector3D lp1 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b2 - this->s,  this->a / 2 - this->s)
                                                        + QVector3D(-this->f, - this->r - this->b / 2 + this->b - this->b2, 0.0)) + position;
-                    this->vertices[w][a][b] = lp1;
+        //                this->vertics[w][a][b]= lp1;
+                    vertices[index] = lp1;
+                    index++;
                     b++;
                     QVector3D lp2 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b2 - this->s, -this->a / 2 + this->s)
                                                        + QVector3D(-this->f, - this->r - this->b / 2 + this->b - this->b2, 0.0)) + position;
-                    this->vertices[w][a][b] = lp2;
+        //                this->vertics[w][a][b]= lp2;
+                    vertices[index] = lp2;
+                    index++;
                     b++;
                     QVector3D lp3 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->s                , -this->a / 2 + this->s)
                                                        + QVector3D(-this->f, - this->r - this->b / 2, 0.0)) + position;
-                    this->vertices[w][a][b] = lp3;
+        //                this->vertics[w][a][b]= lp3;
+                    vertices[index] = lp3;
+                    index++;
                     b++;
                     QVector3D lp4 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->s                ,  this->a / 2 - this->s)
                                                        + QVector3D(-this->f, - this->r - this->b / 2, 0.0)) + position;
-                    this->vertices[w][a][b] = lp4;
+        //                this->vertics[w][a][b]= lp4;
+                    vertices[index] = lp4;
+                    index++;
                     b++;
                     QVector3D lp5 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b2 - this->s,  this->a / 2 - this->s)
                                                        + QVector3D(-this->f, - this->r - this->b / 2  + this->b - this->b2, 0.0)) + position;
-                    this->vertices[w][a][b] = lp5;
+        //                this->vertics[w][a][b]= lp5;
+                    vertices[index] = lp5;
+                    index++;
                     b++;
 
                 }
@@ -312,35 +388,46 @@ void CAD_air_ductTurn::calculate()
             QVector3D lp1 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b + (this->b2 - this->b), this->a / 2)
                                                + QVector3D(-this->f, - this->r - this->b / 2, 0.0)
                                                      + QVector3D(-cos(angle_turn_rad) * this->e, -sin(angle_turn_rad) * this->e, 0.0)) + position;
-            this->vertices[w][a][b] = lp1;
+//                this->vertics[w][a][b]= lp1;
+            vertices[index] = lp1;
+            index++;
+            qDebug() << "index " << index;
             this->boundingBox.enterVertex(lp1);
             this->snap_vertices.append(lp1);
             b++;
             QVector3D lp2 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b + (this->b2 - this->b), -this->a / 2)
                                                + QVector3D(-this->f, - this->r - this->b / 2, 0.0)
                                                      + QVector3D(-cos(angle_turn_rad) * this->e, -sin(angle_turn_rad) * this->e, 0.0)) + position;
-            this->vertices[w][a][b] = lp2;
+//                this->vertics[w][a][b]= lp2;
+            vertices[index] = lp2;
+            index++;
             this->boundingBox.enterVertex(lp2);
             this->snap_vertices.append(lp2);
             b++;
             QVector3D lp3 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r, -this->a / 2)
                                                + QVector3D(-this->f, - this->r - this->b / 2, 0.0)
                                                      + QVector3D(-cos(angle_turn_rad) * this->e, -sin(angle_turn_rad) * this->e, 0.0)) + position;
-            this->vertices[w][a][b] = lp3;
+//                this->vertics[w][a][b]= lp3;
+            vertices[index] = lp3;
+            index++;
             this->boundingBox.enterVertex(lp3);
             this->snap_vertices.append(lp3);
             b++;
             QVector3D lp4 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r, this->a / 2)
                                                + QVector3D(-this->f, - this->r - this->b / 2, 0.0)
                                                      + QVector3D(-cos(angle_turn_rad) * this->e, -sin(angle_turn_rad) * this->e, 0.0)) + position;
-            this->vertices[w][a][b] = lp4;
+//                this->vertics[w][a][b]= lp4;
+            vertices[index] = lp4;
+            index++;
             this->boundingBox.enterVertex(lp4);
             this->snap_vertices.append(lp4);
             b++;
             QVector3D lp5 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b + (this->b2 - this->b), this->a / 2)
                                                + QVector3D(-this->f, - this->r - this->b / 2, 0.0)
                                                      + QVector3D(-cos(angle_turn_rad) * this->e, -sin(angle_turn_rad) * this->e, 0.0)) + position;
-            this->vertices[w][a][b] = lp5;
+//                this->vertics[w][a][b]= lp5;
+            vertices[index] = lp5;
+            index++;
             b++;
 
         }
@@ -349,27 +436,37 @@ void CAD_air_ductTurn::calculate()
             QVector3D lp1 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b - this->s,  this->a / 2 - this->s)
                                                + QVector3D(-this->f + (this->b2 - this->b), - this->r - this->b / 2, 0.0)
                                                + QVector3D(-cos(angle_turn_rad) * this->e, -sin(angle_turn_rad) * this->e, 0.0)) + position;
-            this->vertices[w][a][b] = lp1;
+//                this->vertics[w][a][b]= lp1;
+            vertices[index] = lp1;
+            index++;
             b++;
             QVector3D lp2 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b - this->s, -this->a / 2 + this->s)
                                                + QVector3D(-this->f + (this->b2 - this->b), - this->r - this->b / 2, 0.0)
                                                + QVector3D(-cos(angle_turn_rad) * this->e, -sin(angle_turn_rad) * this->e, 0.0)) + position;
-            this->vertices[w][a][b] = lp2;
+//                this->vertics[w][a][b]= lp2;
+            vertices[index] = lp2;
+            index++;
             b++;
             QVector3D lp3 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->s, -this->a / 2 + this->s)
                                                + QVector3D(-this->f, - this->r - this->b / 2, 0.0)
                                                + QVector3D(-cos(angle_turn_rad) * this->e, -sin(angle_turn_rad) * this->e, 0.0)) + position;
-            this->vertices[w][a][b] = lp3;
+//                this->vertics[w][a][b]= lp3;
+            vertices[index] = lp3;
+            index++;
             b++;
             QVector3D lp4 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->s,  this->a / 2 - this->s)
                                                + QVector3D(-this->f, - this->r - this->b / 2, 0.0)
                                                + QVector3D(-cos(angle_turn_rad) * this->e, -sin(angle_turn_rad) * this->e, 0.0)) + position;
-            this->vertices[w][a][b] = lp4;
+//                this->vertics[w][a][b]= lp4;
+            vertices[index] = lp4;
+            index++;
             b++;
             QVector3D lp5 = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->r + this->b - this->s,  this->a / 2 - this->s)
                                                + QVector3D(-this->f + (this->b2 - this->b), - this->r - this->b / 2, 0.0)
                                                + QVector3D(-cos(angle_turn_rad) * this->e, -sin(angle_turn_rad) * this->e, 0.0)) + position;
-            this->vertices[w][a][b] = lp5;
+//                this->vertics[w][a][b]= lp5;
+            vertices[index] = lp5;
+            index++;
             b++;
             this->snap_flanges.append((lp1 + lp3 ) / 2);
             position_rfd = (lp1 + lp3 ) / 2;
@@ -413,6 +510,120 @@ void CAD_air_ductTurn::calculate()
     boundingBox.enterVertex(flange_right_duct->pos_top_4);
 
 
+    GLushort indicesFaces[238];
+    //outer faces
+    for(int i = 0; i < 13; i++)
+    {
+        indicesFaces[2*i] = 5*i + 1;
+        indicesFaces[2*i + 1] = 5*i + 2;
+    }
+    indicesFaces[26] = 0xABCD;
+    for(int i = 0; i < 13; i++)
+    {
+        indicesFaces[27 + 2*i] = 5*i + 2;
+        indicesFaces[27 + 2*i + 1] = 5*i + 3;
+    }
+    indicesFaces[53] = 0xABCD;
+    for(int i = 0; i < 13; i++)
+    {
+        indicesFaces[54 + 2*i] = 5*i + 3;
+        indicesFaces[54 + 2*i + 1] = 5*i + 4;
+    }
+    indicesFaces[80] = 0xABCD;
+    for(int i = 0; i < 13; i++)
+    {
+        indicesFaces[81 + 2*i] = 5*i;
+        indicesFaces[81 + 2*i + 1] = 5*i + 1;
+    }
+    indicesFaces[107] = 0xABCD;
+    //inner faces
+    for(int i = 0; i < 13; i++)
+    {
+        indicesFaces[108 + 2*i] = 65 + 5*i + 1;
+        indicesFaces[108 + 2*i + 1] = 65 + 5*i + 2;
+    }
+    indicesFaces[134] = 0xABCD;
+    for(int i = 0; i < 13; i++)
+    {
+        indicesFaces[135 + 2*i] = 65 + 5*i + 2;
+        indicesFaces[135 + 2*i + 1] = 65 + 5*i + 3;
+    }
+    indicesFaces[161] = 0xABCD;
+    for(int i = 0; i < 13; i++)
+    {
+        indicesFaces[162 + 2*i] = 65 + 5*i + 3;
+        indicesFaces[162 + 2*i + 1] = 65 + 5*i + 4;
+    }
+    indicesFaces[188] = 0xABCD;
+    for(int i = 0; i < 13; i++)
+    {
+        indicesFaces[189 + 2*i] = 65 + 5*i;
+        indicesFaces[189 + 2*i + 1] = 65 + 5*i + 1;
+    }
+    indicesFaces[215] = 0xABCD;
+    //front and back faces;
+    GLushort frontAndBack[] =  {0,65,1,66,2,67,3,68,0, 65, 0xABCD, 60, 125, 61, 126, 62, 127, 63, 128, 60, 125, 0xABCD};
+    for(int i = 0; i < 22; i++)
+        indicesFaces[216 + i] = frontAndBack[i];
+
+
+    GLushort indicesLines[400];
+    for( int i = 0; i < 13; i++)
+    {
+        indicesLines[8*i] = 5*i;
+        indicesLines[8*i + 1] = 5*i + 1;
+        indicesLines[8*i + 2] = 5*i + 1;
+        indicesLines[8*i + 3] = 5*i + 2;
+        indicesLines[8*i + 4] = 5*i + 2;
+        indicesLines[8*i + 5] = 5*i + 3;
+        indicesLines[8*i + 6] = 5*i + 3;
+        indicesLines[8*i + 7] = 5*i + 4;
+    }
+    for( int i = 0; i < 13; i++)
+    {
+        indicesLines[104 + 8*i] = 65 + 5*i;
+        indicesLines[104 + 8*i + 1] = 65 + 5*i + 1;
+        indicesLines[104 + 8*i + 2] = 65 + 5*i + 1;
+        indicesLines[104 + 8*i + 3] = 65 + 5*i + 2;
+        indicesLines[104 + 8*i + 4] = 65 + 5*i + 2;
+        indicesLines[104 + 8*i + 5] = 65 + 5*i + 3;
+        indicesLines[104 + 8*i + 6] = 65 + 5*i + 3;
+        indicesLines[104 + 8*i + 7] = 65 + 5*i + 4;
+    }
+    for(int i = 0; i < 12; i++)
+    {
+        indicesLines[208 + 8*i] = 5*i;
+        indicesLines[208 + 8*i + 1] = 5*i + 5;
+        indicesLines[208 + 8*i + 2] = 5*i + 1;
+        indicesLines[208 + 8*i + 3] = 5*i + 6;
+        indicesLines[208 + 8*i + 4] = 5*i + 2;
+        indicesLines[208 + 8*i + 5] = 5*i + 7;
+        indicesLines[208 + 8*i + 6] = 5*i + 3;
+        indicesLines[208 + 8*i + 7] = 5*i + 8;
+    }
+    for(int i = 0; i < 12; i++)
+    {
+        indicesLines[304 + 8*i] = 65 + 5*i;
+        indicesLines[304 + 8*i + 1] = 65 + 5*i + 5;
+        indicesLines[304 + 8*i + 2] = 65 + 5*i + 1;
+        indicesLines[304 + 8*i + 3] = 65 + 5*i + 6;
+        indicesLines[304 + 8*i + 4] = 65 + 5*i + 2;
+        indicesLines[304 + 8*i + 5] = 65 + 5*i + 7;
+        indicesLines[304 + 8*i + 6] = 65 + 5*i + 3;
+        indicesLines[304 + 8*i + 7] = 65 + 5*i + 8;
+    }
+
+
+    arrayBufVertices.bind();
+    arrayBufVertices.allocate(vertices, sizeof(vertices));
+
+    indexBufFaces.bind();
+    indexBufFaces.allocate(indicesFaces, sizeof(indicesFaces));
+
+    indexBufLines.bind();
+    indexBufLines.allocate(indicesLines, sizeof(indicesLines));
+
+
 }
 
 
@@ -444,110 +655,146 @@ void CAD_air_ductTurn::processWizardInput()
 
 }
 
+//void CAD_air_ductTurn::paint(GLWidget *glwidget)
+//{
+//    QColor color_pen = getColorPen();
+//    QColor color_brush = getColorBrush();
+
+
+//    int a;
+//    int b;
+
+//    int count_a = 13;
+//    int count_b = 5;
+
+//    // level of detail
+//    int lod = 1;
+
+//    // s iteration
+//    for (int w = 0; w <= 1; w++)
+//    {
+//        if (glwidget->render_solid)
+//        {
+//            glwidget->setPaintingColor(color_brush);
+
+//            // Outer and inner surfaces
+//            for (a=lod; a < count_a; a += lod)
+//            {
+//                if (a >= count_a) a = (count_a - 1);
+//                glwidget->glBegin(GL_QUADS);
+//                for (b=lod; b < count_b; b += lod)
+//                {
+//                    if (b >= count_b) b = (count_b - 1);
+
+//                    QVector3D vertex_1 = vertices[w][a][b - lod];
+//                    QVector3D vertex_2 = vertices[w][a - lod][b - lod];
+//                    QVector3D vertex_3 = vertices[w][a - lod][b];
+//                    QVector3D vertex_4 = vertices[w][a][b];
+
+//                    glwidget->glVertex3f((GLfloat)vertex_1.x(), (GLfloat)vertex_1.y(), (GLfloat)vertex_1.z());
+//                    glwidget->glVertex3f((GLfloat)vertex_2.x(), (GLfloat)vertex_2.y(), (GLfloat)vertex_2.z());
+//                    glwidget->glVertex3f((GLfloat)vertex_3.x(), (GLfloat)vertex_3.y(), (GLfloat)vertex_3.z());
+//                    glwidget->glVertex3f((GLfloat)vertex_4.x(), (GLfloat)vertex_4.y(), (GLfloat)vertex_4.z());
+//                }
+//                glwidget->glEnd();
+//            }
+//        }
+
+//        if (glwidget->render_outline)
+//        {
+//            glwidget->setPaintingColor(color_pen);
+//            glwidget->glLineWidth(1.0);
+
+//            // Rings
+//            for (a=0; a < count_a; a += lod)
+//            {
+//                if (a >= count_a) a = (count_a - 1);
+
+//                glwidget->glBegin(GL_LINE_STRIP);
+//                for (b=0; b < count_b; b += lod)
+//                {
+//                    if (b >= count_b) b = (count_b - 1);
+//                    QVector3D linePos = vertices[w][a][b];
+//                    glwidget->glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
+//                }
+//                glwidget->glEnd();
+//            }
+
+//            // Lines
+//            for (b=0; b < (count_b - 1); b += lod)
+//            {
+//                if (b >= count_b) b = (count_b - 1);
+//                glwidget->glBegin(GL_LINE_STRIP);
+//                for (a=0; a < count_a; a += lod)
+//                {
+//                    if (a >= count_a) a = (count_a - 1);
+
+//                    QVector3D linePos = vertices[w][a][b];
+//                    glwidget->glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
+//                }
+//                glwidget->glEnd();
+//            }
+//        }
+//    }
+
+//    // Front and rear faces (discs)
+//    if (glwidget->render_solid)
+//    {
+//        glwidget->setPaintingColor(color_brush);
+
+//        for (a=0; a < count_a; a+=(count_a - 1))
+//        {
+//            glwidget->glBegin(GL_QUADS);
+//            for (b=lod; b < count_b; b += lod)
+//            {
+//                if (b >= count_b) b = (count_b - 1);
+//                QVector3D vertex_1 = vertices[0][a][b - lod];
+//                QVector3D vertex_2 = vertices[1][a][b - lod];
+//                QVector3D vertex_3 = vertices[1][a][b];
+//                QVector3D vertex_4 = vertices[0][a][b];
+
+//                glwidget->glVertex3f((GLfloat)vertex_1.x(), (GLfloat)vertex_1.y(), (GLfloat)vertex_1.z());
+//                glwidget->glVertex3f((GLfloat)vertex_2.x(), (GLfloat)vertex_2.y(), (GLfloat)vertex_2.z());
+//                glwidget->glVertex3f((GLfloat)vertex_3.x(), (GLfloat)vertex_3.y(), (GLfloat)vertex_3.z());
+//                glwidget->glVertex3f((GLfloat)vertex_4.x(), (GLfloat)vertex_4.y(), (GLfloat)vertex_4.z());
+//            }
+//            glwidget->glEnd();
+//        }
+//    }
+//}
+
 void CAD_air_ductTurn::paint(GLWidget *glwidget)
 {
-    QColor color_pen = getColorPen();
-    QColor color_brush = getColorBrush();
+    QColor color_pen_tmp = getColorPen();
+    QColor color_brush_tmp = getColorBrush();
 
+    glwidget->glEnable(GL_PRIMITIVE_RESTART);
+    glwidget->glPrimitiveRestartIndex(0xABCD);
 
-    int a;
-    int b;
+    arrayBufVertices.bind();
+    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
+    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
 
-    int count_a = 13;
-    int count_b = 5;
-
-    // level of detail
-    int lod = 1;
-
-    // s iteration
-    for (int w = 0; w <= 1; w++)
-    {
-        if (glwidget->render_solid)
-        {
-            glwidget->setPaintingColor(color_brush);
-
-            // Outer and inner surfaces
-            for (a=lod; a < count_a; a += lod)
-            {
-                if (a >= count_a) a = (count_a - 1);
-                glwidget->glBegin(GL_QUADS);
-                for (b=lod; b < count_b; b += lod)
-                {
-                    if (b >= count_b) b = (count_b - 1);
-
-                    QVector3D vertex_1 = vertices[w][a][b - lod];
-                    QVector3D vertex_2 = vertices[w][a - lod][b - lod];
-                    QVector3D vertex_3 = vertices[w][a - lod][b];
-                    QVector3D vertex_4 = vertices[w][a][b];
-
-                    glwidget->glVertex3f((GLfloat)vertex_1.x(), (GLfloat)vertex_1.y(), (GLfloat)vertex_1.z());
-                    glwidget->glVertex3f((GLfloat)vertex_2.x(), (GLfloat)vertex_2.y(), (GLfloat)vertex_2.z());
-                    glwidget->glVertex3f((GLfloat)vertex_3.x(), (GLfloat)vertex_3.y(), (GLfloat)vertex_3.z());
-                    glwidget->glVertex3f((GLfloat)vertex_4.x(), (GLfloat)vertex_4.y(), (GLfloat)vertex_4.z());
-                }
-                glwidget->glEnd();
-            }
-        }
-
-        if (glwidget->render_outline)
-        {
-            glwidget->setPaintingColor(color_pen);
-            glwidget->glLineWidth(1.0);
-
-            // Rings
-            for (a=0; a < count_a; a += lod)
-            {
-                if (a >= count_a) a = (count_a - 1);
-
-                glwidget->glBegin(GL_LINE_STRIP);
-                for (b=0; b < count_b; b += lod)
-                {
-                    if (b >= count_b) b = (count_b - 1);
-                    QVector3D linePos = vertices[w][a][b];
-                    glwidget->glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
-                }
-                glwidget->glEnd();
-            }
-
-            // Lines
-            for (b=0; b < (count_b - 1); b += lod)
-            {
-                if (b >= count_b) b = (count_b - 1);
-                glwidget->glBegin(GL_LINE_STRIP);
-                for (a=0; a < count_a; a += lod)
-                {
-                    if (a >= count_a) a = (count_a - 1);
-
-                    QVector3D linePos = vertices[w][a][b];
-                    glwidget->glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
-                }
-                glwidget->glEnd();
-            }
-        }
-    }
-
-    // Front and rear faces (discs)
     if (glwidget->render_solid)
     {
-        glwidget->setPaintingColor(color_brush);
+        glwidget->setPaintingColor(color_brush_tmp);
 
-        for (a=0; a < count_a; a+=(count_a - 1))
-        {
-            glwidget->glBegin(GL_QUADS);
-            for (b=lod; b < count_b; b += lod)
-            {
-                if (b >= count_b) b = (count_b - 1);
-                QVector3D vertex_1 = vertices[0][a][b - lod];
-                QVector3D vertex_2 = vertices[1][a][b - lod];
-                QVector3D vertex_3 = vertices[1][a][b];
-                QVector3D vertex_4 = vertices[0][a][b];
+        indexBufFaces.bind();
+        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces.size(), GL_UNSIGNED_SHORT, 0);
 
-                glwidget->glVertex3f((GLfloat)vertex_1.x(), (GLfloat)vertex_1.y(), (GLfloat)vertex_1.z());
-                glwidget->glVertex3f((GLfloat)vertex_2.x(), (GLfloat)vertex_2.y(), (GLfloat)vertex_2.z());
-                glwidget->glVertex3f((GLfloat)vertex_3.x(), (GLfloat)vertex_3.y(), (GLfloat)vertex_3.z());
-                glwidget->glVertex3f((GLfloat)vertex_4.x(), (GLfloat)vertex_4.y(), (GLfloat)vertex_4.z());
-            }
-            glwidget->glEnd();
-        }
+        indexBufFaces.release();
     }
+
+    if (glwidget->render_outline)
+    {
+        glwidget->setPaintingColor(color_pen_tmp);
+        glwidget->glLineWidth(1.0);
+
+        indexBufLines.bind();
+        glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
+        indexBufLines.release();
+    }
+
+    arrayBufVertices.release();
 }
+

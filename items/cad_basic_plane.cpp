@@ -93,7 +93,7 @@ void CAD_basic_plane::calculate()
     };
 
     static GLushort indicesLines[] = {
-        0,1,1,2,2,3,3,4
+        0,1,1,2,2,3,3,0
     };
 
 

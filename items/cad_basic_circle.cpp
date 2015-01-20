@@ -7,7 +7,6 @@ CAD_basic_circle::CAD_basic_circle() : CADitem(CADitem::Basic_Circle)
     this->width = 0.0;
     this->widthByLayer = true;
     this->widthByBlock = false;
-    this->circle = QList<QVector3D>();
 
     wizardParams.insert("Center x", QVariant::fromValue(0.0));
     wizardParams.insert("Center y", QVariant::fromValue(0.0));
@@ -16,6 +15,14 @@ CAD_basic_circle::CAD_basic_circle() : CADitem(CADitem::Basic_Circle)
     wizardParams.insert("Angle y", QVariant::fromValue(0.0));
     wizardParams.insert("Angle z", QVariant::fromValue(0.0));
     wizardParams.insert("Radius", QVariant::fromValue(1.0));
+
+    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    arrayBufVertices.create();
+    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufLines.create();
+    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
 
     processWizardInput();
     calculate();
@@ -75,16 +82,33 @@ void CAD_basic_circle::calculate()
 
     this->snap_basepoint = this->center;
 
-    circle.clear();
-    for (qreal i=0.0; i < 1.0; i += 0.02)    // 50 edges
+    QVector3D vertices[50];
+    for (int i = 0; i < 50; i++)    // 50 edges
     {
-        qreal angle = 2 * PI * i;
+        qreal angle = 2 * PI * i *0.02f;
         QVector3D linePos;
         linePos = this->center;
 
         linePos += matrix_rotation * QVector3D(sin(angle) * this->radius, cos(angle) * this->radius, 0.0);
-        circle.append(linePos);
+        vertices[i] = linePos;
+        boundingBox.enterVertex(linePos);
     }
+
+
+    GLushort indicesLines[100];
+    for(int i = 0; i < 50; i++)
+    {
+        indicesLines[2*i] = i;
+        indicesLines[2*i + 1] = i + 1;
+    }
+    indicesLines[99] = 0;
+
+
+    arrayBufVertices.bind();
+    arrayBufVertices.allocate(vertices, sizeof(vertices));
+
+    indexBufLines.bind();
+    indexBufLines.allocate(indicesLines, sizeof(indicesLines));
 }
 
 void CAD_basic_circle::processWizardInput()
@@ -98,34 +122,59 @@ void CAD_basic_circle::processWizardInput()
     radius = wizardParams.value("Radius").toDouble();
 }
 
+//void CAD_basic_circle::paint(GLWidget *glwidget)
+//{
+//    QColor color_pen = getColorPen();
+
+//    qreal penWidth = 1.0;
+//    if (widthByLayer)
+//    {
+//        penWidth = layer->width / 100.0 / glwidget->zoomFactor;
+//    }
+//    else if (widthByBlock)
+//    {
+
+//    }
+//    else
+//    {
+//        penWidth = width / glwidget->zoomFactor;
+//    }
+
+//    // Default width setting
+//    if (penWidth < 1.0)
+//        penWidth = 1.0;
+
+//    glwidget->setPaintingColor(color_pen);
+//    glwidget->glLineWidth(penWidth);
+//    glwidget->glBegin(GL_LINE_LOOP);
+//    foreach (QVector3D linePos, circle)    // 50 edges
+//    {
+//        glwidget->glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
+//    }
+//    glwidget->glEnd();
+//}
+
 void CAD_basic_circle::paint(GLWidget *glwidget)
 {
-    QColor color_pen = getColorPen();
+    QColor color_pen_tmp = getColorPen();
 
-    qreal penWidth = 1.0;
-    if (widthByLayer)
-    {
-        penWidth = layer->width / 100.0 / glwidget->zoomFactor;
-    }
-    else if (widthByBlock)
-    {
+    glwidget->glEnable(GL_PRIMITIVE_RESTART);
+    glwidget->glPrimitiveRestartIndex(0xABCD);
 
-    }
-    else
+    arrayBufVertices.bind();
+    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
+    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
+
+    if (glwidget->render_outline)
     {
-        penWidth = width / glwidget->zoomFactor;
+        glwidget->setPaintingColor(color_pen_tmp);
+        glwidget->glLineWidth(1.0);
+
+        indexBufLines.bind();
+        glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
+        indexBufLines.release();
     }
 
-    // Default width setting
-    if (penWidth < 1.0)
-        penWidth = 1.0;
-
-    glwidget->setPaintingColor(color_pen);
-    glwidget->glLineWidth(penWidth);
-    glwidget->glBegin(GL_LINE_LOOP);
-    foreach (QVector3D linePos, circle)    // 50 edges
-    {
-        glwidget->glVertex3f((GLfloat)linePos.x(), (GLfloat)linePos.y(), (GLfloat)linePos.z());
-    }
-    glwidget->glEnd();
+    arrayBufVertices.release();
 }
+

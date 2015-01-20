@@ -22,7 +22,10 @@ public:
     qreal width;
     bool widthByLayer;
     bool widthByBlock;
-    QList<QVector3D> circle;
+    //QList<QVector3D> circle;
+
+    QOpenGLBuffer arrayBufVertices;
+    QOpenGLBuffer indexBufLines;
 };
 
 #endif // CAD_BASIC_CIRCLE_H

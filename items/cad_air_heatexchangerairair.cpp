@@ -16,7 +16,6 @@ CAD_air_heatExchangerAirAir::CAD_air_heatExchangerAirAir() : CADitem(CADitem::Ai
     wizardParams.insert("Angle x", QVariant::fromValue(0.0));
     wizardParams.insert("Angle y", QVariant::fromValue(0.0));
 
-
     wizardParams.insert("ff", QVariant::fromValue(1.0));
     wizardParams.insert("s", QVariant::fromValue(1.0));
     wizardParams.insert("fe", QVariant::fromValue(1.0));
@@ -24,6 +23,18 @@ CAD_air_heatExchangerAirAir::CAD_air_heatExchangerAirAir() : CADitem(CADitem::Ai
     wizardParams.insert("b", QVariant::fromValue(30.0));
     wizardParams.insert("l", QVariant::fromValue(100.0));
     wizardParams.insert("i", QVariant::fromValue(20.0));
+
+    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    arrayBufVertices.create();
+    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufFaces.create();
+    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufLines.create();
+    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
 
     processWizardInput();
     calculate();
@@ -134,15 +145,30 @@ void CAD_air_heatExchangerAirAir::calculate()
     this->seperator_2->processWizardInput();
     this->seperator_2->calculate();
 
-    points[0][0] = position + matrix_rotation * QVector3D((l-i)/2, -b/2 + s, -a/2);
-    points[0][1] = position + matrix_rotation * QVector3D(l/2,     -b/2 + s, -3*a/2 + s);
-    points[0][2] = position + matrix_rotation * QVector3D((l+i)/2, -b/2 + s, -a/2 );
-    points[0][3] = position + matrix_rotation * QVector3D(l/2,     -b/2 + s,  a/2 - s);
+    QVector3D vertices[8];
+    vertices[0] = position + matrix_rotation * QVector3D((l-i)/2, -b/2 + s, -a/2);
+    vertices[1] = position + matrix_rotation * QVector3D(l/2,     -b/2 + s, -3*a/2 + s);
+    vertices[2] = position + matrix_rotation * QVector3D((l+i)/2, -b/2 + s, -a/2 );
+    vertices[3] = position + matrix_rotation * QVector3D(l/2,     -b/2 + s,  a/2 - s);
 
-    points[1][0] = position + matrix_rotation * QVector3D((l-i)/2, b/2 - s, -a/2);
-    points[1][1] = position + matrix_rotation * QVector3D(l/2,     b/2 - s, -3*a/2 + s);
-    points[1][2] = position + matrix_rotation * QVector3D((l+i)/2, b/2 - s, -a/2);
-    points[1][3] = position + matrix_rotation * QVector3D(l/2,     b/2 - s, a/2 - s);
+    vertices[4] = position + matrix_rotation * QVector3D((l-i)/2, b/2 - s, -a/2);
+    vertices[5] = position + matrix_rotation * QVector3D(l/2,     b/2 - s, -3*a/2 + s);
+    vertices[6] = position + matrix_rotation * QVector3D((l+i)/2, b/2 - s, -a/2);
+    vertices[7] = position + matrix_rotation * QVector3D(l/2,     b/2 - s, a/2 - s);
+
+    GLushort indicesFaces[] = {0, 4, 1, 5, 2, 6, 3, 7, 0, 4 };
+    GLushort indicesLines[] = {0,1,1,2,2,3,3,0, 4,5,5,6,6,7,7,4, 1,5, 3,7 };
+
+
+    arrayBufVertices.bind();
+    arrayBufVertices.allocate(vertices, sizeof(vertices));
+
+    indexBufFaces.bind();
+    indexBufFaces.allocate(indicesFaces, sizeof(indicesFaces));
+
+    indexBufLines.bind();
+    indexBufLines.allocate(indicesLines, sizeof(indicesLines));
+
 
 
     this->snap_flanges.append(position);
@@ -176,57 +202,93 @@ void CAD_air_heatExchangerAirAir::processWizardInput()
 
 void CAD_air_heatExchangerAirAir::paint(GLWidget *glwidget)
 {
-    QColor color_pen = getColorPen();
-    QColor color_brush = getColorBrush();
+    QColor color_pen_tmp = getColorPen();
+    QColor color_brush_tmp = getColorBrush();
+
+    glwidget->glEnable(GL_PRIMITIVE_RESTART);
+    glwidget->glPrimitiveRestartIndex(0xABCD);
+
+    arrayBufVertices.bind();
+    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
+    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
 
     if (glwidget->render_solid)
     {
-        glwidget->setPaintingColor(color_brush);
-        glwidget->glBegin(GL_QUADS);
+        glwidget->setPaintingColor(color_brush_tmp);
 
-        glwidget->glVertex3f((GLfloat)points[0][0].x(), (GLfloat)points[0][0].y(), (GLfloat)points[0][0].z());
-        glwidget->glVertex3f((GLfloat)points[0][1].x(), (GLfloat)points[0][1].y(), (GLfloat)points[0][1].z());
-        glwidget->glVertex3f((GLfloat)points[1][1].x(), (GLfloat)points[1][1].y(), (GLfloat)points[1][1].z());
-        glwidget->glVertex3f((GLfloat)points[1][0].x(), (GLfloat)points[1][0].y(), (GLfloat)points[1][0].z());
+        indexBufFaces.bind();
+        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces.size(), GL_UNSIGNED_SHORT, 0);
 
-        glwidget->glVertex3f((GLfloat)points[0][1].x(), (GLfloat)points[0][1].y(), (GLfloat)points[0][1].z());
-        glwidget->glVertex3f((GLfloat)points[0][2].x(), (GLfloat)points[0][2].y(), (GLfloat)points[0][2].z());
-        glwidget->glVertex3f((GLfloat)points[1][2].x(), (GLfloat)points[1][2].y(), (GLfloat)points[1][2].z());
-        glwidget->glVertex3f((GLfloat)points[1][1].x(), (GLfloat)points[1][1].y(), (GLfloat)points[1][1].z());
-
-        glwidget->glVertex3f((GLfloat)points[0][2].x(), (GLfloat)points[0][2].y(), (GLfloat)points[0][2].z());
-        glwidget->glVertex3f((GLfloat)points[0][3].x(), (GLfloat)points[0][3].y(), (GLfloat)points[0][3].z());
-        glwidget->glVertex3f((GLfloat)points[1][3].x(), (GLfloat)points[1][3].y(), (GLfloat)points[1][3].z());
-        glwidget->glVertex3f((GLfloat)points[1][2].x(), (GLfloat)points[1][2].y(), (GLfloat)points[1][2].z());
-
-        glwidget->glVertex3f((GLfloat)points[0][3].x(), (GLfloat)points[0][3].y(), (GLfloat)points[0][3].z());
-        glwidget->glVertex3f((GLfloat)points[0][0].x(), (GLfloat)points[0][0].y(), (GLfloat)points[0][0].z());
-        glwidget->glVertex3f((GLfloat)points[1][0].x(), (GLfloat)points[1][0].y(), (GLfloat)points[1][0].z());
-        glwidget->glVertex3f((GLfloat)points[1][3].x(), (GLfloat)points[1][3].y(), (GLfloat)points[1][3].z());
-        glwidget->glEnd();
-
+        indexBufFaces.release();
     }
+
     if (glwidget->render_outline)
     {
-        glwidget->setPaintingColor(color_pen);
+        glwidget->setPaintingColor(color_pen_tmp);
         glwidget->glLineWidth(1.0);
-        glwidget->glBegin(GL_LINE_LOOP);
-        glwidget->glVertex3f((GLfloat)points[0][0].x(), (GLfloat)points[0][0].y(), (GLfloat)points[0][0].z());
-        glwidget->glVertex3f((GLfloat)points[0][1].x(), (GLfloat)points[0][1].y(), (GLfloat)points[0][1].z());
-        glwidget->glVertex3f((GLfloat)points[0][2].x(), (GLfloat)points[0][2].y(), (GLfloat)points[0][2].z());
-        glwidget->glVertex3f((GLfloat)points[0][3].x(), (GLfloat)points[0][3].y(), (GLfloat)points[0][3].z());
-        glwidget->glEnd();
-        glwidget->glBegin(GL_LINE_LOOP);
-        glwidget->glVertex3f((GLfloat)points[1][0].x(), (GLfloat)points[1][0].y(), (GLfloat)points[1][0].z());
-        glwidget->glVertex3f((GLfloat)points[1][1].x(), (GLfloat)points[1][1].y(), (GLfloat)points[1][1].z());
-        glwidget->glVertex3f((GLfloat)points[1][2].x(), (GLfloat)points[1][2].y(), (GLfloat)points[1][2].z());
-        glwidget->glVertex3f((GLfloat)points[1][3].x(), (GLfloat)points[1][3].y(), (GLfloat)points[1][3].z());
-        glwidget->glEnd();
-        glwidget->glBegin(GL_LINES);
-        glwidget->glVertex3f((GLfloat)points[0][1].x(), (GLfloat)points[0][1].y(), (GLfloat)points[0][1].z());
-        glwidget->glVertex3f((GLfloat)points[1][1].x(), (GLfloat)points[1][1].y(), (GLfloat)points[1][1].z());
-        glwidget->glVertex3f((GLfloat)points[0][3].x(), (GLfloat)points[0][3].y(), (GLfloat)points[0][3].z());
-        glwidget->glVertex3f((GLfloat)points[1][3].x(), (GLfloat)points[1][3].y(), (GLfloat)points[1][3].z());
-        glwidget->glEnd();
+
+        indexBufLines.bind();
+        glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
+        indexBufLines.release();
     }
+
+    arrayBufVertices.release();
 }
+
+
+//void CAD_air_heatExchangerAirAir::paint(GLWidget *glwidget)
+//{
+//    QColor color_pen = getColorPen();
+//    QColor color_brush = getColorBrush();
+
+//    if (glwidget->render_solid)
+//    {
+//        glwidget->setPaintingColor(color_brush);
+//        glwidget->glBegin(GL_QUADS);
+
+//        glwidget->glVertex3f((GLfloat)points[0][0].x(), (GLfloat)points[0][0].y(), (GLfloat)points[0][0].z());
+//        glwidget->glVertex3f((GLfloat)points[0][1].x(), (GLfloat)points[0][1].y(), (GLfloat)points[0][1].z());
+//        glwidget->glVertex3f((GLfloat)points[1][1].x(), (GLfloat)points[1][1].y(), (GLfloat)points[1][1].z());
+//        glwidget->glVertex3f((GLfloat)points[1][0].x(), (GLfloat)points[1][0].y(), (GLfloat)points[1][0].z());
+
+//        glwidget->glVertex3f((GLfloat)points[0][1].x(), (GLfloat)points[0][1].y(), (GLfloat)points[0][1].z());
+//        glwidget->glVertex3f((GLfloat)points[0][2].x(), (GLfloat)points[0][2].y(), (GLfloat)points[0][2].z());
+//        glwidget->glVertex3f((GLfloat)points[1][2].x(), (GLfloat)points[1][2].y(), (GLfloat)points[1][2].z());
+//        glwidget->glVertex3f((GLfloat)points[1][1].x(), (GLfloat)points[1][1].y(), (GLfloat)points[1][1].z());
+
+//        glwidget->glVertex3f((GLfloat)points[0][2].x(), (GLfloat)points[0][2].y(), (GLfloat)points[0][2].z());
+//        glwidget->glVertex3f((GLfloat)points[0][3].x(), (GLfloat)points[0][3].y(), (GLfloat)points[0][3].z());
+//        glwidget->glVertex3f((GLfloat)points[1][3].x(), (GLfloat)points[1][3].y(), (GLfloat)points[1][3].z());
+//        glwidget->glVertex3f((GLfloat)points[1][2].x(), (GLfloat)points[1][2].y(), (GLfloat)points[1][2].z());
+
+//        glwidget->glVertex3f((GLfloat)points[0][3].x(), (GLfloat)points[0][3].y(), (GLfloat)points[0][3].z());
+//        glwidget->glVertex3f((GLfloat)points[0][0].x(), (GLfloat)points[0][0].y(), (GLfloat)points[0][0].z());
+//        glwidget->glVertex3f((GLfloat)points[1][0].x(), (GLfloat)points[1][0].y(), (GLfloat)points[1][0].z());
+//        glwidget->glVertex3f((GLfloat)points[1][3].x(), (GLfloat)points[1][3].y(), (GLfloat)points[1][3].z());
+//        glwidget->glEnd();
+
+//    }
+//    if (glwidget->render_outline)
+//    {
+//        glwidget->setPaintingColor(color_pen);
+//        glwidget->glLineWidth(1.0);
+//        glwidget->glBegin(GL_LINE_LOOP);
+//        glwidget->glVertex3f((GLfloat)points[0][0].x(), (GLfloat)points[0][0].y(), (GLfloat)points[0][0].z());
+//        glwidget->glVertex3f((GLfloat)points[0][1].x(), (GLfloat)points[0][1].y(), (GLfloat)points[0][1].z());
+//        glwidget->glVertex3f((GLfloat)points[0][2].x(), (GLfloat)points[0][2].y(), (GLfloat)points[0][2].z());
+//        glwidget->glVertex3f((GLfloat)points[0][3].x(), (GLfloat)points[0][3].y(), (GLfloat)points[0][3].z());
+//        glwidget->glEnd();
+//        glwidget->glBegin(GL_LINE_LOOP);
+//        glwidget->glVertex3f((GLfloat)points[1][0].x(), (GLfloat)points[1][0].y(), (GLfloat)points[1][0].z());
+//        glwidget->glVertex3f((GLfloat)points[1][1].x(), (GLfloat)points[1][1].y(), (GLfloat)points[1][1].z());
+//        glwidget->glVertex3f((GLfloat)points[1][2].x(), (GLfloat)points[1][2].y(), (GLfloat)points[1][2].z());
+//        glwidget->glVertex3f((GLfloat)points[1][3].x(), (GLfloat)points[1][3].y(), (GLfloat)points[1][3].z());
+//        glwidget->glEnd();
+//        glwidget->glBegin(GL_LINES);
+//        glwidget->glVertex3f((GLfloat)points[0][1].x(), (GLfloat)points[0][1].y(), (GLfloat)points[0][1].z());
+//        glwidget->glVertex3f((GLfloat)points[1][1].x(), (GLfloat)points[1][1].y(), (GLfloat)points[1][1].z());
+//        glwidget->glVertex3f((GLfloat)points[0][3].x(), (GLfloat)points[0][3].y(), (GLfloat)points[0][3].z());
+//        glwidget->glVertex3f((GLfloat)points[1][3].x(), (GLfloat)points[1][3].y(), (GLfloat)points[1][3].z());
+//        glwidget->glEnd();
+//    }
+//}
