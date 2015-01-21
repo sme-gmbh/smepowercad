@@ -284,7 +284,7 @@ void MainWindow::createItemToolBar()
 
     foreach(QString domain, domains)
     {
-        ToolWidget* toolWidget = new ToolWidget(this->itemDB);
+        ToolWidget* toolWidget = new ToolWidget(this->itemDB, ui->toolBarItems);
         toolWidget->setDomain(domain);
         ui->toolBarItems->addWidget(toolWidget);
         connect(toolWidget, SIGNAL(signal_newItemRequested(CADitem::ItemType)), this, SLOT(slot_createNewItem(CADitem::ItemType)));

@@ -30,12 +30,15 @@ private:
     ItemDB* itemDB;
     QString domain;
     bool isOpen;
+    static int s_domainIndex;
 
     void displayItemButtons();
     void deleteWdgs(QLayout *layout);
+    void setBackgroundColor(QColor color);
 
 private slots:
     void slot_button_clicked();
+    void slot_button_rightClicked();
 
 public slots:
 

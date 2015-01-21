@@ -1,8 +1,11 @@
 #include <QCursor>
 #include <QDebug>
 #include <QToolButton>
+#include <QLabel>
 #include "toolwidget.h"
 #include "ui_toolwidget.h"
+
+int ToolWidget::s_domainIndex = 0;
 
 ToolWidget::ToolWidget(ItemDB *itemDB, QWidget *parent) :
     QWidget(parent),
@@ -13,6 +16,9 @@ ToolWidget::ToolWidget(ItemDB *itemDB, QWidget *parent) :
     this->setWindowFlags(windowFlags() | Qt::FramelessWindowHint);
     this->setMouseTracking(true);
     this->isOpen = false;
+
+    this->setBackgroundColor(QColor::fromHsv(50 * s_domainIndex, 100, 200));
+    s_domainIndex++;
 }
 
 ToolWidget::~ToolWidget()
@@ -34,10 +40,13 @@ void ToolWidget::mouseMoveEvent(QMouseEvent *event)
 
 void ToolWidget::mousePressEvent(QMouseEvent *event)
 {
-    if (!this->isOpen)
-        this->displayItemButtons();
-    else
-        this->deleteWdgs(ui->gridLayout);
+    if (ui->label->rect().adjusted(3, 3, 3, 3).contains(event->pos()))  // BUG: Rect coordinates are not correct, adjust needed (why?)
+    {
+        if (!this->isOpen)
+            this->displayItemButtons();
+        else
+            this->deleteWdgs(ui->gridLayout);
+    }
     event->accept();
 }
 
@@ -72,6 +81,8 @@ void ToolWidget::displayItemButtons()
         QIcon icon = itemDB->getIconByItemType((CADitem::ItemType)type, QSize(32, 32));
         QString description = itemDB->getItemDescriptionByItemType((CADitem::ItemType)type);
         QToolButton* button = new QToolButton(this);
+        button->setStyleSheet("border = 0;");
+        button->setContextMenuPolicy(Qt::CustomContextMenu);
         button->setMinimumSize(42, 42);
         button->setMaximumSize(42, 42);
         button->setFocusPolicy(Qt::NoFocus);
@@ -82,6 +93,7 @@ void ToolWidget::displayItemButtons()
         button->setProperty("ItemType", QVariant(type));
 
         connect(button, SIGNAL(clicked()), this, SLOT(slot_button_clicked()));
+        connect(button, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slot_button_rightClicked()));
 
 
         ui->gridLayout->addWidget(button, row, column);
@@ -127,9 +139,21 @@ void ToolWidget::deleteWdgs(QLayout *layout)
     this->isOpen = false;
 }
 
+void ToolWidget::setBackgroundColor(QColor color)
+{
+    QString stylesheet = this->styleSheet();
+    stylesheet.prepend(QString().sprintf("QLabel{background-color: rgb(%d, %d, %d);}", color.red(), color.green(), color.green()));
+    this->setStyleSheet(stylesheet);
+}
+
 void ToolWidget::slot_button_clicked()
 {
     QToolButton* button = (QToolButton*)this->sender();
     CADitem::ItemType type = (CADitem::ItemType)button->property("ItemType").toInt();
     emit signal_newItemRequested(type);
+}
+
+void ToolWidget::slot_button_rightClicked()
+{
+
 }

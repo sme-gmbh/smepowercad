@@ -228,6 +228,7 @@ void ItemGripModifier::showAppendBox()
     {
         QIcon icon = itemDB->getIconByItemType(type, QSize(64, 64));
         QToolButton* button = new QToolButton(this);
+        button->setToolTip(itemDB->getItemDescriptionByItemType(type));
         button->setMinimumSize(74, 74);
         button->setMaximumSize(74, 74);
         button->setFocusPolicy(Qt::NoFocus);

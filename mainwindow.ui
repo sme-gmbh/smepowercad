@@ -334,11 +334,20 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </widget>
   </widget>
   <widget class="QToolBar" name="toolBarItems">
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <property name="windowTitle">
-    <string>toolBar</string>
+    <string>Item Creation</string>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
    <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonTextUnderIcon</enum>
+    <enum>Qt::ToolButtonIconOnly</enum>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
