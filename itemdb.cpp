@@ -39,6 +39,11 @@ void ItemDB::deriveDomainsAndItemTypes()
             type++;
             continue;
         }
+        else
+        {
+            QString enumName = CADitemTypes().getEnumNameOfItemType((CADitemTypes::ItemType)type);
+            qDebug() << "ItemDB::deriveDomainsAndItemTypes()" << enumName;
+        }
 
         itemTypesByDomain.insertMulti(item->domain(), (int)type);
         iconPathByItemType.insert(type, item->iconPath());

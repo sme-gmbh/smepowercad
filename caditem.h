@@ -18,6 +18,7 @@
 #include <math.h>
 #include "math/m3dboundingbox.h"
 #include "caditemtypes.h"
+#include "wizardparams.h"
 
 #define PI 3.1415926535897
 
@@ -61,7 +62,8 @@ public:
     QMatrix4x4 matrix_rotation;
 
     // Wizard
-    QMap<QString,QVariant> wizardParams;
+//    QMap<QString,QVariant> wizardParams;
+    WizardParams wizardParams;
 
     // Object Snap
     QList<QVector3D> snap_center;

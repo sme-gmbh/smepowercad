@@ -26,12 +26,12 @@ CAD_air_ductYpiece::CAD_air_ductYpiece() : CADitem(CADitemTypes::Air_DuctYpiece)
 
 
     wizardParams.insert("a", QVariant::fromValue(20.0));
-    wizardParams.insert("b", QVariant::fromValue(30.0));
     wizardParams.insert("a2", QVariant::fromValue(30.0));
+    wizardParams.insert("b", QVariant::fromValue(30.0));
     wizardParams.insert("b2", QVariant::fromValue(10.0));
+    wizardParams.insert("b3", QVariant::fromValue(10.0));
     wizardParams.insert("e", QVariant::fromValue(0.0));
     wizardParams.insert("f", QVariant::fromValue(0.0));
-    wizardParams.insert("b3", QVariant::fromValue(10.0));
     wizardParams.insert("l", QVariant::fromValue(100.0));
     wizardParams.insert("m", QVariant::fromValue(10.0));
     wizardParams.insert("u", QVariant::fromValue(5.0));

@@ -1,5 +1,6 @@
 #include "itemwizard.h"
 #include "ui_itemwizard.h"
+#include "wizardparams.h"
 
 ItemWizard::ItemWizard(QWidget *parent) :
     QDialog(parent),
@@ -32,35 +33,69 @@ void ItemWizard::showWizard(CADitem *item)
     }
 
     currentItem = item;
-    QMap<QString, QVariant>::iterator it;
-    for (it = item->wizardParams.begin(); it != item->wizardParams.end(); it++)
+//    QMap<QString, QVariant>::iterator it;
+//    for (it = item->wizardParams.begin(); it != item->wizardParams.end(); it++)
+//    {
+//        QWidget *wdg;
+//        switch (it.value().type())
+//        {
+//        case QVariant::String:
+//            wdg = new QLineEdit(it.value().toString(), this);
+//            break;
+//        case QVariant::Int:
+//            wdg = new QSpinBox(this);
+//            ((QSpinBox*)wdg)->setMaximum(INT_MAX);
+//            ((QSpinBox*)wdg)->setMinimum(INT_MIN);
+//            ((QSpinBox*)wdg)->setValue(it.value().toInt());
+//            break;
+//        case QVariant::Double:
+//            wdg = new QDoubleSpinBox(this);
+//            ((QDoubleSpinBox*)wdg)->setMaximum(10e+20);
+//            ((QDoubleSpinBox*)wdg)->setMinimum(-10e+20);
+//            ((QDoubleSpinBox*)wdg)->setValue(it.value().toDouble());
+//            break;
+//        default:
+//            qDebug() << "ItemWizard::showWizard() Unhandled value type:" << it.value().type();
+//            break;
+//        }
+//        wdg->setObjectName(it.key());
+
+
+//        ui->formLayout->addRow(it.key(), wdg);
+//    }
+
+    int i = 0;
+    foreach(QString key, item->wizardParams.keys())
     {
         QWidget *wdg;
-        switch (it.value().type())
+//        QVariant value = item->wizardParams.value(i);
+        QVariant value = item->wizardParams.value(key);       // DEBUG TEST
+        switch (value.type())
         {
         case QVariant::String:
-            wdg = new QLineEdit(it.value().toString(), this);
+            wdg = new QLineEdit(value.toString(), this);
             break;
         case QVariant::Int:
             wdg = new QSpinBox(this);
             ((QSpinBox*)wdg)->setMaximum(INT_MAX);
             ((QSpinBox*)wdg)->setMinimum(INT_MIN);
-            ((QSpinBox*)wdg)->setValue(it.value().toInt());
+            ((QSpinBox*)wdg)->setValue(value.toInt());
             break;
         case QVariant::Double:
             wdg = new QDoubleSpinBox(this);
             ((QDoubleSpinBox*)wdg)->setMaximum(10e+20);
             ((QDoubleSpinBox*)wdg)->setMinimum(-10e+20);
-            ((QDoubleSpinBox*)wdg)->setValue(it.value().toDouble());
+            ((QDoubleSpinBox*)wdg)->setValue(value.toDouble());
             break;
         default:
-            qDebug() << "ItemWizard::showWizard() Unhandled value type:" << it.value().type();
+            qDebug() << "ItemWizard::showWizard() Unhandled value type:" << value.type();
             break;
         }
-        wdg->setObjectName(it.key());
+        wdg->setObjectName(key);
 
 
-        ui->formLayout->addRow(it.key(), wdg);
+        ui->formLayout->addRow(key, wdg);
+        i++;
     }
 
     this->setWindowTitle(tr("Item Wizard: %1").arg(item->description()));
@@ -95,7 +130,8 @@ void ItemWizard::slot_accepted()
 
 void ItemWizard::save()
 {
-    QMap<QString, QVariant> map;
+//    QMap<QString, QVariant> map;
+    WizardParams params;
     QVariant val;
     QWidget *wdg;
     for (int r = 0; r < ui->formLayout->rowCount(); r++)
@@ -108,22 +144,22 @@ void ItemWizard::save()
             val = QVariant::fromValue(((QLineEdit*)wdg)->text());
             break;
         case QVariant::Int:
-            val = QVariant::fromValue(((QSpinBox*)wdg)->value());
+            val = QVariant::fromValue((int)((QSpinBox*)wdg)->value());
             break;
         case QVariant::Double:
-            val = QVariant::fromValue(((QDoubleSpinBox*)wdg)->value());
+            val = QVariant::fromValue((double)((QDoubleSpinBox*)wdg)->value());
             break;
         default:
             break;
         }
 
-        map.insert(wdg->objectName(), val);
+        params.insert(wdg->objectName(), val);
     }
 
     this->deleteWdgs(ui->formLayout);
 
 
-    currentItem->wizardParams = map;
+    currentItem->wizardParams = params;
     currentItem->processWizardInput();
     currentItem->calculate();
     emit signal_sceneRepaintNeeded();

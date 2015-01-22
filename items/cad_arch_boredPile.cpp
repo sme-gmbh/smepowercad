@@ -3,7 +3,7 @@
 
 CAD_arch_boredPile::CAD_arch_boredPile() : CADitem(CADitemTypes::Arch_BoredPile)
 {
-    this->pile = new CAD_basic_pipe;
+    this->pile = new CAD_basic_pipe();
     this->subItems.append(this->pile);
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
@@ -82,7 +82,7 @@ void CAD_arch_boredPile::calculate()
     pile->wizardParams.insert("Position y", QVariant::fromValue(position.y()));
     pile->wizardParams.insert("Position z", QVariant::fromValue(position.z()));
     pile->wizardParams.insert("Angle x", QVariant::fromValue(0.0));
-    pile->wizardParams.insert("Angle y", QVariant::fromValue(90));
+    pile->wizardParams.insert("Angle y", QVariant::fromValue(90.0));
     pile->wizardParams.insert("Angle z", QVariant::fromValue(0.0));
     pile->wizardParams.insert("l", QVariant::fromValue(a));
     pile->wizardParams.insert("d", QVariant::fromValue(d));
