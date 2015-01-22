@@ -43,7 +43,7 @@ private slots:
 public slots:
 
 signals:
-    void signal_newItemRequested(CADitem::ItemType type);
+    void signal_newItemRequested(CADitemTypes::ItemType type);
 };
 
 #endif // TOOLWIDGET_H

@@ -1,6 +1,7 @@
 #include "cad_air_ductendplate.h"
+#include "itemdb.h"
 
-CAD_air_ductEndPlate::CAD_air_ductEndPlate() : CADitem(CADitem::Air_DuctEndPlate)
+CAD_air_ductEndPlate::CAD_air_ductEndPlate() : CADitem(CADitemTypes::Air_DuctEndPlate)
 {
     this->plate = new CAD_basic_box();
     this->flange = new CAD_basic_duct();
@@ -8,7 +9,7 @@ CAD_air_ductEndPlate::CAD_air_ductEndPlate() : CADitem(CADitem::Air_DuctEndPlate
     this->subItems.append(plate);
     this->subItems.append(flange);
     this->subItems.append(duct);
-    this->description = "Air|Duct end plate";
+
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -33,12 +34,12 @@ CAD_air_ductEndPlate::~CAD_air_ductEndPlate()
 
 }
 
-QList<CADitem::ItemType> CAD_air_ductEndPlate::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_ductEndPlate::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
-    flangable_items.append(CADitem::Air_Duct);
-    flangable_items.append(CADitem::Air_DuctTeeConnector);
-    flangable_items.append(CADitem::Air_DuctYpiece);
+    QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Air_Duct);
+    flangable_items.append(CADitemTypes::Air_DuctTeeConnector);
+    flangable_items.append(CADitemTypes::Air_DuctYpiece);
     return flangable_items;
 }
 
@@ -63,6 +64,11 @@ QString CAD_air_ductEndPlate::iconPath()
 QString CAD_air_ductEndPlate::domain()
 {
     return "Air";
+}
+
+QString CAD_air_ductEndPlate::description()
+{
+    return "Air|Duct end plate";
 }
 
 void CAD_air_ductEndPlate::calculate()

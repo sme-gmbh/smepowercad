@@ -10,7 +10,7 @@ ItemDB::ItemDB(QObject *parent) :
     layers.append(topLevelLayer);
     layerSoloActive = false;
 
-    this->activeDrawCommand = CADitem::None;
+    this->activeDrawCommand = CADitemTypes::None;
 
     this->deriveDomainsAndItemTypes();
 }
@@ -24,17 +24,25 @@ void ItemDB::deriveDomainsAndItemTypes()
 {
     CADitem* item;
 
-    int type = 1;
+    int type = (int)CADitemTypes::None + 1;
 
     for (;;)
     {
-        item = createItem((CADitem::ItemType)type);
-        if (item == NULL)
+        if (type == CADitemTypes::LastItem)
             break;
+
+        item = createItem((CADitemTypes::ItemType)type);
+        if (item == NULL)
+        {
+            QString enumName = CADitemTypes().getEnumNameOfItemType((CADitemTypes::ItemType)type);
+            qDebug() << "itemDB: createItem returned NULL; itemtype:" << type << enumName << "not implemented";
+            type++;
+            continue;
+        }
 
         itemTypesByDomain.insertMulti(item->domain(), (int)type);
         iconPathByItemType.insert(type, item->iconPath());
-        itemDescriptionByItemType.insert(type, item->description);
+        itemDescriptionByItemType.insert(type, item->description());
         delete item;
         type++;
     }
@@ -53,17 +61,17 @@ QList<int> ItemDB::getItemTypesByDomain(QString domain)
     return itemTypesByDomain.values(domain);
 }
 
-QString ItemDB::getItemDescriptionByItemType(CADitem::ItemType type)
+QString ItemDB::getItemDescriptionByItemType(CADitemTypes::ItemType type)
 {
     return itemDescriptionByItemType.value((int)type);
 }
 
-QString ItemDB::getIconPathByItemType(CADitem::ItemType type)
+QString ItemDB::getIconPathByItemType(CADitemTypes::ItemType type)
 {
     return iconPathByItemType.value((int)type);
 }
 
-QPixmap ItemDB::getIconByItemType(CADitem::ItemType type, QSize size)
+QPixmap ItemDB::getIconByItemType(CADitemTypes::ItemType type, QSize size)
 {
     QString filename = getIconPathByItemType(type);
     if (QFile(filename).exists())
@@ -296,294 +304,294 @@ bool ItemDB::changeLayerOfItem(quint64 id, QString newLayerName)
     return changeLayerOfItem(item, newLayer);
 }
 
-CADitem *ItemDB::createItem(CADitem::ItemType type)
+CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
 {
     CADitem* newItem = NULL;
 
     switch (type)
     {
-    case CADitem::Basic_Arc:
+    case CADitemTypes::Basic_Arc:
         newItem = new CAD_basic_arc();
         break;
-    case CADitem::Basic_Box:
+    case CADitemTypes::Basic_Box:
         newItem = new CAD_basic_box();
         break;
-    case CADitem::Basic_Cylinder:
+    case CADitemTypes::Basic_Cylinder:
         newItem = new CAD_basic_cylinder();
         break;
-    case CADitem::Basic_Circle:
+    case CADitemTypes::Basic_Circle:
         newItem = new CAD_basic_circle();
         break;
-    case CADitem::Basic_Duct:
+    case CADitemTypes::Basic_Duct:
         newItem = new CAD_basic_duct();
         break;
-    case CADitem::Basic_Face:
+    case CADitemTypes::Basic_Face:
         newItem = new CAD_basic_3Dface();
         break;
-    case CADitem::Basic_Line:
+    case CADitemTypes::Basic_Line:
         newItem = new CAD_basic_line();
         break;
-    case CADitem::Basic_Pipe:
+    case CADitemTypes::Basic_Pipe:
         newItem = new CAD_basic_pipe();
         break;
-    case CADitem::Basic_Plane:
+    case CADitemTypes::Basic_Plane:
         newItem = new CAD_basic_plane();
         break;
-    case CADitem::Basic_Point:
+    case CADitemTypes::Basic_Point:
         newItem = new CAD_basic_point();
         break;
-    case CADitem::Basic_Polyline:
+    case CADitemTypes::Basic_Polyline:
         newItem = new CAD_basic_polyline();
         break;
-    case CADitem::Basic_Sphere:
+    case CADitemTypes::Basic_Sphere:
         newItem = new CAD_basic_sphere();
         break;
-    case CADitem::Basic_Turn:
+    case CADitemTypes::Basic_Turn:
         newItem = new CAD_basic_turn();
         break;
 
 
 
 
-    case CADitem::Arch_Beam:
+    case CADitemTypes::Arch_Beam:
         newItem = new CAD_arch_beam();
         break;
-    case CADitem::Arch_BlockOut:
+    case CADitemTypes::Arch_BlockOut:
         newItem = new CAD_arch_blockOut();
         break;
-    case CADitem::Arch_BoredPile:
+    case CADitemTypes::Arch_BoredPile:
         newItem = new CAD_arch_boredPile();
         break;
-    case CADitem::Arch_Door:
+    case CADitemTypes::Arch_Door:
         newItem = new CAD_arch_door();
         break;
-    case CADitem::Arch_Foundation:
+    case CADitemTypes::Arch_Foundation:
         newItem = new CAD_arch_foundation();
         break;
-    case CADitem::Arch_Grating:
+    case CADitemTypes::Arch_Grating:
         newItem = new CAD_arch_grating();
         break;
-    case CADitem::Arch_LevelSlab:
+    case CADitemTypes::Arch_LevelSlab:
         newItem = new CAD_arch_levelSlab();
         break;
-    case CADitem::Arch_Support:
+    case CADitemTypes::Arch_Support:
         newItem = new CAD_arch_support();
         break;
-    case CADitem::Arch_Wall_loadBearing:
+    case CADitemTypes::Arch_Wall_loadBearing:
         newItem = new CAD_arch_wall_loadBearing();
         break;
-    case CADitem::Arch_Wall_nonLoadBearing:
+    case CADitemTypes::Arch_Wall_nonLoadBearing:
         newItem = new CAD_arch_wall_nonLoadBearing();
         break;
-    case CADitem::Arch_Window:
+    case CADitemTypes::Arch_Window:
         newItem = new CAD_arch_window();
         break;
 
-    case CADitem::Air_Duct:
+    case CADitemTypes::Air_Duct:
         newItem = new CAD_air_duct();
         break;
-    case CADitem::Air_Pipe:
+    case CADitemTypes::Air_Pipe:
         newItem = new CAD_air_pipe();
         break;
-    case CADitem::Air_DuctFireResistant:
+    case CADitemTypes::Air_DuctFireResistant:
         newItem = new CAD_air_ductFireResistant();
         break;
-    case CADitem::Air_DuctTurn:
+    case CADitemTypes::Air_DuctTurn:
         newItem = new CAD_air_ductTurn();
         break;
-    case CADitem::Air_PipeTurn:
+    case CADitemTypes::Air_PipeTurn:
         newItem = new CAD_air_pipeTurn();
         break;
-    case CADitem::Air_PipeReducer:
+    case CADitemTypes::Air_PipeReducer:
         newItem = new CAD_air_pipeReducer();
         break;
-    case CADitem::Air_PipeTeeConnector:
+    case CADitemTypes::Air_PipeTeeConnector:
         newItem = new CAD_air_pipeTeeConnector();
         break;
-    case CADitem::Air_DuctTeeConnector:
+    case CADitemTypes::Air_DuctTeeConnector:
         newItem = new CAD_air_ductTeeConnector();
         break;
-    case CADitem::Air_DuctTransition:
+    case CADitemTypes::Air_DuctTransition:
         newItem = new CAD_air_ductTransition();
         break;
-    case CADitem::Air_DuctTransitionRectRound:
+    case CADitemTypes::Air_DuctTransitionRectRound:
         newItem = new CAD_air_ductTransitionRectRound();
         break;
-    case CADitem::Air_DuctYpiece:
+    case CADitemTypes::Air_DuctYpiece:
         newItem = new CAD_air_ductYpiece();
         break;
-    case CADitem::Air_DuctEndPlate:
+    case CADitemTypes::Air_DuctEndPlate:
         newItem = new CAD_air_ductEndPlate();
         break;
-    case CADitem::Air_PipeEndCap:
+    case CADitemTypes::Air_PipeEndCap:
         newItem = new CAD_air_pipeEndCap();
         break;
-    case CADitem::Air_ThrottleValve:
+    case CADitemTypes::Air_ThrottleValve:
         newItem = new CAD_air_throttleValve();
         break;
-    case CADitem::Air_MultiLeafDamper:
+    case CADitemTypes::Air_MultiLeafDamper:
         newItem = new CAD_air_multiLeafDamper();
         break;
-    case CADitem::Air_PressureReliefDamper:
+    case CADitemTypes::Air_PressureReliefDamper:
         newItem = new CAD_air_pressureReliefDamper();
         break;
-    case CADitem::Air_PipeFireDamper:
+    case CADitemTypes::Air_PipeFireDamper:
         newItem = new CAD_air_pipeFireDamper();
         break;
-    case CADitem::Air_PipeBranch:
+    case CADitemTypes::Air_PipeBranch:
         newItem = new CAD_air_pipeBranch();
         break;
-    case CADitem::Air_DuctFireDamper:
+    case CADitemTypes::Air_DuctFireDamper:
         newItem = new CAD_air_ductFireDamper();
         break;
-    case CADitem::Air_DuctVolumetricFlowController:
+    case CADitemTypes::Air_DuctVolumetricFlowController:
         newItem = new CAD_air_ductVolumetricFlowController();
         break;
-    case CADitem::Air_PipeVolumetricFlowController:
+    case CADitemTypes::Air_PipeVolumetricFlowController:
         newItem = new CAD_air_pipeVolumetricFlowController();
         break;
-    case CADitem::Air_HeatExchangerWaterAir:
+    case CADitemTypes::Air_HeatExchangerWaterAir:
         newItem = new CAD_air_heatExchangerWaterAir();
         break;
-    case CADitem::Air_HeatExchangerAirAir:
+    case CADitemTypes::Air_HeatExchangerAirAir:
         newItem = new CAD_air_heatExchangerAirAir();
         break;
-    case CADitem::Air_CanvasFlange:
+    case CADitemTypes::Air_CanvasFlange:
         newItem = new CAD_air_canvasFlange();
         break;
-    case CADitem::Air_Filter:
+    case CADitemTypes::Air_Filter:
         newItem = new CAD_air_filter();
         break;
-    case CADitem::Air_PipeSilencer:
+    case CADitemTypes::Air_PipeSilencer:
         newItem = new CAD_air_pipeSilencer();
         break;
-    case CADitem::Air_DuctBaffleSilencer:
+    case CADitemTypes::Air_DuctBaffleSilencer:
         newItem = new CAD_air_ductBaffleSilencer();
         break;
-    case CADitem::Air_Fan:
+    case CADitemTypes::Air_Fan:
         newItem = new CAD_air_fan();
         break;
-    case CADitem::Air_Humidifier:
+    case CADitemTypes::Air_Humidifier:
         newItem = new CAD_air_humidifier();
         break;
-    case CADitem::Air_EmptyCabinet:
+    case CADitemTypes::Air_EmptyCabinet:
         newItem = new CAD_air_emptyCabinet();
         break;
-    case CADitem::Air_EquipmentFrame:
+    case CADitemTypes::Air_EquipmentFrame:
         newItem = new CAD_air_equipmentFrame();
         break;
 
-    case CADitem::HeatCool_Adjustvalve:
+    case CADitemTypes::HeatCool_Adjustvalve:
         newItem = new CAD_heatcool_adjustvalve();
         break;
-    case CADitem::HeatCool_Chiller:
+    case CADitemTypes::HeatCool_Chiller:
         newItem = new CAD_heatcool_chiller();
         break;
-    case CADitem::HeatCool_Controlvalve:
+    case CADitemTypes::HeatCool_Controlvalve:
         newItem = new CAD_heatcool_controlvalve();
         break;
-    case CADitem::HeatCool_CoolingTower:
+    case CADitemTypes::HeatCool_CoolingTower:
         newItem = new CAD_heatcool_coolingTower();
         break;
-    case CADitem::HeatCool_HeatExchanger:
+    case CADitemTypes::HeatCool_HeatExchanger:
         newItem = new CAD_heatcool_heatExchanger();
         break;
-    case CADitem::HeatCool_Pipe:
+    case CADitemTypes::HeatCool_Pipe:
         newItem = new CAD_heatcool_pipe();
         break;
-    case CADitem::HeatCool_Pump:
+    case CADitemTypes::HeatCool_Pump:
         newItem = new CAD_heatcool_pump();
         break;
-    case CADitem::HeatCool_Sensor:
+    case CADitemTypes::HeatCool_Sensor:
         newItem = new CAD_heatcool_sensor();
         break;
-    case CADitem::HeatCool_PipeTurn:
+    case CADitemTypes::HeatCool_PipeTurn:
         newItem = new CAD_heatcool_pipeTurn();
         break;
-    case CADitem::HeatCool_PipeReducer:
+    case CADitemTypes::HeatCool_PipeReducer:
         newItem = new CAD_heatcool_pipeReducer();
         break;
-    case CADitem::HeatCool_PipeTeeConnector:
+    case CADitemTypes::HeatCool_PipeTeeConnector:
         newItem = new CAD_heatcool_pipeTeeConnector();
         break;
-    case CADitem::HeatCool_PipeEndCap:
+    case CADitemTypes::HeatCool_PipeEndCap:
         newItem = new CAD_heatcool_pipeEndCap();
         break;
-    case CADitem::HeatCool_Flange:
+    case CADitemTypes::HeatCool_Flange:
         newItem = new CAD_heatcool_flange();
         break;
-    case CADitem::HeatCool_ExpansionChamber:
+    case CADitemTypes::HeatCool_ExpansionChamber:
         newItem = new CAD_heatcool_expansionChamber();
         break;
-    case CADitem::HeatCool_Boiler:
+    case CADitemTypes::HeatCool_Boiler:
         newItem = new CAD_heatcool_boiler();
         break;
-    case CADitem::HeatCool_WaterHeater:
+    case CADitemTypes::HeatCool_WaterHeater:
         newItem = new CAD_heatcool_waterHeater();
         break;
-    case CADitem::HeatCool_StorageBoiler:
+    case CADitemTypes::HeatCool_StorageBoiler:
         newItem = new CAD_heatcool_storageBoiler();
         break;
-    case CADitem::HeatCool_Radiator:
+    case CADitemTypes::HeatCool_Radiator:
         newItem = new CAD_heatcool_radiator();
         break;
-    case CADitem::HeatCool_Filter:
+    case CADitemTypes::HeatCool_Filter:
         newItem = new CAD_heatcool_filter();
         break;
-    case CADitem::HeatCool_BallValve:
+    case CADitemTypes::HeatCool_BallValve:
         newItem = new CAD_heatcool_ballValve();
         break;
-    case CADitem::HeatCool_ButterflyValve:
+    case CADitemTypes::HeatCool_ButterflyValve:
         newItem = new CAD_heatcool_butterflyValve();
         break;
-    case CADitem::HeatCool_SafetyValve:
+    case CADitemTypes::HeatCool_SafetyValve:
         newItem = new CAD_heatcool_safetyValve();
         break;
-    case CADitem::HeatCool_Flowmeter:
+    case CADitemTypes::HeatCool_Flowmeter:
         newItem = new CAD_heatcool_flowmeter();
         break;
 
-    case CADitem::Sprinkler_CompressedAirWaterContainer:
+    case CADitemTypes::Sprinkler_CompressedAirWaterContainer:
         newItem = new CAD_sprinkler_compressedAirWaterContainer();
         break;
-    case CADitem::Sprinkler_Distribution:
+    case CADitemTypes::Sprinkler_Distribution:
         newItem = new CAD_sprinkler_distribution();
         break;
-    case CADitem::Sprinkler_Head:
+    case CADitemTypes::Sprinkler_Head:
         newItem = new CAD_sprinkler_head();
         break;
-    case CADitem::Sprinkler_Pipe:
+    case CADitemTypes::Sprinkler_Pipe:
         newItem = new CAD_sprinkler_pipe();
         break;
-    case CADitem::Sprinkler_Pump:
+    case CADitemTypes::Sprinkler_Pump:
         newItem = new CAD_sprinkler_pump();
         break;
-    case CADitem::Sprinkler_TeeConnector:
+    case CADitemTypes::Sprinkler_TeeConnector:
         newItem = new CAD_sprinkler_teeConnector();
         break;
-    case CADitem::Sprinkler_Valve:
+    case CADitemTypes::Sprinkler_Valve:
         newItem = new CAD_sprinkler_valve();
         break;
-    case CADitem::Sprinkler_WetAlarmValve:
+    case CADitemTypes::Sprinkler_WetAlarmValve:
         newItem = new CAD_sprinkler_wetAlarmValve();
         break;
-    case CADitem::Sprinkler_ZoneCheck:
+    case CADitemTypes::Sprinkler_ZoneCheck:
         newItem = new CAD_sprinkler_zoneCheck();
         break;
-    case CADitem::Sprinkler_PipeTurn:
+    case CADitemTypes::Sprinkler_PipeTurn:
         newItem = new CAD_sprinkler_pipeTurn();
         break;
-    case CADitem::Sprinkler_PipeEndCap:
+    case CADitemTypes::Sprinkler_PipeEndCap:
         newItem = new CAD_sprinkler_pipeEndCap();
         break;
-    case CADitem::Sprinkler_PipeReducer:
+    case CADitemTypes::Sprinkler_PipeReducer:
         newItem = new CAD_sprinkler_pipeReducer();
         break;
 
-    case CADitem::Electrical_Cabinet:
+    case CADitemTypes::Electrical_Cabinet:
         newItem = new CAD_electrical_cabinet();
         break;
-    case CADitem::Electrical_CableTray:
+    case CADitemTypes::Electrical_CableTray:
         newItem = new CAD_electrical_cableTray();
         break;
     default:
@@ -597,7 +605,7 @@ CADitem *ItemDB::createItem(CADitem::ItemType type)
     return newItem;
 }
 
-CADitem* ItemDB::drawItem(Layer* layer, CADitem::ItemType type)
+CADitem* ItemDB::drawItem(Layer* layer, CADitemTypes::ItemType type)
 {
     if (layer == NULL)
     {
@@ -614,7 +622,7 @@ CADitem* ItemDB::drawItem(Layer* layer, CADitem::ItemType type)
     return newItem;
 }
 
-CADitem *ItemDB::drawItem(QString layerName, CADitem::ItemType type)
+CADitem *ItemDB::drawItem(QString layerName, CADitemTypes::ItemType type)
 {
     Layer* layer = getLayerByName(layerName);
     if (layer == NULL)
@@ -795,7 +803,7 @@ QByteArray ItemDB::network_newItem(quint32 type, QMap<QString, QString> data)
 {
     QString layerName;
     layerName = data.value("Layer");
-    CADitem* newItem = drawItem(layerName, (CADitem::ItemType) type);
+    CADitem* newItem = drawItem(layerName, (CADitemTypes::ItemType) type);
 
     if (newItem == NULL)
         return "Error in network_newItem()\n";
@@ -973,7 +981,7 @@ void ItemDB::file_loadDB_parseDomElement(QDomElement element, Layer *currentLaye
     {
         tagName.remove(0, 1);   // Strip "I"
         int itemType = tagName.toInt();
-        CADitem* item = this->drawItem(currentLayer, (CADitem::ItemType)itemType);
+        CADitem* item = this->drawItem(currentLayer, (CADitemTypes::ItemType)itemType);
         foreach (QString key, item->wizardParams.keys())
         {
             QString elementKey = key;

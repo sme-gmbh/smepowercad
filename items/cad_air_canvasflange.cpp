@@ -1,9 +1,8 @@
 #include "cad_air_canvasflange.h"
+#include "itemdb.h"
 
-CAD_air_canvasFlange::CAD_air_canvasFlange() : CADitem(CADitem::Air_CanvasFlange)
+CAD_air_canvasFlange::CAD_air_canvasFlange() : CADitem(CADitemTypes::Air_CanvasFlange)
 {
-
-    this->description = "Air|Canvas flange";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -39,25 +38,25 @@ CAD_air_canvasFlange::~CAD_air_canvasFlange()
 
 }
 
-QList<CADitem::ItemType> CAD_air_canvasFlange::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_canvasFlange::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
-    flangable_items.append(CADitem::Air_CanvasFlange);
-    flangable_items.append(CADitem::Air_Duct);
-    flangable_items.append(CADitem::Air_DuctBaffleSilencer);
-    flangable_items.append(CADitem::Air_DuctFireDamper);
-    flangable_items.append(CADitem::Air_DuctTeeConnector);
-    flangable_items.append(CADitem::Air_DuctTransition);
-    flangable_items.append(CADitem::Air_DuctTransitionRectRound);
-    flangable_items.append(CADitem::Air_DuctTurn);
-    flangable_items.append(CADitem::Air_DuctVolumetricFlowController);
-    flangable_items.append(CADitem::Air_DuctYpiece);
-    flangable_items.append(CADitem::Air_Fan);
-    flangable_items.append(CADitem::Air_Filter);
-    flangable_items.append(CADitem::Air_HeatExchangerAirAir);
-    flangable_items.append(CADitem::Air_HeatExchangerWaterAir);
-    flangable_items.append(CADitem::Air_Humidifier);
-    flangable_items.append(CADitem::Air_MultiLeafDamper);
+    QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Air_CanvasFlange);
+    flangable_items.append(CADitemTypes::Air_Duct);
+    flangable_items.append(CADitemTypes::Air_DuctBaffleSilencer);
+    flangable_items.append(CADitemTypes::Air_DuctFireDamper);
+    flangable_items.append(CADitemTypes::Air_DuctTeeConnector);
+    flangable_items.append(CADitemTypes::Air_DuctTransition);
+    flangable_items.append(CADitemTypes::Air_DuctTransitionRectRound);
+    flangable_items.append(CADitemTypes::Air_DuctTurn);
+    flangable_items.append(CADitemTypes::Air_DuctVolumetricFlowController);
+    flangable_items.append(CADitemTypes::Air_DuctYpiece);
+    flangable_items.append(CADitemTypes::Air_Fan);
+    flangable_items.append(CADitemTypes::Air_Filter);
+    flangable_items.append(CADitemTypes::Air_HeatExchangerAirAir);
+    flangable_items.append(CADitemTypes::Air_HeatExchangerWaterAir);
+    flangable_items.append(CADitemTypes::Air_Humidifier);
+    flangable_items.append(CADitemTypes::Air_MultiLeafDamper);
     return flangable_items;
 }
 
@@ -82,6 +81,11 @@ QString CAD_air_canvasFlange::iconPath()
 QString CAD_air_canvasFlange::domain()
 {
     return "Air";
+}
+
+QString CAD_air_canvasFlange::description()
+{
+    return "Air|Canvas flange";
 }
 
 void CAD_air_canvasFlange::calculate()

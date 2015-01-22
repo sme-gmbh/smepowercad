@@ -8,10 +8,11 @@ class CAD_heatcool_expansionChamber : public CADitem
 public:
     CAD_heatcool_expansionChamber();
     virtual ~CAD_heatcool_expansionChamber();
-    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();
+    virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
 };

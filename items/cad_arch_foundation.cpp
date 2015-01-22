@@ -1,8 +1,8 @@
 #include "cad_arch_foundation.h"
+#include "itemdb.h"
 
-CAD_arch_foundation::CAD_arch_foundation() : CADitem(CADitem::Arch_Foundation)
+CAD_arch_foundation::CAD_arch_foundation() : CADitem(CADitemTypes::Arch_Foundation)
 {
-    this->description = "Architecture|Foundation";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -19,10 +19,10 @@ CAD_arch_foundation::~CAD_arch_foundation()
 
 }
 
-QList<CADitem::ItemType> CAD_arch_foundation::flangable_items()
+QList<CADitemTypes::ItemType> CAD_arch_foundation::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
-    flangable_items.append(CADitem::Arch_Foundation);
+    QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Arch_Foundation);
     return flangable_items;
 }
 
@@ -49,6 +49,11 @@ QString CAD_arch_foundation::iconPath()
 QString CAD_arch_foundation::domain()
 {
     return "Architecture";
+}
+
+QString CAD_arch_foundation::description()
+{
+    return "Architecture|Foundation";
 }
 
 void CAD_arch_foundation::calculate()

@@ -1,8 +1,8 @@
 #include "cad_arch_door.h"
+#include "itemdb.h"
 
-CAD_arch_door::CAD_arch_door() : CADitem(CADitem::Arch_Door)
+CAD_arch_door::CAD_arch_door() : CADitem(CADitemTypes::Arch_Door)
 {
-    this->description = "Architecture|Door";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -19,9 +19,9 @@ CAD_arch_door::~CAD_arch_door()
 
 }
 
-QList<CADitem::ItemType> CAD_arch_door::flangable_items()
+QList<CADitemTypes::ItemType> CAD_arch_door::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -49,6 +49,11 @@ QString CAD_arch_door::iconPath()
 QString CAD_arch_door::domain()
 {
     return "Architecture";
+}
+
+QString CAD_arch_door::description()
+{
+    return "Architecture|Door";
 }
 
 void CAD_arch_door::calculate()

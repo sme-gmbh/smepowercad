@@ -1,9 +1,9 @@
 #include "cad_basic_circle.h"
+#include "itemdb.h"
 #include "glwidget.h"
 
-CAD_basic_circle::CAD_basic_circle() : CADitem(CADitem::Basic_Circle)
+CAD_basic_circle::CAD_basic_circle() : CADitem(CADitemTypes::Basic_Circle)
 {
-    this->description = "Basic|Circle";
     this->width = 0.0;
     this->widthByLayer = true;
     this->widthByBlock = false;
@@ -33,9 +33,9 @@ CAD_basic_circle::~CAD_basic_circle()
 
 }
 
-QList<CADitem::ItemType> CAD_basic_circle::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_circle::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -63,6 +63,11 @@ QString CAD_basic_circle::iconPath()
 QString CAD_basic_circle::domain()
 {
     return "Basic";
+}
+
+QString CAD_basic_circle::description()
+{
+    return "Basic|Circle";
 }
 
 void CAD_basic_circle::calculate()

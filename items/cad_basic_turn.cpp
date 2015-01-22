@@ -1,9 +1,9 @@
 #include "cad_basic_turn.h"
+#include "itemdb.h"
 #include "glwidget.h"
 
-CAD_basic_turn::CAD_basic_turn() : CADitem(CADitem::Basic_Turn)
+CAD_basic_turn::CAD_basic_turn() : CADitem(CADitemTypes::Basic_Turn)
 {
-    this->description = "Basic|Turn";
     radius_pipe = 5.0;
     radius_turn = 20.0;
     angle_turn = 90.0;
@@ -40,11 +40,11 @@ CAD_basic_turn::~CAD_basic_turn()
 
 }
 
-QList<CADitem::ItemType> CAD_basic_turn::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_turn::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
-    flangable_items.append(CADitem::Basic_Turn);
-    flangable_items.append(CADitem::Basic_Pipe);
+    QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Basic_Turn);
+    flangable_items.append(CADitemTypes::Basic_Pipe);
     return flangable_items;
 }
 
@@ -71,6 +71,11 @@ QString CAD_basic_turn::iconPath()
 QString CAD_basic_turn::domain()
 {
     return "Basic";
+}
+
+QString CAD_basic_turn::description()
+{
+    return "Basic|Turn";
 }
 
 void CAD_basic_turn::calculate()

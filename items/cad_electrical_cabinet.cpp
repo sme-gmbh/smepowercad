@@ -1,8 +1,8 @@
 #include "cad_electrical_cabinet.h"
+#include "itemdb.h"
 
-CAD_electrical_cabinet::CAD_electrical_cabinet() : CADitem(CADitem::Electrical_Cabinet)
+CAD_electrical_cabinet::CAD_electrical_cabinet() : CADitem(CADitemTypes::Electrical_Cabinet)
 {
-    this->description = "Electrical|Cabinet";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -19,10 +19,10 @@ CAD_electrical_cabinet::~CAD_electrical_cabinet()
 
 }
 
-QList<CADitem::ItemType> CAD_electrical_cabinet::flangable_items()
+QList<CADitemTypes::ItemType> CAD_electrical_cabinet::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
-    flangable_items.append(CADitem::Electrical_Cabinet);
+    QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Electrical_Cabinet);
     return flangable_items;
 }
 
@@ -49,6 +49,11 @@ QString CAD_electrical_cabinet::iconPath()
 QString CAD_electrical_cabinet::domain()
 {
     return "Electrical";
+}
+
+QString CAD_electrical_cabinet::description()
+{
+    return "Electrical|Cabinet";
 }
 
 void CAD_electrical_cabinet::calculate()

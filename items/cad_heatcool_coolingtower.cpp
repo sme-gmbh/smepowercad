@@ -1,8 +1,8 @@
 #include "cad_heatcool_coolingtower.h"
+#include "itemdb.h"
 
-CAD_heatcool_coolingTower::CAD_heatcool_coolingTower() : CADitem(CADitem::HeatCool_CoolingTower)
+CAD_heatcool_coolingTower::CAD_heatcool_coolingTower() : CADitem(CADitemTypes::HeatCool_CoolingTower)
 {
-    this->description = "Heat/Cool|Coolingtower";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -19,32 +19,32 @@ CAD_heatcool_coolingTower::~CAD_heatcool_coolingTower()
 
 }
 
-QList<CADitem::ItemType> CAD_heatcool_coolingTower::flangable_items()
+QList<CADitemTypes::ItemType> CAD_heatcool_coolingTower::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
-    flangable_items.append(CADitem::HeatCool_Adjustvalve);
-    flangable_items.append(CADitem::HeatCool_BallValve);
-    flangable_items.append(CADitem::HeatCool_Boiler);
-    flangable_items.append(CADitem::HeatCool_ButterflyValve);
-    flangable_items.append(CADitem::HeatCool_Chiller);
-    flangable_items.append(CADitem::HeatCool_Controlvalve);
-    flangable_items.append(CADitem::HeatCool_CoolingTower);
-    flangable_items.append(CADitem::HeatCool_ExpansionChamber);
-    flangable_items.append(CADitem::HeatCool_Filter);
-    flangable_items.append(CADitem::HeatCool_Flange);
-    flangable_items.append(CADitem::HeatCool_Flowmeter);
-    flangable_items.append(CADitem::HeatCool_HeatExchanger);
-    flangable_items.append(CADitem::HeatCool_Pipe);
-    flangable_items.append(CADitem::HeatCool_PipeEndCap);
-    flangable_items.append(CADitem::HeatCool_PipeReducer);
-    flangable_items.append(CADitem::HeatCool_PipeTeeConnector);
-    flangable_items.append(CADitem::HeatCool_PipeTurn);
-    flangable_items.append(CADitem::HeatCool_Pump);
-    flangable_items.append(CADitem::HeatCool_Radiator);
-    flangable_items.append(CADitem::HeatCool_SafetyValve);
-    flangable_items.append(CADitem::HeatCool_Sensor);
-    flangable_items.append(CADitem::HeatCool_StorageBoiler);
-    flangable_items.append(CADitem::HeatCool_WaterHeater);
+    QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::HeatCool_Adjustvalve);
+    flangable_items.append(CADitemTypes::HeatCool_BallValve);
+    flangable_items.append(CADitemTypes::HeatCool_Boiler);
+    flangable_items.append(CADitemTypes::HeatCool_ButterflyValve);
+    flangable_items.append(CADitemTypes::HeatCool_Chiller);
+    flangable_items.append(CADitemTypes::HeatCool_Controlvalve);
+    flangable_items.append(CADitemTypes::HeatCool_CoolingTower);
+    flangable_items.append(CADitemTypes::HeatCool_ExpansionChamber);
+    flangable_items.append(CADitemTypes::HeatCool_Filter);
+    flangable_items.append(CADitemTypes::HeatCool_Flange);
+    flangable_items.append(CADitemTypes::HeatCool_Flowmeter);
+    flangable_items.append(CADitemTypes::HeatCool_HeatExchanger);
+    flangable_items.append(CADitemTypes::HeatCool_Pipe);
+    flangable_items.append(CADitemTypes::HeatCool_PipeEndCap);
+    flangable_items.append(CADitemTypes::HeatCool_PipeReducer);
+    flangable_items.append(CADitemTypes::HeatCool_PipeTeeConnector);
+    flangable_items.append(CADitemTypes::HeatCool_PipeTurn);
+    flangable_items.append(CADitemTypes::HeatCool_Pump);
+    flangable_items.append(CADitemTypes::HeatCool_Radiator);
+    flangable_items.append(CADitemTypes::HeatCool_SafetyValve);
+    flangable_items.append(CADitemTypes::HeatCool_Sensor);
+    flangable_items.append(CADitemTypes::HeatCool_StorageBoiler);
+    flangable_items.append(CADitemTypes::HeatCool_WaterHeater);
     return flangable_items;
 }
 
@@ -71,6 +71,11 @@ QString CAD_heatcool_coolingTower::iconPath()
 QString CAD_heatcool_coolingTower::domain()
 {
     return "HeatCool";
+}
+
+QString CAD_heatcool_coolingTower::description()
+{
+    return "Heat/Cool|Coolingtower";
 }
 
 void CAD_heatcool_coolingTower::calculate()

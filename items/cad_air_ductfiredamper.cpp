@@ -1,6 +1,7 @@
 #include "cad_air_ductfiredamper.h"
+#include "itemdb.h"
 
-CAD_air_ductFireDamper::CAD_air_ductFireDamper() : CADitem(CADitem::Air_DuctFireDamper)
+CAD_air_ductFireDamper::CAD_air_ductFireDamper() : CADitem(CADitemTypes::Air_DuctFireDamper)
 {
     this->flange_duct_left = new CAD_basic_duct();
     this->flange_duct_middle = new CAD_basic_box();
@@ -13,7 +14,6 @@ CAD_air_ductFireDamper::CAD_air_ductFireDamper() : CADitem(CADitem::Air_DuctFire
     this->subItems.append(main_duct);
     this->subItems.append(function);
 
-    this->description = "Air|Duct fire damper";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -41,20 +41,20 @@ CAD_air_ductFireDamper::~CAD_air_ductFireDamper()
 
 }
 
-QList<CADitem::ItemType> CAD_air_ductFireDamper::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_ductFireDamper::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
-    flangable_items.append(CADitem::Air_Duct);
-    flangable_items.append(CADitem::Air_DuctTeeConnector);
-    flangable_items.append(CADitem::Air_DuctTransition);
-    flangable_items.append(CADitem::Air_DuctTransitionRectRound);
-    flangable_items.append(CADitem::Air_DuctTurn);
-    flangable_items.append(CADitem::Air_DuctVolumetricFlowController);
-    flangable_items.append(CADitem::Air_DuctYpiece);
-    flangable_items.append(CADitem::Air_Filter);
-    flangable_items.append(CADitem::Air_HeatExchangerAirAir);
-    flangable_items.append(CADitem::Air_HeatExchangerWaterAir);
-    flangable_items.append(CADitem::Air_MultiLeafDamper);
+    QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Air_Duct);
+    flangable_items.append(CADitemTypes::Air_DuctTeeConnector);
+    flangable_items.append(CADitemTypes::Air_DuctTransition);
+    flangable_items.append(CADitemTypes::Air_DuctTransitionRectRound);
+    flangable_items.append(CADitemTypes::Air_DuctTurn);
+    flangable_items.append(CADitemTypes::Air_DuctVolumetricFlowController);
+    flangable_items.append(CADitemTypes::Air_DuctYpiece);
+    flangable_items.append(CADitemTypes::Air_Filter);
+    flangable_items.append(CADitemTypes::Air_HeatExchangerAirAir);
+    flangable_items.append(CADitemTypes::Air_HeatExchangerWaterAir);
+    flangable_items.append(CADitemTypes::Air_MultiLeafDamper);
     return flangable_items;
 }
 
@@ -79,6 +79,11 @@ QString CAD_air_ductFireDamper::iconPath()
 QString CAD_air_ductFireDamper::domain()
 {
     return "Air";
+}
+
+QString CAD_air_ductFireDamper::description()
+{
+    return "Air|Duct fire damper";
 }
 
 void CAD_air_ductFireDamper::calculate()

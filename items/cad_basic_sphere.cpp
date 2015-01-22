@@ -1,10 +1,10 @@
 #include "cad_basic_sphere.h"
+#include "itemdb.h"
 #include "glwidget.h"
 #include <GL/glu.h>
 
-CAD_basic_sphere::CAD_basic_sphere() : CADitem(CADitem::Basic_Sphere)
+CAD_basic_sphere::CAD_basic_sphere() : CADitem(CADitemTypes::Basic_Sphere)
 {
-    this->description = "Basic|Sphere";
     this->radius = 0.0;
 
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
@@ -33,9 +33,9 @@ CAD_basic_sphere::~CAD_basic_sphere()
 
 }
 
-QList<CADitem::ItemType> CAD_basic_sphere::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_sphere::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -63,6 +63,11 @@ QString CAD_basic_sphere::iconPath()
 QString CAD_basic_sphere::domain()
 {
     return "Basic";
+}
+
+QString CAD_basic_sphere::description()
+{
+    return "Basic|Sphere";
 }
 
 void CAD_basic_sphere::calculate()

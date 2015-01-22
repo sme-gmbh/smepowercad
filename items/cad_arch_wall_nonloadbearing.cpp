@@ -1,8 +1,8 @@
 #include "cad_arch_wall_nonloadbearing.h"
+#include "itemdb.h"
 
-CAD_arch_wall_nonLoadBearing::CAD_arch_wall_nonLoadBearing() : CADitem(CADitem::Arch_Wall_nonLoadBearing)
+CAD_arch_wall_nonLoadBearing::CAD_arch_wall_nonLoadBearing() : CADitem(CADitemTypes::Arch_Wall_nonLoadBearing)
 {
-    this->description = "Architecture|Wall non load bearing";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -26,11 +26,11 @@ CAD_arch_wall_nonLoadBearing::~CAD_arch_wall_nonLoadBearing()
 
 }
 
-QList<CADitem::ItemType> CAD_arch_wall_nonLoadBearing::flangable_items()
+QList<CADitemTypes::ItemType> CAD_arch_wall_nonLoadBearing::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
-    flangable_items.append(CADitem::Arch_Wall_loadBearing);
-    flangable_items.append(CADitem::Arch_Wall_nonLoadBearing);
+    QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Arch_Wall_loadBearing);
+    flangable_items.append(CADitemTypes::Arch_Wall_nonLoadBearing);
     return flangable_items;
 }
 
@@ -57,6 +57,11 @@ QString CAD_arch_wall_nonLoadBearing::iconPath()
 QString CAD_arch_wall_nonLoadBearing::domain()
 {
     return "Architecture";
+}
+
+QString CAD_arch_wall_nonLoadBearing::description()
+{
+    return "Architecture|Wall non load bearing";
 }
 
 void CAD_arch_wall_nonLoadBearing::calculate()

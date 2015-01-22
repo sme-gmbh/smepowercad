@@ -1,8 +1,8 @@
 #include "cad_air_equipmentframe.h"
+#include "itemdb.h"
 
-CAD_air_equipmentFrame::CAD_air_equipmentFrame() : CADitem(CADitem::Air_EquipmentFrame)
+CAD_air_equipmentFrame::CAD_air_equipmentFrame() : CADitem(CADitemTypes::Air_EquipmentFrame)
 {
-    this->description = "Air|Equipment frame";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -19,9 +19,9 @@ CAD_air_equipmentFrame::~CAD_air_equipmentFrame()
 
 }
 
-QList<CADitem::ItemType> CAD_air_equipmentFrame::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_equipmentFrame::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -49,6 +49,11 @@ QString CAD_air_equipmentFrame::iconPath()
 QString CAD_air_equipmentFrame::domain()
 {
     return "Air";
+}
+
+QString CAD_air_equipmentFrame::description()
+{
+    return "Air|Equipment frame";
 }
 
 void CAD_air_equipmentFrame::calculate()

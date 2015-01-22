@@ -1,8 +1,8 @@
 #include "cad_sprinkler_compressedairwatercontainer.h"
+#include "itemdb.h"
 
-CAD_sprinkler_compressedAirWaterContainer::CAD_sprinkler_compressedAirWaterContainer() : CADitem(CADitem::Sprinkler_CompressedAirWaterContainer)
+CAD_sprinkler_compressedAirWaterContainer::CAD_sprinkler_compressedAirWaterContainer() : CADitem(CADitemTypes::Sprinkler_CompressedAirWaterContainer)
 {
-    this->description = "Sprinkler|Compressed air water container";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -19,21 +19,21 @@ CAD_sprinkler_compressedAirWaterContainer::~CAD_sprinkler_compressedAirWaterCont
 
 }
 
-QList<CADitem::ItemType> CAD_sprinkler_compressedAirWaterContainer::flangable_items()
+QList<CADitemTypes::ItemType> CAD_sprinkler_compressedAirWaterContainer::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
-    flangable_items.append(CADitem::Sprinkler_CompressedAirWaterContainer);
-    flangable_items.append(CADitem::Sprinkler_Distribution);
-    flangable_items.append(CADitem::Sprinkler_Head);
-    flangable_items.append(CADitem::Sprinkler_Pipe);
-    flangable_items.append(CADitem::Sprinkler_PipeEndCap);
-    flangable_items.append(CADitem::Sprinkler_PipeReducer);
-    flangable_items.append(CADitem::Sprinkler_PipeTurn);
-    flangable_items.append(CADitem::Sprinkler_Pump);
-    flangable_items.append(CADitem::Sprinkler_TeeConnector);
-    flangable_items.append(CADitem::Sprinkler_Valve);
-    flangable_items.append(CADitem::Sprinkler_WetAlarmValve);
-    flangable_items.append(CADitem::Sprinkler_ZoneCheck);
+    QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Sprinkler_CompressedAirWaterContainer);
+    flangable_items.append(CADitemTypes::Sprinkler_Distribution);
+    flangable_items.append(CADitemTypes::Sprinkler_Head);
+    flangable_items.append(CADitemTypes::Sprinkler_Pipe);
+    flangable_items.append(CADitemTypes::Sprinkler_PipeEndCap);
+    flangable_items.append(CADitemTypes::Sprinkler_PipeReducer);
+    flangable_items.append(CADitemTypes::Sprinkler_PipeTurn);
+    flangable_items.append(CADitemTypes::Sprinkler_Pump);
+    flangable_items.append(CADitemTypes::Sprinkler_TeeConnector);
+    flangable_items.append(CADitemTypes::Sprinkler_Valve);
+    flangable_items.append(CADitemTypes::Sprinkler_WetAlarmValve);
+    flangable_items.append(CADitemTypes::Sprinkler_ZoneCheck);
 
     return flangable_items;
 }
@@ -61,6 +61,11 @@ QString CAD_sprinkler_compressedAirWaterContainer::iconPath()
 QString CAD_sprinkler_compressedAirWaterContainer::domain()
 {
     return "Sprinkler";
+}
+
+QString CAD_sprinkler_compressedAirWaterContainer::description()
+{
+    return "Sprinkler|Compressed air water container";
 }
 
 void CAD_sprinkler_compressedAirWaterContainer::calculate()

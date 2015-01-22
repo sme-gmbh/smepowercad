@@ -1,8 +1,8 @@
 #include "cad_air_ductfireresistant.h"
+#include "itemdb.h"
 
-CAD_air_ductFireResistant::CAD_air_ductFireResistant() : CADitem(CADitem::Air_DuctFireResistant)
+CAD_air_ductFireResistant::CAD_air_ductFireResistant() : CADitem(CADitemTypes::Air_DuctFireResistant)
 {
-    this->description = "Air|Duct (fire resistant)";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -19,9 +19,9 @@ CAD_air_ductFireResistant::~CAD_air_ductFireResistant()
 
 }
 
-QList<CADitem::ItemType> CAD_air_ductFireResistant::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_ductFireResistant::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -47,6 +47,11 @@ QString CAD_air_ductFireResistant::iconPath()
 QString CAD_air_ductFireResistant::domain()
 {
     return "Air";
+}
+
+QString CAD_air_ductFireResistant::description()
+{
+    return "Air|Duct (fire resistant)";
 }
 
 void CAD_air_ductFireResistant::calculate()

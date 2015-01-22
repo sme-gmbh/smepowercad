@@ -1,8 +1,8 @@
 #include "cad_air_throttlevalve.h"
+#include "itemdb.h"
 
-CAD_air_throttleValve::CAD_air_throttleValve() : CADitem(CADitem::Air_ThrottleValve)
+CAD_air_throttleValve::CAD_air_throttleValve() : CADitem(CADitemTypes::Air_ThrottleValve)
 {
-    this->description = "Air|Throttle valve";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -19,17 +19,17 @@ CAD_air_throttleValve::~CAD_air_throttleValve()
 
 }
 
-QList<CADitem::ItemType> CAD_air_throttleValve::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_throttleValve::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
-    flangable_items.append(CADitem::Air_Pipe);
-    flangable_items.append(CADitem::Air_PipeEndCap);
-    flangable_items.append(CADitem::Air_PipeFireDamper);
-    flangable_items.append(CADitem::Air_PipeReducer);
-    flangable_items.append(CADitem::Air_PipeSilencer);
-    flangable_items.append(CADitem::Air_PipeTeeConnector);
-    flangable_items.append(CADitem::Air_PipeTurn);
-    flangable_items.append(CADitem::Air_PipeVolumetricFlowController);
+    QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Air_Pipe);
+    flangable_items.append(CADitemTypes::Air_PipeEndCap);
+    flangable_items.append(CADitemTypes::Air_PipeFireDamper);
+    flangable_items.append(CADitemTypes::Air_PipeReducer);
+    flangable_items.append(CADitemTypes::Air_PipeSilencer);
+    flangable_items.append(CADitemTypes::Air_PipeTeeConnector);
+    flangable_items.append(CADitemTypes::Air_PipeTurn);
+    flangable_items.append(CADitemTypes::Air_PipeVolumetricFlowController);
     return flangable_items;
 }
 
@@ -56,6 +56,11 @@ QString CAD_air_throttleValve::iconPath()
 QString CAD_air_throttleValve::domain()
 {
     return "Air";
+}
+
+QString CAD_air_throttleValve::description()
+{
+    return "Air|Throttle valve";
 }
 
 void CAD_air_throttleValve::calculate()

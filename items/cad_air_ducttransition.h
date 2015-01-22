@@ -9,10 +9,11 @@ class CAD_air_ductTransition : public CADitem
 public:
     CAD_air_ductTransition();
     virtual ~CAD_air_ductTransition();
-    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();
+    virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
 

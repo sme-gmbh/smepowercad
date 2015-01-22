@@ -1,8 +1,8 @@
 #include "cad_arch_grating.h"
+#include "itemdb.h"
 
-CAD_arch_grating::CAD_arch_grating() : CADitem(CADitem::Arch_Grating)
+CAD_arch_grating::CAD_arch_grating() : CADitem(CADitemTypes::Arch_Grating)
 {
-    this->description = "Architecture|Grating";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -19,9 +19,9 @@ CAD_arch_grating::~CAD_arch_grating()
 
 }
 
-QList<CADitem::ItemType> CAD_arch_grating::flangable_items()
+QList<CADitemTypes::ItemType> CAD_arch_grating::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -49,6 +49,11 @@ QString CAD_arch_grating::iconPath()
 QString CAD_arch_grating::domain()
 {
     return "Architecture";
+}
+
+QString CAD_arch_grating::description()
+{
+    return "Architecture|Grating";
 }
 
 void CAD_arch_grating::calculate()

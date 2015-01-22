@@ -1,8 +1,8 @@
 #include "cad_sanitary_pipeturn.h"
+#include "itemdb.h"
 
-CAD_sanitary_pipeTurn::CAD_sanitary_pipeTurn() : CADitem(CADitem::Sanitary_PipeTurn)
+CAD_sanitary_pipeTurn::CAD_sanitary_pipeTurn() : CADitem(CADitemTypes::Sanitary_PipeTurn)
 {
-    this->description = "Sanitary|Pipe Turn";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -19,22 +19,22 @@ CAD_sanitary_pipeTurn::~CAD_sanitary_pipeTurn()
 
 }
 
-QList<CADitem::ItemType> CAD_sanitary_pipeTurn::flangable_items()
+QList<CADitemTypes::ItemType> CAD_sanitary_pipeTurn::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
-    flangable_items.append(CADitem::Sanitary_ElectricWaterHeater);
-    flangable_items.append(CADitem::Sanitary_EmergencyEyeShower);
-    flangable_items.append(CADitem::Sanitary_EmergencyShower);
-    flangable_items.append(CADitem::Sanitary_Flange);
-    flangable_items.append(CADitem::Sanitary_LiftingUnit);
-    flangable_items.append(CADitem::Sanitary_Pipe);
-    flangable_items.append(CADitem::Sanitary_PipeEndCap);
-    flangable_items.append(CADitem::Sanitary_PipeReducer);
-    flangable_items.append(CADitem::Sanitary_PipeTeeConnector);
-    flangable_items.append(CADitem::Sanitary_PipeTurn);
-    flangable_items.append(CADitem::Sanitary_Shower);
-    flangable_items.append(CADitem::Sanitary_Sink);
-    flangable_items.append(CADitem::Sanitary_WashBasin);
+    QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Sanitary_ElectricWaterHeater);
+    flangable_items.append(CADitemTypes::Sanitary_EmergencyEyeShower);
+    flangable_items.append(CADitemTypes::Sanitary_EmergencyShower);
+    flangable_items.append(CADitemTypes::Sanitary_Flange);
+    flangable_items.append(CADitemTypes::Sanitary_LiftingUnit);
+    flangable_items.append(CADitemTypes::Sanitary_Pipe);
+    flangable_items.append(CADitemTypes::Sanitary_PipeEndCap);
+    flangable_items.append(CADitemTypes::Sanitary_PipeReducer);
+    flangable_items.append(CADitemTypes::Sanitary_PipeTeeConnector);
+    flangable_items.append(CADitemTypes::Sanitary_PipeTurn);
+    flangable_items.append(CADitemTypes::Sanitary_Shower);
+    flangable_items.append(CADitemTypes::Sanitary_Sink);
+    flangable_items.append(CADitemTypes::Sanitary_WashBasin);
 
     return flangable_items;
 }
@@ -62,6 +62,11 @@ QString CAD_sanitary_pipeTurn::iconPath()
 QString CAD_sanitary_pipeTurn::domain()
 {
     return "Sanitary";
+}
+
+QString CAD_sanitary_pipeTurn::description()
+{
+    return "Sanitary|Pipe Turn";
 }
 
 void CAD_sanitary_pipeTurn::calculate()

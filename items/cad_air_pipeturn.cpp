@@ -1,8 +1,8 @@
 #include "cad_air_pipeturn.h"
+#include "itemdb.h"
 
-CAD_air_pipeTurn::CAD_air_pipeTurn() : CADitem(CADitem::Air_PipeTurn)
+CAD_air_pipeTurn::CAD_air_pipeTurn() : CADitem(CADitemTypes::Air_PipeTurn)
 {
-    this->description = "Air|Pipe turn";
     this->turn = new CAD_basic_turn();
     this->subItems.append(turn);
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
@@ -24,17 +24,17 @@ CAD_air_pipeTurn::~CAD_air_pipeTurn()
 
 }
 
-QList<CADitem::ItemType> CAD_air_pipeTurn::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_pipeTurn::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
-    flangable_items.append(CADitem::Air_Pipe);
-    flangable_items.append(CADitem::Air_PipeEndCap);
-    flangable_items.append(CADitem::Air_PipeFireDamper);
-    flangable_items.append(CADitem::Air_PipeReducer);
-    flangable_items.append(CADitem::Air_PipeSilencer);
-    flangable_items.append(CADitem::Air_PipeTeeConnector);
-    flangable_items.append(CADitem::Air_PipeTurn);
-    flangable_items.append(CADitem::Air_PipeVolumetricFlowController);
+    QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Air_Pipe);
+    flangable_items.append(CADitemTypes::Air_PipeEndCap);
+    flangable_items.append(CADitemTypes::Air_PipeFireDamper);
+    flangable_items.append(CADitemTypes::Air_PipeReducer);
+    flangable_items.append(CADitemTypes::Air_PipeSilencer);
+    flangable_items.append(CADitemTypes::Air_PipeTeeConnector);
+    flangable_items.append(CADitemTypes::Air_PipeTurn);
+    flangable_items.append(CADitemTypes::Air_PipeVolumetricFlowController);
     return flangable_items;
 }
 
@@ -61,6 +61,11 @@ QString CAD_air_pipeTurn::iconPath()
 QString CAD_air_pipeTurn::domain()
 {
     return "Air";
+}
+
+QString CAD_air_pipeTurn::description()
+{
+    return "Air|Pipe turn";
 }
 
 void CAD_air_pipeTurn::calculate()

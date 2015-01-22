@@ -1,12 +1,11 @@
 #include "cad_basic_face.h"
+#include "itemdb.h"
 #include "glwidget.h"
 #include <QDebug>
 #include <QPen>
 
-CAD_basic_face::CAD_basic_face() : CADitem(CADitem::Basic_Face)
+CAD_basic_face::CAD_basic_face() : CADitem(CADitemTypes::Basic_Face)
 {
-    this->description = "Basic|Face";
-
     widthByLayer = false;
     widthByBlock = false;
 
@@ -24,9 +23,9 @@ CAD_basic_face::~CAD_basic_face()
 
 }
 
-QList<CADitem::ItemType> CAD_basic_face::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_face::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -54,6 +53,11 @@ QString CAD_basic_face::iconPath()
 QString CAD_basic_face::domain()
 {
     return "Basic";
+}
+
+QString CAD_basic_face::description()
+{
+    return "Basic|Face";
 }
 
 void CAD_basic_face::calculate()

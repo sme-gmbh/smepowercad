@@ -1,14 +1,14 @@
 #include "cad_basic_pipe.h"
+#include "itemdb.h"
 #include "glwidget.h"
 
-CAD_basic_pipe::CAD_basic_pipe() : CADitem(CADitem::Basic_Pipe)
+CAD_basic_pipe::CAD_basic_pipe() : CADitem(CADitemTypes::Basic_Pipe)
 {
 //    vertices_inner_bottom = QList<QVector3D>();
 //    vertices_outer_bottom = QList<QVector3D>();
 //    vertices_outer_top = QList<QVector3D>();
 //    vertices_inner_top = QList<QVector3D>();
 
-    this->description = "Basic|Pipe";
     radius = 1.0;
 
     length = 20.0;
@@ -47,11 +47,11 @@ CAD_basic_pipe::~CAD_basic_pipe()
     indexBufLines.destroy();
 }
 
-QList<CADitem::ItemType> CAD_basic_pipe::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_pipe::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
-    flangable_items.append(CADitem::Basic_Pipe);
-    flangable_items.append(CADitem::Basic_Turn);
+    QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Basic_Pipe);
+    flangable_items.append(CADitemTypes::Basic_Turn);
     return flangable_items;
 }
 
@@ -78,6 +78,11 @@ QString CAD_basic_pipe::iconPath()
 QString CAD_basic_pipe::domain()
 {
     return "Basic";
+}
+
+QString CAD_basic_pipe::description()
+{
+    return "Basic|Pipe";
 }
 
 void CAD_basic_pipe::calculate()

@@ -1,13 +1,14 @@
 #include "cad_air_ducttransitionrectround.h"
+#include "itemdb.h"
 #include "glwidget.h"
 
-CAD_air_ductTransitionRectRound::CAD_air_ductTransitionRectRound() : CADitem(CADitem::Air_DuctTransitionRectRound)
+CAD_air_ductTransitionRectRound::CAD_air_ductTransitionRectRound() : CADitem(CADitemTypes::Air_DuctTransitionRectRound)
 {
     this->flange_rect = new CAD_basic_duct();
     this->flange_round =new CAD_basic_pipe();
     this->subItems.append(flange_rect);
     this->subItems.append(flange_round);
-    this->description = "Air|Duct transition rect/round";
+
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -47,17 +48,17 @@ CAD_air_ductTransitionRectRound::~CAD_air_ductTransitionRectRound()
 
 }
 
-QList<CADitem::ItemType> CAD_air_ductTransitionRectRound::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_ductTransitionRectRound::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
-    flangable_items.append(CADitem::Air_Pipe);
-    flangable_items.append(CADitem::Air_PipeEndCap);
-    flangable_items.append(CADitem::Air_PipeFireDamper);
-    flangable_items.append(CADitem::Air_PipeReducer);
-    flangable_items.append(CADitem::Air_PipeSilencer);
-    flangable_items.append(CADitem::Air_PipeTeeConnector);
-    flangable_items.append(CADitem::Air_PipeTurn);
-    flangable_items.append(CADitem::Air_PipeVolumetricFlowController);
+    QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Air_Pipe);
+    flangable_items.append(CADitemTypes::Air_PipeEndCap);
+    flangable_items.append(CADitemTypes::Air_PipeFireDamper);
+    flangable_items.append(CADitemTypes::Air_PipeReducer);
+    flangable_items.append(CADitemTypes::Air_PipeSilencer);
+    flangable_items.append(CADitemTypes::Air_PipeTeeConnector);
+    flangable_items.append(CADitemTypes::Air_PipeTurn);
+    flangable_items.append(CADitemTypes::Air_PipeVolumetricFlowController);
     return flangable_items;
 }
 
@@ -82,6 +83,11 @@ QString CAD_air_ductTransitionRectRound::iconPath()
 QString CAD_air_ductTransitionRectRound::domain()
 {
     return "Air";
+}
+
+QString CAD_air_ductTransitionRectRound::description()
+{
+    return "Air|Duct transition rect/round";
 }
 
 void CAD_air_ductTransitionRectRound::calculate()

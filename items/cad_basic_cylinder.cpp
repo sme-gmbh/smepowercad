@@ -1,9 +1,9 @@
 #include "cad_basic_cylinder.h"
+#include "itemdb.h"
 #include "glwidget.h"
 
-CAD_basic_cylinder::CAD_basic_cylinder() : CADitem(CADitem::Basic_Cylinder)
+CAD_basic_cylinder::CAD_basic_cylinder() : CADitem(CADitemTypes::Basic_Cylinder)
 {
-    this->description = "Basic|Cylinder";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -37,9 +37,9 @@ CAD_basic_cylinder::~CAD_basic_cylinder()
     indexBufLines.destroy();
 }
 
-QList<CADitem::ItemType> CAD_basic_cylinder::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_cylinder::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -67,6 +67,11 @@ QString CAD_basic_cylinder::iconPath()
 QString CAD_basic_cylinder::domain()
 {
     return "Basic";
+}
+
+QString CAD_basic_cylinder::description()
+{
+    return "Basic|Cylinder";
 }
 
 void CAD_basic_cylinder::calculate()

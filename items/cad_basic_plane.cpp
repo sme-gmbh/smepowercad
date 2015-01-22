@@ -1,9 +1,9 @@
 #include "cad_basic_plane.h"
+#include "itemdb.h"
 #include "glwidget.h"
 
-CAD_basic_plane::CAD_basic_plane() : CADitem(CADitem::Basic_Plane)
+CAD_basic_plane::CAD_basic_plane() : CADitem(CADitemTypes::Basic_Plane)
 {
-    this->description = "Basic|Plane";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -34,9 +34,9 @@ CAD_basic_plane::~CAD_basic_plane()
 
 }
 
-QList<CADitem::ItemType> CAD_basic_plane::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_plane::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -64,6 +64,11 @@ QString CAD_basic_plane::iconPath()
 QString CAD_basic_plane::domain()
 {
     return "Basic";
+}
+
+QString CAD_basic_plane::description()
+{
+    return "Basic|Plane";
 }
 
 void CAD_basic_plane::calculate()

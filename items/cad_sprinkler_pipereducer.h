@@ -8,10 +8,11 @@ class CAD_sprinkler_pipeReducer : public CADitem
 public:
     CAD_sprinkler_pipeReducer();
     virtual ~CAD_sprinkler_pipeReducer();
-    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();
+    virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
 };

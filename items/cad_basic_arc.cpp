@@ -1,11 +1,11 @@
 #include "cad_basic_arc.h"
+#include "itemdb.h"
 #include "glwidget.h"
 
 #define PI 3.1415926535897
 
-CAD_basic_arc::CAD_basic_arc() : CADitem(CADitem::Basic_Arc)
+CAD_basic_arc::CAD_basic_arc() : CADitem(CADitemTypes::Basic_Arc)
 {
-    this->description = "Basic|Arc";
     //arc = QList<QVector3D>();
     wizardParams.insert("Center x", QVariant::fromValue(0.0));
     wizardParams.insert("Center y", QVariant::fromValue(0.0));
@@ -35,9 +35,9 @@ CAD_basic_arc::~CAD_basic_arc()
 
 }
 
-QList<CADitem::ItemType> CAD_basic_arc::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_arc::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -65,6 +65,11 @@ QString CAD_basic_arc::iconPath()
 QString CAD_basic_arc::domain()
 {
     return "Basic";
+}
+
+QString CAD_basic_arc::description()
+{
+    return "Basic|Arc";
 }
 
 void CAD_basic_arc::calculate()

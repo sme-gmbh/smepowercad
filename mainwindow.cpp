@@ -152,7 +152,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //    CAD_basic_box* item;
 
-    //    item = (CAD_basic_box*)itemDB->drawItem("Testlayer", CADitem::Basic_Box);
+    //    item = (CAD_basic_box*)itemDB->drawItem("Testlayer", CADitemTypes::Basic_Box);
     //    item->position = QVector3D(0.0, 0.0, 0.0);
 
     //    item->wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(0.0));
@@ -165,7 +165,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //    item->processWizardInput();
     //    item->calculate();
 
-    //    item = (CAD_basic_box*)itemDB->drawItem("X", CADitem::Basic_Box);
+    //    item = (CAD_basic_box*)itemDB->drawItem("X", CADitemTypes::Basic_Box);
     //    item->position = QVector3D(0.0, 0.0, 0.0);
 
     //    item->wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(15.0));
@@ -178,7 +178,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //    item->processWizardInput();
     //    item->calculate();
 
-    //    item = (CAD_basic_box*)itemDB->drawItem("Y", CADitem::Basic_Box);
+    //    item = (CAD_basic_box*)itemDB->drawItem("Y", CADitemTypes::Basic_Box);
     //    item->position = QVector3D(0.0, 0.0, 0.0);
 
     //    item->wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(0.0));
@@ -191,7 +191,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //    item->processWizardInput();
     //    item->calculate();
 
-    //    item = (CAD_basic_box*)itemDB->drawItem("Z", CADitem::Basic_Box);
+    //    item = (CAD_basic_box*)itemDB->drawItem("Z", CADitemTypes::Basic_Box);
     //    item->position = QVector3D(0.0, 0.0, 0.0);
 
     //    item->wizardParams.insert(QObject::tr("Center x"), QVariant::fromValue(0.0));
@@ -213,7 +213,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //        if(i != 0)
 //        {
 //            pos = QVector3D(20.0 * i, 20.0 * i, 20.0 * i);
-//            item = (CAD_basic_turn*)itemDB->drawItem("X", CADitem::Basic_Turn);
+//            item = (CAD_basic_turn*)itemDB->drawItem("X", CADitemTypes::Basic_Turn);
 //            item->position = pos + QVector3D(0.0, (-20 * i) % 40, 0.0);
 //            item->angle_z = (90 * i) % 180;
 
@@ -226,7 +226,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 //    for (int i=0; i < 1000000; i++)
 //    {
-//        item = (CAD_sprinkler_valve*)itemDB->drawItem("X", CADitem::Sprinkler_Valve);
+//        item = (CAD_sprinkler_valve*)itemDB->drawItem("X", CADitemTypes::Sprinkler_Valve);
 //        item->processWizardInput();
 //        item->calculate();
 //    }
@@ -287,7 +287,7 @@ void MainWindow::createItemToolBar()
         ToolWidget* toolWidget = new ToolWidget(this->itemDB, ui->toolBarItems);
         toolWidget->setDomain(domain);
         ui->toolBarItems->addWidget(toolWidget);
-        connect(toolWidget, SIGNAL(signal_newItemRequested(CADitem::ItemType)), this, SLOT(slot_createNewItem(CADitem::ItemType)));
+        connect(toolWidget, SIGNAL(signal_newItemRequested(CADitemTypes::ItemType)), this, SLOT(slot_createNewItem(CADitemTypes::ItemType)));
     }
 }
 
@@ -489,7 +489,7 @@ void MainWindow::slot_selectionChanged(QList<CADitem*> selectedItems)
     }
 }
 
-void MainWindow::slot_createNewItem(CADitem::ItemType type)
+void MainWindow::slot_createNewItem(CADitemTypes::ItemType type)
 {
     CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), type);
     this->itemWizard->showWizard(item);
@@ -538,7 +538,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Face);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Basic_Face);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -547,7 +547,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Arc);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Basic_Arc);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -556,7 +556,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Box);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Basic_Box);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -565,7 +565,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Circle);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Basic_Circle);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -574,7 +574,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Cylinder);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Basic_Cylinder);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -583,7 +583,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Pipe);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Basic_Pipe);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -592,7 +592,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Line);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Basic_Line);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -601,7 +601,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Plane);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Basic_Plane);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -610,7 +610,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Point);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Basic_Point);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -619,7 +619,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Polyline);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Basic_Polyline);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -628,7 +628,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Sphere);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Basic_Sphere);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -637,7 +637,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Arch_Beam);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Arch_Beam);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -646,7 +646,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Arch_BlockOut);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Arch_BlockOut);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -655,7 +655,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Arch_Door);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Arch_Door);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -664,7 +664,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Arch_LevelSlab);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Arch_LevelSlab);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -673,7 +673,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Arch_Support);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Arch_Support);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -682,7 +682,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Arch_Wall_loadBearing);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Arch_Wall_loadBearing);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -691,7 +691,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Arch_Wall_nonLoadBearing);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Arch_Wall_nonLoadBearing);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -700,7 +700,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Arch_Window);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Arch_Window);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -709,7 +709,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_CanvasFlange);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_CanvasFlange);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -718,7 +718,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_DuctBaffleSilencer);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_DuctBaffleSilencer);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -727,7 +727,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_Duct);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_Duct);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -736,7 +736,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_DuctEndPlate);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_DuctEndPlate);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -745,7 +745,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_DuctFireDamper);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_DuctFireDamper);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -754,7 +754,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_DuctFireResistant);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_DuctFireResistant);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -763,7 +763,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_DuctTeeConnector);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_DuctTeeConnector);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -772,7 +772,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_DuctTransition);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_DuctTransition);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -781,7 +781,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_DuctTransitionRectRound);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_DuctTransitionRectRound);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -790,7 +790,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_DuctTurn);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_DuctTurn);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -799,7 +799,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_DuctVolumetricFlowController);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_DuctVolumetricFlowController);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -808,7 +808,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_DuctYpiece);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_DuctYpiece);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -817,7 +817,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_EmptyCabinet);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_EmptyCabinet);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -826,7 +826,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_EquipmentFrame);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_EquipmentFrame);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -835,7 +835,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_Fan);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_Fan);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -844,7 +844,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_Filter);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_Filter);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -853,7 +853,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_HeatExchangerAirAir);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_HeatExchangerAirAir);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -862,7 +862,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_HeatExchangerWaterAir);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_HeatExchangerWaterAir);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -871,7 +871,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_Humidifier);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_Humidifier);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -880,7 +880,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_MultiLeafDamper);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_MultiLeafDamper);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -889,7 +889,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_Pipe);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_Pipe);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -898,7 +898,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_PipeEndCap);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_PipeEndCap);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -907,7 +907,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_PipeFireDamper);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_PipeFireDamper);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -916,7 +916,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_PipeReducer);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_PipeReducer);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -925,7 +925,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_PipeSilencer);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_PipeSilencer);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -934,7 +934,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_PipeTeeConnector);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_PipeTeeConnector);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -943,7 +943,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_PipeTurn);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_PipeTurn);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -952,7 +952,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_PipeVolumetricFlowController);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_PipeVolumetricFlowController);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -961,7 +961,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_PressureReliefDamper);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_PressureReliefDamper);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -970,7 +970,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_ThrottleValve);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_ThrottleValve);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -979,7 +979,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_Adjustvalve);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_Adjustvalve);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -988,7 +988,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_BallValve);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_BallValve);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -997,7 +997,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_Boiler);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_Boiler);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1006,7 +1006,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_ButterflyValve);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_ButterflyValve);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1015,7 +1015,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_Chiller);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_Chiller);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1024,7 +1024,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_Controlvalve);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_Controlvalve);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1033,7 +1033,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_CoolingTower);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_CoolingTower);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1042,7 +1042,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_ExpansionChamber);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_ExpansionChamber);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1051,7 +1051,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_Filter);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_Filter);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1060,7 +1060,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_Flange);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_Flange);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1069,7 +1069,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_Flowmeter);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_Flowmeter);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1078,7 +1078,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_HeatExchanger);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_HeatExchanger);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1087,7 +1087,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_Pipe);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_Pipe);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1096,7 +1096,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_PipeEndCap);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_PipeEndCap);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1105,7 +1105,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_PipeReducer);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_PipeReducer);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1114,7 +1114,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_PipeTeeConnector);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_PipeTeeConnector);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1123,7 +1123,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_PipeTurn);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_PipeTurn);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1132,7 +1132,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_Pump);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_Pump);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1141,7 +1141,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_Radiator);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_Radiator);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1150,7 +1150,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_SafetyValve);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_SafetyValve);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1159,7 +1159,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_Sensor);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_Sensor);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1168,7 +1168,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_StorageBoiler);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_StorageBoiler);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1177,7 +1177,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::HeatCool_WaterHeater);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::HeatCool_WaterHeater);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1186,7 +1186,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Sprinkler_CompressedAirWaterContainer);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Sprinkler_CompressedAirWaterContainer);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1195,7 +1195,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Sprinkler_Distribution);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Sprinkler_Distribution);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1204,7 +1204,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Sprinkler_Head);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Sprinkler_Head);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1213,7 +1213,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Sprinkler_Pipe);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Sprinkler_Pipe);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1222,7 +1222,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Sprinkler_PipeTurn);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Sprinkler_PipeTurn);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1231,7 +1231,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Sprinkler_Pump);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Sprinkler_Pump);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1240,7 +1240,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Sprinkler_TeeConnector);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Sprinkler_TeeConnector);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1249,7 +1249,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Sprinkler_Valve);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Sprinkler_Valve);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1258,7 +1258,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Sprinkler_WetAlarmValve);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Sprinkler_WetAlarmValve);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1267,7 +1267,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Sprinkler_ZoneCheck);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Sprinkler_ZoneCheck);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1277,7 +1277,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Turn);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Basic_Turn);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1287,7 +1287,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Arch_BoredPile);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Arch_BoredPile);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1296,7 +1296,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Arch_Foundation);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Arch_Foundation);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1305,7 +1305,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Arch_Grating);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Arch_Grating);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1314,7 +1314,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Basic_Duct);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Basic_Duct);
 //    this->itemWizard->showWizard(item);
 //}
 
@@ -1324,7 +1324,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 //    qDebug() << "Action name" << ((QAction*)sender())->objectName();
 //    qDebug() << "Action text" << ((QAction*)sender())->text();
 
-//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitem::Air_PipeBranch);
+//    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), CADitemTypes::Air_PipeBranch);
 //    this->itemWizard->showWizard(item);
 //}
 

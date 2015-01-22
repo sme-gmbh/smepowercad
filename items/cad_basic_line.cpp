@@ -1,12 +1,11 @@
 #include "cad_basic_line.h"
+#include "itemdb.h"
 #include "glwidget.h"
 #include <QDebug>
 #include <QPen>
 
-CAD_basic_line::CAD_basic_line() : CADitem(CADitem::Basic_Line)
+CAD_basic_line::CAD_basic_line() : CADitem(CADitemTypes::Basic_Line)
 {
-    this->description = "Basic|Line";
-
     widthByLayer = false;
     widthByBlock = false;
 
@@ -36,9 +35,9 @@ CAD_basic_line::~CAD_basic_line()
     indexBufLines.destroy();
 }
 
-QList<CADitem::ItemType> CAD_basic_line::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_line::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -66,6 +65,11 @@ QString CAD_basic_line::iconPath()
 QString CAD_basic_line::domain()
 {
     return "Basic";
+}
+
+QString CAD_basic_line::description()
+{
+    return "Basic|Line";
 }
 
 void CAD_basic_line::calculate()

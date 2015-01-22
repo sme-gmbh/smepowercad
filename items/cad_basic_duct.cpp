@@ -1,9 +1,9 @@
 #include "cad_basic_duct.h"
+#include "itemdb.h"
 #include "glwidget.h"
 
-CAD_basic_duct::CAD_basic_duct() : CADitem(CADitem::Basic_Duct)
+CAD_basic_duct::CAD_basic_duct() : CADitem(CADitemTypes::Basic_Duct)
 {
-    this->description = "Basic|Duct";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -40,10 +40,10 @@ CAD_basic_duct::~CAD_basic_duct()
     indexBufLines.destroy();
 }
 
-QList<CADitem::ItemType> CAD_basic_duct::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_duct::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
-    flangable_items.append(CADitem::Basic_Duct);
+    QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Basic_Duct);
     return flangable_items;
 }
 
@@ -70,6 +70,11 @@ QString CAD_basic_duct::iconPath()
 QString CAD_basic_duct::domain()
 {
     return "Basic";
+}
+
+QString CAD_basic_duct::description()
+{
+    return "Basic|Duct";
 }
 
 void CAD_basic_duct::calculate()

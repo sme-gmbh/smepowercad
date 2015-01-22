@@ -1,9 +1,9 @@
 #include "cad_air_heatexchangerairair.h"
+#include "itemdb.h"
 #include "glwidget.h"
 
-CAD_air_heatExchangerAirAir::CAD_air_heatExchangerAirAir() : CADitem(CADitem::Air_HeatExchangerAirAir)
+CAD_air_heatExchangerAirAir::CAD_air_heatExchangerAirAir() : CADitem(CADitemTypes::Air_HeatExchangerAirAir)
 {
-    this->description = "Air|Heat exchanger air/air";
     this->duct = new CAD_air_duct();
     this->subItems.append(duct);
     this->seperator_1 = new CAD_basic_plane();
@@ -46,20 +46,20 @@ CAD_air_heatExchangerAirAir::~CAD_air_heatExchangerAirAir()
 
 }
 
-QList<CADitem::ItemType> CAD_air_heatExchangerAirAir::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_heatExchangerAirAir::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
-    flangable_items.append(CADitem::Air_Duct);
-    flangable_items.append(CADitem::Air_DuctEndPlate);
-    flangable_items.append(CADitem::Air_DuctFireDamper);
-    flangable_items.append(CADitem::Air_DuctTeeConnector);
-    flangable_items.append(CADitem::Air_DuctTransition);
-    flangable_items.append(CADitem::Air_DuctTransitionRectRound);
-    flangable_items.append(CADitem::Air_DuctTurn);
-    flangable_items.append(CADitem::Air_DuctVolumetricFlowController);
-    flangable_items.append(CADitem::Air_DuctYpiece);
-    flangable_items.append(CADitem::Air_Filter);
-    flangable_items.append(CADitem::Air_MultiLeafDamper);
+    QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Air_Duct);
+    flangable_items.append(CADitemTypes::Air_DuctEndPlate);
+    flangable_items.append(CADitemTypes::Air_DuctFireDamper);
+    flangable_items.append(CADitemTypes::Air_DuctTeeConnector);
+    flangable_items.append(CADitemTypes::Air_DuctTransition);
+    flangable_items.append(CADitemTypes::Air_DuctTransitionRectRound);
+    flangable_items.append(CADitemTypes::Air_DuctTurn);
+    flangable_items.append(CADitemTypes::Air_DuctVolumetricFlowController);
+    flangable_items.append(CADitemTypes::Air_DuctYpiece);
+    flangable_items.append(CADitemTypes::Air_Filter);
+    flangable_items.append(CADitemTypes::Air_MultiLeafDamper);
     return flangable_items;
 }
 
@@ -86,6 +86,11 @@ QString CAD_air_heatExchangerAirAir::iconPath()
 QString CAD_air_heatExchangerAirAir::domain()
 {
     return "Air";
+}
+
+QString CAD_air_heatExchangerAirAir::description()
+{
+    return "Air|Heat exchanger air/air";
 }
 
 void CAD_air_heatExchangerAirAir::calculate()

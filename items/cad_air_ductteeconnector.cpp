@@ -1,7 +1,8 @@
 #include "cad_air_ductteeconnector.h"
+#include "itemdb.h"
 #include "glwidget.h"
 
-CAD_air_ductTeeConnector::CAD_air_ductTeeConnector() : CADitem(CADitem::Air_DuctTeeConnector)
+CAD_air_ductTeeConnector::CAD_air_ductTeeConnector() : CADitem(CADitemTypes::Air_DuctTeeConnector)
 {
     for(int i = 0; i < 2; i++)
     {
@@ -32,7 +33,6 @@ CAD_air_ductTeeConnector::CAD_air_ductTeeConnector() : CADitem(CADitem::Air_Duct
     this->subItems.append(flange_2);
     this->subItems.append(flange_3);
 
-    this->description = "Air|Duct T-Connector";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -76,22 +76,22 @@ CAD_air_ductTeeConnector::~CAD_air_ductTeeConnector()
 
 }
 
-QList<CADitem::ItemType> CAD_air_ductTeeConnector::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_ductTeeConnector::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
-    flangable_items.append(CADitem::Air_Duct);
-    flangable_items.append(CADitem::Air_DuctEndPlate);
-    flangable_items.append(CADitem::Air_DuctFireDamper);
-    flangable_items.append(CADitem::Air_DuctTeeConnector);
-    flangable_items.append(CADitem::Air_DuctTransition);
-    flangable_items.append(CADitem::Air_DuctTransitionRectRound);
-    flangable_items.append(CADitem::Air_DuctTurn);
-    flangable_items.append(CADitem::Air_DuctVolumetricFlowController);
-    flangable_items.append(CADitem::Air_DuctYpiece);
-    flangable_items.append(CADitem::Air_Filter);
-    flangable_items.append(CADitem::Air_HeatExchangerAirAir);
-    flangable_items.append(CADitem::Air_HeatExchangerWaterAir);
-    flangable_items.append(CADitem::Air_MultiLeafDamper);
+    QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Air_Duct);
+    flangable_items.append(CADitemTypes::Air_DuctEndPlate);
+    flangable_items.append(CADitemTypes::Air_DuctFireDamper);
+    flangable_items.append(CADitemTypes::Air_DuctTeeConnector);
+    flangable_items.append(CADitemTypes::Air_DuctTransition);
+    flangable_items.append(CADitemTypes::Air_DuctTransitionRectRound);
+    flangable_items.append(CADitemTypes::Air_DuctTurn);
+    flangable_items.append(CADitemTypes::Air_DuctVolumetricFlowController);
+    flangable_items.append(CADitemTypes::Air_DuctYpiece);
+    flangable_items.append(CADitemTypes::Air_Filter);
+    flangable_items.append(CADitemTypes::Air_HeatExchangerAirAir);
+    flangable_items.append(CADitemTypes::Air_HeatExchangerWaterAir);
+    flangable_items.append(CADitemTypes::Air_MultiLeafDamper);
     return flangable_items;
 }
 
@@ -116,6 +116,11 @@ QString CAD_air_ductTeeConnector::iconPath()
 QString CAD_air_ductTeeConnector::domain()
 {
     return "Air";
+}
+
+QString CAD_air_ductTeeConnector::description()
+{
+    return "Air|Duct T-Connector";
 }
 
 void CAD_air_ductTeeConnector::calculate()

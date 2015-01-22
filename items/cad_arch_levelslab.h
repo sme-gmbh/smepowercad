@@ -9,10 +9,11 @@ class CAD_arch_levelSlab : public CADitem
 public:
     CAD_arch_levelSlab();
     virtual ~CAD_arch_levelSlab();
-    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();
+    virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
 

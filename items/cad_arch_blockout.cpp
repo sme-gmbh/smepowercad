@@ -1,11 +1,11 @@
 #include "cad_arch_blockout.h"
+#include "itemdb.h"
 
-CAD_arch_blockOut::CAD_arch_blockOut() : CADitem(CADitem::Arch_BlockOut)
+CAD_arch_blockOut::CAD_arch_blockOut() : CADitem(CADitemTypes::Arch_BlockOut)
 {
     this->blockout = new CAD_basic_box();
     this->subItems.append(blockout);
 
-    this->description = "Architecture|Blockout";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -26,9 +26,9 @@ CAD_arch_blockOut::~CAD_arch_blockOut()
 
 }
 
-QList<CADitem::ItemType> CAD_arch_blockOut::flangable_items()
+QList<CADitemTypes::ItemType> CAD_arch_blockOut::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -56,6 +56,11 @@ QString CAD_arch_blockOut::iconPath()
 QString CAD_arch_blockOut::domain()
 {
     return "Architecture";
+}
+
+QString CAD_arch_blockOut::description()
+{
+    return "Architecture|Blockout";
 }
 
 void CAD_arch_blockOut::calculate()

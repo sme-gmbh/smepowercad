@@ -1,6 +1,7 @@
 #include "cad_air_ductbafflesilencer.h"
+#include "itemdb.h"
 
-CAD_air_ductBaffleSilencer::CAD_air_ductBaffleSilencer() : CADitem(CADitem::Air_DuctBaffleSilencer)
+CAD_air_ductBaffleSilencer::CAD_air_ductBaffleSilencer() : CADitem(CADitemTypes::Air_DuctBaffleSilencer)
 {
     main_duct = new CAD_basic_duct();
     flange_duct_left = new CAD_basic_duct();
@@ -9,7 +10,6 @@ CAD_air_ductBaffleSilencer::CAD_air_ductBaffleSilencer() : CADitem(CADitem::Air_
     subItems.append(flange_duct_left);
     subItems.append(flange_duct_right);
 
-    this->description = "Air|Duct baffle silencer";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -35,22 +35,22 @@ CAD_air_ductBaffleSilencer::~CAD_air_ductBaffleSilencer()
 
 }
 
-QList<CADitem::ItemType> CAD_air_ductBaffleSilencer::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_ductBaffleSilencer::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
-    flangable_items.append(CADitem::Air_Duct);
-    flangable_items.append(CADitem::Air_DuctEndPlate);
-    flangable_items.append(CADitem::Air_DuctFireDamper);
-    flangable_items.append(CADitem::Air_DuctTeeConnector);
-    flangable_items.append(CADitem::Air_DuctTransition);
-    flangable_items.append(CADitem::Air_DuctTransitionRectRound);
-    flangable_items.append(CADitem::Air_DuctTurn);
-    flangable_items.append(CADitem::Air_DuctVolumetricFlowController);
-    flangable_items.append(CADitem::Air_DuctYpiece);
-    flangable_items.append(CADitem::Air_Filter);
-    flangable_items.append(CADitem::Air_HeatExchangerAirAir);
-    flangable_items.append(CADitem::Air_HeatExchangerWaterAir);
-    flangable_items.append(CADitem::Air_MultiLeafDamper);
+    QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Air_Duct);
+    flangable_items.append(CADitemTypes::Air_DuctEndPlate);
+    flangable_items.append(CADitemTypes::Air_DuctFireDamper);
+    flangable_items.append(CADitemTypes::Air_DuctTeeConnector);
+    flangable_items.append(CADitemTypes::Air_DuctTransition);
+    flangable_items.append(CADitemTypes::Air_DuctTransitionRectRound);
+    flangable_items.append(CADitemTypes::Air_DuctTurn);
+    flangable_items.append(CADitemTypes::Air_DuctVolumetricFlowController);
+    flangable_items.append(CADitemTypes::Air_DuctYpiece);
+    flangable_items.append(CADitemTypes::Air_Filter);
+    flangable_items.append(CADitemTypes::Air_HeatExchangerAirAir);
+    flangable_items.append(CADitemTypes::Air_HeatExchangerWaterAir);
+    flangable_items.append(CADitemTypes::Air_MultiLeafDamper);
     return flangable_items;
 }
 
@@ -75,6 +75,11 @@ QString CAD_air_ductBaffleSilencer::iconPath()
 QString CAD_air_ductBaffleSilencer::domain()
 {
     return "Air";
+}
+
+QString CAD_air_ductBaffleSilencer::description()
+{
+    return "Air|Duct baffle silencer";
 }
 
 void CAD_air_ductBaffleSilencer::calculate()

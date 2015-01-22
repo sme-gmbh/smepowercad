@@ -1,8 +1,8 @@
 #include "cad_arch_support.h"
+#include "itemdb.h"
 
-CAD_arch_support::CAD_arch_support() : CADitem(CADitem::Arch_Support)
+CAD_arch_support::CAD_arch_support() : CADitem(CADitemTypes::Arch_Support)
 {
-    this->description = "Architecture|Support";
     support = new CAD_basic_box();
     this->subItems.append(support);
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
@@ -24,9 +24,9 @@ CAD_arch_support::~CAD_arch_support()
 
 }
 
-QList<CADitem::ItemType> CAD_arch_support::flangable_items()
+QList<CADitemTypes::ItemType> CAD_arch_support::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -54,6 +54,11 @@ QString CAD_arch_support::iconPath()
 QString CAD_arch_support::domain()
 {
     return "Architecture";
+}
+
+QString CAD_arch_support::description()
+{
+    return "Architecture|Support";
 }
 
 void CAD_arch_support::calculate()

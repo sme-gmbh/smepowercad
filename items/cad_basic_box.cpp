@@ -1,9 +1,9 @@
 #include "cad_basic_box.h"
+#include "itemdb.h"
 #include "glwidget.h"
 
-CAD_basic_box::CAD_basic_box() : CADitem(CADitem::Basic_Box)
+CAD_basic_box::CAD_basic_box() : CADitem(CADitemTypes::Basic_Box)
 {
-    this->description = "Basic|Box";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -36,9 +36,9 @@ CAD_basic_box::~CAD_basic_box()
 
 }
 
-QList<CADitem::ItemType> CAD_basic_box::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_box::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -66,6 +66,11 @@ QString CAD_basic_box::iconPath()
 QString CAD_basic_box::domain()
 {
     return "Basic";
+}
+
+QString CAD_basic_box::description()
+{
+    return "Basic|Box";
 }
 
 void CAD_basic_box::calculate()

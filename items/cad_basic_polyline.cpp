@@ -1,12 +1,11 @@
 #include "cad_basic_polyline.h"
+#include "itemdb.h"
 #include "glwidget.h"
 #include <QDebug>
 #include <QPen>
 
-CAD_basic_polyline::CAD_basic_polyline() : CADitem(CADitem::Basic_Polyline)
+CAD_basic_polyline::CAD_basic_polyline() : CADitem(CADitemTypes::Basic_Polyline)
 {
-    this->description = "Basic|Polyline";
-
     this->widthByBlock = false;
     this->widthByLayer = true;
 
@@ -19,9 +18,9 @@ CAD_basic_polyline::~CAD_basic_polyline()
 
 }
 
-QList<CADitem::ItemType> CAD_basic_polyline::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_polyline::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -49,6 +48,11 @@ QString CAD_basic_polyline::iconPath()
 QString CAD_basic_polyline::domain()
 {
     return "Basic";
+}
+
+QString CAD_basic_polyline::description()
+{
+    return "Basic|Polyline";
 }
 
 void CAD_basic_polyline::calculate()

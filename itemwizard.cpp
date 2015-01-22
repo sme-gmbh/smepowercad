@@ -63,7 +63,7 @@ void ItemWizard::showWizard(CADitem *item)
         ui->formLayout->addRow(it.key(), wdg);
     }
 
-    this->setWindowTitle(tr("Item Wizard: %1").arg(item->description));
+    this->setWindowTitle(tr("Item Wizard: %1").arg(item->description()));
 
     // Show item graphic description
     ui->label_itemGraphic->setPixmap(QPixmap::fromImage(this->wizardImage(item)));

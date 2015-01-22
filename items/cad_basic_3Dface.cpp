@@ -1,11 +1,11 @@
 #include "cad_basic_3Dface.h"
+#include "itemdb.h"
 #include "glwidget.h"
 #include <QDebug>
 #include <QPen>
 
-CAD_basic_3Dface::CAD_basic_3Dface() : CADitem(CADitem::Basic_Face)
+CAD_basic_3Dface::CAD_basic_3Dface() : CADitem(CADitemTypes::Basic_Face)
 {
-    this->description = "Basic|3D face";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -22,9 +22,9 @@ CAD_basic_3Dface::~CAD_basic_3Dface()
 
 }
 
-QList<CADitem::ItemType> CAD_basic_3Dface::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_3Dface::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -52,6 +52,11 @@ QString CAD_basic_3Dface::iconPath()
 QString CAD_basic_3Dface::domain()
 {
     return "Basic";
+}
+
+QString CAD_basic_3Dface::description()
+{
+    return "Basic|3D face";
 }
 
 void CAD_basic_3Dface::calculate()

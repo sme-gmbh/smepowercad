@@ -1,9 +1,8 @@
 #include "cad_basic_point.h"
+#include "itemdb.h"
 
-CAD_basic_point::CAD_basic_point() : CADitem(CADitem::Basic_Point)
+CAD_basic_point::CAD_basic_point() : CADitem(CADitemTypes::Basic_Point)
 {
-    this->description = "Basic|Point";
-
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -17,9 +16,9 @@ CAD_basic_point::~CAD_basic_point()
 
 }
 
-QList<CADitem::ItemType> CAD_basic_point::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_point::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -47,6 +46,11 @@ QString CAD_basic_point::iconPath()
 QString CAD_basic_point::domain()
 {
     return "Basic";
+}
+
+QString CAD_basic_point::description()
+{
+    return "Basic|Point";
 }
 
 void CAD_basic_point::calculate()

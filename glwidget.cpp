@@ -963,7 +963,7 @@ void GLWidget::paintGL()
 
     if (this->itemGripModifier->getActiveGrip() == ItemGripModifier::Grip_Move)
     {
-        QString itemDescription = "[" + this->itemGripModifier->getItem()->description + "]";
+        QString itemDescription = "[" + this->itemGripModifier->getItem()->description() + "]";
         QVector3D pos = this->itemGripModifier->getItem()->position;
         QString itemPosition_from = QString().sprintf(" @{%.3lf|%.3lf|%.3lf}", pos.x(), pos.y(), pos.z());
         infoText = "Move " + itemDescription + itemPosition_from;
@@ -973,7 +973,7 @@ void GLWidget::paintGL()
     }
     if (this->itemGripModifier->getActiveGrip() == ItemGripModifier::Grip_Copy)
     {
-        QString itemDescription = "[" + this->itemGripModifier->getItem()->description + "]";
+        QString itemDescription = "[" + this->itemGripModifier->getItem()->description() + "]";
         QVector3D pos = this->itemGripModifier->getItem()->position;
         QString itemPosition_from = QString().sprintf(" @{%.3lf|%.3lf|%.3lf}", pos.x(), pos.y(), pos.z());
         infoText = "Copy " + itemDescription + itemPosition_from;
@@ -1046,7 +1046,7 @@ void GLWidget::paintGL()
         }
         }
 
-        QString itemDescription = "[" + item_lastHighlight->description + "]";
+        QString itemDescription = "[" + item_lastHighlight->description() + "]";
         QString itemPosition = QString().sprintf(" @{%.3lf|%.3lf|%.3lf}", this->snapPos_scene.x(), this->snapPos_scene.y(), this->snapPos_scene.z());
         infoText += " of " + itemDescription + itemPosition;
     }

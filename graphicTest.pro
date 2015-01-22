@@ -151,7 +151,8 @@ SOURCES += main.cpp\
     items/cad_basic_face.cpp \
     itemgripmodifier.cpp \
     items/cad_air_pipebranch.cpp \
-    toolwidget.cpp
+    toolwidget.cpp \
+    caditemtypes.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -291,7 +292,9 @@ HEADERS  += mainwindow.h \
     items/cad_basic_face.h \
     itemgripmodifier.h \
     items/cad_air_pipebranch.h \
-    toolwidget.h
+    toolwidget.h \
+    caditemheaderincludes.h \
+    caditemtypes.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

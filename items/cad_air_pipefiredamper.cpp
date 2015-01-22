@@ -1,9 +1,8 @@
 #include "cad_air_pipefiredamper.h"
+#include "itemdb.h"
 
-CAD_air_pipeFireDamper::CAD_air_pipeFireDamper() : CADitem(CADitem::Air_PipeFireDamper)
+CAD_air_pipeFireDamper::CAD_air_pipeFireDamper() : CADitem(CADitemTypes::Air_PipeFireDamper)
 {
-    this->description = "Air|Pipe fire damper";
-
     this->main_pipe = new CAD_basic_pipe();
     this->function = new CAD_basic_box();
     this->subItems.append(main_pipe);
@@ -31,16 +30,16 @@ CAD_air_pipeFireDamper::~CAD_air_pipeFireDamper()
 
 }
 
-QList<CADitem::ItemType> CAD_air_pipeFireDamper::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_pipeFireDamper::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
-    flangable_items.append(CADitem::Air_Pipe);
-    flangable_items.append(CADitem::Air_PipeEndCap);
-    flangable_items.append(CADitem::Air_PipeReducer);
-    flangable_items.append(CADitem::Air_PipeSilencer);
-    flangable_items.append(CADitem::Air_PipeTeeConnector);
-    flangable_items.append(CADitem::Air_PipeTurn);
-    flangable_items.append(CADitem::Air_PipeVolumetricFlowController);
+    QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Air_Pipe);
+    flangable_items.append(CADitemTypes::Air_PipeEndCap);
+    flangable_items.append(CADitemTypes::Air_PipeReducer);
+    flangable_items.append(CADitemTypes::Air_PipeSilencer);
+    flangable_items.append(CADitemTypes::Air_PipeTeeConnector);
+    flangable_items.append(CADitemTypes::Air_PipeTurn);
+    flangable_items.append(CADitemTypes::Air_PipeVolumetricFlowController);
     return flangable_items;
 }
 
@@ -67,6 +66,11 @@ QString CAD_air_pipeFireDamper::iconPath()
 QString CAD_air_pipeFireDamper::domain()
 {
     return "Air";
+}
+
+QString CAD_air_pipeFireDamper::description()
+{
+    return "Air|Pipe fire damper";
 }
 
 void CAD_air_pipeFireDamper::calculate()

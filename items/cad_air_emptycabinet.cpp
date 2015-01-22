@@ -1,8 +1,8 @@
 #include "cad_air_emptycabinet.h"
+#include "itemdb.h"
 
-CAD_air_emptyCabinet::CAD_air_emptyCabinet() : CADitem(CADitem::Air_EmptyCabinet)
+CAD_air_emptyCabinet::CAD_air_emptyCabinet() : CADitem(CADitemTypes::Air_EmptyCabinet)
 {
-    this->description = "Air|Empty cabinet";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -19,9 +19,9 @@ CAD_air_emptyCabinet::~CAD_air_emptyCabinet()
 
 }
 
-QList<CADitem::ItemType> CAD_air_emptyCabinet::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_emptyCabinet::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -49,6 +49,11 @@ QString CAD_air_emptyCabinet::iconPath()
 QString CAD_air_emptyCabinet::domain()
 {
     return "Air";
+}
+
+QString CAD_air_emptyCabinet::description()
+{
+    return "Air|Empty cabinet";
 }
 
 void CAD_air_emptyCabinet::calculate()

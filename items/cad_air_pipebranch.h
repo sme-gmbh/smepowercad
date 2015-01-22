@@ -9,10 +9,11 @@ class CAD_air_pipeBranch : public CADitem
 public:
     CAD_air_pipeBranch();
     virtual ~CAD_air_pipeBranch();
-    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();
+    virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
 

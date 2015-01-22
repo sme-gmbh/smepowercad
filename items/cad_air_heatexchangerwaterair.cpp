@@ -1,6 +1,7 @@
 #include "cad_air_heatexchangerwaterair.h"
+#include "itemdb.h"
 
-CAD_air_heatExchangerWaterAir::CAD_air_heatExchangerWaterAir() : CADitem(CADitem::Air_HeatExchangerWaterAir)
+CAD_air_heatExchangerWaterAir::CAD_air_heatExchangerWaterAir() : CADitem(CADitemTypes::Air_HeatExchangerWaterAir)
 {
     this->duct = new CAD_air_duct();
     this->pipe3 = new CAD_basic_pipe();
@@ -11,7 +12,6 @@ CAD_air_heatExchangerWaterAir::CAD_air_heatExchangerWaterAir() : CADitem(CADitem
     this->subItems.append(pipe4);
     this->subItems.append(exchanger);
 
-    this->description = "Air|Heat exchanger water/air";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -40,9 +40,9 @@ CAD_air_heatExchangerWaterAir::~CAD_air_heatExchangerWaterAir()
 
 }
 
-QList<CADitem::ItemType> CAD_air_heatExchangerWaterAir::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_heatExchangerWaterAir::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -70,6 +70,11 @@ QString CAD_air_heatExchangerWaterAir::iconPath()
 QString CAD_air_heatExchangerWaterAir::domain()
 {
     return "Air";
+}
+
+QString CAD_air_heatExchangerWaterAir::description()
+{
+    return "Air|Heat exchanger water/air";
 }
 
 void CAD_air_heatExchangerWaterAir::calculate()

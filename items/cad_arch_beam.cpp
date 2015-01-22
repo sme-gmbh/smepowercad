@@ -1,11 +1,11 @@
 #include "cad_arch_beam.h"
+#include "itemdb.h"
 
-CAD_arch_beam::CAD_arch_beam() : CADitem(CADitem::Arch_Beam)
+CAD_arch_beam::CAD_arch_beam() : CADitem(CADitemTypes::Arch_Beam)
 {
     this->beam = new CAD_basic_box();
     this->subItems.append(beam);
 
-    this->description = "Architecture|Beam";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -26,9 +26,9 @@ CAD_arch_beam::~CAD_arch_beam()
 
 }
 
-QList<CADitem::ItemType> CAD_arch_beam::flangable_items()
+QList<CADitemTypes::ItemType> CAD_arch_beam::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -56,6 +56,11 @@ QString CAD_arch_beam::iconPath()
 QString CAD_arch_beam::domain()
 {
     return "Architecture";
+}
+
+QString CAD_arch_beam::description()
+{
+    return "Architecture|Beam";
 }
 
 void CAD_arch_beam::calculate()

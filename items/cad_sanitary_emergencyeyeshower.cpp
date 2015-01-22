@@ -1,8 +1,8 @@
 #include "cad_sanitary_emergencyeyeshower.h"
+#include "itemdb.h"
 
-CAD_sanitary_emergencyEyeShower::CAD_sanitary_emergencyEyeShower() : CADitem(CADitem::Sanitary_EmergencyEyeShower)
+CAD_sanitary_emergencyEyeShower::CAD_sanitary_emergencyEyeShower() : CADitem(CADitemTypes::Sanitary_EmergencyEyeShower)
 {
-    this->description = "Sanitary|Emergency Eye Shower";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -19,22 +19,22 @@ CAD_sanitary_emergencyEyeShower::~CAD_sanitary_emergencyEyeShower()
 
 }
 
-QList<CADitem::ItemType> CAD_sanitary_emergencyEyeShower::flangable_items()
+QList<CADitemTypes::ItemType> CAD_sanitary_emergencyEyeShower::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
-    flangable_items.append(CADitem::Sanitary_ElectricWaterHeater);
-    flangable_items.append(CADitem::Sanitary_EmergencyEyeShower);
-    flangable_items.append(CADitem::Sanitary_EmergencyShower);
-    flangable_items.append(CADitem::Sanitary_Flange);
-    flangable_items.append(CADitem::Sanitary_LiftingUnit);
-    flangable_items.append(CADitem::Sanitary_Pipe);
-    flangable_items.append(CADitem::Sanitary_PipeEndCap);
-    flangable_items.append(CADitem::Sanitary_PipeReducer);
-    flangable_items.append(CADitem::Sanitary_PipeTeeConnector);
-    flangable_items.append(CADitem::Sanitary_PipeTurn);
-    flangable_items.append(CADitem::Sanitary_Shower);
-    flangable_items.append(CADitem::Sanitary_Sink);
-    flangable_items.append(CADitem::Sanitary_WashBasin);
+    QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Sanitary_ElectricWaterHeater);
+    flangable_items.append(CADitemTypes::Sanitary_EmergencyEyeShower);
+    flangable_items.append(CADitemTypes::Sanitary_EmergencyShower);
+    flangable_items.append(CADitemTypes::Sanitary_Flange);
+    flangable_items.append(CADitemTypes::Sanitary_LiftingUnit);
+    flangable_items.append(CADitemTypes::Sanitary_Pipe);
+    flangable_items.append(CADitemTypes::Sanitary_PipeEndCap);
+    flangable_items.append(CADitemTypes::Sanitary_PipeReducer);
+    flangable_items.append(CADitemTypes::Sanitary_PipeTeeConnector);
+    flangable_items.append(CADitemTypes::Sanitary_PipeTurn);
+    flangable_items.append(CADitemTypes::Sanitary_Shower);
+    flangable_items.append(CADitemTypes::Sanitary_Sink);
+    flangable_items.append(CADitemTypes::Sanitary_WashBasin);
 
     return flangable_items;
 }
@@ -62,6 +62,11 @@ QString CAD_sanitary_emergencyEyeShower::iconPath()
 QString CAD_sanitary_emergencyEyeShower::domain()
 {
     return "Sanitary";
+}
+
+QString CAD_sanitary_emergencyEyeShower::description()
+{
+    return "Sanitary|Emergency Eye Shower";
 }
 
 void CAD_sanitary_emergencyEyeShower::calculate()

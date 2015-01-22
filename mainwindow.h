@@ -97,7 +97,7 @@ public slots:
     void slot_snapTo(QVector3D snapPos_scene, int snapMode);
     void slot_selectionChanged(QList<CADitem*> selectedItems);
 
-    void slot_createNewItem(CADitem::ItemType type);
+    void slot_createNewItem(CADitemTypes::ItemType type);
 
 private slots:
     void on_prompt_input_returnPressed();

@@ -1,10 +1,10 @@
 #include "cad_arch_boredPile.h"
+#include "itemdb.h"
 
-CAD_arch_boredPile::CAD_arch_boredPile() : CADitem(CADitem::Arch_BoredPile)
+CAD_arch_boredPile::CAD_arch_boredPile() : CADitem(CADitemTypes::Arch_BoredPile)
 {
     this->pile = new CAD_basic_pipe;
     this->subItems.append(this->pile);
-    this->description = "Architecture|BoredPile";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -25,10 +25,10 @@ CAD_arch_boredPile::~CAD_arch_boredPile()
 
 }
 
-QList<CADitem::ItemType> CAD_arch_boredPile::flangable_items()
+QList<CADitemTypes::ItemType> CAD_arch_boredPile::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
-    flangable_items.append(CADitem::Arch_BoredPile);
+    QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Arch_BoredPile);
     return flangable_items;
 }
 
@@ -55,6 +55,11 @@ QString CAD_arch_boredPile::iconPath()
 QString CAD_arch_boredPile::domain()
 {
     return "Architecture";
+}
+
+QString CAD_arch_boredPile::description()
+{
+    return "Architecture|BoredPile";
 }
 
 void CAD_arch_boredPile::calculate()

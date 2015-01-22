@@ -103,7 +103,7 @@ void ItemGripModifier::slot_rejected()
 void ItemGripModifier::slot_button_clicked()
 {
     QToolButton* button = (QToolButton*)this->sender();
-    CADitem::ItemType type = (CADitem::ItemType)button->property("ItemType").toInt();
+    CADitemTypes::ItemType type = (CADitemTypes::ItemType)button->property("ItemType").toInt();
     int flangeIndex = this->item->snap_flanges.indexOf(this->scenePos) + 1;
 
     CADitem* newItem = itemDB->drawItem(this->item->layer->name, type);
@@ -214,7 +214,7 @@ void ItemGripModifier::deleteWdgs(QLayout *layout)
 
 void ItemGripModifier::showAppendBox()
 {
-    QList<CADitem::ItemType> flangable_items = item->flangable_items();
+    QList<CADitemTypes::ItemType> flangable_items = item->flangable_items();
 
     deleteWdgs(ui->gridLayout);
     ui->label->setText(tr("Choose new item"));
@@ -224,7 +224,7 @@ void ItemGripModifier::showAppendBox()
     int column = 0;
     int row = 0;
 
-    foreach(CADitem::ItemType type, flangable_items)
+    foreach(CADitemTypes::ItemType type, flangable_items)
     {
         QIcon icon = itemDB->getIconByItemType(type, QSize(64, 64));
         QToolButton* button = new QToolButton(this);

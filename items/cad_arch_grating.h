@@ -8,10 +8,11 @@ class CAD_arch_grating : public CADitem
 public:
     CAD_arch_grating();
     virtual ~CAD_arch_grating();
-    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();
+    virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
 };

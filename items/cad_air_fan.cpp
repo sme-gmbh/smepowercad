@@ -1,8 +1,8 @@
 #include "cad_air_fan.h"
+#include "itemdb.h"
 
-CAD_air_fan::CAD_air_fan() : CADitem(CADitem::Air_Fan)
+CAD_air_fan::CAD_air_fan() : CADitem(CADitemTypes::Air_Fan)
 {
-    this->description = "Air|Fan";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -19,10 +19,10 @@ CAD_air_fan::~CAD_air_fan()
 
 }
 
-QList<CADitem::ItemType> CAD_air_fan::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_fan::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
-    flangable_items.append(CADitem::Air_CanvasFlange);
+    QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Air_CanvasFlange);
     return flangable_items;
 }
 
@@ -49,6 +49,11 @@ QString CAD_air_fan::iconPath()
 QString CAD_air_fan::domain()
 {
     return "Air";
+}
+
+QString CAD_air_fan::description()
+{
+    return "Air|Fan";
 }
 
 void CAD_air_fan::calculate()

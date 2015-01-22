@@ -52,13 +52,11 @@ void ToolWidget::mousePressEvent(QMouseEvent *event)
 
 void ToolWidget::enterEvent(QEvent *event)
 {
-//    this->displayItemButtons();
     event->accept();
 }
 
 void ToolWidget::leaveEvent(QEvent *event)
 {
-//    this->deleteWdgs(ui->gridLayout);
     event->accept();
 }
 
@@ -67,19 +65,16 @@ void ToolWidget::displayItemButtons()
     if (isOpen)
         return;
 
-    qDebug() << domain << "displayItemButtons";
-
     QList<int> items = itemDB->getItemTypesByDomain(this->domain);
 
-//    int columnCount = sqrt(buttonCount);
     int columnCount = 15;
     int column = 0;
     int row = 0;
 
     foreach(int type, items)
     {
-        QIcon icon = itemDB->getIconByItemType((CADitem::ItemType)type, QSize(32, 32));
-        QString description = itemDB->getItemDescriptionByItemType((CADitem::ItemType)type);
+        QIcon icon = itemDB->getIconByItemType((CADitemTypes::ItemType)type, QSize(32, 32));
+        QString description = itemDB->getItemDescriptionByItemType((CADitemTypes::ItemType)type);
         QToolButton* button = new QToolButton(this);
         button->setStyleSheet("border = 0;");
         button->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -110,11 +105,8 @@ void ToolWidget::displayItemButtons()
 
 void ToolWidget::deleteWdgs(QLayout *layout)
 {
-    qDebug() << domain << isOpen;
     if (!this->isOpen)
         return;
-
-    qDebug() << domain << "deleteWdgs" << (layout != NULL);
 
     QLayoutItem *item;
     while ((item = layout->takeAt(0)))
@@ -142,14 +134,14 @@ void ToolWidget::deleteWdgs(QLayout *layout)
 void ToolWidget::setBackgroundColor(QColor color)
 {
     QString stylesheet = this->styleSheet();
-    stylesheet.prepend(QString().sprintf("QLabel{background-color: rgb(%d, %d, %d);}", color.red(), color.green(), color.green()));
+    stylesheet.prepend(QString().sprintf("QLabel{background-color: rgb(%d, %d, %d);}\n\n", color.red(), color.green(), color.green()));
     this->setStyleSheet(stylesheet);
 }
 
 void ToolWidget::slot_button_clicked()
 {
     QToolButton* button = (QToolButton*)this->sender();
-    CADitem::ItemType type = (CADitem::ItemType)button->property("ItemType").toInt();
+    CADitemTypes::ItemType type = (CADitemTypes::ItemType)button->property("ItemType").toInt();
     emit signal_newItemRequested(type);
 }
 

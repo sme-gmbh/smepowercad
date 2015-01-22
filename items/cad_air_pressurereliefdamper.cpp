@@ -1,8 +1,8 @@
 #include "cad_air_pressurereliefdamper.h"
+#include "itemdb.h"
 
-CAD_air_pressureReliefDamper::CAD_air_pressureReliefDamper() : CADitem(CADitem::Air_PressureReliefDamper)
+CAD_air_pressureReliefDamper::CAD_air_pressureReliefDamper() : CADitem(CADitemTypes::Air_PressureReliefDamper)
 {
-    this->description = "Air|Pressure relief damper";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -19,9 +19,9 @@ CAD_air_pressureReliefDamper::~CAD_air_pressureReliefDamper()
 
 }
 
-QList<CADitem::ItemType> CAD_air_pressureReliefDamper::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_pressureReliefDamper::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -49,6 +49,11 @@ QString CAD_air_pressureReliefDamper::iconPath()
 QString CAD_air_pressureReliefDamper::domain()
 {
     return "Air";
+}
+
+QString CAD_air_pressureReliefDamper::description()
+{
+    return "Air|Pressure relief damper";
 }
 
 void CAD_air_pressureReliefDamper::calculate()

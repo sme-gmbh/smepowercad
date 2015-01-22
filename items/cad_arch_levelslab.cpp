@@ -1,8 +1,8 @@
 #include "cad_arch_levelslab.h"
+#include "itemdb.h"
 
-CAD_arch_levelSlab::CAD_arch_levelSlab() : CADitem(CADitem::Arch_LevelSlab)
+CAD_arch_levelSlab::CAD_arch_levelSlab() : CADitem(CADitemTypes::Arch_LevelSlab)
 {
-    this->description = "Architecture|Level slab";
     slab = new CAD_basic_box();
     subItems.append(slab);
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
@@ -24,9 +24,9 @@ CAD_arch_levelSlab::~CAD_arch_levelSlab()
 
 }
 
-QList<CADitem::ItemType> CAD_arch_levelSlab::flangable_items()
+QList<CADitemTypes::ItemType> CAD_arch_levelSlab::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -54,6 +54,11 @@ QString CAD_arch_levelSlab::iconPath()
 QString CAD_arch_levelSlab::domain()
 {
     return "Architecture";
+}
+
+QString CAD_arch_levelSlab::description()
+{
+    return "Architecture|Level slab";
 }
 
 void CAD_arch_levelSlab::calculate()

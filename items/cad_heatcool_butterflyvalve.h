@@ -8,10 +8,11 @@ class CAD_heatcool_butterflyValve : public CADitem
 public:
     CAD_heatcool_butterflyValve();
     virtual ~CAD_heatcool_butterflyValve();
-    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();
+    virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
 };

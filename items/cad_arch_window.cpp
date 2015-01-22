@@ -1,8 +1,8 @@
 #include "cad_arch_window.h"
+#include "itemdb.h"
 
-CAD_arch_window::CAD_arch_window() : CADitem(CADitem::Arch_Window)
+CAD_arch_window::CAD_arch_window() : CADitem(CADitemTypes::Arch_Window)
 {
-    this->description = "Architecture|Window";
     wizardParams.insert("Position x", QVariant::fromValue(0.0));
     wizardParams.insert("Position y", QVariant::fromValue(0.0));
     wizardParams.insert("Position z", QVariant::fromValue(0.0));
@@ -19,9 +19,9 @@ CAD_arch_window::~CAD_arch_window()
 
 }
 
-QList<CADitem::ItemType> CAD_arch_window::flangable_items()
+QList<CADitemTypes::ItemType> CAD_arch_window::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
 }
@@ -49,6 +49,11 @@ QString CAD_arch_window::iconPath()
 QString CAD_arch_window::domain()
 {
     return "Architecture";
+}
+
+QString CAD_arch_window::description()
+{
+    return "Architecture|Window";
 }
 
 void CAD_arch_window::calculate()
