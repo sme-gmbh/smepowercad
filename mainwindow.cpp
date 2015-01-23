@@ -33,20 +33,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(itemGripModifier, SIGNAL(signal_sceneRepaintNeeded()), this, SIGNAL(signal_repaintNeeded()));
 
     // **** Command prompt ****
-    QWidget *promptTitle = new QWidget(ui->dockWidgetPrompt);
-    promptTitle->setMaximumWidth(0);
-    promptTitle->setMaximumHeight(0);
-    ui->dockWidgetPrompt->setTitleBarWidget(promptTitle);
-
-    // **** CAD command interpreter ****
-    this->cadcommand = new CADcommand(this);
-    connect(this, SIGNAL(signal_command_prompt_input(QString)), cadcommand, SLOT(slot_prompt_input(QString)));
-    connect(cadcommand, SIGNAL(signal_prompt_output(QString)), ui->prompt_output, SLOT(appendPlainText(QString)));
-
-    //    connect(cadcommand, SIGNAL(signal_startLine(QPointF)), cadview, SLOT(slot_startLine(QPointF)));
-    //    connect(cadcommand, SIGNAL(signal_update_line(QPointF)), cadview, SLOT(slot_update_line(QPointF)));
-    //    connect(cadcommand, SIGNAL(signal_finishLine(QPointF)), cadview, SLOT(slot_finishLine(QPointF)));
-    //    connect(cadcommand, SIGNAL(signal_abort()), cadview, SLOT(slot_abort()));
+//    QWidget *promptTitle = new QWidget(ui->dockWidgetPrompt);
+//    promptTitle->setMaximumWidth(0);
+//    promptTitle->setMaximumHeight(0);
+//    ui->dockWidgetPrompt->setTitleBarWidget(promptTitle);
 
 
     // **** Menubar actions ****
@@ -395,14 +385,14 @@ void MainWindow::slot_file_close_action()
     qDebug() << "slot_file_close_action()";
 }
 
-void MainWindow::on_prompt_input_returnPressed()
-{
-    QString str = ui->prompt_input->text();
-    ui->prompt_input->clear();
+//void MainWindow::on_prompt_input_returnPressed()
+//{
+//    QString str = ui->prompt_input->text();
+//    ui->prompt_input->clear();
 
-    ui->prompt_output->appendPlainText(str);
-    emit signal_command_prompt_input(str);
-}
+//    ui->prompt_output->appendPlainText(str);
+//    emit signal_command_prompt_input(str);
+//}
 
 void MainWindow::slot_openRecentFile()
 {
@@ -491,7 +481,13 @@ void MainWindow::slot_selectionChanged(QList<CADitem*> selectedItems)
 
 void MainWindow::slot_createNewItem(CADitemTypes::ItemType type)
 {
-    CADitem* item = itemDB->drawItem(this->layerManager->getCurrentLayer(), type);
+    Layer* currentLayer = this->layerManager->getCurrentLayer();
+    if (currentLayer == this->itemDB->getTopLevelLayer())
+    {
+        QMessageBox::critical(this, tr("Item creation"), tr("No layer is selected."));
+        return;
+    }
+    CADitem* item = itemDB->drawItem(currentLayer, type);
     this->itemWizard->showWizard(item);
 }
 

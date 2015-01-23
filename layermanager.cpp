@@ -294,6 +294,11 @@ void LayerManager::on_treeWidget_layer_itemClicked(QTreeWidgetItem *item, int co
 void LayerManager::on_treeWidget_layer_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
     Q_UNUSED(previous);
+    if (current == NULL)
+    {
+        currentLayer = topLevelLayer;
+        return;
+    }
     Layer* newCurrentLayer = itemDB->getLayerByName(current->text(0));
     if (newCurrentLayer != NULL)
     {

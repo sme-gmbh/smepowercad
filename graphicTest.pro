@@ -26,7 +26,6 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     layer.cpp \
     layermanager.cpp \
-    cadcommand.cpp \
     creationinterface.cpp \
     dxflib/src/dl_writer_ascii.cpp \
     dxflib/src/dl_dxf.cpp \
@@ -158,7 +157,6 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
     layer.h \
     layermanager.h \
-    cadcommand.h \
     creationinterface.h \
     dxflib/src/dl_writer_ascii.h \
     dxflib/src/dl_writer.h \
