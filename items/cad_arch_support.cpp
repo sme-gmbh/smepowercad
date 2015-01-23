@@ -5,15 +5,15 @@ CAD_arch_support::CAD_arch_support() : CADitem(CADitemTypes::Arch_Support)
 {
     support = new CAD_basic_box();
     this->subItems.append(support);
-    wizardParams.insert("Position x", (0.0));
-    wizardParams.insert("Position y", (0.0));
-    wizardParams.insert("Position z", (0.0));
-    wizardParams.insert("Angle x", (0.0));
-    wizardParams.insert("Angle y", (0.0));
-    wizardParams.insert("Angle z", (0.0));
-    wizardParams.insert("a", (3000));
-    wizardParams.insert("b", (300));
-    wizardParams.insert("l", (300));
+    wizardParams.insert("Position x", 0.0);
+    wizardParams.insert("Position y", 0.0);
+    wizardParams.insert("Position z", 0.0);
+    wizardParams.insert("Angle x", 0.0);
+    wizardParams.insert("Angle y", 0.0);
+    wizardParams.insert("Angle z", 0.0);
+    wizardParams.insert("a", 3000.0);
+    wizardParams.insert("b",  300.0);
+    wizardParams.insert("l",  300.0);
 
     processWizardInput();
     calculate();

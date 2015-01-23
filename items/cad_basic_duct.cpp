@@ -4,18 +4,18 @@
 
 CAD_basic_duct::CAD_basic_duct() : CADitem(CADitemTypes::Basic_Duct)
 {
-    wizardParams.insert("Position x", (0.0));
-    wizardParams.insert("Position y", (0.0));
-    wizardParams.insert("Position z", (0.0));
-    wizardParams.insert("Angle x", (0.0));
-    wizardParams.insert("Angle y", (0.0));
-    wizardParams.insert("Angle z", (0.0));
+    wizardParams.insert("Position x", 0.0);
+    wizardParams.insert("Position y", 0.0);
+    wizardParams.insert("Position z", 0.0);
+    wizardParams.insert("Angle x", 0.0);
+    wizardParams.insert("Angle y", 0.0);
+    wizardParams.insert("Angle z", 0.0);
 
 
-    wizardParams.insert("s", (1.0));
-    wizardParams.insert("l", (10.0));
-    wizardParams.insert("b", (5.0));
-    wizardParams.insert("a", (5.0));
+    wizardParams.insert("s",  1.0);
+    wizardParams.insert("l", 10.0);
+    wizardParams.insert("b",  5.0);
+    wizardParams.insert("a",  5.0);
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();

@@ -5,15 +5,17 @@ CAD_air_pipeTurn::CAD_air_pipeTurn() : CADitem(CADitemTypes::Air_PipeTurn)
 {
     this->turn = new CAD_basic_turn();
     this->subItems.append(turn);
-    wizardParams.insert("Position x", (0.0));
-    wizardParams.insert("Position y", (0.0));
-    wizardParams.insert("Position z", (0.0));
-    wizardParams.insert("Angle x", (0.0));
-    wizardParams.insert("Angle y", (0.0));
-    wizardParams.insert("r", (100));
-    wizardParams.insert("alpha", (90.0));
-    wizardParams.insert("d", (20));
-    wizardParams.insert("s", (1));
+    wizardParams.insert("Position x", 0.0);
+    wizardParams.insert("Position y", 0.0);
+    wizardParams.insert("Position z", 0.0);
+    wizardParams.insert("Angle x", 0.0);
+    wizardParams.insert("Angle y", 0.0);
+    wizardParams.insert("Angle z", 0.0);
+
+    wizardParams.insert("d",     20.0);
+    wizardParams.insert("r",    100.0);
+    wizardParams.insert("alpha", 90.0);
+    wizardParams.insert("s",      1.0);
 
     processWizardInput();
     calculate();

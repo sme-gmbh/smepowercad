@@ -41,7 +41,8 @@ int main(int argc, char *argv[])
     a.installTranslator(&translator);
 
     MainWindow w;
-    w.showMaximized();
+//    w.showMaximized();
+    w.showFullScreen();
 
 
     return a.exec();

@@ -5,17 +5,17 @@ CAD_air_pipeReducer::CAD_air_pipeReducer() : CADitem(CADitemTypes::Air_PipeReduc
 {
     this->reducer = new CAD_basic_pipe();
     this->subItems.append(reducer);
-    wizardParams.insert("Position x", (0.0));
-    wizardParams.insert("Position y", (0.0));
-    wizardParams.insert("Position z", (0.0));
-    wizardParams.insert("Angle x", (0.0));
-    wizardParams.insert("Angle y", (0.0));
-    wizardParams.insert("Angle z", (0.0));
+    wizardParams.insert("Position x", 0.0);
+    wizardParams.insert("Position y", 0.0);
+    wizardParams.insert("Position z", 0.0);
+    wizardParams.insert("Angle x", 0.0);
+    wizardParams.insert("Angle y", 0.0);
+    wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("d", (30.0));
-    wizardParams.insert("d2", (20.0));
-    wizardParams.insert("s", (1.0));
-    wizardParams.insert("l", (40.0));
+    wizardParams.insert("d",  30.0);
+    wizardParams.insert("d2", 20.0);
+    wizardParams.insert("s",   1.0);
+    wizardParams.insert("l",  40.0);
 
 
 

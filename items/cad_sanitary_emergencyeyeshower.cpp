@@ -3,12 +3,12 @@
 
 CAD_sanitary_emergencyEyeShower::CAD_sanitary_emergencyEyeShower() : CADitem(CADitemTypes::Sanitary_EmergencyEyeShower)
 {
-    wizardParams.insert("Position x", (0.0));
-    wizardParams.insert("Position y", (0.0));
-    wizardParams.insert("Position z", (0.0));
-    wizardParams.insert("Angle x", (0.0));
-    wizardParams.insert("Angle y", (0.0));
-    wizardParams.insert("Angle z", (0.0));
+    wizardParams.insert("Position x", 0.0);
+    wizardParams.insert("Position y", 0.0);
+    wizardParams.insert("Position z", 0.0);
+    wizardParams.insert("Angle x", 0.0);
+    wizardParams.insert("Angle y", 0.0);
+    wizardParams.insert("Angle z", 0.0);
 
     processWizardInput();
     calculate();

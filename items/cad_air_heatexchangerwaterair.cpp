@@ -12,24 +12,25 @@ CAD_air_heatExchangerWaterAir::CAD_air_heatExchangerWaterAir() : CADitem(CADitem
     this->subItems.append(pipe4);
     this->subItems.append(exchanger);
 
-    wizardParams.insert("Position x", (0.0));
-    wizardParams.insert("Position y", (0.0));
-    wizardParams.insert("Position z", (0.0));
-    wizardParams.insert("Angle x", (0.0));
-    wizardParams.insert("Angle y", (0.0));
+    wizardParams.insert("Position x", 0.0);
+    wizardParams.insert("Position y", 0.0);
+    wizardParams.insert("Position z", 0.0);
+    wizardParams.insert("Angle x", 0.0);
+    wizardParams.insert("Angle y", 0.0);
+    wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("s", (1.0));
-    wizardParams.insert("ff", (1.0));
-    wizardParams.insert("fe", (1.0));
-    wizardParams.insert("l", (100.0));
-    wizardParams.insert("l3", (30.0));
-    wizardParams.insert("l4", (70.0));
-    wizardParams.insert("d", (20.0));
-    wizardParams.insert("j", (40.0));
-    wizardParams.insert("m3", (20.0));
-    wizardParams.insert("m4", (40.0));
-    wizardParams.insert("a", (100.0));
-    wizardParams.insert("b", (100.0));
+    wizardParams.insert("s",   1.0);
+    wizardParams.insert("ff",  1.0);
+    wizardParams.insert("fe",  1.0);
+    wizardParams.insert("l", 100.0);
+    wizardParams.insert("l3", 30.0);
+    wizardParams.insert("l4", 70.0);
+    wizardParams.insert("d",  20.0);
+    wizardParams.insert("j",  40.0);
+    wizardParams.insert("m3", 20.0);
+    wizardParams.insert("m4", 40.0);
+    wizardParams.insert("a", 100.0);
+    wizardParams.insert("b", 100.0);
 
     processWizardInput();
     calculate();

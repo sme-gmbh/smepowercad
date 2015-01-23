@@ -3,16 +3,16 @@
 
 CAD_arch_wall_loadBearing::CAD_arch_wall_loadBearing() : CADitem(CADitemTypes::Arch_Wall_loadBearing)
 {
-    wizardParams.insert("Position x", (0.0));
-    wizardParams.insert("Position y", (0.0));
-    wizardParams.insert("Position z", (0.0));
-    wizardParams.insert("Angle x", (0.0));
-    wizardParams.insert("Angle y", (0.0));
-    wizardParams.insert("Angle z", (0.0));
+    wizardParams.insert("Position x", 0.0);
+    wizardParams.insert("Position y", 0.0);
+    wizardParams.insert("Position z", 0.0);
+    wizardParams.insert("Angle x", 0.0);
+    wizardParams.insert("Angle y", 0.0);
+    wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("b", (200.0));
-    wizardParams.insert("l", (10000.0));
-    wizardParams.insert("a", (3000.0));
+    wizardParams.insert("b",   200.0);
+    wizardParams.insert("l", 10000.0);
+    wizardParams.insert("a",  3000.0);
 
     basic_box = new CAD_basic_box();
     subItems.append(basic_box);

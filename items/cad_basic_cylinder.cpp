@@ -4,14 +4,15 @@
 
 CAD_basic_cylinder::CAD_basic_cylinder() : CADitem(CADitemTypes::Basic_Cylinder)
 {
-    wizardParams.insert("Position x", (0.0));
-    wizardParams.insert("Position y", (0.0));
-    wizardParams.insert("Position z", (0.0));
-    wizardParams.insert("Angle x", (0.0));
-    wizardParams.insert("Angle y", (0.0));
-    wizardParams.insert("Angle z", (0.0));
-    wizardParams.insert("Radius", (500.0));
-    wizardParams.insert("Height", (1000.0));
+    wizardParams.insert("Position x", 0.0);
+    wizardParams.insert("Position y", 0.0);
+    wizardParams.insert("Position z", 0.0);
+    wizardParams.insert("Angle x", 0.0);
+    wizardParams.insert("Angle y", 0.0);
+    wizardParams.insert("Angle z", 0.0);
+
+    wizardParams.insert("Radius",  500.0);
+    wizardParams.insert("Height", 1000.0);
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();

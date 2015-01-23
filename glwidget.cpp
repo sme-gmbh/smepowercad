@@ -14,8 +14,8 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, Item
     this->centerOfViewInScene = QVector3D();
     this->displayCenter = QPoint();
     this->cuttingplane = CuttingPlane_nZ;
-    this->height_of_intersection = QVector3D(0.0, 0.0, 0.0);
-    this->depth_of_view = QVector3D(0.0, 0.0, 0.0);
+    this->height_of_intersection = QVector3D(0.0, 0.0, 100000.0);
+    this->depth_of_view = QVector3D(0.0, 0.0, 200000.0);
     this->render_solid = true;
     this->render_outline = true;
     this->cameraPosition = QVector3D();

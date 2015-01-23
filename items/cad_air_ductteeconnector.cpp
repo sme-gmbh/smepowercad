@@ -40,20 +40,20 @@ CAD_air_ductTeeConnector::CAD_air_ductTeeConnector() : CADitem(CADitemTypes::Air
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("a", 20.0);
-    wizardParams.insert("b", 30.0);
+    wizardParams.insert("a",  20.0);
+    wizardParams.insert("b",  30.0);
     wizardParams.insert("b2", 30.0);
-    wizardParams.insert("e", 0.0);
+    wizardParams.insert("e",   0.0);
     wizardParams.insert("b3", 50.0);
     wizardParams.insert("l", 260.0);
     wizardParams.insert("m", 100.0);
     wizardParams.insert("n", 110.0);
     wizardParams.insert("r1", 50.0);
     wizardParams.insert("r2", 50.0);
-    wizardParams.insert("u", 50.0);
-    wizardParams.insert("ff", 1.0);
-    wizardParams.insert("fe", 1.0);
-    wizardParams.insert("s", 1.0);
+    wizardParams.insert("u",  50.0);
+    wizardParams.insert("ff",  1.0);
+    wizardParams.insert("fe",  1.0);
+    wizardParams.insert("s",   1.0);
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();

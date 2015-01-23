@@ -8,13 +8,14 @@ CAD_basic_circle::CAD_basic_circle() : CADitem(CADitemTypes::Basic_Circle)
     this->widthByLayer = true;
     this->widthByBlock = false;
 
-    wizardParams.insert("Center x", (0.0));
-    wizardParams.insert("Center y", (0.0));
-    wizardParams.insert("Center z", (0.0));
-    wizardParams.insert("Angle x", (0.0));
-    wizardParams.insert("Angle y", (0.0));
-    wizardParams.insert("Angle z", (0.0));
-    wizardParams.insert("Radius", (1.0));
+    wizardParams.insert("Center x", 0.0);
+    wizardParams.insert("Center y", 0.0);
+    wizardParams.insert("Center z", 0.0);
+    wizardParams.insert("Angle x", 0.0);
+    wizardParams.insert("Angle y", 0.0);
+    wizardParams.insert("Angle z", 0.0);
+
+    wizardParams.insert("Radius", 1.0);
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();

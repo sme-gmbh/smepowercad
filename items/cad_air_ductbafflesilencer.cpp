@@ -10,21 +10,22 @@ CAD_air_ductBaffleSilencer::CAD_air_ductBaffleSilencer() : CADitem(CADitemTypes:
     subItems.append(flange_duct_left);
     subItems.append(flange_duct_right);
 
-    wizardParams.insert("Position x", (0.0));
-    wizardParams.insert("Position y", (0.0));
-    wizardParams.insert("Position z", (0.0));
-    wizardParams.insert("Angle x", (0.0));
-    wizardParams.insert("Angle y", (0.0));
+    wizardParams.insert("Position x", 0.0);
+    wizardParams.insert("Position y", 0.0);
+    wizardParams.insert("Position z", 0.0);
+    wizardParams.insert("Angle x", 0.0);
+    wizardParams.insert("Angle y", 0.0);
+    wizardParams.insert("Angle z", 0.0);
 
 
-    wizardParams.insert("l", (100));
-    wizardParams.insert("a", (20));
-    wizardParams.insert("b", (30.0));
-    wizardParams.insert("d", (5.0));
-    wizardParams.insert("n", (3.0));
-    wizardParams.insert("fe", (1.0));
-    wizardParams.insert("ff", (1.0));
-    wizardParams.insert("s", (1.0));
+    wizardParams.insert("l", 100.0);
+    wizardParams.insert("a",  20.0);
+    wizardParams.insert("b",  30.0);
+    wizardParams.insert("d",   5.0);
+    wizardParams.insert("n",   3.0);
+    wizardParams.insert("fe",  1.0);
+    wizardParams.insert("ff",  1.0);
+    wizardParams.insert("s",   1.0);
 
     processWizardInput();
     calculate();

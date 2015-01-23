@@ -8,16 +8,16 @@ CAD_basic_turn::CAD_basic_turn() : CADitem(CADitemTypes::Basic_Turn)
     radius_turn = 20.0;
     angle_turn = 90.0;
 
-    wizardParams.insert("Position x", (0.0));
-    wizardParams.insert("Position y", (0.0));
-    wizardParams.insert("Position z", (0.0));
-    wizardParams.insert("Angle x", (0.0));
-    wizardParams.insert("Angle y", (0.0));
-    wizardParams.insert("Angle z", (0.0));
-    wizardParams.insert("s", (2.0));
-    wizardParams.insert("Turn radius", (20.0));
-    wizardParams.insert("Turn angle", (90.0));
-    wizardParams.insert("Outer diameter", (10.0));
+    wizardParams.insert("Position x", 0.0);
+    wizardParams.insert("Position y", 0.0);
+    wizardParams.insert("Position z", 0.0);
+    wizardParams.insert("Angle x", 0.0);
+    wizardParams.insert("Angle y", 0.0);
+    wizardParams.insert("Angle z", 0.0);
+    wizardParams.insert("s",               2.0);
+    wizardParams.insert("Turn radius",    20.0);
+    wizardParams.insert("Turn angle",     90.0);
+    wizardParams.insert("Outer diameter", 10.0);
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();

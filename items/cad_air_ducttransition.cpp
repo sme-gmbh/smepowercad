@@ -3,29 +3,24 @@
 
 CAD_air_ductTransition::CAD_air_ductTransition() : CADitem(CADitemTypes::Air_DuctTransition)
 {
-    wizardParams.insert("Position x", (0.0));
-    wizardParams.insert("Position y", (0.0));
-    wizardParams.insert("Position z", (0.0));
-    wizardParams.insert("Angle x", (0.0));
-    wizardParams.insert("Angle y", (0.0));
-    wizardParams.insert("Angle z", (0.0));
+    wizardParams.insert("Position x", 0.0);
+    wizardParams.insert("Position y", 0.0);
+    wizardParams.insert("Position z", 0.0);
+    wizardParams.insert("Angle x", 0.0);
+    wizardParams.insert("Angle y", 0.0);
+    wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("l", (100.0));
-    wizardParams.insert("b", (30.0));
-    wizardParams.insert("a", (20.0));
-    wizardParams.insert("b2", (20.0));
-    wizardParams.insert("a2", (30.0));
-
-    wizardParams.insert("e", (0.0));
-    wizardParams.insert("f", (0.0));
-
-    wizardParams.insert("u", (5.0));
-
-    wizardParams.insert("s", (1.0));
-    wizardParams.insert("ff", (1.0));
-    wizardParams.insert("fe", (1.0));
-
-
+    wizardParams.insert("l", 100.0);
+    wizardParams.insert("b",  30.0);
+    wizardParams.insert("a",  20.0);
+    wizardParams.insert("b2", 20.0);
+    wizardParams.insert("a2", 30.0);
+    wizardParams.insert("e",   0.0);
+    wizardParams.insert("f",   0.0);
+    wizardParams.insert("u",   5.0);
+    wizardParams.insert("s",   1.0);
+    wizardParams.insert("ff",  1.0);
+    wizardParams.insert("fe",  1.0);
 
     transition_duct = new CAD_basic_duct();
     endcap_left_duct = new CAD_basic_duct();
@@ -37,7 +32,6 @@ CAD_air_ductTransition::CAD_air_ductTransition() : CADitem(CADitemTypes::Air_Duc
     subItems.append(endcap_right_duct);
     subItems.append(flange_left_duct);
     subItems.append(flange_right_duct);
-
 
     processWizardInput();
     calculate();

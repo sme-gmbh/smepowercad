@@ -3,19 +3,19 @@
 
 CAD_air_ductVolumetricFlowController::CAD_air_ductVolumetricFlowController() : CADitem(CADitemTypes::Air_DuctVolumetricFlowController)
 {
-    wizardParams.insert("Position x", (0.0));
-    wizardParams.insert("Position y", (0.0));
-    wizardParams.insert("Position z", (0.0));
-    wizardParams.insert("Angle x", (0.0));
-    wizardParams.insert("Angle y", (0.0));
-    wizardParams.insert("Angle z", (0.0));
+    wizardParams.insert("Position x", 0.0);
+    wizardParams.insert("Position y", 0.0);
+    wizardParams.insert("Position z", 0.0);
+    wizardParams.insert("Angle x", 0.0);
+    wizardParams.insert("Angle y", 0.0);
+    wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("ff", (1.0));
-    wizardParams.insert("fe", (1.0));
-    wizardParams.insert("a", (20.0));
-    wizardParams.insert("b", (30.0));
-    wizardParams.insert("l", (100.0));
-    wizardParams.insert("s", (1.0));
+    wizardParams.insert("ff",  1.0);
+    wizardParams.insert("fe",  1.0);
+    wizardParams.insert("a",  20.0);
+    wizardParams.insert("b",  30.0);
+    wizardParams.insert("l", 100.0);
+    wizardParams.insert("s",   1.0);
 
     this->duct = new CAD_air_duct();
     this->flap = new CAD_basic_box();

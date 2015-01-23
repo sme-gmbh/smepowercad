@@ -10,18 +10,18 @@ CAD_air_ductEndPlate::CAD_air_ductEndPlate() : CADitem(CADitemTypes::Air_DuctEnd
     this->subItems.append(flange);
     this->subItems.append(duct);
 
-    wizardParams.insert("Position x", (0.0));
-    wizardParams.insert("Position y", (0.0));
-    wizardParams.insert("Position z", (0.0));
-    wizardParams.insert("Angle x", (0.0));
-    wizardParams.insert("Angle y", (0.0));
-    wizardParams.insert("Angle z", (0.0));
-    wizardParams.insert("l", (20.0));
-    wizardParams.insert("b", (30.0));
-    wizardParams.insert("a", (20.0));
-    wizardParams.insert("s", (1.0));
-    wizardParams.insert("ff", (1.0));
-    wizardParams.insert("fe", (1.0));
+    wizardParams.insert("Position x", 0.0);
+    wizardParams.insert("Position y", 0.0);
+    wizardParams.insert("Position z", 0.0);
+    wizardParams.insert("Angle x", 0.0);
+    wizardParams.insert("Angle y", 0.0);
+    wizardParams.insert("Angle z", 0.0);
+    wizardParams.insert("l", 20.0);
+    wizardParams.insert("b", 30.0);
+    wizardParams.insert("a", 20.0);
+    wizardParams.insert("s",  1.0);
+    wizardParams.insert("ff", 1.0);
+    wizardParams.insert("fe", 1.0);
 
 
 

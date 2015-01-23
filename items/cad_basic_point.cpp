@@ -3,9 +3,9 @@
 
 CAD_basic_point::CAD_basic_point() : CADitem(CADitemTypes::Basic_Point)
 {
-    wizardParams.insert("Position x", (0.0));
-    wizardParams.insert("Position y", (0.0));
-    wizardParams.insert("Position z", (0.0));
+    wizardParams.insert("Position x", 0.0);
+    wizardParams.insert("Position y", 0.0);
+    wizardParams.insert("Position z", 0.0);
 
     processWizardInput();
     calculate();
