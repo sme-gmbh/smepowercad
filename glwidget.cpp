@@ -513,9 +513,9 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
             if (snapMode != SnapNo)
             {
                 CADitem* item = this->itemGripModifier->getItem();
-                item->wizardParams.insert("Position x", QVariant::fromValue((qreal)snapPos_scene.x()));
-                item->wizardParams.insert("Position y", QVariant::fromValue((qreal)snapPos_scene.y()));
-                item->wizardParams.insert("Position z", QVariant::fromValue((qreal)snapPos_scene.z()));
+                item->wizardParams.insert("Position x", ((qreal)snapPos_scene.x()));
+                item->wizardParams.insert("Position y", ((qreal)snapPos_scene.y()));
+                item->wizardParams.insert("Position z", ((qreal)snapPos_scene.z()));
                 item->processWizardInput();
                 item->calculate();
                 this->itemGripModifier->finishGrip();
@@ -529,9 +529,9 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
                 CADitem* item = this->itemGripModifier->getItem();
                 CADitem* newItem = this->itemDB->drawItem(item->layer->name, item->getType());
                 newItem->wizardParams = item->wizardParams;
-                newItem->wizardParams.insert("Position x", QVariant::fromValue((qreal)snapPos_scene.x()));
-                newItem->wizardParams.insert("Position y", QVariant::fromValue((qreal)snapPos_scene.y()));
-                newItem->wizardParams.insert("Position z", QVariant::fromValue((qreal)snapPos_scene.z()));
+                newItem->wizardParams.insert("Position x", ((qreal)snapPos_scene.x()));
+                newItem->wizardParams.insert("Position y", ((qreal)snapPos_scene.y()));
+                newItem->wizardParams.insert("Position z", ((qreal)snapPos_scene.z()));
                 newItem->processWizardInput();
                 newItem->calculate();
                 this->itemGripModifier->finishGrip();
@@ -669,7 +669,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         {
             item_lastHighlight->angle_x += 45.0;
             if (item_lastHighlight->angle_x > 359.0) item_lastHighlight->angle_x = 0.0;
-            item_lastHighlight->wizardParams.insert(QObject::tr("Angle x"), QVariant::fromValue(item_lastHighlight->angle_x));
+            item_lastHighlight->wizardParams.insert(QObject::tr("Angle x"), (item_lastHighlight->angle_x));
             item_lastHighlight->processWizardInput();
             item_lastHighlight->calculate();
             slot_repaint();
@@ -680,7 +680,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         {
             item_lastHighlight->angle_y += 45.0;
             if (item_lastHighlight->angle_y > 359.0) item_lastHighlight->angle_y = 0.0;
-            item_lastHighlight->wizardParams.insert(QObject::tr("Angle y"), QVariant::fromValue(item_lastHighlight->angle_y));
+            item_lastHighlight->wizardParams.insert(QObject::tr("Angle y"), (item_lastHighlight->angle_y));
             item_lastHighlight->processWizardInput();
             item_lastHighlight->calculate();
             slot_repaint();
@@ -691,7 +691,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         {
             item_lastHighlight->angle_z += 45.0;
             if (item_lastHighlight->angle_z > 359.0) item_lastHighlight->angle_z = 0.0;
-            item_lastHighlight->wizardParams.insert(QObject::tr("Angle z"), QVariant::fromValue(item_lastHighlight->angle_z));
+            item_lastHighlight->wizardParams.insert(QObject::tr("Angle z"), (item_lastHighlight->angle_z));
             item_lastHighlight->processWizardInput();
             item_lastHighlight->calculate();
             slot_repaint();

@@ -50,7 +50,7 @@ public:
     Layer* layer;
     QColor color_pen;       // Transparent means "BYLAYER"
     QColor color_brush;       // Transparent means "BYLAYER"
-    QMap<QString, QString> attributes;
+//    QMap<QString, QString> attributes;
     M3dBoundingBox boundingBox;
     QList<CADitem*> subItems;
     quint64 id;
@@ -62,7 +62,6 @@ public:
     QMatrix4x4 matrix_rotation;
 
     // Wizard
-//    QMap<QString,QVariant> wizardParams;
     WizardParams wizardParams;
 
     // Object Snap

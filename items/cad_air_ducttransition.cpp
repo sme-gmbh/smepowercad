@@ -3,27 +3,27 @@
 
 CAD_air_ductTransition::CAD_air_ductTransition() : CADitem(CADitemTypes::Air_DuctTransition)
 {
-    wizardParams.insert("Position x", QVariant::fromValue(0.0));
-    wizardParams.insert("Position y", QVariant::fromValue(0.0));
-    wizardParams.insert("Position z", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+    wizardParams.insert("Position x", (0.0));
+    wizardParams.insert("Position y", (0.0));
+    wizardParams.insert("Position z", (0.0));
+    wizardParams.insert("Angle x", (0.0));
+    wizardParams.insert("Angle y", (0.0));
+    wizardParams.insert("Angle z", (0.0));
 
-    wizardParams.insert("l", QVariant::fromValue(100.0));
-    wizardParams.insert("b", QVariant::fromValue(30.0));
-    wizardParams.insert("a", QVariant::fromValue(20.0));
-    wizardParams.insert("b2", QVariant::fromValue(20.0));
-    wizardParams.insert("a2", QVariant::fromValue(30.0));
+    wizardParams.insert("l", (100.0));
+    wizardParams.insert("b", (30.0));
+    wizardParams.insert("a", (20.0));
+    wizardParams.insert("b2", (20.0));
+    wizardParams.insert("a2", (30.0));
 
-    wizardParams.insert("e", QVariant::fromValue(0.0));
-    wizardParams.insert("f", QVariant::fromValue(0.0));
+    wizardParams.insert("e", (0.0));
+    wizardParams.insert("f", (0.0));
 
-    wizardParams.insert("u", QVariant::fromValue(5.0));
+    wizardParams.insert("u", (5.0));
 
-    wizardParams.insert("s", QVariant::fromValue(1.0));
-    wizardParams.insert("ff", QVariant::fromValue(1.0));
-    wizardParams.insert("fe", QVariant::fromValue(1.0));
+    wizardParams.insert("s", (1.0));
+    wizardParams.insert("ff", (1.0));
+    wizardParams.insert("fe", (1.0));
 
 
 
@@ -130,69 +130,69 @@ void CAD_air_ductTransition::calculate()
 
 
 
-    endcap_left_duct->wizardParams.insert("Position x", QVariant::fromValue(position_led.x()));
-    endcap_left_duct->wizardParams.insert("Position y", QVariant::fromValue(position_led.y()));
-    endcap_left_duct->wizardParams.insert("Position z", QVariant::fromValue(position_led.z()));
-    endcap_left_duct->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    endcap_left_duct->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    endcap_left_duct->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    endcap_left_duct->wizardParams.insert("l", QVariant::fromValue(endcap));
-    endcap_left_duct->wizardParams.insert("b", QVariant::fromValue(b));
-    endcap_left_duct->wizardParams.insert("a", QVariant::fromValue(a));
-    endcap_left_duct->wizardParams.insert("s", QVariant::fromValue(s));
+    endcap_left_duct->wizardParams.insert("Position x", (position_led.x()));
+    endcap_left_duct->wizardParams.insert("Position y", (position_led.y()));
+    endcap_left_duct->wizardParams.insert("Position z", (position_led.z()));
+    endcap_left_duct->wizardParams.insert("Angle x", (angle_x));
+    endcap_left_duct->wizardParams.insert("Angle y", (angle_y));
+    endcap_left_duct->wizardParams.insert("Angle z", (angle_z));
+    endcap_left_duct->wizardParams.insert("l", (endcap));
+    endcap_left_duct->wizardParams.insert("b", (b));
+    endcap_left_duct->wizardParams.insert("a", (a));
+    endcap_left_duct->wizardParams.insert("s", (s));
     endcap_left_duct->processWizardInput();
     endcap_left_duct->calculate();
 
 
-    endcap_right_duct->wizardParams.insert("Position x", QVariant::fromValue(position_red.x()));//position.x()+l));
-    endcap_right_duct->wizardParams.insert("Position y", QVariant::fromValue(position_red.y()));//position.y()+(b-d)/2+e));
-    endcap_right_duct->wizardParams.insert("Position z", QVariant::fromValue(position_red.z()));//position.z()+(a-c)/2+f));
-    endcap_right_duct->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    endcap_right_duct->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    endcap_right_duct->wizardParams.insert("Angle z", QVariant::fromValue(angle_z+180));
-    endcap_right_duct->wizardParams.insert("l", QVariant::fromValue(endcap));
-    endcap_right_duct->wizardParams.insert("b", QVariant::fromValue(b2));
-    endcap_right_duct->wizardParams.insert("a", QVariant::fromValue(a2));
-    endcap_right_duct->wizardParams.insert("s", QVariant::fromValue(s));
+    endcap_right_duct->wizardParams.insert("Position x", (position_red.x()));//position.x()+l));
+    endcap_right_duct->wizardParams.insert("Position y", (position_red.y()));//position.y()+(b-d)/2+e));
+    endcap_right_duct->wizardParams.insert("Position z", (position_red.z()));//position.z()+(a-c)/2+f));
+    endcap_right_duct->wizardParams.insert("Angle x", (angle_x));
+    endcap_right_duct->wizardParams.insert("Angle y", (angle_y));
+    endcap_right_duct->wizardParams.insert("Angle z", (angle_z+180));
+    endcap_right_duct->wizardParams.insert("l", (endcap));
+    endcap_right_duct->wizardParams.insert("b", (b2));
+    endcap_right_duct->wizardParams.insert("a", (a2));
+    endcap_right_duct->wizardParams.insert("s", (s));
     endcap_right_duct->processWizardInput();
     endcap_right_duct->calculate();
 
-    flange_left_duct->wizardParams.insert("Position x", QVariant::fromValue(position_lfd.x()));
-    flange_left_duct->wizardParams.insert("Position y", QVariant::fromValue(position_lfd.y()));
-    flange_left_duct->wizardParams.insert("Position z", QVariant::fromValue(position_lfd.z()));
-    flange_left_duct->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    flange_left_duct->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    flange_left_duct->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    flange_left_duct->wizardParams.insert("l", QVariant::fromValue(fe));
-    flange_left_duct->wizardParams.insert("b", QVariant::fromValue(b+2*ff));
-    flange_left_duct->wizardParams.insert("a", QVariant::fromValue(a+2*ff));
-    flange_left_duct->wizardParams.insert("s", QVariant::fromValue(ff));
+    flange_left_duct->wizardParams.insert("Position x", (position_lfd.x()));
+    flange_left_duct->wizardParams.insert("Position y", (position_lfd.y()));
+    flange_left_duct->wizardParams.insert("Position z", (position_lfd.z()));
+    flange_left_duct->wizardParams.insert("Angle x", (angle_x));
+    flange_left_duct->wizardParams.insert("Angle y", (angle_y));
+    flange_left_duct->wizardParams.insert("Angle z", (angle_z));
+    flange_left_duct->wizardParams.insert("l", (fe));
+    flange_left_duct->wizardParams.insert("b", (b+2*ff));
+    flange_left_duct->wizardParams.insert("a", (a+2*ff));
+    flange_left_duct->wizardParams.insert("s", (ff));
     flange_left_duct->processWizardInput();
     flange_left_duct->calculate();
 
-    flange_right_duct->wizardParams.insert("Position x", QVariant::fromValue(position_rfd.x()));//position.x()+l));
-    flange_right_duct->wizardParams.insert("Position y", QVariant::fromValue(position_rfd.y()));//position.y()+(b-d)/2+e));
-    flange_right_duct->wizardParams.insert("Position z", QVariant::fromValue(position_rfd.z()));//position.z()+(a-c)/2+f));
-    flange_right_duct->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    flange_right_duct->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    flange_right_duct->wizardParams.insert("Angle z", QVariant::fromValue(angle_z+180));
-    flange_right_duct->wizardParams.insert("l", QVariant::fromValue(fe));
-    flange_right_duct->wizardParams.insert("b", QVariant::fromValue(b2+2*ff));
-    flange_right_duct->wizardParams.insert("a", QVariant::fromValue(a2+2*ff));
-    flange_right_duct->wizardParams.insert("s", QVariant::fromValue(ff));
+    flange_right_duct->wizardParams.insert("Position x", (position_rfd.x()));//position.x()+l));
+    flange_right_duct->wizardParams.insert("Position y", (position_rfd.y()));//position.y()+(b-d)/2+e));
+    flange_right_duct->wizardParams.insert("Position z", (position_rfd.z()));//position.z()+(a-c)/2+f));
+    flange_right_duct->wizardParams.insert("Angle x", (angle_x));
+    flange_right_duct->wizardParams.insert("Angle y", (angle_y));
+    flange_right_duct->wizardParams.insert("Angle z", (angle_z+180));
+    flange_right_duct->wizardParams.insert("l", (fe));
+    flange_right_duct->wizardParams.insert("b", (b2+2*ff));
+    flange_right_duct->wizardParams.insert("a", (a2+2*ff));
+    flange_right_duct->wizardParams.insert("s", (ff));
     flange_right_duct->processWizardInput();
     flange_right_duct->calculate();
 
-    transition_duct->wizardParams.insert("Position x", QVariant::fromValue(position.x()+endcap));
-    transition_duct->wizardParams.insert("Position y", QVariant::fromValue(position.y()));
-    transition_duct->wizardParams.insert("Position z", QVariant::fromValue(position.z()));
-    transition_duct->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    transition_duct->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    transition_duct->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    transition_duct->wizardParams.insert("l", QVariant::fromValue(l -2*endcap));
-    transition_duct->wizardParams.insert("b", QVariant::fromValue(b));
-    transition_duct->wizardParams.insert("a", QVariant::fromValue(a));
-    transition_duct->wizardParams.insert("s", QVariant::fromValue(s));
+    transition_duct->wizardParams.insert("Position x", (position.x()+endcap));
+    transition_duct->wizardParams.insert("Position y", (position.y()));
+    transition_duct->wizardParams.insert("Position z", (position.z()));
+    transition_duct->wizardParams.insert("Angle x", (angle_x));
+    transition_duct->wizardParams.insert("Angle y", (angle_y));
+    transition_duct->wizardParams.insert("Angle z", (angle_z));
+    transition_duct->wizardParams.insert("l", (l -2*endcap));
+    transition_duct->wizardParams.insert("b", (b));
+    transition_duct->wizardParams.insert("a", (a));
+    transition_duct->wizardParams.insert("s", (s));
     transition_duct->processWizardInput();
     transition_duct->calculate();
 

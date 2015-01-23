@@ -3,20 +3,20 @@
 
 CAD_air_pipeBranch::CAD_air_pipeBranch() : CADitem(CADitemTypes::Air_PipeBranch)
 {
-    wizardParams.insert("Position x", QVariant::fromValue(0.0));
-    wizardParams.insert("Position y", QVariant::fromValue(0.0));
-    wizardParams.insert("Position z", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+    wizardParams.insert("Position x", (0.0));
+    wizardParams.insert("Position y", (0.0));
+    wizardParams.insert("Position z", (0.0));
+    wizardParams.insert("Angle x", (0.0));
+    wizardParams.insert("Angle y", (0.0));
+    wizardParams.insert("Angle z", (0.0));
 
-    wizardParams.insert("d", QVariant::fromValue(20.0));
-    wizardParams.insert("d2", QVariant::fromValue(20.0));
-    wizardParams.insert("s", QVariant::fromValue(1.0));
-    wizardParams.insert("l", QVariant::fromValue(100.0));
-    wizardParams.insert("l1", QVariant::fromValue(50));
-    wizardParams.insert("l2", QVariant::fromValue(50.0));
-    wizardParams.insert("alpha", QVariant::fromValue(30.0));
+    wizardParams.insert("d", (20.0));
+    wizardParams.insert("d2", (20.0));
+    wizardParams.insert("s", (1.0));
+    wizardParams.insert("l", (100.0));
+    wizardParams.insert("l1", (50));
+    wizardParams.insert("l2", (50.0));
+    wizardParams.insert("alpha", (30.0));
 
     this->pipe = new CAD_basic_pipe();
     this->branch = new CAD_basic_pipe();
@@ -92,28 +92,28 @@ void CAD_air_pipeBranch::calculate()
     this->snap_basepoint = (position);
     this->snap_flanges.append(position);
 
-    pipe->wizardParams.insert("Position x", QVariant::fromValue(position.x()));
-    pipe->wizardParams.insert("Position y", QVariant::fromValue(position.y()));
-    pipe->wizardParams.insert("Position z", QVariant::fromValue(position.z()));
-    pipe->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    pipe->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    pipe->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    pipe->wizardParams.insert("l", QVariant::fromValue(l));
-    pipe->wizardParams.insert("d", QVariant::fromValue(d));
-    pipe->wizardParams.insert("s", QVariant::fromValue(s));
+    pipe->wizardParams.insert("Position x", (position.x()));
+    pipe->wizardParams.insert("Position y", (position.y()));
+    pipe->wizardParams.insert("Position z", (position.z()));
+    pipe->wizardParams.insert("Angle x", (angle_x));
+    pipe->wizardParams.insert("Angle y", (angle_y));
+    pipe->wizardParams.insert("Angle z", (angle_z));
+    pipe->wizardParams.insert("l", (l));
+    pipe->wizardParams.insert("d", (d));
+    pipe->wizardParams.insert("s", (s));
     pipe->processWizardInput();
     pipe->calculate();
 
     QVector3D position_br = position + matrix_rotation * QVector3D(l1, 0.0, 0.0);
-    branch->wizardParams.insert("Position x", QVariant::fromValue(position_br.x()));
-    branch->wizardParams.insert("Position y", QVariant::fromValue(position_br.y()));
-    branch->wizardParams.insert("Position z", QVariant::fromValue(position_br.z()));
-    branch->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    branch->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    branch->wizardParams.insert("Angle z", QVariant::fromValue(angle_z+alpha));
-    branch->wizardParams.insert("l", QVariant::fromValue(l2));
-    branch->wizardParams.insert("d", QVariant::fromValue(d2));
-    branch->wizardParams.insert("s", QVariant::fromValue(s));
+    branch->wizardParams.insert("Position x", (position_br.x()));
+    branch->wizardParams.insert("Position y", (position_br.y()));
+    branch->wizardParams.insert("Position z", (position_br.z()));
+    branch->wizardParams.insert("Angle x", (angle_x));
+    branch->wizardParams.insert("Angle y", (angle_y));
+    branch->wizardParams.insert("Angle z", (angle_z+alpha));
+    branch->wizardParams.insert("l", (l2));
+    branch->wizardParams.insert("d", (d2));
+    branch->wizardParams.insert("s", (s));
     branch->processWizardInput();
     branch->calculate();
 

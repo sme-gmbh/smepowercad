@@ -5,17 +5,17 @@ CAD_air_pipeReducer::CAD_air_pipeReducer() : CADitem(CADitemTypes::Air_PipeReduc
 {
     this->reducer = new CAD_basic_pipe();
     this->subItems.append(reducer);
-    wizardParams.insert("Position x", QVariant::fromValue(0.0));
-    wizardParams.insert("Position y", QVariant::fromValue(0.0));
-    wizardParams.insert("Position z", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+    wizardParams.insert("Position x", (0.0));
+    wizardParams.insert("Position y", (0.0));
+    wizardParams.insert("Position z", (0.0));
+    wizardParams.insert("Angle x", (0.0));
+    wizardParams.insert("Angle y", (0.0));
+    wizardParams.insert("Angle z", (0.0));
 
-    wizardParams.insert("d", QVariant::fromValue(30.0));
-    wizardParams.insert("d2", QVariant::fromValue(20.0));
-    wizardParams.insert("s", QVariant::fromValue(1.0));
-    wizardParams.insert("l", QVariant::fromValue(40.0));
+    wizardParams.insert("d", (30.0));
+    wizardParams.insert("d2", (20.0));
+    wizardParams.insert("s", (1.0));
+    wizardParams.insert("l", (40.0));
 
 
 
@@ -89,15 +89,15 @@ void CAD_air_pipeReducer::calculate()
     this->snap_flanges.append(position);
     this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
 
-    reducer->wizardParams.insert("Position x", QVariant::fromValue(position.x()));
-    reducer->wizardParams.insert("Position y", QVariant::fromValue(position.y()));
-    reducer->wizardParams.insert("Position z", QVariant::fromValue(position.z()));
-    reducer->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    reducer->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    reducer->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    reducer->wizardParams.insert("l", QVariant::fromValue(l));
-    reducer->wizardParams.insert("d", QVariant::fromValue(d));
-    reducer->wizardParams.insert("s", QVariant::fromValue(s));
+    reducer->wizardParams.insert("Position x", (position.x()));
+    reducer->wizardParams.insert("Position y", (position.y()));
+    reducer->wizardParams.insert("Position z", (position.z()));
+    reducer->wizardParams.insert("Angle x", (angle_x));
+    reducer->wizardParams.insert("Angle y", (angle_y));
+    reducer->wizardParams.insert("Angle z", (angle_z));
+    reducer->wizardParams.insert("l", (l));
+    reducer->wizardParams.insert("d", (d));
+    reducer->wizardParams.insert("s", (s));
     reducer->layer = this->layer;
     reducer->processWizardInput();
     reducer->calculate();

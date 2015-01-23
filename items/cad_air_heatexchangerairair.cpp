@@ -10,20 +10,20 @@ CAD_air_heatExchangerAirAir::CAD_air_heatExchangerAirAir() : CADitem(CADitemType
     this->subItems.append(seperator_1);
     this->seperator_2 = new CAD_basic_plane();
     this->subItems.append(seperator_2);
-    wizardParams.insert("Position x", QVariant::fromValue(0.0));
-    wizardParams.insert("Position y", QVariant::fromValue(0.0));
-    wizardParams.insert("Position z", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+    wizardParams.insert("Position x", (0.0));
+    wizardParams.insert("Position y", (0.0));
+    wizardParams.insert("Position z", (0.0));
+    wizardParams.insert("Angle x", (0.0));
+    wizardParams.insert("Angle y", (0.0));
+    wizardParams.insert("Angle z", (0.0));
 
-    wizardParams.insert("ff", QVariant::fromValue(1.0));
-    wizardParams.insert("s", QVariant::fromValue(1.0));
-    wizardParams.insert("fe", QVariant::fromValue(1.0));
-    wizardParams.insert("a", QVariant::fromValue(20.0));
-    wizardParams.insert("b", QVariant::fromValue(30.0));
-    wizardParams.insert("l", QVariant::fromValue(100.0));
-    wizardParams.insert("i", QVariant::fromValue(20.0));
+    wizardParams.insert("ff", (1.0));
+    wizardParams.insert("s", (1.0));
+    wizardParams.insert("fe", (1.0));
+    wizardParams.insert("a", (20.0));
+    wizardParams.insert("b", (30.0));
+    wizardParams.insert("l", (100.0));
+    wizardParams.insert("i", (20.0));
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();
@@ -109,44 +109,44 @@ void CAD_air_heatExchangerAirAir::calculate()
     this->snap_basepoint = (position);
 
     QVector3D position_he = position + matrix_rotation * QVector3D(0.0, 0.0, -a/2);
-    this->duct->wizardParams.insert("Position x", QVariant::fromValue(position_he.x()));
-    this->duct->wizardParams.insert("Position y", QVariant::fromValue(position_he.y()));
-    this->duct->wizardParams.insert("Position z", QVariant::fromValue(position_he.z()));
-    this->duct->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    this->duct->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    this->duct->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    this->duct->wizardParams.insert("s", QVariant::fromValue(s));
-    this->duct->wizardParams.insert("l", QVariant::fromValue(l));
-    this->duct->wizardParams.insert("b", QVariant::fromValue(b));
-    this->duct->wizardParams.insert("a", QVariant::fromValue(2 * a));
-    this->duct->wizardParams.insert("ff", QVariant::fromValue(ff));
-    this->duct->wizardParams.insert("fe", QVariant::fromValue(fe));
+    this->duct->wizardParams.insert("Position x", (position_he.x()));
+    this->duct->wizardParams.insert("Position y", (position_he.y()));
+    this->duct->wizardParams.insert("Position z", (position_he.z()));
+    this->duct->wizardParams.insert("Angle x", (angle_x));
+    this->duct->wizardParams.insert("Angle y", (angle_y));
+    this->duct->wizardParams.insert("Angle z", (angle_z));
+    this->duct->wizardParams.insert("s", (s));
+    this->duct->wizardParams.insert("l", (l));
+    this->duct->wizardParams.insert("b", (b));
+    this->duct->wizardParams.insert("a", (2 * a));
+    this->duct->wizardParams.insert("ff", (ff));
+    this->duct->wizardParams.insert("fe", (fe));
 
     this->duct->processWizardInput();
     this->duct->calculate();
 
     QVector3D position_sp1 = position + matrix_rotation * QVector3D(0.0, -b/2 +s, -a/2);
-    this->seperator_1->wizardParams.insert("Position x", QVariant::fromValue(position_sp1.x()));
-    this->seperator_1->wizardParams.insert("Position y", QVariant::fromValue(position_sp1.y()));
-    this->seperator_1->wizardParams.insert("Position z", QVariant::fromValue(position_sp1.z()));
-    this->seperator_1->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    this->seperator_1->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    this->seperator_1->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    this->seperator_1->wizardParams.insert("Length (A)", QVariant::fromValue((l - i) / 2));
-    this->seperator_1->wizardParams.insert("Width (B)", QVariant::fromValue(b-2*s));
+    this->seperator_1->wizardParams.insert("Position x", (position_sp1.x()));
+    this->seperator_1->wizardParams.insert("Position y", (position_sp1.y()));
+    this->seperator_1->wizardParams.insert("Position z", (position_sp1.z()));
+    this->seperator_1->wizardParams.insert("Angle x", (angle_x));
+    this->seperator_1->wizardParams.insert("Angle y", (angle_y));
+    this->seperator_1->wizardParams.insert("Angle z", (angle_z));
+    this->seperator_1->wizardParams.insert("Length (A)", ((l - i) / 2));
+    this->seperator_1->wizardParams.insert("Width (B)", (b-2*s));
 
     this->seperator_1->processWizardInput();
     this->seperator_1->calculate();
 
     QVector3D position_sp2 = position + matrix_rotation * QVector3D((l+i)/2, -b/2 +s, -a/2);
-    this->seperator_2->wizardParams.insert("Position x", QVariant::fromValue(position_sp2.x()));
-    this->seperator_2->wizardParams.insert("Position y", QVariant::fromValue(position_sp2.y()));
-    this->seperator_2->wizardParams.insert("Position z", QVariant::fromValue(position_sp2.z()));
-    this->seperator_2->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    this->seperator_2->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    this->seperator_2->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    this->seperator_2->wizardParams.insert("Length (A)", QVariant::fromValue((l - i) / 2));
-    this->seperator_2->wizardParams.insert("Width (B)", QVariant::fromValue(b-2*s));
+    this->seperator_2->wizardParams.insert("Position x", (position_sp2.x()));
+    this->seperator_2->wizardParams.insert("Position y", (position_sp2.y()));
+    this->seperator_2->wizardParams.insert("Position z", (position_sp2.z()));
+    this->seperator_2->wizardParams.insert("Angle x", (angle_x));
+    this->seperator_2->wizardParams.insert("Angle y", (angle_y));
+    this->seperator_2->wizardParams.insert("Angle z", (angle_z));
+    this->seperator_2->wizardParams.insert("Length (A)", ((l - i) / 2));
+    this->seperator_2->wizardParams.insert("Width (B)", (b-2*s));
 
     this->seperator_2->processWizardInput();
     this->seperator_2->calculate();

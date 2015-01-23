@@ -3,16 +3,16 @@
 
 CAD_arch_wall_nonLoadBearing::CAD_arch_wall_nonLoadBearing() : CADitem(CADitemTypes::Arch_Wall_nonLoadBearing)
 {
-    wizardParams.insert("Position x", QVariant::fromValue(0.0));
-    wizardParams.insert("Position y", QVariant::fromValue(0.0));
-    wizardParams.insert("Position z", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+    wizardParams.insert("Position x", (0.0));
+    wizardParams.insert("Position y", (0.0));
+    wizardParams.insert("Position z", (0.0));
+    wizardParams.insert("Angle x", (0.0));
+    wizardParams.insert("Angle y", (0.0));
+    wizardParams.insert("Angle z", (0.0));
 
-    wizardParams.insert("b", QVariant::fromValue(200.0));
-    wizardParams.insert("l", QVariant::fromValue(10000.0));
-    wizardParams.insert("a", QVariant::fromValue(3000.0));
+    wizardParams.insert("b", (200.0));
+    wizardParams.insert("l", (10000.0));
+    wizardParams.insert("a", (3000.0));
 
     basic_box = new CAD_basic_box();
     subItems.append(basic_box);
@@ -80,15 +80,15 @@ void CAD_arch_wall_nonLoadBearing::calculate()
     this->snap_basepoint = (position);
 
     QVector3D center = (matrix_rotation * QVector3D(l, b, a) / 2.0) + position;
-    basic_box->wizardParams.insert("Position x", QVariant::fromValue(center.x()));
-    basic_box->wizardParams.insert("Position y", QVariant::fromValue(center.y()));
-    basic_box->wizardParams.insert("Position z", QVariant::fromValue(center.z()));
-    basic_box->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    basic_box->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    basic_box->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    basic_box->wizardParams.insert("Size x", QVariant::fromValue(l));
-    basic_box->wizardParams.insert("Size y", QVariant::fromValue(b));
-    basic_box->wizardParams.insert("Size z", QVariant::fromValue(a));
+    basic_box->wizardParams.insert("Position x", (center.x()));
+    basic_box->wizardParams.insert("Position y", (center.y()));
+    basic_box->wizardParams.insert("Position z", (center.z()));
+    basic_box->wizardParams.insert("Angle x", (angle_x));
+    basic_box->wizardParams.insert("Angle y", (angle_y));
+    basic_box->wizardParams.insert("Angle z", (angle_z));
+    basic_box->wizardParams.insert("Size x", (l));
+    basic_box->wizardParams.insert("Size y", (b));
+    basic_box->wizardParams.insert("Size z", (a));
     basic_box->processWizardInput();
     basic_box->calculate();
 

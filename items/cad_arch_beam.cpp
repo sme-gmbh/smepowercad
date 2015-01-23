@@ -6,16 +6,16 @@ CAD_arch_beam::CAD_arch_beam() : CADitem(CADitemTypes::Arch_Beam)
     this->beam = new CAD_basic_box();
     this->subItems.append(beam);
 
-    wizardParams.insert("Position x", QVariant::fromValue(0.0));
-    wizardParams.insert("Position y", QVariant::fromValue(0.0));
-    wizardParams.insert("Position z", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+    wizardParams.insert("Position x", (0.0));
+    wizardParams.insert("Position y", (0.0));
+    wizardParams.insert("Position z", (0.0));
+    wizardParams.insert("Angle x", (0.0));
+    wizardParams.insert("Angle y", (0.0));
+    wizardParams.insert("Angle z", (0.0));
 
-    wizardParams.insert("a", QVariant::fromValue(500.0));
-    wizardParams.insert("b", QVariant::fromValue(200.0));
-    wizardParams.insert("l", QVariant::fromValue(5000.0));
+    wizardParams.insert("a", (500.0));
+    wizardParams.insert("b", (200.0));
+    wizardParams.insert("l", (5000.0));
 
     processWizardInput();
     calculate();
@@ -79,15 +79,15 @@ void CAD_arch_beam::calculate()
     this->snap_basepoint = (position);
 
     QVector3D position_b = position + matrix_rotation * QVector3D(l / 2, b / 2, -a / 2);
-    beam->wizardParams.insert("Position x", QVariant::fromValue(position_b.x()));
-    beam->wizardParams.insert("Position y", QVariant::fromValue(position_b.y()));
-    beam->wizardParams.insert("Position z", QVariant::fromValue(position_b.z()));
-    beam->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    beam->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    beam->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    beam->wizardParams.insert("Size x", QVariant::fromValue(l));
-    beam->wizardParams.insert("Size y", QVariant::fromValue(b));
-    beam->wizardParams.insert("Size z", QVariant::fromValue(a));
+    beam->wizardParams.insert("Position x", (position_b.x()));
+    beam->wizardParams.insert("Position y", (position_b.y()));
+    beam->wizardParams.insert("Position z", (position_b.z()));
+    beam->wizardParams.insert("Angle x", (angle_x));
+    beam->wizardParams.insert("Angle y", (angle_y));
+    beam->wizardParams.insert("Angle z", (angle_z));
+    beam->wizardParams.insert("Size x", (l));
+    beam->wizardParams.insert("Size y", (b));
+    beam->wizardParams.insert("Size z", (a));
     beam->processWizardInput();
     beam->calculate();
 

@@ -4,15 +4,15 @@
 
 CAD_basic_box::CAD_basic_box() : CADitem(CADitemTypes::Basic_Box)
 {
-    wizardParams.insert("Position x", QVariant::fromValue(0.0));
-    wizardParams.insert("Position y", QVariant::fromValue(0.0));
-    wizardParams.insert("Position z", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
-    wizardParams.insert("Size x", QVariant::fromValue(1.0));
-    wizardParams.insert("Size y", QVariant::fromValue(1.0));
-    wizardParams.insert("Size z", QVariant::fromValue(1.0));
+    wizardParams.insert("Position x", (0.0));
+    wizardParams.insert("Position y", (0.0));
+    wizardParams.insert("Position z", (0.0));
+    wizardParams.insert("Angle x", (0.0));
+    wizardParams.insert("Angle y", (0.0));
+    wizardParams.insert("Angle z", (0.0));
+    wizardParams.insert("Size x", (1.0));
+    wizardParams.insert("Size y", (1.0));
+    wizardParams.insert("Size z", (1.0));
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();

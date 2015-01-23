@@ -7,16 +7,16 @@
 CAD_basic_arc::CAD_basic_arc() : CADitem(CADitemTypes::Basic_Arc)
 {
     //arc = QList<QVector3D>();
-    wizardParams.insert("Center x", QVariant::fromValue(0.0));
-    wizardParams.insert("Center y", QVariant::fromValue(0.0));
-    wizardParams.insert("Center z", QVariant::fromValue(0.0));
+    wizardParams.insert("Center x", (0.0));
+    wizardParams.insert("Center y", (0.0));
+    wizardParams.insert("Center z", (0.0));
 
-    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+    wizardParams.insert("Angle x", (0.0));
+    wizardParams.insert("Angle y", (0.0));
+    wizardParams.insert("Angle z", (0.0));
 
-    wizardParams.insert("Radius", QVariant::fromValue(1.0));
-    wizardParams.insert("Central Angle", QVariant::fromValue(90.0));
+    wizardParams.insert("Radius", (1.0));
+    wizardParams.insert("Central Angle", (90.0));
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();

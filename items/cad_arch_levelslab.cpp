@@ -5,15 +5,15 @@ CAD_arch_levelSlab::CAD_arch_levelSlab() : CADitem(CADitemTypes::Arch_LevelSlab)
 {
     slab = new CAD_basic_box();
     subItems.append(slab);
-    wizardParams.insert("Position x", QVariant::fromValue(0.0));
-    wizardParams.insert("Position y", QVariant::fromValue(0.0));
-    wizardParams.insert("Position z", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
-    wizardParams.insert("a", QVariant::fromValue(500));
-    wizardParams.insert("b", QVariant::fromValue(4000));
-    wizardParams.insert("l", QVariant::fromValue(4000));
+    wizardParams.insert("Position x", (0.0));
+    wizardParams.insert("Position y", (0.0));
+    wizardParams.insert("Position z", (0.0));
+    wizardParams.insert("Angle x", (0.0));
+    wizardParams.insert("Angle y", (0.0));
+    wizardParams.insert("Angle z", (0.0));
+    wizardParams.insert("a", (500));
+    wizardParams.insert("b", (4000));
+    wizardParams.insert("l", (4000));
 
     processWizardInput();
     calculate();
@@ -76,15 +76,15 @@ void CAD_arch_levelSlab::calculate()
 
     this->snap_basepoint = (position);
     QVector3D position_sl = position + matrix_rotation * (QVector3D(l/2, b/2, a/2));
-    slab->wizardParams.insert("Position x", QVariant::fromValue(position_sl.x()));
-    slab->wizardParams.insert("Position y", QVariant::fromValue(position_sl.y()));
-    slab->wizardParams.insert("Position z", QVariant::fromValue(position_sl.z()));
-    slab->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    slab->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    slab->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    slab->wizardParams.insert("Size x", QVariant::fromValue(l));
-    slab->wizardParams.insert("Size y", QVariant::fromValue(b));
-    slab->wizardParams.insert("Size z", QVariant::fromValue(a));
+    slab->wizardParams.insert("Position x", (position_sl.x()));
+    slab->wizardParams.insert("Position y", (position_sl.y()));
+    slab->wizardParams.insert("Position z", (position_sl.z()));
+    slab->wizardParams.insert("Angle x", (angle_x));
+    slab->wizardParams.insert("Angle y", (angle_y));
+    slab->wizardParams.insert("Angle z", (angle_z));
+    slab->wizardParams.insert("Size x", (l));
+    slab->wizardParams.insert("Size y", (b));
+    slab->wizardParams.insert("Size z", (a));
     slab->processWizardInput();
     slab->calculate();
 

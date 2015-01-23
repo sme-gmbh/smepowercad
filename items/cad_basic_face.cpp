@@ -9,11 +9,11 @@ CAD_basic_face::CAD_basic_face() : CADitem(CADitemTypes::Basic_Face)
     widthByLayer = false;
     widthByBlock = false;
 
-    this->wizardParams.insert("Position x1", QVariant::fromValue(0.0));
-    this->wizardParams.insert("Position y1", QVariant::fromValue(0.0));
-    this->wizardParams.insert("Position z1", QVariant::fromValue(0.0));
+    this->wizardParams.insert("Position x1", (0.0));
+    this->wizardParams.insert("Position y1", (0.0));
+    this->wizardParams.insert("Position z1", (0.0));
 
-    this->wizardParams.insert("Width", QVariant::fromValue(1.0));
+    this->wizardParams.insert("Width", (1.0));
     processWizardInput();
     calculate();
 }

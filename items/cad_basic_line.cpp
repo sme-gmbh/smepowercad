@@ -9,13 +9,13 @@ CAD_basic_line::CAD_basic_line() : CADitem(CADitemTypes::Basic_Line)
     widthByLayer = false;
     widthByBlock = false;
 
-    this->wizardParams.insert("Position x1", QVariant::fromValue(0.0));
-    this->wizardParams.insert("Position y1", QVariant::fromValue(0.0));
-    this->wizardParams.insert("Position z1", QVariant::fromValue(0.0));
-    this->wizardParams.insert("Position x2", QVariant::fromValue(1.0));
-    this->wizardParams.insert("Position y2", QVariant::fromValue(0.0));
-    this->wizardParams.insert("Position z2", QVariant::fromValue(0.0));
-    this->wizardParams.insert("Width", QVariant::fromValue(1.0));
+    this->wizardParams.insert("Position x1", (0.0));
+    this->wizardParams.insert("Position y1", (0.0));
+    this->wizardParams.insert("Position z1", (0.0));
+    this->wizardParams.insert("Position x2", (1.0));
+    this->wizardParams.insert("Position y2", (0.0));
+    this->wizardParams.insert("Position z2", (0.0));
+    this->wizardParams.insert("Width", (1.0));
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();

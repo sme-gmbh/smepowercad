@@ -6,16 +6,16 @@ CAD_arch_blockOut::CAD_arch_blockOut() : CADitem(CADitemTypes::Arch_BlockOut)
     this->blockout = new CAD_basic_box();
     this->subItems.append(blockout);
 
-    wizardParams.insert("Position x", QVariant::fromValue(0.0));
-    wizardParams.insert("Position y", QVariant::fromValue(0.0));
-    wizardParams.insert("Position z", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+    wizardParams.insert("Position x", (0.0));
+    wizardParams.insert("Position y", (0.0));
+    wizardParams.insert("Position z", (0.0));
+    wizardParams.insert("Angle x", (0.0));
+    wizardParams.insert("Angle y", (0.0));
+    wizardParams.insert("Angle z", (0.0));
 
-    wizardParams.insert("g", QVariant::fromValue(30.0));
-    wizardParams.insert("h", QVariant::fromValue(20.0));
-    wizardParams.insert("b", QVariant::fromValue(5.0));
+    wizardParams.insert("g", (30.0));
+    wizardParams.insert("h", (20.0));
+    wizardParams.insert("b", (5.0));
 
     processWizardInput();
     calculate();
@@ -80,15 +80,15 @@ void CAD_arch_blockOut::calculate()
 
     qDebug() << g << h << b;
     QVector3D position_b = position + matrix_rotation * QVector3D(b / 2, g / 2, h / 2);
-    blockout->wizardParams.insert("Position x", QVariant::fromValue(position_b.x()));
-    blockout->wizardParams.insert("Position y", QVariant::fromValue(position_b.y()));
-    blockout->wizardParams.insert("Position z", QVariant::fromValue(position_b.z()));
-    blockout->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    blockout->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    blockout->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    blockout->wizardParams.insert("Size x", QVariant::fromValue(b));
-    blockout->wizardParams.insert("Size y", QVariant::fromValue(g));
-    blockout->wizardParams.insert("Size z", QVariant::fromValue(h));
+    blockout->wizardParams.insert("Position x", (position_b.x()));
+    blockout->wizardParams.insert("Position y", (position_b.y()));
+    blockout->wizardParams.insert("Position z", (position_b.z()));
+    blockout->wizardParams.insert("Angle x", (angle_x));
+    blockout->wizardParams.insert("Angle y", (angle_y));
+    blockout->wizardParams.insert("Angle z", (angle_z));
+    blockout->wizardParams.insert("Size x", (b));
+    blockout->wizardParams.insert("Size y", (g));
+    blockout->wizardParams.insert("Size z", (h));
     blockout->processWizardInput();
     blockout->calculate();
 

@@ -5,16 +5,16 @@ CAD_arch_boredPile::CAD_arch_boredPile() : CADitem(CADitemTypes::Arch_BoredPile)
 {
     this->pile = new CAD_basic_pipe();
     this->subItems.append(this->pile);
-    wizardParams.insert("Position x", QVariant::fromValue(0.0));
-    wizardParams.insert("Position y", QVariant::fromValue(0.0));
-    wizardParams.insert("Position z", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+    wizardParams.insert("Position x", (0.0));
+    wizardParams.insert("Position y", (0.0));
+    wizardParams.insert("Position z", (0.0));
+    wizardParams.insert("Angle x", (0.0));
+    wizardParams.insert("Angle y", (0.0));
+    wizardParams.insert("Angle z", (0.0));
 
 
-    wizardParams.insert("d", QVariant::fromValue(1000));
-    wizardParams.insert("a", QVariant::fromValue(5000));
+    wizardParams.insert("d", (1000));
+    wizardParams.insert("a", (5000));
 
     processWizardInput();
     calculate();
@@ -78,15 +78,15 @@ void CAD_arch_boredPile::calculate()
     this->snap_basepoint = (position);
     this->snap_flanges.append(position);
 
-    pile->wizardParams.insert("Position x", QVariant::fromValue(position.x()));
-    pile->wizardParams.insert("Position y", QVariant::fromValue(position.y()));
-    pile->wizardParams.insert("Position z", QVariant::fromValue(position.z()));
-    pile->wizardParams.insert("Angle x", QVariant::fromValue(0.0));
-    pile->wizardParams.insert("Angle y", QVariant::fromValue(90.0));
-    pile->wizardParams.insert("Angle z", QVariant::fromValue(0.0));
-    pile->wizardParams.insert("l", QVariant::fromValue(a));
-    pile->wizardParams.insert("d", QVariant::fromValue(d));
-    pile->wizardParams.insert("s", QVariant::fromValue(d/2));
+    pile->wizardParams.insert("Position x", (position.x()));
+    pile->wizardParams.insert("Position y", (position.y()));
+    pile->wizardParams.insert("Position z", (position.z()));
+    pile->wizardParams.insert("Angle x", (0.0));
+    pile->wizardParams.insert("Angle y", (90.0));
+    pile->wizardParams.insert("Angle z", (0.0));
+    pile->wizardParams.insert("l", (a));
+    pile->wizardParams.insert("d", (d));
+    pile->wizardParams.insert("s", (d/2));
     pile->processWizardInput();
     pile->calculate();
 

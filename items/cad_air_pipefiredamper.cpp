@@ -8,18 +8,18 @@ CAD_air_pipeFireDamper::CAD_air_pipeFireDamper() : CADitem(CADitemTypes::Air_Pip
     this->subItems.append(main_pipe);
     this->subItems.append(function);
 
-    wizardParams.insert("Position x", QVariant::fromValue(0.0));
-    wizardParams.insert("Position y", QVariant::fromValue(0.0));
-    wizardParams.insert("Position z", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+    wizardParams.insert("Position x", (0.0));
+    wizardParams.insert("Position y", (0.0));
+    wizardParams.insert("Position z", (0.0));
+    wizardParams.insert("Angle x", (0.0));
+    wizardParams.insert("Angle y", (0.0));
+    wizardParams.insert("Angle z", (0.0));
 
-    wizardParams.insert("d", QVariant::fromValue(20.0));
-    wizardParams.insert("ff", QVariant::fromValue(1.0));
-    wizardParams.insert("l", QVariant::fromValue(100.0));
-    wizardParams.insert("l2", QVariant::fromValue(70.0));
-    wizardParams.insert("s", QVariant::fromValue(1.0));
+    wizardParams.insert("d", (20.0));
+    wizardParams.insert("ff", (1.0));
+    wizardParams.insert("l", (100.0));
+    wizardParams.insert("l2", (70.0));
+    wizardParams.insert("s", (1.0));
 
     processWizardInput();
     calculate();
@@ -92,28 +92,28 @@ void CAD_air_pipeFireDamper::calculate()
     this->snap_flanges.append(position + matrix_rotation * QVector3D(l-l2, 0.0, 0.0));
 
     QVector3D position_mp = position + matrix_rotation *  QVector3D(-l2, 0.0, 0.0);
-    main_pipe->wizardParams.insert("Position x", QVariant::fromValue(position_mp.x()));
-    main_pipe->wizardParams.insert("Position y", QVariant::fromValue(position_mp.y()));
-    main_pipe->wizardParams.insert("Position z", QVariant::fromValue(position_mp.z()));
-    main_pipe->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    main_pipe->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    main_pipe->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    main_pipe->wizardParams.insert("l", QVariant::fromValue(l));
-    main_pipe->wizardParams.insert("d", QVariant::fromValue(d));
-    main_pipe->wizardParams.insert("s", QVariant::fromValue(s));
+    main_pipe->wizardParams.insert("Position x", (position_mp.x()));
+    main_pipe->wizardParams.insert("Position y", (position_mp.y()));
+    main_pipe->wizardParams.insert("Position z", (position_mp.z()));
+    main_pipe->wizardParams.insert("Angle x", (angle_x));
+    main_pipe->wizardParams.insert("Angle y", (angle_y));
+    main_pipe->wizardParams.insert("Angle z", (angle_z));
+    main_pipe->wizardParams.insert("l", (l));
+    main_pipe->wizardParams.insert("d", (d));
+    main_pipe->wizardParams.insert("s", (s));
     main_pipe->processWizardInput();
     main_pipe->calculate();
 
     QVector3D position_f = position + matrix_rotation * QVector3D(-l2 / 3, -0.6 * d, 0.0);
-    function->wizardParams.insert("Position x", QVariant::fromValue(position_f.x()));
-    function->wizardParams.insert("Position y", QVariant::fromValue(position_f.y()));
-    function->wizardParams.insert("Position z", QVariant::fromValue(position_f.z()));
-    function->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    function->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    function->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    function->wizardParams.insert("Size x", QVariant::fromValue(2 * l2 /3));
-    function->wizardParams.insert("Size y", QVariant::fromValue(0.2 * d));
-    function->wizardParams.insert("Size z", QVariant::fromValue(d));
+    function->wizardParams.insert("Position x", (position_f.x()));
+    function->wizardParams.insert("Position y", (position_f.y()));
+    function->wizardParams.insert("Position z", (position_f.z()));
+    function->wizardParams.insert("Angle x", (angle_x));
+    function->wizardParams.insert("Angle y", (angle_y));
+    function->wizardParams.insert("Angle z", (angle_z));
+    function->wizardParams.insert("Size x", (2 * l2 /3));
+    function->wizardParams.insert("Size y", (0.2 * d));
+    function->wizardParams.insert("Size z", (d));
     function->processWizardInput();
     function->calculate();
 

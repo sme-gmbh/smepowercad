@@ -5,15 +5,15 @@ CAD_arch_support::CAD_arch_support() : CADitem(CADitemTypes::Arch_Support)
 {
     support = new CAD_basic_box();
     this->subItems.append(support);
-    wizardParams.insert("Position x", QVariant::fromValue(0.0));
-    wizardParams.insert("Position y", QVariant::fromValue(0.0));
-    wizardParams.insert("Position z", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
-    wizardParams.insert("a", QVariant::fromValue(3000));
-    wizardParams.insert("b", QVariant::fromValue(300));
-    wizardParams.insert("l", QVariant::fromValue(300));
+    wizardParams.insert("Position x", (0.0));
+    wizardParams.insert("Position y", (0.0));
+    wizardParams.insert("Position z", (0.0));
+    wizardParams.insert("Angle x", (0.0));
+    wizardParams.insert("Angle y", (0.0));
+    wizardParams.insert("Angle z", (0.0));
+    wizardParams.insert("a", (3000));
+    wizardParams.insert("b", (300));
+    wizardParams.insert("l", (300));
 
     processWizardInput();
     calculate();
@@ -77,15 +77,15 @@ void CAD_arch_support::calculate()
     this->snap_basepoint = (position);
 
     QVector3D position_sp = position + matrix_rotation * (QVector3D(0.0, 0.0, a/2));
-    support->wizardParams.insert("Position x", QVariant::fromValue(position_sp.x()));
-    support->wizardParams.insert("Position y", QVariant::fromValue(position_sp.y()));
-    support->wizardParams.insert("Position z", QVariant::fromValue(position_sp.z()));
-    support->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    support->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    support->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    support->wizardParams.insert("Size x", QVariant::fromValue(l));
-    support->wizardParams.insert("Size y", QVariant::fromValue(b));
-    support->wizardParams.insert("Size z", QVariant::fromValue(a));
+    support->wizardParams.insert("Position x", (position_sp.x()));
+    support->wizardParams.insert("Position y", (position_sp.y()));
+    support->wizardParams.insert("Position z", (position_sp.z()));
+    support->wizardParams.insert("Angle x", (angle_x));
+    support->wizardParams.insert("Angle y", (angle_y));
+    support->wizardParams.insert("Angle z", (angle_z));
+    support->wizardParams.insert("Size x", (l));
+    support->wizardParams.insert("Size y", (b));
+    support->wizardParams.insert("Size z", (a));
     support->processWizardInput();
     support->calculate();
 

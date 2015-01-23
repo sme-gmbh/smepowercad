@@ -13,15 +13,15 @@ CAD_basic_pipe::CAD_basic_pipe() : CADitem(CADitemTypes::Basic_Pipe)
 
     length = 20.0;
 
-    wizardParams.insert("Position x", QVariant::fromValue(0.0));
-    wizardParams.insert("Position y", QVariant::fromValue(0.0));
-    wizardParams.insert("Position z", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
-    wizardParams.insert("l", QVariant::fromValue(20.0));
-    wizardParams.insert("d", QVariant::fromValue(10.0));
-    wizardParams.insert("s", QVariant::fromValue(1.0));
+    wizardParams.insert("Position x", (0.0));
+    wizardParams.insert("Position y", (0.0));
+    wizardParams.insert("Position z", (0.0));
+    wizardParams.insert("Angle x", (0.0));
+    wizardParams.insert("Angle y", (0.0));
+    wizardParams.insert("Angle z", (0.0));
+    wizardParams.insert("l", (20.0));
+    wizardParams.insert("d", (10.0));
+    wizardParams.insert("s", (1.0));
 
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);

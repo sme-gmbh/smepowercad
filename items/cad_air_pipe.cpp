@@ -6,15 +6,15 @@ CAD_air_pipe::CAD_air_pipe() : CADitem(CADitemTypes::Air_Pipe)
     pipe = new CAD_basic_pipe();
     subItems.append(pipe);
 
-    wizardParams.insert("Position x", QVariant::fromValue(0.0));
-    wizardParams.insert("Position y", QVariant::fromValue(0.0));
-    wizardParams.insert("Position z", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
-    wizardParams.insert("d", QVariant::fromValue(20.0));
-    wizardParams.insert("s", QVariant::fromValue(0.5));
-    wizardParams.insert("l", QVariant::fromValue(100.0));
+    wizardParams.insert("Position x", (0.0));
+    wizardParams.insert("Position y", (0.0));
+    wizardParams.insert("Position z", (0.0));
+    wizardParams.insert("Angle x", (0.0));
+    wizardParams.insert("Angle y", (0.0));
+    wizardParams.insert("Angle z", (0.0));
+    wizardParams.insert("d", (20.0));
+    wizardParams.insert("s", (0.5));
+    wizardParams.insert("l", (100.0));
 
     processWizardInput();
     calculate();
@@ -85,15 +85,15 @@ void CAD_air_pipe::calculate()
     this->snap_basepoint = (position);
     this->snap_flanges.append(position);
 
-    pipe->wizardParams.insert("Position x", QVariant::fromValue(position.x()));
-    pipe->wizardParams.insert("Position y", QVariant::fromValue(position.y()));
-    pipe->wizardParams.insert("Position z", QVariant::fromValue(position.z()));
-    pipe->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    pipe->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    pipe->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    pipe->wizardParams.insert("l", QVariant::fromValue(l));
-    pipe->wizardParams.insert("d", QVariant::fromValue(d));
-    pipe->wizardParams.insert("s", QVariant::fromValue(s));
+    pipe->wizardParams.insert("Position x", (position.x()));
+    pipe->wizardParams.insert("Position y", (position.y()));
+    pipe->wizardParams.insert("Position z", (position.z()));
+    pipe->wizardParams.insert("Angle x", (angle_x));
+    pipe->wizardParams.insert("Angle y", (angle_y));
+    pipe->wizardParams.insert("Angle z", (angle_z));
+    pipe->wizardParams.insert("l", (l));
+    pipe->wizardParams.insert("d", (d));
+    pipe->wizardParams.insert("s", (s));
     pipe->processWizardInput();
     pipe->calculate();
 

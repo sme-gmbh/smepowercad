@@ -141,13 +141,13 @@ void ItemWizard::save()
         switch (currentItem->wizardParams.value(wdg->objectName()).type())
         {
         case QVariant::String:
-            val = QVariant::fromValue(((QLineEdit*)wdg)->text());
+            val = (((QLineEdit*)wdg)->text());
             break;
         case QVariant::Int:
-            val = QVariant::fromValue((int)((QSpinBox*)wdg)->value());
+            val = ((int)((QSpinBox*)wdg)->value());
             break;
         case QVariant::Double:
-            val = QVariant::fromValue((double)((QDoubleSpinBox*)wdg)->value());
+            val = ((double)((QDoubleSpinBox*)wdg)->value());
             break;
         default:
             break;

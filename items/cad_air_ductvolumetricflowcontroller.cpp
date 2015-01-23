@@ -3,19 +3,19 @@
 
 CAD_air_ductVolumetricFlowController::CAD_air_ductVolumetricFlowController() : CADitem(CADitemTypes::Air_DuctVolumetricFlowController)
 {
-    wizardParams.insert("Position x", QVariant::fromValue(0.0));
-    wizardParams.insert("Position y", QVariant::fromValue(0.0));
-    wizardParams.insert("Position z", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+    wizardParams.insert("Position x", (0.0));
+    wizardParams.insert("Position y", (0.0));
+    wizardParams.insert("Position z", (0.0));
+    wizardParams.insert("Angle x", (0.0));
+    wizardParams.insert("Angle y", (0.0));
+    wizardParams.insert("Angle z", (0.0));
 
-    wizardParams.insert("ff", QVariant::fromValue(1.0));
-    wizardParams.insert("fe", QVariant::fromValue(1.0));
-    wizardParams.insert("a", QVariant::fromValue(20.0));
-    wizardParams.insert("b", QVariant::fromValue(30.0));
-    wizardParams.insert("l", QVariant::fromValue(100.0));
-    wizardParams.insert("s", QVariant::fromValue(1.0));
+    wizardParams.insert("ff", (1.0));
+    wizardParams.insert("fe", (1.0));
+    wizardParams.insert("a", (20.0));
+    wizardParams.insert("b", (30.0));
+    wizardParams.insert("l", (100.0));
+    wizardParams.insert("s", (1.0));
 
     this->duct = new CAD_air_duct();
     this->flap = new CAD_basic_box();
@@ -94,44 +94,44 @@ void CAD_air_ductVolumetricFlowController::calculate()
 
     this->snap_basepoint = (position);
 
-    duct->wizardParams.insert("Position x", QVariant::fromValue(position.x()));
-    duct->wizardParams.insert("Position y", QVariant::fromValue(position.y()));
-    duct->wizardParams.insert("Position z", QVariant::fromValue(position.z()));
-    duct->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    duct->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    duct->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    duct->wizardParams.insert("s", QVariant::fromValue(s));
-    duct->wizardParams.insert("l", QVariant::fromValue(l));
-    duct->wizardParams.insert("b", QVariant::fromValue(b));
-    duct->wizardParams.insert("a", QVariant::fromValue(a));
-    duct->wizardParams.insert("ff", QVariant::fromValue(ff));
-    duct->wizardParams.insert("fe", QVariant::fromValue(fe));
+    duct->wizardParams.insert("Position x", (position.x()));
+    duct->wizardParams.insert("Position y", (position.y()));
+    duct->wizardParams.insert("Position z", (position.z()));
+    duct->wizardParams.insert("Angle x", (angle_x));
+    duct->wizardParams.insert("Angle y", (angle_y));
+    duct->wizardParams.insert("Angle z", (angle_z));
+    duct->wizardParams.insert("s", (s));
+    duct->wizardParams.insert("l", (l));
+    duct->wizardParams.insert("b", (b));
+    duct->wizardParams.insert("a", (a));
+    duct->wizardParams.insert("ff", (ff));
+    duct->wizardParams.insert("fe", (fe));
     duct->processWizardInput();
     duct->calculate();
 
     QVector3D position_f = position + matrix_rotation * QVector3D(l / 2, -0.6 * b, 0.0);
-    function->wizardParams.insert("Position x", QVariant::fromValue(position_f.x()));
-    function->wizardParams.insert("Position y", QVariant::fromValue(position_f.y()));
-    function->wizardParams.insert("Position z", QVariant::fromValue(position_f.z()));
-    function->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    function->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    function->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    function->wizardParams.insert("Size x", QVariant::fromValue(0.3 * l));
-    function->wizardParams.insert("Size y", QVariant::fromValue(0.2 * b));
-    function->wizardParams.insert("Size z", QVariant::fromValue(0.5 * a));
+    function->wizardParams.insert("Position x", (position_f.x()));
+    function->wizardParams.insert("Position y", (position_f.y()));
+    function->wizardParams.insert("Position z", (position_f.z()));
+    function->wizardParams.insert("Angle x", (angle_x));
+    function->wizardParams.insert("Angle y", (angle_y));
+    function->wizardParams.insert("Angle z", (angle_z));
+    function->wizardParams.insert("Size x", (0.3 * l));
+    function->wizardParams.insert("Size y", (0.2 * b));
+    function->wizardParams.insert("Size z", (0.5 * a));
     function->processWizardInput();
     function->calculate();
 
     QVector3D position_fl = position + matrix_rotation * QVector3D(l / 2, 0.0, 0.0);
-    flap->wizardParams.insert("Position x", QVariant::fromValue(position_fl.x()));
-    flap->wizardParams.insert("Position y", QVariant::fromValue(position_fl.y()));
-    flap->wizardParams.insert("Position z", QVariant::fromValue(position_fl.z()));
-    flap->wizardParams.insert("Angle x", QVariant::fromValue(angle_x));
-    flap->wizardParams.insert("Angle y", QVariant::fromValue(angle_y));
-    flap->wizardParams.insert("Angle z", QVariant::fromValue(angle_z));
-    flap->wizardParams.insert("Size x", QVariant::fromValue(a));
-    flap->wizardParams.insert("Size y", QVariant::fromValue(b - 2 * s));
-    flap->wizardParams.insert("Size z", QVariant::fromValue(0.1 * a));
+    flap->wizardParams.insert("Position x", (position_fl.x()));
+    flap->wizardParams.insert("Position y", (position_fl.y()));
+    flap->wizardParams.insert("Position z", (position_fl.z()));
+    flap->wizardParams.insert("Angle x", (angle_x));
+    flap->wizardParams.insert("Angle y", (angle_y));
+    flap->wizardParams.insert("Angle z", (angle_z));
+    flap->wizardParams.insert("Size x", (a));
+    flap->wizardParams.insert("Size y", (b - 2 * s));
+    flap->wizardParams.insert("Size z", (0.1 * a));
     flap->processWizardInput();
     flap->calculate();
 
