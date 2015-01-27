@@ -1365,7 +1365,7 @@ QList<CADitem*> GLWidget::itemsAtPosition_v2(QPoint pos, int size_x, int size_y)
 
     if (fbo_select->size() != QSize(size_x, size_y))
     {
-        qDebug() << "fbo resize" << QSize(size_x, size_y);
+//        qDebug() << "fbo resize" << QSize(size_x, size_y);
         QOpenGLFramebufferObjectFormat format = fbo_select->format();
         delete fbo_select;
         fbo_select = new QOpenGLFramebufferObject(size_x, size_y, format);

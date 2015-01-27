@@ -11,6 +11,7 @@
 #include <QPointF>
 #include <QEvent>
 #include <QKeyEvent>
+#include <QMouseEvent>
 #include <QSettings>
 
 #include "3Dmouse/qmagellan.h"
@@ -74,6 +75,7 @@ private:
 
 protected:
     void keyPressEvent(QKeyEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
 
 public slots:
     void slot_file_open_action();

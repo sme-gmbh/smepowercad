@@ -283,6 +283,20 @@ void MainWindow::createItemToolBar()
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
+    // keyPressEvent does not work because it is forwarded to children
+//    qDebug() << "MainWindow::keyPressEvent";
+//    switch (event->key())
+//    {
+//    case Qt::Key_F11:
+//        ui->menuBar->setHidden(!ui->menuBar->isHidden());
+//        break;
+//    }
+
+    event->accept();
+}
+
+void MainWindow::mouseMoveEvent(QMouseEvent *event)
+{
     event->accept();
 }
 
