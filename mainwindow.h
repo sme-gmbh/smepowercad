@@ -11,6 +11,7 @@
 #include <QPointF>
 #include <QEvent>
 #include <QKeyEvent>
+#include <QMouseEvent>
 #include <QSettings>
 
 #include "3Dmouse/qmagellan.h"
@@ -22,6 +23,7 @@
 
 #include "itemdb.h"
 #include "geometrydisplay.h"
+#include "collisiondetection.h"
 
 #include "modaldialog.h"
 #include "settingsdialog.h"
@@ -49,6 +51,7 @@ private:
     QMagellanThread *magellanThread;
     ItemDB* itemDB;
     LayerManager* layerManager;
+    CollisionDetection* collisionDetection;
 
     Server* server;
 
@@ -74,6 +77,7 @@ private:
 
 protected:
     void keyPressEvent(QKeyEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
 
 public slots:
     void slot_file_open_action();

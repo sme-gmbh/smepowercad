@@ -17,6 +17,7 @@ public:
     void reset();
     void enterVertex(QVector3D vertex);
     void enterVertices(QList<QVector3D> vertices);
+    bool intersectsWith(M3dBoundingBox &box);
 
     QList<QVector3D> getVertices();
 

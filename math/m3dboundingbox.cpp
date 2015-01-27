@@ -48,6 +48,18 @@ void M3dBoundingBox::enterVertices(QList<QVector3D> vertices)
     }
 }
 
+bool M3dBoundingBox::intersectsWith(M3dBoundingBox &box)
+{
+    if (x_min > box.x_max)  return false;
+    if (x_max < box.x_min)  return false;
+    if (y_min > box.y_max)  return false;
+    if (y_max < box.y_min)  return false;
+    if (z_min > box.z_max)  return false;
+    if (z_max < box.z_min)  return false;
+
+    return true;
+}
+
 // returns a given point of the box
 QVector3D M3dBoundingBox::p(int num)
 {

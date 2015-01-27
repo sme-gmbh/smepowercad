@@ -33,43 +33,13 @@ void ItemWizard::showWizard(CADitem *item)
     }
 
     currentItem = item;
-//    QMap<QString, QVariant>::iterator it;
-//    for (it = item->wizardParams.begin(); it != item->wizardParams.end(); it++)
-//    {
-//        QWidget *wdg;
-//        switch (it.value().type())
-//        {
-//        case QVariant::String:
-//            wdg = new QLineEdit(it.value().toString(), this);
-//            break;
-//        case QVariant::Int:
-//            wdg = new QSpinBox(this);
-//            ((QSpinBox*)wdg)->setMaximum(INT_MAX);
-//            ((QSpinBox*)wdg)->setMinimum(INT_MIN);
-//            ((QSpinBox*)wdg)->setValue(it.value().toInt());
-//            break;
-//        case QVariant::Double:
-//            wdg = new QDoubleSpinBox(this);
-//            ((QDoubleSpinBox*)wdg)->setMaximum(10e+20);
-//            ((QDoubleSpinBox*)wdg)->setMinimum(-10e+20);
-//            ((QDoubleSpinBox*)wdg)->setValue(it.value().toDouble());
-//            break;
-//        default:
-//            qDebug() << "ItemWizard::showWizard() Unhandled value type:" << it.value().type();
-//            break;
-//        }
-//        wdg->setObjectName(it.key());
-
-
-//        ui->formLayout->addRow(it.key(), wdg);
-//    }
 
     int i = 0;
     foreach(QString key, item->wizardParams.keys())
     {
         QWidget *wdg;
-//        QVariant value = item->wizardParams.value(i);
-        QVariant value = item->wizardParams.value(key);       // DEBUG TEST
+        QVariant value = item->wizardParams.value(i);
+//        QVariant value = item->wizardParams.value(key);       // DEBUG TEST
         switch (value.type())
         {
         case QVariant::String:
@@ -108,7 +78,6 @@ void ItemWizard::showWizard(CADitem *item)
 
 void ItemWizard::on_buttonBox_accepted()
 {
-//    this->save();
     this->accept();
 }
 
@@ -130,7 +99,6 @@ void ItemWizard::slot_accepted()
 
 void ItemWizard::save()
 {
-//    QMap<QString, QVariant> map;
     WizardParams params;
     QVariant val;
     QWidget *wdg;
@@ -162,6 +130,7 @@ void ItemWizard::save()
     currentItem->wizardParams = params;
     currentItem->processWizardInput();
     currentItem->calculate();
+    emit signal_itemModified(currentItem);
     emit signal_sceneRepaintNeeded();
 }
 
