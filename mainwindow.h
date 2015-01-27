@@ -23,6 +23,7 @@
 
 #include "itemdb.h"
 #include "geometrydisplay.h"
+#include "collisiondetection.h"
 
 #include "modaldialog.h"
 #include "settingsdialog.h"
@@ -50,6 +51,7 @@ private:
     QMagellanThread *magellanThread;
     ItemDB* itemDB;
     LayerManager* layerManager;
+    CollisionDetection* collisionDetection;
 
     Server* server;
 

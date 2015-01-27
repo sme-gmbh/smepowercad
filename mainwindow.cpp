@@ -50,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionNewWindow, SIGNAL(triggered()), this, SLOT(slot_newGeometryDisplay()));
 
 
-    // ** Layer Manager **
+    // **** Layer Manager ****
     this->layerManager = new LayerManager(this, topLevelLayer, itemDB);
     QAction* action_layerManager = this->layerManager->toggleViewAction();
     action_layerManager->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
@@ -59,6 +59,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(itemDB, SIGNAL(signal_layerDeleted(Layer*)), layerManager, SLOT(slot_layerDeleted(Layer*)));
     ui->menuFormat->addAction(action_layerManager);
 
+    // **** Collision detection ****
+    this->collisionDetection = new CollisionDetection(this->itemDB, this);
+    connect(itemWizard, SIGNAL(signal_itemModified(CADitem*)), collisionDetection, SLOT(slot_testModifiedItem(CADitem*)));
+    connect(itemDB, SIGNAL(signal_itemDeleted(CADitem*)), collisionDetection, SLOT(slot_itemDeleted(CADitem*)));
 
     // **** CAD window (2nd version) *****
     mainGeometryDisplay = new GeometryDisplay(itemDB, itemWizard, itemGripModifier, this);

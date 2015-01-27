@@ -152,7 +152,8 @@ SOURCES += main.cpp\
     items/cad_air_pipebranch.cpp \
     toolwidget.cpp \
     caditemtypes.cpp \
-    wizardparams.cpp
+    wizardparams.cpp \
+    collisiondetection.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -294,7 +295,8 @@ HEADERS  += mainwindow.h \
     toolwidget.h \
     caditemheaderincludes.h \
     caditemtypes.h \
-    wizardparams.h
+    wizardparams.h \
+    collisiondetection.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

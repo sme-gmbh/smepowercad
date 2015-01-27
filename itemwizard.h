@@ -42,6 +42,7 @@ private:
 
 signals:
     void signal_sceneRepaintNeeded();
+    void signal_itemModified(CADitem* item);
 };
 
 #endif // ITEMWIZARD_H
