@@ -1242,6 +1242,8 @@ void GLWidget::paintContent(QList<Layer*> layers)
     shaderProgram->setUniformValue(shader_Height_of_intersection_location, this->height_of_intersection);
     shaderProgram->setUniformValue(shader_Depth_of_view_location,  this->height_of_intersection - this->depth_of_view);
     shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
+    this->glEnable(GL_PRIMITIVE_RESTART);
+    this->glPrimitiveRestartIndex(0xABCD);
 
     glName = 1;
 
@@ -1268,6 +1270,8 @@ void GLWidget::paintContent(QList<Layer*> layers)
     shaderProgram->setUniformValue(shader_Height_of_intersection_location, this->height_of_intersection);
     shaderProgram->setUniformValue(shader_Depth_of_view_location,  this->height_of_intersection - this->depth_of_view);
     shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
+    this->glEnable(GL_PRIMITIVE_RESTART);
+    this->glPrimitiveRestartIndex(0xABCD);
 
     setUseTexture(false);
 

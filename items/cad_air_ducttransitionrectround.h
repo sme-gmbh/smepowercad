@@ -33,8 +33,8 @@ public:
     QVector3D roundside[2][2][32]; //front <-> back, inner <-> outer, discrete circle
     QVector3D rectside[2][2][4]; //front <-> back, inner <-> outer, "discrete circle"
 
-    CAD_basic_pipe *flange_round;
-    CAD_basic_duct *flange_rect;
+    CAD_basic_pipe *flange_round, *endcap_round;
+    CAD_basic_duct *flange_rect, *endcap_rect;
 
     QOpenGLBuffer arrayBufVertices;
     QOpenGLBuffer indexBufFaces;

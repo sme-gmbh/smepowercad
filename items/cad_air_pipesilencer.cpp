@@ -12,10 +12,10 @@ CAD_air_pipeSilencer::CAD_air_pipeSilencer() : CADitem(CADitemTypes::Air_PipeSil
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("d",  20.0);
-    wizardParams.insert("s",   0.5);
-    wizardParams.insert("l", 100.0);
-    wizardParams.insert("D",  30.0);
+    wizardParams.insert("d",  200.0);
+    wizardParams.insert("D",  300.0);
+    wizardParams.insert("l", 1000.0);
+    wizardParams.insert("s",   5.0);
 
     processWizardInput();
     calculate();

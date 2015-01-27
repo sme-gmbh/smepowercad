@@ -12,10 +12,10 @@ CAD_air_pipeTurn::CAD_air_pipeTurn() : CADitem(CADitemTypes::Air_PipeTurn)
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("d",     20.0);
-    wizardParams.insert("r",    100.0);
-    wizardParams.insert("alpha", 90.0);
-    wizardParams.insert("s",      1.0);
+    wizardParams.insert("d",     200.0);
+    wizardParams.insert("r",    1000.0);
+    wizardParams.insert("alpha",  90.0);
+    wizardParams.insert("s",      10.0);
 
     processWizardInput();
     calculate();

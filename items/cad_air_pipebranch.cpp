@@ -10,13 +10,13 @@ CAD_air_pipeBranch::CAD_air_pipeBranch() : CADitem(CADitemTypes::Air_PipeBranch)
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("d",     20.0);
-    wizardParams.insert("d2",    20.0);
-    wizardParams.insert("s",      1.0);
-    wizardParams.insert("l",    100.0);
-    wizardParams.insert("l1",    50.0);
-    wizardParams.insert("l2",    50.0);
-    wizardParams.insert("alpha", 30.0);
+    wizardParams.insert("l",    1000.0);
+    wizardParams.insert("l1",    500.0);
+    wizardParams.insert("l2",    500.0);
+    wizardParams.insert("d",     200.0);
+    wizardParams.insert("d2",    150.0);
+    wizardParams.insert("alpha",  30.0);
+    wizardParams.insert("s",      10.0);
 
     this->pipe = new CAD_basic_pipe();
     this->branch = new CAD_basic_pipe();

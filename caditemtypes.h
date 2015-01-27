@@ -70,6 +70,7 @@ public:
         Air_Humidifier,                         // Befeuchter
         Air_EmptyCabinet,                       // Leergerät
         Air_EquipmentFrame,                     // Geräterahmen
+        Air_LinearDiffuser,                     // Linearauslass
         Cleanroom_CeilingCornerPiece,
         Cleanroom_CeilingFilterFanUnit,
         Cleanroom_CeilingFrameFeedThrough,

@@ -6,8 +6,12 @@ CAD_air_ductTransitionRectRound::CAD_air_ductTransitionRectRound() : CADitem(CAD
 {
     this->flange_rect = new CAD_basic_duct();
     this->flange_round =new CAD_basic_pipe();
+    this->endcap_rect = new CAD_basic_duct();
+    this->endcap_round =new CAD_basic_pipe();
     this->subItems.append(flange_rect);
     this->subItems.append(flange_round);
+    this->subItems.append(endcap_rect);
+    this->subItems.append(endcap_round);
 
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
@@ -16,16 +20,16 @@ CAD_air_ductTransitionRectRound::CAD_air_ductTransitionRectRound() : CADitem(CAD
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("s",   1.0);
-    wizardParams.insert("l", 100.0);
-    wizardParams.insert("b",  30.0);
-    wizardParams.insert("a",  20.0);
-    wizardParams.insert("ff",  1.0);
-    wizardParams.insert("fe",  1.0);
-    wizardParams.insert("e",   0.0);
-    wizardParams.insert("f",   0.0);
-    wizardParams.insert("u",   5.0);
-    wizardParams.insert("d",  20.0);
+    wizardParams.insert("b",  300.0);
+    wizardParams.insert("a",  200.0);
+    wizardParams.insert("l", 1000.0);
+    wizardParams.insert("d",  200.0);
+    wizardParams.insert("e",   00.0);
+    wizardParams.insert("f",   00.0);
+    wizardParams.insert("u",   50.0);
+    wizardParams.insert("fe",  10.0);
+    wizardParams.insert("ff",  10.0);
+    wizardParams.insert("s",   10.0);
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();
@@ -107,259 +111,176 @@ void CAD_air_ductTransitionRectRound::calculate()
     this->snap_flanges.append(position);
     this->snap_flanges.append(position + matrix_rotation * QVector3D(l, b/2 - e - d/2, a/2 - f - d/2 ));
 
-    QVector3D vertices[144];
-    //front <-> back
-    for(int i = 0; i < 2; i++)
+    QVector3D vertices[40];
+    //inner <-> outer
+    for(int j = 0; j < 2; j++)
     {
-        //inner <-> outer
-        for(int j = 0; j < 2; j++)
+        int k = 0;
+        //circle
+        for(qreal step = 0; step <= 1; step += 0.0625) //16 vertices
         {
-            int k = 0;
-            //circle
-            for(qreal step = 0; step <= 1; step += 0.03125)
-            {
-                QVector3D rad = QVector3D(0.0, d/2 - j * s, 0.0);
-                QMatrix4x4 matrix_turn = QMatrix4x4();
-                matrix_turn.setToIdentity();
-                matrix_turn.rotate(step * 360, 1.0, 0.0, 0.0);
-                vertices[64*i + 32*j + k]= position + matrix_rotation * (matrix_turn * rad + QVector3D(l - i * u, b/2 - e - d/2, a/2 - f - d/2 ));
-                boundingBox.enterVertex(vertices[62*i + 32*j + k]);
-                k++;
+            QVector3D rad = QVector3D(0.0, d/2 - j * s, 0.0);
+            QMatrix4x4 matrix_turn = QMatrix4x4();
+            matrix_turn.setToIdentity();
+            matrix_turn.rotate(step * 360, 1.0, 0.0, 0.0);
+            vertices[16*j + k]= position + matrix_rotation * (matrix_turn * rad + QVector3D(l - u, b/2 - e - d/2, a/2 - f - d/2 ));
+            boundingBox.enterVertex(vertices[16*j + k]);
+            k++;
 
-            }
         }
     }
-    //front <-> back
-    for(int i = 0; i < 2; i++)
+    //inner <-> outer
+    for(int j = 0; j < 2; j++)
     {
-        //inner <-> outer
-        for(int j = 0; j < 2; j++)
-        {
-            vertices[128 + 8*i + 4*j] = position + matrix_rotation * QVector3D(i * u,  b/2 - j * s, -a/2 + j * s);
-            vertices[128 + 8*i + 4*j + 1] = position + matrix_rotation * QVector3D(i * u,  b/2 - j * s,  a/2 - j * s);
-            vertices[128 + 8*i + 4*j + 2] = position + matrix_rotation * QVector3D(i * u, -b/2 + j * s,  a/2 - j * s);
-            vertices[128 + 8*i + 4*j + 3] = position + matrix_rotation * QVector3D(i * u, -b/2 + j * s, -a/2 + j * s);
-            boundingBox.enterVertex(vertices[128 + 8*i + 4*j]);
-            boundingBox.enterVertex(vertices[128 + 8*i + 4*j + 1]);
-            boundingBox.enterVertex(vertices[128 + 8*i + 4*j + 2]);
-            boundingBox.enterVertex(vertices[128 + 8*i + 4*j + 3]);
-        }
+        vertices[32 + 4*j] = position + matrix_rotation * QVector3D(u,  b/2 - j * s, -a/2 + j * s);
+        vertices[32 + 4*j + 1] = position + matrix_rotation * QVector3D(u,  b/2 - j * s,  a/2 - j * s);
+        vertices[32 + 4*j + 2] = position + matrix_rotation * QVector3D(u, -b/2 + j * s,  a/2 - j * s);
+        vertices[32 + 4*j + 3] = position + matrix_rotation * QVector3D(u, -b/2 + j * s, -a/2 + j * s);
+        boundingBox.enterVertex(vertices[32 + 4*j]);
+        boundingBox.enterVertex(vertices[32 + 4*j + 1]);
+        boundingBox.enterVertex(vertices[32 + 4*j + 2]);
+        boundingBox.enterVertex(vertices[32 + 4*j + 3]);
     }
-    static GLushort indicesFaces[376];
-    for(int i = 0; i < 32; i++)
+    static GLushort indicesFaces[160];
+
+    //outer
+    indicesFaces[0] = 0;
+    indicesFaces[1] = 32;
+    indicesFaces[2] = 33;
+    indicesFaces[3] = 0xABCD;
+    indicesFaces[4] = 4;
+    indicesFaces[5] = 33;
+    indicesFaces[6] = 34;
+    indicesFaces[7] = 0xABCD;
+    indicesFaces[8] = 8;
+    indicesFaces[9] = 34;
+    indicesFaces[10] = 35;
+    indicesFaces[11] = 0xABCD;
+    indicesFaces[12] = 12;
+    indicesFaces[13] = 35;
+    indicesFaces[14] = 32;
+    indicesFaces[15] = 0xABCD;
+
+    //inner
+    indicesFaces[16] = 16;
+    indicesFaces[17] = 36;
+    indicesFaces[18] = 37;
+    indicesFaces[19] = 0xABCD;
+    indicesFaces[20] = 20;
+    indicesFaces[21] = 37;
+    indicesFaces[22] = 38;
+    indicesFaces[23] = 0xABCD;
+    indicesFaces[24] = 24;
+    indicesFaces[25] = 38;
+    indicesFaces[26] = 39;
+    indicesFaces[27] = 0xABCD;
+    indicesFaces[28] = 28;
+    indicesFaces[29] = 39;
+    indicesFaces[30] = 36;
+    indicesFaces[31] = 0xABCD;
+
+    //ounter
+    for(int i = 0; i < 4; i++)
     {
-        indicesFaces[2*i] = i;
-        indicesFaces[2*i+1] = 64 + i;
+        indicesFaces[32 + 4*i] = i;
+        indicesFaces[33 + 4*i] = i+1;
+        indicesFaces[34 + 4*i] = 33;
+        indicesFaces[35 + 4*i] = 0xABCD;
     }
-    indicesFaces[64] = 0;
-    indicesFaces[65] = 64;
-    indicesFaces[66] = 0xABCD;
-    for(int i = 0; i < 32; i++)
+    for(int i = 0; i < 4; i++)
     {
-        indicesFaces[66 + 2*i] = 32 + i;
-        indicesFaces[66 + 2*i+1] = 96 + i;
+        indicesFaces[48 + 4*i] = 4 + i;
+        indicesFaces[49 + 4*i] = 5 + i;
+        indicesFaces[50 + 4*i] = 34;
+        indicesFaces[51 + 4*i] = 0xABCD;
     }
-    indicesFaces[130] = 32;
-    indicesFaces[131] = 96;
-    indicesFaces[132] = 0xABCD;
-    for(int i = 0; i < 32; i++)
+    for(int i = 0; i < 4; i++)
     {
-        indicesFaces[132 + 2*i] = 0 + i;
-        indicesFaces[132 + 2*i+1] = 32 + i;
+        indicesFaces[64 + 4*i] = 8 + i;
+        indicesFaces[65 + 4*i] = 9 + i;
+        indicesFaces[66 + 4*i] = 35;
+        indicesFaces[67 + 4*i] = 0xABCD;
     }
-    indicesFaces[196] = 0;
-    indicesFaces[197] = 32;
-    indicesFaces[198] = 0xABCD;
-    indicesFaces[199] = 128;
-    indicesFaces[200] = 136;
-    indicesFaces[201] = 129;
-    indicesFaces[202] = 137;
-    indicesFaces[203] = 130;
-    indicesFaces[204] = 138;
-    indicesFaces[205] = 131;
-    indicesFaces[206] = 139;
-    indicesFaces[207] = 128;
-    indicesFaces[208] = 136;
-    indicesFaces[209] = 0xABCD;
-    indicesFaces[210] = 132;
-    indicesFaces[211] = 140;
-    indicesFaces[212] = 133;
-    indicesFaces[213] = 141;
-    indicesFaces[214] = 134;
-    indicesFaces[215] = 142;
-    indicesFaces[216] = 135;
-    indicesFaces[217] = 143;
-    indicesFaces[218] = 132;
-    indicesFaces[219] = 140;
-    indicesFaces[220] = 0xABCD;
-    indicesFaces[221] = 128;
-    indicesFaces[222] = 140;
-    indicesFaces[223] = 129;
-    indicesFaces[224] = 141;
-    indicesFaces[225] = 130;
-    indicesFaces[226] = 142;
-    indicesFaces[227] = 131;
-    indicesFaces[228] = 143;
-    indicesFaces[229] = 128;
-    indicesFaces[230] = 140;
-    indicesFaces[231] = 0xABCD;
-    for(int i = 0; i < 8; i++)
+    for(int i = 0; i < 4; i++)
     {
-        indicesFaces[232 + 4*i] = 136;
-        indicesFaces[232 + 4*i + 1] = 64 + 24 + i;
-        indicesFaces[232 + 4*i + 2] = 64 + 24 + i + 1;
-        indicesFaces[232 + 4*i + 3] = 0xABCD;
+        indicesFaces[80 + 4*i] = 12 + i;
+        indicesFaces[81 + 4*i] = 13 + i;
+        indicesFaces[82 + 4*i] = 32;
+        indicesFaces[83 + 4*i] = 0xABCD;
     }
-    indicesFaces[232 + 4*7+2] = 64;
-    for(int i = 0; i < 8; i++)
+
+    //inner
+    for(int i = 0; i < 4; i++)
     {
-        indicesFaces[264 + 4*i] = 138;
-        indicesFaces[264 + 4*i + 1] = 64 + i + 8;
-        indicesFaces[264 + 4*i + 2] = 64 + i + 8 + 1;
-        indicesFaces[264 + 4*i + 3] = 0xABCD;
+        indicesFaces[96 + 4*i] = 16 + i;
+        indicesFaces[97 + 4*i] = 17 + i;
+        indicesFaces[98 + 4*i] = 37;
+        indicesFaces[99 + 4*i] = 0xABCD;
     }
-    for(int i = 0; i < 8; i++)
+    for(int i = 0; i < 4; i++)
     {
-        indicesFaces[296 + 4*i] = 137;
-        indicesFaces[296 + 4*i + 1] = 64 + i;
-        indicesFaces[296 + 4*i + 2] = 64 + i + 1;
-        indicesFaces[296 + 4*i + 3] = 0xABCD;
+        indicesFaces[112 + 4*i] = 20 + i;
+        indicesFaces[113 + 4*i] = 21 + i;
+        indicesFaces[114 + 4*i] = 38;
+        indicesFaces[115 + 4*i] = 0xABCD;
     }
-    for(int i = 0; i < 8; i++)
+    for(int i = 0; i < 4; i++)
     {
-        indicesFaces[328 + 4*i] = 139;
-        indicesFaces[328 + 4*i + 1] = 64 + i + 16;
-        indicesFaces[328 + 4*i + 2] = 64 + i + 16 + 1;
-        indicesFaces[328 + 4*i + 3] = 0xABCD;
+        indicesFaces[128 + 4*i] = 24 + i;
+        indicesFaces[129 + 4*i] = 25 + i;
+        indicesFaces[130 + 4*i] = 39;
+        indicesFaces[131 + 4*i] = 0xABCD;
     }
-    indicesFaces[360] = 136;
-    indicesFaces[361] = 64;
-    indicesFaces[362] = 137;
-    indicesFaces[363] = 0xABCD;
-    indicesFaces[364] = 137;
-    indicesFaces[365] = 72;
-    indicesFaces[366] = 138;
-    indicesFaces[367] = 0xABCD;
-    indicesFaces[368] = 138;
-    indicesFaces[369] = 80;
-    indicesFaces[370] = 139;
-    indicesFaces[371] = 0xABCD;
-    indicesFaces[372] = 139;
-    indicesFaces[373] = 88;
-    indicesFaces[374] = 136;
-    indicesFaces[375] = 0xABCD;
+    for(int i = 0; i < 4; i++)
+    {
+        indicesFaces[144 + 4*i] = 28 + i;
+        indicesFaces[145 + 4*i] = 29 + i;
+        indicesFaces[146 + 4*i] = 36;
+        indicesFaces[147 + 4*i] = 0xABCD;
+    }
 
 
 
 
-    static GLushort indicesLines[504];
-//connectors
-    for(int i = 0; i <= 8; i++){
-        indicesLines[2*i] = 64+i+24;
-        indicesLines[2*i+1] = 136;
-    }
-    indicesLines[16] = 64;
-    for(int i = 0; i <= 8; i++){
-        indicesLines[18+2*i] = 64+i;
-        indicesLines[18+2*i+1] = 137;
-    }
-    for(int i = 0; i <= 8; i++){
-        indicesLines[36+2*i] = 64+i+8;
-        indicesLines[36+2*i+1] = 138;
-    }
-    for(int i = 0; i <= 8; i++){
-        indicesLines[54+2*i] = 64+i+16;
-        indicesLines[54+2*i+1] = 139;
-    }
-    //endcap on round side
-    for(int i = 0; i < 32; i++)
-    {
-        indicesLines[72 + 2*i] = i;
-        indicesLines[72 + 2*i + 1] = i+64;
-    }
-    for(int i = 0; i < 32; i++)
-    {
-        indicesLines[136 + 2*i] = i;
-        indicesLines[136 + 2*i + 1] = i+1;
-    }
-    indicesLines[199] = 0;
-    for(int i = 0; i < 32; i++)
-    {
-        indicesLines[200 + 2*i] = i;
-        indicesLines[200 + 2*i + 1] = i + 32;
-    }
-    for(int i = 0; i < 32; i++)
-    {
-        indicesLines[264 + 2*i] = i + 32;
-        indicesLines[264 + 2*i + 1] = i + 33;
-    }
-    indicesLines[327] = 32;
-    for(int i = 0; i < 32; i++)
-    {
-        indicesLines[328 + 2*i] = i + 32;
-        indicesLines[328 + 2*i + 1] = i + 96;
-    }
-    for(int i = 0; i < 32; i++)
-    {
-        indicesLines[392 + 2*i] = i + 96;
-        indicesLines[392 + 2*i + 1] = i + 96 + 1;
-    }
-    indicesLines[455] = 96;
-    //endcap on rect side;
-    indicesLines[456] = 128;
-    indicesLines[457] = 129;
-    indicesLines[458] = 129;
-    indicesLines[459] = 130;
-    indicesLines[460] = 130;
-    indicesLines[461] = 131;
-    indicesLines[462] = 131;
-    indicesLines[463] = 128;
 
-    indicesLines[464] = 132;
-    indicesLines[465] = 133;
-    indicesLines[466] = 133;
-    indicesLines[467] = 134;
-    indicesLines[468] = 134;
-    indicesLines[469] = 135;
-    indicesLines[470] = 135;
-    indicesLines[471] = 132;
+    static GLushort indicesLines[32];
+    //outer
+    indicesLines[0] = 0;
+    indicesLines[1] = 32;
+    indicesLines[2] = 33;
+    indicesLines[3] = 0;
+    indicesLines[4] = 4;
+    indicesLines[5] = 33;
+    indicesLines[6] = 34;
+    indicesLines[7] = 4;
+    indicesLines[8] = 8;
+    indicesLines[9] = 34;
+    indicesLines[10] = 35;
+    indicesLines[11] = 8;
+    indicesLines[12] = 12;
+    indicesLines[13] = 35;
+    indicesLines[14] = 32;
+    indicesLines[15] = 12;
 
-    indicesLines[472] = 136;
-    indicesLines[473] = 137;
-    indicesLines[474] = 137;
-    indicesLines[475] = 138;
-    indicesLines[476] = 138;
-    indicesLines[477] = 139;
-    indicesLines[478] = 139;
-    indicesLines[479] = 136;
-
-    indicesLines[480] = 140;
-    indicesLines[481] = 141;
-    indicesLines[482] = 141;
-    indicesLines[483] = 142;
-    indicesLines[484] = 142;
-    indicesLines[485] = 143;
-    indicesLines[486] = 143;
-    indicesLines[487] = 140;
+    //inner
+    indicesLines[16] = 16;
+    indicesLines[17] = 36;
+    indicesLines[18] = 37;
+    indicesLines[19] = 16;
+    indicesLines[20] = 20;
+    indicesLines[21] = 37;
+    indicesLines[22] = 38;
+    indicesLines[23] = 20;
+    indicesLines[24] = 24;
+    indicesLines[25] = 38;
+    indicesLines[26] = 39;
+    indicesLines[27] = 24;
+    indicesLines[28] = 28;
+    indicesLines[29] = 39;
+    indicesLines[30] = 36;
+    indicesLines[31] = 28;
 
 
-    indicesLines[488] = 128;
-    indicesLines[489] = 136;
-    indicesLines[490] = 129;
-    indicesLines[491] = 137;
-    indicesLines[492] = 130;
-    indicesLines[493] = 138;
-    indicesLines[494] = 131;
-    indicesLines[495] = 139;
-
-    indicesLines[496] = 132;
-    indicesLines[497] = 140;
-    indicesLines[498] = 133;
-    indicesLines[499] = 141;
-    indicesLines[500] = 134;
-    indicesLines[501] = 142;
-    indicesLines[502] = 135;
-    indicesLines[503] = 143;
 
 
 
@@ -378,13 +299,29 @@ void CAD_air_ductTransitionRectRound::calculate()
     flange_rect->wizardParams.insert("Position z", (position.z()));
     flange_rect->wizardParams.insert("Angle x", (angle_x));
     flange_rect->wizardParams.insert("Angle y", (angle_y));
-    flange_rect->wizardParams.insert("Angle z", (angle_z+180));
+    flange_rect->wizardParams.insert("Angle z", (angle_z));
     flange_rect->wizardParams.insert("l", (fe));
     flange_rect->wizardParams.insert("b", (b + 2 * ff));
     flange_rect->wizardParams.insert("a", (a + 2 * ff));
     flange_rect->wizardParams.insert("s", (ff));
+    flange_rect->layer = this->layer;
     flange_rect->processWizardInput();
     flange_rect->calculate();
+
+    endcap_rect->wizardParams.insert("Position x", (position.x()));
+    endcap_rect->wizardParams.insert("Position y", (position.y()));
+    endcap_rect->wizardParams.insert("Position z", (position.z()));
+    endcap_rect->wizardParams.insert("Angle x", (angle_x));
+    endcap_rect->wizardParams.insert("Angle y", (angle_y));
+    endcap_rect->wizardParams.insert("Angle z", (angle_z));
+    endcap_rect->wizardParams.insert("l", (u));
+    endcap_rect->wizardParams.insert("b", (b));
+    endcap_rect->wizardParams.insert("a", (a));
+    endcap_rect->wizardParams.insert("s", (s));
+    endcap_rect->layer = this->layer;
+    endcap_rect->processWizardInput();
+    endcap_rect->calculate();
+
 
     QVector3D position_fr = position + matrix_rotation *  QVector3D(l, b/2 - e - d/2, a/2 - f - d/2 );
     flange_round->wizardParams.insert("Position x", (position_fr.x()));
@@ -396,8 +333,22 @@ void CAD_air_ductTransitionRectRound::calculate()
     flange_round->wizardParams.insert("l", (fe));
     flange_round->wizardParams.insert("d", (d + 2 * ff));
     flange_round->wizardParams.insert("s", (ff));
+    flange_round->layer = this->layer;
     flange_round->processWizardInput();
     flange_round->calculate();
+
+    endcap_round->wizardParams.insert("Position x", (position_fr.x()));
+    endcap_round->wizardParams.insert("Position y", (position_fr.y()));
+    endcap_round->wizardParams.insert("Position z", (position_fr.z()));
+    endcap_round->wizardParams.insert("Angle x", (angle_x));
+    endcap_round->wizardParams.insert("Angle y", (angle_y));
+    endcap_round->wizardParams.insert("Angle z", (angle_z+180));
+    endcap_round->wizardParams.insert("l", (u));
+    endcap_round->wizardParams.insert("d", (d));
+    endcap_round->wizardParams.insert("s", (s));
+    endcap_round->layer = this->layer;
+    endcap_round->processWizardInput();
+    endcap_round->calculate();
 
     this->snap_vertices.append(rectside[0][0][0]);
     this->snap_vertices.append(rectside[0][0][1]);

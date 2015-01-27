@@ -11,16 +11,16 @@ CAD_air_ductTurn::CAD_air_ductTurn() : CADitem(CADitemTypes::Air_DuctTurn)
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("r",    100.0);
-    wizardParams.insert("b",     30.0);
-    wizardParams.insert("b2",    40.0);
-    wizardParams.insert("a",     20.0);
-    wizardParams.insert("g",      5.0);
-    wizardParams.insert("e",      5.0);
-    wizardParams.insert("s",      1.0);
-    wizardParams.insert("ff",     1.0);
-    wizardParams.insert("fe",     1.0);
-    wizardParams.insert("alpha", 90.0);
+    wizardParams.insert("a",     200.0);
+    wizardParams.insert("b",     300.0);
+    wizardParams.insert("b2",    400.0);
+    wizardParams.insert("r",    1000.0);
+    wizardParams.insert("alpha",  90.0);
+    wizardParams.insert("e",      50.0);
+    wizardParams.insert("g",      50.0);
+    wizardParams.insert("fe",     10.0);
+    wizardParams.insert("ff",     10.0);
+    wizardParams.insert("s",      10.0);
 
     flange_left_duct = new CAD_basic_duct();
     flange_right_duct = new CAD_basic_duct();

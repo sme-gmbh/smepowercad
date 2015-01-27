@@ -18,14 +18,14 @@ CAD_air_ductBaffleSilencer::CAD_air_ductBaffleSilencer() : CADitem(CADitemTypes:
     wizardParams.insert("Angle z", 0.0);
 
 
-    wizardParams.insert("l", 100.0);
-    wizardParams.insert("a",  20.0);
-    wizardParams.insert("b",  30.0);
-    wizardParams.insert("d",   5.0);
-    wizardParams.insert("n",   3.0);
-    wizardParams.insert("fe",  1.0);
-    wizardParams.insert("ff",  1.0);
-    wizardParams.insert("s",   1.0);
+    wizardParams.insert("a",  200.0);
+    wizardParams.insert("b",  300.0);
+    wizardParams.insert("l", 1000.0);
+    wizardParams.insert("d",   50.0);
+    wizardParams.insert("n",   3);
+    wizardParams.insert("fe",  10.0);
+    wizardParams.insert("ff",  10.0);
+    wizardParams.insert("s",   10.0);
 
     processWizardInput();
     calculate();

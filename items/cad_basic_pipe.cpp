@@ -100,6 +100,7 @@ void CAD_basic_pipe::calculate()
 
     this->snap_basepoint = (position);
 
+    this->snap_vertices.append(position);
     this->snap_vertices.append(this->position + this->direction);
     this->snap_center.append(this->position + this->direction * 0.5);
     this->snap_flanges.append(this->snap_vertices);
@@ -112,9 +113,9 @@ void CAD_basic_pipe::calculate()
 //    vertices_outer_bottom.clear();
 //    vertices_outer_top.clear();
 
-    QVector3D vertices[200];
+    QVector3D vertices[64]; //200
     int index = 0;
-    for (qreal i=0.0; i < 1.0; i += 0.02)    // 50 edges
+    for (qreal i=0.0; i < 1.0; i += 0.0625)    // 16 edges
     {
         qreal angle = 2 * PI * i;
         QVector3D linePos;
@@ -140,63 +141,67 @@ void CAD_basic_pipe::calculate()
         index++;
     }
 
-    static GLushort indicesFaces[409];
-    for(int i = 0; i < 100; i++)
+    static GLushort indicesFaces[150];
+    for(int i = 0; i < 32; i++)
         indicesFaces[i] = 2*i;
-    indicesFaces[100] = 0;
-    indicesFaces[101] = 2;
-    for(int i = 0; i < 100; i++)
-        indicesFaces[102+i] = 1+2*i;
-    indicesFaces[202] = 1;
-    indicesFaces[203] = 3;
-    indicesFaces[204] = 0xABCD;
-    for(int i = 0; i < 50; i++)
+    indicesFaces[32] = 0;
+    indicesFaces[33] = 2;
+
+    for(int i = 0; i < 32; i++)
+        indicesFaces[34+i] = 1+2*i;
+    indicesFaces[66] = 1;
+    indicesFaces[67] = 3;
+    indicesFaces[68] = 0xABCD;
+
+    for(int i = 0; i < 16; i++)
     {
-        indicesFaces[205+2*i] = 4*i;
-        indicesFaces[205+2*i+1] = 4*i+1;
+        indicesFaces[69+2*i] = 4*i;
+        indicesFaces[69+2*i+1] = 4*i+1;
     }
-    indicesFaces[305] = 0;
-    indicesFaces[306] = 1;
-    indicesFaces[307] = 0xABCD;
-    for(int i = 0; i < 50; i++)
+    indicesFaces[101] = 0;
+    indicesFaces[102] = 1;
+    indicesFaces[103] = 0xABCD;
+
+    for(int i = 0; i < 16; i++)
     {
-        indicesFaces[307+2*i] = 4*i+2;
-        indicesFaces[307+2*i+1] = 4*i+3;
+        indicesFaces[104+2*i] = 4*i+2;
+        indicesFaces[104+2*i+1] = 4*i+3;
     }
-    indicesFaces[407] = 2;
-    indicesFaces[408] = 3;
+
+    indicesFaces[136] = 2;
+    indicesFaces[137] = 3;
 
 
-    static GLushort indicesLines[600];
+    static GLushort indicesLines[192];
     //outer circles
-    for(int i = 0; i < 100; i++)
+    for(int i = 0; i < 30; i++)
     {
         indicesLines[2*i] = 2*i;
         indicesLines[2*i+1] = 2*i + 4;
     }
-    indicesLines[199] = 2;
-    indicesLines[198] = 198;
-    indicesLines[197] = 0;
-    indicesLines[196] = 196;
+    indicesLines[60] = 2;
+    indicesLines[61] = 62;
+    indicesLines[62] = 0;
+    indicesLines[63] = 60;
 
     //inner circles
-    for(int i = 0; i < 100; i++)
+    for(int i = 0; i < 30; i++)
     {
-        indicesLines[200 + 2*i] = 2*i+1;
-        indicesLines[200 + 2*i+1] = 2*i + 4 +1;
+        indicesLines[64 + 2*i] = 2*i+1;
+        indicesLines[64 + 2*i+1] = 2*i + 4 +1;
     }
-    indicesLines[399] = 3;
-    indicesLines[398] = 199;
-    indicesLines[397] = 1;
-    indicesLines[396] = 197;
+    indicesLines[124] = 3;
+    indicesLines[125] = 63;
+    indicesLines[126] = 1;
+    indicesLines[127] = 61;
 
     //in flow direction
-    for(int i = 0; i < 50; i++)
+    for(int i = 0; i < 16; i++)
     {
-        indicesLines[400 + 4*i] = 0 + 4*i;
-        indicesLines[401 + 4*i] = 2 + 4*i;
-        indicesLines[402 + 4*i] = 1 + 4*i;
-        indicesLines[403 + 4*i] = 3 + 4*i;
+        indicesLines[128 + 4*i] = 0 + 4*i;
+        indicesLines[129 + 4*i] = 2 + 4*i;
+        indicesLines[130 + 4*i] = 1 + 4*i;
+        indicesLines[131 + 4*i] = 3 + 4*i;
     }
 
     arrayBufVertices.bind();

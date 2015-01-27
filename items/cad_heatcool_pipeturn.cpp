@@ -3,12 +3,26 @@
 
 CAD_heatcool_pipeTurn::CAD_heatcool_pipeTurn() : CADitem(CADitemTypes::HeatCool_PipeTurn)
 {
+    turn = new CAD_basic_turn();
+    endcap_1 = new CAD_basic_pipe();
+    endcap_2 = new CAD_basic_pipe();
+    this->subItems.append(turn);
+    this->subItems.append(endcap_1);
+    this->subItems.append(endcap_2);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
+
+    wizardParams.insert("d",  50.0);
+    wizardParams.insert("do", 60.0);
+    wizardParams.insert("r", 100.0);
+    wizardParams.insert("alpha", 90.0);
+    wizardParams.insert("b", 100.0);
+    wizardParams.insert("l", 100.0);
+    wizardParams.insert("s",   5.0);
 
     processWizardInput();
     calculate();
@@ -92,6 +106,56 @@ void CAD_heatcool_pipeTurn::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+
+    QVector3D position_turn = position + matrix_rotation * QVector3D(l - r, 0.0, 0.0);
+    turn->wizardParams.insert("Position x", position_turn.x());
+    turn->wizardParams.insert("Position y", position_turn.y());
+    turn->wizardParams.insert("Position z", position_turn.z());
+    turn->wizardParams.insert("Angle x", angle_x);
+    turn->wizardParams.insert("Angle y", angle_y);
+    turn->wizardParams.insert("Angle z", angle_z);
+    turn->wizardParams.insert("s",              (d_o - d)/2 + s);
+    turn->wizardParams.insert("Turn radius",    r);
+    turn->wizardParams.insert("Turn angle",     alpha);
+    turn->wizardParams.insert("Outer diameter", d_o);
+    turn->layer = this->layer;
+    turn->processWizardInput();
+    turn->calculate();
+
+    endcap_1->wizardParams.insert("Position x", position.x());
+    endcap_1->wizardParams.insert("Position y", position.y());
+    endcap_1->wizardParams.insert("Position z", position.z());
+    endcap_1->wizardParams.insert("Angle x", angle_x);
+    endcap_1->wizardParams.insert("Angle y", angle_y);
+    endcap_1->wizardParams.insert("Angle z", angle_z);
+    endcap_1->wizardParams.insert("l", l-r);
+    endcap_1->wizardParams.insert("d", d_o);
+    endcap_1->wizardParams.insert("s",  (d_o - d)/2 + s);
+    endcap_1->layer = this->layer;
+    endcap_1->processWizardInput();
+    endcap_1->calculate();
+
+    QVector3D position_end2 = turn->snap_flanges.at(1);
+    endcap_2->wizardParams.insert("Position x", position_end2.x());
+    endcap_2->wizardParams.insert("Position y", position_end2.y());
+    endcap_2->wizardParams.insert("Position z", position_end2.z());
+    endcap_2->wizardParams.insert("Angle x", angle_x);
+    endcap_2->wizardParams.insert("Angle y", angle_y);
+    endcap_2->wizardParams.insert("Angle z", angle_z - alpha);
+    endcap_2->wizardParams.insert("l", b-r);
+    endcap_2->wizardParams.insert("d", d_o);
+    endcap_2->wizardParams.insert("s",  (d_o - d)/2 + s);
+    endcap_2->layer = this->layer;
+    endcap_2->processWizardInput();
+    endcap_2->calculate();
+
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(endcap_2->snap_flanges.at(1));
+
+    this->boundingBox.enterVertices(turn->boundingBox.getVertices());
+    this->boundingBox.enterVertices(endcap_1->boundingBox.getVertices());
+    this->boundingBox.enterVertices(endcap_2->boundingBox.getVertices());
+
 }
 
 void CAD_heatcool_pipeTurn::processWizardInput()
@@ -102,5 +166,14 @@ void CAD_heatcool_pipeTurn::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+    d = wizardParams.value("d").toDouble();
+    d_o = wizardParams.value("do").toDouble();
+    s = wizardParams.value("s").toDouble();
+    l = wizardParams.value("l").toDouble();
+    b = wizardParams.value("b").toDouble();
+    alpha = wizardParams.value("alpha").toDouble();
+    r = wizardParams.value("r").toDouble();
+
+
 
 }

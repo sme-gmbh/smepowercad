@@ -47,6 +47,7 @@
 #include "items/cad_air_heatexchangerairair.h"
 #include "items/cad_air_heatexchangerwaterair.h"
 #include "items/cad_air_humidifier.h"
+#include "items/cad_air_lineardiffuser.h"
 #include "items/cad_air_multileafdamper.h"
 #include "items/cad_air_pipe.h"
 #include "items/cad_air_pipebranch.h"

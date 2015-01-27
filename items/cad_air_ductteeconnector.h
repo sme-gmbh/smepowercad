@@ -40,10 +40,10 @@ public:
     CAD_basic_duct *flange_2;
     CAD_basic_duct *flange_3;
 
-    QVector3D vertices_turn1[2][12][2];
-    QVector3D vertices_turn2[2][12][2];
+//    QVector3D vertices_turn1[2][12][2];
+//    QVector3D vertices_turn2[2][12][2];
 
-    QVector3D vertices_backside[4];
+//    QVector3D vertices_backside[4];
 
     QOpenGLBuffer arrayBufVertices;
     QOpenGLBuffer indexBufFaces;

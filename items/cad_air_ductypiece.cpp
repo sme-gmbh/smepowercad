@@ -25,19 +25,20 @@ CAD_air_ductYpiece::CAD_air_ductYpiece() : CADitem(CADitemTypes::Air_DuctYpiece)
     wizardParams.insert("Angle z", 0.0);
 
 
-    wizardParams.insert("a",  20.0);
-    wizardParams.insert("a2", 30.0);
-    wizardParams.insert("b",  30.0);
-    wizardParams.insert("b2", 10.0);
-    wizardParams.insert("b3", 10.0);
-    wizardParams.insert("e",   0.0);
-    wizardParams.insert("f",   0.0);
-    wizardParams.insert("l", 100.0);
-    wizardParams.insert("m",  10.0);
-    wizardParams.insert("u",   5.0);
-    wizardParams.insert("s",   1.0);
-    wizardParams.insert("ff",  1.0);
-    wizardParams.insert("fe",  1.0);
+    wizardParams.insert("a",  200.0);
+    wizardParams.insert("a2", 300.0);
+    wizardParams.insert("b",  300.0);
+    wizardParams.insert("b2", 100.0);
+    wizardParams.insert("b3", 100.0);
+    wizardParams.insert("l", 1000.0);
+
+    wizardParams.insert("e",    0.0);
+    wizardParams.insert("f",    0.0);
+    wizardParams.insert("m",  100.0);
+    wizardParams.insert("u",   50.0);
+    wizardParams.insert("fe",  10.0);
+    wizardParams.insert("ff",  10.0);
+    wizardParams.insert("s",   10.0);
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();

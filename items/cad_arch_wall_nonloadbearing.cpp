@@ -10,9 +10,9 @@ CAD_arch_wall_nonLoadBearing::CAD_arch_wall_nonLoadBearing() : CADitem(CADitemTy
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
+    wizardParams.insert("a",  3000.0);
     wizardParams.insert("b",   200.0);
     wizardParams.insert("l", 10000.0);
-    wizardParams.insert("a",  3000.0);
 
     basic_box = new CAD_basic_box();
     subItems.append(basic_box);

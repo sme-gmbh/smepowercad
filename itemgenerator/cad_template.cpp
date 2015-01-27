@@ -1,15 +1,14 @@
 #include "cad_mainll_subll.h"
 #include "glwidget.h"
 
-CAD_mainll_subll::CAD_mainll_subll() : CADitem(CADitem::mainul_subul)
+CAD_mainll_subll::CAD_mainll_subll() : CADitem(CADitemTypes::mainul_subul)
 {
-    this->description = "mainspaced|subspaced";
-    wizardParams.insert("Position x", QVariant::fromValue(0.0));
-    wizardParams.insert("Position y", QVariant::fromValue(0.0));
-    wizardParams.insert("Position z", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle x", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle y", QVariant::fromValue(0.0));
-    wizardParams.insert("Angle z", QVariant::fromValue(0.0));
+    wizardParams.insert("Position x", 0.0);
+    wizardParams.insert("Position y", 0.0);
+    wizardParams.insert("Position z", 0.0);
+    wizardParams.insert("Angle x", 0.0);
+    wizardParams.insert("Angle y", 0.0);
+    wizardParams.insert("Angle z", 0.0);
 
 //    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices.create();
@@ -34,9 +33,9 @@ CAD_mainll_subll::~CAD_mainll_subll()
 //    indexBufLines.destroy();
 }
 
-QList<CADitem::ItemType> CAD_mainll_subll::flangable_items()
+QList<CADitemTypes::ItemType> CAD_mainll_subll::flangable_items()
 {
-    QList<CADitem::ItemType> flangable_items;
+    QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;
 }
@@ -52,6 +51,21 @@ QImage CAD_mainll_subll::wizardImage()
     image.load(imageFileName, "PNG");
                        
     return image;
+}
+
+QString CAD_mainll_subll::iconPath()
+{
+    return ":/icons/cad_mainll/cad_mainll_subll.svg";
+}
+
+QString CAD_mainll_subll::domain()
+{
+    return "mainul";
+}
+
+QString CAD_mainll_subll::description()
+{
+    return "mainspaced|subspaced";
 }
 
 void CAD_mainll_subll::calculate()

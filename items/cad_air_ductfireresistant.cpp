@@ -3,12 +3,20 @@
 
 CAD_air_ductFireResistant::CAD_air_ductFireResistant() : CADitem(CADitemTypes::Air_DuctFireResistant)
 {
+    duct = new CAD_air_duct();
+    this->subItems.append(duct);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
+    wizardParams.insert("a",  300.0);
+    wizardParams.insert("b",  200.0);
+    wizardParams.insert("l", 1000.0);
+    wizardParams.insert("fe",  40.0);
+    wizardParams.insert("ff",  20.0);
+    wizardParams.insert("s",   50.0);
 
     processWizardInput();
     calculate();
@@ -68,6 +76,29 @@ void CAD_air_ductFireResistant::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+
+    duct->wizardParams.insert("Position x", position.x());
+    duct->wizardParams.insert("Position y", position.y());
+    duct->wizardParams.insert("Position z", position.z());
+
+    duct->wizardParams.insert("Angle x", angle_x);
+    duct->wizardParams.insert("Angle y", angle_y);
+    duct->wizardParams.insert("Angle z", angle_z);
+
+    duct->wizardParams.insert("a",  a);
+    duct->wizardParams.insert("b",  b);
+    duct->wizardParams.insert("l",  l);
+    duct->wizardParams.insert("fe",  fe);
+    duct->wizardParams.insert("ff",  ff);
+    duct->wizardParams.insert("s",   s);
+    duct->layer = this->layer;
+    duct->processWizardInput();
+    duct->calculate();
+
+    this->snap_flanges = duct->snap_flanges;
+    this->snap_center = duct->snap_center;
+    this->snap_vertices = duct->snap_vertices;
+    this->boundingBox = duct->boundingBox;
 }
 
 void CAD_air_ductFireResistant::processWizardInput()
@@ -78,5 +109,12 @@ void CAD_air_ductFireResistant::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    a = wizardParams.value("a").toDouble();
+    b = wizardParams.value("b").toDouble();
+    l = wizardParams.value("l").toDouble();
+    fe = wizardParams.value("fe").toDouble();
+    ff = wizardParams.value("ff").toDouble();
+    s = wizardParams.value("s").toDouble();
 
 }
