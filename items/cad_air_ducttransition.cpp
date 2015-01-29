@@ -25,17 +25,17 @@ CAD_air_ductTransition::CAD_air_ductTransition() : CADitem(CADitemTypes::Air_Duc
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("l", 100.0);
-    wizardParams.insert("b",  30.0);
-    wizardParams.insert("a",  20.0);
-    wizardParams.insert("b2", 20.0);
-    wizardParams.insert("a2", 30.0);
-    wizardParams.insert("e",   0.0);
-    wizardParams.insert("f",   0.0);
-    wizardParams.insert("u",   5.0);
-    wizardParams.insert("s",   1.0);
-    wizardParams.insert("ff",  1.0);
-    wizardParams.insert("fe",  1.0);
+    wizardParams.insert("a",  200.0);
+    wizardParams.insert("a2", 300.0);
+    wizardParams.insert("b",  300.0);
+    wizardParams.insert("b2", 200.0);
+    wizardParams.insert("l", 1000.0);
+    wizardParams.insert("e",    0.0);
+    wizardParams.insert("f",    0.0);
+    wizardParams.insert("u",   50.0);
+    wizardParams.insert("fe",  10.0);
+    wizardParams.insert("ff",  10.0);
+    wizardParams.insert("s",   10.0);
 
     transition_duct = new CAD_basic_duct();
     endcap_left_duct = new CAD_basic_duct();

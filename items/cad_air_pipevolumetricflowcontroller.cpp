@@ -18,12 +18,25 @@
 
 CAD_air_pipeVolumetricFlowController::CAD_air_pipeVolumetricFlowController() : CADitem(CADitemTypes::Air_PipeVolumetricFlowController)
 {
+    mainPipe = new CAD_basic_pipe();
+    function = new CAD_basic_box();
+    handle = new CAD_basic_box();
+    controller = new CAD_basic_pipe();
+    this->subItems.append(mainPipe);
+    this->subItems.append(function);
+    this->subItems.append(handle);
+    this->subItems.append(controller);
+
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
+
+    wizardParams.insert("l", 300.0);
+    wizardParams.insert("d", 300.0);
+    wizardParams.insert("s", 5.0);
 
     processWizardInput();
     calculate();
@@ -91,6 +104,72 @@ void CAD_air_pipeVolumetricFlowController::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+
+    mainPipe->wizardParams.insert("Position x", position.x());
+    mainPipe->wizardParams.insert("Position y", position.y());
+    mainPipe->wizardParams.insert("Position z", position.z());
+    mainPipe->wizardParams.insert("Angle x", angle_x);
+    mainPipe->wizardParams.insert("Angle y", angle_y);
+    mainPipe->wizardParams.insert("Angle z", angle_z);
+    mainPipe->wizardParams.insert("l", l);
+    mainPipe->wizardParams.insert("d", d);
+    mainPipe->wizardParams.insert("s",  s);
+    mainPipe->layer = this->layer;
+    mainPipe->processWizardInput();
+    mainPipe->calculate();
+
+    QVector3D position_func = matrix_rotation * QVector3D(l/2, d/2 + 40.0, 0.0) + position;
+    function->wizardParams.insert("Position x", position_func.x());
+    function->wizardParams.insert("Position y", position_func.y());
+    function->wizardParams.insert("Position z", position_func.z());
+    function->wizardParams.insert("Angle x", angle_x);
+    function->wizardParams.insert("Angle y", angle_y);
+    function->wizardParams.insert("Angle z", angle_z);
+    function->wizardParams.insert("Size x", 182.0);
+    function->wizardParams.insert("Size y", 60.0);
+    function->wizardParams.insert("Size z", 174.0);
+    function->layer = this->layer;
+    function->processWizardInput();
+    function->calculate();
+
+    QVector3D position_hand = matrix_rotation * QVector3D(l/2, d/2 + 95.0, 0.0) + position;
+    handle->wizardParams.insert("Position x", position_hand.x());
+    handle->wizardParams.insert("Position y", position_hand.y());
+    handle->wizardParams.insert("Position z", position_hand.z());
+    handle->wizardParams.insert("Angle x", angle_x);
+    handle->wizardParams.insert("Angle y", angle_y);
+    handle->wizardParams.insert("Angle z", angle_z);
+    handle->wizardParams.insert("Size x", 10.0);
+    handle->wizardParams.insert("Size y", 50.0);
+    handle->wizardParams.insert("Size z", 10.0);
+    handle->layer = this->layer;
+    handle->processWizardInput();
+    handle->calculate();
+
+    QVector3D position_cont = matrix_rotation * QVector3D(l/2, 0.0, 0.0) + position;
+    controller->wizardParams.insert("Position x", position_cont.x());
+    controller->wizardParams.insert("Position y", position_cont.y());
+    controller->wizardParams.insert("Position z", position_cont.z());
+    controller->wizardParams.insert("Angle x", angle_x);
+    controller->wizardParams.insert("Angle y", angle_y + 45.0);
+    controller->wizardParams.insert("Angle z", angle_z);
+    controller->wizardParams.insert("l", 1.0);
+    controller->wizardParams.insert("d", d - s);
+    controller->wizardParams.insert("s", (d - s)/2);
+    controller->layer = this->layer;
+    controller->processWizardInput();
+    controller->calculate();
+
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
+
+    this->boundingBox.enterVertices(mainPipe->boundingBox.getVertices());
+    this->boundingBox.enterVertices(handle->boundingBox.getVertices());
+    this->boundingBox.enterVertices(function->boundingBox.getVertices());
+
+
+
+
 }
 
 void CAD_air_pipeVolumetricFlowController::processWizardInput()
@@ -101,5 +180,8 @@ void CAD_air_pipeVolumetricFlowController::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+    s = wizardParams.value("s").toDouble();
+    l = wizardParams.value("l").toDouble();
+    d = wizardParams.value("d").toDouble();
 
 }

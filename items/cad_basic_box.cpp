@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_basic_box.h"
-#include "itemdb.h"
 #include "glwidget.h"
 
 CAD_basic_box::CAD_basic_box() : CADitem(CADitemTypes::Basic_Box)
@@ -26,9 +25,9 @@ CAD_basic_box::CAD_basic_box() : CADitem(CADitemTypes::Basic_Box)
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("Size x", 1.0);
-    wizardParams.insert("Size y", 1.0);
-    wizardParams.insert("Size z", 1.0);
+    wizardParams.insert("Size x", 1000.0);
+    wizardParams.insert("Size y", 1000.0);
+    wizardParams.insert("Size z", 1000.0);
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();
@@ -49,7 +48,9 @@ CAD_basic_box::CAD_basic_box() : CADitem(CADitemTypes::Basic_Box)
 
 CAD_basic_box::~CAD_basic_box()
 {
-
+    arrayBufVertices.destroy();
+    indexBufFaces.destroy();
+    indexBufLines.destroy();
 }
 
 QList<CADitemTypes::ItemType> CAD_basic_box::flangable_items()

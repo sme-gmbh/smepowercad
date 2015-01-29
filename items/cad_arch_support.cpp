@@ -26,6 +26,7 @@ CAD_arch_support::CAD_arch_support() : CADitem(CADitemTypes::Arch_Support)
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
+
     wizardParams.insert("a", 3000.0);
     wizardParams.insert("b",  300.0);
     wizardParams.insert("l",  300.0);

@@ -108,9 +108,9 @@ void CAD_basic_cylinder::calculate()
     this->snap_basepoint = this->center_base;
     this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,0.0, this->height));
 
-    QVector3D vertices[100];
+    QVector3D vertices[32];
     int index = 0;
-    for (qreal i=0.0; i < 1.0; i += 0.02)    // 50 edges
+    for (qreal i=0.0; i < 1.0; i += 0.0625f)    // 16 edges
     {
         qreal angle = 2 * PI * i;
         QVector3D linePos;
@@ -129,25 +129,25 @@ void CAD_basic_cylinder::calculate()
 
 
 
-    static GLushort indicesFaces[102];
-    for(int i = 0; i < 100; i++)
+    static GLushort indicesFaces[34];
+    for(int i = 0; i < 32; i++)
         indicesFaces[i] = i;
-    indicesFaces[100] = 0;
-    indicesFaces[101] = 1;
+    indicesFaces[32] = 0;
+    indicesFaces[33] = 1;
 
-    static GLushort indicesLines[300];
-    for(int i = 0; i < 100; i++)
+    static GLushort indicesLines[96];
+    for(int i = 0; i < 30; i++)
     {
         indicesLines[2*i] = i;
         indicesLines[2*i+1] = i + 2;
     }
-    indicesLines[199] = 1;
-    indicesLines[198] = 99;
-    indicesLines[197] = 0;
-    indicesLines[196] = 98;
-    for(int i = 0; i < 100; i++)
+    indicesLines[60] = 1;
+    indicesLines[61] = 31;
+    indicesLines[62] = 0;
+    indicesLines[63] = 30;
+    for(int i = 0; i < 32; i++)
     {
-        indicesLines[200+i] = i;
+        indicesLines[64+i] = i;
     }
 
     arrayBufVertices.bind();

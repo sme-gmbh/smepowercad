@@ -443,6 +443,9 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Air_DuctEndPlate:
         newItem = new CAD_air_ductEndPlate();
         break;
+    case CADitemTypes::Air_LinearDiffuser:
+        newItem = new CAD_air_lineardiffuser();
+        break;
     case CADitemTypes::Air_PipeEndCap:
         newItem = new CAD_air_pipeEndCap();
         break;

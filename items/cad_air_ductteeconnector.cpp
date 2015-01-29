@@ -19,20 +19,20 @@
 
 CAD_air_ductTeeConnector::CAD_air_ductTeeConnector() : CADitem(CADitemTypes::Air_DuctTeeConnector)
 {
-    for(int i = 0; i < 2; i++)
-    {
-        for(int j = 0; j < 12; j++)
-        {
-            for(int k = 0; k < 2; k++)
-            {
-                vertices_turn1[i][j][k] = QVector3D(0.0, 0.0, 0.0);
-                vertices_turn2[i][j][k] = QVector3D(0.0, 0.0, 0.0);
+//    for(int i = 0; i < 2; i++)
+//    {
+//        for(int j = 0; j < 12; j++)
+//        {
+//            for(int k = 0; k < 2; k++)
+//            {
+//                vertices_turn1[i][j][k] = QVector3D(0.0, 0.0, 0.0);
+//                vertices_turn2[i][j][k] = QVector3D(0.0, 0.0, 0.0);
 
-            }
-        }
-    }
-    for(int i = 0; i < 4; i++)
-        vertices_backside[i] = QVector3D(0.0, 0.0, 0.0);
+//            }
+//        }
+//    }
+//    for(int i = 0; i < 4; i++)
+//        vertices_backside[i] = QVector3D(0.0, 0.0, 0.0);
 
     endcap_1 = new CAD_basic_duct();
     endcap_2 = new CAD_basic_duct();
@@ -55,20 +55,23 @@ CAD_air_ductTeeConnector::CAD_air_ductTeeConnector() : CADitem(CADitemTypes::Air
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("a",  20.0);
-    wizardParams.insert("b",  30.0);
-    wizardParams.insert("b2", 30.0);
+    wizardParams.insert("a",  200.0);
+    wizardParams.insert("b",  300.0);
+    wizardParams.insert("b2", 300.0);
+    wizardParams.insert("b3", 500.0);
+    wizardParams.insert("l", 2600.0);
+
+    wizardParams.insert("r1", 500.0);
+    wizardParams.insert("r2", 500.0);
+
+    wizardParams.insert("m", 1000.0);
+    wizardParams.insert("n", 1100.0);
+
     wizardParams.insert("e",   0.0);
-    wizardParams.insert("b3", 50.0);
-    wizardParams.insert("l", 260.0);
-    wizardParams.insert("m", 100.0);
-    wizardParams.insert("n", 110.0);
-    wizardParams.insert("r1", 50.0);
-    wizardParams.insert("r2", 50.0);
-    wizardParams.insert("u",  50.0);
-    wizardParams.insert("ff",  1.0);
-    wizardParams.insert("fe",  1.0);
-    wizardParams.insert("s",   1.0);
+    wizardParams.insert("u",  500.0);
+    wizardParams.insert("fe",  10.0);
+    wizardParams.insert("ff",  10.0);
+    wizardParams.insert("s",   10.0);
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();

@@ -29,10 +29,10 @@ CAD_basic_turn::CAD_basic_turn() : CADitem(CADitemTypes::Basic_Turn)
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
-    wizardParams.insert("s",               2.0);
-    wizardParams.insert("Turn radius",    20.0);
-    wizardParams.insert("Turn angle",     90.0);
-    wizardParams.insert("Outer diameter", 10.0);
+    wizardParams.insert("Outer diameter", 100.0);
+    wizardParams.insert("Turn radius",    200.0);
+    wizardParams.insert("Turn angle",      90.0);
+    wizardParams.insert("s",               10.0);
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();
@@ -123,7 +123,7 @@ void CAD_basic_turn::calculate()
     //    int count_a = 11;
     //    int count_b = 21;
 
-    QVector3D vertices[462];
+    QVector3D vertices[352];
     // s iteration
     QMatrix4x4 matrix_turn;
     for (int w = 0; w <= 1; w++)
@@ -141,7 +141,7 @@ void CAD_basic_turn::calculate()
 
             // Pipe angle iteration
 
-            for (qreal j=0.0; j < 1.01; j += 0.05)    // 20 edges (21 vertices)
+            for (qreal j=0.0; j < 1.0; j += 0.0625)    // 16 edges
             {
                 qreal angle_pipe = 2 * PI * j;
                 QVector3D linePos;
@@ -152,7 +152,7 @@ void CAD_basic_turn::calculate()
                     linePos = this->matrix_rotation * (matrix_turn * QVector3D(0.0, this->radius_turn + sin(angle_pipe) * (this->radius_pipe - this->wallThickness), cos(angle_pipe) * (this->radius_pipe - this->wallThickness)) + QVector3D(-this->radius_turn, -this->radius_turn, 0.0));
                 linePos += this->position;
 
-                vertices[231*w + 21*a + b] = linePos;
+                vertices[176*w + 16*a + b] = linePos;
                 this->boundingBox.enterVertex(linePos);
                 b++;
             }
@@ -166,66 +166,87 @@ void CAD_basic_turn::calculate()
     this->snap_flanges.append(endOfTurn);
 
 
-    static GLushort indicesFaces[930];
-    for(int i = 0; i < 210; i++)
+    static GLushort indicesFaces[768];
+
+    for(int j = 0; j < 10; j++)
     {
-        indicesFaces[2*i] = i;
-        indicesFaces[2*i + 1] = i + 21;
+        for(int i = 0; i < 16; i++)
+        {
+            indicesFaces[35 * j + 2*i] = j * 16 + i;
+            indicesFaces[35 * j + 2*i+1] = j * 16 + i + 16;
+        }
+        indicesFaces[35 * j + 32] = j * 16 + 0;
+        indicesFaces[35 * j + 33] = j * 16 + 16;
+        indicesFaces[35 * j + 34] = 0xABCD;
     }
-    indicesFaces[420] = 0xABCD;
-    for(int i = 0; i < 210; i++)
+
+    for(int j = 0; j < 10; j++)
     {
-        indicesFaces[421 + 2*i] = 231 + i;
-        indicesFaces[421 + 2*i + 1] = 231 + i + 21;
+        for(int i = 0; i < 16; i++)
+        {
+            indicesFaces[350 + 35 * j + 2*i] = 176 + j * 16 + i;
+            indicesFaces[350 + 35 * j + 2*i+1] = 176 + j * 16 + i + 16;
+        }
+        indicesFaces[350 + 35 * j + 32] = 176 + j * 16 + 0;
+        indicesFaces[350 + 35 * j + 33] = 176 + j * 16 + 16;
+        indicesFaces[350 + 35 * j + 34] = 0xABCD;
     }
-    indicesFaces[841] =0xABCD;
-    for(int i = 0; i < 20; i++)
-    {
-        indicesFaces[842 + 2*i] = i;
-        indicesFaces[842 + 2*i + 1] = 231 + i;
-    }
-    indicesFaces[883] = 231;
-    indicesFaces[884] = 0xABCD;
-    for(int i = 0; i < 21; i++)
-    {
-        indicesFaces[885 + 2*i] = 210+i;
-        indicesFaces[885 + 2*i + 1] = 441 + i;
-    }
-    indicesFaces[926] = 441;
-    indicesFaces[927] = 0xABCD;
+
+        for(int i = 0; i < 16; i++)
+        {
+            indicesFaces[700 + 2*i] = i;
+            indicesFaces[700 + 2*i + 1] = 176 + i;
+        }
+        indicesFaces[732] = 0;
+        indicesFaces[733] = 176;
+        indicesFaces[734] = 0xABCD;
+
+        for(int i = 0; i < 16; i++)
+        {
+            indicesFaces[735 + 2*i] = 160 + i;
+            indicesFaces[735 + 2*i + 1] = 336 + i;
+        }
+        indicesFaces[765] = 160;
+        indicesFaces[766] = 336;
+        indicesFaces[767] = 0xABCD;
 
     static GLushort indicesLines[1760];
     //radial
     for(int i = 0; i < 11; i++)
     {
-        for(int j = 0; j < 20; j++)
+        for(int j = 0; j < 15; j++)
         {
-            indicesLines[40*i + 2*j] = 21*i+j;
-            indicesLines[40*i + 2*j + 1] = 21*i+j+1;
+            indicesLines[32 * i + 2 * j] = 16 * i + j;
+            indicesLines[32 * i + 2 * j + 1] = 16 * i + j + 1;
         }
+        indicesLines[32 * i + 30] = 16 * i;
+        indicesLines[32 * i + 31] = 16 * i+ 15;
+
     }
     for(int i = 0; i < 11; i++)
     {
-        for(int j = 0; j < 20; j++)
+        for(int j = 0; j < 15; j++)
         {
-            indicesLines[440 + 40*i + 2*j] = 231+21*i+j;
-            indicesLines[440 + 40*i + 2*j + 1] = 231+21*i+j+1;
+            indicesLines[352 + 32*i + 2*j] = 176 + 16 * i + j;
+            indicesLines[352 + 32*i + 2*j + 1] = 176 + 16 * i + j + 1;
+        }
+        indicesLines[352 + 32 * i + 30] = 176 + 16 * i;
+        indicesLines[352 + 32 * i + 31] = 176 + 16 * i+ 15;
+    }
+    for(int i = 0; i < 10; i++)
+    {
+        for(int j = 0; j < 16; j++)
+        {
+            indicesLines[704 + 32 * i + 2 * j] = 16 * i + j;
+            indicesLines[704 + 32 * i + 2 * j + 1] = 16 * i + j + 16;
         }
     }
     for(int i = 0; i < 10; i++)
     {
-        for(int j = 0; j < 20; j++)
+        for(int j = 0; j < 16; j++)
         {
-            indicesLines[880 + 40*i + 2*j] = 21*i+j;
-            indicesLines[880 + 40*i + 2*j + 1] = 21*i+j + 21;
-        }
-    }
-    for(int i = 0; i < 10; i++)
-    {
-        for(int j = 0; j < 20; j++)
-        {
-            indicesLines[1320 + 40*i + 2*j] = 231 + 21*i+j;
-            indicesLines[1320 + 40*i + 2*j + 1] = 231 + 21*i+j + 21;
+            indicesLines[1024 + 32*i + 2*j] = 176 + 16 * i + j;
+            indicesLines[1024 + 32*i + 2*j + 1] = 176 + 16 * i + j + 16;
         }
     }
 

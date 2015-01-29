@@ -17,6 +17,8 @@
 #define CAD_HEATCOOL_PIPETURN_H
 
 #include "caditem.h"
+#include "cad_basic_pipe.h"
+#include "cad_basic_turn.h"
 
 class CAD_heatcool_pipeTurn : public CADitem
 {
@@ -30,6 +32,12 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
+
+    qreal d, d_o, s, l, b, alpha, r;
+    CAD_basic_pipe* endcap_1;
+    CAD_basic_pipe* endcap_2;
+    CAD_basic_turn* turn;
+
 };
 
 #endif // CAD_HEATCOOL_PIPETURN_H

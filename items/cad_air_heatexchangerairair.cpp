@@ -32,13 +32,14 @@ CAD_air_heatExchangerAirAir::CAD_air_heatExchangerAirAir() : CADitem(CADitemType
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("ff",  1.0);
-    wizardParams.insert("s",   1.0);
-    wizardParams.insert("fe",  1.0);
-    wizardParams.insert("a",  20.0);
-    wizardParams.insert("b",  30.0);
-    wizardParams.insert("l", 100.0);
-    wizardParams.insert("i",  20.0);
+    wizardParams.insert("a",  200.0);
+    wizardParams.insert("b",  300.0);
+    wizardParams.insert("l", 1000.0);
+    wizardParams.insert("i",  200.0);
+
+    wizardParams.insert("fe",  10.0);
+    wizardParams.insert("ff",  10.0);
+    wizardParams.insert("s",   10.0);
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();

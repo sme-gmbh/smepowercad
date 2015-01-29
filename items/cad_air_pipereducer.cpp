@@ -14,7 +14,7 @@
 **********************************************************************/
 
 #include "cad_air_pipereducer.h"
-#include "itemdb.h"
+#include "caditemtypes.h"
 
 CAD_air_pipeReducer::CAD_air_pipeReducer() : CADitem(CADitemTypes::Air_PipeReducer)
 {
@@ -27,12 +27,10 @@ CAD_air_pipeReducer::CAD_air_pipeReducer() : CADitem(CADitemTypes::Air_PipeReduc
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
+    wizardParams.insert("l",  40.0);
     wizardParams.insert("d",  30.0);
     wizardParams.insert("d2", 20.0);
     wizardParams.insert("s",   1.0);
-    wizardParams.insert("l",  40.0);
-
-
 
     processWizardInput();
     calculate();
@@ -64,8 +62,6 @@ QImage CAD_air_pipeReducer::wizardImage()
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-
-    ;
 
     image.load(imageFileName, "PNG");
 
@@ -126,21 +122,22 @@ void CAD_air_pipeReducer::calculate()
     reducer->vertices_inner_top.clear();
     reducer->vertices_outer_top.clear();
     reducer->vertices_outer_bottom.clear();
-    QVector3D vertices[200];
+    QVector3D vertices[64];
     int index = 0;
 
-    for (qreal i=0.0; i < 1.0; i += 0.02)    // 50 edges
+    for (qreal i=0.0; i < 1.0; i += 0.0625)    // 16 edges
     {
         qreal angle = 2 * PI * i;
         QVector3D linePos;
 
         linePos = matrix_rotation * QVector3D(0.0, sin(angle) * radius, cos(angle) * radius);
         linePos += position;
+        vertices[index] = linePos;
+        index++;
         vertices[index] = linePos + (position - linePos).normalized() * s;
         index++;
         //        reducer->vertices_outer_bottom.append(linePos);
-        vertices[index] = linePos;
-        index++;
+
         //        reducer->vertices_inner_bottom.append(linePos + (position - linePos).normalized() * s);
         QVector3D pos_top = position + matrix_rotation * QVector3D(l, 0.0, 0.0);
         linePos = matrix_rotation * QVector3D(0.0, sin(angle) * radius2, cos(angle) * radius2);

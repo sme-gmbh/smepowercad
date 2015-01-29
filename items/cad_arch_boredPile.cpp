@@ -28,8 +28,8 @@ CAD_arch_boredPile::CAD_arch_boredPile() : CADitem(CADitemTypes::Arch_BoredPile)
     wizardParams.insert("Angle z", 0.0);
 
 
-    wizardParams.insert("d", 1000.0);
     wizardParams.insert("a", 5000.0);
+    wizardParams.insert("d", 1000.0);
 
     processWizardInput();
     calculate();
@@ -106,6 +106,7 @@ void CAD_arch_boredPile::calculate()
     pile->calculate();
 
     this->snap_flanges.append(pile->snap_flanges);
+    this->boundingBox = pile->boundingBox;
 
 }
 

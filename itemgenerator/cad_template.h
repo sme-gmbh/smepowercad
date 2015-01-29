@@ -23,8 +23,11 @@ class CAD_mainll_subll : public CADitem
 public:
     CAD_mainll_subll();
     virtual ~CAD_mainll_subll();
-    virtual QList<CADitem::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
+    virtual QString iconPath();
+    virtual QString domain();
+    virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
 //    virtual void paint(GLWidget* glwidget);

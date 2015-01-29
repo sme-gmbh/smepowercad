@@ -30,7 +30,7 @@ CAD_basic_circle::CAD_basic_circle() : CADitem(CADitemTypes::Basic_Circle)
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("Radius", 1.0);
+    wizardParams.insert("Radius", 1000.0);
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();
@@ -103,10 +103,10 @@ void CAD_basic_circle::calculate()
 
     this->snap_basepoint = this->center;
 
-    QVector3D vertices[50];
-    for (int i = 0; i < 50; i++)    // 50 edges
+    QVector3D vertices[16];
+    for (int i = 0; i < 16; i++)    // 16 edges
     {
-        qreal angle = 2 * PI * i *0.02f;
+        qreal angle = 2 * PI * i * 0.0625f;
         QVector3D linePos;
         linePos = this->center;
 
@@ -116,13 +116,13 @@ void CAD_basic_circle::calculate()
     }
 
 
-    GLushort indicesLines[100];
-    for(int i = 0; i < 50; i++)
+    GLushort indicesLines[32];
+    for(int i = 0; i < 16; i++)
     {
         indicesLines[2*i] = i;
         indicesLines[2*i + 1] = i + 1;
     }
-    indicesLines[99] = 0;
+    indicesLines[31] = 0;
 
 
     arrayBufVertices.bind();

@@ -168,6 +168,7 @@ SOURCES += main.cpp\
     toolwidget.cpp \
     caditemtypes.cpp \
     wizardparams.cpp \
+    items/cad_air_lineardiffuser.cpp \
     collisiondetection.cpp
 
 HEADERS  += mainwindow.h \
@@ -311,6 +312,7 @@ HEADERS  += mainwindow.h \
     caditemheaderincludes.h \
     caditemtypes.h \
     wizardparams.h \
+    items/cad_air_lineardiffuser.h\
     collisiondetection.h
 
 FORMS    += mainwindow.ui \

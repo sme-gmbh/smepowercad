@@ -27,10 +27,10 @@ CAD_basic_duct::CAD_basic_duct() : CADitem(CADitemTypes::Basic_Duct)
     wizardParams.insert("Angle z", 0.0);
 
 
-    wizardParams.insert("s",  1.0);
-    wizardParams.insert("l", 10.0);
-    wizardParams.insert("b",  5.0);
-    wizardParams.insert("a",  5.0);
+    wizardParams.insert("a",  100.0);
+    wizardParams.insert("b",  100.0);
+    wizardParams.insert("l", 1000.0);
+    wizardParams.insert("s",   10.0);
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();
@@ -413,8 +413,8 @@ void CAD_basic_duct::processWizardInput()
 
 void CAD_basic_duct::paint(GLWidget *glwidget)
 {
-    glwidget->glEnable(GL_PRIMITIVE_RESTART);
-    glwidget->glPrimitiveRestartIndex(0xABCD);
+//    glwidget->glEnable(GL_PRIMITIVE_RESTART);
+//    glwidget->glPrimitiveRestartIndex(0xABCD);
     QColor color_pen_tmp = getColorPen();
     QColor color_brush_tmp = getColorBrush();
 

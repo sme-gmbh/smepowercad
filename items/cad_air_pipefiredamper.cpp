@@ -30,11 +30,11 @@ CAD_air_pipeFireDamper::CAD_air_pipeFireDamper() : CADitem(CADitemTypes::Air_Pip
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("d",  20.0);
-    wizardParams.insert("ff",  1.0);
-    wizardParams.insert("l", 100.0);
-    wizardParams.insert("l2", 70.0);
-    wizardParams.insert("s",   1.0);
+    wizardParams.insert("l", 1000.0);
+    wizardParams.insert("l2", 700.0);
+    wizardParams.insert("d",  200.0);
+    wizardParams.insert("ff",  10.0);
+    wizardParams.insert("s",   10.0);
 
     processWizardInput();
     calculate();

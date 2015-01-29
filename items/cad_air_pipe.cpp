@@ -27,9 +27,10 @@ CAD_air_pipe::CAD_air_pipe() : CADitem(CADitemTypes::Air_Pipe)
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
-    wizardParams.insert("d",  20.0);
-    wizardParams.insert("s",   0.5);
-    wizardParams.insert("l", 100.0);
+
+    wizardParams.insert("l", 1000.0);
+    wizardParams.insert("d",  200.0);
+    wizardParams.insert("s",   5.0);
 
     processWizardInput();
     calculate();
