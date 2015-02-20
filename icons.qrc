@@ -154,6 +154,14 @@
         <file>shaders/shader_1_lines.geom</file>
         <file>shaders/shader_2.frag</file>
         <file>shaders/shader_2.vert</file>
+        <file>icons/cad_electrical/cad_electrical_busbarwithouttapoffpoints.svg</file>
+        <file>icons/cad_electrical/cad_electrical_busbarwithouttap-off-points.svg</file>
+        <file>icons/cad_electrical/cad_electrical_busbarwithtapoffpoints1row.svg</file>
+        <file>icons/cad_electrical/cad_electrical_busbarwithtapoffpoints2row.svg</file>
+        <file>icons/cad_electrical/cad_electrical_cabletray.svg</file>
+        <file>icons/cad_electrical/cad_electrical_cabletrayreducer.svg</file>
+        <file>icons/cad_electrical/cad_electrical_cabletrayteeconnector.svg</file>
+        <file>icons/cad_electrical/cad_electrical_cabletraytransition.svg</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>

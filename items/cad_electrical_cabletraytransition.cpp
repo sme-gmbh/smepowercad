@@ -18,12 +18,30 @@
 
 CAD_Electrical_CabletrayTransition::CAD_Electrical_CabletrayTransition() : CADitem(CADitemTypes::Electrical_CabletrayTransition)
 {
+    end_lower = new CAD_electrical_cabletray();
+    end_upper = new CAD_electrical_cabletray();
+    floor = new CAD_basic_box();
+    left = new CAD_basic_box();
+    right = new CAD_basic_box();
+    this->subItems.append(end_lower);
+    this->subItems.append(end_upper);
+    this->subItems.append(floor);
+    this->subItems.append(left);
+    this->subItems.append(right);
+
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
+
+    wizardParams.insert("a", 100.0);
+    wizardParams.insert("b", 300.0);
+    wizardParams.insert("l", 500.0);
+    wizardParams.insert("l1", 100.0);
+    wizardParams.insert("i", 100.0);
+    wizardParams.insert("s", 10.0);
 
 //    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices.create();
@@ -97,6 +115,140 @@ void CAD_Electrical_CabletrayTransition::calculate()
     this->snap_vertices.clear();
                                 
     this->snap_basepoint = (position);
+
+    end_lower->wizardParams.insert("Position x", position.x());
+    end_lower->wizardParams.insert("Position y", position.x());
+    end_lower->wizardParams.insert("Position z", position.x());
+    end_lower->wizardParams.insert("Angle x", angle_x);
+    end_lower->wizardParams.insert("Angle y", angle_y);
+    end_lower->wizardParams.insert("Angle z", angle_z);
+    end_lower->wizardParams.insert("a", a);
+    end_lower->wizardParams.insert("b", b);
+    end_lower->wizardParams.insert("l", l1);
+    end_lower->wizardParams.insert("s", s);
+    end_lower->layer = this->layer;
+    end_lower->processWizardInput();
+    end_lower->calculate();
+
+    QVector3D position_up = position + matrix_rotation * QVector3D(l1 + l, 0.0, i);
+    end_upper->wizardParams.insert("Position x", position_up.x());
+    end_upper->wizardParams.insert("Position y", position_up.x());
+    end_upper->wizardParams.insert("Position z", position_up.x());
+    end_upper->wizardParams.insert("Angle x", angle_x);
+    end_upper->wizardParams.insert("Angle y", angle_y);
+    end_upper->wizardParams.insert("Angle z", angle_z);
+    end_upper->wizardParams.insert("a", a);
+    end_upper->wizardParams.insert("b", b);
+    end_upper->wizardParams.insert("l", l1);
+    end_upper->wizardParams.insert("s", s);
+    end_upper->layer = this->layer;
+    end_upper->processWizardInput();
+    end_upper->calculate();
+
+    QVector3D position_flr = position + matrix_rotation * QVector3D(l1 + l/2, 0.0, i/2 + s/2);
+    floor->wizardParams.insert("Position x", position_flr.x());
+    floor->wizardParams.insert("Position y", position_flr.y());
+    floor->wizardParams.insert("Position z", position_flr.z());
+    floor->wizardParams.insert("Angle x", angle_x);
+    floor->wizardParams.insert("Angle y", angle_y);
+    floor->wizardParams.insert("Angle z", angle_z);
+
+    floor->wizardParams.insert("Size x", l);
+    floor->wizardParams.insert("Size y", b);
+    floor->wizardParams.insert("Size z", s);
+    floor->layer = this->layer;
+    floor->processWizardInput();
+    floor->calculate();
+
+    QVector3D vertices_flr[] = {
+        position + matrix_rotation * QVector3D(l1, -b/2, 0.0),
+        position + matrix_rotation * QVector3D(l + l1, -b/2, i),
+        position + matrix_rotation * QVector3D(l +l1, b/2, i),
+        position + matrix_rotation * QVector3D(l1, b/2, 0.0),
+        position + matrix_rotation * QVector3D(l1, -b/2, s),
+        position + matrix_rotation * QVector3D(l + l1, -b/2, i + s),
+        position + matrix_rotation * QVector3D(l + l1, b/2, i + s),
+        position + matrix_rotation * QVector3D(l1, b/2, s)
+    };
+    floor->arrayBufVertices.bind();
+    floor->arrayBufVertices.allocate(vertices_flr, sizeof(vertices_flr));
+
+    QVector3D position_lft = position + matrix_rotation * QVector3D(l/2, -b/2 + s/2, (a+s)/2);
+    left->wizardParams.insert("Position x", position_lft.x());
+    left->wizardParams.insert("Position y", position_lft.y());
+    left->wizardParams.insert("Position z", position_lft.z());
+    left->wizardParams.insert("Angle x", angle_x);
+    left->wizardParams.insert("Angle y", angle_y);
+    left->wizardParams.insert("Angle z", angle_z);
+
+    left->wizardParams.insert("Size x", l);
+    left->wizardParams.insert("Size y", s);
+    left->wizardParams.insert("Size z", a-s);
+    left->layer = this->layer;
+    left->processWizardInput();
+    left->calculate();
+
+    QVector3D vertices_lft[] = {
+        position + matrix_rotation * QVector3D(l1, b/2 - s, s),
+        position + matrix_rotation * QVector3D(l1 + l, b/2 - s, s + i),
+        position + matrix_rotation * QVector3D(l1 + l, b/2, s + i),
+        position + matrix_rotation * QVector3D(l1, b/2, s),
+        position + matrix_rotation * QVector3D(l1, b/2 - s, a),
+        position + matrix_rotation * QVector3D(l1 + l, b/2 - s, a - s + i),
+        position + matrix_rotation * QVector3D(l1 + l, b/2, a - s + i),
+        position + matrix_rotation * QVector3D(l1, b/2, a)
+    };
+    left->arrayBufVertices.bind();
+    left->arrayBufVertices.allocate(vertices_lft, sizeof(vertices_lft));
+
+    QVector3D position_rgt = position + matrix_rotation * QVector3D(l/2, +b/2 - s/2, (a+s)/2);
+    right->wizardParams.insert("Position x", position_rgt.x());
+    right->wizardParams.insert("Position y", position_rgt.y());
+    right->wizardParams.insert("Position z", position_rgt.z());
+    right->wizardParams.insert("Angle x", angle_x);
+    right->wizardParams.insert("Angle y", angle_y);
+    right->wizardParams.insert("Angle z", angle_z);
+
+    right->wizardParams.insert("Size x", l);
+    right->wizardParams.insert("Size y", s);
+    right->wizardParams.insert("Size z", a-s);
+    right->layer = this->layer;
+    right->processWizardInput();
+    right->calculate();
+
+    QVector3D vertices_rgt[] = {
+        position + matrix_rotation * QVector3D(l1, -b/2 + s, s),
+        position + matrix_rotation * QVector3D(l1 + l, -b/2 + s, s + i),
+        position + matrix_rotation * QVector3D(l1 + l, -b/2, s + i),
+        position + matrix_rotation * QVector3D(l1, -b/2, s),
+        position + matrix_rotation * QVector3D(l1, -b/2 + s, a),
+        position + matrix_rotation * QVector3D(l1 + l, -b/2 + s, a - s + i),
+        position + matrix_rotation * QVector3D(l1 + l, -b/2, a - s + i),
+        position + matrix_rotation * QVector3D(l1, -b/2, a)
+    };
+    right->arrayBufVertices.bind();
+    right->arrayBufVertices.allocate(vertices_rgt, sizeof(vertices_rgt));
+
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l + 2 * l1, 0.0, i));
+
+    this->snap_center.append(floor->snap_center);
+    this->snap_center.append(left->snap_center);
+    this->snap_center.append(right->snap_center);
+    this->snap_center.append(end_lower->snap_center);
+    this->snap_center.append(end_upper->snap_center);
+
+    this->snap_vertices.append(floor->snap_vertices);
+    this->snap_vertices.append(left->snap_vertices);
+    this->snap_vertices.append(right->snap_vertices);
+    this->snap_vertices.append(end_lower->snap_vertices);
+    this->snap_vertices.append(end_upper->snap_vertices);
+
+    this->boundingBox.enterVertices(floor->boundingBox.getVertices());
+    this->boundingBox.enterVertices(left->boundingBox.getVertices());
+    this->boundingBox.enterVertices(right->boundingBox.getVertices());
+    this->boundingBox.enterVertices(end_lower->boundingBox.getVertices());
+    this->boundingBox.enterVertices(end_upper->boundingBox.getVertices());
 }
 
 void CAD_Electrical_CabletrayTransition::processWizardInput()
@@ -107,6 +259,13 @@ void CAD_Electrical_CabletrayTransition::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    a = wizardParams.value("a").toDouble();
+    b = wizardParams.value("b").toDouble();
+    l = wizardParams.value("l").toDouble();
+    l1 = wizardParams.value("l1").toDouble();
+    i = wizardParams.value("i").toDouble();
+    s = wizardParams.value("s").toDouble();
 }
 
 //void CAD_Electrical_CabletrayTransition::paint(GLWidget *glwidget)

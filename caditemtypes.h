@@ -92,12 +92,12 @@ public:
         Cleanroom_CeilingFrame,
         Cleanroom_CeilingGrating,
         Cleanroom_CeilingJoiningKnot,
-        Cleanroom_CeilingMaintenance_flap,
+        Cleanroom_CeilingMaintenanceFlap,
         Cleanroom_CeilingMountingRails,
         Cleanroom_CeilingPanel,
-        Cleanroom_CeilingSmoke_extract_flap,
+        Cleanroom_CeilingSmokeExtractFlap,
         Cleanroom_CeilingSuspension,
-        Cleanroom_CeilingTeeJoining_piece,
+        Cleanroom_CeilingTeeJoiningPiece,
         Cleanroom_CeilingVerticalLadder,
         Cleanroom_ControlEmergencySwitch,
         Cleanroom_ControlLedTouchKey,
@@ -108,18 +108,18 @@ public:
         Cleanroom_DoorSlidingSingle,
         Cleanroom_DoorSwingingDouble,
         Cleanroom_DoorSwingingSingle,
-        Cleanroom_Floor_diagonalStiffener,
+        Cleanroom_FloorStiffenerDiagonal,
+        Cleanroom_FloorStiffenerHorizontal,
         Cleanroom_FloorGrating,
-        Cleanroom_FloorHorizontalStiffener,
         Cleanroom_FloorPanel,
-        Cleanroom_FloorPanelWith_bushing,
-        Cleanroom_FloorPanelWith_tank,
-        Cleanroom_FloorPerforatedPanel,
+        Cleanroom_FloorPanelWithBushing,
+        Cleanroom_FloorPanelWithTank,
+        Cleanroom_FloorPanelPerforated,
         Cleanroom_FloorSupport,
         Cleanroom_TagLeakageDetector,
         Cleanroom_TagSmokeDetector,
         Cleanroom_VacuumCleanerSocket,
-        Cleanroom_WallDiagonalStiffener,
+        Cleanroom_WallStiffenerDiagonal,
         Cleanroom_WallMountingProfile,
         Cleanroom_WallOverflowGrate,
         Cleanroom_WallPanel,
@@ -178,7 +178,8 @@ public:
         Electrical_BusbarWithTapoffPoints2Row,  //
         Electrical_Cabletray,                   // Kabeltrasse
         Electrical_CabletrayReducer,            // Kabeltrasse Übergang
-        ElectricaL_CabletrayTeeConnector,       // Kabeltrasse T-Stück
+        Electrical_CabletrayTeeConnector,       // Kabeltrasse T-Stück
+        Electrical_CabletrayTransition,         // Kabeltrasse Übergang (in z-Richtung)
         Electrical_Cabinet,                     // Schaltschrank
         LastItem
     };

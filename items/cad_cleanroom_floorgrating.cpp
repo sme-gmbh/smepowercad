@@ -13,26 +13,17 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#include "cad_electrical_cabletrayteeconnector.h"
+#include "cad_cleanroom_floorgrating.h"
 #include "glwidget.h"
 
-CAD_electrical_CabletrayTeeconnector::CAD_electrical_CabletrayTeeconnector() : CADitem(CADitemTypes::Electrical_CabletrayTransition)
+CAD_Cleanroom_FloorGrating::CAD_Cleanroom_FloorGrating() : CADitem(CADitemTypes::Cleanroom_FloorGrating)
 {
-    floor = new CAD_basic_box();
-    side = new CAD_basic_box();
-    this->subItems.append(floor);
-    this->subItems.append(side);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
-
-    wizardParams.insert("a", 100.0);
-    wizardParams.insert("b", 300.0);
-    wizardParams.insert("l", 300.0);
-    wizardParams.insert("s", 10.0);
 
 //    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices.create();
@@ -50,21 +41,21 @@ CAD_electrical_CabletrayTeeconnector::CAD_electrical_CabletrayTeeconnector() : C
     calculate();
 }
 
-CAD_electrical_CabletrayTeeconnector::~CAD_electrical_CabletrayTeeconnector()
+CAD_Cleanroom_FloorGrating::~CAD_Cleanroom_FloorGrating()
 {
 //    arrayBufVertices.destroy();
 //    indexBufFaces.destroy();
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_electrical_CabletrayTeeconnector::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Cleanroom_FloorGrating::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;
 }
 
-QImage CAD_electrical_CabletrayTeeconnector::wizardImage()
+QImage CAD_Cleanroom_FloorGrating::wizardImage()
 {
     QImage image;
     QFileInfo fileinfo(__FILE__);
@@ -77,22 +68,22 @@ QImage CAD_electrical_CabletrayTeeconnector::wizardImage()
     return image;
 }
 
-QString CAD_electrical_CabletrayTeeconnector::iconPath()
+QString CAD_Cleanroom_FloorGrating::iconPath()
 {
-    return ":/icons/cad_electrical/cad_electrical_cabletrayteeconnector.svg";
+    return ":/icons/cad_cleanroom/cad_cleanroom_floorgrating.svg";
 }
 
-QString CAD_electrical_CabletrayTeeconnector::domain()
+QString CAD_Cleanroom_FloorGrating::domain()
 {
-    return "Electrical";
+    return "Cleanroom";
 }
 
-QString CAD_electrical_CabletrayTeeconnector::description()
+QString CAD_Cleanroom_FloorGrating::description()
 {
-    return "Electrical|Cabletray Teeconnector";
+    return "Cleanroom|Floor Grating";
 }
 
-void CAD_electrical_CabletrayTeeconnector::calculate()
+void CAD_Cleanroom_FloorGrating::calculate()
 {
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
@@ -106,51 +97,9 @@ void CAD_electrical_CabletrayTeeconnector::calculate()
     this->snap_vertices.clear();
                                 
     this->snap_basepoint = (position);
-
-    QVector3D position_flr = position + matrix_rotation * QVector3D(l/2, 0.0, s/2);
-    floor->wizardParams.insert("Position x", position_flr.x());
-    floor->wizardParams.insert("Position y", position_flr.y());
-    floor->wizardParams.insert("Position z", position_flr.z());
-    floor->wizardParams.insert("Angle x", angle_x);
-    floor->wizardParams.insert("Angle y", angle_y);
-    floor->wizardParams.insert("Angle z", angle_z);
-    floor->wizardParams.insert("Size x", l);
-    floor->wizardParams.insert("Size y", b);
-    floor->wizardParams.insert("Size z", s);
-    floor->layer = this->layer;
-    floor->processWizardInput();
-    floor->calculate();
-
-    QVector3D position_side = position + matrix_rotation * QVector3D(l/2, -b/2 + s/2, a/2 - s/2);
-    side->wizardParams.insert("Position x", position_side.x());
-    side->wizardParams.insert("Position y", position_side.y());
-    side->wizardParams.insert("Position z", position_side.z());
-    side->wizardParams.insert("Angle x", angle_x);
-    side->wizardParams.insert("Angle y", angle_y);
-    side->wizardParams.insert("Angle z", angle_z);
-    side->wizardParams.insert("Size x", l);
-    side->wizardParams.insert("Size y", s);
-    side->wizardParams.insert("Size z", a - s);
-    side->layer = this->layer;
-    side->processWizardInput();
-    side->calculate();
-
-    this->snap_flanges.append(position);
-    this->snap_flanges.append(position + matrix_rotation * QVector3D(l/2, b/2, 0.0));
-    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
-
-    this->snap_center.append(floor->snap_center);
-    this->snap_center.append(side->snap_center);
-
-    this->snap_vertices.append(floor->snap_vertices);
-    this->snap_vertices.append(side->snap_vertices);
-
-    this->boundingBox.enterVertices(floor->boundingBox.getVertices());
-    this->boundingBox.enterVertices(side->boundingBox.getVertices());
-
 }
 
-void CAD_electrical_CabletrayTeeconnector::processWizardInput()
+void CAD_Cleanroom_FloorGrating::processWizardInput()
 {
     position.setX(wizardParams.value("Position x").toDouble());
     position.setY(wizardParams.value("Position y").toDouble());
@@ -158,14 +107,9 @@ void CAD_electrical_CabletrayTeeconnector::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
-
-    a = wizardParams.value("a").toDouble();
-    b = wizardParams.value("b").toDouble();
-    l = wizardParams.value("l").toDouble();
-    s = wizardParams.value("s").toDouble();
 }
 
-//void CAD_electrical_CabletrayTeeconnector::paint(GLWidget *glwidget)
+//void CAD_cleanroom_FloorGrating::paint(GLWidget *glwidget)
 //{
 //    QColor color_pen_tmp = getColorPen();
 //    QColor color_brush_tmp = getColorBrush();

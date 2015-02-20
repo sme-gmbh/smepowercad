@@ -13,18 +13,16 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#ifndef CAD_ELECTRICAL_CABLETRAYTRANSITION_H
-#define CAD_ELECTRICAL_CABLETRAYTRANSITION_H
+#ifndef CAD_CLEANROOM_FLOORSTIFFENERDIAGONAL_H
+#define CAD_CLEANROOM_FLOORSTIFFENERDIAGONAL_H
 
 #include "caditem.h"
-#include "items/cad_basic_box.h"
-#include "items/cad_electrical_cabletray.h"
 
-class CAD_Electrical_CabletrayTransition : public CADitem
+class CAD_Cleanroom_FloorStiffenerDiagonal : public CADitem
 {
 public:
-    CAD_Electrical_CabletrayTransition();
-    virtual ~CAD_Electrical_CabletrayTransition();
+    CAD_Cleanroom_FloorStiffenerDiagonal();
+    virtual ~CAD_Cleanroom_FloorStiffenerDiagonal();
     virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
@@ -37,10 +35,6 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
-
-    qreal a, b, l, l1, i, s;
-    CAD_electrical_cabletray *end_lower, *end_upper;
-    CAD_basic_box *floor, *left, *right;
 };
 
-#endif // CAD_ELECTRICAL_CABLETRAYTRANSITION_H
+#endif // CAD_CLEANROOM_FLOORSTIFFENERDIAGONAL_H
