@@ -16,7 +16,7 @@
 #include "cad_mainll_subll.h"
 #include "glwidget.h"
 
-CAD_mainll_subul::CAD_mainll_subul() : CADitem(CADitemTypes::mainul_subul)
+CAD_mainul_subul::CAD_mainul_subul() : CADitem(CADitemTypes::mainul_subul)
 {
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
@@ -41,21 +41,21 @@ CAD_mainll_subul::CAD_mainll_subul() : CADitem(CADitemTypes::mainul_subul)
     calculate();
 }
 
-CAD_mainll_subul::~CAD_mainll_subul()
+CAD_mainul_subul::~CAD_mainul_subul()
 {
 //    arrayBufVertices.destroy();
 //    indexBufFaces.destroy();
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_mainll_subul::flangable_items()
+QList<CADitemTypes::ItemType> CAD_mainul_subul::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;
 }
 
-QImage CAD_mainll_subul::wizardImage()
+QImage CAD_mainul_subul::wizardImage()
 {
     QImage image;
     QFileInfo fileinfo(__FILE__);
@@ -68,22 +68,22 @@ QImage CAD_mainll_subul::wizardImage()
     return image;
 }
 
-QString CAD_mainll_subul::iconPath()
+QString CAD_mainul_subul::iconPath()
 {
     return ":/icons/cad_mainll/cad_mainll_subll.svg";
 }
 
-QString CAD_mainll_subul::domain()
+QString CAD_mainul_subul::domain()
 {
     return "mainul";
 }
 
-QString CAD_mainll_subll::description()
+QString CAD_mainul_subul::description()
 {
     return "mainspaced|subspaced";
 }
 
-void CAD_mainll_subul::calculate()
+void CAD_mainul_subul::calculate()
 {
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
@@ -99,7 +99,7 @@ void CAD_mainll_subul::calculate()
     this->snap_basepoint = (position);
 }
 
-void CAD_mainll_subul::processWizardInput()
+void CAD_mainul_subul::processWizardInput()
 {
     position.setX(wizardParams.value("Position x").toDouble());
     position.setY(wizardParams.value("Position y").toDouble());
@@ -109,7 +109,7 @@ void CAD_mainll_subul::processWizardInput()
     angle_z = wizardParams.value("Angle z").toDouble();
 }
 
-//void CAD_mainll_subul::paint(GLWidget *glwidget)
+//void CAD_mainul_subul::paint(GLWidget *glwidget)
 //{
 //    QColor color_pen_tmp = getColorPen();
 //    QColor color_brush_tmp = getColorBrush();
