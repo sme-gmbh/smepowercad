@@ -169,7 +169,13 @@ SOURCES += main.cpp\
     caditemtypes.cpp \
     wizardparams.cpp \
     items/cad_air_lineardiffuser.cpp \
-    collisiondetection.cpp
+    collisiondetection.cpp \
+    items/cad_electrical_busbarwithouttapoffpoints.cpp \
+    items/cad_electrical_busbarwithtapoffpoints1row.cpp \
+    items/cad_electrical_busbarwithtapoffpoints2row.cpp \
+    items/cad_electrical_cabletrayreducer.cpp \
+    items/cad_electrical_cabletrayteeconnector.cpp \
+    items/cad_electrical_cabletraytransition.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -313,7 +319,13 @@ HEADERS  += mainwindow.h \
     caditemtypes.h \
     wizardparams.h \
     items/cad_air_lineardiffuser.h\
-    collisiondetection.h
+    collisiondetection.h \
+    items/cad_electrical_busbarwithouttapoffpoints.h \
+    items/cad_electrical_busbarwithtapoffpoints1row.h \
+    items/cad_electrical_busbarwithtapoffpoints2row.h \
+    items/cad_electrical_cabletrayreducer.h \
+    items/cad_electrical_cabletrayteeconnector.h \
+    items/cad_electrical_cabletraytransition.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

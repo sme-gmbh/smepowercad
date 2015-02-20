@@ -115,6 +115,12 @@
 
 #include "items/cad_electrical_cabinet.h"
 #include "items/cad_electrical_cabletray.h"
+#include "items/cad_electrical_busbarwithouttapoffpoints.h"
+#include "items/cad_electrical_busbarwithtapoffpoints1row.h"
+#include "items/cad_electrical_busbarwithtapoffpoints2row.h"
+#include "items/cad_electrical_cabletray.h"
+#include "items/cad_electrical_cabletrayreducer.h"
+#include "items/cad_electrical_cabletrayteeconnector.h"
 
 #include "items/cad_sanitary_electricwaterheater.h"
 #include "items/cad_sanitary_emergencyeyeshower.h"

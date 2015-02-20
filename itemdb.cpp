@@ -611,11 +611,26 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
         newItem = new CAD_sprinkler_pipeReducer();
         break;
 
+    case CADitemTypes::Electrical_BusbarWithoutTapoffPoints:
+        newItem = new CAD_electrical_busbarwithouttapoffpoints();
+        break;
+    case CADitemTypes::Electrical_BusbarWithTapoffPoints1Row:
+        newItem = new CAD_electrical_busbarwithtapoffpoints1row();
+        break;
+    case CADitemTypes::Electrical_BusbarWithTapoffPoints2Row:
+        newItem = new CAD_electrical_busbarwithtapoffpoints2row();
+        break;
     case CADitemTypes::Electrical_Cabinet:
         newItem = new CAD_electrical_cabinet();
         break;
-    case CADitemTypes::Electrical_CableTray:
-        newItem = new CAD_electrical_cableTray();
+    case CADitemTypes::Electrical_Cabletray:
+        newItem = new CAD_electrical_cabletray;
+        break;
+    case CADitemTypes::Electrical_CabletrayReducer:
+        newItem = new CAD_electrical_cabletrayreducer;
+        break;
+    case CADitemTypes::ElectricaL_CabletrayTeeConnector:
+        newItem = new CAD_electrical_CabletrayTeeconnector;
         break;
     default:
     {

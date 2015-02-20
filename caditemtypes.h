@@ -173,7 +173,12 @@ public:
         Sanitary_EmergencyShower,               // Notdusche
         Sanitary_EmergencyEyeShower,            // Augendusche
         Sanitary_LiftingUnit,                   // Hebeanlage
-        Electrical_CableTray,                   // Kabeltrasse
+        Electrical_BusbarWithoutTapoffPoints,   // Stromschiene
+        Electrical_BusbarWithTapoffPoints1Row,  //
+        Electrical_BusbarWithTapoffPoints2Row,  //
+        Electrical_Cabletray,                   // Kabeltrasse
+        Electrical_CabletrayReducer,            // Kabeltrasse Übergang
+        ElectricaL_CabletrayTeeConnector,       // Kabeltrasse T-Stück
         Electrical_Cabinet,                     // Schaltschrank
         LastItem
     };

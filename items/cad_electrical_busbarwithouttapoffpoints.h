@@ -13,17 +13,17 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#ifndef CAD_ELECTRICAL_CABLETRAY_H
-#define CAD_ELECTRICAL_CABLETRAY_H
+#ifndef CAD_ELECTRICAL_BUSBARWITHOUTTAPOFFPOINTS_H
+#define CAD_ELECTRICAL_BUSBARWITHOUTTAPOFFPOINTS_H
 
 #include "caditem.h"
 #include "cad_basic_box.h"
 
-class CAD_electrical_cabletray : public CADitem
+class CAD_electrical_busbarwithouttapoffpoints : public CADitem
 {
 public:
-    CAD_electrical_cabletray();
-    virtual ~CAD_electrical_cabletray();
+    CAD_electrical_busbarwithouttapoffpoints();
+    virtual ~CAD_electrical_busbarwithouttapoffpoints();
     virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
@@ -37,10 +37,8 @@ public:
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
 
-    qreal a, b, l, s;
-    CAD_basic_box *floor, *left, *right;
-
-
+    qreal l, a, b;
+    CAD_basic_box *busbar;
 };
 
-#endif // CAD_ELECTRICAL_CABLETRAY_H
+#endif // CAD_ELECTRICAL_BUSBARWITHOUTTAPOFFPOINTS_H

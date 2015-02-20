@@ -13,17 +13,17 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#ifndef CAD_ELECTRICAL_CABLETRAY_H
-#define CAD_ELECTRICAL_CABLETRAY_H
+#ifndef CAD_ELECTRICAL_CABLETRAYTEECONNECTOR_H
+#define CAD_ELECTRICAL_CABLETRAYTEECONNECTOR_H
 
 #include "caditem.h"
-#include "cad_basic_box.h"
+#include "items/cad_basic_box.h"
 
-class CAD_electrical_cabletray : public CADitem
+class CAD_electrical_CabletrayTeeconnector : public CADitem
 {
 public:
-    CAD_electrical_cabletray();
-    virtual ~CAD_electrical_cabletray();
+    CAD_electrical_CabletrayTeeconnector();
+    virtual ~CAD_electrical_CabletrayTeeconnector();
     virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
@@ -38,9 +38,7 @@ public:
 //    QOpenGLBuffer indexBufLines;
 
     qreal a, b, l, s;
-    CAD_basic_box *floor, *left, *right;
-
-
+    CAD_basic_box *floor, *side;
 };
 
-#endif // CAD_ELECTRICAL_CABLETRAY_H
+#endif // CAD_ELECTRICAL_CABLETRAYTEECONNECTOR_H
