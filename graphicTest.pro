@@ -169,7 +169,45 @@ SOURCES += main.cpp\
     caditemtypes.cpp \
     wizardparams.cpp \
     items/cad_air_lineardiffuser.cpp \
-    collisiondetection.cpp
+    collisiondetection.cpp \
+    items/cad_cleanroom_wallsmokeextractflap.cpp \
+    items/cad_cleanroom_wallpost.cpp \
+    items/cad_cleanroom_wallpanel.cpp \
+    items/cad_cleanroom_walloverflowgrate.cpp \
+    items/cad_cleanroom_wallmountingprofile.cpp \
+    items/cad_cleanroom_wallstiffenerdiagonal.cpp \
+    items/cad_cleanroom_vacuumcleanersocket.cpp \
+    items/cad_cleanroom_tagsmokedetector.cpp \
+    items/cad_cleanroom_tagleakagedetector.cpp \
+    items/cad_cleanroom_floorsupport.cpp \
+    items/cad_cleanroom_floorpanelperforated.cpp \
+    items/cad_cleanroom_floorpanelwithtank.cpp \
+    items/cad_cleanroom_floorpanelwithbushing.cpp \
+    items/cad_cleanroom_floorpanel.cpp \
+    items/cad_cleanroom_floorgrating.cpp \
+    items/cad_cleanroom_floorstiffenerhorizontal.cpp \
+    items/cad_cleanroom_floorstiffenerdiagonal.cpp \
+    items/cad_cleanroom_doorswingingsingle.cpp \
+    items/cad_cleanroom_doorswingingdouble.cpp \
+    items/cad_cleanroom_doorslidingdouble.cpp \
+    items/cad_cleanroom_controlswitch.cpp \
+    items/cad_cleanroom_controlradarsensor.cpp \
+    items/cad_cleanroom_controlledtouchkey.cpp \
+    items/cad_cleanroom_controlemergencyswitch.cpp \
+    items/cad_cleanroom_ceilingverticalladder.cpp \
+    items/cad_cleanroom_ceilingteejoiningpiece.cpp \
+    items/cad_cleanroom_ceilingsuspension.cpp \
+    items/cad_cleanroom_ceilingsmokeextractflap.cpp \
+    items/cad_cleanroom_ceilingpanel.cpp \
+    items/cad_cleanroom_ceilingmountingrails.cpp \
+    items/cad_cleanroom_ceilingmaintenanceflap.cpp \
+    items/cad_cleanroom_ceilingjoiningknot.cpp \
+    items/cad_cleanroom_ceilinggrating.cpp \
+    items/cad_cleanroom_ceilingframe.cpp \
+    items/cad_cleanroom_ceilingframefeedthrough.cpp \
+    items/cad_cleanroom_ceilingfilterfanunit.cpp \
+    items/cad_cleanroom_ceilingcornerpiece.cpp \
+    items/cad_cleanroom_doorslidingsingle.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -313,7 +351,45 @@ HEADERS  += mainwindow.h \
     caditemtypes.h \
     wizardparams.h \
     items/cad_air_lineardiffuser.h\
-    collisiondetection.h
+    collisiondetection.h \
+    items/cad_cleanroom_wallsmokeextractflap.h \
+    items/cad_cleanroom_wallpost.h \
+    items/cad_cleanroom_wallpanel.h \
+    items/cad_cleanroom_walloverflowgrate.h \
+    items/cad_cleanroom_wallmountingprofile.h \
+    items/cad_cleanroom_wallstiffenerdiagonal.h \
+    items/cad_cleanroom_vacuumcleanersocket.h \
+    items/cad_cleanroom_tagsmokedetector.h \
+    items/cad_cleanroom_tagleakagedetector.h \
+    items/cad_cleanroom_floorsupport.h \
+    items/cad_cleanroom_floorpanelperforated.h \
+    items/cad_cleanroom_floorpanelwithtank.h \
+    items/cad_cleanroom_floorpanelwithbushing.h \
+    items/cad_cleanroom_floorpanel.h \
+    items/cad_cleanroom_floorgrating.h \
+    items/cad_cleanroom_floorstiffenerhorizontal.h \
+    items/cad_cleanroom_floorstiffenerdiagonal.h \
+    items/cad_cleanroom_doorswingingsingle.h \
+    items/cad_cleanroom_doorswingingdouble.h \
+    items/cad_cleanroom_doorslidingdouble.h \
+    items/cad_cleanroom_controlswitch.h \
+    items/cad_cleanroom_controlradarsensor.h \
+    items/cad_cleanroom_controlledtouchkey.h \
+    items/cad_cleanroom_controlemergencyswitch.h \
+    items/cad_cleanroom_ceilingverticalladder.h \
+    items/cad_cleanroom_ceilingteejoiningpiece.h \
+    items/cad_cleanroom_ceilingsuspension.h \
+    items/cad_cleanroom_ceilingsmokeextractflap.h \
+    items/cad_cleanroom_ceilingpanel.h \
+    items/cad_cleanroom_ceilingmountingrails.h \
+    items/cad_cleanroom_ceilingmaintenanceflap.h \
+    items/cad_cleanroom_ceilingjoiningknot.h \
+    items/cad_cleanroom_ceilinggrating.h \
+    items/cad_cleanroom_ceilingframe.h \
+    items/cad_cleanroom_ceilingframefeedthrough.h \
+    items/cad_cleanroom_ceilingfilterfanunit.h \
+    items/cad_cleanroom_ceilingcornerpiece.h \
+    items/cad_cleanroom_doorslidingsingle.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

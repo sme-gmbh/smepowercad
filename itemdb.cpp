@@ -504,6 +504,121 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
         newItem = new CAD_air_equipmentFrame();
         break;
 
+    case CADitemTypes::Cleanroom_CeilingCornerPiece:
+        newItem = new CAD_Cleanroom_CeilingCornerPiece();
+        break;
+    case CADitemTypes::Cleanroom_CeilingFilterFanUnit:
+        newItem = new CAD_Cleanroom_CeilingFilterFanUnit();
+        break;
+    case CADitemTypes::Cleanroom_CeilingFrameFeedThrough:
+        newItem = new CAD_Cleanroom_CeilingFrameFeedThrough();
+        break;
+    case CADitemTypes::Cleanroom_CeilingFrame:
+        newItem = new CAD_Cleanroom_CeilingFrame();
+        break;
+    case CADitemTypes::Cleanroom_CeilingGrating:
+        newItem = new CAD_Cleanroom_CeilingGrating();
+        break;
+    case CADitemTypes::Cleanroom_CeilingJoiningKnot:
+        newItem = new CAD_Cleanroom_CeilingJoiningKnot();
+        break;
+    case CADitemTypes::Cleanroom_CeilingMaintenanceFlap:
+        newItem = new CAD_Cleanroom_CeilingMaintenanceFlap();
+        break;
+    case CADitemTypes::Cleanroom_CeilingMountingRails:
+        newItem = new CAD_Cleanroom_CeilingMountingRails();
+        break;
+    case CADitemTypes::Cleanroom_CeilingPanel:
+        newItem = new CAD_Cleanroom_CeilingPanel();
+        break;
+    case CADitemTypes::Cleanroom_CeilingSmokeExtractFlap:
+        newItem = new CAD_Cleanroom_CeilingSmokeExtractFlap();
+        break;
+    case CADitemTypes::Cleanroom_CeilingSuspension:
+        newItem = new CAD_Cleanroom_CeilingSuspension();
+        break;
+    case CADitemTypes::Cleanroom_CeilingTeeJoiningPiece:
+        newItem = new CAD_Cleanroom_CeilingTeeJoiningPiece();
+        break;
+    case CADitemTypes::Cleanroom_CeilingVerticalLadder:
+        newItem = new CAD_Cleanroom_CeilingVerticalLadder();
+        break;
+    case CADitemTypes::Cleanroom_ControlEmergencySwitch:
+        newItem = new CAD_Cleanroom_ControlEmergencySwitch();
+        break;
+    case CADitemTypes::Cleanroom_ControlLedTouchKey:
+        newItem = new CAD_Cleanroom_ControlLedTouchKey();
+        break;
+    case CADitemTypes::Cleanroom_ControlRadarSensor:
+        newItem = new CAD_Cleanroom_ControlRadarSensor();
+        break;
+    case CADitemTypes::Cleanroom_ControlSwitch:
+        newItem = new CAD_Cleanroom_ControlSwitch();
+        break;
+    case CADitemTypes::Cleanroom_DoorSlidingDouble:
+        newItem = new CAD_Cleanroom_DoorSlidingDouble();
+        break;
+    case CADitemTypes::Cleanroom_DoorSlidingSingle:
+        newItem = new CAD_Cleanroom_DoorSlidingSingle();
+        break;
+    case CADitemTypes::Cleanroom_DoorSwingingDouble:
+        newItem = new CAD_Cleanroom_DoorSwingingDouble();
+        break;
+    case CADitemTypes::Cleanroom_DoorSwingingSingle:
+        newItem = new CAD_Cleanroom_DoorSwingingSingle();
+        break;
+    case CADitemTypes::Cleanroom_FloorGrating:
+        newItem = new CAD_Cleanroom_FloorGrating();
+        break;
+    case CADitemTypes::Cleanroom_FloorPanel:
+        newItem = new CAD_Cleanroom_FloorPanel();
+        break;
+    case CADitemTypes::Cleanroom_FloorPanelPerforated:
+        newItem = new CAD_Cleanroom_FloorPanelPerforated();
+        break;
+    case CADitemTypes::Cleanroom_FloorPanelWithBushing:
+        newItem = new CAD_Cleanroom_FloorPanelWithBushing();
+        break;
+    case CADitemTypes::Cleanroom_FloorPanelWithTank:
+        newItem = new CAD_Cleanroom_FloorPanelWithTank();
+        break;
+    case CADitemTypes::Cleanroom_FloorStiffenerDiagonal:
+        newItem = new CAD_Cleanroom_FloorStiffenerDiagonal();
+        break;
+    case CADitemTypes::Cleanroom_FloorStiffenerHorizontal:
+        newItem = new CAD_Cleanroom_FloorStiffenerHorizontal();
+        break;
+    case CADitemTypes::Cleanroom_FloorSupport:
+        newItem = new CAD_Cleanroom_FloorSupport();
+        break;
+    case CADitemTypes::Cleanroom_TagLeakageDetector:
+        newItem = new CAD_Cleanroom_TagLeakageDetector();
+        break;
+    case CADitemTypes::Cleanroom_TagSmokeDetector:
+        newItem = new CAD_Cleanroom_TagSmokeDetector();
+        break;
+    case CADitemTypes::Cleanroom_VacuumCleanerSocket:
+        newItem = new CAD_Cleanroom_VacuumCleanerSocket();
+        break;
+    case CADitemTypes::Cleanroom_WallMountingProfile:
+        newItem = new CAD_Cleanroom_WallMountingProfile();
+        break;
+    case CADitemTypes::Cleanroom_WallOverflowGrate:
+        newItem = new CAD_Cleanroom_WallOverflowGrate();
+        break;
+    case CADitemTypes::Cleanroom_WallPanel:
+        newItem = new CAD_Cleanroom_WallPanel();
+        break;
+    case CADitemTypes::Cleanroom_WallPost:
+        newItem = new CAD_Cleanroom_WallPost();
+        break;
+    case CADitemTypes::Cleanroom_WallSmokeExtractFlap:
+        newItem = new CAD_Cleanroom_WallSmokeExtractFlap();
+        break;
+    case CADitemTypes::Cleanroom_WallStiffenerDiagonal:
+        newItem = new CAD_Cleanroom_WallStiffenerDiagonal();
+        break;
+
     case CADitemTypes::HeatCool_Adjustvalve:
         newItem = new CAD_heatcool_adjustvalve();
         break;
