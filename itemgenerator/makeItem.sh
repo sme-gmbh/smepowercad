@@ -41,3 +41,4 @@ sed -i 's/subuu/'$subuu'/g' ../items/cad_"$mainll"_"$subll".*
 sed -i 's/subul/'$subul'/g' ../items/cad_"$mainll"_"$subll".*
 sed -i 's/subll/'$subll'/g' ../items/cad_"$mainll"_"$subll".*
 sed -i 's/subspaced/'"$subspaced"'/g' ../items/cad_"$mainll"_"$subll".*
+sed -i 's/mainspaced/'"$mainspaced"'/g' ../items/cad_"$mainll"_"$subll".*
