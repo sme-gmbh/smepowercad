@@ -34,10 +34,10 @@ cp cad_template.h   ../items/cad_"$mainll"_"$subll".h
 mkdir -p            ../icons/cad_"$mainll"
 cp template.svg     ../icons/cad_"$mainll"/cad_"$mainll"_"$subll".svg
 
-sed -i 's/mainuu/'$mainuu'/g' cad_"$mainll"_"$subll".*
-sed -i 's/mainul/'$mainul'/g' cad_"$mainll"_"$subll".*
-sed -i 's/mainll/'$mainll'/g' cad_"$mainll"_"$subll".*
-sed -i 's/subuu/'$subuu'/g' cad_"$mainll"_"$subll".*
-sed -i 's/subul/'$subul'/g' cad_"$mainll"_"$subll".*
-sed -i 's/subll/'$subll'/g' cad_"$mainll"_"$subll".*
-sed -i 's/subspaced/'"$subspaced"'/g' cad_"$mainll"_"$subll".*
+sed -i 's/mainuu/'$mainuu'/g' ../items/cad_"$mainll"_"$subll".*
+sed -i 's/mainul/'$mainul'/g' ../items/cad_"$mainll"_"$subll".*
+sed -i 's/mainll/'$mainll'/g' ../items/cad_"$mainll"_"$subll".*
+sed -i 's/subuu/'$subuu'/g' ../items/cad_"$mainll"_"$subll".*
+sed -i 's/subul/'$subul'/g' ../items/cad_"$mainll"_"$subll".*
+sed -i 's/subll/'$subll'/g' ../items/cad_"$mainll"_"$subll".*
+sed -i 's/subspaced/'"$subspaced"'/g' ../items/cad_"$mainll"_"$subll".*
