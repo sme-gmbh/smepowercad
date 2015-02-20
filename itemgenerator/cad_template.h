@@ -18,11 +18,11 @@
 
 #include "caditem.h"
 
-class CAD_mainll_subll : public CADitem
+class CAD_mainll_subul : public CADitem
 {
 public:
-    CAD_mainll_subll();
-    virtual ~CAD_mainll_subll();
+    CAD_mainll_subul();
+    virtual ~CAD_mainll_subul();
     virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
