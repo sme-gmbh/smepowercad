@@ -213,7 +213,21 @@ SOURCES += main.cpp\
     items/cad_cleanroom_ceilingframefeedthrough.cpp \
     items/cad_cleanroom_ceilingfilterfanunit.cpp \
     items/cad_cleanroom_ceilingcornerpiece.cpp \
-    items/cad_cleanroom_doorslidingsingle.cpp
+    items/cad_cleanroom_doorslidingsingle.cpp \
+    items/cad_electrical_cabletrayturn.cpp \
+    items/cad_electrical_cabletrayverticalladder.cpp \
+    items/cad_electrical_cabinetwithoutdoor.cpp \
+    items/cad_electrical_cabinetwithdoorleftandright.cpp \
+    items/cad_electrical_cabinetwithdoorfrontandback.cpp \
+    items/cad_basic_hemisphere.cpp \
+    items/cad_electrical_luminairesurfacemounted.cpp \
+    items/cad_electrical_luminairesemicircular.cpp \
+    items/cad_electrical_luminairerecessedmounted.cpp \
+    items/cad_electrical_luminaireescapelighting.cpp \
+    items/cad_electrical_cabletraycross.cpp \
+    items/cad_electrical_busbarendfeederunitsinglesided.cpp \
+    items/cad_electrical_busbarendfeederunitdoublesided.cpp \
+    items/cad_electrical_equipmentswitchorsocket.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -401,7 +415,21 @@ HEADERS  += mainwindow.h \
     items/cad_cleanroom_ceilingframefeedthrough.h \
     items/cad_cleanroom_ceilingfilterfanunit.h \
     items/cad_cleanroom_ceilingcornerpiece.h \
-    items/cad_cleanroom_doorslidingsingle.h
+    items/cad_cleanroom_doorslidingsingle.h \
+    items/cad_electrical_cabletrayturn.h \
+    items/cad_electrical_cabletrayverticalladder.h \
+    items/cad_electrical_cabinetwithoutdoor.h \
+    items/cad_electrical_cabinetwithdoorleftandright.h \
+    items/cad_electrical_cabinetwithdoorfrontandback.h \
+    items/cad_basic_hemisphere.h \
+    items/cad_electrical_luminairesurfacemounted.h \
+    items/cad_electrical_luminairesemicircular.h \
+    items/cad_electrical_luminairerecessedmounted.h \
+    items/cad_electrical_luminaireescapelighting.h \
+    items/cad_electrical_cabletraycross.h \
+    items/cad_electrical_busbarendfeederunitsinglesided.h \
+    items/cad_electrical_busbarendfeederunitdoublesided.h \
+    items/cad_electrical_equipmentswitchorsocket.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

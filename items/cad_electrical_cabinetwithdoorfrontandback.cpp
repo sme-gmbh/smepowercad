@@ -13,10 +13,10 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#include "cad_electrical_cabinet.h"
-#include "itemdb.h"
+#include "cad_electrical_cabinetwithdoorfrontandback.h"
+#include "glwidget.h"
 
-CAD_electrical_cabinet::CAD_electrical_cabinet() : CADitem(CADitemTypes::Electrical_Cabinet)
+CAD_Electrical_CabinetWithDoorFrontAndBack::CAD_Electrical_CabinetWithDoorFrontAndBack() : CADitem(CADitemTypes::Electrical_CabinetWithDoorFrontAndBack)
 {
     cabinet = new CAD_basic_duct;
     back = new CAD_basic_box;
@@ -33,60 +33,78 @@ CAD_electrical_cabinet::CAD_electrical_cabinet() : CADitem(CADitemTypes::Electri
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("a", 1500.0);       //Höhe Schrank
-    wizardParams.insert("a1", 300.0);       //Höhe Sockel
-    wizardParams.insert("b", 500.0);        //Tiefe Sockel
-    wizardParams.insert("l", 500.0);        //Breite
-    wizardParams.insert("i", 100.0);        //Überhang Schrank
-    wizardParams.insert("s", 10.0);         //Wandstärke
-    wizardParams.insert("alpha", -45.0);    //Öffnungswinkel Tür
+    wizardParams.insert("a", 1500.0);           // Höhe Schranke
+    wizardParams.insert("a1", 300.0);           // Höhe Sockel
+    wizardParams.insert("b", 500.0);            // Tiefe Sockel
+    wizardParams.insert("l", 500.0);            // Breite
+    wizardParams.insert("i", 100.0);            // Überhang Schrank
+    wizardParams.insert("s", 10.0);             // Wandstärke
+    wizardParams.insert("alpha front", -45.0);  // Öffnungswinkel vorne
+    wizardParams.insert("alpha back", -45.0);   // Öffnungswinkel hinten
 
 
     processWizardInput();
     calculate();
+
+//    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+//    arrayBufVertices.create();
+//    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+//    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+//    indexBufFaces.create();
+//    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+//    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+//    indexBufLines.create();
+//    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
+   
+    processWizardInput();
+    calculate();
 }
 
-CAD_electrical_cabinet::~CAD_electrical_cabinet()
+CAD_Electrical_CabinetWithDoorFrontAndBack::~CAD_Electrical_CabinetWithDoorFrontAndBack()
 {
-
+//    arrayBufVertices.destroy();
+//    indexBufFaces.destroy();
+//    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_electrical_cabinet::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Electrical_CabinetWithDoorFrontAndBack::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
-    flangable_items.append(CADitemTypes::Electrical_Cabinet);
+    
     return flangable_items;
 }
 
-QImage CAD_electrical_cabinet::wizardImage()
+QImage CAD_Electrical_CabinetWithDoorFrontAndBack::wizardImage()
 {
     QImage image;
     QFileInfo fileinfo(__FILE__);
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-
+                    
     image.load(imageFileName, "PNG");
-
+                       
     return image;
 }
 
-QString CAD_electrical_cabinet::iconPath()
+QString CAD_Electrical_CabinetWithDoorFrontAndBack::iconPath()
 {
-    return ":/icons/cad_electrical/cad_electrical_cabinet.svg";
+    return ":/icons/cad_electrical/cad_electrical_cabinetwithdoorfrontandback.svg";
 }
 
-QString CAD_electrical_cabinet::domain()
+QString CAD_Electrical_CabinetWithDoorFrontAndBack::domain()
 {
     return "Electrical";
 }
 
-QString CAD_electrical_cabinet::description()
+QString CAD_Electrical_CabinetWithDoorFrontAndBack::description()
 {
-    return "Electrical|Cabinet";
+    return "Electrical|Cabinet With Door Front And Back";
 }
 
-void CAD_electrical_cabinet::calculate()
+void CAD_Electrical_CabinetWithDoorFrontAndBack::calculate()
 {
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
@@ -132,13 +150,27 @@ void CAD_electrical_cabinet::calculate()
     socket->processWizardInput();
     socket->calculate();
 
-    QVector3D position_back = position + matrix_rotation * QVector3D(l/2, b/2 - s/2, a1 + a/2);
+    QVector3D position_back;
+    if(alpha_back < 0)
+    {
+        QMatrix4x4 matrix_door;
+        matrix_door.setToIdentity();
+        matrix_door.rotate(alpha_back, 0.0, 0.0, 1.0);
+        position_back = position + matrix_rotation * (QVector3D(l, b/2 - s, 0.0) + matrix_door * QVector3D(-l/2, s/2, a1 + a/2));
+    }
+    else
+    {
+        QMatrix4x4 matrix_door;
+        matrix_door.setToIdentity();
+        matrix_door.rotate(alpha_back, 0.0, 0.0, 1.0);
+        position_back = position + matrix_rotation * (QVector3D(0.0, b/2 - s, 0.0) + matrix_door * QVector3D(l/2, s/2, a1 + a/2));
+    }
     back->wizardParams.insert("Position x", position_back.x());
     back->wizardParams.insert("Position y", position_back.y());
     back->wizardParams.insert("Position z", position_back.z());
     back->wizardParams.insert("Angle x", angle_x);
     back->wizardParams.insert("Angle y", angle_y);
-    back->wizardParams.insert("Angle z", angle_z);
+    back->wizardParams.insert("Angle z", angle_z + alpha_back);
 
     back->wizardParams.insert("Size x", l - 2*s);
     back->wizardParams.insert("Size y", s);
@@ -149,18 +181,18 @@ void CAD_electrical_cabinet::calculate()
 
 
     QVector3D position_door;
-    if(alpha < 0)
+    if(alpha_front < 0)
     {
         QMatrix4x4 matrix_door;
         matrix_door.setToIdentity();
-        matrix_door.rotate(alpha, 0.0, 0.0, 1.0);
+        matrix_door.rotate(alpha_front, 0.0, 0.0, 1.0);
         position_door = position + matrix_rotation * (QVector3D(0.0, -b/2 - i, 0.0) + matrix_door * QVector3D(l/2, s/2, a1 + a/2));
     }
     else
     {
         QMatrix4x4 matrix_door;
         matrix_door.setToIdentity();
-        matrix_door.rotate(alpha, 0.0, 0.0, 1.0);
+        matrix_door.rotate(alpha_front, 0.0, 0.0, 1.0);
         position_door = position + matrix_rotation * (QVector3D(l, -b/2 - i, 0.0) + matrix_door * QVector3D(-l/2, s/2, a1 + a/2));
     }
     door->wizardParams.insert("Position x", position_door.x());
@@ -168,7 +200,7 @@ void CAD_electrical_cabinet::calculate()
     door->wizardParams.insert("Position z", position_door.z());
     door->wizardParams.insert("Angle x", angle_x);
     door->wizardParams.insert("Angle y", angle_y);
-    door->wizardParams.insert("Angle z", angle_z + alpha);
+    door->wizardParams.insert("Angle z", angle_z + alpha_front);
 
     door->wizardParams.insert("Size x", l - 2*s);
     door->wizardParams.insert("Size y", s);
@@ -183,21 +215,46 @@ void CAD_electrical_cabinet::calculate()
     this->boundingBox.enterVertices(back->boundingBox.getVertices());
 }
 
-void CAD_electrical_cabinet::processWizardInput()
+void CAD_Electrical_CabinetWithDoorFrontAndBack::processWizardInput()
 {
-    position.setX(wizardParams.value("Position x").toDouble());
-    position.setY(wizardParams.value("Position y").toDouble());
-    position.setZ(wizardParams.value("Position z").toDouble());
-    angle_x = wizardParams.value("Angle x").toDouble();
-    angle_y = wizardParams.value("Angle y").toDouble();
-    angle_z = wizardParams.value("Angle z").toDouble();
-
     a = wizardParams.value("a").toDouble();
     a1 = wizardParams.value("a1").toDouble();
     b = wizardParams.value("b").toDouble();
     l = wizardParams.value("l").toDouble();
     i = wizardParams.value("i").toDouble();
     s = wizardParams.value("s").toDouble();
-    alpha = wizardParams.value("alpha").toDouble();
-
+    alpha_front = wizardParams.value("alpha front").toDouble();
+    alpha_back = wizardParams.value("alpha back").toDouble();
 }
+
+//void CAD_Electrical_CabinetWithDoorFrontAndBack::paint(GLWidget *glwidget)
+//{
+//    QColor color_pen_tmp = getColorPen();
+//    QColor color_brush_tmp = getColorBrush();
+
+//    arrayBufVertices.bind();
+//    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
+//    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
+
+//    if (glwidget->render_solid)
+//    {
+//        glwidget->setPaintingColor(color_brush_tmp);
+
+//        indexBufFaces.bind();
+//        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces.size(), GL_UNSIGNED_SHORT, 0);
+
+//        indexBufFaces.release();
+//    }
+
+//    if (glwidget->render_outline)
+//    {
+//        glwidget->setPaintingColor(color_pen_tmp);
+//        glwidget->glLineWidth(1.0);
+                                      
+//        indexBufLines.bind();
+//        glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
+//        indexBufLines.release();
+//     }                          
+                                                                                           
+//     arrayBufVertices.release();
+//}

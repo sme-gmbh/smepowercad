@@ -33,10 +33,10 @@ CAD_electrical_cabletray::CAD_electrical_cabletray() : CADitem(CADitemTypes::Ele
     wizardParams.insert("Angle z", 0.0);
 
 
-    wizardParams.insert("a", 100.0);
-    wizardParams.insert("b", 300.0);
-    wizardParams.insert("l", 1000.0);
-    wizardParams.insert("s", 10.0);
+    wizardParams.insert("a", 100.0);    // Höhe
+    wizardParams.insert("b", 300.0);    // Breite
+    wizardParams.insert("l", 1000.0);   // Länge
+    wizardParams.insert("s", 10.0);     // Wandstärke
 
 //    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices.create();
@@ -64,7 +64,12 @@ CAD_electrical_cabletray::~CAD_electrical_cabletray()
 QList<CADitemTypes::ItemType> CAD_electrical_cabletray::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
-    
+    flangable_items.append(CADitemTypes::Electrical_Cabletray);
+    flangable_items.append(CADitemTypes::Electrical_CabletrayReducer);
+    flangable_items.append(CADitemTypes::Electrical_CabletrayTeeConnector);
+    flangable_items.append(CADitemTypes::Electrical_CabletrayTransition);
+    flangable_items.append(CADitemTypes::Electrical_CabletrayTurn);
+    flangable_items.append(CADitemTypes::Electrical_CabletrayVerticalLadder);
     return flangable_items;
 }
 

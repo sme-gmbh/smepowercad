@@ -36,12 +36,12 @@ CAD_Electrical_CabletrayTransition::CAD_Electrical_CabletrayTransition() : CADit
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("a", 100.0);
-    wizardParams.insert("b", 300.0);
-    wizardParams.insert("l", 500.0);
-    wizardParams.insert("l1", 100.0);
-    wizardParams.insert("i", 100.0);
-    wizardParams.insert("s", 10.0);
+    wizardParams.insert("a", 100.0);        // Höhe
+    wizardParams.insert("b", 300.0);        // Breite
+    wizardParams.insert("l", 500.0);        // Länge des geneigten Stücks (in x-Richtung)
+    wizardParams.insert("l1", 100.0);       // Länge des ebenen Stücks
+    wizardParams.insert("i", 100.0);        // Versatz in z-Richtung
+    wizardParams.insert("s", 10.0);         // Wandstärke
 
 //    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices.create();
@@ -69,7 +69,12 @@ CAD_Electrical_CabletrayTransition::~CAD_Electrical_CabletrayTransition()
 QList<CADitemTypes::ItemType> CAD_Electrical_CabletrayTransition::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
-    
+    flangable_items.append(CADitemTypes::Electrical_Cabletray);
+    flangable_items.append(CADitemTypes::Electrical_CabletrayReducer);
+    flangable_items.append(CADitemTypes::Electrical_CabletrayTeeConnector);
+    flangable_items.append(CADitemTypes::Electrical_CabletrayTransition);
+    flangable_items.append(CADitemTypes::Electrical_CabletrayTurn);
+    flangable_items.append(CADitemTypes::Electrical_CabletrayVerticalLadder);
     return flangable_items;
 }
 
@@ -132,8 +137,8 @@ void CAD_Electrical_CabletrayTransition::calculate()
 
     QVector3D position_up = position + matrix_rotation * QVector3D(l1 + l, 0.0, i);
     end_upper->wizardParams.insert("Position x", position_up.x());
-    end_upper->wizardParams.insert("Position y", position_up.x());
-    end_upper->wizardParams.insert("Position z", position_up.x());
+    end_upper->wizardParams.insert("Position y", position_up.y());
+    end_upper->wizardParams.insert("Position z", position_up.z());
     end_upper->wizardParams.insert("Angle x", angle_x);
     end_upper->wizardParams.insert("Angle y", angle_y);
     end_upper->wizardParams.insert("Angle z", angle_z);
@@ -194,8 +199,8 @@ void CAD_Electrical_CabletrayTransition::calculate()
         position + matrix_rotation * QVector3D(l1 + l, b/2, s + i),
         position + matrix_rotation * QVector3D(l1, b/2, s),
         position + matrix_rotation * QVector3D(l1, b/2 - s, a),
-        position + matrix_rotation * QVector3D(l1 + l, b/2 - s, a - s + i),
-        position + matrix_rotation * QVector3D(l1 + l, b/2, a - s + i),
+        position + matrix_rotation * QVector3D(l1 + l, b/2 - s, a + i),
+        position + matrix_rotation * QVector3D(l1 + l, b/2, a + i),
         position + matrix_rotation * QVector3D(l1, b/2, a)
     };
     left->arrayBufVertices.bind();
@@ -222,8 +227,8 @@ void CAD_Electrical_CabletrayTransition::calculate()
         position + matrix_rotation * QVector3D(l1 + l, -b/2, s + i),
         position + matrix_rotation * QVector3D(l1, -b/2, s),
         position + matrix_rotation * QVector3D(l1, -b/2 + s, a),
-        position + matrix_rotation * QVector3D(l1 + l, -b/2 + s, a - s + i),
-        position + matrix_rotation * QVector3D(l1 + l, -b/2, a - s + i),
+        position + matrix_rotation * QVector3D(l1 + l, -b/2 + s, a + i),
+        position + matrix_rotation * QVector3D(l1 + l, -b/2, a + i),
         position + matrix_rotation * QVector3D(l1, -b/2, a)
     };
     right->arrayBufVertices.bind();

@@ -13,15 +13,13 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#include "cad_electrical_cabletrayteeconnector.h"
+#include "cad_electrical_luminairesurfacemounted.h"
 #include "glwidget.h"
 
-CAD_electrical_CabletrayTeeconnector::CAD_electrical_CabletrayTeeconnector() : CADitem(CADitemTypes::Electrical_CabletrayTransition)
+CAD_Electrical_LuminaireSurfaceMounted::CAD_Electrical_LuminaireSurfaceMounted() : CADitem(CADitemTypes::Electrical_LuminaireSurfaceMounted)
 {
-    floor = new CAD_basic_box();
-    side = new CAD_basic_box();
-    this->subItems.append(floor);
-    this->subItems.append(side);
+    luminaire = new CAD_basic_box();
+    this->subItems.append(luminaire);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -29,10 +27,9 @@ CAD_electrical_CabletrayTeeconnector::CAD_electrical_CabletrayTeeconnector() : C
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("a", 100.0);        // Höhe
-    wizardParams.insert("b", 300.0);        // Breite
-    wizardParams.insert("l", 300.0);        // Länge
-    wizardParams.insert("s", 10.0);         // Wandstärke
+    wizardParams.insert("a", 100.0);
+    wizardParams.insert("b", 300.0);
+    wizardParams.insert("l", 1000.0);
 
 //    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices.create();
@@ -50,26 +47,21 @@ CAD_electrical_CabletrayTeeconnector::CAD_electrical_CabletrayTeeconnector() : C
     calculate();
 }
 
-CAD_electrical_CabletrayTeeconnector::~CAD_electrical_CabletrayTeeconnector()
+CAD_Electrical_LuminaireSurfaceMounted::~CAD_Electrical_LuminaireSurfaceMounted()
 {
 //    arrayBufVertices.destroy();
 //    indexBufFaces.destroy();
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_electrical_CabletrayTeeconnector::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Electrical_LuminaireSurfaceMounted::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
-    flangable_items.append(CADitemTypes::Electrical_Cabletray);
-    flangable_items.append(CADitemTypes::Electrical_CabletrayReducer);
-    flangable_items.append(CADitemTypes::Electrical_CabletrayTeeConnector);
-    flangable_items.append(CADitemTypes::Electrical_CabletrayTransition);
-    flangable_items.append(CADitemTypes::Electrical_CabletrayTurn);
-    flangable_items.append(CADitemTypes::Electrical_CabletrayVerticalLadder);
+    
     return flangable_items;
 }
 
-QImage CAD_electrical_CabletrayTeeconnector::wizardImage()
+QImage CAD_Electrical_LuminaireSurfaceMounted::wizardImage()
 {
     QImage image;
     QFileInfo fileinfo(__FILE__);
@@ -82,22 +74,22 @@ QImage CAD_electrical_CabletrayTeeconnector::wizardImage()
     return image;
 }
 
-QString CAD_electrical_CabletrayTeeconnector::iconPath()
+QString CAD_Electrical_LuminaireSurfaceMounted::iconPath()
 {
-    return ":/icons/cad_electrical/cad_electrical_cabletrayteeconnector.svg";
+    return ":/icons/cad_electrical/cad_electrical_luminairesurfacemounted.svg";
 }
 
-QString CAD_electrical_CabletrayTeeconnector::domain()
+QString CAD_Electrical_LuminaireSurfaceMounted::domain()
 {
     return "Electrical";
 }
 
-QString CAD_electrical_CabletrayTeeconnector::description()
+QString CAD_Electrical_LuminaireSurfaceMounted::description()
 {
-    return "Electrical|Cabletray Teeconnector";
+    return "Electrical|Luminaire Surface Mounted";
 }
 
-void CAD_electrical_CabletrayTeeconnector::calculate()
+void CAD_Electrical_LuminaireSurfaceMounted::calculate()
 {
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
@@ -112,50 +104,28 @@ void CAD_electrical_CabletrayTeeconnector::calculate()
                                 
     this->snap_basepoint = (position);
 
-    QVector3D position_flr = position + matrix_rotation * QVector3D(l/2, 0.0, s/2);
-    floor->wizardParams.insert("Position x", position_flr.x());
-    floor->wizardParams.insert("Position y", position_flr.y());
-    floor->wizardParams.insert("Position z", position_flr.z());
-    floor->wizardParams.insert("Angle x", angle_x);
-    floor->wizardParams.insert("Angle y", angle_y);
-    floor->wizardParams.insert("Angle z", angle_z);
-    floor->wizardParams.insert("Size x", l);
-    floor->wizardParams.insert("Size y", b);
-    floor->wizardParams.insert("Size z", s);
-    floor->layer = this->layer;
-    floor->processWizardInput();
-    floor->calculate();
+    QVector3D position_lum = position + matrix_rotation * QVector3D(l/2, 0.0, -a/2);
+    luminaire->wizardParams.insert("Position x", position_lum.x());
+    luminaire->wizardParams.insert("Position y", position_lum.y());
+    luminaire->wizardParams.insert("Position z", position_lum.z());
+    luminaire->wizardParams.insert("Angle x", angle_x);
+    luminaire->wizardParams.insert("Angle y", angle_y);
+    luminaire->wizardParams.insert("Angle z", angle_z);
 
-    QVector3D position_side = position + matrix_rotation * QVector3D(l/2, -b/2 + s/2, a/2 + s/2);
-    side->wizardParams.insert("Position x", position_side.x());
-    side->wizardParams.insert("Position y", position_side.y());
-    side->wizardParams.insert("Position z", position_side.z());
-    side->wizardParams.insert("Angle x", angle_x);
-    side->wizardParams.insert("Angle y", angle_y);
-    side->wizardParams.insert("Angle z", angle_z);
-    side->wizardParams.insert("Size x", l);
-    side->wizardParams.insert("Size y", s);
-    side->wizardParams.insert("Size z", a - s);
-    side->layer = this->layer;
-    side->processWizardInput();
-    side->calculate();
+    luminaire->wizardParams.insert("Size x", l);
+    luminaire->wizardParams.insert("Size y", b);
+    luminaire->wizardParams.insert("Size z", a);
+    luminaire->layer = this->layer;
+    luminaire->processWizardInput();
+    luminaire->calculate();
 
     this->snap_flanges.append(position);
-    this->snap_flanges.append(position + matrix_rotation * QVector3D(l/2, b/2, 0.0));
     this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
 
-    this->snap_center.append(floor->snap_center);
-    this->snap_center.append(side->snap_center);
-
-    this->snap_vertices.append(floor->snap_vertices);
-    this->snap_vertices.append(side->snap_vertices);
-
-    this->boundingBox.enterVertices(floor->boundingBox.getVertices());
-    this->boundingBox.enterVertices(side->boundingBox.getVertices());
-
+    this->boundingBox = luminaire->boundingBox;
 }
 
-void CAD_electrical_CabletrayTeeconnector::processWizardInput()
+void CAD_Electrical_LuminaireSurfaceMounted::processWizardInput()
 {
     position.setX(wizardParams.value("Position x").toDouble());
     position.setY(wizardParams.value("Position y").toDouble());
@@ -167,10 +137,9 @@ void CAD_electrical_CabletrayTeeconnector::processWizardInput()
     a = wizardParams.value("a").toDouble();
     b = wizardParams.value("b").toDouble();
     l = wizardParams.value("l").toDouble();
-    s = wizardParams.value("s").toDouble();
 }
 
-//void CAD_electrical_CabletrayTeeconnector::paint(GLWidget *glwidget)
+//void CAD_Electrical_LuminaireSurfaceMounted::paint(GLWidget *glwidget)
 //{
 //    QColor color_pen_tmp = getColorPen();
 //    QColor color_brush_tmp = getColorBrush();
