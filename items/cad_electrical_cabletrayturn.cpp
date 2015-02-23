@@ -13,15 +13,18 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#include "cad_electrical_cabletrayteeconnector.h"
+#include "cad_electrical_cabletrayturn.h"
 #include "glwidget.h"
 
-CAD_electrical_CabletrayTeeconnector::CAD_electrical_CabletrayTeeconnector() : CADitem(CADitemTypes::Electrical_CabletrayTransition)
+CAD_Electrical_CabletrayTurn::CAD_Electrical_CabletrayTurn() : CADitem(CADitemTypes::Electrical_CabletrayTurn)
 {
-    floor = new CAD_basic_box();
-    side = new CAD_basic_box();
+    floor = new CAD_basic_box;
+    side_1 = new CAD_basic_box;
+    side_2 = new CAD_basic_box;
     this->subItems.append(floor);
-    this->subItems.append(side);
+    this->subItems.append(side_1);
+    this->subItems.append(side_2);
+
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -50,14 +53,14 @@ CAD_electrical_CabletrayTeeconnector::CAD_electrical_CabletrayTeeconnector() : C
     calculate();
 }
 
-CAD_electrical_CabletrayTeeconnector::~CAD_electrical_CabletrayTeeconnector()
+CAD_Electrical_CabletrayTurn::~CAD_Electrical_CabletrayTurn()
 {
 //    arrayBufVertices.destroy();
 //    indexBufFaces.destroy();
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_electrical_CabletrayTeeconnector::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Electrical_CabletrayTurn::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Electrical_Cabletray);
@@ -69,7 +72,7 @@ QList<CADitemTypes::ItemType> CAD_electrical_CabletrayTeeconnector::flangable_it
     return flangable_items;
 }
 
-QImage CAD_electrical_CabletrayTeeconnector::wizardImage()
+QImage CAD_Electrical_CabletrayTurn::wizardImage()
 {
     QImage image;
     QFileInfo fileinfo(__FILE__);
@@ -82,22 +85,22 @@ QImage CAD_electrical_CabletrayTeeconnector::wizardImage()
     return image;
 }
 
-QString CAD_electrical_CabletrayTeeconnector::iconPath()
+QString CAD_Electrical_CabletrayTurn::iconPath()
 {
-    return ":/icons/cad_electrical/cad_electrical_cabletrayteeconnector.svg";
+    return ":/icons/cad_electrical/cad_electrical_cabletrayturn.svg";
 }
 
-QString CAD_electrical_CabletrayTeeconnector::domain()
+QString CAD_Electrical_CabletrayTurn::domain()
 {
     return "Electrical";
 }
 
-QString CAD_electrical_CabletrayTeeconnector::description()
+QString CAD_Electrical_CabletrayTurn::description()
 {
-    return "Electrical|Cabletray Teeconnector";
+    return "Electrical|Cabletray Turn";
 }
 
-void CAD_electrical_CabletrayTeeconnector::calculate()
+void CAD_Electrical_CabletrayTurn::calculate()
 {
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
@@ -119,6 +122,7 @@ void CAD_electrical_CabletrayTeeconnector::calculate()
     floor->wizardParams.insert("Angle x", angle_x);
     floor->wizardParams.insert("Angle y", angle_y);
     floor->wizardParams.insert("Angle z", angle_z);
+
     floor->wizardParams.insert("Size x", l);
     floor->wizardParams.insert("Size y", b);
     floor->wizardParams.insert("Size z", s);
@@ -126,36 +130,53 @@ void CAD_electrical_CabletrayTeeconnector::calculate()
     floor->processWizardInput();
     floor->calculate();
 
-    QVector3D position_side = position + matrix_rotation * QVector3D(l/2, -b/2 + s/2, a/2 + s/2);
-    side->wizardParams.insert("Position x", position_side.x());
-    side->wizardParams.insert("Position y", position_side.y());
-    side->wizardParams.insert("Position z", position_side.z());
-    side->wizardParams.insert("Angle x", angle_x);
-    side->wizardParams.insert("Angle y", angle_y);
-    side->wizardParams.insert("Angle z", angle_z);
-    side->wizardParams.insert("Size x", l);
-    side->wizardParams.insert("Size y", s);
-    side->wizardParams.insert("Size z", a - s);
-    side->layer = this->layer;
-    side->processWizardInput();
-    side->calculate();
+    QVector3D position_side_1 = position + matrix_rotation * QVector3D(l/2, (s-b)/2, (a+s)/2);
+    side_1->wizardParams.insert("Position x", position_side_1.x());
+    side_1->wizardParams.insert("Position y", position_side_1.y());
+    side_1->wizardParams.insert("Position z", position_side_1.z());
+    side_1->wizardParams.insert("Angle x", angle_x);
+    side_1->wizardParams.insert("Angle y", angle_y);
+    side_1->wizardParams.insert("Angle z", angle_z);
+
+    side_1->wizardParams.insert("Size x", l);
+    side_1->wizardParams.insert("Size y", s);
+    side_1->wizardParams.insert("Size z", a-s);
+    side_1->layer = this->layer;
+    side_1->processWizardInput();
+    side_1->calculate();
+
+    QVector3D position_side_2 = position + matrix_rotation * QVector3D(l - s/2, s/2, (a+s)/2);
+    side_2->wizardParams.insert("Position x", position_side_2.x());
+    side_2->wizardParams.insert("Position y", position_side_2.y());
+    side_2->wizardParams.insert("Position z", position_side_2.z());
+    side_2->wizardParams.insert("Angle x", angle_x);
+    side_2->wizardParams.insert("Angle y", angle_y);
+    side_2->wizardParams.insert("Angle z", angle_z);
+
+    side_2->wizardParams.insert("Size x", s);
+    side_2->wizardParams.insert("Size y", b-s);
+    side_2->wizardParams.insert("Size z", a-s);
+    side_2->layer = this->layer;
+    side_2->processWizardInput();
+    side_2->calculate();
 
     this->snap_flanges.append(position);
     this->snap_flanges.append(position + matrix_rotation * QVector3D(l/2, b/2, 0.0));
-    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
 
     this->snap_center.append(floor->snap_center);
-    this->snap_center.append(side->snap_center);
+    this->snap_center.append(side_1->snap_center);
+    this->snap_center.append(side_2->snap_center);
 
     this->snap_vertices.append(floor->snap_vertices);
-    this->snap_vertices.append(side->snap_vertices);
+    this->snap_vertices.append(side_1->snap_vertices);
+    this->snap_vertices.append(side_2->snap_vertices);
 
     this->boundingBox.enterVertices(floor->boundingBox.getVertices());
-    this->boundingBox.enterVertices(side->boundingBox.getVertices());
-
+    this->boundingBox.enterVertices(side_1->boundingBox.getVertices());
+    this->boundingBox.enterVertices(side_2->boundingBox.getVertices());
 }
 
-void CAD_electrical_CabletrayTeeconnector::processWizardInput()
+void CAD_Electrical_CabletrayTurn::processWizardInput()
 {
     position.setX(wizardParams.value("Position x").toDouble());
     position.setY(wizardParams.value("Position y").toDouble());
@@ -170,7 +191,7 @@ void CAD_electrical_CabletrayTeeconnector::processWizardInput()
     s = wizardParams.value("s").toDouble();
 }
 
-//void CAD_electrical_CabletrayTeeconnector::paint(GLWidget *glwidget)
+//void CAD_Electrical_CabletrayTurn::paint(GLWidget *glwidget)
 //{
 //    QColor color_pen_tmp = getColorPen();
 //    QColor color_brush_tmp = getColorBrush();

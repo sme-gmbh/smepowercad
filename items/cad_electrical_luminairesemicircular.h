@@ -13,17 +13,19 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#ifndef CAD_ELECTRICAL_BUSBARWITHTAPOFFPOINTS1ROW_H
-#define CAD_ELECTRICAL_BUSBARWITHTAPOFFPOINTS1ROW_H
+#ifndef CAD_ELECTRICAL_LUMINAIRESEMICIRCULAR_H
+#define CAD_ELECTRICAL_LUMINAIRESEMICIRCULAR_H
 
 #include "caditem.h"
-#include "cad_basic_box.h"
+#include "cad_basic_pipe.h"
+#include "cad_basic_hemisphere.h"
+#include <QDebug>
 
-class CAD_electrical_busbarwithtapoffpoints1row : public CADitem
+class CAD_Electrical_LuminaireSemicircular : public CADitem
 {
 public:
-    CAD_electrical_busbarwithtapoffpoints1row();
-    virtual ~CAD_electrical_busbarwithtapoffpoints1row();
+    CAD_Electrical_LuminaireSemicircular();
+    virtual ~CAD_Electrical_LuminaireSemicircular();
     virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
@@ -37,9 +39,9 @@ public:
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
 
-    qreal l, l1, l2, l3, l4, a, a2, b;
-    quint8 n;
-    CAD_basic_box *busbar;
+    qreal a1, a2, d1, d2;
+    CAD_basic_pipe *mount;
+    CAD_Basic_Hemisphere *hemi;
 };
 
-#endif // CAD_ELECTRICAL_BUSBARWITHTAPOFFPOINTS1ROW_H
+#endif // CAD_ELECTRICAL_LUMINAIRESEMICIRCULAR_H

@@ -13,19 +13,21 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#include "cad_basic_sphere.h"
-//#include "itemdb.h"
+#include "cad_basic_hemisphere.h"
 #include "glwidget.h"
-//#include <GL/glu.h>
 
-CAD_basic_sphere::CAD_basic_sphere() : CADitem(CADitemTypes::Basic_Sphere)
+CAD_Basic_Hemisphere::CAD_Basic_Hemisphere() : CADitem(CADitemTypes::Basic_Hemisphere)
 {
     this->radius = 0.0;
 
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
-    wizardParams.insert("Radius", 100.0);
+    wizardParams.insert("Angle x", 0.0);
+    wizardParams.insert("Angle y", 0.0);
+    wizardParams.insert("Angle z", 0.0);
+    wizardParams.insert("Radius", 100.0);   //Radius der Kugel
+    wizardParams.insert("Alpha", 90.0);     //Öffnungswinkel der Kugel (180 = volle Kugel, 90 = Halbkugel)
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();
@@ -39,24 +41,25 @@ CAD_basic_sphere::CAD_basic_sphere() : CADitem(CADitemTypes::Basic_Sphere)
     indexBufLines.create();
     indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-
     processWizardInput();
     calculate();
 }
 
-CAD_basic_sphere::~CAD_basic_sphere()
+CAD_Basic_Hemisphere::~CAD_Basic_Hemisphere()
 {
-
+//    arrayBufVertices.destroy();
+//    indexBufFaces.destroy();
+//    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_basic_sphere::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Basic_Hemisphere::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
-
+    
     return flangable_items;
 }
 
-QImage CAD_basic_sphere::wizardImage()
+QImage CAD_Basic_Hemisphere::wizardImage()
 {
     QImage image;
     QFileInfo fileinfo(__FILE__);
@@ -64,29 +67,27 @@ QImage CAD_basic_sphere::wizardImage()
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
 
-    ;
-
     image.load(imageFileName, "PNG");
 
     return image;
 }
 
-QString CAD_basic_sphere::iconPath()
+QString CAD_Basic_Hemisphere::iconPath()
 {
-    return ":/icons/cad_basic/cad_basic_sphere.svg";
+    return ":/icons/cad_basic/cad_basic_hemisphere.svg";
 }
 
-QString CAD_basic_sphere::domain()
+QString CAD_Basic_Hemisphere::domain()
 {
     return "Basic";
 }
 
-QString CAD_basic_sphere::description()
+QString CAD_Basic_Hemisphere::description()
 {
-    return "Basic|Sphere";
+    return "Basic|Hemisphere";
 }
 
-void CAD_basic_sphere::calculate()
+void CAD_Basic_Hemisphere::calculate()
 {
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
@@ -106,9 +107,9 @@ void CAD_basic_sphere::calculate()
     {
         for(int j = 0; j <= 10; j++)
         {
-            qreal phi = i * PI / 10;
+            qreal phi = i * PI / 10 * alpha / 180;
             qreal psi = j * PI / 5;
-            vertices[10*i + j] = position + QVector3D(radius * sin(phi) * cos(psi), radius * sin(phi) * sin(psi), radius * cos(phi));
+            vertices[10*i + j] = position + matrix_rotation * QVector3D(radius * cos(phi), radius * sin(phi) * sin(psi), radius * sin(phi) * cos(psi));
         }
     }
 
@@ -125,10 +126,23 @@ void CAD_basic_sphere::calculate()
     indicesFaces[23 * j + 22] = 0xABCD;
     }
 
-    GLushort indicesLines[420];
-    for(int i = 0; i < 10; i++)
+
+//    for(int i = 0; i < 3; i++)
+//    {
+//        for(int j = 0; j < 10; j++)
+//        {
+//            indicesFaces[37*i + 4*j]   = 10*j + i;
+//            indicesFaces[37*i + 4*j+1] = 10*j + i + 10;
+//            indicesFaces[37*i + 4*j+2] = 10*j + i + 1;
+//            indicesFaces[37*i + 4*j+3] = 10*j + i + 11;
+//        }
+//        indicesFaces[37*i + 36] = 0xABCD;
+//    }
+
+    static GLushort indicesLines[420];
+    for(int i = 0; i < 11; i++)
     {
-        for(int j = 0; j < 9; j++)
+        for(int j = 0; j < 10; j++)
         {
             indicesLines[20*i+2*j] = 10*i+j;
             indicesLines[20*i+2*j+1] = 10*i+j+1;
@@ -141,10 +155,11 @@ void CAD_basic_sphere::calculate()
     {
         for(int j = 0; j < 10; j++)
         {
-            indicesLines[200+20*i+2*j] = 10*j+i;
-            indicesLines[200+20*i+2*j+1] = 10*j+i+10;
+            indicesLines[220+20*i+2*j] = 10*j+i;
+            indicesLines[220+20*i+2*j+1] = 10*j+i+10;
         }
     }
+
 
     arrayBufVertices.bind();
     arrayBufVertices.allocate(vertices, sizeof(vertices));
@@ -163,16 +178,19 @@ void CAD_basic_sphere::calculate()
     boundingBox.enterVertex(position + QVector3D(0, 0, -radius));
 }
 
-void CAD_basic_sphere::processWizardInput()
+void CAD_Basic_Hemisphere::processWizardInput()
 {
     position.setX(wizardParams.value("Position x").toDouble());
     position.setY(wizardParams.value("Position y").toDouble());
     position.setZ(wizardParams.value("Position z").toDouble());
+    angle_x = wizardParams.value("Angle x").toDouble();
+    angle_y = wizardParams.value("Angle y").toDouble();
+    angle_z = wizardParams.value("Angle z").toDouble();
     radius = wizardParams.value("Radius").toDouble();
+    alpha = wizardParams.value("Alpha").toDouble();
 }
 
-
-void CAD_basic_sphere::paint(GLWidget *glwidget)
+void CAD_Basic_Hemisphere::paint(GLWidget *glwidget)
 {
     QColor color_pen_tmp = getColorPen();
     QColor color_brush_tmp = getColorBrush();
@@ -199,8 +217,7 @@ void CAD_basic_sphere::paint(GLWidget *glwidget)
         indexBufLines.bind();
         glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
         indexBufLines.release();
-    }
+     }
 
-    arrayBufVertices.release();
+     arrayBufVertices.release();
 }
-

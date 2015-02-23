@@ -330,6 +330,9 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
 
     switch (type)
     {
+    case CADitemTypes::Basic_Face:
+        newItem = new CAD_basic_3Dface();
+        break;
     case CADitemTypes::Basic_Arc:
         newItem = new CAD_basic_arc();
         break;
@@ -345,8 +348,8 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Basic_Duct:
         newItem = new CAD_basic_duct();
         break;
-    case CADitemTypes::Basic_Face:
-        newItem = new CAD_basic_3Dface();
+    case CADitemTypes::Basic_Hemisphere:
+        newItem = new CAD_Basic_Hemisphere();
         break;
     case CADitemTypes::Basic_Line:
         newItem = new CAD_basic_line();
@@ -726,9 +729,15 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
         newItem = new CAD_sprinkler_pipeReducer();
         break;
 
-    case CADitemTypes::Electrical_BusbarWithoutTapoffPoints:
-        newItem = new CAD_electrical_busbarwithouttapoffpoints();
+    case CADitemTypes::Electrical_BusbarEndFeederUnitDoubleSided:
+        newItem = new CAD_Electrical_BusbarEndFeederUnitDoubleSided();
         break;
+    case CADitemTypes::Electrical_BusbarEndFeederUnitSingleSided:
+        newItem = new CAD_Electrical_BusbarEndFeederUnitSingleSided();
+        break;
+    case CADitemTypes::Electrical_BusbarWithoutTapoffPoints:
+            newItem = new CAD_electrical_busbarwithouttapoffpoints();
+            break;
     case CADitemTypes::Electrical_BusbarWithTapoffPoints1Row:
         newItem = new CAD_electrical_busbarwithtapoffpoints1row();
         break;
@@ -738,8 +747,20 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Electrical_Cabinet:
         newItem = new CAD_electrical_cabinet();
         break;
+    case CADitemTypes::Electrical_CabinetWithDoorFrontAndBack:
+        newItem = new CAD_Electrical_CabinetWithDoorFrontAndBack();
+        break;
+    case CADitemTypes::Electrical_CabinetWithDoorLeftAndRight:
+        newItem = new CAD_Electrical_CabinetWithDoorLeftAndRight();
+        break;
+    case CADitemTypes::Electrical_CabinetWithoutDoor:
+        newItem = new CAD_Electrical_CabinetWithoutDoor();
+        break;
     case CADitemTypes::Electrical_Cabletray:
         newItem = new CAD_electrical_cabletray;
+        break;
+    case CADitemTypes::Electrical_CabletrayCross:
+        newItem = new CAD_Electrical_CabletrayCross;
         break;
     case CADitemTypes::Electrical_CabletrayReducer:
         newItem = new CAD_electrical_cabletrayreducer;
@@ -749,6 +770,27 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
         break;
     case CADitemTypes::Electrical_CabletrayTransition:
         newItem = new CAD_Electrical_CabletrayTransition;
+        break;
+    case CADitemTypes::Electrical_CabletrayTurn:
+        newItem = new CAD_Electrical_CabletrayTurn;
+        break;
+    case CADitemTypes::Electrical_CabletrayVerticalLadder:
+        newItem = new CAD_Electrical_CabletrayVerticalLadder;
+        break;
+    case CADitemTypes::Electrical_EquipmentSwitchOrSocket:
+        newItem = new CAD_Electrical_EquipmentSwitchOrSocket;
+        break;
+    case CADitemTypes::Electrical_LuminaireEscapeLighting:
+        newItem = new CAD_Electrical_LuminaireEscapeLighting;
+        break;
+    case CADitemTypes::Electrical_LuminaireRecessedMounted:
+        newItem = new CAD_Electrical_LuminaireRecessedMounted;
+        break;
+    case CADitemTypes::Electrical_LuminaireSemicircular:
+        newItem = new CAD_Electrical_LuminaireSemicircular;
+        break;
+    case CADitemTypes::Electrical_LuminaireSurfaceMounted:
+        newItem = new CAD_Electrical_LuminaireSurfaceMounted;
         break;
     default:
     {

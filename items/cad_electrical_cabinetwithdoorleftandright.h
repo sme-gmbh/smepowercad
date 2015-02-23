@@ -13,17 +13,18 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#ifndef CAD_ELECTRICAL_BUSBARWITHTAPOFFPOINTS1ROW_H
-#define CAD_ELECTRICAL_BUSBARWITHTAPOFFPOINTS1ROW_H
+#ifndef CAD_ELECTRICAL_CABINETWITHDOORLEFTANDRIGHT_H
+#define CAD_ELECTRICAL_CABINETWITHDOORLEFTANDRIGHT_H
 
 #include "caditem.h"
-#include "cad_basic_box.h"
+#include "items/cad_basic_duct.h"
+#include "items/cad_basic_box.h"
 
-class CAD_electrical_busbarwithtapoffpoints1row : public CADitem
+class CAD_Electrical_CabinetWithDoorLeftAndRight : public CADitem
 {
 public:
-    CAD_electrical_busbarwithtapoffpoints1row();
-    virtual ~CAD_electrical_busbarwithtapoffpoints1row();
+    CAD_Electrical_CabinetWithDoorLeftAndRight();
+    virtual ~CAD_Electrical_CabinetWithDoorLeftAndRight();
     virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
@@ -37,9 +38,9 @@ public:
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
 
-    qreal l, l1, l2, l3, l4, a, a2, b;
-    quint8 n;
-    CAD_basic_box *busbar;
+    qreal a, a1, b, l, l2, i, alpha_left, alpha_right, s;
+    CAD_basic_duct *cabinet;
+    CAD_basic_box *back, *door_left, *door_right, *socket;
 };
 
-#endif // CAD_ELECTRICAL_BUSBARWITHTAPOFFPOINTS1ROW_H
+#endif // CAD_ELECTRICAL_CABINETWITHDOORLEFTANDRIGHT_H

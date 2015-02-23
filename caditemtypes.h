@@ -30,19 +30,21 @@ public:
     enum ItemType
     {
         None,
-        Basic_Point,                            // Basisgeometrie: Punkt
-        Basic_Line,                             // Basisgeometrie: Linie
-        Basic_Polyline,                         // Basisgeometrie: Polylinie
-        Basic_Circle,                           // Basisgeometrie: Kreis
         Basic_Arc,                              // Basisgeometrie: Bogen
-        Basic_Face,                             // Basisgeometrie: Fläche
-        Basic_Plane,                            // Basisgeometrie: Ebene
         Basic_Box,                              // Basisgeometrie: Box
+        Basic_Circle,                           // Basisgeometrie: Kreis
         Basic_Cylinder,                         // Basisgeometrie: Zylinder
-        Basic_Pipe,                             // Basisgeometrie: Rohr
-        Basic_Turn,                             // Basisgeometrie: Rohrbogen
-        Basic_Sphere,                           // Basisgeometrie: Kugel
         Basic_Duct,                             // Basisgeometrie: Kanal
+        Basic_Face,                             // Basisgeometrie: Fläche
+        Basic_Hemisphere,                       // Basisgeometrie: Halbkugel
+        Basic_Line,                             // Basisgeometrie: Linie
+        Basic_Pipe,                             // Basisgeometrie: Rohr
+        Basic_Plane,                            // Basisgeometrie: Ebene
+        Basic_Point,                            // Basisgeometrie: Punkt
+        Basic_Polyline,                         // Basisgeometrie: Polylinie
+        Basic_Sphere,                           // Basisgeometrie: Kugel
+        Basic_Turn,                             // Basisgeometrie: Rohrbogen
+
         Arch_Foundation,                        // Fundament
         Arch_BoredPile,                         // Bohrpfahl
         Arch_LevelSlab,                         // Decke
@@ -173,14 +175,28 @@ public:
         Sanitary_EmergencyShower,               // Notdusche
         Sanitary_EmergencyEyeShower,            // Augendusche
         Sanitary_LiftingUnit,                   // Hebeanlage
+
+        Electrical_BusbarEndFeederUnitDoubleSided,  // Stromschiene Einspeisung zweiseitig
+        Electrical_BusbarEndFeederUnitSingleSided,  // Stromschiene Einspeisung einseitig
         Electrical_BusbarWithoutTapoffPoints,   // Stromschiene
         Electrical_BusbarWithTapoffPoints1Row,  //
         Electrical_BusbarWithTapoffPoints2Row,  //
+        Electrical_Cabinet,                     // Schaltschrank
+        Electrical_CabinetWithDoorFrontAndBack, // Schaltschrank mit Türen vorne und hinten
+        Electrical_CabinetWithDoorLeftAndRight, // Schaltschrank mit zwei Türen an der Vorderseite
+        Electrical_CabinetWithoutDoor,          // Schaltschrank ohne Tür
         Electrical_Cabletray,                   // Kabeltrasse
+        Electrical_CabletrayCross,              // Kabeltrasse Kreuzung
         Electrical_CabletrayReducer,            // Kabeltrasse Übergang
         Electrical_CabletrayTeeConnector,       // Kabeltrasse T-Stück
         Electrical_CabletrayTransition,         // Kabeltrasse Übergang (in z-Richtung)
-        Electrical_Cabinet,                     // Schaltschrank
+        Electrical_CabletrayTurn,               // Kabeltrasse Ecke
+        Electrical_CabletrayVerticalLadder,     // Kabeltrasse vertikale Leiter
+        Electrical_EquipmentSwitchOrSocket,     // Schalter oder Steckdose
+        Electrical_LuminaireEscapeLighting,     // Notausgangsleuchte
+        Electrical_LuminaireRecessedMounted,    // Leuchte ecking, Unterputz
+        Electrical_LuminaireSemicircular,       // Leutche rund, Aufputz
+        Electrical_LuminaireSurfaceMounted,     // Leuchte eckig, Aufputz
         LastItem
     };
 

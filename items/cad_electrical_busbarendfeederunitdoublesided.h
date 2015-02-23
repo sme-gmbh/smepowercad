@@ -13,17 +13,17 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#ifndef CAD_ELECTRICAL_BUSBARWITHTAPOFFPOINTS1ROW_H
-#define CAD_ELECTRICAL_BUSBARWITHTAPOFFPOINTS1ROW_H
+#ifndef CAD_ELECTRICAL_BUSBARENDFEEDERUNITDOUBLESIDED_H
+#define CAD_ELECTRICAL_BUSBARENDFEEDERUNITDOUBLESIDED_H
 
 #include "caditem.h"
-#include "cad_basic_box.h"
+#include "items/cad_basic_box.h"
 
-class CAD_electrical_busbarwithtapoffpoints1row : public CADitem
+class CAD_Electrical_BusbarEndFeederUnitDoubleSided : public CADitem
 {
 public:
-    CAD_electrical_busbarwithtapoffpoints1row();
-    virtual ~CAD_electrical_busbarwithtapoffpoints1row();
+    CAD_Electrical_BusbarEndFeederUnitDoubleSided();
+    virtual ~CAD_Electrical_BusbarEndFeederUnitDoubleSided();
     virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
@@ -36,10 +36,8 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
-
-    qreal l, l1, l2, l3, l4, a, a2, b;
-    quint8 n;
-    CAD_basic_box *busbar;
+    qreal a, b, l, u, v, e, f;
+    CAD_basic_box *feeder, *plug_1, *plug_2;
 };
 
-#endif // CAD_ELECTRICAL_BUSBARWITHTAPOFFPOINTS1ROW_H
+#endif // CAD_ELECTRICAL_BUSBARENDFEEDERUNITDOUBLESIDED_H
