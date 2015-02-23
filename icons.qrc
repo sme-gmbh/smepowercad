@@ -162,6 +162,47 @@
         <file>icons/cad_electrical/cad_electrical_cabletrayreducer.svg</file>
         <file>icons/cad_electrical/cad_electrical_cabletrayteeconnector.svg</file>
         <file>icons/cad_electrical/cad_electrical_cabletraytransition.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_doorslidingsingle.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_wallsmokeextractflap.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_wallpost.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_wallpanel.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_walloverflowgrate.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_wallmountingprofile.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_wallstiffenerdiagonal.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_vacuumcleanersocket.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_tagsmokedetector.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_tagleakagedetector.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_floorsupport.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_floorpanelperforated.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_floorpanelwithtank.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_floorpanelwithbushing.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_floorpanel.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_floorgrating.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_floorstiffenerhorizontal.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_floorstiffenerdiagonal.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_doorswingingsingle.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_doorswingingdouble.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_doorslindingsingle.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_doorslidingdouble.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_controlswitch.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_controlradarsensor.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_controlledtouchkey.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_controlemergencyswitch.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingverticalladder.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingteejoiningpiece.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingsuspension.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingsmokeextractflap.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingpanel.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingmountingrails.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_mountingrails.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingmaintenanceflap.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingjoiningknot.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilinggrating.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingframe.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingframefeedthrough.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_framefeedthrough.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingfilterfanunit.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingcornerpiece.svg</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>
