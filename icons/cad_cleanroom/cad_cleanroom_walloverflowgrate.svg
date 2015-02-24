@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="Hintergrund.svg">
+   sodipodi:docname="cad_cleanroom_wall_overflow_grate.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -25,10 +25,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="26.709537"
-     inkscape:cy="30.841684"
+     inkscape:cx="18.227394"
+     inkscape:cy="31.198827"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer1"
      showgrid="true"
      objecttolerance="10000"
      guidetolerance="10000"
@@ -80,5 +80,29 @@
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-988.36217)" />
+     transform="translate(0,-988.36217)">
+    <rect
+       style="color:#000000;fill:none;stroke:#233ca2;stroke-width:1.99999976;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:9.99955084;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect14022"
+       width="54"
+       height="24"
+       x="5"
+       y="1007.3622"
+       ry="0" />
+    <path
+       style="fill:none;stroke:#233ca2;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:25.9"
+       d="m 7,1019.3622 50,0"
+       id="path14532"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#233ca2;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:25.9"
+       d="m 7,1013.3622 50,0"
+       id="path14534"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#233ca2;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:25.9"
+       d="m 7,1025.3622 50,0"
+       id="path14536"
+       inkscape:connector-curvature="0" />
+  </g>
 </svg>

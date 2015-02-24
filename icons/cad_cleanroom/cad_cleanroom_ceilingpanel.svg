@@ -14,9 +14,17 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="Hintergrund.svg">
+   sodipodi:docname="cad_cleanroom_ceiling_panel.svg">
   <defs
-     id="defs4" />
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="101.1756 : 12.016712 : 1"
+       inkscape:vp_y="-2.8956299 : 58.939569 : 0"
+       inkscape:vp_z="-24.098134 : 14.909285 : 1"
+       inkscape:persp3d-origin="90.786387 : -24.98791 : 1"
+       id="perspective3253" />
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -24,11 +32,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.2"
-     inkscape:cx="26.709537"
-     inkscape:cy="30.841684"
+     inkscape:zoom="9.8027414"
+     inkscape:cx="7.8727539"
+     inkscape:cy="30.465004"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer1"
      showgrid="true"
      objecttolerance="10000"
      guidetolerance="10000"
@@ -80,5 +88,25 @@
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-988.36217)" />
+     transform="translate(0,-988.36217)">
+    <path
+       style="fill:none;stroke:#006910;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:10"
+       d="m 5,47 c 1,0 44,0 44,0 L 59,17 59,21 49,51 5,51 z"
+       id="path9338"
+       inkscape:connector-curvature="0"
+       transform="translate(0,988.36217)" />
+    <path
+       style="fill:none;stroke:#006910;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:10"
+       d="M 5,47 15,17 59,17"
+       id="path9340"
+       inkscape:connector-curvature="0"
+       transform="translate(0,988.36217)"
+       sodipodi:nodetypes="ccc" />
+    <path
+       style="fill:none;stroke:#006910;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:10"
+       d="m 49,47 0,4"
+       id="path9342"
+       inkscape:connector-curvature="0"
+       transform="translate(0,988.36217)" />
+  </g>
 </svg>

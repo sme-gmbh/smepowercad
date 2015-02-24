@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="Hintergrund.svg">
+   sodipodi:docname="cad_cleanroom_ceiling_suspension.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -25,10 +25,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="26.709537"
-     inkscape:cy="30.841684"
+     inkscape:cx="25.995251"
+     inkscape:cy="30.752398"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer1"
      showgrid="true"
      objecttolerance="10000"
      guidetolerance="10000"
@@ -80,5 +80,51 @@
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-988.36217)" />
+     transform="translate(0,-988.36217)">
+    <path
+       inkscape:connector-curvature="0"
+       id="path5017"
+       d="m 3,1009.3622 0,36"
+       style="fill:#008000;fill-opacity:1;fill-rule:evenodd;stroke:#1d5a1d;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:10" />
+    <path
+       style="fill:#008000;fill-opacity:1;fill-rule:evenodd;stroke:#1d5a1d;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:10"
+       d="m 23,1009.3622 0,36"
+       id="path5021"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5025"
+       d="m 43,1009.3622 0,36"
+       style="fill:#008000;fill-opacity:1;fill-rule:evenodd;stroke:#1d5a1d;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:10" />
+    <path
+       style="fill:#008000;fill-opacity:1;fill-rule:evenodd;stroke:#2a822a;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:10"
+       d="m 9,1005.3622 0,36"
+       id="path5027"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5029"
+       d="m 29,1005.3622 0,36"
+       style="fill:#008000;fill-opacity:1;fill-rule:evenodd;stroke:#2a822a;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:10" />
+    <path
+       style="fill:#008000;fill-opacity:1;fill-rule:evenodd;stroke:#2a822a;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:10"
+       d="m 49,1005.3622 0,36"
+       id="path5031"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5033"
+       d="m 15,1001.3622 0,36"
+       style="fill:#008000;fill-opacity:1;fill-rule:evenodd;stroke:#36a836;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:10" />
+    <path
+       style="fill:#008000;fill-opacity:1;fill-rule:evenodd;stroke:#36a836;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:10"
+       d="m 35,1001.3622 0,36"
+       id="path5035"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5037"
+       d="m 55,1001.3622 0,36"
+       style="fill:#008000;fill-opacity:1;fill-rule:evenodd;stroke:#36a836;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:10" />
+  </g>
 </svg>

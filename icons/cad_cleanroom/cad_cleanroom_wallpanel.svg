@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="Hintergrund.svg">
+   sodipodi:docname="cad_cleanroom_wall_panel.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -25,10 +25,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="26.709537"
+     inkscape:cx="10.81668"
      inkscape:cy="30.841684"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer1"
      showgrid="true"
      objecttolerance="10000"
      guidetolerance="10000"
@@ -80,5 +80,27 @@
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-988.36217)" />
+     transform="translate(0,-988.36217)">
+    <g
+       id="g14611"
+       transform="matrix(-1,0,0,1,60,-2)"
+       style="stroke:#0000ae;stroke-opacity:1">
+      <path
+         inkscape:connector-curvature="0"
+         id="path9338"
+         d="m 41,1049.3622 c 0,-1 0,-44 0,-44 l -30,-10 4,0 30,10 0,44 z"
+         style="fill:none;stroke:#0000ae;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:10" />
+      <path
+         sodipodi:nodetypes="ccc"
+         inkscape:connector-curvature="0"
+         id="path9340"
+         d="m 41,1049.3622 -30,-10 0,-44"
+         style="fill:none;stroke:#0000ae;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:10" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path9342"
+         d="m 41,1005.3622 4,0"
+         style="fill:none;stroke:#0000ae;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:10" />
+    </g>
+  </g>
 </svg>

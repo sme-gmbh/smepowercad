@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="Hintergrund.svg">
+   sodipodi:docname="cad_cleanroom_tag_leakage_detector.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -25,10 +25,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="26.709537"
-     inkscape:cy="30.841684"
+     inkscape:cx="24.209537"
+     inkscape:cy="31.913113"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer1"
      showgrid="true"
      objecttolerance="10000"
      guidetolerance="10000"
@@ -80,5 +80,21 @@
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-988.36217)" />
+     transform="translate(0,-988.36217)">
+    <rect
+       style="color:#000000;fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:9.99955084;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3901"
+       width="48"
+       height="47.999989"
+       x="9"
+       y="997.36218" />
+    <rect
+       style="color:#000000;fill:#0d20ff;fill-opacity:1;fill-rule:nonzero;stroke:#0d20ff;stroke-width:1.99999975999999990;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:9.99955083999999950;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4411"
+       width="4"
+       height="3.9999874"
+       x="32"
+       y="1018.3622"
+       ry="1.9999874" />
+  </g>
 </svg>

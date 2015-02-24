@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="Hintergrund.svg">
+   sodipodi:docname="cad_cleanroom_wall_mounting_profile.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -25,10 +25,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="26.709537"
-     inkscape:cy="30.841684"
+     inkscape:cx="33.687161"
+     inkscape:cy="30.952566"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer1"
      showgrid="true"
      objecttolerance="10000"
      guidetolerance="10000"
@@ -38,7 +38,7 @@
      inkscape:window-x="-4"
      inkscape:window-y="-4"
      inkscape:window-maximized="1"
-     inkscape:snap-grids="true">
+     inkscape:snap-grids="false">
     <inkscape:grid
        type="xygrid"
        id="grid2985"
@@ -80,5 +80,41 @@
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-988.36217)" />
+     transform="translate(0,-988.36217)">
+    <path
+       style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#0740ff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:25.89999999999999900"
+       d="m 7,53 0,-6 8,0 0,6"
+       id="path2985"
+       inkscape:connector-curvature="0"
+       transform="translate(0,988.36217)" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path3755"
+       d="m 45,1001.3622 8,0 0,6"
+       style="fill:none;stroke:#0740ff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:25.9"
+       sodipodi:nodetypes="ccc" />
+    <path
+       style="fill:none;stroke:#0740ff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:25.9"
+       d="M 7,47 C 8,47 45.982143,12.821429 45.982143,12.821429"
+       id="path3757"
+       inkscape:connector-curvature="0"
+       transform="translate(0,988.36217)"
+       sodipodi:nodetypes="cc" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path3759"
+       d="m 15,1035.3622 c 1,0 38,-34 38,-34"
+       style="fill:none;stroke:#0740ff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:25.9" />
+    <path
+       style="fill:none;stroke:#0740ff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:25.9"
+       d="m 15,1040.3622 c 1,0 38,-34 38,-34"
+       id="path3761"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path3763"
+       d="m 6.9821429,1040.4068 5.5892861,-5.2053"
+       style="fill:none;stroke:#0740ff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:25.9"
+       sodipodi:nodetypes="cc" />
+  </g>
 </svg>
