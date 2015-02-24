@@ -108,7 +108,6 @@
         <file>itemGraphic/cad_air_pipesilencer.png</file>
         <file>itemGraphic/cad_air_pipeturn.png</file>
         <file>itemGraphic/cad_air_pipevolumetricflowcontroller.png</file>
-        <file>itemGraphic/cad_air_symbol_fan.png</file>
         <file>itemGraphic/cad_arch_beam.png</file>
         <file>itemGraphic/cad_arch_blockout.png</file>
         <file>itemGraphic/cad_arch_door.png</file>
@@ -223,7 +222,6 @@
         <file>icons/cad_basic/cad_basic_hemisphere.svg</file>
         <file>icons/cad_sprinkler/cad_sprinkler_pipeendcap.svg</file>
         <file>icons/cad_sprinkler/cad_sprinkler_pipereducer.svg</file>
->>>>>>> 0215700777c61359f2aefa43568fb766b3a33dcd
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>
