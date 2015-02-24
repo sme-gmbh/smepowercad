@@ -154,7 +154,6 @@
         <file>shaders/shader_2.frag</file>
         <file>shaders/shader_2.vert</file>
         <file>icons/cad_electrical/cad_electrical_busbarwithouttapoffpoints.svg</file>
-        <file>icons/cad_electrical/cad_electrical_busbarwithouttap-off-points.svg</file>
         <file>icons/cad_electrical/cad_electrical_busbarwithtapoffpoints1row.svg</file>
         <file>icons/cad_electrical/cad_electrical_busbarwithtapoffpoints2row.svg</file>
         <file>icons/cad_electrical/cad_electrical_cabletray.svg</file>
@@ -192,13 +191,11 @@
         <file>icons/cad_cleanroom/cad_cleanroom_ceilingsmokeextractflap.svg</file>
         <file>icons/cad_cleanroom/cad_cleanroom_ceilingpanel.svg</file>
         <file>icons/cad_cleanroom/cad_cleanroom_ceilingmountingrails.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_mountingrails.svg</file>
         <file>icons/cad_cleanroom/cad_cleanroom_ceilingmaintenanceflap.svg</file>
         <file>icons/cad_cleanroom/cad_cleanroom_ceilingjoiningknot.svg</file>
         <file>icons/cad_cleanroom/cad_cleanroom_ceilinggrating.svg</file>
         <file>icons/cad_cleanroom/cad_cleanroom_ceilingframe.svg</file>
         <file>icons/cad_cleanroom/cad_cleanroom_ceilingframefeedthrough.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_framefeedthrough.svg</file>
         <file>icons/cad_cleanroom/cad_cleanroom_ceilingfilterfanunit.svg</file>
         <file>icons/cad_cleanroom/cad_cleanroom_ceilingcornerpiece.svg</file>
         <file>icons/cad_electrical/cad_electrical_busbarendfeederunitdoublesided.svg</file>
@@ -211,7 +208,6 @@
         <file>icons/cad_electrical/cad_electrical_cabletrayverticalladder.svg</file>
         <file>icons/cad_electrical/cad_electrical_equipmentswitchorsocket.svg</file>
         <file>icons/cad_electrical/cad_electrical_luminaireescapelighting.svg</file>
-        <file>icons/cad_electrical/cad_electrical_luminaireescapelightning.svg</file>
         <file>icons/cad_electrical/cad_electrical_luminairerecessedmounted.svg</file>
         <file>icons/cad_electrical/cad_electrical_luminairesemicircular.svg</file>
         <file>icons/cad_electrical/cad_electrical_luminairesurfacemounted.svg</file>
@@ -221,6 +217,9 @@
         <file>icons/cad_basic/cad_basic_hemisphere.svg</file>
         <file>icons/cad_sprinkler/cad_sprinkler_pipeendcap.svg</file>
         <file>icons/cad_sprinkler/cad_sprinkler_pipereducer.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_controlbutton.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_tagelectricalgrounding.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_tagfiredetector.svg</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>

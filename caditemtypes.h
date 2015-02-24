@@ -88,6 +88,7 @@ public:
         Air_EmptyCabinet,                       // Leergerät
         Air_EquipmentFrame,                     // Geräterahmen
         Air_LinearDiffuser,                     // Linearauslass
+
         Cleanroom_CeilingCornerPiece,
         Cleanroom_CeilingFilterFanUnit,
         Cleanroom_CeilingFrameFeedThrough,
@@ -101,6 +102,7 @@ public:
         Cleanroom_CeilingSuspension,
         Cleanroom_CeilingTeeJoiningPiece,
         Cleanroom_CeilingVerticalLadder,
+        Cleanroom_ControlButton,
         Cleanroom_ControlEmergencySwitch,
         Cleanroom_ControlLedTouchKey,
         Cleanroom_ControlRadarSensor,
@@ -118,8 +120,10 @@ public:
         Cleanroom_FloorPanelWithTank,
         Cleanroom_FloorPanelPerforated,
         Cleanroom_FloorSupport,
+        Cleanroom_TagElectricalGrounding,
         Cleanroom_TagLeakageDetector,
         Cleanroom_TagSmokeDetector,
+        Cleanroom_TagFireDetector,
         Cleanroom_VacuumCleanerSocket,
         Cleanroom_WallStiffenerDiagonal,
         Cleanroom_WallMountingProfile,
@@ -127,6 +131,7 @@ public:
         Cleanroom_WallPanel,
         Cleanroom_WallPost,
         Cleanroom_WallSmokeExtractFlap,
+
         HeatCool_Pipe,                          // Rohr
         HeatCool_PipeTurn,                      // Rohrbogen
         HeatCool_PipeReducer,                   // Reduzierung

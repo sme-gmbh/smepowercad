@@ -14,9 +14,17 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="Hintergrund.svg">
+   sodipodi:docname="cad_electrical_cabletray_ladder_system.svg">
   <defs
-     id="defs4" />
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 32 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="64 : 32 : 1"
+       inkscape:persp3d-origin="32 : 21.333333 : 1"
+       id="perspective2999" />
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -25,18 +33,18 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="26.709537"
-     inkscape:cy="30.841684"
+     inkscape:cx="19.535088"
+     inkscape:cy="35.832764"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer1"
      showgrid="true"
      objecttolerance="10000"
      guidetolerance="10000"
      gridtolerance="10000"
      inkscape:window-width="1920"
-     inkscape:window-height="1114"
-     inkscape:window-x="-4"
-     inkscape:window-y="-4"
+     inkscape:window-height="1028"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:snap-grids="true">
     <inkscape:grid
@@ -62,23 +70,72 @@
     </rdf:RDF>
   </metadata>
   <g
+     inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
-     id="layer2"
-     inkscape:label="Ebene 0"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     id="layer1"
+     transform="translate(0,-988.36217)">
     <rect
-       style="fill:#f2f2f2;fill-opacity:1;fill-rule:evenodd;stroke:#b3b3b3;stroke-width:0.25;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:0;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#f2f2f2;fill-opacity:1;fill-rule:evenodd;stroke:#b3b3b3;stroke-width:0.25000000000000000;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:0;stroke-opacity:1;stroke-dasharray:none"
        id="rect3767"
        width="64"
        height="64"
        x="0"
        y="0"
-       rx="0" />
+       rx="0"
+       transform="translate(0,988.36217)" />
+    <g
+       id="g8044"
+       transform="matrix(0.9968219,0,0,1.3273376,0.814018,-338.22309)">
+      <path
+         sodipodi:nodetypes="cc"
+         style="fill:none;stroke:#000000;stroke-width:0.86936176;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 4,1042.3622 31,-33"
+         id="path3847"
+         inkscape:connector-curvature="0" />
+      <path
+         sodipodi:nodetypes="cccc"
+         inkscape:connector-curvature="0"
+         id="path7282"
+         d="m 4,1038.3622 31,-33 0,4 21,0"
+         style="fill:none;stroke:#000000;stroke-width:0.86936176;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         sodipodi:nodetypes="cccc"
+         inkscape:connector-curvature="0"
+         id="path7284"
+         d="m 33,1042.3622 26,-33 0,-4 -26,33"
+         style="fill:none;stroke:#000000;stroke-width:0.86936176;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         transform="translate(0,988.36217)"
+         inkscape:connector-curvature="0"
+         id="path7438"
+         d="m 4,50 0,4 29,0 0,-4"
+         style="fill:none;stroke:#000000;stroke-width:1.30404258;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         transform="translate(0,988.36217)"
+         inkscape:connector-curvature="0"
+         id="path7440"
+         d="m 12,45 25,0"
+         style="fill:none;stroke:#000000;stroke-width:0.86936176px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         transform="translate(0,988.36217)"
+         inkscape:connector-curvature="0"
+         id="path7442"
+         d="m 20,37 23,0"
+         style="fill:none;stroke:#000000;stroke-width:0.86936176px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         sodipodi:nodetypes="cc"
+         transform="translate(0,988.36217)"
+         inkscape:connector-curvature="0"
+         id="path7444"
+         d="m 26,31 22,0"
+         style="fill:none;stroke:#000000;stroke-width:0.86936176px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         sodipodi:nodetypes="cc"
+         transform="translate(0,988.36217)"
+         inkscape:connector-curvature="0"
+         id="path7446"
+         d="m 30,26 22,0"
+         style="fill:none;stroke:#000000;stroke-width:0.86936176px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    </g>
   </g>
-  <g
-     inkscape:label="Ebene 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-988.36217)" />
 </svg>

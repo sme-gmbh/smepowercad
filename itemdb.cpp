@@ -546,6 +546,9 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Cleanroom_CeilingVerticalLadder:
         newItem = new CAD_Cleanroom_CeilingVerticalLadder();
         break;
+    case CADitemTypes::Cleanroom_ControlButton:
+        newItem = new CAD_Cleanroom_ControlButton();
+        break;
     case CADitemTypes::Cleanroom_ControlEmergencySwitch:
         newItem = new CAD_Cleanroom_ControlEmergencySwitch();
         break;
@@ -594,11 +597,17 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Cleanroom_FloorSupport:
         newItem = new CAD_Cleanroom_FloorSupport();
         break;
+    case CADitemTypes::Cleanroom_TagElectricalGrounding:
+        newItem = new CAD_Cleanroom_TagElectricalGrounding();
+        break;
     case CADitemTypes::Cleanroom_TagLeakageDetector:
         newItem = new CAD_Cleanroom_TagLeakageDetector();
         break;
     case CADitemTypes::Cleanroom_TagSmokeDetector:
         newItem = new CAD_Cleanroom_TagSmokeDetector();
+        break;
+    case CADitemTypes::Cleanroom_TagFireDetector:
+        newItem = new CAD_Cleanroom_TagFireDetector();
         break;
     case CADitemTypes::Cleanroom_VacuumCleanerSocket:
         newItem = new CAD_Cleanroom_VacuumCleanerSocket();

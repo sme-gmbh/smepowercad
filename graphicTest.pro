@@ -227,7 +227,10 @@ SOURCES += main.cpp\
     items/cad_electrical_cabletraycross.cpp \
     items/cad_electrical_busbarendfeederunitsinglesided.cpp \
     items/cad_electrical_busbarendfeederunitdoublesided.cpp \
-    items/cad_electrical_equipmentswitchorsocket.cpp
+    items/cad_electrical_equipmentswitchorsocket.cpp \
+    items/cad_cleanroom_controlbutton.cpp \
+    items/cad_cleanroom_tagfiredetector.cpp \
+    items/cad_cleanroom_tagelectricalgrounding.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -361,7 +364,6 @@ HEADERS  += mainwindow.h \
     items/cad_basic_duct.h \
     items/cad_arch_boredPile.h \
     items/cad_arch_grating.h \
-    items/cad_arch_foundation.cpp, cad_arch_foundation.h \
     items/cad_arch_foundation.h \
     items/cad_basic_face.h \
     itemgripmodifier.h \
@@ -429,7 +431,10 @@ HEADERS  += mainwindow.h \
     items/cad_electrical_cabletraycross.h \
     items/cad_electrical_busbarendfeederunitsinglesided.h \
     items/cad_electrical_busbarendfeederunitdoublesided.h \
-    items/cad_electrical_equipmentswitchorsocket.h
+    items/cad_electrical_equipmentswitchorsocket.h \
+    items/cad_cleanroom_controlbutton.h \
+    items/cad_cleanroom_tagfiredetector.h \
+    items/cad_cleanroom_tagelectricalgrounding.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
