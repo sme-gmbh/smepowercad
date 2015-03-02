@@ -16,6 +16,7 @@
 #include <QDebug>
 #include <QFileDialog>
 #include <QToolBar>
+#include <QPrinter>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "dxflib/src/dl_dxf.h"
@@ -101,7 +102,8 @@ MainWindow::MainWindow(QWidget *parent) :
     this->createItemToolBar();
     ui->menuWerkzeugleisten->addAction(ui->toolBarItems->toggleViewAction());
 
-
+    // **** Print Widget ****
+    printwidget = new PrintWidget(this);
 
     // **** Recent files ****
     QMenu *recentFilesMenu = new QMenu();
@@ -411,6 +413,26 @@ void MainWindow::slot_file_print_action()
 void MainWindow::slot_file_pdf_export_action()
 {
     qDebug() << "slot_file_pdf_export_action()";
+
+    printwidget->show();
+    printwidget->raise();
+
+//    QString filename = QFileDialog::getSaveFileName(NULL, "PDF oder PS speichern unter...", QString(), "pdf Datei (*.pdf);;PostScript Datei (*.ps)");
+//    if (filename.isEmpty()) return;
+
+//    QPrinter* printer = new QPrinter();
+//    printer->setOutputFormat(QPrinter::PdfFormat);
+//    printer->setPaperSize(QPrinter::A0);
+//    printer->setOrientation(QPrinter::Landscape);
+//    printer->setFullPage(true);
+//    printer->setResolution(600); // DPI
+//    printer->setOutputFileName(filename);
+
+//    // Todo: Print here!
+
+//    delete printer;
+
+//    QDesktopServices::openUrl(QUrl::fromUserInput(filename));
 }
 
 void MainWindow::slot_file_close_action()

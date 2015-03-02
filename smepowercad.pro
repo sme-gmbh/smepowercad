@@ -19,12 +19,12 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl svg xml network
+QT       += core gui opengl svg xml network printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 #greaterThan(QT_MAJOR_VERSION, 4): QT -= opengl
 
-TARGET = graphicTest
+TARGET = smepowercad
 TEMPLATE = app
 
 OBJECTS_DIR = .obj/
@@ -264,7 +264,8 @@ SOURCES += main.cpp\
     items/cad_gas_vactank.cpp \
     items/cad_gas_cdapipetfitting.cpp \
     items/cad_gas_vacpipetfitting.cpp \
-    items/cad_sanitary_cleaningpiece.cpp
+    items/cad_sanitary_cleaningpiece.cpp \
+    printwidget.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -502,7 +503,8 @@ HEADERS  += mainwindow.h \
     items/cad_gas_vactank.h \
     items/cad_gas_cdapipetfitting.h \
     items/cad_gas_vacpipetfitting.h \
-    items/cad_sanitary_cleaningpiece.h
+    items/cad_sanitary_cleaningpiece.h \
+    printwidget.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
@@ -511,7 +513,8 @@ FORMS    += mainwindow.ui \
     settingsdialog.ui \
     itemwizard.ui \
     itemgripmodifier.ui \
-    toolwidget.ui
+    toolwidget.ui \
+    printwidget.ui
 
 RESOURCES += \
     icons.qrc

@@ -44,6 +44,7 @@
 #include "settingsdialog.h"
 #include "itemwizard.h"
 #include "itemgripmodifier.h"
+#include "printwidget.h"
 
 #include "network/server.h"
 
@@ -83,8 +84,10 @@ private:
 
     SettingsDialog *settingsDialog;
 
-    ItemWizard *itemWizard;
+    ItemWizard* itemWizard;
     ItemGripModifier* itemGripModifier;
+
+    PrintWidget* printwidget;
 
     QString project_filepath;
 
