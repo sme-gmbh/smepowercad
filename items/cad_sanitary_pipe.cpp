@@ -18,12 +18,18 @@
 
 CAD_sanitary_pipe::CAD_sanitary_pipe() : CADitem(CADitemTypes::Sanitary_Pipe)
 {
+    pipe = new CAD_basic_pipe;
+    this->subItems.append(pipe);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
+    wizardParams.insert("l", 1000.0);
+    wizardParams.insert("d", 150.0);
+    wizardParams.insert("iso", 15.0);
+    wizardParams.insert("s", 10.0);
 
     processWizardInput();
     calculate();
@@ -98,6 +104,25 @@ void CAD_sanitary_pipe::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+
+    pipe->wizardParams.insert("Position x", position.x());
+    pipe->wizardParams.insert("Position y", position.y());
+    pipe->wizardParams.insert("Position z", position.z());
+    pipe->wizardParams.insert("Angle x", angle_x);
+    pipe->wizardParams.insert("Angle y", angle_y);
+    pipe->wizardParams.insert("Angle z", angle_z);
+    pipe->wizardParams.insert("l", l);
+    pipe->wizardParams.insert("d", d+2*s+2*iso);
+    pipe->wizardParams.insert("s",  s+iso);
+    pipe->layer = this->layer;
+    pipe->processWizardInput();
+    pipe->calculate();
+
+    this->boundingBox = pipe->boundingBox;
+    this->snap_center = pipe->snap_center;
+    this->snap_flanges = pipe->snap_flanges;
+    this->snap_vertices = pipe->snap_vertices;
+
 }
 
 void CAD_sanitary_pipe::processWizardInput()
@@ -108,5 +133,10 @@ void CAD_sanitary_pipe::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    l = wizardParams.value("l").toDouble();
+    d = wizardParams.value("d").toDouble();
+    iso = wizardParams.value("iso").toDouble();
+    s = wizardParams.value("s").toDouble();
 
 }

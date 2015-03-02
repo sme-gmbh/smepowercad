@@ -65,6 +65,7 @@ QList<CADitemTypes::ItemType> CAD_electrical_cabletrayreducer::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Electrical_Cabletray);
+    flangable_items.append(CADitemTypes::Electrical_CabletrayCross);
     flangable_items.append(CADitemTypes::Electrical_CabletrayReducer);
     flangable_items.append(CADitemTypes::Electrical_CabletrayTeeConnector);
     flangable_items.append(CADitemTypes::Electrical_CabletrayTransition);

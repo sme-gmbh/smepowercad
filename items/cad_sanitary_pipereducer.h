@@ -17,6 +17,7 @@
 #define CAD_SANITARY_PIPEREDUCER_H
 
 #include "caditem.h"
+#include "items/cad_basic_pipe.h"
 
 class CAD_sanitary_pipeReducer : public CADitem
 {
@@ -30,6 +31,11 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
+
+    qreal d1, d2, l, l1, l2, e, s, iso1, iso2;
+    CAD_basic_pipe *left, *right, *reducer;
+
+
 };
 
 #endif // CAD_SANITARY_PIPEREDUCER_H

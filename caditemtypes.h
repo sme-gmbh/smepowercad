@@ -30,32 +30,7 @@ public:
     enum ItemType
     {
         None,
-        Basic_Arc,                              // Basisgeometrie: Bogen
-        Basic_Box,                              // Basisgeometrie: Box
-        Basic_Circle,                           // Basisgeometrie: Kreis
-        Basic_Cylinder,                         // Basisgeometrie: Zylinder
-        Basic_Duct,                             // Basisgeometrie: Kanal
-        Basic_Face,                             // Basisgeometrie: Fläche
-        Basic_Hemisphere,                       // Basisgeometrie: Halbkugel
-        Basic_Line,                             // Basisgeometrie: Linie
-        Basic_Pipe,                             // Basisgeometrie: Rohr
-        Basic_Plane,                            // Basisgeometrie: Ebene
-        Basic_Point,                            // Basisgeometrie: Punkt
-        Basic_Polyline,                         // Basisgeometrie: Polylinie
-        Basic_Sphere,                           // Basisgeometrie: Kugel
-        Basic_Turn,                             // Basisgeometrie: Rohrbogen
 
-        Arch_Foundation,                        // Fundament
-        Arch_BoredPile,                         // Bohrpfahl
-        Arch_LevelSlab,                         // Decke
-        Arch_Wall_loadBearing,                  // Tragende Wand
-        Arch_Wall_nonLoadBearing,               // Nicht tragende Wand
-        Arch_Grating,                           // Gitterrost
-        Arch_BlockOut,
-        Arch_Support,                           // Stütze
-        Arch_Beam,                              // Unterzug
-        Arch_Door,
-        Arch_Window,
         Air_Duct,                               // Kanal (eckig)
         Air_Pipe,                               // Rohr (rund)
         Air_DuctFireResistant,                  // Kanal (feuerbeständig)
@@ -88,6 +63,33 @@ public:
         Air_EmptyCabinet,                       // Leergerät
         Air_EquipmentFrame,                     // Geräterahmen
         Air_LinearDiffuser,                     // Linearauslass
+
+        Arch_Foundation,                        // Fundament
+        Arch_BoredPile,                         // Bohrpfahl
+        Arch_LevelSlab,                         // Decke
+        Arch_Wall_loadBearing,                  // Tragende Wand
+        Arch_Wall_nonLoadBearing,               // Nicht tragende Wand
+        Arch_Grating,                           // Gitterrost
+        Arch_BlockOut,
+        Arch_Support,                           // Stütze
+        Arch_Beam,                              // Unterzug
+        Arch_Door,
+        Arch_Window,
+
+        Basic_Arc,                              // Basisgeometrie: Bogen
+        Basic_Box,                              // Basisgeometrie: Box
+        Basic_Circle,                           // Basisgeometrie: Kreis
+        Basic_Cylinder,                         // Basisgeometrie: Zylinder
+        Basic_Duct,                             // Basisgeometrie: Kanal
+        Basic_Face,                             // Basisgeometrie: Fläche
+        Basic_Hemisphere,                       // Basisgeometrie: Halbkugel
+        Basic_Line,                             // Basisgeometrie: Linie
+        Basic_Pipe,                             // Basisgeometrie: Rohr
+        Basic_Plane,                            // Basisgeometrie: Ebene
+        Basic_Point,                            // Basisgeometrie: Punkt
+        Basic_Polyline,                         // Basisgeometrie: Polylinie
+        Basic_Sphere,                           // Basisgeometrie: Kugel
+        Basic_Turn,                             // Basisgeometrie: Rohrbogen
 
         Cleanroom_CeilingCornerPiece,
         Cleanroom_CeilingFilterFanUnit,
@@ -132,57 +134,9 @@ public:
         Cleanroom_WallPost,
         Cleanroom_WallSmokeExtractFlap,
 
-        HeatCool_Pipe,                          // Rohr
-        HeatCool_PipeTurn,                      // Rohrbogen
-        HeatCool_PipeReducer,                   // Reduzierung
-        HeatCool_PipeTeeConnector,              // T-Stück
-        HeatCool_PipeEndCap,                    // Endkappe / Klöpperboden
-        HeatCool_Flange,                        // Flansch
-        HeatCool_Chiller,                       // Kältemaschine
-        HeatCool_CoolingTower,                  // Kühlturm
-        HeatCool_ExpansionChamber,              // Ausdehnungsgefäß
-        HeatCool_Boiler,                        // Heizkessel
-        HeatCool_WaterHeater,                   // Warmwasserboiler
-        HeatCool_StorageBoiler,                 // Speicherkessel / Schichtspeicher
-        HeatCool_HeatExchanger,                 // Wärmetauscher
-        HeatCool_Radiator,                      // Heizkörper
-        HeatCool_Pump,                          // Pumpe
-        HeatCool_Filter,                        // Filter
-        HeatCool_Controlvalve,                  // Regelventil
-        HeatCool_Adjustvalve,                   // Regulierventil
-        HeatCool_BallValve,                     // Kugelhahn
-        HeatCool_ButterflyValve,                // Absperrklappe
-        HeatCool_SafetyValve,                   // Sicherheitsventil
-        HeatCool_Flowmeter,                     // Durchflussmesser
-        HeatCool_Sensor,                        // Sensor
-        Sprinkler_Pipe,                         // Sprinklerrohr
-        Sprinkler_PipeTurn,                     // Rohrbogen
-        Sprinkler_PipeReducer,                  // Reduzierung
-        Sprinkler_PipeEndCap,                   // Rohr-Endkappe
-        Sprinkler_Head,                         // Sprinklerkopf
-        Sprinkler_Pump,                         // Sprinklerpumpe
-        Sprinkler_Valve,                        // Ventil
-        Sprinkler_Distribution,                 // Verteiler
-        Sprinkler_TeeConnector,                 // T-Stück
-        Sprinkler_ZoneCheck,                    // Zone-Check
-        Sprinkler_WetAlarmValve,                // Nassalarmventil
-        Sprinkler_CompressedAirWaterContainer,  // Druckluftwasserbehälter
-        Sanitary_Pipe,                          // Rohr (allgemein)
-        Sanitary_PipeTurn,                      // Rohrbogen
-        Sanitary_PipeReducer,                   // Reduzierung
-        Sanitary_PipeTeeConnector,              // T-Stück
-        Sanitary_PipeEndCap,                    // Endkappe
-        Sanitary_Flange,                        // Flansch
-        Sanitary_ElectricWaterHeater,           // Elektrischer Wasserboiler
-        Sanitary_WashBasin,                     // Waschbecken
-        Sanitary_Sink,                          // Ausgussbecken
-        Sanitary_Shower,                        // Dusche
-        Sanitary_EmergencyShower,               // Notdusche
-        Sanitary_EmergencyEyeShower,            // Augendusche
-        Sanitary_LiftingUnit,                   // Hebeanlage
-
         Electrical_BusbarEndFeederUnitDoubleSided,  // Stromschiene Einspeisung zweiseitig
         Electrical_BusbarEndFeederUnitSingleSided,  // Stromschiene Einspeisung einseitig
+        Electrical_BusbarTapOffUnit,
         Electrical_BusbarWithoutTapoffPoints,   // Stromschiene
         Electrical_BusbarWithTapoffPoints1Row,  //
         Electrical_BusbarWithTapoffPoints2Row,  //
@@ -199,9 +153,95 @@ public:
         Electrical_CabletrayVerticalLadder,     // Kabeltrasse vertikale Leiter
         Electrical_EquipmentSwitchOrSocket,     // Schalter oder Steckdose
         Electrical_LuminaireEscapeLighting,     // Notausgangsleuchte
+        Electrical_LuminaireRailMounted,
         Electrical_LuminaireRecessedMounted,    // Leuchte ecking, Unterputz
         Electrical_LuminaireSemicircular,       // Leutche rund, Aufputz
         Electrical_LuminaireSurfaceMounted,     // Leuchte eckig, Aufputz
+
+        Gas_CDABallValve,
+        Gas_CDACompressor,
+        Gas_CDADesiccantDryer,
+        Gas_CDADiaphragmValve,
+        Gas_CDAFilter,
+        Gas_CDAFlowmeter,
+        Gas_CDAHose,
+        Gas_CDAManometer,
+        Gas_CDANonReturnValve,
+        Gas_CDAMoistureSensor,
+        Gas_CDAPipe,
+        Gas_CDAPipeArc,
+        Gas_CDAPipeTFitting,
+        Gas_CDAPressureRegulator,
+        Gas_CDAQuickLockCoupling,
+        Gas_CDARefrigerantDryer,
+        Gas_CDATank,
+        Gas_VACBallValve,
+        Gas_VACDiaphragmValve,
+        Gas_VACFilter,
+        Gas_VACFlowmeter,
+        Gas_VACHose,
+        Gas_VACLiquidSeparator,
+        Gas_VACManometer,
+        Gas_VACNonReturnValve,
+        Gas_VACPipe,
+        Gas_VACPipeArc,
+        Gas_VACPipeTFitting,
+        Gas_VACPump,
+        Gas_VACQuickLockCoupling,
+        Gas_VACTank,
+
+        HeatCool_Adjustvalve,                   // Regulierventil
+        HeatCool_BallValve,                     // Kugelhahn
+        HeatCool_Boiler,                        // Heizkessel
+        HeatCool_ButterflyValve,                // Absperrklappe
+        HeatCool_Chiller,                       // Kältemaschine
+        HeatCool_Controlvalve,                  // Regelventil
+        HeatCool_CoolingTower,                  // Kühlturm
+        HeatCool_ExpansionChamber,              // Ausdehnungsgefäß
+        HeatCool_Filter,                        // Filter
+        HeatCool_Flange,                        // Flansch
+        HeatCool_Flowmeter,                     // Durchflussmesser
+        HeatCool_HeatExchanger,                 // Wärmetauscher
+        HeatCool_Pipe,                          // Rohr
+        HeatCool_PipeEndCap,                    // Endkappe / Klöpperboden
+        HeatCool_PipeReducer,                   // Reduzierung
+        HeatCool_PipeTeeConnector,              // T-Stück
+        HeatCool_PipeTurn,                      // Rohrbogen
+        HeatCool_Pump,                          // Pumpe
+        HeatCool_Radiator,                      // Heizkörper
+        HeatCool_SafetyValve,                   // Sicherheitsventil
+        HeatCool_Sensor,                        // Sensor
+        HeatCool_StorageBoiler,                 // Speicherkessel / Schichtspeicher
+        HeatCool_WaterHeater,                   // Warmwasserboiler
+
+        Sanitary_CleaningPiece,
+        Sanitary_Pipe,                          // Rohr (allgemein)
+        Sanitary_PipeTurn,                      // Rohrbogen
+        Sanitary_PipeReducer,                   // Reduzierung
+        Sanitary_PipeTeeConnector,              // T-Stück
+        Sanitary_PipeEndCap,                    // Endkappe
+        Sanitary_Flange,                        // Flansch
+        Sanitary_ElectricWaterHeater,           // Elektrischer Wasserboiler
+        Sanitary_WashBasin,                     // Waschbecken
+        Sanitary_Sink,                          // Ausgussbecken
+        Sanitary_Shower,                        // Dusche
+        Sanitary_EmergencyShower,               // Notdusche
+        Sanitary_EmergencyEyeShower,            // Augendusche
+        Sanitary_LiftingUnit,                   // Hebeanlage
+
+        Sprinkler_Pipe,                         // Sprinklerrohr
+        Sprinkler_PipeTurn,                     // Rohrbogen
+        Sprinkler_PipeReducer,                  // Reduzierung
+        Sprinkler_PipeEndCap,                   // Rohr-Endkappe
+        Sprinkler_Head,                         // Sprinklerkopf
+        Sprinkler_Pump,                         // Sprinklerpumpe
+        Sprinkler_Valve,                        // Ventil
+        Sprinkler_Distribution,                 // Verteiler
+        Sprinkler_TeeConnector,                 // T-Stück
+        Sprinkler_ZoneCheck,                    // Zone-Check
+        Sprinkler_WetAlarmValve,                // Nassalarmventil
+        Sprinkler_CompressedAirWaterContainer,  // Druckluftwasserbehälter
+
         LastItem
     };
 

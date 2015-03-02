@@ -68,7 +68,13 @@ CAD_Electrical_CabletrayCross::~CAD_Electrical_CabletrayCross()
 QList<CADitemTypes::ItemType> CAD_Electrical_CabletrayCross::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
-    
+    flangable_items.append(CADitemTypes::Electrical_Cabletray);
+    flangable_items.append(CADitemTypes::Electrical_CabletrayCross);
+    flangable_items.append(CADitemTypes::Electrical_CabletrayReducer);
+    flangable_items.append(CADitemTypes::Electrical_CabletrayTeeConnector);
+    flangable_items.append(CADitemTypes::Electrical_CabletrayTransition);
+    flangable_items.append(CADitemTypes::Electrical_CabletrayTurn);
+    flangable_items.append(CADitemTypes::Electrical_CabletrayVerticalLadder);
     return flangable_items;
 }
 
@@ -193,6 +199,11 @@ void CAD_Electrical_CabletrayCross::calculate()
     this->boundingBox.enterVertices(ct_2->boundingBox.getVertices());
     this->boundingBox.enterVertices(ct_3->boundingBox.getVertices());
     this->boundingBox.enterVertices(ct_4->boundingBox.getVertices());
+
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position_ct_2);
+    this->snap_flanges.append(position_ct_3);
+    this->snap_flanges.append(position_ct_4);
 }
 
 void CAD_Electrical_CabletrayCross::processWizardInput()

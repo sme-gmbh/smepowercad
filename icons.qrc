@@ -126,7 +126,6 @@
         <file>itemGraphic/cad_basic_polyline.png</file>
         <file>itemGraphic/cad_basic_sphere.png</file>
         <file>itemGraphic/cad_sanitary_cleaningpiece.png</file>
-        <file>itemGraphic/cad_sanitary_cleaningpipe.png</file>
         <file>itemGraphic/cad_sanitary_eccentricpipereducerlong.png</file>
         <file>itemGraphic/cad_sanitary_eccentricpipereducershort.png</file>
         <file>itemGraphic/cad_sanitary_electroweldingfitting.png</file>
@@ -136,13 +135,7 @@
         <file>itemGraphic/cad_sanitary_mapressstainlesssteelslidingfitting.png</file>
         <file>itemGraphic/cad_sanitary_mapressteeconnectorequal.png</file>
         <file>itemGraphic/cad_sanitary_mapressteeconnectorreduced.png</file>
-        <file>itemGraphic/cad_sanitary_pipebranch.png</file>
-        <file>itemGraphic/cad_sanitary_pipebranch45degree.png</file>
-        <file>itemGraphic/cad_sanitary_pipebranch88degree.png</file>
-        <file>itemGraphic/cad_sanitary_pipesealingcap.png</file>
-        <file>itemGraphic/cad_sanitary_pipeyconnector30degree.png</file>
         <file>itemGraphic/cad_sprinkler_compressedairwatercontaine.png</file>
-        <file>itemGraphic/cad_sprinkler_compressorset_40-90Li_330Li pro Min_400V_10bar.png</file>
         <file>itemGraphic/cad_sprinkler_feedtank-500liter.png</file>
         <file>itemGraphic/cad_sprinkler_gatevalve.png</file>
         <file>itemGraphic/cad_sprinkler_wetpipealarmvalves_FL-NAV.png</file>
@@ -220,6 +213,42 @@
         <file>icons/cad_cleanroom/cad_cleanroom_controlbutton.svg</file>
         <file>icons/cad_cleanroom/cad_cleanroom_tagelectricalgrounding.svg</file>
         <file>icons/cad_cleanroom/cad_cleanroom_tagfiredetector.svg</file>
+        <file>icons/cad_electrical/cad_electrical_busbartapoffunit.svg</file>
+        <file>icons/cad_electrical/cad_electrical_luminairerailmounted.svg</file>
+        <file>icons/cad_gas/cad_gas_cdaballvalve.svg</file>
+        <file>icons/cad_gas/cad_gas_cdacompressor.svg</file>
+        <file>icons/cad_gas/cad_gas_cdadesiccantdryer.svg</file>
+        <file>icons/cad_gas/cad_gas_cdadiaphragmvalve.svg</file>
+        <file>icons/cad_gas/cad_gas_cdafilter.svg</file>
+        <file>icons/cad_gas/cad_gas_cdaflowmeter.svg</file>
+        <file>icons/cad_gas/cad_gas_cdahose.svg</file>
+        <file>icons/cad_gas/cad_gas_cdamanometer.svg</file>
+        <file>icons/cad_gas/cad_gas_cdamoisturesensor.svg</file>
+        <file>icons/cad_gas/cad_gas_cdanonreturnvalve.svg</file>
+        <file>icons/cad_gas/cad_gas_cdapipe.svg</file>
+        <file>icons/cad_gas/cad_gas_cdapipearc.svg</file>
+        <file>icons/cad_gas/cad_gas_cdapressureregulator.svg</file>
+        <file>icons/cad_gas/cad_gas_cdaquicklockcoupling.svg</file>
+        <file>icons/cad_gas/cad_gas_cdarefrigerantdryer.svg</file>
+        <file>icons/cad_gas/cad_gas_cdatank.svg</file>
+        <file>icons/cad_gas/cad_gas_vacballvalve.svg</file>
+        <file>icons/cad_gas/cad_gas_vacdiaphragmvalve.svg</file>
+        <file>icons/cad_gas/cad_gas_vacfilter.svg</file>
+        <file>icons/cad_gas/cad_gas_vacflowmeter.svg</file>
+        <file>icons/cad_gas/cad_gas_vachose.svg</file>
+        <file>icons/cad_gas/cad_gas_vacliquidseparator.svg</file>
+        <file>icons/cad_gas/cad_gas_vacmanometer.svg</file>
+        <file>icons/cad_gas/cad_gas_vacnonreturnvalve.svg</file>
+        <file>icons/cad_gas/cad_gas_vacpipe.svg</file>
+        <file>icons/cad_gas/cad_gas_vacpipearc.svg</file>
+        <file>icons/cad_gas/cad_gas_vacpump.svg</file>
+        <file>icons/cad_gas/cad_gas_vacquicklockcoupling.svg</file>
+        <file>icons/cad_gas/cad_gas_vactank.svg</file>
+        <file>icons/cad_gas/cad_gas_cdapipetfitting.svg</file>
+        <file>icons/cad_gas/cad_gas_vacpipetfitting.svg</file>
+        <file>itemGraphic/cad_sanitary_pipeturn.png</file>
+        <file>itemGraphic/cad_sanitary_pipeteeconnector.png</file>
+        <file>itemGraphic/cad_sanitary_pipeypiece.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>

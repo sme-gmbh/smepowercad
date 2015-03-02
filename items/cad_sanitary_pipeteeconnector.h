@@ -17,6 +17,7 @@
 #define CAD_SANITARY_PIPETEECONNECTOR_H
 
 #include "caditem.h"
+#include "items/cad_basic_pipe.h"
 
 class CAD_sanitary_pipeTeeConnector : public CADitem
 {
@@ -30,6 +31,9 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
+
+    qreal l, l2, l3,  d, d3, iso, iso3, alpha, s;
+    CAD_basic_pipe *pipe, *branch;
 };
 
 #endif // CAD_SANITARY_PIPETEECONNECTOR_H

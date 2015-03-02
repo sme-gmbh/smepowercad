@@ -18,12 +18,27 @@
 
 CAD_sanitary_pipeTeeConnector::CAD_sanitary_pipeTeeConnector() : CADitem(CADitemTypes::Sanitary_PipeTeeConnector)
 {
+    pipe = new CAD_basic_pipe;
+    branch = new CAD_basic_pipe;
+    this->subItems.append(pipe);
+    this->subItems.append(branch);
+
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
+
+    wizardParams.insert("l",500.0);
+    wizardParams.insert("l2",200.0);
+    wizardParams.insert("l3",200.0);
+    wizardParams.insert("d",150.0);
+    wizardParams.insert("iso",10.0);
+    wizardParams.insert("d3",100.0);
+    wizardParams.insert("iso3",10.0);
+    wizardParams.insert("alpha",50.0);
+    wizardParams.insert("s",10.0);
 
     processWizardInput();
     calculate();
@@ -98,6 +113,39 @@ void CAD_sanitary_pipeTeeConnector::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+
+    pipe->wizardParams.insert("Position x", position.x());
+    pipe->wizardParams.insert("Position y", position.y());
+    pipe->wizardParams.insert("Position z", position.z());
+    pipe->wizardParams.insert("Angle x", angle_x);
+    pipe->wizardParams.insert("Angle y", angle_y);
+    pipe->wizardParams.insert("Angle z", angle_z);
+    pipe->wizardParams.insert("l", l);
+    pipe->wizardParams.insert("d", d+2*s+2*iso);
+    pipe->wizardParams.insert("s",  s+iso);
+    pipe->layer = this->layer;
+    pipe->processWizardInput();
+    pipe->calculate();
+
+    QVector3D position_branch = matrix_rotation * QVector3D(l2, 0.0, 0.0);
+    branch->wizardParams.insert("Position x", position_branch.x());
+    branch->wizardParams.insert("Position y", position_branch.y());
+    branch->wizardParams.insert("Position z", position_branch.z());
+    branch->wizardParams.insert("Angle x", angle_x);
+    branch->wizardParams.insert("Angle y", angle_y - alpha);
+    branch->wizardParams.insert("Angle z", angle_z);
+    branch->wizardParams.insert("l", l3);
+    branch->wizardParams.insert("d", d3+2*s+2*iso3);
+    branch->wizardParams.insert("s",  s+iso3);
+    branch->layer = this->layer;
+    branch->processWizardInput();
+    branch->calculate();
+
+    this->boundingBox = pipe->boundingBox;
+    this->boundingBox.enterVertices(branch->boundingBox.getVertices());
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l2 + cos(alpha / 180 * PI) * l3, 0.0, sin(alpha / 180 * PI) * l3));
 }
 
 void CAD_sanitary_pipeTeeConnector::processWizardInput()
@@ -109,4 +157,13 @@ void CAD_sanitary_pipeTeeConnector::processWizardInput()
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
 
+    l = wizardParams.value("l").toDouble();
+    l2 = wizardParams.value("l2").toDouble();
+    l3 = wizardParams.value("l3").toDouble();
+    d = wizardParams.value("d").toDouble();
+    d3 = wizardParams.value("d3").toDouble();
+    iso = wizardParams.value("iso").toDouble();
+    iso3 = wizardParams.value("iso3").toDouble();
+    alpha = wizardParams.value("alpha").toDouble();
+    s = wizardParams.value("s").toDouble();
 }

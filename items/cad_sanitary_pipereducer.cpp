@@ -18,12 +18,28 @@
 
 CAD_sanitary_pipeReducer::CAD_sanitary_pipeReducer() : CADitem(CADitemTypes::Sanitary_PipeReducer)
 {
+    left = new CAD_basic_pipe;
+    right = new CAD_basic_pipe;
+    reducer = new CAD_basic_pipe;
+    this->subItems.append(left);
+    this->subItems.append(right);
+    this->subItems.append(reducer);
+
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
+
+    wizardParams.insert("d1", 150.0);
+    wizardParams.insert("d2", 200.0);
+    wizardParams.insert("l", 200.0);
+    wizardParams.insert("l1", 50.0);
+    wizardParams.insert("l2", 70.0);
+    wizardParams.insert("e", 10.0);
+    wizardParams.insert("iso1", 10.0);
+    wizardParams.insert("iso2", 10.0);
 
     processWizardInput();
     calculate();
@@ -98,6 +114,88 @@ void CAD_sanitary_pipeReducer::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+
+    left->wizardParams.insert("Position x", (position.x()));
+    left->wizardParams.insert("Position y", (position.y()));
+    left->wizardParams.insert("Position z", (position.z()));
+    left->wizardParams.insert("Angle x", (angle_x));
+    left->wizardParams.insert("Angle y", (angle_y));
+    left->wizardParams.insert("Angle z", (angle_z));
+    left->wizardParams.insert("l", (l1));
+    left->wizardParams.insert("d", (d1+2*iso1+2*s));
+    left->wizardParams.insert("s", (iso1+s));
+    left->layer = this->layer;
+    left->processWizardInput();
+    left->calculate();
+
+    QVector3D position_rgt = position + matrix_rotation * QVector3D(l - l2, 0.0, -e);
+    right->wizardParams.insert("Position x", (position_rgt.x()));
+    right->wizardParams.insert("Position y", (position_rgt.y()));
+    right->wizardParams.insert("Position z", (position_rgt.z()));
+    right->wizardParams.insert("Angle x", (angle_x));
+    right->wizardParams.insert("Angle y", (angle_y));
+    right->wizardParams.insert("Angle z", (angle_z));
+    right->wizardParams.insert("l", (l2));
+    right->wizardParams.insert("d", (d2+2*iso2+2*s));
+    right->wizardParams.insert("s", (iso2+s));
+    right->layer = this->layer;
+    right->processWizardInput();
+    right->calculate();
+
+
+    QVector3D position_red = position + matrix_rotation * QVector3D(l1, 0.0, 0.0);
+    reducer->wizardParams.insert("Position x", (position_red.x()));
+    reducer->wizardParams.insert("Position y", (position_red.y()));
+    reducer->wizardParams.insert("Position z", (position_red.z()));
+    reducer->wizardParams.insert("Angle x", (angle_x));
+    reducer->wizardParams.insert("Angle y", (angle_y));
+    reducer->wizardParams.insert("Angle z", (angle_z));
+    reducer->wizardParams.insert("l", (l));
+    reducer->wizardParams.insert("d", (d1));
+    reducer->wizardParams.insert("s", (s));
+    reducer->layer = this->layer;
+    reducer->processWizardInput();
+    reducer->calculate();
+
+    qreal radius = (d1 + 2*s + 2*iso1)/2;
+    qreal radius2 = (d2 + 2*s + 2*iso2)/2;
+    reducer->vertices_inner_bottom.clear();
+    reducer->vertices_inner_top.clear();
+    reducer->vertices_outer_top.clear();
+    reducer->vertices_outer_bottom.clear();
+    QVector3D vertices[64];
+    int index = 0;
+
+    for (qreal i=0.0; i < 1.0; i += 0.0625)    // 16 edges
+    {
+        qreal angle = 2 * PI * i;
+        QVector3D linePos;
+
+        //small side
+        linePos = matrix_rotation * QVector3D(0.0, sin(angle) * radius, cos(angle) * radius);
+        linePos += position_red;
+        vertices[index] = linePos;
+        index++;
+        vertices[index] = linePos + (position_red - linePos).normalized() * (iso1 + s);
+        index++;
+        //big side
+        QVector3D pos_top = position_red + matrix_rotation * QVector3D(l - l1 - l2, 0.0, -e);
+        linePos = matrix_rotation * QVector3D(0.0, sin(angle) * radius2, cos(angle) * radius2);
+        linePos += pos_top;
+        vertices[index] = linePos;
+        index++;
+        vertices[index] = linePos + (pos_top - linePos).normalized() * (iso2 + s);
+        index++;
+    }
+
+    reducer->arrayBufVertices.bind();
+    reducer->arrayBufVertices.allocate(vertices, sizeof(vertices));
+
+    this->boundingBox.enterVertices(left->boundingBox.getVertices());
+    this->boundingBox.enterVertices(right->boundingBox.getVertices());
+    this->boundingBox.enterVertices(reducer->boundingBox.getVertices());
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, -e));
 }
 
 void CAD_sanitary_pipeReducer::processWizardInput()
@@ -109,4 +207,13 @@ void CAD_sanitary_pipeReducer::processWizardInput()
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
 
+    d1 = wizardParams.value("d1").toDouble();
+    d2 = wizardParams.value("d2").toDouble();
+    l = wizardParams.value("l").toDouble();
+    l1 = wizardParams.value("l1").toDouble();
+    l2 = wizardParams.value("l2").toDouble();
+    e = wizardParams.value("e").toDouble();
+    s = wizardParams.value("s").toDouble();
+    iso1 = wizardParams.value("iso1").toDouble();
+    iso2 = wizardParams.value("iso1").toDouble();
 }

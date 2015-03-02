@@ -230,7 +230,41 @@ SOURCES += main.cpp\
     items/cad_electrical_equipmentswitchorsocket.cpp \
     items/cad_cleanroom_controlbutton.cpp \
     items/cad_cleanroom_tagfiredetector.cpp \
-    items/cad_cleanroom_tagelectricalgrounding.cpp
+    items/cad_cleanroom_tagelectricalgrounding.cpp \
+    items/cad_electrical_busbartapoffunit.cpp \
+    items/cad_electrical_luminairerailmounted.cpp \
+    items/cad_gas_cdaballvalve.cpp \
+    items/cad_gas_cdacompressor.cpp \
+    items/cad_gas_cdadesiccantdryer.cpp \
+    items/cad_gas_cdadiaphragmvalve.cpp \
+    items/cad_gas_cdafilter.cpp \
+    items/cad_gas_cdaflowmeter.cpp \
+    items/cad_gas_cdahose.cpp \
+    items/cad_gas_cdamanometer.cpp \
+    items/cad_gas_cdamoisturesensor.cpp \
+    items/cad_gas_cdanonreturnvalve.cpp \
+    items/cad_gas_cdapipe.cpp \
+    items/cad_gas_cdapipearc.cpp \
+    items/cad_gas_cdapressureregulator.cpp \
+    items/cad_gas_cdaquicklockcoupling.cpp \
+    items/cad_gas_cdarefrigerantdryer.cpp \
+    items/cad_gas_cdatank.cpp \
+    items/cad_gas_vacballvalve.cpp \
+    items/cad_gas_vacdiaphragmvalve.cpp \
+    items/cad_gas_vacfilter.cpp \
+    items/cad_gas_vacflowmeter.cpp \
+    items/cad_gas_vachose.cpp \
+    items/cad_gas_vacliquidseparator.cpp \
+    items/cad_gas_vacmanometer.cpp \
+    items/cad_gas_vacnonreturnvalve.cpp \
+    items/cad_gas_vacpipe.cpp \
+    items/cad_gas_vacpipearc.cpp \
+    items/cad_gas_vacpump.cpp \
+    items/cad_gas_vacquicklockcoupling.cpp \
+    items/cad_gas_vactank.cpp \
+    items/cad_gas_cdapipetfitting.cpp \
+    items/cad_gas_vacpipetfitting.cpp \
+    items/cad_sanitary_cleaningpiece.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -434,7 +468,41 @@ HEADERS  += mainwindow.h \
     items/cad_electrical_equipmentswitchorsocket.h \
     items/cad_cleanroom_controlbutton.h \
     items/cad_cleanroom_tagfiredetector.h \
-    items/cad_cleanroom_tagelectricalgrounding.h
+    items/cad_cleanroom_tagelectricalgrounding.h \
+    items/cad_electrical_busbartapoffunit.h \
+    items/cad_electrical_luminairerailmounted.h \
+    items/cad_gas_cdaballvalve.h \
+    items/cad_gas_cdacompressor.h \
+    items/cad_gas_cdadesiccantdryer.h \
+    items/cad_gas_cdadiaphragmvalve.h \
+    items/cad_gas_cdafilter.h \
+    items/cad_gas_cdaflowmeter.h \
+    items/cad_gas_cdahose.h \
+    items/cad_gas_cdamanometer.h \
+    items/cad_gas_cdamoisturesensor.h \
+    items/cad_gas_cdanonreturnvalve.h \
+    items/cad_gas_cdapipe.h \
+    items/cad_gas_cdapipearc.h \
+    items/cad_gas_cdapressureregulator.h \
+    items/cad_gas_cdaquicklockcoupling.h \
+    items/cad_gas_cdarefrigerantdryer.h \
+    items/cad_gas_cdatank.h \
+    items/cad_gas_vacballvalve.h \
+    items/cad_gas_vacdiaphragmvalve.h \
+    items/cad_gas_vacfilter.h \
+    items/cad_gas_vacflowmeter.h \
+    items/cad_gas_vachose.h \
+    items/cad_gas_vacliquidseparator.h \
+    items/cad_gas_vacmanometer.h \
+    items/cad_gas_vacnonreturnvalve.h \
+    items/cad_gas_vacpipe.h \
+    items/cad_gas_vacpipearc.h \
+    items/cad_gas_vacpump.h \
+    items/cad_gas_vacquicklockcoupling.h \
+    items/cad_gas_vactank.h \
+    items/cad_gas_cdapipetfitting.h \
+    items/cad_gas_vacpipetfitting.h \
+    items/cad_sanitary_cleaningpiece.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
