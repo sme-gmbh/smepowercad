@@ -249,6 +249,15 @@
         <file>itemGraphic/cad_sanitary_pipeturn.png</file>
         <file>itemGraphic/cad_sanitary_pipeteeconnector.png</file>
         <file>itemGraphic/cad_sanitary_pipeypiece.png</file>
+        <file>itemGraphic/cad_heatcool_pipeturn.png</file>
+        <file>itemGraphic/cad_heatcool_pipereducer.png</file>
+        <file>itemGraphic/cad_heatcool_pipe.png</file>
+        <file>itemGraphic/cad_heatcool_pipeteeconnector.png</file>
+        <file>icons/cad_sanitary/cad_sanitary_cleaningpiece.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_pipe.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_pipereducer.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_pipeteeconnector.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_pipeturn.svg</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>
@@ -258,6 +267,8 @@
         <file>icons/pencil_off.svg</file>
         <file>icons/check.svg</file>
         <file>icons/hide_layer.svg</file>
+        <file>itemGraphic/cad_basic_torisphericalheaddeepdisheddin28013.png</file>
+        <file>itemGraphic/cad_basic_torisphericalheaddin28011.png</file>
     </qresource>
     <qresource prefix="/ui/dockwidget">
         <file>icons/close.svg</file>

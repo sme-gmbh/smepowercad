@@ -90,6 +90,8 @@ public:
         Basic_Polyline,                         // Basisgeometrie: Polylinie
         Basic_Sphere,                           // Basisgeometrie: Kugel
         Basic_Turn,                             // Basisgeometrie: Rohrbogen
+        Basic_TorisphericalHeadDIN28011,        // Klöpperboden (nach DIN28011)
+        Basic_TorisphericalHeadDeepDishedDIN28013,  // Korbbogenboden (nach DIN28013)
 
         Cleanroom_CeilingCornerPiece,
         Cleanroom_CeilingFilterFanUnit,

@@ -95,11 +95,6 @@ QString CAD_basic_turn::description()
 
 void CAD_basic_turn::calculate()
 {
-    matrix_rotation.setToIdentity();
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-
     boundingBox.reset();
 
     this->snap_flanges.clear();
@@ -110,11 +105,6 @@ void CAD_basic_turn::calculate()
 
     this->snap_basepoint = this->position;
     this->snap_flanges.append(this->position);
-
-    matrix_rotation.setToIdentity();
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 
     // Vertex data
     int a;
@@ -275,6 +265,7 @@ void CAD_basic_turn::processWizardInput()
     angle_turn = wizardParams.value("Turn angle").toDouble();
     radius_pipe = wizardParams.value("Outer diameter").toDouble() / 2.0;
 
+//    qDebug() << "rotate, processWizardInput()";
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
     matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);

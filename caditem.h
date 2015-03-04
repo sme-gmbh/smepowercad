@@ -59,6 +59,8 @@ public:
     void setID(quint64 id);
     void serialOut(QByteArray *out);
     bool serialIn(QByteArray *in);
+    QVector3D anglesFromVector(QVector3D vector);
+    void rotateAroundAxis(qreal angle, QVector3D axis, qreal angle_x, qreal angle_y, qreal angle_z);
 
     // data types tbd.
     CADitemTypes::ItemType getType();
@@ -98,6 +100,8 @@ private:
     void setLayer_processItems(QList<CADitem*> subItems);
     void setID_processItems(QList<CADitem*> subItems);
     CADitemTypes::ItemType type;
+    qreal difference(QVector3D vec, qreal alpha, qreal beta, qreal gamma);
+    qreal alpha(quint32 i);
 };
 
 

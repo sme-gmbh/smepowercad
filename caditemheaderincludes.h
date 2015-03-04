@@ -78,6 +78,8 @@
 #include "items/cad_basic_polyline.h"
 #include "items/cad_basic_sphere.h"
 #include "items/cad_basic_turn.h"
+#include "items/cad_basic_torisphericalheaddin28011.h"
+#include "items/cad_basic_torisphericalheaddeepdisheddin28013.h"
 
 #include "items/cad_cleanroom_ceilingcornerpiece.h"
 #include "items/cad_cleanroom_ceilingfilterfanunit.h"

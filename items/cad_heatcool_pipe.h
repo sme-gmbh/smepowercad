@@ -32,8 +32,8 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
 
-    qreal l, d_o, d, s;
-    CAD_basic_pipe* pipe;
+    qreal l, d, iso, s;
+    CAD_basic_pipe *pipe;
 
 };
 

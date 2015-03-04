@@ -13,18 +13,16 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#ifndef CAD_HEATCOOL_PIPETURN_H
-#define CAD_HEATCOOL_PIPETURN_H
+#ifndef CAD_BASIC_TORISPHERICALHEADDIN28011_H
+#define CAD_BASIC_TORISPHERICALHEADDIN28011_H
 
 #include "caditem.h"
-#include "cad_basic_pipe.h"
-#include "cad_basic_turn.h"
 
-class CAD_heatcool_pipeTurn : public CADitem
+class CAD_Basic_TorisphericalHeadDIN28011 : public CADitem
 {
 public:
-    CAD_heatcool_pipeTurn();
-    virtual ~CAD_heatcool_pipeTurn();
+    CAD_Basic_TorisphericalHeadDIN28011();
+    virtual ~CAD_Basic_TorisphericalHeadDIN28011();
     virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
@@ -33,10 +31,13 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
 
-    qreal l1, l2, r, alpha, d, iso, s;
-    CAD_basic_pipe *left, *right;
-    CAD_basic_turn *turn;
+    virtual void paint(GLWidget* glwidget);
 
+    QOpenGLBuffer arrayBufVertices;
+    QOpenGLBuffer indexBufFaces;
+    QOpenGLBuffer indexBufLines;
+
+    qreal d, h;
 };
 
-#endif // CAD_HEATCOOL_PIPETURN_H
+#endif // CAD_BASIC_TORISPHERICALHEADDIN28011_H

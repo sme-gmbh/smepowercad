@@ -127,14 +127,15 @@ void CAD_sanitary_pipeTurn::calculate()
     left->processWizardInput();
     left->calculate();
 
-    QVector3D position_right = position + matrix_rotation * QVector3D(l1 + r, 0.0, -r);
+    QVector3D position_right = position + matrix_rotation * QVector3D(l1 + sin(alpha / 180 * PI) * r, 0.0, -(1-cos(alpha / 180 * PI)) * r);
+    QVector3D angles_right = anglesFromVector(matrix_rotation * QVector3D(cos(alpha / 180 * PI), 0.0, -sin(alpha / 180 * PI)));
     right->wizardParams.insert("Position x", position_right.x());
     right->wizardParams.insert("Position y", position_right.y());
     right->wizardParams.insert("Position z", position_right.z());
-    right->wizardParams.insert("Angle x", angle_x);
-    right->wizardParams.insert("Angle y", angle_y+90);
-    right->wizardParams.insert("Angle z", angle_z);
-    right->wizardParams.insert("l", l1);
+    right->wizardParams.insert("Angle x", angles_right.x());
+    right->wizardParams.insert("Angle y", angles_right.y());
+    right->wizardParams.insert("Angle z", angles_right.z());
+    right->wizardParams.insert("l", l2);
     right->wizardParams.insert("d", d+2*iso+2*s);
     right->wizardParams.insert("s",  iso+s);
     right->layer = this->layer;
@@ -145,20 +146,25 @@ void CAD_sanitary_pipeTurn::calculate()
     turn->wizardParams.insert("Position x", position_turn.x());
     turn->wizardParams.insert("Position y", position_turn.y());
     turn->wizardParams.insert("Position z", position_turn.z());
-    turn->wizardParams.insert("Angle x", angle_x + 90.0);
-    turn->wizardParams.insert("Angle y", angle_y);
-    turn->wizardParams.insert("Angle z", angle_z);
+    turn->wizardParams.insert("Angle x", 0.0);
+    turn->wizardParams.insert("Angle y", 0.0);
+    turn->wizardParams.insert("Angle z", 0.0);
     turn->wizardParams.insert("Outer diameter", d + 2*iso + 2*s);
-    turn->wizardParams.insert("Turn radius",    r);
-    turn->wizardParams.insert("Turn angle",      alpha);
-    turn->wizardParams.insert("s",               s + iso);
+    turn->wizardParams.insert("Turn radius", r);
+    turn->wizardParams.insert("Turn angle", alpha);
+    turn->wizardParams.insert("s", s + iso);
     turn->layer = this->layer;
     turn->processWizardInput();
+    turn->rotateAroundAxis(90, QVector3D(1.0, 0.0, 0.0), angle_x, angle_y, angle_z);
     turn->calculate();
 
     this->boundingBox = left->boundingBox;
     this->boundingBox.enterVertices(right->boundingBox.getVertices());
     this->boundingBox.enterVertices(turn->boundingBox.getVertices());
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l1 + sin(alpha / 180 * PI) * r + cos(alpha / 180 * PI) * l2,
+                                                                     0.0,
+                                                                     -(1-cos(alpha / 180 * PI)) * r - sin(alpha / 180.0 * PI) * l2));
 }
 
 void CAD_sanitary_pipeTurn::processWizardInput()

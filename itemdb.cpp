@@ -506,6 +506,12 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Basic_Turn:
         newItem = new CAD_basic_turn();
         break;
+    case CADitemTypes::Basic_TorisphericalHeadDIN28011:
+        newItem = new CAD_Basic_TorisphericalHeadDIN28011();
+        break;
+    case CADitemTypes::Basic_TorisphericalHeadDeepDishedDIN28013:
+        newItem = new CAD_Basic_TorisphericalHeadDeepDishedDIN28013();
+        break;
 
 
         //Cleanroom

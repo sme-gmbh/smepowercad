@@ -18,12 +18,13 @@
 
 CAD_heatcool_pipeReducer::CAD_heatcool_pipeReducer() : CADitem(CADitemTypes::HeatCool_PipeReducer)
 {
-    reducer = new CAD_basic_pipe();
-    endcap_bottom = new CAD_basic_pipe();
-    endcap_top = new CAD_basic_pipe();
+    left = new CAD_basic_pipe;
+    right = new CAD_basic_pipe;
+    reducer = new CAD_basic_pipe;
+    this->subItems.append(left);
+    this->subItems.append(right);
     this->subItems.append(reducer);
-    this->subItems.append(endcap_bottom);
-    this->subItems.append(endcap_top);
+
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -31,15 +32,14 @@ CAD_heatcool_pipeReducer::CAD_heatcool_pipeReducer() : CADitem(CADitemTypes::Hea
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("l",   400.0);
-    wizardParams.insert("l1",   50.0);
-    wizardParams.insert("l2",   50.0);
-    wizardParams.insert("d",   300.0);
-    wizardParams.insert("do",  400.0);
-    wizardParams.insert("d2",  200.0);
-    wizardParams.insert("do2", 300.0);
-    wizardParams.insert("f",     0.0);
-    wizardParams.insert("s",    10.0);
+    wizardParams.insert("d1", 150.0);
+    wizardParams.insert("d2", 200.0);
+    wizardParams.insert("l", 200.0);
+    wizardParams.insert("l1", 50.0);
+    wizardParams.insert("l2", 70.0);
+    wizardParams.insert("e", 10.0);
+    wizardParams.insert("iso1", 10.0);
+    wizardParams.insert("iso2", 10.0);
 
     processWizardInput();
     calculate();
@@ -123,27 +123,51 @@ void CAD_heatcool_pipeReducer::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
-    this->snap_flanges.append(position);
-    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
 
-    reducer->wizardParams.insert("Position x", (position.x()));
-    reducer->wizardParams.insert("Position y", (position.y()));
-    reducer->wizardParams.insert("Position z", (position.z()));
+    left->wizardParams.insert("Position x", (position.x()));
+    left->wizardParams.insert("Position y", (position.y()));
+    left->wizardParams.insert("Position z", (position.z()));
+    left->wizardParams.insert("Angle x", (angle_x));
+    left->wizardParams.insert("Angle y", (angle_y));
+    left->wizardParams.insert("Angle z", (angle_z));
+    left->wizardParams.insert("l", (l1));
+    left->wizardParams.insert("d", (d1+2*iso1+2*s));
+    left->wizardParams.insert("s", (iso1+s));
+    left->layer = this->layer;
+    left->processWizardInput();
+    left->calculate();
+
+    QVector3D position_rgt = position + matrix_rotation * QVector3D(l - l2, 0.0, -e);
+    right->wizardParams.insert("Position x", (position_rgt.x()));
+    right->wizardParams.insert("Position y", (position_rgt.y()));
+    right->wizardParams.insert("Position z", (position_rgt.z()));
+    right->wizardParams.insert("Angle x", (angle_x));
+    right->wizardParams.insert("Angle y", (angle_y));
+    right->wizardParams.insert("Angle z", (angle_z));
+    right->wizardParams.insert("l", (l2));
+    right->wizardParams.insert("d", (d2+2*iso2+2*s));
+    right->wizardParams.insert("s", (iso2+s));
+    right->layer = this->layer;
+    right->processWizardInput();
+    right->calculate();
+
+
+    QVector3D position_red = position + matrix_rotation * QVector3D(l1, 0.0, 0.0);
+    reducer->wizardParams.insert("Position x", (position_red.x()));
+    reducer->wizardParams.insert("Position y", (position_red.y()));
+    reducer->wizardParams.insert("Position z", (position_red.z()));
     reducer->wizardParams.insert("Angle x", (angle_x));
     reducer->wizardParams.insert("Angle y", (angle_y));
     reducer->wizardParams.insert("Angle z", (angle_z));
     reducer->wizardParams.insert("l", (l));
-    reducer->wizardParams.insert("d", (d));
+    reducer->wizardParams.insert("d", (d1));
     reducer->wizardParams.insert("s", (s));
     reducer->layer = this->layer;
     reducer->processWizardInput();
     reducer->calculate();
 
-    reducer->snap_flanges.clear();
-    reducer->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
-
-    qreal radius = d/2;
-    qreal radius2 = d2/2;
+    qreal radius = (d1 + 2*s + 2*iso1)/2;
+    qreal radius2 = (d2 + 2*s + 2*iso2)/2;
     reducer->vertices_inner_bottom.clear();
     reducer->vertices_inner_top.clear();
     reducer->vertices_outer_top.clear();
@@ -155,60 +179,32 @@ void CAD_heatcool_pipeReducer::calculate()
     {
         qreal angle = 2 * PI * i;
         QVector3D linePos;
-        QVector3D pos_bot = position + matrix_rotation * QVector3D(l1, 0.0, 0.0);
 
-        //outer bottom
-        linePos = matrix_rotation * QVector3D(0.0, sin(angle) * d_o/2, cos(angle) * d_o/2);
-        linePos += pos_bot;
+        //small side
+        linePos = matrix_rotation * QVector3D(0.0, sin(angle) * radius, cos(angle) * radius);
+        linePos += position_red;
         vertices[index] = linePos;
         index++;
-        //inner bottom
-        vertices[index] = linePos + (pos_bot - linePos).normalized() * ((d_o-d)/2 + s);
+        vertices[index] = linePos + (position_red - linePos).normalized() * (iso1 + s);
         index++;
-        QVector3D pos_top = position + matrix_rotation * QVector3D(l - l2, f, 0.0);
-        //outer top
-        linePos = matrix_rotation * QVector3D(0.0, sin(angle) * d_o2/2, cos(angle) * d_o2/2);
+        //big side
+        QVector3D pos_top = position_red + matrix_rotation * QVector3D(l - l1 - l2, 0.0, -e);
+        linePos = matrix_rotation * QVector3D(0.0, sin(angle) * radius2, cos(angle) * radius2);
         linePos += pos_top;
         vertices[index] = linePos;
         index++;
-        //inner top
-        vertices[index] = linePos + (pos_top - linePos).normalized() * ((d_o2-d2)/2 + s);
+        vertices[index] = linePos + (pos_top - linePos).normalized() * (iso2 + s);
         index++;
     }
 
     reducer->arrayBufVertices.bind();
     reducer->arrayBufVertices.allocate(vertices, sizeof(vertices));
 
-    endcap_bottom->wizardParams.insert("Position x", (position.x()));
-    endcap_bottom->wizardParams.insert("Position y", (position.y()));
-    endcap_bottom->wizardParams.insert("Position z", (position.z()));
-    endcap_bottom->wizardParams.insert("Angle x", (angle_x));
-    endcap_bottom->wizardParams.insert("Angle y", (angle_y));
-    endcap_bottom->wizardParams.insert("Angle z", (angle_z));
-    endcap_bottom->wizardParams.insert("l", (l1));
-    endcap_bottom->wizardParams.insert("d", (d_o));
-    endcap_bottom->wizardParams.insert("s", (d_o-d)/2 + s);
-    endcap_bottom->layer = this->layer;
-    endcap_bottom->processWizardInput();
-    endcap_bottom->calculate();
-
-    QVector3D position_top = position + matrix_rotation * QVector3D(l - l2, f, 0.0);
-    endcap_top->wizardParams.insert("Position x", (position_top.x()));
-    endcap_top->wizardParams.insert("Position y", (position_top.y()));
-    endcap_top->wizardParams.insert("Position z", (position_top.z()));
-    endcap_top->wizardParams.insert("Angle x", (angle_x));
-    endcap_top->wizardParams.insert("Angle y", (angle_y));
-    endcap_top->wizardParams.insert("Angle z", (angle_z));
-    endcap_top->wizardParams.insert("l", (l2));
-    endcap_top->wizardParams.insert("d", (d_o2));
-    endcap_top->wizardParams.insert("s", (d_o2-d2)/2 + s);
-    endcap_top->layer = this->layer;
-    endcap_top->processWizardInput();
-    endcap_top->calculate();
-
-    this->snap_flanges.append(endcap_top->snap_flanges.at(1));
-
-    this->boundingBox = reducer->boundingBox;
+    this->boundingBox.enterVertices(left->boundingBox.getVertices());
+    this->boundingBox.enterVertices(right->boundingBox.getVertices());
+    this->boundingBox.enterVertices(reducer->boundingBox.getVertices());
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, -e));
 }
 
 void CAD_heatcool_pipeReducer::processWizardInput()
@@ -220,13 +216,13 @@ void CAD_heatcool_pipeReducer::processWizardInput()
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
 
+    d1 = wizardParams.value("d1").toDouble();
+    d2 = wizardParams.value("d2").toDouble();
     l = wizardParams.value("l").toDouble();
     l1 = wizardParams.value("l1").toDouble();
     l2 = wizardParams.value("l2").toDouble();
-    d = wizardParams.value("d").toDouble();
-    d_o = wizardParams.value("do").toDouble();
-    d2 = wizardParams.value("d2").toDouble();
-    d_o2 = wizardParams.value("do2").toDouble();
-    f = wizardParams.value("f").toDouble();
+    e = wizardParams.value("e").toDouble();
     s = wizardParams.value("s").toDouble();
+    iso1 = wizardParams.value("iso1").toDouble();
+    iso2 = wizardParams.value("iso1").toDouble();
 }

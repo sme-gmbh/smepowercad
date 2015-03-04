@@ -32,12 +32,10 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
 
-    CAD_basic_pipe* reducer;
-    CAD_basic_pipe* endcap_bottom;
-    CAD_basic_pipe* endcap_top;
-    qreal l, l1, l2;
-    qreal d,d_o, d2,d_o2;
-    qreal f, s;
+    qreal d1, d2, l, l1, l2, e, s, iso1, iso2;
+    CAD_basic_pipe *left, *right, *reducer;
+
+
 
 };
 

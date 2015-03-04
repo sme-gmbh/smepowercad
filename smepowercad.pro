@@ -265,7 +265,9 @@ SOURCES += main.cpp\
     items/cad_gas_cdapipetfitting.cpp \
     items/cad_gas_vacpipetfitting.cpp \
     items/cad_sanitary_cleaningpiece.cpp \
-    printwidget.cpp
+    printwidget.cpp \
+    items/cad_basic_torisphericalheaddeepdisheddin28013.cpp \
+    items/cad_basic_torisphericalheaddin28011.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -504,7 +506,9 @@ HEADERS  += mainwindow.h \
     items/cad_gas_cdapipetfitting.h \
     items/cad_gas_vacpipetfitting.h \
     items/cad_sanitary_cleaningpiece.h \
-    printwidget.h
+    printwidget.h \
+    items/cad_basic_torisphericalheaddeepdisheddin28013.h \
+    items/cad_basic_torisphericalheaddin28011.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

@@ -18,6 +18,7 @@
 
 #include "caditem.h"
 #include "cad_basic_turn.h"
+#include "cad_basic_pipe.h"
 
 class CAD_air_pipeTurn : public CADitem
 {
@@ -32,9 +33,9 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
 
-    qreal alpha, r;
-    qreal d, s;
-    CAD_basic_turn* turn;
+    qreal l1, l2, r, alpha, d, iso, s;
+    CAD_basic_pipe *left, *right;
+    CAD_basic_turn *turn;
 };
 
 #endif // CAD_AIR_PIPETURN_H
