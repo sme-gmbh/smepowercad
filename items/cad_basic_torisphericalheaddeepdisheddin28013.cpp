@@ -126,7 +126,6 @@ void CAD_Basic_TorisphericalHeadDeepDishedDIN28013::calculate()
                 matrix_turn.setToIdentity();
                 matrix_turn.rotate(j * 36.0, 0.0, 0.0, 1.0);
                 QVector3D offset = QVector3D(a + cos(alpha * (10 - i) / 3) * r2, 0.0, h + sin(alpha * (10 - i) / 3) * r2);
-                qDebug() << offset;
                 vertices[10*i + j] = position + matrix_rotation * matrix_turn * offset;
             }
             else
