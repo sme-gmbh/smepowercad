@@ -42,8 +42,10 @@ TRANSLATIONS =  lang/powercad-de_DE.ts \
 
 3D_MOUSE {
 DEFINES += USE_3D_MOUSE
-SOURCES +=
-HEADERS +=
+SOURCES += 3Dmouse/qmagellan.cpp \
+           3Dmouse/xdrvlib.c
+HEADERS += 3Dmouse/qmagellan.h \
+           3Dmouse/xdrvlib.h
 }
 
 
