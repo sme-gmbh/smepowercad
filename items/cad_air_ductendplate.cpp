@@ -136,9 +136,9 @@ void CAD_air_ductEndPlate::calculate()
     plate->wizardParams.insert("Angle x", (angle_x));
     plate->wizardParams.insert("Angle y", (angle_y));
     plate->wizardParams.insert("Angle z", (angle_z));
-    plate->wizardParams.insert("Size x", (l/2));
-    plate->wizardParams.insert("Size y", (b));
-    plate->wizardParams.insert("Size z", (a));
+    plate->wizardParams.insert("l", (l/2));
+    plate->wizardParams.insert("b", (b));
+    plate->wizardParams.insert("a", (a));
     plate->processWizardInput();
     plate->calculate();
 

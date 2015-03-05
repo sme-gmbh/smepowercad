@@ -111,9 +111,9 @@ void CAD_Electrical_LuminaireEscapeLighting::calculate()
     lamp->wizardParams.insert("Angle x", angle_x);
     lamp->wizardParams.insert("Angle y", angle_y);
     lamp->wizardParams.insert("Angle z", angle_z);
-    lamp->wizardParams.insert("Size x", l);
-    lamp->wizardParams.insert("Size y", b);
-    lamp->wizardParams.insert("Size z", a);
+    lamp->wizardParams.insert("l", l);
+    lamp->wizardParams.insert("b", b);
+    lamp->wizardParams.insert("a", a);
     lamp->layer = this->layer;
     lamp->processWizardInput();
     lamp->calculate();

@@ -123,9 +123,9 @@ void CAD_electrical_busbarwithtapoffpoints1row::calculate()
     busbar->wizardParams.insert("Angle y", angle_y);
     busbar->wizardParams.insert("Angle z", angle_z);
 
-    busbar->wizardParams.insert("Size x", l);
-    busbar->wizardParams.insert("Size y", b);
-    busbar->wizardParams.insert("Size z", a);
+    busbar->wizardParams.insert("l", l);
+    busbar->wizardParams.insert("b", b);
+    busbar->wizardParams.insert("a", a);
     busbar->layer = this->layer;
     busbar->processWizardInput();
     busbar->calculate();
@@ -144,9 +144,9 @@ void CAD_electrical_busbarwithtapoffpoints1row::calculate()
         box->wizardParams.insert("Angle y", angle_y);
         box->wizardParams.insert("Angle z", angle_z);
 
-        box->wizardParams.insert("Size x", l2);
-        box->wizardParams.insert("Size y", 0.0);
-        box->wizardParams.insert("Size z", a2);
+        box->wizardParams.insert("l", l2);
+        box->wizardParams.insert("b", 0.0);
+        box->wizardParams.insert("a", a2);
         box->layer = this->layer;
         box->processWizardInput();
         box->calculate();

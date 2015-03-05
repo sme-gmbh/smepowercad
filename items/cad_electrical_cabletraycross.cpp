@@ -128,9 +128,9 @@ void CAD_Electrical_CabletrayCross::calculate()
     cross->wizardParams.insert("Angle x", angle_x);
     cross->wizardParams.insert("Angle y", angle_y);
     cross->wizardParams.insert("Angle z", angle_z);
-    cross->wizardParams.insert("Size x", l);
-    cross->wizardParams.insert("Size y", b);
-    cross->wizardParams.insert("Size z", s);
+    cross->wizardParams.insert("l", l);
+    cross->wizardParams.insert("b", b);
+    cross->wizardParams.insert("a", s);
     cross->layer = this->layer;
     cross->processWizardInput();
     cross->calculate();

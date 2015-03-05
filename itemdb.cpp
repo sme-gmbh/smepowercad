@@ -512,6 +512,9 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Basic_TorisphericalHeadDeepDishedDIN28013:
         newItem = new CAD_Basic_TorisphericalHeadDeepDishedDIN28013();
         break;
+    case CADitemTypes::Basic_Torus:
+        newItem = new CAD_Basic_Torus();
+        break;
 
 
         //Cleanroom
@@ -841,8 +844,11 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::HeatCool_Flowmeter:
         newItem = new CAD_heatcool_flowmeter();
         break;
-    case CADitemTypes::HeatCool_HeatExchanger:
-        newItem = new CAD_heatcool_heatExchanger();
+    case CADitemTypes::HeatCool_HeatexchangerBolted:
+        newItem = new CAD_HeatCool_HeatexchangerBolted();
+        break;
+    case CADitemTypes::HeatCool_HeatexchangerSoldered:
+        newItem = new CAD_HeatCool_HeatexchangerSoldered();
         break;
     case CADitemTypes::HeatCool_Pipe:
         newItem = new CAD_heatcool_pipe();
@@ -873,6 +879,21 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
         break;
     case CADitemTypes::HeatCool_StorageBoiler:
         newItem = new CAD_heatcool_storageBoiler();
+        break;
+    case CADitemTypes::HeatCool_Valve:
+        newItem = new CAD_HeatCool_Valve();
+        break;
+    case CADitemTypes::HeatCool_ValveHandwheel:
+        newItem = new CAD_HeatCool_ValveHandwheel();
+        break;
+    case CADitemTypes::HeatCool_ValveLever:
+        newItem = new CAD_HeatCool_ValveLever();
+        break;
+    case CADitemTypes::HeatCool_ValveMotorRect:
+        newItem = new CAD_HeatCool_ValveMotorRect();
+        break;
+    case CADitemTypes::HeatCool_ValveMotorRound:
+        newItem = new CAD_HeatCool_ValveMotorRound();
         break;
     case CADitemTypes::HeatCool_WaterHeater:
         newItem = new CAD_heatcool_waterHeater();

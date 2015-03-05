@@ -129,9 +129,9 @@ void CAD_Electrical_CabletrayVerticalLadder::calculate()
     left->wizardParams.insert("Angle y", angle_y);
     left->wizardParams.insert("Angle z", angle_z);
 
-    left->wizardParams.insert("Size x", b2);
-    left->wizardParams.insert("Size y", a);
-    left->wizardParams.insert("Size z", l);
+    left->wizardParams.insert("l", b2);
+    left->wizardParams.insert("b", a);
+    left->wizardParams.insert("a", l);
     left->layer = this->layer;
     left->processWizardInput();
     left->calculate();
@@ -144,9 +144,9 @@ void CAD_Electrical_CabletrayVerticalLadder::calculate()
     right->wizardParams.insert("Angle y", angle_y);
     right->wizardParams.insert("Angle z", angle_z);
 
-    right->wizardParams.insert("Size x", b2);
-    right->wizardParams.insert("Size y", a);
-    right->wizardParams.insert("Size z", l);
+    right->wizardParams.insert("l", b2);
+    right->wizardParams.insert("b", a);
+    right->wizardParams.insert("a", l);
     right->layer = this->layer;
     right->processWizardInput();
     right->calculate();
@@ -163,9 +163,9 @@ void CAD_Electrical_CabletrayVerticalLadder::calculate()
         step->wizardParams.insert("Angle y", angle_y);
         step->wizardParams.insert("Angle z", angle_z);
 
-        step->wizardParams.insert("Size x", b - 2 * b2);
-        step->wizardParams.insert("Size y", a3);
-        step->wizardParams.insert("Size z", l3);
+        step->wizardParams.insert("l", b - 2 * b2);
+        step->wizardParams.insert("b", a3);
+        step->wizardParams.insert("a", l3);
         step->layer = this->layer;
         step->processWizardInput();
         step->calculate();

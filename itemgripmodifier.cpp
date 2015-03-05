@@ -134,7 +134,7 @@ void ItemGripModifier::slot_button_clicked()
     // Copy parameters that are parameters of the flange, but ony if they exist in the both items
     foreach (QString key, newItem->wizardParams.keys())
     {
-        if ((key == "a") || (key == "b") || (key == "s") || (key == "fe") || (key == "ff") || (key == "g") || (key == "h"))
+        if ((key == "a") || (key == "b") || (key == "d") || (key == "s") || (key == "fe") || (key == "ff") || (key == "g") || (key == "h"))
         {
             QString sourceKey = key;
             int flangeIndexOffset = 0;

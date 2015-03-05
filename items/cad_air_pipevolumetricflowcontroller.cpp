@@ -125,9 +125,9 @@ void CAD_air_pipeVolumetricFlowController::calculate()
     function->wizardParams.insert("Angle x", angle_x);
     function->wizardParams.insert("Angle y", angle_y);
     function->wizardParams.insert("Angle z", angle_z);
-    function->wizardParams.insert("Size x", 182.0);
-    function->wizardParams.insert("Size y", 60.0);
-    function->wizardParams.insert("Size z", 174.0);
+    function->wizardParams.insert("l", 182.0);
+    function->wizardParams.insert("b", 60.0);
+    function->wizardParams.insert("a", 174.0);
     function->layer = this->layer;
     function->processWizardInput();
     function->calculate();
@@ -139,9 +139,9 @@ void CAD_air_pipeVolumetricFlowController::calculate()
     handle->wizardParams.insert("Angle x", angle_x);
     handle->wizardParams.insert("Angle y", angle_y);
     handle->wizardParams.insert("Angle z", angle_z);
-    handle->wizardParams.insert("Size x", 10.0);
-    handle->wizardParams.insert("Size y", 50.0);
-    handle->wizardParams.insert("Size z", 10.0);
+    handle->wizardParams.insert("l", 10.0);
+    handle->wizardParams.insert("b", 50.0);
+    handle->wizardParams.insert("a", 10.0);
     handle->layer = this->layer;
     handle->processWizardInput();
     handle->calculate();

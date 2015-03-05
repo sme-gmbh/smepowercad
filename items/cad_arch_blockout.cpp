@@ -101,9 +101,9 @@ void CAD_arch_blockOut::calculate()
     blockout->wizardParams.insert("Angle x", (angle_x));
     blockout->wizardParams.insert("Angle y", (angle_y));
     blockout->wizardParams.insert("Angle z", (angle_z));
-    blockout->wizardParams.insert("Size x", (b));
-    blockout->wizardParams.insert("Size y", (g));
-    blockout->wizardParams.insert("Size z", (h));
+    blockout->wizardParams.insert("l", (b));
+    blockout->wizardParams.insert("b", (g));
+    blockout->wizardParams.insert("a", (h));
     blockout->processWizardInput();
     blockout->calculate();
 

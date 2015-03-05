@@ -180,9 +180,9 @@ void CAD_air_ductBaffleSilencer::calculate()
         plate->wizardParams.insert("Angle x", (angle_x));
         plate->wizardParams.insert("Angle y", (angle_y));
         plate->wizardParams.insert("Angle z", (angle_z));
-        plate->wizardParams.insert("Size x", (l));
-        plate->wizardParams.insert("Size y", (d));
-        plate->wizardParams.insert("Size z", (a - 2 * s));
+        plate->wizardParams.insert("l", (l));
+        plate->wizardParams.insert("b", (d));
+        plate->wizardParams.insert("a", (a - 2 * s));
         plate->layer = this->layer;
         plate->processWizardInput();
         plate->calculate();

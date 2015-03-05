@@ -120,9 +120,9 @@ void CAD_electrical_CabletrayTeeconnector::calculate()
     floor->wizardParams.insert("Angle x", angle_x);
     floor->wizardParams.insert("Angle y", angle_y);
     floor->wizardParams.insert("Angle z", angle_z);
-    floor->wizardParams.insert("Size x", l);
-    floor->wizardParams.insert("Size y", b);
-    floor->wizardParams.insert("Size z", s);
+    floor->wizardParams.insert("l", l);
+    floor->wizardParams.insert("b", b);
+    floor->wizardParams.insert("a", s);
     floor->layer = this->layer;
     floor->processWizardInput();
     floor->calculate();
@@ -134,9 +134,9 @@ void CAD_electrical_CabletrayTeeconnector::calculate()
     side->wizardParams.insert("Angle x", angle_x);
     side->wizardParams.insert("Angle y", angle_y);
     side->wizardParams.insert("Angle z", angle_z);
-    side->wizardParams.insert("Size x", l);
-    side->wizardParams.insert("Size y", s);
-    side->wizardParams.insert("Size z", a - s);
+    side->wizardParams.insert("l", l);
+    side->wizardParams.insert("b", s);
+    side->wizardParams.insert("a", a - s);
     side->layer = this->layer;
     side->processWizardInput();
     side->calculate();

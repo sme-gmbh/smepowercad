@@ -131,9 +131,9 @@ void CAD_air_ductVolumetricFlowController::calculate()
     function->wizardParams.insert("Angle x", (angle_x));
     function->wizardParams.insert("Angle y", (angle_y));
     function->wizardParams.insert("Angle z", (angle_z));
-    function->wizardParams.insert("Size x", (0.3 * l));
-    function->wizardParams.insert("Size y", (0.2 * b));
-    function->wizardParams.insert("Size z", (0.5 * a));
+    function->wizardParams.insert("l", (0.3 * l));
+    function->wizardParams.insert("b", (0.2 * b));
+    function->wizardParams.insert("a", (0.5 * a));
     function->processWizardInput();
     function->calculate();
 
@@ -144,9 +144,9 @@ void CAD_air_ductVolumetricFlowController::calculate()
     flap->wizardParams.insert("Angle x", (angle_x));
     flap->wizardParams.insert("Angle y", (angle_y));
     flap->wizardParams.insert("Angle z", (angle_z));
-    flap->wizardParams.insert("Size x", (a));
-    flap->wizardParams.insert("Size y", (b - 2 * s));
-    flap->wizardParams.insert("Size z", (0.1 * a));
+    flap->wizardParams.insert("l", (a));
+    flap->wizardParams.insert("b", (b - 2 * s));
+    flap->wizardParams.insert("a", (0.1 * a));
     flap->processWizardInput();
     flap->calculate();
 

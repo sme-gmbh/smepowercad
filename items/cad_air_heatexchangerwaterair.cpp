@@ -159,9 +159,9 @@ void CAD_air_heatExchangerWaterAir::calculate()
     exchanger->wizardParams.insert("Angle x", (angle_x));
     exchanger->wizardParams.insert("Angle y", (angle_y));
     exchanger->wizardParams.insert("Angle z", (angle_z));
-    exchanger->wizardParams.insert("Size x", (0.8 * l));
-    exchanger->wizardParams.insert("Size y", (0.8 * b));
-    exchanger->wizardParams.insert("Size z", (0.8 * a));
+    exchanger->wizardParams.insert("l", (0.8 * l));
+    exchanger->wizardParams.insert("b", (0.8 * b));
+    exchanger->wizardParams.insert("a", (0.8 * a));
     exchanger->processWizardInput();
     exchanger->calculate();
 

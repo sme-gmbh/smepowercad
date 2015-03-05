@@ -98,9 +98,9 @@ void CAD_arch_levelSlab::calculate()
     slab->wizardParams.insert("Angle x", (angle_x));
     slab->wizardParams.insert("Angle y", (angle_y));
     slab->wizardParams.insert("Angle z", (angle_z));
-    slab->wizardParams.insert("Size x", (l));
-    slab->wizardParams.insert("Size y", (b));
-    slab->wizardParams.insert("Size z", (a));
+    slab->wizardParams.insert("l", (l));
+    slab->wizardParams.insert("b", (b));
+    slab->wizardParams.insert("a", (a));
     slab->processWizardInput();
     slab->calculate();
 

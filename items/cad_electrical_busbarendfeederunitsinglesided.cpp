@@ -117,9 +117,9 @@ void CAD_Electrical_BusbarEndFeederUnitSingleSided::calculate()
     feeder->wizardParams.insert("Angle x", angle_x);
     feeder->wizardParams.insert("Angle y", angle_y);
     feeder->wizardParams.insert("Angle z", angle_z);
-    feeder->wizardParams.insert("Size x", l);
-    feeder->wizardParams.insert("Size y", b);
-    feeder->wizardParams.insert("Size z", a);
+    feeder->wizardParams.insert("l", l);
+    feeder->wizardParams.insert("b", b);
+    feeder->wizardParams.insert("a", a);
     feeder->layer = this->layer;
     feeder->processWizardInput();
     feeder->calculate();
@@ -131,9 +131,9 @@ void CAD_Electrical_BusbarEndFeederUnitSingleSided::calculate()
     plug->wizardParams.insert("Angle x", angle_x);
     plug->wizardParams.insert("Angle y", angle_y);
     plug->wizardParams.insert("Angle z", angle_z);
-    plug->wizardParams.insert("Size x", 0.0);
-    plug->wizardParams.insert("Size y", e);
-    plug->wizardParams.insert("Size z", f);
+    plug->wizardParams.insert("l", 0.0);
+    plug->wizardParams.insert("b", e);
+    plug->wizardParams.insert("a", f);
     plug->layer = this->layer;
     plug->processWizardInput();
     plug->calculate();

@@ -17,6 +17,9 @@
 #define CAD_HEATCOOL_EXPANSIONCHAMBER_H
 
 #include "caditem.h"
+#include "items/cad_basic_torisphericalheaddin28011.h"
+#include "items/cad_basic_pipe.h"
+#include "items/cad_basic_box.h"
 
 class CAD_heatcool_expansionChamber : public CADitem
 {
@@ -30,6 +33,11 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
+
+    qreal a, b, c, d, d2, s;
+    CAD_Basic_TorisphericalHeadDIN28011 *upper, *lower;
+    CAD_basic_pipe *pipe;
+    CAD_basic_box *leg_1, *leg_2, *leg_3;
 };
 
 #endif // CAD_HEATCOOL_EXPANSIONCHAMBER_H

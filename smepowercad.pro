@@ -68,7 +68,6 @@ SOURCES += main.cpp\
     items/cad_heatcool_pipe.cpp \
     items/cad_heatcool_chiller.cpp \
     items/cad_heatcool_coolingtower.cpp \
-    items/cad_heatcool_heatexchanger.cpp \
     items/cad_heatcool_pump.cpp \
     items/cad_heatcool_controlvalve.cpp \
     items/cad_heatcool_adjustvalve.cpp \
@@ -267,7 +266,15 @@ SOURCES += main.cpp\
     items/cad_sanitary_cleaningpiece.cpp \
     printwidget.cpp \
     items/cad_basic_torisphericalheaddeepdisheddin28013.cpp \
-    items/cad_basic_torisphericalheaddin28011.cpp
+    items/cad_basic_torisphericalheaddin28011.cpp \
+    items/cad_heatcool_valve.cpp \
+    items/cad_basic_torus.cpp \
+    items/cad_heatcool_valvehandwheel.cpp \
+    items/cad_heatcool_valvelever.cpp \
+    items/cad_heatcool_valvemotorrect.cpp \
+    items/cad_heatcool_valvemotorround.cpp \
+    items/cad_heatcool_heatexchangersoldered.cpp \
+    items/cad_heatcool_heatexchangerbolted.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -308,7 +315,6 @@ HEADERS  += mainwindow.h \
     items/cad_heatcool_pipe.h \
     items/cad_heatcool_chiller.h \
     items/cad_heatcool_coolingtower.h \
-    items/cad_heatcool_heatexchanger.h \
     items/cad_heatcool_pump.h \
     items/cad_heatcool_controlvalve.h \
     items/cad_heatcool_adjustvalve.h \
@@ -508,7 +514,15 @@ HEADERS  += mainwindow.h \
     items/cad_sanitary_cleaningpiece.h \
     printwidget.h \
     items/cad_basic_torisphericalheaddeepdisheddin28013.h \
-    items/cad_basic_torisphericalheaddin28011.h
+    items/cad_basic_torisphericalheaddin28011.h \
+    items/cad_heatcool_valve.h \
+    items/cad_basic_torus.h \
+    items/cad_heatcool_valvehandwheel.h \
+    items/cad_heatcool_valvelever.h \
+    items/cad_heatcool_valvemotorrect.h \
+    items/cad_heatcool_valvemotorround.h \
+    items/cad_heatcool_heatexchangersoldered.h \
+    items/cad_heatcool_heatexchangerbolted.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

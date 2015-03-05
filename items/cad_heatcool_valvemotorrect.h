@@ -13,16 +13,17 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#ifndef CAD_HEATCOOL_HEATEXCHANGER_H
-#define CAD_HEATCOOL_HEATEXCHANGER_H
+#ifndef CAD_HEATCOOL_VALVEMOTORRECT_H
+#define CAD_HEATCOOL_VALVEMOTORRECT_H
 
 #include "caditem.h"
+#include "items/cad_basic_box.h"
 
-class CAD_heatcool_heatExchanger : public CADitem
+class CAD_HeatCool_ValveMotorRect : public CADitem
 {
 public:
-    CAD_heatcool_heatExchanger();
-    virtual ~CAD_heatcool_heatExchanger();
+    CAD_HeatCool_ValveMotorRect();
+    virtual ~CAD_HeatCool_ValveMotorRect();
     virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
@@ -30,6 +31,13 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
+//    virtual void paint(GLWidget* glwidget);
+
+//    QOpenGLBuffer arrayBufVertices;
+//    QOpenGLBuffer indexBufFaces;
+//    QOpenGLBuffer indexBufLines;
+    qreal e, f, h;
+    CAD_basic_box * motor;
 };
 
-#endif // CAD_HEATCOOL_HEATEXCHANGER_H
+#endif // CAD_HEATCOOL_VALVEMOTORRECT_H

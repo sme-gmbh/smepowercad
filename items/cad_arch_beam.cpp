@@ -100,9 +100,9 @@ void CAD_arch_beam::calculate()
     beam->wizardParams.insert("Angle x", (angle_x));
     beam->wizardParams.insert("Angle y", (angle_y));
     beam->wizardParams.insert("Angle z", (angle_z));
-    beam->wizardParams.insert("Size x", (l));
-    beam->wizardParams.insert("Size y", (b));
-    beam->wizardParams.insert("Size z", (a));
+    beam->wizardParams.insert("l", (l));
+    beam->wizardParams.insert("b", (b));
+    beam->wizardParams.insert("a", (a));
     beam->processWizardInput();
     beam->calculate();
 

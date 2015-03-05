@@ -102,11 +102,6 @@ QString CAD_basic_pipe::description()
 
 void CAD_basic_pipe::calculate()
 {
-    matrix_rotation.setToIdentity();
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-
     boundingBox.reset();
 
     this->snap_flanges.clear();
@@ -115,20 +110,11 @@ void CAD_basic_pipe::calculate()
 
     this->snap_basepoint = (position);
 
-    this->snap_vertices.append(position);
-    this->snap_vertices.append(this->position + this->direction);
-    this->snap_center.append(this->position + this->direction * 0.5);
-    this->snap_flanges.append(this->snap_vertices);
-    this->boundingBox.enterVertex(this->position);
-    this->boundingBox.enterVertex(this->position + this->direction);
+    qDebug() << "matrix in calculate(), basic_pipe";
+    qDebug() << matrix_rotation;
 
 
-//    vertices_inner_bottom.clear();
-//    vertices_inner_top.clear();
-//    vertices_outer_bottom.clear();
-//    vertices_outer_top.clear();
-
-    QVector3D vertices[64]; //200
+    QVector3D vertices[64];
     int index = 0;
     for (qreal i=0.0; i < 1.0; i += 0.0625)    // 16 edges
     {
@@ -230,6 +216,11 @@ void CAD_basic_pipe::calculate()
 
 
 
+    this->snap_vertices.append(position);
+    this->snap_vertices.append(this->position + this->direction);
+    this->snap_center.append(this->position + this->direction * 0.5);
+    this->snap_flanges.append(this->snap_vertices);
+
 }
 
 void CAD_basic_pipe::processWizardInput()
@@ -248,6 +239,10 @@ void CAD_basic_pipe::processWizardInput()
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
     matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
+
+    qDebug() << "matrix in processWizardInputs(), basic_pipe";
+    qDebug() << matrix_rotation;
+
     direction =  matrix_rotation * QVector3D(1.0, 0.0, 0.0) * length;
 }
 

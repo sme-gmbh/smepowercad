@@ -92,6 +92,7 @@ public:
         Basic_Turn,                             // Basisgeometrie: Rohrbogen
         Basic_TorisphericalHeadDIN28011,        // Klöpperboden (nach DIN28011)
         Basic_TorisphericalHeadDeepDishedDIN28013,  // Korbbogenboden (nach DIN28013)
+        Basic_Torus,                             // Torus (Donut)
 
         Cleanroom_CeilingCornerPiece,
         Cleanroom_CeilingFilterFanUnit,
@@ -203,7 +204,8 @@ public:
         HeatCool_Filter,                        // Filter
         HeatCool_Flange,                        // Flansch
         HeatCool_Flowmeter,                     // Durchflussmesser
-        HeatCool_HeatExchanger,                 // Wärmetauscher
+        HeatCool_HeatexchangerSoldered,         // Wärmetauscher gelötet
+        HeatCool_HeatexchangerBolted,           // Wärmetauscher geschraubt
         HeatCool_Pipe,                          // Rohr
         HeatCool_PipeEndCap,                    // Endkappe / Klöpperboden
         HeatCool_PipeReducer,                   // Reduzierung
@@ -214,6 +216,11 @@ public:
         HeatCool_SafetyValve,                   // Sicherheitsventil
         HeatCool_Sensor,                        // Sensor
         HeatCool_StorageBoiler,                 // Speicherkessel / Schichtspeicher
+        HeatCool_Valve,                         // Ventil
+        HeatCool_ValveHandwheel,                // Handrad zur Ventilsteuerung
+        HeatCool_ValveLever,                    // Hebel zur Ventilsteuerung
+        HeatCool_ValveMotorRect,                // rechteckiger Motor zur Ventilsteuerung
+        HeatCool_ValveMotorRound,               // zylindrischer Motor zur Ventilsteuerung
         HeatCool_WaterHeater,                   // Warmwasserboiler
 
         Sanitary_CleaningPiece,

@@ -135,9 +135,9 @@ void CAD_Electrical_CabinetWithoutDoor::calculate()
     socket->wizardParams.insert("Angle y", angle_y);
     socket->wizardParams.insert("Angle z", angle_z);
 
-    socket->wizardParams.insert("Size x", l);
-    socket->wizardParams.insert("Size y", b);
-    socket->wizardParams.insert("Size z", a1);
+    socket->wizardParams.insert("l", l);
+    socket->wizardParams.insert("b", b);
+    socket->wizardParams.insert("a", a1);
     socket->layer = this->layer;
     socket->processWizardInput();
     socket->calculate();
@@ -150,9 +150,9 @@ void CAD_Electrical_CabinetWithoutDoor::calculate()
     back->wizardParams.insert("Angle y", angle_y);
     back->wizardParams.insert("Angle z", angle_z);
 
-    back->wizardParams.insert("Size x", l - 2*s);
-    back->wizardParams.insert("Size y", s);
-    back->wizardParams.insert("Size z", a - 2*s);
+    back->wizardParams.insert("l", l - 2*s);
+    back->wizardParams.insert("b", s);
+    back->wizardParams.insert("a", a - 2*s);
     back->layer = this->layer;
     back->processWizardInput();
     back->calculate();

@@ -99,9 +99,9 @@ void CAD_arch_support::calculate()
     support->wizardParams.insert("Angle x", (angle_x));
     support->wizardParams.insert("Angle y", (angle_y));
     support->wizardParams.insert("Angle z", (angle_z));
-    support->wizardParams.insert("Size x", (l));
-    support->wizardParams.insert("Size y", (b));
-    support->wizardParams.insert("Size z", (a));
+    support->wizardParams.insert("l", (l));
+    support->wizardParams.insert("b", (b));
+    support->wizardParams.insert("a", (a));
     support->processWizardInput();
     support->calculate();
 

@@ -17,6 +17,7 @@
 #define CAD_HEATCOOL_PUMP_H
 
 #include "caditem.h"
+#include "items/cad_basic_pipe.h"
 
 class CAD_heatcool_pump : public CADitem
 {
@@ -30,6 +31,10 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
+
+    qreal a, d, e, f, fe, ff, l , l1, s;
+    CAD_basic_pipe *pipe, *flange_left, *flange_right;
+    CAD_basic_pipe *motor, *housing;
 };
 
 #endif // CAD_HEATCOOL_PUMP_H
