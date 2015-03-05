@@ -119,9 +119,9 @@ void CAD_Electrical_BusbarEndFeederUnitDoubleSided::calculate()
     feeder->wizardParams.insert("Angle x", angle_x);
     feeder->wizardParams.insert("Angle y", angle_y);
     feeder->wizardParams.insert("Angle z", angle_z);
-    feeder->wizardParams.insert("Size x", l);
-    feeder->wizardParams.insert("Size y", b);
-    feeder->wizardParams.insert("Size z", a);
+    feeder->wizardParams.insert("l", l);
+    feeder->wizardParams.insert("b", b);
+    feeder->wizardParams.insert("a", a);
     feeder->layer = this->layer;
     feeder->processWizardInput();
     feeder->calculate();
@@ -133,9 +133,9 @@ void CAD_Electrical_BusbarEndFeederUnitDoubleSided::calculate()
     plug_1->wizardParams.insert("Angle x", angle_x);
     plug_1->wizardParams.insert("Angle y", angle_y);
     plug_1->wizardParams.insert("Angle z", angle_z);
-    plug_1->wizardParams.insert("Size x", 0.0);
-    plug_1->wizardParams.insert("Size y", e);
-    plug_1->wizardParams.insert("Size z", f);
+    plug_1->wizardParams.insert("l", 0.0);
+    plug_1->wizardParams.insert("b", e);
+    plug_1->wizardParams.insert("a", f);
     plug_1->layer = this->layer;
     plug_1->processWizardInput();
     plug_1->calculate();
@@ -147,9 +147,9 @@ void CAD_Electrical_BusbarEndFeederUnitDoubleSided::calculate()
     plug_2->wizardParams.insert("Angle x", angle_x);
     plug_2->wizardParams.insert("Angle y", angle_y);
     plug_2->wizardParams.insert("Angle z", angle_z);
-    plug_2->wizardParams.insert("Size x", 0.0);
-    plug_2->wizardParams.insert("Size y", e);
-    plug_2->wizardParams.insert("Size z", f);
+    plug_2->wizardParams.insert("l", 0.0);
+    plug_2->wizardParams.insert("b", e);
+    plug_2->wizardParams.insert("a", f);
     plug_2->layer = this->layer;
     plug_2->processWizardInput();
     plug_2->calculate();

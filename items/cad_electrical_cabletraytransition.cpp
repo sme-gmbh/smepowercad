@@ -159,9 +159,9 @@ void CAD_Electrical_CabletrayTransition::calculate()
     floor->wizardParams.insert("Angle y", angle_y);
     floor->wizardParams.insert("Angle z", angle_z);
 
-    floor->wizardParams.insert("Size x", l);
-    floor->wizardParams.insert("Size y", b);
-    floor->wizardParams.insert("Size z", s);
+    floor->wizardParams.insert("l", l);
+    floor->wizardParams.insert("b", b);
+    floor->wizardParams.insert("a", s);
     floor->layer = this->layer;
     floor->processWizardInput();
     floor->calculate();
@@ -187,9 +187,9 @@ void CAD_Electrical_CabletrayTransition::calculate()
     left->wizardParams.insert("Angle y", angle_y);
     left->wizardParams.insert("Angle z", angle_z);
 
-    left->wizardParams.insert("Size x", l);
-    left->wizardParams.insert("Size y", s);
-    left->wizardParams.insert("Size z", a-s);
+    left->wizardParams.insert("l", l);
+    left->wizardParams.insert("b", s);
+    left->wizardParams.insert("a", a-s);
     left->layer = this->layer;
     left->processWizardInput();
     left->calculate();
@@ -215,9 +215,9 @@ void CAD_Electrical_CabletrayTransition::calculate()
     right->wizardParams.insert("Angle y", angle_y);
     right->wizardParams.insert("Angle z", angle_z);
 
-    right->wizardParams.insert("Size x", l);
-    right->wizardParams.insert("Size y", s);
-    right->wizardParams.insert("Size z", a-s);
+    right->wizardParams.insert("l", l);
+    right->wizardParams.insert("b", s);
+    right->wizardParams.insert("a", a-s);
     right->layer = this->layer;
     right->processWizardInput();
     right->calculate();

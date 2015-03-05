@@ -25,9 +25,9 @@ CAD_basic_box::CAD_basic_box() : CADitem(CADitemTypes::Basic_Box)
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("Size x", 1000.0);
-    wizardParams.insert("Size y", 1000.0);
-    wizardParams.insert("Size z", 1000.0);
+    wizardParams.insert("l", 1000.0);
+    wizardParams.insert("b", 1000.0);
+    wizardParams.insert("a", 1000.0);
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();
@@ -207,9 +207,9 @@ void CAD_basic_box::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
-    size.setX(wizardParams.value("Size x").toDouble());
-    size.setY(wizardParams.value("Size y").toDouble());
-    size.setZ(wizardParams.value("Size z").toDouble());
+    size.setX(wizardParams.value("l").toDouble());
+    size.setY(wizardParams.value("b").toDouble());
+    size.setZ(wizardParams.value("a").toDouble());
 }
 
 void CAD_basic_box::paint(GLWidget *glwidget)

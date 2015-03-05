@@ -146,9 +146,9 @@ void CAD_Electrical_CabinetWithDoorLeftAndRight::calculate()
     socket->wizardParams.insert("Angle y", angle_y);
     socket->wizardParams.insert("Angle z", angle_z);
 
-    socket->wizardParams.insert("Size x", l);
-    socket->wizardParams.insert("Size y", b);
-    socket->wizardParams.insert("Size z", a1);
+    socket->wizardParams.insert("l", l);
+    socket->wizardParams.insert("b", b);
+    socket->wizardParams.insert("a", a1);
     socket->layer = this->layer;
     socket->processWizardInput();
     socket->calculate();
@@ -161,9 +161,9 @@ void CAD_Electrical_CabinetWithDoorLeftAndRight::calculate()
     back->wizardParams.insert("Angle y", angle_y);
     back->wizardParams.insert("Angle z", angle_z);
 
-    back->wizardParams.insert("Size x", l - 2*s);
-    back->wizardParams.insert("Size y", s);
-    back->wizardParams.insert("Size z", a - 2*s);
+    back->wizardParams.insert("l", l - 2*s);
+    back->wizardParams.insert("b", s);
+    back->wizardParams.insert("a", a - 2*s);
     back->layer = this->layer;
     back->processWizardInput();
     back->calculate();
@@ -180,9 +180,9 @@ void CAD_Electrical_CabinetWithDoorLeftAndRight::calculate()
     door_left->wizardParams.insert("Angle y", angle_y);
     door_left->wizardParams.insert("Angle z", angle_z - alpha_left);
 
-    door_left->wizardParams.insert("Size x", l2);
-    door_left->wizardParams.insert("Size y", s);
-    door_left->wizardParams.insert("Size z", a - 2*s);
+    door_left->wizardParams.insert("l", l2);
+    door_left->wizardParams.insert("b", s);
+    door_left->wizardParams.insert("a", a - 2*s);
     door_left->layer = this->layer;
     door_left->processWizardInput();
     door_left->calculate();
@@ -199,9 +199,9 @@ void CAD_Electrical_CabinetWithDoorLeftAndRight::calculate()
     door_right->wizardParams.insert("Angle y", angle_y);
     door_right->wizardParams.insert("Angle z", angle_z + alpha_right);
 
-    door_right->wizardParams.insert("Size x", l - l2 - 2 * s);
-    door_right->wizardParams.insert("Size y", s);
-    door_right->wizardParams.insert("Size z", a - 2*s);
+    door_right->wizardParams.insert("l", l - l2 - 2 * s);
+    door_right->wizardParams.insert("b", s);
+    door_right->wizardParams.insert("a", a - 2*s);
     door_right->layer = this->layer;
     door_right->processWizardInput();
     door_right->calculate();

@@ -126,9 +126,9 @@ void CAD_air_pipeFireDamper::calculate()
     function->wizardParams.insert("Angle x", (angle_x));
     function->wizardParams.insert("Angle y", (angle_y));
     function->wizardParams.insert("Angle z", (angle_z));
-    function->wizardParams.insert("Size x", (2 * l2 /3));
-    function->wizardParams.insert("Size y", (0.2 * d));
-    function->wizardParams.insert("Size z", (d));
+    function->wizardParams.insert("l", (2 * l2 /3));
+    function->wizardParams.insert("b", (0.2 * d));
+    function->wizardParams.insert("a", (d));
     function->processWizardInput();
     function->calculate();
 

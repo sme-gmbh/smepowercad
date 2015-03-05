@@ -111,9 +111,9 @@ void CAD_Electrical_EquipmentSwitchOrSocket::calculate()
     equipment->wizardParams.insert("Angle y", angle_y);
     equipment->wizardParams.insert("Angle z", angle_z);
 
-    equipment->wizardParams.insert("Size x", x);
-    equipment->wizardParams.insert("Size y", y);
-    equipment->wizardParams.insert("Size z", z);
+    equipment->wizardParams.insert("l", x);
+    equipment->wizardParams.insert("b", y);
+    equipment->wizardParams.insert("a", z);
     equipment->layer = this->layer;
     equipment->processWizardInput();
     equipment->calculate();

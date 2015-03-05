@@ -18,12 +18,33 @@
 
 CAD_heatcool_pump::CAD_heatcool_pump() : CADitem(CADitemTypes::HeatCool_Pump)
 {
+    pipe = new CAD_basic_pipe;
+    flange_left = new CAD_basic_pipe;
+    flange_right = new CAD_basic_pipe;
+    motor = new CAD_basic_pipe;
+    housing = new CAD_basic_pipe;
+    this->subItems.append(pipe);
+    this->subItems.append(flange_left);
+    this->subItems.append(flange_right);
+    this->subItems.append(motor);
+    this->subItems.append(housing);
+
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
+
+    wizardParams.insert("a", 200.0);
+    wizardParams.insert("d", 150.0);
+    wizardParams.insert("e", 500.0);
+    wizardParams.insert("f", 300.0);
+    wizardParams.insert("fe", 10.0);
+    wizardParams.insert("ff", 10.0);
+    wizardParams.insert("l", 500.0);
+    wizardParams.insert("l1", 400.0);
+    wizardParams.insert("s", 10.0);
 
     processWizardInput();
     calculate();
@@ -48,7 +69,7 @@ QList<CADitemTypes::ItemType> CAD_heatcool_pump::flangable_items()
     flangable_items.append(CADitemTypes::HeatCool_Filter);
     flangable_items.append(CADitemTypes::HeatCool_Flange);
     flangable_items.append(CADitemTypes::HeatCool_Flowmeter);
-    flangable_items.append(CADitemTypes::HeatCool_HeatExchanger);
+    flangable_items.append(CADitemTypes::HeatCool_HeatexchangerSoldered);
     flangable_items.append(CADitemTypes::HeatCool_Pipe);
     flangable_items.append(CADitemTypes::HeatCool_PipeEndCap);
     flangable_items.append(CADitemTypes::HeatCool_PipeReducer);
@@ -60,6 +81,11 @@ QList<CADitemTypes::ItemType> CAD_heatcool_pump::flangable_items()
     flangable_items.append(CADitemTypes::HeatCool_Sensor);
     flangable_items.append(CADitemTypes::HeatCool_StorageBoiler);
     flangable_items.append(CADitemTypes::HeatCool_WaterHeater);
+    flangable_items.append(CADitemTypes::HeatCool_Valve);
+    flangable_items.append(CADitemTypes::HeatCool_ValveLever);
+    flangable_items.append(CADitemTypes::HeatCool_ValveHandwheel);
+    flangable_items.append(CADitemTypes::HeatCool_ValveMotorRect);
+    flangable_items.append(CADitemTypes::HeatCool_ValveMotorRound);
     return flangable_items;
 }
 
@@ -107,6 +133,83 @@ void CAD_heatcool_pump::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+
+    pipe->wizardParams.insert("Position x", position.x());
+    pipe->wizardParams.insert("Position y", position.y());
+    pipe->wizardParams.insert("Position z", position.z());
+    pipe->wizardParams.insert("Angle x", angle_x);
+    pipe->wizardParams.insert("Angle y", angle_y);
+    pipe->wizardParams.insert("Angle z", angle_z);
+    pipe->wizardParams.insert("l", l);
+    pipe->wizardParams.insert("d", d);
+    pipe->wizardParams.insert("s",  s);
+    pipe->layer = this->layer;
+    pipe->processWizardInput();
+    pipe->calculate();
+
+    flange_left->wizardParams.insert("Position x", position.x());
+    flange_left->wizardParams.insert("Position y", position.y());
+    flange_left->wizardParams.insert("Position z", position.z());
+    flange_left->wizardParams.insert("Angle x", angle_x);
+    flange_left->wizardParams.insert("Angle y", angle_y);
+    flange_left->wizardParams.insert("Angle z", angle_z);
+    flange_left->wizardParams.insert("l", fe);
+    flange_left->wizardParams.insert("d", d + 2 * ff);
+    flange_left->wizardParams.insert("s",  ff);
+    flange_left->layer = this->layer;
+    flange_left->processWizardInput();
+    flange_left->calculate();
+
+    QVector3D position_flange = position + matrix_rotation * QVector3D(l - fe, 0.0, 0.0);
+    flange_right->wizardParams.insert("Position x", position_flange.x());
+    flange_right->wizardParams.insert("Position y", position_flange.y());
+    flange_right->wizardParams.insert("Position z", position_flange.z());
+    flange_right->wizardParams.insert("Angle x", angle_x);
+    flange_right->wizardParams.insert("Angle y", angle_y);
+    flange_right->wizardParams.insert("Angle z", angle_z);
+    flange_right->wizardParams.insert("l", fe);
+    flange_right->wizardParams.insert("d", d + 2 * ff);
+    flange_right->wizardParams.insert("s",  ff);
+    flange_right->layer = this->layer;
+    flange_right->processWizardInput();
+    flange_right->calculate();
+
+    QVector3D position_housing = position + matrix_rotation * QVector3D(l/2, 0.0, a/2);
+    housing->wizardParams.insert("Position x", position_housing.x());
+    housing->wizardParams.insert("Position y", position_housing.y());
+    housing->wizardParams.insert("Position z", position_housing.z());
+    housing->wizardParams.insert("Angle x", angle_x);
+    housing->wizardParams.insert("Angle y", angle_y);
+    housing->wizardParams.insert("Angle z", angle_z);
+    housing->wizardParams.insert("l", a);
+    housing->wizardParams.insert("d", l1);
+    housing->wizardParams.insert("s",  l1/2);
+    housing->layer = this->layer;
+    housing->processWizardInput();
+    housing->rotateAroundAxis(90.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
+    housing->calculate();
+
+    QVector3D position_motor = position + matrix_rotation * QVector3D(l/2, 0.0, a/2 + e);
+    motor->wizardParams.insert("Position x", position_motor.x());
+    motor->wizardParams.insert("Position y", position_motor.y());
+    motor->wizardParams.insert("Position z", position_motor.z());
+    motor->wizardParams.insert("Angle x", angle_x);
+    motor->wizardParams.insert("Angle y", angle_y);
+    motor->wizardParams.insert("Angle z", angle_z);
+    motor->wizardParams.insert("l", e);
+    motor->wizardParams.insert("d", f);
+    motor->wizardParams.insert("s",  f/2);
+    motor->layer = this->layer;
+    motor->processWizardInput();
+    motor->rotateAroundAxis(90.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
+    motor->calculate();
+
+    this->boundingBox = flange_left->boundingBox;
+    this->boundingBox.enterVertices(flange_right->boundingBox.getVertices());
+    this->boundingBox.enterVertices(motor->boundingBox.getVertices());
+    this->boundingBox.enterVertices(housing->boundingBox.getVertices());
+
+    this->snap_flanges = pipe->snap_flanges;
 }
 
 void CAD_heatcool_pump::processWizardInput()
@@ -117,5 +220,16 @@ void CAD_heatcool_pump::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+
+    a = wizardParams.value("a").toDouble();
+    d = wizardParams.value("d").toDouble();
+    e = wizardParams.value("e").toDouble();
+    f = wizardParams.value("f").toDouble();
+    fe = wizardParams.value("fe").toDouble();
+    ff = wizardParams.value("ff").toDouble();
+    l = wizardParams.value("l").toDouble();
+    l1  =wizardParams.value("l1").toDouble();
+    s  =wizardParams.value("s").toDouble();
 
 }

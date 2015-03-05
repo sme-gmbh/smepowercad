@@ -25,7 +25,7 @@ CAD_Basic_TorisphericalHeadDIN28011::CAD_Basic_TorisphericalHeadDIN28011() : CAD
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
     wizardParams.insert("d", 100.0);   // Durchmesser
-    wizardParams.insert("h", 90.0);     // Höhe
+    wizardParams.insert("h", 10.0);     // Höhe
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();
@@ -41,6 +41,8 @@ CAD_Basic_TorisphericalHeadDIN28011::CAD_Basic_TorisphericalHeadDIN28011() : CAD
 
     processWizardInput();
     calculate();
+
+    qDebug() << wizardImage();
 }
 
 
@@ -88,10 +90,6 @@ QString CAD_Basic_TorisphericalHeadDIN28011::description()
 
 void CAD_Basic_TorisphericalHeadDIN28011::calculate()
 {
-    matrix_rotation.setToIdentity();
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 
     boundingBox.reset();
 
@@ -194,12 +192,11 @@ void CAD_Basic_TorisphericalHeadDIN28011::calculate()
     indexBufLines.bind();
     indexBufLines.allocate(indicesLines, sizeof(indicesLines));
 
-    boundingBox.enterVertex(position + QVector3D( 100.0, 0, 0));
-    boundingBox.enterVertex(position + QVector3D(-100.0, 0, 0));
-    boundingBox.enterVertex(position + QVector3D(0,  100.0, 0));
-    boundingBox.enterVertex(position + QVector3D(0, -100.0, 0));
-    boundingBox.enterVertex(position + QVector3D(0, 0,  100.0));
-    boundingBox.enterVertex(position + QVector3D(0, 0, -100.0));
+    boundingBox.enterVertex(position + matrix_rotation * QVector3D( d/2, 0.0, 0.0));
+    boundingBox.enterVertex(position + matrix_rotation * QVector3D( -d/2, 0.0, 0.0));
+    boundingBox.enterVertex(position + matrix_rotation * QVector3D( 0.0, d/2, 0.0));
+    boundingBox.enterVertex(position + matrix_rotation * QVector3D( 0.0, -d/2, 0.0));
+    boundingBox.enterVertex(position + matrix_rotation * QVector3D(0.0, 0.0, h + 0.1937742252 * d));
 }
 
 void CAD_Basic_TorisphericalHeadDIN28011::processWizardInput()
@@ -212,6 +209,11 @@ void CAD_Basic_TorisphericalHeadDIN28011::processWizardInput()
     angle_z = wizardParams.value("Angle z").toDouble();
     d = wizardParams.value("d").toDouble();
     h = wizardParams.value("h").toDouble();
+
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 }
 
 void CAD_Basic_TorisphericalHeadDIN28011::paint(GLWidget *glwidget)

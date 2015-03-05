@@ -36,7 +36,6 @@ public:
     virtual void processWizardInput();
     virtual void paint(GLWidget* glwidget);
 
-   QMatrix4x4 matrix_rotation;
 
     qreal radius;
     qreal length;

@@ -101,9 +101,9 @@ void CAD_arch_wall_loadBearing::calculate()
     basic_box->wizardParams.insert("Angle x", (angle_x));
     basic_box->wizardParams.insert("Angle y", (angle_y));
     basic_box->wizardParams.insert("Angle z", (angle_z));
-    basic_box->wizardParams.insert("Size x", (l));
-    basic_box->wizardParams.insert("Size y", (b));
-    basic_box->wizardParams.insert("Size z", (a));
+    basic_box->wizardParams.insert("l", (l));
+    basic_box->wizardParams.insert("b", (b));
+    basic_box->wizardParams.insert("a", (a));
     basic_box->processWizardInput();
     basic_box->calculate();
 

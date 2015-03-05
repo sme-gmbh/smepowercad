@@ -137,9 +137,9 @@ void CAD_air_ductFireDamper::calculate()
     flange_duct_middle->wizardParams.insert("Angle x", (angle_x));
     flange_duct_middle->wizardParams.insert("Angle y", (angle_y));
     flange_duct_middle->wizardParams.insert("Angle z", (angle_z));
-    flange_duct_middle->wizardParams.insert("Size x", (l2));
-    flange_duct_middle->wizardParams.insert("Size y", (g));
-    flange_duct_middle->wizardParams.insert("Size z", (h));
+    flange_duct_middle->wizardParams.insert("l", (l2));
+    flange_duct_middle->wizardParams.insert("b", (g));
+    flange_duct_middle->wizardParams.insert("a", (h));
     flange_duct_middle->processWizardInput();
     flange_duct_middle->calculate();
 
@@ -178,9 +178,9 @@ void CAD_air_ductFireDamper::calculate()
     function->wizardParams.insert("Angle x", (angle_x));
     function->wizardParams.insert("Angle y", (angle_y));
     function->wizardParams.insert("Angle z", (angle_z));
-    function->wizardParams.insert("Size x", (0.3 * l3));
-    function->wizardParams.insert("Size y", (0.2 * b));
-    function->wizardParams.insert("Size z", (0.5 * a));
+    function->wizardParams.insert("l", (0.3 * l3));
+    function->wizardParams.insert("b", (0.2 * b));
+    function->wizardParams.insert("a", (0.5 * a));
     function->processWizardInput();
     function->calculate();
 

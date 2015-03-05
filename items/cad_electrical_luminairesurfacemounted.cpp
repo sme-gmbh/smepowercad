@@ -112,9 +112,9 @@ void CAD_Electrical_LuminaireSurfaceMounted::calculate()
     luminaire->wizardParams.insert("Angle y", angle_y);
     luminaire->wizardParams.insert("Angle z", angle_z);
 
-    luminaire->wizardParams.insert("Size x", l);
-    luminaire->wizardParams.insert("Size y", b);
-    luminaire->wizardParams.insert("Size z", a);
+    luminaire->wizardParams.insert("l", l);
+    luminaire->wizardParams.insert("b", b);
+    luminaire->wizardParams.insert("a", a);
     luminaire->layer = this->layer;
     luminaire->processWizardInput();
     luminaire->calculate();

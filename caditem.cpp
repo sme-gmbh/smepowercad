@@ -186,13 +186,15 @@ qreal CADitem::alpha(quint32 i)
 
 void CADitem::rotateAroundAxis(qreal angle, QVector3D axis, qreal angle_x, qreal angle_y, qreal angle_z)
 {
-    QMatrix4x4 matrix;
-    matrix.setToIdentity();
-    matrix.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix.rotate(angle_z, 0.0, 0.0, 1.0);
-    matrix.rotate(angle, QVector3D(axis));
-    matrix_rotation = matrix;
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
+    matrix_rotation.rotate(angle, QVector3D(axis));
+
+    qDebug() << "matrix in rotateAroundAxis(), caditem";
+    qDebug() << matrix_rotation;
+
 }
 
 CADitemTypes::ItemType CADitem::getType()

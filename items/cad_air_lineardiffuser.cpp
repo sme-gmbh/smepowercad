@@ -107,9 +107,9 @@ void CAD_air_lineardiffuser::calculate()
     upper->wizardParams.insert("Angle x", angle_x);
     upper->wizardParams.insert("Angle y", angle_y);
     upper->wizardParams.insert("Angle z", angle_z);
-    upper->wizardParams.insert("Size x",  l);
-    upper->wizardParams.insert("Size y", b);
-    upper->wizardParams.insert("Size z",  a);
+    upper->wizardParams.insert("l",  l);
+    upper->wizardParams.insert("b", b);
+    upper->wizardParams.insert("a",  a);
     upper->layer =  this->layer;
     upper->processWizardInput();
     upper->calculate();
@@ -150,9 +150,9 @@ void CAD_air_lineardiffuser::calculate()
         box->wizardParams.insert("Angle y", angle_y);
         box->wizardParams.insert("Angle z", angle_z);
 
-        box->wizardParams.insert("Size x", l - 0.1*a);
-        box->wizardParams.insert("Size y", b1/15);
-        box->wizardParams.insert("Size z", a1/2);
+        box->wizardParams.insert("l", l - 0.1*a);
+        box->wizardParams.insert("b", b1/15);
+        box->wizardParams.insert("a", a1/2);
         box->layer = this->layer;
         box->processWizardInput();
         box->calculate();
