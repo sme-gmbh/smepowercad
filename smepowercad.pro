@@ -37,6 +37,16 @@ LIBS += -lGLU -lX11
 TRANSLATIONS =  lang/powercad-de_DE.ts \
                 lang/powercad-ru_RU.ts
 
+# Uncomment to enable 3D Mouse Driver Compilation
+#CONFIG += 3D_MOUSE
+
+3D_MOUSE {
+DEFINES += USE_3D_MOUSE
+SOURCES +=
+HEADERS +=
+}
+
+
 SOURCES += main.cpp\
         mainwindow.cpp \
     layer.cpp \
@@ -134,8 +144,6 @@ SOURCES += main.cpp\
     items/cad_heatcool_flowmeter.cpp \
     modaldialog.cpp \
     settingsdialog.cpp \
-    3Dmouse/qmagellan.cpp \
-    3Dmouse/xdrvlib.c \
     itemwizard.cpp \
     items/cad_sprinkler_pipeturn.cpp \
     items/cad_sprinkler_pipereducer.cpp \
@@ -374,8 +382,6 @@ HEADERS  += mainwindow.h \
     items/cad_heatcool_flowmeter.h \
     modaldialog.h \
     settingsdialog.h \
-    3Dmouse/qmagellan.h \
-    3Dmouse/xdrvlib.h \
     itemwizard.h \
     items/cad_sprinkler_pipeturn.h \
     items/cad_sprinkler_pipereducer.h \
