@@ -272,10 +272,10 @@
         <file>icons/cad_heatcool/cad_heatcool_valvemotorround.svg</file>
         <file>itemGraphic/cad_heatcool_valvemotorrect.png</file>
         <file>itemGraphic/cad_heatcool_valvemotorround.png</file>
-        <file>icons/cad_heatcool/cad_heatcool_heatexchangerbolted.svg</file>
         <file>icons/cad_heatcool/cad_heatcool_heatexchangersoldered.svg</file>
         <file>itemGraphic/cad_heatcool_heatexchangerbolted.png</file>
         <file>itemGraphic/cad_heatcool_heatexchangersoldered.png</file>
+        <file>icons/cad_heatcool/cad_heatcool_heatexchangerbolted.svg</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>

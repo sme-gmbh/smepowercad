@@ -95,7 +95,7 @@ QImage CAD_HeatCool_HeatexchangerSoldered::wizardImage()
 
 QString CAD_HeatCool_HeatexchangerSoldered::iconPath()
 {
-    return ":/icons/cad_heatcool/cad_HeatCool_Heatexchangersoldered.svg";
+    return ":/icons/cad_heatcool/cad_heatcool_heatexchangersoldered.svg";
 }
 
 QString CAD_HeatCool_HeatexchangerSoldered::domain()

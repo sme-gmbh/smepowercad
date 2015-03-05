@@ -131,8 +131,8 @@ void CAD_HeatCool_HeatexchangerBolted::calculate()
     body->wizardParams.insert("Angle y", angle_y);
     body->wizardParams.insert("Angle z", angle_z);
     body->wizardParams.insert("l", l * 0.8);
-    body->wizardParams.insert("b", b);
-    body->wizardParams.insert("a", a);
+    body->wizardParams.insert("b", b * 0.8);
+    body->wizardParams.insert("a", a * 0.8);
     body->layer = this->layer;
     body->processWizardInput();
     body->calculate();
@@ -165,7 +165,33 @@ void CAD_HeatCool_HeatexchangerBolted::calculate()
     plate_back->processWizardInput();
     plate_back->calculate();
 
-    //QVector3D position_top = position + matrix_rotation * QVector3D(l/2 + l3/2, 0.0, a2 * )
+    QVector3D position_top = position + matrix_rotation * QVector3D(l/2 + l3/2, 0.0, a2 * 0.95);
+    mounting_top->wizardParams.insert("Position x", position_top.x());
+    mounting_top->wizardParams.insert("Position y", position_top.y());
+    mounting_top->wizardParams.insert("Position z", position_top.z());
+    mounting_top->wizardParams.insert("Angle x", angle_x);
+    mounting_top->wizardParams.insert("Angle y", angle_y);
+    mounting_top->wizardParams.insert("Angle z", angle_z);
+    mounting_top->wizardParams.insert("l", l3);
+    mounting_top->wizardParams.insert("b", 0.1*a2);
+    mounting_top->wizardParams.insert("a", 0.1*a2);
+    mounting_top->layer = this->layer;
+    mounting_top->processWizardInput();
+    mounting_top->calculate();
+
+    QVector3D position_bot = position + matrix_rotation * QVector3D(l/2 + l3 - a2 * 0.05, 0.0, a2 * 0.45);
+    mounting_bottom->wizardParams.insert("Position x", position_bot.x());
+    mounting_bottom->wizardParams.insert("Position y", position_bot.y());
+    mounting_bottom->wizardParams.insert("Position z", position_bot.z());
+    mounting_bottom->wizardParams.insert("Angle x", angle_x);
+    mounting_bottom->wizardParams.insert("Angle y", angle_y);
+    mounting_bottom->wizardParams.insert("Angle z", angle_z);
+    mounting_bottom->wizardParams.insert("l", a2 * 0.1);
+    mounting_bottom->wizardParams.insert("b", 0.1*a2);
+    mounting_bottom->wizardParams.insert("a", a2 * 0.9);
+    mounting_bottom->layer = this->layer;
+    mounting_bottom->processWizardInput();
+    mounting_bottom->calculate();
 
     QVector3D position_pipe_1 = position + matrix_rotation * QVector3D(-l/2 - l2, -e/2, a/2 -f/2);
     pipe_1->wizardParams.insert("Position x", position_pipe_1.x());
