@@ -82,6 +82,7 @@ public:
         Basic_Cylinder,                         // Basisgeometrie: Zylinder
         Basic_Duct,                             // Basisgeometrie: Kanal
         Basic_Face,                             // Basisgeometrie: Fläche
+        Basic_Flume,                            // Basisgeometrie: Rinne
         Basic_Hemisphere,                       // Basisgeometrie: Halbkugel
         Basic_Line,                             // Basisgeometrie: Linie
         Basic_Pipe,                             // Basisgeometrie: Rohr
@@ -196,7 +197,8 @@ public:
         HeatCool_Adjustvalve,                   // Regulierventil
         HeatCool_BallValve,                     // Kugelhahn
         HeatCool_Boiler,                        // Heizkessel
-        HeatCool_ButterflyValve,                // Absperrklappe
+        HeatCool_ButterflyValveBolted,          // Absperrklappe mit Gewindeaugen
+        HeatCool_ButterflyValveClamped,         // Absperrklappe eingeklemmt
         HeatCool_Chiller,                       // Kältemaschine
         HeatCool_Controlvalve,                  // Regelventil
         HeatCool_CoolingTower,                  // Kühlturm
@@ -206,6 +208,7 @@ public:
         HeatCool_Flowmeter,                     // Durchflussmesser
         HeatCool_HeatexchangerSoldered,         // Wärmetauscher gelötet
         HeatCool_HeatexchangerBolted,           // Wärmetauscher geschraubt
+        HeatCool_NonReturnValve,                // Rückschlagklappen
         HeatCool_Pipe,                          // Rohr
         HeatCool_PipeEndCap,                    // Endkappe / Klöpperboden
         HeatCool_PipeReducer,                   // Reduzierung
@@ -213,11 +216,16 @@ public:
         HeatCool_PipeTurn,                      // Rohrbogen
         HeatCool_Pump,                          // Pumpe
         HeatCool_Radiator,                      // Heizkörper
+        HeatCool_RadiatorCompact,               // Kompaktheizkörper
+        HeatCool_RadiatorFlange,                // Anschlussstück für Ventilheizkörper
+        HeatCool_RadiatorFlangeBent,            // Anschlussstück für Ventilheizkörper, gebogen
+        HeatCool_RadiatorValve,                 // Ventilheizkörper
         HeatCool_SafetyValve,                   // Sicherheitsventil
         HeatCool_Sensor,                        // Sensor
         HeatCool_StorageBoiler,                 // Speicherkessel / Schichtspeicher
         HeatCool_Valve,                         // Ventil
         HeatCool_ValveHandwheel,                // Handrad zur Ventilsteuerung
+        HeatCool_ValveHandwheelGear,            // Handrad mit Getriebe zur Ventilsteuerung
         HeatCool_ValveLever,                    // Hebel zur Ventilsteuerung
         HeatCool_ValveMotorRect,                // rechteckiger Motor zur Ventilsteuerung
         HeatCool_ValveMotorRound,               // zylindrischer Motor zur Ventilsteuerung

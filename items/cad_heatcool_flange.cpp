@@ -18,12 +18,23 @@
 
 CAD_heatcool_flange::CAD_heatcool_flange() : CADitem(CADitemTypes::HeatCool_Flange)
 {
+    pipe = new CAD_basic_pipe;
+    flange = new CAD_basic_pipe;
+    this->subItems.append(pipe);
+    this->subItems.append(flange);
+
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
+
+    wizardParams.insert("d1",  150.0);
+    wizardParams.insert("d2",  350.0);
+    wizardParams.insert("l",   200.0);
+    wizardParams.insert("l2",   10.0);
+    wizardParams.insert("s",    10.0);
 
     processWizardInput();
     calculate();
@@ -40,7 +51,6 @@ QList<CADitemTypes::ItemType> CAD_heatcool_flange::flangable_items()
     flangable_items.append(CADitemTypes::HeatCool_Adjustvalve);
     flangable_items.append(CADitemTypes::HeatCool_BallValve);
     flangable_items.append(CADitemTypes::HeatCool_Boiler);
-    flangable_items.append(CADitemTypes::HeatCool_ButterflyValve);
     flangable_items.append(CADitemTypes::HeatCool_Chiller);
     flangable_items.append(CADitemTypes::HeatCool_Controlvalve);
     flangable_items.append(CADitemTypes::HeatCool_CoolingTower);
@@ -95,10 +105,6 @@ QString CAD_heatcool_flange::description()
 
 void CAD_heatcool_flange::calculate()
 {
-    matrix_rotation.setToIdentity();
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 
     boundingBox.reset();
 
@@ -107,6 +113,37 @@ void CAD_heatcool_flange::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+
+    pipe->wizardParams.insert("Position x", position.x());
+    pipe->wizardParams.insert("Position y", position.y());
+    pipe->wizardParams.insert("Position z", position.z());
+    pipe->wizardParams.insert("Angle x", angle_x);
+    pipe->wizardParams.insert("Angle y", angle_y);
+    pipe->wizardParams.insert("Angle z", angle_z);
+    pipe->wizardParams.insert("l", l);
+    pipe->wizardParams.insert("d", d1);
+    pipe->wizardParams.insert("s",  s);
+    pipe->layer = this->layer;
+    pipe->processWizardInput();
+    pipe->calculate();
+
+    QVector3D position_fl = position + matrix_rotation * QVector3D(l - l2,0.0, 0.0);
+    flange->wizardParams.insert("Position x", position_fl.x());
+    flange->wizardParams.insert("Position y", position_fl.y());
+    flange->wizardParams.insert("Position z", position_fl.z());
+    flange->wizardParams.insert("Angle x", angle_x);
+    flange->wizardParams.insert("Angle y", angle_y);
+    flange->wizardParams.insert("Angle z", angle_z);
+    flange->wizardParams.insert("l", l2);
+    flange->wizardParams.insert("d", d2);
+    flange->wizardParams.insert("s",  (d2 - d1)/2);
+    flange->layer = this->layer;
+    flange->processWizardInput();
+    flange->calculate();
+
+    this->boundingBox = pipe->boundingBox;
+    this->boundingBox.enterVertices(flange->boundingBox.getVertices());
+    this->snap_flanges = pipe->snap_flanges;
 }
 
 void CAD_heatcool_flange::processWizardInput()
@@ -117,5 +154,16 @@ void CAD_heatcool_flange::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    d1 = wizardParams.value("d1").toDouble();
+    d2 = wizardParams.value("d2").toDouble();
+    l = wizardParams.value("l").toDouble();
+    l2 = wizardParams.value("l2").toDouble();
+    s = wizardParams.value("s").toDouble();
+
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 
 }

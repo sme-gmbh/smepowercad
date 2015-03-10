@@ -18,12 +18,32 @@
 
 CAD_heatcool_filter::CAD_heatcool_filter() : CADitem(CADitemTypes::HeatCool_Filter)
 {
+    filter = new CAD_basic_pipe;
+    flange_left = new CAD_basic_pipe;
+    flange_right = new CAD_basic_pipe;
+    pipe_left = new CAD_basic_pipe;
+    pipe_right = new CAD_basic_pipe;
+    this->subItems.append(filter);
+    this->subItems.append(flange_left);
+    this->subItems.append(flange_right);
+    this->subItems.append(pipe_left);
+    this->subItems.append(pipe_right);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
+
+    wizardParams.insert("a",  500.0);
+    wizardParams.insert("a2", 350.0);
+    wizardParams.insert("a3", 400.0);
+    wizardParams.insert("e",  200.0);
+    wizardParams.insert("fe",  10.0);
+    wizardParams.insert("ff", 10.0);
+    wizardParams.insert("l",  500.0);
+    wizardParams.insert("d",  150.0);
+    wizardParams.insert("s",   10.0);
 
     processWizardInput();
     calculate();
@@ -40,7 +60,6 @@ QList<CADitemTypes::ItemType> CAD_heatcool_filter::flangable_items()
     flangable_items.append(CADitemTypes::HeatCool_Adjustvalve);
     flangable_items.append(CADitemTypes::HeatCool_BallValve);
     flangable_items.append(CADitemTypes::HeatCool_Boiler);
-    flangable_items.append(CADitemTypes::HeatCool_ButterflyValve);
     flangable_items.append(CADitemTypes::HeatCool_Chiller);
     flangable_items.append(CADitemTypes::HeatCool_Controlvalve);
     flangable_items.append(CADitemTypes::HeatCool_CoolingTower);
@@ -95,11 +114,6 @@ QString CAD_heatcool_filter::description()
 
 void CAD_heatcool_filter::calculate()
 {
-    matrix_rotation.setToIdentity();
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-
     boundingBox.reset();
 
     this->snap_flanges.clear();
@@ -107,6 +121,85 @@ void CAD_heatcool_filter::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+
+    pipe_left->wizardParams.insert("Position x", position.x());
+    pipe_left->wizardParams.insert("Position y", position.y());
+    pipe_left->wizardParams.insert("Position z", position.z());
+    pipe_left->wizardParams.insert("Angle x", angle_x);
+    pipe_left->wizardParams.insert("Angle y", angle_y);
+    pipe_left->wizardParams.insert("Angle z", angle_z);
+    pipe_left->wizardParams.insert("l", (l - e) / 2 * 1.2);
+    pipe_left->wizardParams.insert("d", d);
+    pipe_left->wizardParams.insert("s",  s);
+    pipe_left->layer = this->layer;
+    pipe_left->processWizardInput();
+    pipe_left->calculate();
+
+    flange_left->wizardParams.insert("Position x", position.x());
+    flange_left->wizardParams.insert("Position y", position.y());
+    flange_left->wizardParams.insert("Position z", position.z());
+    flange_left->wizardParams.insert("Angle x", angle_x);
+    flange_left->wizardParams.insert("Angle y", angle_y);
+    flange_left->wizardParams.insert("Angle z", angle_z);
+    flange_left->wizardParams.insert("l", fe);
+    flange_left->wizardParams.insert("d", d + 2 * ff);
+    flange_left->wizardParams.insert("s", ff);
+    flange_left->layer = this->layer;
+    flange_left->processWizardInput();
+    flange_left->calculate();
+
+    QVector3D position_pr = position + matrix_rotation * QVector3D(0.4*l + 0.6*e, 0.0, -a2 + a3);
+    pipe_right->wizardParams.insert("Position x", position_pr.x());
+    pipe_right->wizardParams.insert("Position y", position_pr.y());
+    pipe_right->wizardParams.insert("Position z", position_pr.z());
+    pipe_right->wizardParams.insert("Angle x", angle_x);
+    pipe_right->wizardParams.insert("Angle y", angle_y);
+    pipe_right->wizardParams.insert("Angle z", angle_z);
+    pipe_right->wizardParams.insert("l", (l - e) / 2 * 1.2);
+    pipe_right->wizardParams.insert("d", d);
+    pipe_right->wizardParams.insert("s",  s);
+    pipe_right->layer = this->layer;
+    pipe_right->processWizardInput();
+    pipe_right->calculate();
+
+    QVector3D position_fr = position + matrix_rotation * QVector3D(l - fe, 0.0, -a2 + a3);
+    flange_right->wizardParams.insert("Position x", position_fr.x());
+    flange_right->wizardParams.insert("Position y", position_fr.y());
+    flange_right->wizardParams.insert("Position z", position_fr.z());
+    flange_right->wizardParams.insert("Angle x", angle_x);
+    flange_right->wizardParams.insert("Angle y", angle_y);
+    flange_right->wizardParams.insert("Angle z", angle_z);
+    flange_right->wizardParams.insert("l", fe);
+    flange_right->wizardParams.insert("d", d + 2 * ff);
+    flange_right->wizardParams.insert("s", ff);
+    flange_right->layer = this->layer;
+    flange_right->processWizardInput();
+    flange_right->calculate();
+
+    QVector3D position_filter = position + matrix_rotation * QVector3D(l/2, 0.0, -a2 + a);
+    filter->wizardParams.insert("Position x", position_filter.x());
+    filter->wizardParams.insert("Position y", position_filter.y());
+    filter->wizardParams.insert("Position z", position_filter.z());
+    filter->wizardParams.insert("Angle x", angle_x);
+    filter->wizardParams.insert("Angle y", angle_y);
+    filter->wizardParams.insert("Angle z", angle_z);
+    filter->wizardParams.insert("l", a);
+    filter->wizardParams.insert("d", e);
+    filter->wizardParams.insert("s", e/2);
+    filter->layer = this->layer;
+    filter->processWizardInput();
+    filter->rotateAroundAxis(90.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
+    filter->calculate();
+
+    this->boundingBox = pipe_left->boundingBox;
+    this->boundingBox.enterVertices(pipe_right->boundingBox.getVertices());
+    this->boundingBox.enterVertices(flange_left->boundingBox.getVertices());
+    this->boundingBox.enterVertices(flange_right->boundingBox.getVertices());
+    this->boundingBox.enterVertices(filter->boundingBox.getVertices());
+
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, -a2 + a3));
+
 }
 
 void CAD_heatcool_filter::processWizardInput()
@@ -118,4 +211,18 @@ void CAD_heatcool_filter::processWizardInput()
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
 
+    a = wizardParams.value("a").toDouble();
+    a2 = wizardParams.value("a2").toDouble();
+    a3 = wizardParams.value("a3").toDouble();
+    e = wizardParams.value("e").toDouble();
+    fe = wizardParams.value("fe").toDouble();
+    ff = wizardParams.value("ff").toDouble();
+    l = wizardParams.value("l").toDouble();
+    d = wizardParams.value("d").toDouble();
+    s = wizardParams.value("s").toDouble();
+
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 }

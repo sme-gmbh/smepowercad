@@ -66,7 +66,6 @@
         <file>icons/cad_heatcool/cad_heatcool_flowmeter.svg</file>
         <file>icons/cad_heatcool/cad_heatcool_flange.svg</file>
         <file>icons/cad_heatcool/cad_heatcool_filter.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_butterflyvalve.svg</file>
         <file>icons/cad_heatcool/cad_heatcool_expansionchamber.svg</file>
         <file>icons/cad_heatcool/cad_heatcool_coolingtower.svg</file>
         <file>icons/cad_heatcool/cad_heatcool_controlvalve.svg</file>
@@ -276,6 +275,18 @@
         <file>itemGraphic/cad_heatcool_heatexchangerbolted.png</file>
         <file>itemGraphic/cad_heatcool_heatexchangersoldered.png</file>
         <file>icons/cad_heatcool/cad_heatcool_heatexchangerbolted.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_nonreturnvalve.svg</file>
+        <file>itemGraphic/cad_heatcool_nonreturnvalve.png</file>
+        <file>itemGraphic/cad_heatcool_butterflyvalvebolted.png</file>
+        <file>icons/cad_heatcool/cad_heatcool_butterflyvalvebolted.svg</file>
+        <file>itemGraphic/cad_heatcool_butterflyvalveclamped.png</file>
+        <file>itemGraphic/cad_basic_flume.png</file>
+        <file>icons/cad_heatcool/cad_heatcool_butterflyvalveclamped.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_radiatorcompact.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_valvehandwheelgear.svg</file>
+        <file>itemGraphic/cad_heatcool_radiatorcompact.png</file>
+        <file>itemGraphic/cad_heatcool_radiatorvalve.png</file>
+        <file>icons/cad_heatcool/cad_heatcool_radiatorvalve.svg</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>
@@ -296,5 +307,11 @@
         <file>icons/solid.svg</file>
         <file>icons/wireframe.svg</file>
     </qresource>
-    <qresource prefix="/settings"/>
+    <qresource prefix="/settings">
+        <file>itemGraphic/cad_heatcool_radiatorflange.png</file>
+        <file>icons/cad_heatcool/cad_heatcool_radiatorflange.svg</file>
+        <file>itemGraphic/cad_heatcool_radiatorflangebent.png</file>
+        <file>icons/cad_heatcool/cad_heatcool_radiatorflangebent.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_adjustvalve.svg</file>
+    </qresource>
 </RCC>

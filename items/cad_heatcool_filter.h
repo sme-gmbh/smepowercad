@@ -17,6 +17,7 @@
 #define CAD_HEATCOOL_FILTER_H
 
 #include "caditem.h"
+#include "items/cad_basic_pipe.h"
 
 class CAD_heatcool_filter : public CADitem
 {
@@ -30,6 +31,9 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
+
+    qreal a, a2, a3, e, fe, ff, l, d, s;
+    CAD_basic_pipe *filter, *flange_left, *flange_right, *pipe_left, *pipe_right;
 };
 
 #endif // CAD_HEATCOOL_FILTER_H

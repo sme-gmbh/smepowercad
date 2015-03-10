@@ -482,6 +482,9 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Basic_Duct:
         newItem = new CAD_basic_duct();
         break;
+    case CADitemTypes::Basic_Flume:
+        newItem = new CAD_Basic_Flume();
+        break;
     case CADitemTypes::Basic_Hemisphere:
         newItem = new CAD_Basic_Hemisphere();
         break;
@@ -820,8 +823,11 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::HeatCool_Boiler:
         newItem = new CAD_heatcool_boiler();
         break;
-    case CADitemTypes::HeatCool_ButterflyValve:
-        newItem = new CAD_heatcool_butterflyValve();
+    case CADitemTypes::HeatCool_ButterflyValveBolted:
+        newItem = new CAD_HeatCool_ButterflyValveBolted;
+        break;
+    case CADitemTypes::HeatCool_ButterflyValveClamped:
+        newItem = new CAD_HeatCool_ButterflyValveClamped;
         break;
     case CADitemTypes::HeatCool_Chiller:
         newItem = new CAD_heatcool_chiller();
@@ -850,6 +856,9 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::HeatCool_HeatexchangerSoldered:
         newItem = new CAD_HeatCool_HeatexchangerSoldered();
         break;
+    case CADitemTypes::HeatCool_NonReturnValve:
+        newItem = new CAD_HeatCool_NonReturnValve();
+        break;
     case CADitemTypes::HeatCool_Pipe:
         newItem = new CAD_heatcool_pipe();
         break;
@@ -871,6 +880,18 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::HeatCool_Radiator:
         newItem = new CAD_heatcool_radiator();
         break;
+    case CADitemTypes::HeatCool_RadiatorCompact:
+        newItem = new CAD_HeatCool_RadiatorCompact();
+        break;
+    case CADitemTypes::HeatCool_RadiatorFlange:
+        newItem = new CAD_HeatCool_RadiatorFlange();
+        break;
+    case CADitemTypes::HeatCool_RadiatorFlangeBent:
+        newItem = new CAD_HeatCool_RadiatorFlangeBent();
+        break;
+    case CADitemTypes::HeatCool_RadiatorValve:
+        newItem = new CAD_HeatCool_RadiatorValve();
+        break;
     case CADitemTypes::HeatCool_SafetyValve:
         newItem = new CAD_heatcool_safetyValve();
         break;
@@ -885,6 +906,9 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
         break;
     case CADitemTypes::HeatCool_ValveHandwheel:
         newItem = new CAD_HeatCool_ValveHandwheel();
+        break;
+    case CADitemTypes::HeatCool_ValveHandwheelGear:
+        newItem = new CAD_HeatCool_ValveHandwheelGear();
         break;
     case CADitemTypes::HeatCool_ValveLever:
         newItem = new CAD_HeatCool_ValveLever();
