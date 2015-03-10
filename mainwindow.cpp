@@ -125,11 +125,13 @@ MainWindow::MainWindow(QWidget *parent) :
     this->server = new Server(itemDB, this);
 
     // **** 3D mouse ****
+#ifdef USE_3D_MOUSE
     magellanThread = new QMagellanThread();
     connect(magellanThread, SIGNAL(signal_mouseCoords(int,int,int,int,int,int)), mainGeometryDisplay, SIGNAL(signal_mouse3Dcoords(int,int,int,int,int,int)));
     //connect(magellanThread, SIGNAL(signal_buttonPressed(int)), this, SLOT());
     //connect(magellanThread, SIGNAL(signal_buttonReleased(int)), this, SLOT());
     magellanThread->start();
+#endif
 
 
 
@@ -250,8 +252,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+#ifdef USE_3D_MOUSE
     magellanThread->terminate();
     delete magellanThread;
+#endif
     //    delete layerManager;
     //    delete itemDB;
     //    delete settingsDialog;
@@ -495,7 +499,9 @@ void MainWindow::slot_newGeometryDisplay()
     connect(layerManager, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(itemDB, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(itemDB, SIGNAL(signal_itemDeleted(CADitem*)), newGeometryDisplay, SIGNAL(signal_itemDeleted(CADitem*)));
+#ifdef USE_3D_MOUSE
     connect(magellanThread, SIGNAL(signal_mouseCoords(int,int,int,int,int,int)), newGeometryDisplay, SIGNAL(signal_mouse3Dcoords(int,int,int,int,int,int)));
+#endif
     connect(settingsDialog, SIGNAL(signal_settingsChanged()), newGeometryDisplay, SIGNAL(signal_settingsChanged()));
 
     this->addDockWidget(Qt::LeftDockWidgetArea, newGeometryDisplay);

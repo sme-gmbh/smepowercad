@@ -29,7 +29,9 @@
 #include <QMouseEvent>
 #include <QSettings>
 
+#ifdef USE_3D_MOUSE
 #include "3Dmouse/qmagellan.h"
+#endif
 
 #include "layermanager.h"
 #include "layer.h"
@@ -64,7 +66,10 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+#ifdef USE_3D_MOUSE
     QMagellanThread *magellanThread;
+#endif
     ItemDB* itemDB;
     LayerManager* layerManager;
     CollisionDetection* collisionDetection;
