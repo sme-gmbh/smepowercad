@@ -66,6 +66,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
 #ifdef USE_3D_MOUSE
     QMagellanThread *magellanThread;
 #endif

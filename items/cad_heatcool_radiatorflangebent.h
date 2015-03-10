@@ -13,16 +13,18 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#ifndef CAD_HEATCOOL_BUTTERFLYVALVE_H
-#define CAD_HEATCOOL_BUTTERFLYVALVE_H
+#ifndef CAD_HEATCOOL_RADIATORFLANGEBENT_H
+#define CAD_HEATCOOL_RADIATORFLANGEBENT_H
 
 #include "caditem.h"
+#include "items/cad_basic_box.h"
+#include "items/cad_basic_pipe.h"
 
-class CAD_heatcool_butterflyValve : public CADitem
+class CAD_HeatCool_RadiatorFlangeBent : public CADitem
 {
 public:
-    CAD_heatcool_butterflyValve();
-    virtual ~CAD_heatcool_butterflyValve();
+    CAD_HeatCool_RadiatorFlangeBent();
+    virtual ~CAD_HeatCool_RadiatorFlangeBent();
     virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
@@ -30,6 +32,15 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
+//    virtual void paint(GLWidget* glwidget);
+
+//    QOpenGLBuffer arrayBufVertices;
+//    QOpenGLBuffer indexBufFaces;
+//    QOpenGLBuffer indexBufLines;
+
+    qreal d, e, h, l, s;
+    CAD_basic_box *connector;
+    CAD_basic_pipe *pipe_l1, *pipe_l2, *pipe_o1, *pipe_o2;
 };
 
-#endif // CAD_HEATCOOL_BUTTERFLYVALVE_H
+#endif // CAD_HEATCOOL_RADIATORFLANGEBENT_H

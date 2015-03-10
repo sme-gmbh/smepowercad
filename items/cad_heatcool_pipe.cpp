@@ -46,7 +46,6 @@ QList<CADitemTypes::ItemType> CAD_heatcool_pipe::flangable_items()
     flangable_items.append(CADitemTypes::HeatCool_Adjustvalve);
     flangable_items.append(CADitemTypes::HeatCool_BallValve);
     flangable_items.append(CADitemTypes::HeatCool_Boiler);
-    flangable_items.append(CADitemTypes::HeatCool_ButterflyValve);
     flangable_items.append(CADitemTypes::HeatCool_Chiller);
     flangable_items.append(CADitemTypes::HeatCool_Controlvalve);
     flangable_items.append(CADitemTypes::HeatCool_CoolingTower);

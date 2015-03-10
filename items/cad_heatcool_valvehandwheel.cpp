@@ -118,6 +118,7 @@ void CAD_HeatCool_ValveHandwheel::calculate()
     wheel->wizardParams.insert("r2",  e/2);
     wheel->layer = this->layer;
     wheel->processWizardInput();
+    wheel->matrix_rotation = this->matrix_rotation;
     wheel->calculate();
 
     QVector3D position_c1 = position + matrix_rotation * QVector3D(0.0, -g/2 + e, f);
@@ -132,7 +133,8 @@ void CAD_HeatCool_ValveHandwheel::calculate()
     cross_1->wizardParams.insert("s",  0.1 * e);
     cross_1->layer = this->layer;
     cross_1->processWizardInput();
-    cross_1->rotateAroundAxis(90, QVector3D(0.0, 0.0, 1.0), angle_x, angle_y, angle_z);
+    cross_1->matrix_rotation = this->matrix_rotation;
+    cross_1->matrix_rotation.rotate(90, QVector3D(0.0, 0.0, 1.0));
     cross_1->calculate();
 
     QVector3D position_c2 = position + matrix_rotation * QVector3D(-g/2 + e, 0.0, f);
@@ -147,6 +149,7 @@ void CAD_HeatCool_ValveHandwheel::calculate()
     cross_2->wizardParams.insert("s",  0.1 * e);
     cross_2->layer = this->layer;
     cross_2->processWizardInput();
+    cross_2->matrix_rotation = this->matrix_rotation;
     cross_2->calculate();
 
     bar->wizardParams.insert("Position x", position.x());
@@ -160,7 +163,8 @@ void CAD_HeatCool_ValveHandwheel::calculate()
     bar->wizardParams.insert("s",  0.1 * e);
     bar->layer = this->layer;
     bar->processWizardInput();
-    bar->rotateAroundAxis(-90.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
+    bar->matrix_rotation = this->matrix_rotation;
+    bar->matrix_rotation.rotate(-90.0, QVector3D(0.0, 1.0, 0.0));
     bar->calculate();
 
     this->snap_flanges.append(position);

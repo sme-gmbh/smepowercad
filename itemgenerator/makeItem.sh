@@ -33,6 +33,8 @@ cp cad_template.cpp ../items/cad_"$mainll"_"$subll".cpp
 cp cad_template.h   ../items/cad_"$mainll"_"$subll".h
 mkdir -p            ../icons/cad_"$mainll"
 cp template.svg     ../icons/cad_"$mainll"/cad_"$mainll"_"$subll".svg
+cp ../itemGraphic/Template.dxf ../itemGraphic/cad_"$mainll"_"$subll".dxf
+git add ../itemGraphic/cad_"$mainll"_"$subll".dxf
 
 sed -i 's/mainuu/'$mainuu'/g' ../items/cad_"$mainll"_"$subll".*
 sed -i 's/mainul/'$mainul'/g' ../items/cad_"$mainll"_"$subll".*

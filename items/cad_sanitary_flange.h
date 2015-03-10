@@ -17,6 +17,7 @@
 #define CAD_SANITARY_FLANGE_H
 
 #include "caditem.h"
+#include "items/cad_basic_pipe.h"
 
 class CAD_sanitary_flange : public CADitem
 {
@@ -30,6 +31,9 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
+
+    qreal d1, d2, l, l2;
+    CAD_basic_pipe *pipe, *flange;
 };
 
 #endif // CAD_SANITARY_FLANGE_H

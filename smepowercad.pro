@@ -137,7 +137,6 @@ SOURCES += main.cpp\
     items/cad_heatcool_flange.cpp \
     items/cad_heatcool_filter.cpp \
     items/cad_heatcool_ballvalve.cpp \
-    items/cad_heatcool_butterflyvalve.cpp \
     items/cad_heatcool_safetyvalve.cpp \
     items/cad_arch_support.cpp \
     items/cad_arch_beam.cpp \
@@ -145,6 +144,8 @@ SOURCES += main.cpp\
     items/cad_heatcool_flowmeter.cpp \
     modaldialog.cpp \
     settingsdialog.cpp \
+    3Dmouse/qmagellan.cpp \
+    3Dmouse/xdrvlib.c \
     itemwizard.cpp \
     items/cad_sprinkler_pipeturn.cpp \
     items/cad_sprinkler_pipereducer.cpp \
@@ -284,7 +285,16 @@ SOURCES += main.cpp\
     items/cad_heatcool_valvemotorrect.cpp \
     items/cad_heatcool_valvemotorround.cpp \
     items/cad_heatcool_heatexchangersoldered.cpp \
-    items/cad_heatcool_heatexchangerbolted.cpp
+    items/cad_heatcool_heatexchangerbolted.cpp \
+    items/cad_heatcool_nonreturnvalve.cpp \
+    items/cad_heatcool_butterflyvalvebolted.cpp \
+    items/cad_heatcool_butterflyvalveclamped.cpp \
+    items/cad_basic_flume.cpp \
+    items/cad_heatcool_valvehandwheelgear.cpp \
+    items/cad_heatcool_radiatorcompact.cpp \
+    items/cad_heatcool_radiatorvalve.cpp \
+    items/cad_heatcool_radiatorflange.cpp \
+    items/cad_heatcool_radiatorflangebent.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -382,7 +392,6 @@ HEADERS  += mainwindow.h \
     items/cad_heatcool_flange.h \
     items/cad_heatcool_filter.h \
     items/cad_heatcool_ballvalve.h \
-    items/cad_heatcool_butterflyvalve.h \
     items/cad_heatcool_safetyvalve.h \
     items/cad_arch_support.h \
     items/cad_arch_beam.h \
@@ -390,6 +399,8 @@ HEADERS  += mainwindow.h \
     items/cad_heatcool_flowmeter.h \
     modaldialog.h \
     settingsdialog.h \
+    3Dmouse/qmagellan.h \
+    3Dmouse/xdrvlib.h \
     itemwizard.h \
     items/cad_sprinkler_pipeturn.h \
     items/cad_sprinkler_pipereducer.h \
@@ -530,7 +541,16 @@ HEADERS  += mainwindow.h \
     items/cad_heatcool_valvemotorrect.h \
     items/cad_heatcool_valvemotorround.h \
     items/cad_heatcool_heatexchangersoldered.h \
-    items/cad_heatcool_heatexchangerbolted.h
+    items/cad_heatcool_heatexchangerbolted.h \
+    items/cad_heatcool_nonreturnvalve.h \
+    items/cad_heatcool_butterflyvalvebolted.h \
+    items/cad_heatcool_butterflyvalveclamped.h \
+    items/cad_basic_flume.h \
+    items/cad_heatcool_valvehandwheelgear.h \
+    items/cad_heatcool_radiatorcompact.h \
+    items/cad_heatcool_radiatorvalve.h \
+    items/cad_heatcool_radiatorflange.h \
+    items/cad_heatcool_radiatorflangebent.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
