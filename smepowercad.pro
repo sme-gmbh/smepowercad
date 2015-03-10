@@ -144,8 +144,6 @@ SOURCES += main.cpp\
     items/cad_heatcool_flowmeter.cpp \
     modaldialog.cpp \
     settingsdialog.cpp \
-    3Dmouse/qmagellan.cpp \
-    3Dmouse/xdrvlib.c \
     itemwizard.cpp \
     items/cad_sprinkler_pipeturn.cpp \
     items/cad_sprinkler_pipereducer.cpp \
@@ -399,8 +397,6 @@ HEADERS  += mainwindow.h \
     items/cad_heatcool_flowmeter.h \
     modaldialog.h \
     settingsdialog.h \
-    3Dmouse/qmagellan.h \
-    3Dmouse/xdrvlib.h \
     itemwizard.h \
     items/cad_sprinkler_pipeturn.h \
     items/cad_sprinkler_pipereducer.h \
