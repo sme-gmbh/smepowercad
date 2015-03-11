@@ -83,6 +83,8 @@ public:
         Basic_Duct,                             // Basisgeometrie: Kanal
         Basic_Face,                             // Basisgeometrie: Fläche
         Basic_Flume,                            // Basisgeometrie: Rinne
+        Basic_Gauge,                            // Basisgeometrie: Anzeigegerät
+        Basic_Gauge90Degree,                    // Basisgeometrie: Anzeigegerät mit senkrechtem Fühler
         Basic_Hemisphere,                       // Basisgeometrie: Halbkugel
         Basic_Line,                             // Basisgeometrie: Linie
         Basic_Pipe,                             // Basisgeometrie: Rohr
@@ -161,6 +163,7 @@ public:
         Electrical_LuminaireRecessedMounted,    // Leuchte ecking, Unterputz
         Electrical_LuminaireSemicircular,       // Leutche rund, Aufputz
         Electrical_LuminaireSurfaceMounted,     // Leuchte eckig, Aufputz
+        Electrical_MotorAsynchronous,           // Asynchronmotor
 
         Gas_CDABallValve,
         Gas_CDACompressor,
@@ -202,19 +205,24 @@ public:
         HeatCool_Chiller,                       // Kältemaschine
         HeatCool_Controlvalve,                  // Regelventil
         HeatCool_CoolingTower,                  // Kühlturm
+        HeatCool_DirtArrester,                  // Schmutzfänger
         HeatCool_ExpansionChamber,              // Ausdehnungsgefäß
         HeatCool_Filter,                        // Filter
         HeatCool_Flange,                        // Flansch
         HeatCool_Flowmeter,                     // Durchflussmesser
+        HeatCool_Gauge,                         // Anzeigegerät
+        HeatCool_Gauge90Degree,                 // Anzeigegerät mit senkrechtem Fühler
         HeatCool_HeatexchangerSoldered,         // Wärmetauscher gelötet
         HeatCool_HeatexchangerBolted,           // Wärmetauscher geschraubt
-        HeatCool_NonReturnValve,                // Rückschlagklappen
+        HeatCool_NonReturnFlap,                 // Rückschlagklappen
+        HeatCool_NonReturnValve,                // Rückschlagarmatur
         HeatCool_Pipe,                          // Rohr
         HeatCool_PipeEndCap,                    // Endkappe / Klöpperboden
         HeatCool_PipeReducer,                   // Reduzierung
         HeatCool_PipeTeeConnector,              // T-Stück
         HeatCool_PipeTurn,                      // Rohrbogen
-        HeatCool_Pump,                          // Pumpe
+        HeatCool_PumpInline,                    // Inlinepumpe
+        HeatCool_PumpNorm,                      // Normpumpe
         HeatCool_Radiator,                      // Heizkörper
         HeatCool_RadiatorCompact,               // Kompaktheizkörper
         HeatCool_RadiatorFlange,                // Anschlussstück für Ventilheizkörper
@@ -223,7 +231,8 @@ public:
         HeatCool_SafetyValve,                   // Sicherheitsventil
         HeatCool_Sensor,                        // Sensor
         HeatCool_StorageBoiler,                 // Speicherkessel / Schichtspeicher
-        HeatCool_Valve,                         // Ventil
+        HeatCool_Valve,                         // Armatur
+        HeatCool_Valve90Degree,                 // Eckarmatur
         HeatCool_ValveHandwheel,                // Handrad zur Ventilsteuerung
         HeatCool_ValveHandwheelGear,            // Handrad mit Getriebe zur Ventilsteuerung
         HeatCool_ValveLever,                    // Hebel zur Ventilsteuerung

@@ -93,7 +93,6 @@ void CAD_arch_blockOut::calculate()
 
     this->snap_basepoint = (position);
 
-    qDebug() << g << h << b;
     QVector3D position_b = position + matrix_rotation * QVector3D(b / 2, g / 2, h / 2);
     blockout->wizardParams.insert("Position x", (position_b.x()));
     blockout->wizardParams.insert("Position y", (position_b.y()));

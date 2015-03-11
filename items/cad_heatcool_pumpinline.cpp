@@ -13,10 +13,10 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#include "cad_heatcool_pump.h"
+#include "cad_heatcool_pumpinline.h"
 #include "itemdb.h"
 
-CAD_heatcool_pump::CAD_heatcool_pump() : CADitem(CADitemTypes::HeatCool_Pump)
+CAD_HeatCool_PumpInline::CAD_HeatCool_PumpInline() : CADitem(CADitemTypes::HeatCool_PumpInline)
 {
     pipe = new CAD_basic_pipe;
     flange_left = new CAD_basic_pipe;
@@ -50,12 +50,12 @@ CAD_heatcool_pump::CAD_heatcool_pump() : CADitem(CADitemTypes::HeatCool_Pump)
     calculate();
 }
 
-CAD_heatcool_pump::~CAD_heatcool_pump()
+CAD_HeatCool_PumpInline::~CAD_HeatCool_PumpInline()
 {
 
 }
 
-QList<CADitemTypes::ItemType> CAD_heatcool_pump::flangable_items()
+QList<CADitemTypes::ItemType> CAD_HeatCool_PumpInline::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::HeatCool_Adjustvalve);
@@ -74,7 +74,6 @@ QList<CADitemTypes::ItemType> CAD_heatcool_pump::flangable_items()
     flangable_items.append(CADitemTypes::HeatCool_PipeReducer);
     flangable_items.append(CADitemTypes::HeatCool_PipeTeeConnector);
     flangable_items.append(CADitemTypes::HeatCool_PipeTurn);
-    flangable_items.append(CADitemTypes::HeatCool_Pump);
     flangable_items.append(CADitemTypes::HeatCool_Radiator);
     flangable_items.append(CADitemTypes::HeatCool_SafetyValve);
     flangable_items.append(CADitemTypes::HeatCool_Sensor);
@@ -88,7 +87,7 @@ QList<CADitemTypes::ItemType> CAD_heatcool_pump::flangable_items()
     return flangable_items;
 }
 
-QImage CAD_heatcool_pump::wizardImage()
+QImage CAD_HeatCool_PumpInline::wizardImage()
 {
     QImage image;
     QFileInfo fileinfo(__FILE__);
@@ -103,22 +102,22 @@ QImage CAD_heatcool_pump::wizardImage()
     return image;
 }
 
-QString CAD_heatcool_pump::iconPath()
+QString CAD_HeatCool_PumpInline::iconPath()
 {
-    return ":/icons/cad_heatcool/cad_heatcool_pump.svg";
+    return ":/icons/cad_HeatCool/cad_HeatCool_pumpinline.svg";
 }
 
-QString CAD_heatcool_pump::domain()
+QString CAD_HeatCool_PumpInline::domain()
 {
     return "HeatCool";
 }
 
-QString CAD_heatcool_pump::description()
+QString CAD_HeatCool_PumpInline::description()
 {
-    return "Heat/Cool|Pump";
+    return "Heat/Cool|Pump Inline";
 }
 
-void CAD_heatcool_pump::calculate()
+void CAD_HeatCool_PumpInline::calculate()
 {
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
@@ -211,7 +210,7 @@ void CAD_heatcool_pump::calculate()
     this->snap_flanges = pipe->snap_flanges;
 }
 
-void CAD_heatcool_pump::processWizardInput()
+void CAD_HeatCool_PumpInline::processWizardInput()
 {
     position.setX(wizardParams.value("Position x").toDouble());
     position.setY(wizardParams.value("Position y").toDouble());

@@ -95,8 +95,6 @@ QString CAD_basic_turn::description()
 
 void CAD_basic_turn::calculate()
 {
-    qDebug() << "matrix in calculate, basic_turn";
-    qDebug() << matrix_rotation;
     boundingBox.reset();
 
     this->snap_flanges.clear();
@@ -271,8 +269,6 @@ void CAD_basic_turn::processWizardInput()
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
     matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-    qDebug() << "matrix in processWizardInput(), basic_turn";
-    qDebug() << matrix_rotation;
     //    direction =  matrix_rotation * QVector3D(0.0, 0.0, 1.0) * length;
 }
 

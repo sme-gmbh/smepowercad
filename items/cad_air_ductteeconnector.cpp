@@ -268,7 +268,6 @@ void CAD_air_ductTeeConnector::calculate()
         x++;
         y++;
     }
-    qDebug() << x << " " << y;
     vertices[22] = position + matrix_rotation * QVector3D(n, -b/2 - r1, -a/2);
     vertices[23] = position + matrix_rotation * QVector3D(n, -b/2 - r1, a/2);
     vertices[46] = position + matrix_rotation * QVector3D(n + b3 + r2, b/2 - e -b2, -a/2);

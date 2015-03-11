@@ -96,6 +96,9 @@ public:
     // Selection
     bool selected;  // Selection shows that the item is selected as an operand for commands
 
+    // Painting
+    bool isMaintenanceArea;
+
 private:
     void setLayer_processItems(QList<CADitem*> subItems);
     void setID_processItems(QList<CADitem*> subItems);

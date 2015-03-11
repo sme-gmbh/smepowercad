@@ -18,7 +18,6 @@
 
 #include "caditem.h"
 #include "items/cad_basic_pipe.h"
-#include "items/cad_heatcool_pipereducer.h"
 
 class CAD_HeatCool_NonReturnValve : public CADitem
 {
@@ -37,9 +36,9 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
-    qreal d1, d2, s, l, fe, ff;
+    qreal d, h, s, l, fe, ff;
     CAD_basic_pipe *flange_left, *flange_right;
-    CAD_heatcool_pipeReducer *valve;
+    CAD_basic_pipe *pipe, *valve;
 };
 
 #endif // CAD_HEATCOOL_NONRETURNVALVE_H

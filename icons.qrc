@@ -287,6 +287,27 @@
         <file>itemGraphic/cad_heatcool_radiatorcompact.png</file>
         <file>itemGraphic/cad_heatcool_radiatorvalve.png</file>
         <file>icons/cad_heatcool/cad_heatcool_radiatorvalve.svg</file>
+        <file>itemGraphic/cad_heatcool_safetyvalve.png</file>
+        <file>itemGraphic/cad_heatcool_dirtarrester.png</file>
+        <file>icons/cad_heatcool/cad_heatcool_dirtarrester.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_pumpinline.svg</file>
+        <file>itemGraphic/cad_heatcool_pumpinline.png</file>
+        <file>icons/cad_heatcool/cad_heatcool_pumpnorm.svg</file>
+        <file>itemGraphic/cad_heatcool_pumpnorm.png</file>
+        <file>icons/cad_electrical/cad_electrical_motorasynchronous.svg</file>
+        <file>itemGraphic/cad_electrical_motorasynchronous.png</file>
+        <file>icons/cad_heatcool/cad_heatcool_valve90degree.svg</file>
+        <file>itemGraphic/cad_heatcool_valve90degree.png</file>
+        <file>itemGraphic/cad_basic_gauge.png</file>
+        <file>itemGraphic/cad_basic_gauge90degree.png</file>
+        <file>icons/cad_basic/cad_basic_gauge.svg</file>
+        <file>icons/cad_basic/cad_basic_gauge90degree.svg</file>
+        <file>itemGraphic/cad_heatcool_gauge.png</file>
+        <file>itemGraphic/cad_heatcool_gauge90degree.png</file>
+        <file>icons/cad_heatcool/cad_heatcool_gauge.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_gauge90degree.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_nonreturnflap.svg</file>
+        <file>itemGraphic/cad_heatcool_nonreturnflap.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>

@@ -13,17 +13,18 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#ifndef CAD_HEATCOOL_PUMP_H
-#define CAD_HEATCOOL_PUMP_H
+#ifndef CAD_ELECTRICAL_MOTORASYNCHRONOUS_H
+#define CAD_ELECTRICAL_MOTORASYNCHRONOUS_H
 
 #include "caditem.h"
+#include "items/cad_basic_box.h"
 #include "items/cad_basic_pipe.h"
 
-class CAD_heatcool_pump : public CADitem
+class CAD_Electrical_MotorAsynchronous : public CADitem
 {
 public:
-    CAD_heatcool_pump();
-    virtual ~CAD_heatcool_pump();
+    CAD_Electrical_MotorAsynchronous();
+    virtual ~CAD_Electrical_MotorAsynchronous();
     virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
@@ -31,10 +32,15 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
+//    virtual void paint(GLWidget* glwidget);
 
-    qreal a, d, e, f, fe, ff, l , l1, s;
-    CAD_basic_pipe *pipe, *flange_left, *flange_right;
-    CAD_basic_pipe *motor, *housing;
+//    QOpenGLBuffer arrayBufVertices;
+//    QOpenGLBuffer indexBufFaces;
+//    QOpenGLBuffer indexBufLines;
+
+    qreal d1, d2, l1, l2, e;
+    CAD_basic_box *leg_1, *leg_2;
+    CAD_basic_pipe *motor, *axis;
 };
 
-#endif // CAD_HEATCOOL_PUMP_H
+#endif // CAD_ELECTRICAL_MOTORASYNCHRONOUS_H

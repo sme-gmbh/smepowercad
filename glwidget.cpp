@@ -33,6 +33,7 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, Item
     this->depth_of_view = QVector3D(0.0, 0.0, 200000.0);
     this->render_solid = true;
     this->render_outline = true;
+    this->render_maintenance_area = true;
     this->cameraPosition = QVector3D();
     this->lookAtPosition = QVector3D(0.0f, 0.0f, 0.0f);
     this->matrix_modelview.setToIdentity();
@@ -1370,7 +1371,15 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundin
             glName++;
 
         item->index = glName;
-        item->paint(this);
+        if (item->isMaintenanceArea)
+        {
+            bool renderSolidShadow = this->render_solid;
+            this->render_solid = false;
+            item->paint(this);
+            this->render_solid = renderSolidShadow;
+        }
+        else
+            item->paint(this);
         if (item->subItems.count() > 0)
             paintItems(item->subItems, layer, false, true);
     }

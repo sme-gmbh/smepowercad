@@ -80,7 +80,6 @@ SOURCES += main.cpp\
     items/cad_heatcool_pipe.cpp \
     items/cad_heatcool_chiller.cpp \
     items/cad_heatcool_coolingtower.cpp \
-    items/cad_heatcool_pump.cpp \
     items/cad_heatcool_controlvalve.cpp \
     items/cad_heatcool_adjustvalve.cpp \
     items/cad_heatcool_sensor.cpp \
@@ -292,7 +291,17 @@ SOURCES += main.cpp\
     items/cad_heatcool_radiatorcompact.cpp \
     items/cad_heatcool_radiatorvalve.cpp \
     items/cad_heatcool_radiatorflange.cpp \
-    items/cad_heatcool_radiatorflangebent.cpp
+    items/cad_heatcool_radiatorflangebent.cpp \
+    items/cad_heatcool_dirtarrester.cpp \
+    items/cad_heatcool_pumpinline.cpp \
+    items/cad_electrical_motorasynchronous.cpp \
+    items/cad_heatcool_pumpnorm.cpp \
+    items/cad_heatcool_valve90degree.cpp \
+    items/cad_basic_gauge.cpp \
+    items/cad_basic_gauge90degree.cpp \
+    items/cad_heatcool_gauge.cpp \
+    items/cad_heatcool_gauge90degree.cpp \
+    items/cad_heatcool_nonreturnflap.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -333,7 +342,6 @@ HEADERS  += mainwindow.h \
     items/cad_heatcool_pipe.h \
     items/cad_heatcool_chiller.h \
     items/cad_heatcool_coolingtower.h \
-    items/cad_heatcool_pump.h \
     items/cad_heatcool_controlvalve.h \
     items/cad_heatcool_adjustvalve.h \
     items/cad_heatcool_sensor.h \
@@ -546,7 +554,17 @@ HEADERS  += mainwindow.h \
     items/cad_heatcool_radiatorcompact.h \
     items/cad_heatcool_radiatorvalve.h \
     items/cad_heatcool_radiatorflange.h \
-    items/cad_heatcool_radiatorflangebent.h
+    items/cad_heatcool_radiatorflangebent.h \
+    items/cad_heatcool_dirtarrester.h \
+    items/cad_heatcool_pumpinline.h \
+    items/cad_electrical_motorasynchronous.h \
+    items/cad_heatcool_pumpnorm.h \
+    items/cad_heatcool_valve90degree.h \
+    items/cad_basic_gauge.h \
+    items/cad_basic_gauge90degree.h \
+    items/cad_heatcool_gauge.h \
+    items/cad_heatcool_gauge90degree.h \
+    items/cad_heatcool_nonreturnflap.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

@@ -17,6 +17,8 @@
 #define CAD_HEATCOOL_PIPEENDCAP_H
 
 #include "caditem.h"
+#include "items/cad_basic_torisphericalheaddin28011.h";
+#include "items/cad_basic_pipe.h"
 
 class CAD_heatcool_pipeEndCap : public CADitem
 {
@@ -30,6 +32,8 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
+    CAD_basic_pipe *flange;
+    CAD_Basic_TorisphericalHeadDIN28011 *endcap;
 };
 
 #endif // CAD_HEATCOOL_PIPEENDCAP_H

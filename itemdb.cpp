@@ -464,9 +464,6 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
         break;
 
         //Basic Geometry
-    case CADitemTypes::Basic_Face:
-        newItem = new CAD_basic_3Dface();
-        break;
     case CADitemTypes::Basic_Arc:
         newItem = new CAD_basic_arc();
         break;
@@ -482,8 +479,17 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Basic_Duct:
         newItem = new CAD_basic_duct();
         break;
+    case CADitemTypes::Basic_Face:
+        newItem = new CAD_basic_3Dface();
+        break;
     case CADitemTypes::Basic_Flume:
         newItem = new CAD_Basic_Flume();
+        break;
+    case CADitemTypes::Basic_Gauge:
+        newItem = new CAD_Basic_Gauge;
+        break;
+    case CADitemTypes::Basic_Gauge90Degree:
+        newItem = new CAD_Basic_Gauge90Degree;
         break;
     case CADitemTypes::Basic_Hemisphere:
         newItem = new CAD_Basic_Hemisphere();
@@ -715,6 +721,9 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Electrical_LuminaireSurfaceMounted:
         newItem = new CAD_Electrical_LuminaireSurfaceMounted;
         break;
+    case CADitemTypes::Electrical_MotorAsynchronous:
+        newItem = new CAD_Electrical_MotorAsynchronous;
+        break;
 
 
 
@@ -838,6 +847,9 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::HeatCool_CoolingTower:
         newItem = new CAD_heatcool_coolingTower();
         break;
+    case CADitemTypes::HeatCool_DirtArrester:
+        newItem = new CAD_HeatCool_DirtArrester();
+        break;
     case CADitemTypes::HeatCool_ExpansionChamber:
         newItem = new CAD_heatcool_expansionChamber();
         break;
@@ -850,6 +862,12 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::HeatCool_Flowmeter:
         newItem = new CAD_heatcool_flowmeter();
         break;
+    case CADitemTypes::HeatCool_Gauge:
+        newItem = new CAD_HeatCool_Gauge;
+        break;
+    case CADitemTypes::HeatCool_Gauge90Degree:
+        newItem = new CAD_HeatCool_Gauge90Degree;
+        break;
     case CADitemTypes::HeatCool_HeatexchangerBolted:
         newItem = new CAD_HeatCool_HeatexchangerBolted();
         break;
@@ -858,6 +876,9 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
         break;
     case CADitemTypes::HeatCool_NonReturnValve:
         newItem = new CAD_HeatCool_NonReturnValve();
+        break;
+    case CADitemTypes::HeatCool_NonReturnFlap:
+        newItem = new CAD_HeatCool_NonReturnFlap();
         break;
     case CADitemTypes::HeatCool_Pipe:
         newItem = new CAD_heatcool_pipe();
@@ -874,8 +895,11 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::HeatCool_PipeTeeConnector:
         newItem = new CAD_heatcool_pipeTeeConnector();
         break;
-    case CADitemTypes::HeatCool_Pump:
-        newItem = new CAD_heatcool_pump();
+    case CADitemTypes::HeatCool_PumpInline:
+        newItem = new CAD_HeatCool_PumpInline();
+        break;
+    case CADitemTypes::HeatCool_PumpNorm:
+        newItem = new CAD_HeatCool_PumpNorm;
         break;
     case CADitemTypes::HeatCool_Radiator:
         newItem = new CAD_heatcool_radiator();
@@ -903,6 +927,9 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
         break;
     case CADitemTypes::HeatCool_Valve:
         newItem = new CAD_HeatCool_Valve();
+        break;
+    case CADitemTypes::HeatCool_Valve90Degree:
+        newItem = new CAD_HeatCool_Valve90Degree();
         break;
     case CADitemTypes::HeatCool_ValveHandwheel:
         newItem = new CAD_HeatCool_ValveHandwheel();

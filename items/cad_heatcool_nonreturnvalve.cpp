@@ -20,10 +20,13 @@ CAD_HeatCool_NonReturnValve::CAD_HeatCool_NonReturnValve() : CADitem(CADitemType
 {
     flange_left = new CAD_basic_pipe;
     flange_right = new CAD_basic_pipe;
-    valve = new CAD_heatcool_pipeReducer;
+    pipe = new CAD_basic_pipe;
+    valve = new CAD_basic_pipe;
     this->subItems.append(flange_left);
     this->subItems.append(flange_right);
+    this->subItems.append(pipe);
     this->subItems.append(valve);
+
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -31,8 +34,8 @@ CAD_HeatCool_NonReturnValve::CAD_HeatCool_NonReturnValve() : CADitem(CADitemType
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("d1", 150.0);
-    wizardParams.insert("d2", 150.0);
+    wizardParams.insert("d", 150.0);
+    wizardParams.insert("h", 150.0);
     wizardParams.insert("l", 200.0);
     wizardParams.insert("s", 10.0);
     wizardParams.insert("fe", 10.0);
@@ -113,11 +116,24 @@ void CAD_HeatCool_NonReturnValve::calculate()
     flange_left->wizardParams.insert("Angle y", angle_y);
     flange_left->wizardParams.insert("Angle z", angle_z);
     flange_left->wizardParams.insert("l", fe);
-    flange_left->wizardParams.insert("d", d1 + 2 * ff);
+    flange_left->wizardParams.insert("d", d + 2 * ff);
     flange_left->wizardParams.insert("s",  ff);
     flange_left->layer = this->layer;
     flange_left->processWizardInput();
     flange_left->calculate();
+
+    pipe->wizardParams.insert("Position x", position.x());
+    pipe->wizardParams.insert("Position y", position.y());
+    pipe->wizardParams.insert("Position z", position.z());
+    pipe->wizardParams.insert("Angle x", angle_x);
+    pipe->wizardParams.insert("Angle y", angle_y);
+    pipe->wizardParams.insert("Angle z", angle_z);
+    pipe->wizardParams.insert("l", l);
+    pipe->wizardParams.insert("d", d);
+    pipe->wizardParams.insert("s",  s);
+    pipe->layer = this->layer;
+    pipe->processWizardInput();
+    pipe->calculate();
 
     QVector3D position_right = position + matrix_rotation * QVector3D(l -fe, 0.0, 0.0);
     flange_right->wizardParams.insert("Position x", position_right.x());
@@ -127,35 +143,33 @@ void CAD_HeatCool_NonReturnValve::calculate()
     flange_right->wizardParams.insert("Angle y", angle_y);
     flange_right->wizardParams.insert("Angle z", angle_z);
     flange_right->wizardParams.insert("l", fe);
-    flange_right->wizardParams.insert("d", d2 + 2 * ff);
+    flange_right->wizardParams.insert("d", d + 2 * ff);
     flange_right->wizardParams.insert("s",  ff);
     flange_right->layer = this->layer;
     flange_right->processWizardInput();
     flange_right->calculate();
 
-    valve->wizardParams.insert("Position x", position.x());
-    valve->wizardParams.insert("Position y", position.y());
-    valve->wizardParams.insert("Position z", position.z());
+    QVector3D position_valve = position + matrix_rotation * QVector3D(l/2, 0.0, h);
+    valve->wizardParams.insert("Position x", position_valve.x());
+    valve->wizardParams.insert("Position y", position_valve.y());
+    valve->wizardParams.insert("Position z", position_valve.z());
     valve->wizardParams.insert("Angle x", angle_x);
     valve->wizardParams.insert("Angle y", angle_y);
     valve->wizardParams.insert("Angle z", angle_z);
-    valve->wizardParams.insert("d1", d1);
-    valve->wizardParams.insert("d2", d2);
-    valve->wizardParams.insert("l", l);
-    valve->wizardParams.insert("l1", fe);
-    valve->wizardParams.insert("l2", fe);
-    valve->wizardParams.insert("e", 0.0);
-    valve->wizardParams.insert("iso1", 0.0);
-    valve->wizardParams.insert("iso2", 0.0);
+    valve->wizardParams.insert("l", h);
+    valve->wizardParams.insert("d", d);
+    valve->wizardParams.insert("s",  d/2);
     valve->layer = this->layer;
     valve->processWizardInput();
+    valve->rotateAroundAxis(90.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
     valve->calculate();
 
     this->boundingBox = flange_left->boundingBox;
     this->boundingBox.enterVertices(flange_right->boundingBox.getVertices());
     this->boundingBox.enterVertices(valve->boundingBox.getVertices());
+    this->boundingBox.enterVertices(pipe->boundingBox.getVertices());
 
-    this->snap_flanges = valve->snap_flanges;
+    this->snap_flanges = pipe->snap_flanges;
 }
 
 void CAD_HeatCool_NonReturnValve::processWizardInput()
@@ -167,8 +181,8 @@ void CAD_HeatCool_NonReturnValve::processWizardInput()
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
 
-    d1 = wizardParams.value("d1").toDouble();
-    d2 = wizardParams.value("d2").toDouble();
+    d = wizardParams.value("d").toDouble();
+    h = wizardParams.value("h").toDouble();
     l = wizardParams.value("l").toDouble();
     s = wizardParams.value("s").toDouble();
     fe = wizardParams.value("fe").toDouble();

@@ -110,10 +110,6 @@ void CAD_basic_pipe::calculate()
 
     this->snap_basepoint = (position);
 
-    qDebug() << "matrix in calculate(), basic_pipe";
-    qDebug() << matrix_rotation;
-
-
     QVector3D vertices[64];
     int index = 0;
     for (qreal i=0.0; i < 1.0; i += 0.0625)    // 16 edges
@@ -239,9 +235,6 @@ void CAD_basic_pipe::processWizardInput()
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
     matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-
-    qDebug() << "matrix in processWizardInputs(), basic_pipe";
-    qDebug() << matrix_rotation;
 
     direction =  matrix_rotation * QVector3D(1.0, 0.0, 0.0) * length;
 }

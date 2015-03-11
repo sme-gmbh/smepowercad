@@ -25,6 +25,7 @@ CADitem::CADitem(CADitemTypes::ItemType type)
     this->index = 0;
     this->color_brush = Qt::transparent;
     this->color_pen = Qt::transparent;
+    this->isMaintenanceArea = false;
     angle_x = 0.0;
     angle_y = 0.0;
     angle_z = 0.0;
@@ -191,10 +192,6 @@ void CADitem::rotateAroundAxis(qreal angle, QVector3D axis, qreal angle_x, qreal
     matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
     matrix_rotation.rotate(angle, QVector3D(axis));
-
-    qDebug() << "matrix in rotateAroundAxis(), caditem";
-    qDebug() << matrix_rotation;
-
 }
 
 CADitemTypes::ItemType CADitem::getType()

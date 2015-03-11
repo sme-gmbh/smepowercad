@@ -33,7 +33,7 @@ public:
     virtual void processWizardInput();
 
 
-    qreal d1, d2, l, l2, s;
+    qreal d,ff, l, fe, s;
     CAD_basic_pipe *pipe, *flange;
 };
 

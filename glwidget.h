@@ -185,6 +185,7 @@ public:
     qreal zoomFactor;
     bool render_solid;
     bool render_outline;
+    bool render_maintenance_area;
 
 
 private:

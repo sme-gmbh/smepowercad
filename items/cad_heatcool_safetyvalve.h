@@ -17,6 +17,8 @@
 #define CAD_HEATCOOL_SAFETYVALVE_H
 
 #include "caditem.h"
+#include "items/cad_basic_pipe.h"
+#include "items/cad_basic_box.h"
 
 class CAD_heatcool_safetyValve : public CADitem
 {
@@ -30,6 +32,10 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
+
+    qreal a, a2, d, e, f, fe, ff, l1, l2, s;
+    CAD_basic_pipe *pipe_left, *flange_left, *pipe_lower, *flange_lower, *valve;
+    CAD_basic_box *handle_1, *handle_2;
 };
 
 #endif // CAD_HEATCOOL_SAFETYVALVE_H
