@@ -308,6 +308,11 @@
         <file>icons/cad_heatcool/cad_heatcool_gauge90degree.svg</file>
         <file>icons/cad_heatcool/cad_heatcool_nonreturnflap.svg</file>
         <file>itemGraphic/cad_heatcool_nonreturnflap.png</file>
+        <file>itemGraphic/cad_heatcool_pipeendcad.png</file>
+        <file>itemGraphic/cad_heatcool_valvehandwheelgear.png</file>
+        <file>itemGraphic/cad_heatcool_filter.png</file>
+        <file>itemGraphic/cad_heatcool_flange.png</file>
+        <file>icons/cad_basic/cad_basic_flume.svg</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>
