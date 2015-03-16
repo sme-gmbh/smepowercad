@@ -21,9 +21,11 @@ CAD_Sanitary_PipeYPiece::CAD_Sanitary_PipeYPiece() : CADitem(CADitemTypes::Sanit
     pipe = new CAD_basic_pipe;
     branch_1 = new CAD_basic_pipe;
     branch_2 = new CAD_basic_pipe;
+    reducer = new CAD_Basic_PipeReducer;
     this->subItems.append(pipe);
     this->subItems.append(branch_1);
     this->subItems.append(branch_2);
+    this->subItems.append(reducer);
 
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
@@ -109,25 +111,69 @@ void CAD_Sanitary_PipeYPiece::calculate()
                                 
     this->snap_basepoint = (position);
 
-
-
     pipe->wizardParams.insert("Position x", position.x());
-    pipe->wizardParams.insert("Position y", position.x());
-    flange->wizardParams.insert("Position z", position.x());
-    flange->wizardParams.insert("Angle x", angle_x);
-    flange->wizardParams.insert("Angle y", angle_y);
-    flange->wizardParams.insert("Angle z", angle_z);
-    flange->wizardParams.insert("l", fe);
-    flange->wizardParams.insert("d", d + 2 * ff);
-    flange->wizardParams.insert("s",  ff + s);
-    flange->layer = this->layer;
-    flange->processWizardInput();
-    flange->calculate();
+    pipe->wizardParams.insert("Position y", position.y());
+    pipe->wizardParams.insert("Position z", position.z());
+    pipe->wizardParams.insert("Angle x", angle_x);
+    pipe->wizardParams.insert("Angle y", angle_y);
+    pipe->wizardParams.insert("Angle z", angle_z);
+    pipe->wizardParams.insert("l", l1 / 2);
+    pipe->wizardParams.insert("d", d1 + 2*iso1);
+    pipe->wizardParams.insert("s",  s + iso1);
+    pipe->layer = this->layer;
+    pipe->processWizardInput();
+    pipe->calculate();
 
+    QVector3D position_reducer = position + matrix_rotation * QVector3D(l1/2, 0.0, 0.0);
+    reducer->wizardParams.insert("Position x", position_reducer.x());
+    reducer->wizardParams.insert("Position y", position_reducer.y());
+    reducer->wizardParams.insert("Position z", position_reducer.z());
+    reducer->wizardParams.insert("Angle x", angle_x);
+    reducer->wizardParams.insert("Angle y", angle_y);
+    reducer->wizardParams.insert("Angle z", angle_z);
+    reducer->wizardParams.insert("l", 2 * l1 / 3);
+    reducer->wizardParams.insert("d1", d1 + 2*iso1);
+    reducer->wizardParams.insert("d2", d2 + 2 * iso2);
+    reducer->wizardParams.insert("e", 0.0);
+    reducer->wizardParams.insert("s", s + iso1);
+    reducer->layer = this->layer;
+    reducer->processWizardInput();
+    reducer->calculate();
+
+    QVector3D position_branch = position + matrix_rotation * QVector3D(l1, 0.0, 0.0);
+    branch_1->wizardParams.insert("Position x", position_branch.x());
+    branch_1->wizardParams.insert("Position y", position_branch.y());
+    branch_1->wizardParams.insert("Position z", position_branch.z());
+    branch_1->wizardParams.insert("Angle x", angle_x);
+    branch_1->wizardParams.insert("Angle y", angle_y);
+    branch_1->wizardParams.insert("Angle z", angle_z);
+    branch_1->wizardParams.insert("l", l2);
+    branch_1->wizardParams.insert("d", d2 + 2*iso2);
+    branch_1->wizardParams.insert("s",  s + iso2);
+    branch_1->layer = this->layer;
+    branch_1->processWizardInput();
+    branch_1->rotateAroundAxis(alpha, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
+    branch_1->calculate();
+
+    branch_2->wizardParams.insert("Position x", position_branch.x());
+    branch_2->wizardParams.insert("Position y", position_branch.y());
+    branch_2->wizardParams.insert("Position z", position_branch.z());
+    branch_2->wizardParams.insert("Angle x", angle_x);
+    branch_2->wizardParams.insert("Angle y", angle_y);
+    branch_2->wizardParams.insert("Angle z", angle_z);
+    branch_2->wizardParams.insert("l", l2);
+    branch_2->wizardParams.insert("d", d2 + 2*iso2);
+    branch_2->wizardParams.insert("s",  s + iso2);
+    branch_2->layer = this->layer;
+    branch_2->processWizardInput();
+    branch_2->rotateAroundAxis(-alpha, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
+    branch_2->calculate();
 
     foreach(CADitem *item, subItems)
         this->boundingBox.enterVertices(item->boundingBox.getVertices());
     this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l1 + cos(alpha / 180.0 * PI) * l2, 0.0, -sin(alpha / 180.0 * PI) * l2));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l1 + cos(alpha / 180.0 * PI) * l2, 0.0,  sin(alpha / 180.0 * PI) * l2));
 }
 
 void CAD_Sanitary_PipeYPiece::processWizardInput()
