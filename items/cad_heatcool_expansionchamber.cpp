@@ -47,7 +47,6 @@ CAD_heatcool_expansionChamber::CAD_heatcool_expansionChamber() : CADitem(CADitem
 
     processWizardInput();
     calculate();
-    qDebug() << wizardImage();
 }
 
 CAD_heatcool_expansionChamber::~CAD_heatcool_expansionChamber()
