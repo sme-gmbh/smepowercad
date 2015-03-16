@@ -328,6 +328,8 @@
         <file>itemGraphic/cad_heatcool_radiatorflange.png</file>
         <file>itemGraphic/cad_heatcool_radiatorflangebent.png</file>
         <file>itemGraphic/cad_heatcool_pipeendcap.png</file>
+        <file>icons/cad_sanitary/cad_sanitary_pipeypiece.svg</file>
+        <file>itemGraphic/cad_sanitary_pipeendcap.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>

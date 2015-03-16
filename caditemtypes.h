@@ -242,10 +242,11 @@ public:
 
         Sanitary_CleaningPiece,
         Sanitary_Pipe,                          // Rohr (allgemein)
-        Sanitary_PipeTurn,                      // Rohrbogen
+        Sanitary_PipeEndCap,                    // Endkappe
         Sanitary_PipeReducer,                   // Reduzierung
         Sanitary_PipeTeeConnector,              // T-Stück
-        Sanitary_PipeEndCap,                    // Endkappe
+        Sanitary_PipeTurn,                      // Rohrbogen
+        Sanitary_PipeYPiece,                    // Y-Stück
         Sanitary_Flange,                        // Flansch
         Sanitary_ElectricWaterHeater,           // Elektrischer Wasserboiler
         Sanitary_WashBasin,                     // Waschbecken

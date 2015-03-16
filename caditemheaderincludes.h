@@ -268,6 +268,7 @@
 #include "items/cad_sanitary_pipereducer.h"
 #include "items/cad_sanitary_pipeteeconnector.h"
 #include "items/cad_sanitary_pipeturn.h"
+#include "items/cad_sanitary_pipeypiece.h"
 #include "items/cad_sanitary_shower.h"
 #include "items/cad_sanitary_sink.h"
 #include "items/cad_sanitary_washbasin.h"

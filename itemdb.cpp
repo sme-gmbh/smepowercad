@@ -987,6 +987,9 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Sanitary_PipeTurn:
         newItem = new CAD_sanitary_pipeTurn;
         break;
+    case CADitemTypes::Sanitary_PipeYPiece:
+        newItem = new CAD_Sanitary_PipeYPiece;
+        break;
     case CADitemTypes::Sanitary_Shower:
         newItem = new CAD_Sanitary_Shower;
         break;
