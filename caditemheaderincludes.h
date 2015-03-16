@@ -76,6 +76,7 @@
 #include "items/cad_basic_hemisphere.h"
 #include "items/cad_basic_line.h"
 #include "items/cad_basic_pipe.h"
+#include "items/cad_basic_pipereducer.h"
 #include "items/cad_basic_plane.h"
 #include "items/cad_basic_point.h"
 #include "items/cad_basic_polyline.h"

@@ -88,6 +88,7 @@ public:
         Basic_Hemisphere,                       // Basisgeometrie: Halbkugel
         Basic_Line,                             // Basisgeometrie: Linie
         Basic_Pipe,                             // Basisgeometrie: Rohr
+        Basic_PipeReducer,
         Basic_Plane,                            // Basisgeometrie: Ebene
         Basic_Point,                            // Basisgeometrie: Punkt
         Basic_Polyline,                         // Basisgeometrie: Polylinie

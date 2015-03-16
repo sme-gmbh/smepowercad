@@ -303,7 +303,8 @@ SOURCES += main.cpp\
     items/cad_heatcool_gauge90degree.cpp \
     items/cad_heatcool_nonreturnflap.cpp \
     items/cad_cleanroom_doorframe.cpp \
-    items/cad_sanitary_pipeypiece.cpp
+    items/cad_sanitary_pipeypiece.cpp \
+    items/cad_basic_pipereducer.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -568,7 +569,8 @@ HEADERS  += mainwindow.h \
     items/cad_heatcool_gauge90degree.h \
     items/cad_heatcool_nonreturnflap.h \
     items/cad_cleanroom_doorframe.h \
-    items/cad_sanitary_pipeypiece.h
+    items/cad_sanitary_pipeypiece.h \
+    items/cad_basic_pipereducer.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

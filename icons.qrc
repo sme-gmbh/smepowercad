@@ -330,6 +330,8 @@
         <file>itemGraphic/cad_heatcool_pipeendcap.png</file>
         <file>icons/cad_sanitary/cad_sanitary_pipeypiece.svg</file>
         <file>itemGraphic/cad_sanitary_pipeendcap.png</file>
+        <file>icons/cad_basic/cad_basic_pipereducer.svg</file>
+        <file>itemGraphic/cad_basic_pipereducer.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>

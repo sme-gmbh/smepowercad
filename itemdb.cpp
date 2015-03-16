@@ -500,6 +500,9 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Basic_Pipe:
         newItem = new CAD_basic_pipe();
         break;
+    case CADitemTypes::Basic_PipeReducer :
+        newItem = new CAD_Basic_PipeReducer();
+        break;
     case CADitemTypes::Basic_Plane:
         newItem = new CAD_basic_plane();
         break;
