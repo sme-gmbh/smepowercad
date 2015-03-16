@@ -57,27 +57,11 @@ CAD_heatcool_expansionChamber::~CAD_heatcool_expansionChamber()
 QList<CADitemTypes::ItemType> CAD_heatcool_expansionChamber::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
-    flangable_items.append(CADitemTypes::HeatCool_Adjustvalve);
-    flangable_items.append(CADitemTypes::HeatCool_BallValve);
-    flangable_items.append(CADitemTypes::HeatCool_Boiler);
-    flangable_items.append(CADitemTypes::HeatCool_Chiller);
-    flangable_items.append(CADitemTypes::HeatCool_Controlvalve);
-    flangable_items.append(CADitemTypes::HeatCool_CoolingTower);
-    flangable_items.append(CADitemTypes::HeatCool_ExpansionChamber);
-    flangable_items.append(CADitemTypes::HeatCool_Filter);
-    flangable_items.append(CADitemTypes::HeatCool_Flange);
-    flangable_items.append(CADitemTypes::HeatCool_Flowmeter);
-    flangable_items.append(CADitemTypes::HeatCool_HeatexchangerSoldered);
     flangable_items.append(CADitemTypes::HeatCool_Pipe);
     flangable_items.append(CADitemTypes::HeatCool_PipeEndCap);
     flangable_items.append(CADitemTypes::HeatCool_PipeReducer);
     flangable_items.append(CADitemTypes::HeatCool_PipeTeeConnector);
     flangable_items.append(CADitemTypes::HeatCool_PipeTurn);
-    flangable_items.append(CADitemTypes::HeatCool_Radiator);
-    flangable_items.append(CADitemTypes::HeatCool_SafetyValve);
-    flangable_items.append(CADitemTypes::HeatCool_Sensor);
-    flangable_items.append(CADitemTypes::HeatCool_StorageBoiler);
-    flangable_items.append(CADitemTypes::HeatCool_WaterHeater);
     return flangable_items;
 }
 

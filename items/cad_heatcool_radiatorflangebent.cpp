@@ -68,6 +68,12 @@ CAD_HeatCool_RadiatorFlangeBent::~CAD_HeatCool_RadiatorFlangeBent()
 QList<CADitemTypes::ItemType> CAD_HeatCool_RadiatorFlangeBent::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::HeatCool_Pipe);
+    flangable_items.append(CADitemTypes::HeatCool_PipeEndCap);
+    flangable_items.append(CADitemTypes::HeatCool_PipeReducer);
+    flangable_items.append(CADitemTypes::HeatCool_PipeTeeConnector);
+    flangable_items.append(CADitemTypes::HeatCool_PipeTurn);
+    flangable_items.append(CADitemTypes::HeatCool_RadiatorValve);
     
     return flangable_items;
 }

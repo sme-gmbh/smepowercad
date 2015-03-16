@@ -954,8 +954,29 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
         break;
 
         //Sanitary
+    case CADitemTypes::Sanitary_CleaningPiece:
+        newItem = new CAD_Sanitary_CleaningPiece;
+        break;
+    case CADitemTypes::Sanitary_ElectricWaterHeater:
+        newItem = new CAD_Sanitary_ElectricWaterHeater;
+        break;
+    case CADitemTypes::Sanitary_EmergencyEyeShower:
+        newItem = new CAD_Sanitary_EmergencyEyeShower;
+        break;
+    case CADitemTypes::Sanitary_EmergencyShower:
+        newItem = new CAD_Sanitary_EmergencyShower;
+        break;
+    case CADitemTypes::Sanitary_Flange:
+        newItem = new CAD_Sanitary_Flange;
+        break;
+    case CADitemTypes::Sanitary_LiftingUnit:
+        newItem = new CAD_Sanitary_LiftingUnit;
+        break;
     case CADitemTypes::Sanitary_Pipe:
         newItem = new CAD_sanitary_pipe;
+        break;
+    case CADitemTypes::Sanitary_PipeEndCap:
+        newItem = new CAD_Sanitary_PipeEndCap;
         break;
     case CADitemTypes::Sanitary_PipeReducer:
         newItem = new CAD_sanitary_pipeReducer;
@@ -965,6 +986,15 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
         break;
     case CADitemTypes::Sanitary_PipeTurn:
         newItem = new CAD_sanitary_pipeTurn;
+        break;
+    case CADitemTypes::Sanitary_Shower:
+        newItem = new CAD_Sanitary_Shower;
+        break;
+    case CADitemTypes::Sanitary_Sink:
+        newItem = new CAD_Sanitary_Sink;
+        break;
+    case CADitemTypes::Sanitary_WashBasin:
+        newItem = new CAD_Sanitary_WashBasin;
         break;
 
         //Sprinkler

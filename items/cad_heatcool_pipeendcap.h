@@ -17,7 +17,7 @@
 #define CAD_HEATCOOL_PIPEENDCAP_H
 
 #include "caditem.h"
-#include "items/cad_basic_torisphericalheaddin28011.h";
+#include "items/cad_basic_torisphericalheaddin28011.h"
 #include "items/cad_basic_pipe.h"
 
 class CAD_heatcool_pipeEndCap : public CADitem

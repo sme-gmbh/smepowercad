@@ -308,7 +308,6 @@
         <file>icons/cad_heatcool/cad_heatcool_gauge90degree.svg</file>
         <file>icons/cad_heatcool/cad_heatcool_nonreturnflap.svg</file>
         <file>itemGraphic/cad_heatcool_nonreturnflap.png</file>
-        <file>itemGraphic/cad_heatcool_pipeendcad.png</file>
         <file>itemGraphic/cad_heatcool_valvehandwheelgear.png</file>
         <file>itemGraphic/cad_heatcool_filter.png</file>
         <file>itemGraphic/cad_heatcool_flange.png</file>
@@ -323,6 +322,12 @@
         <file>icons/cad_sanitary/cad_sanitary_shower.svg</file>
         <file>icons/cad_sanitary/cad_sanitary_sink.svg</file>
         <file>icons/cad_sanitary/cad_sanitary_washbasin.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_radiatorflange.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_radiatorflangebent.svg</file>
+        <file>itemGraphic/cad_heatcool_valve.png</file>
+        <file>itemGraphic/cad_heatcool_radiatorflange.png</file>
+        <file>itemGraphic/cad_heatcool_radiatorflangebent.png</file>
+        <file>itemGraphic/cad_heatcool_pipeendcap.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>

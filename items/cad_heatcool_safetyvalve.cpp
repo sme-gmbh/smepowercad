@@ -63,27 +63,24 @@ CAD_heatcool_safetyValve::~CAD_heatcool_safetyValve()
 QList<CADitemTypes::ItemType> CAD_heatcool_safetyValve::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
-    flangable_items.append(CADitemTypes::HeatCool_Adjustvalve);
-    flangable_items.append(CADitemTypes::HeatCool_BallValve);
-    flangable_items.append(CADitemTypes::HeatCool_Boiler);
-    flangable_items.append(CADitemTypes::HeatCool_Chiller);
-    flangable_items.append(CADitemTypes::HeatCool_Controlvalve);
-    flangable_items.append(CADitemTypes::HeatCool_CoolingTower);
-    flangable_items.append(CADitemTypes::HeatCool_ExpansionChamber);
+    flangable_items.append(CADitemTypes::HeatCool_ButterflyValveBolted);
+    flangable_items.append(CADitemTypes::HeatCool_ButterflyValveClamped);
+    flangable_items.append(CADitemTypes::HeatCool_DirtArrester);
     flangable_items.append(CADitemTypes::HeatCool_Filter);
-    flangable_items.append(CADitemTypes::HeatCool_Flange);
-    flangable_items.append(CADitemTypes::HeatCool_Flowmeter);
+    flangable_items.append(CADitemTypes::HeatCool_HeatexchangerBolted);
     flangable_items.append(CADitemTypes::HeatCool_HeatexchangerSoldered);
+    flangable_items.append(CADitemTypes::HeatCool_NonReturnFlap);
+    flangable_items.append(CADitemTypes::HeatCool_NonReturnValve);
     flangable_items.append(CADitemTypes::HeatCool_Pipe);
     flangable_items.append(CADitemTypes::HeatCool_PipeEndCap);
     flangable_items.append(CADitemTypes::HeatCool_PipeReducer);
     flangable_items.append(CADitemTypes::HeatCool_PipeTeeConnector);
     flangable_items.append(CADitemTypes::HeatCool_PipeTurn);
-    flangable_items.append(CADitemTypes::HeatCool_Radiator);
+    flangable_items.append(CADitemTypes::HeatCool_PumpInline);
+    flangable_items.append(CADitemTypes::HeatCool_PumpNorm);
     flangable_items.append(CADitemTypes::HeatCool_SafetyValve);
-    flangable_items.append(CADitemTypes::HeatCool_Sensor);
-    flangable_items.append(CADitemTypes::HeatCool_StorageBoiler);
-    flangable_items.append(CADitemTypes::HeatCool_WaterHeater);
+    flangable_items.append(CADitemTypes::HeatCool_Valve);
+    flangable_items.append(CADitemTypes::HeatCool_Valve90Degree);
     return flangable_items;
 }
 
@@ -94,9 +91,7 @@ QImage CAD_heatcool_safetyValve::wizardImage()
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-
-    ;
-
+    qDebug() << imageFileName;
     image.load(imageFileName, "PNG");
 
     return image;
@@ -226,7 +221,7 @@ void CAD_heatcool_safetyValve::calculate()
     handle_2->calculate();
 
     this->snap_flanges.append(position);
-    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l1, 0.0, -l2));
     foreach(CADitem *item, subItems)
     {
         this->boundingBox.enterVertices(item->boundingBox.getVertices());

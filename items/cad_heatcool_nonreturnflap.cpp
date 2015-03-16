@@ -64,7 +64,24 @@ CAD_HeatCool_NonReturnFlap::~CAD_HeatCool_NonReturnFlap()
 QList<CADitemTypes::ItemType> CAD_HeatCool_NonReturnFlap::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
-    
+    flangable_items.append(CADitemTypes::HeatCool_ButterflyValveBolted);
+    flangable_items.append(CADitemTypes::HeatCool_ButterflyValveClamped);
+    flangable_items.append(CADitemTypes::HeatCool_DirtArrester);
+    flangable_items.append(CADitemTypes::HeatCool_Filter);
+    flangable_items.append(CADitemTypes::HeatCool_HeatexchangerBolted);
+    flangable_items.append(CADitemTypes::HeatCool_HeatexchangerSoldered);
+    flangable_items.append(CADitemTypes::HeatCool_NonReturnFlap);
+    flangable_items.append(CADitemTypes::HeatCool_NonReturnValve);
+    flangable_items.append(CADitemTypes::HeatCool_Pipe);
+    flangable_items.append(CADitemTypes::HeatCool_PipeEndCap);
+    flangable_items.append(CADitemTypes::HeatCool_PipeReducer);
+    flangable_items.append(CADitemTypes::HeatCool_PipeTeeConnector);
+    flangable_items.append(CADitemTypes::HeatCool_PipeTurn);
+    flangable_items.append(CADitemTypes::HeatCool_PumpInline);
+    flangable_items.append(CADitemTypes::HeatCool_PumpNorm);
+    flangable_items.append(CADitemTypes::HeatCool_SafetyValve);
+    flangable_items.append(CADitemTypes::HeatCool_Valve);
+    flangable_items.append(CADitemTypes::HeatCool_Valve90Degree);
     return flangable_items;
 }
 
