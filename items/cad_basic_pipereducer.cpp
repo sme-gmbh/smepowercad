@@ -25,17 +25,23 @@ CAD_Basic_PipeReducer::CAD_Basic_PipeReducer() : CADitem(CADitemTypes::Basic_Pip
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-//    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
-//    arrayBufVertices.create();
-//    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    wizardParams.insert("l", 100.0);
+    wizardParams.insert("d1", 100.0);
+    wizardParams.insert("d2", 150.0);
+    wizardParams.insert("e", 50.0);
+    wizardParams.insert("s", 10.0);
 
-//    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-//    indexBufFaces.create();
-//    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    arrayBufVertices.create();
+    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-//    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-//    indexBufLines.create();
-//    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufFaces.create();
+    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufLines.create();
+    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
    
     processWizardInput();
     calculate();
@@ -43,9 +49,9 @@ CAD_Basic_PipeReducer::CAD_Basic_PipeReducer() : CADitem(CADitemTypes::Basic_Pip
 
 CAD_Basic_PipeReducer::~CAD_Basic_PipeReducer()
 {
-//    arrayBufVertices.destroy();
-//    indexBufFaces.destroy();
-//    indexBufLines.destroy();
+    arrayBufVertices.destroy();
+    indexBufFaces.destroy();
+    indexBufLines.destroy();
 }
 
 QList<CADitemTypes::ItemType> CAD_Basic_PipeReducer::flangable_items()
@@ -92,6 +98,114 @@ void CAD_Basic_PipeReducer::calculate()
     this->snap_vertices.clear();
                                 
     this->snap_basepoint = (position);
+
+    qreal radius = d1/2;
+    qreal radius2 = d2/2;
+
+    QVector3D vertices[64];
+    int index = 0;
+
+    for (qreal i=0.0; i < 1.0; i += 0.0625)    // 16 edges
+    {
+        qreal angle = 2 * PI * i;
+        QVector3D linePos;
+
+        linePos = matrix_rotation * QVector3D(0.0, sin(angle) * radius, cos(angle) * radius);
+        linePos += position;
+        vertices[index] = linePos;
+        boundingBox.enterVertex(linePos);
+        index++;
+        vertices[index] = linePos + (position - linePos).normalized() * s;
+        boundingBox.enterVertex(linePos + (position - linePos).normalized() * s);
+        index++;
+        QVector3D pos_top = position + matrix_rotation * QVector3D(l, 0.0, -e);
+        linePos = matrix_rotation * QVector3D(0.0, sin(angle) * radius2, cos(angle) * radius2);
+        linePos += pos_top;
+        vertices[index] = linePos;
+        boundingBox.enterVertex(linePos);
+        index++;
+        vertices[index] = linePos + (pos_top - linePos).normalized() * s;
+        boundingBox.enterVertex(linePos + (pos_top - linePos).normalized() * s);
+        index++;
+    }
+
+    static GLushort indicesFaces[150];
+    for(int i = 0; i < 32; i++)
+        indicesFaces[i] = 2*i;
+    indicesFaces[32] = 0;
+    indicesFaces[33] = 2;
+
+    for(int i = 0; i < 32; i++)
+        indicesFaces[34+i] = 1+2*i;
+    indicesFaces[66] = 1;
+    indicesFaces[67] = 3;
+    indicesFaces[68] = 0xABCD;
+
+    for(int i = 0; i < 16; i++)
+    {
+        indicesFaces[69+2*i] = 4*i;
+        indicesFaces[69+2*i+1] = 4*i+1;
+    }
+    indicesFaces[101] = 0;
+    indicesFaces[102] = 1;
+    indicesFaces[103] = 0xABCD;
+
+    for(int i = 0; i < 16; i++)
+    {
+        indicesFaces[104+2*i] = 4*i+2;
+        indicesFaces[104+2*i+1] = 4*i+3;
+    }
+
+    indicesFaces[136] = 2;
+    indicesFaces[137] = 3;
+
+
+    static GLushort indicesLines[192];
+    //outer circles
+    for(int i = 0; i < 30; i++)
+    {
+        indicesLines[2*i] = 2*i;
+        indicesLines[2*i+1] = 2*i + 4;
+    }
+    indicesLines[60] = 2;
+    indicesLines[61] = 62;
+    indicesLines[62] = 0;
+    indicesLines[63] = 60;
+
+    //inner circles
+    for(int i = 0; i < 30; i++)
+    {
+        indicesLines[64 + 2*i] = 2*i+1;
+        indicesLines[64 + 2*i+1] = 2*i + 4 +1;
+    }
+    indicesLines[124] = 3;
+    indicesLines[125] = 63;
+    indicesLines[126] = 1;
+    indicesLines[127] = 61;
+
+    //in flow direction
+    for(int i = 0; i < 16; i++)
+    {
+        indicesLines[128 + 4*i] = 0 + 4*i;
+        indicesLines[129 + 4*i] = 2 + 4*i;
+        indicesLines[130 + 4*i] = 1 + 4*i;
+        indicesLines[131 + 4*i] = 3 + 4*i;
+    }
+
+    arrayBufVertices.bind();
+    arrayBufVertices.allocate(vertices, sizeof(vertices));
+
+    indexBufFaces.bind();
+    indexBufFaces.allocate(indicesFaces, sizeof(indicesFaces));
+
+    indexBufLines.bind();
+    indexBufLines.allocate(indicesLines, sizeof(indicesLines));
+
+
+
+    this->snap_vertices.append(position);
+    this->snap_vertices.append(this->position + matrix_rotation * QVector3D(l, 0.0, -e));
+
 }
 
 void CAD_Basic_PipeReducer::processWizardInput()
@@ -103,7 +217,11 @@ void CAD_Basic_PipeReducer::processWizardInput()
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
 
-
+    l = wizardParams.value("l").toDouble();
+    d1 = wizardParams.value("d1").toDouble();
+    d2 = wizardParams.value("d2").toDouble();
+    e = wizardParams.value("e").toDouble();
+    s = wizardParams.value("s").toDouble();
 
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
@@ -111,34 +229,34 @@ void CAD_Basic_PipeReducer::processWizardInput()
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 }
 
-//void CAD_Basic_PipeReducer::paint(GLWidget *glwidget)
-//{
-//    QColor color_pen_tmp = getColorPen();
-//    QColor color_brush_tmp = getColorBrush();
+void CAD_Basic_PipeReducer::paint(GLWidget *glwidget)
+{
+    QColor color_pen_tmp = getColorPen();
+    QColor color_brush_tmp = getColorBrush();
 
-//    arrayBufVertices.bind();
-//    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
-//    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
+    arrayBufVertices.bind();
+    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
+    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
 
-//    if (glwidget->render_solid)
-//    {
-//        glwidget->setPaintingColor(color_brush_tmp);
+    if (glwidget->render_solid)
+    {
+        glwidget->setPaintingColor(color_brush_tmp);
 
-//        indexBufFaces.bind();
-//        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces.size(), GL_UNSIGNED_SHORT, 0);
+        indexBufFaces.bind();
+        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces.size(), GL_UNSIGNED_SHORT, 0);
 
-//        indexBufFaces.release();
-//    }
+        indexBufFaces.release();
+    }
 
-//    if (glwidget->render_outline)
-//    {
-//        glwidget->setPaintingColor(color_pen_tmp);
-//        glwidget->glLineWidth(1.0);
+    if (glwidget->render_outline)
+    {
+        glwidget->setPaintingColor(color_pen_tmp);
+        glwidget->glLineWidth(1.0);
                                       
-//        indexBufLines.bind();
-//        glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
-//        indexBufLines.release();
-//     }                          
+        indexBufLines.bind();
+        glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
+        indexBufLines.release();
+     }
                                                                                            
-//     arrayBufVertices.release();
-//}
+     arrayBufVertices.release();
+}
