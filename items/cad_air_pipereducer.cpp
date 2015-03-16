@@ -18,7 +18,7 @@
 
 CAD_air_pipeReducer::CAD_air_pipeReducer() : CADitem(CADitemTypes::Air_PipeReducer)
 {
-    this->reducer = new CAD_basic_pipe();
+    this->reducer = new CAD_Basic_PipeReducer();
     this->subItems.append(reducer);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
@@ -28,7 +28,7 @@ CAD_air_pipeReducer::CAD_air_pipeReducer() : CADitem(CADitemTypes::Air_PipeReduc
     wizardParams.insert("Angle z", 0.0);
 
     wizardParams.insert("l",  40.0);
-    wizardParams.insert("d",  30.0);
+    wizardParams.insert("d1", 30.0);
     wizardParams.insert("d2", 20.0);
     wizardParams.insert("s",   1.0);
 
@@ -107,51 +107,15 @@ void CAD_air_pipeReducer::calculate()
     reducer->wizardParams.insert("Angle y", (angle_y));
     reducer->wizardParams.insert("Angle z", (angle_z));
     reducer->wizardParams.insert("l", (l));
-    reducer->wizardParams.insert("d", (d));
+    reducer->wizardParams.insert("e", (0.0));
+    reducer->wizardParams.insert("d1", (d1));
+    reducer->wizardParams.insert("d2", (d2));
     reducer->wizardParams.insert("s", (s));
     reducer->layer = this->layer;
     reducer->processWizardInput();
     reducer->calculate();
 
-    reducer->snap_flanges.clear();
-    reducer->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
 
-    qreal radius = d/2;
-    qreal radius2 = d2/2;
-    reducer->vertices_inner_bottom.clear();
-    reducer->vertices_inner_top.clear();
-    reducer->vertices_outer_top.clear();
-    reducer->vertices_outer_bottom.clear();
-    QVector3D vertices[64];
-    int index = 0;
-
-    for (qreal i=0.0; i < 1.0; i += 0.0625)    // 16 edges
-    {
-        qreal angle = 2 * PI * i;
-        QVector3D linePos;
-
-        linePos = matrix_rotation * QVector3D(0.0, sin(angle) * radius, cos(angle) * radius);
-        linePos += position;
-        vertices[index] = linePos;
-        index++;
-        vertices[index] = linePos + (position - linePos).normalized() * s;
-        index++;
-        //        reducer->vertices_outer_bottom.append(linePos);
-
-        //        reducer->vertices_inner_bottom.append(linePos + (position - linePos).normalized() * s);
-        QVector3D pos_top = position + matrix_rotation * QVector3D(l, 0.0, 0.0);
-        linePos = matrix_rotation * QVector3D(0.0, sin(angle) * radius2, cos(angle) * radius2);
-        linePos += pos_top;
-        vertices[index] = linePos;
-        index++;
-        //        reducer->vertices_outer_top.append(linePos);
-        vertices[index] = linePos + (pos_top - linePos).normalized() * s;
-        index++;
-        //        reducer->vertices_inner_top.append(linePos + (pos_top - linePos).normalized() * s);
-    }
-
-    reducer->arrayBufVertices.bind();
-    reducer->arrayBufVertices.allocate(vertices, sizeof(vertices));
     this->boundingBox = reducer->boundingBox;
 }
 
@@ -165,7 +129,7 @@ void CAD_air_pipeReducer::processWizardInput()
     angle_z = wizardParams.value("Angle z").toDouble();
 
     s = wizardParams.value("s").toDouble();
-    d = wizardParams.value("d").toDouble();
+    d1 = wizardParams.value("d1").toDouble();
     d2 = wizardParams.value("d2").toDouble();
     l = wizardParams.value("l").toDouble();
 

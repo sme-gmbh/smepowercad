@@ -18,6 +18,7 @@
 
 #include "caditem.h"
 #include "items/cad_basic_pipe.h"
+#include "items/cad_basic_pipereducer.h"
 
 class CAD_sanitary_pipeReducer : public CADitem
 {
@@ -33,7 +34,8 @@ public:
     virtual void processWizardInput();
 
     qreal d1, d2, l, l1, l2, e, s, iso1, iso2;
-    CAD_basic_pipe *left, *right, *reducer;
+    CAD_basic_pipe *left, *right;
+    CAD_Basic_PipeReducer *reducer;
 
 
 };

@@ -20,7 +20,7 @@ CAD_sanitary_pipeReducer::CAD_sanitary_pipeReducer() : CADitem(CADitemTypes::San
 {
     left = new CAD_basic_pipe;
     right = new CAD_basic_pipe;
-    reducer = new CAD_basic_pipe;
+    reducer = new CAD_Basic_PipeReducer;
     this->subItems.append(left);
     this->subItems.append(right);
     this->subItems.append(reducer);
@@ -150,46 +150,14 @@ void CAD_sanitary_pipeReducer::calculate()
     reducer->wizardParams.insert("Angle x", (angle_x));
     reducer->wizardParams.insert("Angle y", (angle_y));
     reducer->wizardParams.insert("Angle z", (angle_z));
-    reducer->wizardParams.insert("l", (l));
-    reducer->wizardParams.insert("d", (d1));
+    reducer->wizardParams.insert("l", (l - l1 - l2));
+    reducer->wizardParams.insert("d1", (d1 + 2 * iso1 + 2 * s));
+    reducer->wizardParams.insert("d2", (d2 + 2 * iso2 + 2 * s));
+    reducer->wizardParams.insert("e", (e));
     reducer->wizardParams.insert("s", (s));
     reducer->layer = this->layer;
     reducer->processWizardInput();
     reducer->calculate();
-
-    qreal radius = (d1 + 2*s + 2*iso1)/2;
-    qreal radius2 = (d2 + 2*s + 2*iso2)/2;
-    reducer->vertices_inner_bottom.clear();
-    reducer->vertices_inner_top.clear();
-    reducer->vertices_outer_top.clear();
-    reducer->vertices_outer_bottom.clear();
-    QVector3D vertices[64];
-    int index = 0;
-
-    for (qreal i=0.0; i < 1.0; i += 0.0625)    // 16 edges
-    {
-        qreal angle = 2 * PI * i;
-        QVector3D linePos;
-
-        //small side
-        linePos = matrix_rotation * QVector3D(0.0, sin(angle) * radius, cos(angle) * radius);
-        linePos += position_red;
-        vertices[index] = linePos;
-        index++;
-        vertices[index] = linePos + (position_red - linePos).normalized() * (iso1 + s);
-        index++;
-        //big side
-        QVector3D pos_top = position_red + matrix_rotation * QVector3D(l - l1 - l2, 0.0, -e);
-        linePos = matrix_rotation * QVector3D(0.0, sin(angle) * radius2, cos(angle) * radius2);
-        linePos += pos_top;
-        vertices[index] = linePos;
-        index++;
-        vertices[index] = linePos + (pos_top - linePos).normalized() * (iso2 + s);
-        index++;
-    }
-
-    reducer->arrayBufVertices.bind();
-    reducer->arrayBufVertices.allocate(vertices, sizeof(vertices));
 
     this->boundingBox.enterVertices(left->boundingBox.getVertices());
     this->boundingBox.enterVertices(right->boundingBox.getVertices());
