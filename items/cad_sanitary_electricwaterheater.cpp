@@ -14,9 +14,9 @@
 **********************************************************************/
 
 #include "cad_sanitary_electricwaterheater.h"
-#include "itemdb.h"
+#include "glwidget.h"
 
-CAD_sanitary_electricWaterHeater::CAD_sanitary_electricWaterHeater() : CADitem(CADitemTypes::Sanitary_ElectricWaterHeater)
+CAD_Sanitary_ElectricWaterHeater::CAD_Sanitary_ElectricWaterHeater() : CADitem(CADitemTypes::Sanitary_ElectricWaterHeater)
 {
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
@@ -25,81 +25,76 @@ CAD_sanitary_electricWaterHeater::CAD_sanitary_electricWaterHeater() : CADitem(C
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
+//    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+//    arrayBufVertices.create();
+//    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+//    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+//    indexBufFaces.create();
+//    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+//    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+//    indexBufLines.create();
+//    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
+   
     processWizardInput();
     calculate();
 }
 
-CAD_sanitary_electricWaterHeater::~CAD_sanitary_electricWaterHeater()
+CAD_Sanitary_ElectricWaterHeater::~CAD_Sanitary_ElectricWaterHeater()
 {
-
+//    arrayBufVertices.destroy();
+//    indexBufFaces.destroy();
+//    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_sanitary_electricWaterHeater::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Sanitary_ElectricWaterHeater::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
-    flangable_items.append(CADitemTypes::Sanitary_ElectricWaterHeater);
-    flangable_items.append(CADitemTypes::Sanitary_EmergencyEyeShower);
-    flangable_items.append(CADitemTypes::Sanitary_EmergencyShower);
-    flangable_items.append(CADitemTypes::Sanitary_Flange);
-    flangable_items.append(CADitemTypes::Sanitary_LiftingUnit);
-    flangable_items.append(CADitemTypes::Sanitary_Pipe);
-    flangable_items.append(CADitemTypes::Sanitary_PipeEndCap);
-    flangable_items.append(CADitemTypes::Sanitary_PipeReducer);
-    flangable_items.append(CADitemTypes::Sanitary_PipeTeeConnector);
-    flangable_items.append(CADitemTypes::Sanitary_PipeTurn);
-    flangable_items.append(CADitemTypes::Sanitary_Shower);
-    flangable_items.append(CADitemTypes::Sanitary_Sink);
-    flangable_items.append(CADitemTypes::Sanitary_WashBasin);
+    
     return flangable_items;
 }
 
-QImage CAD_sanitary_electricWaterHeater::wizardImage()
+QImage CAD_Sanitary_ElectricWaterHeater::wizardImage()
 {
     QImage image;
     QFileInfo fileinfo(__FILE__);
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-
-    ;
-
+                    
     image.load(imageFileName, "PNG");
-
+                       
     return image;
 }
 
-QString CAD_sanitary_electricWaterHeater::iconPath()
+QString CAD_Sanitary_ElectricWaterHeater::iconPath()
 {
     return ":/icons/cad_sanitary/cad_sanitary_electricwaterheater.svg";
 }
 
-QString CAD_sanitary_electricWaterHeater::domain()
+QString CAD_Sanitary_ElectricWaterHeater::domain()
 {
     return "Sanitary";
 }
 
-QString CAD_sanitary_electricWaterHeater::description()
+QString CAD_Sanitary_ElectricWaterHeater::description()
 {
     return "Sanitary|Electric Water Heater";
 }
 
-void CAD_sanitary_electricWaterHeater::calculate()
-{
-    matrix_rotation.setToIdentity();
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-
+void CAD_Sanitary_ElectricWaterHeater::calculate()
+{                
     boundingBox.reset();
-
+                    
     this->snap_flanges.clear();
     this->snap_center.clear();
     this->snap_vertices.clear();
-
+                                
     this->snap_basepoint = (position);
 }
 
-void CAD_sanitary_electricWaterHeater::processWizardInput()
+void CAD_Sanitary_ElectricWaterHeater::processWizardInput()
 {
     position.setX(wizardParams.value("Position x").toDouble());
     position.setY(wizardParams.value("Position y").toDouble());
@@ -108,4 +103,42 @@ void CAD_sanitary_electricWaterHeater::processWizardInput()
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
 
+
+
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 }
+
+//void CAD_Sanitary_ElectricWaterHeater::paint(GLWidget *glwidget)
+//{
+//    QColor color_pen_tmp = getColorPen();
+//    QColor color_brush_tmp = getColorBrush();
+
+//    arrayBufVertices.bind();
+//    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
+//    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
+
+//    if (glwidget->render_solid)
+//    {
+//        glwidget->setPaintingColor(color_brush_tmp);
+
+//        indexBufFaces.bind();
+//        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces.size(), GL_UNSIGNED_SHORT, 0);
+
+//        indexBufFaces.release();
+//    }
+
+//    if (glwidget->render_outline)
+//    {
+//        glwidget->setPaintingColor(color_pen_tmp);
+//        glwidget->glLineWidth(1.0);
+                                      
+//        indexBufLines.bind();
+//        glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
+//        indexBufLines.release();
+//     }                          
+                                                                                           
+//     arrayBufVertices.release();
+//}

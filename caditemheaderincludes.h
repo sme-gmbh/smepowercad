@@ -103,6 +103,7 @@
 #include "items/cad_cleanroom_controlledtouchkey.h"
 #include "items/cad_cleanroom_controlradarsensor.h"
 #include "items/cad_cleanroom_controlswitch.h"
+#include "items/cad_cleanroom_doorframe.h"
 #include "items/cad_cleanroom_doorslidingdouble.h"
 #include "items/cad_cleanroom_doorslidingsingle.h"
 #include "items/cad_cleanroom_doorswingingdouble.h"

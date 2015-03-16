@@ -301,7 +301,8 @@ SOURCES += main.cpp\
     items/cad_basic_gauge90degree.cpp \
     items/cad_heatcool_gauge.cpp \
     items/cad_heatcool_gauge90degree.cpp \
-    items/cad_heatcool_nonreturnflap.cpp
+    items/cad_heatcool_nonreturnflap.cpp \
+    items/cad_cleanroom_doorframe.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -564,7 +565,8 @@ HEADERS  += mainwindow.h \
     items/cad_basic_gauge90degree.h \
     items/cad_heatcool_gauge.h \
     items/cad_heatcool_gauge90degree.h \
-    items/cad_heatcool_nonreturnflap.h
+    items/cad_heatcool_nonreturnflap.h \
+    items/cad_cleanroom_doorframe.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

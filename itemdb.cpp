@@ -581,6 +581,9 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Cleanroom_ControlSwitch:
         newItem = new CAD_Cleanroom_ControlSwitch();
         break;
+    case CADitemTypes::Cleanroom_DoorFrame:
+        newItem = new CAD_Cleanroom_DoorFrame();
+        break;
     case CADitemTypes::Cleanroom_DoorSlidingDouble:
         newItem = new CAD_Cleanroom_DoorSlidingDouble();
         break;

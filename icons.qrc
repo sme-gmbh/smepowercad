@@ -313,6 +313,16 @@
         <file>itemGraphic/cad_heatcool_filter.png</file>
         <file>itemGraphic/cad_heatcool_flange.png</file>
         <file>icons/cad_basic/cad_basic_flume.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_doorframe.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_electricwaterheater.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_emergencyeyeshower.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_emergencyshower.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_flange.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_liftingunit.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_pipeendcap.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_shower.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_sink.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_washbasin.svg</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>

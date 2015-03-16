@@ -65,7 +65,6 @@ CAD_HeatCool_ButterflyValveBolted::~CAD_HeatCool_ButterflyValveBolted()
 QList<CADitemTypes::ItemType> CAD_HeatCool_ButterflyValveBolted::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
-    
     return flangable_items;
 }
 

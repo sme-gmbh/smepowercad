@@ -13,10 +13,10 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#include "cad_sanitary_washbasin.h"
+#include "cad_cleanroom_doorframe.h"
 #include "glwidget.h"
 
-CAD_Sanitary_WashBasin::CAD_Sanitary_WashBasin() : CADitem(CADitemTypes::Sanitary_WashBasin)
+CAD_Cleanroom_DoorFrame::CAD_Cleanroom_DoorFrame() : CADitem(CADitemTypes::Cleanroom_DoorFrame)
 {
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
@@ -41,21 +41,21 @@ CAD_Sanitary_WashBasin::CAD_Sanitary_WashBasin() : CADitem(CADitemTypes::Sanitar
     calculate();
 }
 
-CAD_Sanitary_WashBasin::~CAD_Sanitary_WashBasin()
+CAD_Cleanroom_DoorFrame::~CAD_Cleanroom_DoorFrame()
 {
 //    arrayBufVertices.destroy();
 //    indexBufFaces.destroy();
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_Sanitary_WashBasin::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Cleanroom_DoorFrame::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;
 }
 
-QImage CAD_Sanitary_WashBasin::wizardImage()
+QImage CAD_Cleanroom_DoorFrame::wizardImage()
 {
     QImage image;
     QFileInfo fileinfo(__FILE__);
@@ -68,22 +68,22 @@ QImage CAD_Sanitary_WashBasin::wizardImage()
     return image;
 }
 
-QString CAD_Sanitary_WashBasin::iconPath()
+QString CAD_Cleanroom_DoorFrame::iconPath()
 {
-    return ":/icons/cad_sanitary/cad_sanitary_washbasin.svg";
+    return ":/icons/cad_cleanroom/cad_cleanroom_doorframe.svg";
 }
 
-QString CAD_Sanitary_WashBasin::domain()
+QString CAD_Cleanroom_DoorFrame::domain()
 {
-    return "Sanitary";
+    return "Cleanroom";
 }
 
-QString CAD_Sanitary_WashBasin::description()
+QString CAD_Cleanroom_DoorFrame::description()
 {
-    return "Sanitary|Wash Basin";
+    return "Cleanroom|Door Frame";
 }
 
-void CAD_Sanitary_WashBasin::calculate()
+void CAD_Cleanroom_DoorFrame::calculate()
 {                
     boundingBox.reset();
                     
@@ -94,7 +94,7 @@ void CAD_Sanitary_WashBasin::calculate()
     this->snap_basepoint = (position);
 }
 
-void CAD_Sanitary_WashBasin::processWizardInput()
+void CAD_Cleanroom_DoorFrame::processWizardInput()
 {
     position.setX(wizardParams.value("Position x").toDouble());
     position.setY(wizardParams.value("Position y").toDouble());
@@ -111,7 +111,7 @@ void CAD_Sanitary_WashBasin::processWizardInput()
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 }
 
-//void CAD_Sanitary_WashBasin::paint(GLWidget *glwidget)
+//void CAD_Cleanroom_DoorFrame::paint(GLWidget *glwidget)
 //{
 //    QColor color_pen_tmp = getColorPen();
 //    QColor color_brush_tmp = getColorBrush();

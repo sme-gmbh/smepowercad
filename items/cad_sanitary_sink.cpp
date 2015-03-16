@@ -14,9 +14,9 @@
 **********************************************************************/
 
 #include "cad_sanitary_sink.h"
-#include "itemdb.h"
+#include "glwidget.h"
 
-CAD_sanitary_sink::CAD_sanitary_sink() : CADitem(CADitemTypes::Sanitary_Sink)
+CAD_Sanitary_Sink::CAD_Sanitary_Sink() : CADitem(CADitemTypes::Sanitary_Sink)
 {
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
@@ -25,82 +25,76 @@ CAD_sanitary_sink::CAD_sanitary_sink() : CADitem(CADitemTypes::Sanitary_Sink)
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
+//    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+//    arrayBufVertices.create();
+//    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+//    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+//    indexBufFaces.create();
+//    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+//    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+//    indexBufLines.create();
+//    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
+   
     processWizardInput();
     calculate();
 }
 
-CAD_sanitary_sink::~CAD_sanitary_sink()
+CAD_Sanitary_Sink::~CAD_Sanitary_Sink()
 {
-
+//    arrayBufVertices.destroy();
+//    indexBufFaces.destroy();
+//    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_sanitary_sink::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Sanitary_Sink::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
-    flangable_items.append(CADitemTypes::Sanitary_ElectricWaterHeater);
-    flangable_items.append(CADitemTypes::Sanitary_EmergencyEyeShower);
-    flangable_items.append(CADitemTypes::Sanitary_EmergencyShower);
-    flangable_items.append(CADitemTypes::Sanitary_Flange);
-    flangable_items.append(CADitemTypes::Sanitary_LiftingUnit);
-    flangable_items.append(CADitemTypes::Sanitary_Pipe);
-    flangable_items.append(CADitemTypes::Sanitary_PipeEndCap);
-    flangable_items.append(CADitemTypes::Sanitary_PipeReducer);
-    flangable_items.append(CADitemTypes::Sanitary_PipeTeeConnector);
-    flangable_items.append(CADitemTypes::Sanitary_PipeTurn);
-    flangable_items.append(CADitemTypes::Sanitary_Shower);
-    flangable_items.append(CADitemTypes::Sanitary_Sink);
-    flangable_items.append(CADitemTypes::Sanitary_WashBasin);
-
+    
     return flangable_items;
 }
 
-QImage CAD_sanitary_sink::wizardImage()
+QImage CAD_Sanitary_Sink::wizardImage()
 {
     QImage image;
     QFileInfo fileinfo(__FILE__);
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-
-    ;
-
+                    
     image.load(imageFileName, "PNG");
-
+                       
     return image;
 }
 
-QString CAD_sanitary_sink::iconPath()
+QString CAD_Sanitary_Sink::iconPath()
 {
     return ":/icons/cad_sanitary/cad_sanitary_sink.svg";
 }
 
-QString CAD_sanitary_sink::domain()
+QString CAD_Sanitary_Sink::domain()
 {
     return "Sanitary";
 }
 
-QString CAD_sanitary_sink::description()
+QString CAD_Sanitary_Sink::description()
 {
     return "Sanitary|Sink";
 }
 
-void CAD_sanitary_sink::calculate()
-{
-    matrix_rotation.setToIdentity();
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-
+void CAD_Sanitary_Sink::calculate()
+{                
     boundingBox.reset();
-
+                    
     this->snap_flanges.clear();
     this->snap_center.clear();
     this->snap_vertices.clear();
-
+                                
     this->snap_basepoint = (position);
 }
 
-void CAD_sanitary_sink::processWizardInput()
+void CAD_Sanitary_Sink::processWizardInput()
 {
     position.setX(wizardParams.value("Position x").toDouble());
     position.setY(wizardParams.value("Position y").toDouble());
@@ -109,4 +103,42 @@ void CAD_sanitary_sink::processWizardInput()
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
 
+
+
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 }
+
+//void CAD_Sanitary_Sink::paint(GLWidget *glwidget)
+//{
+//    QColor color_pen_tmp = getColorPen();
+//    QColor color_brush_tmp = getColorBrush();
+
+//    arrayBufVertices.bind();
+//    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
+//    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
+
+//    if (glwidget->render_solid)
+//    {
+//        glwidget->setPaintingColor(color_brush_tmp);
+
+//        indexBufFaces.bind();
+//        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces.size(), GL_UNSIGNED_SHORT, 0);
+
+//        indexBufFaces.release();
+//    }
+
+//    if (glwidget->render_outline)
+//    {
+//        glwidget->setPaintingColor(color_pen_tmp);
+//        glwidget->glLineWidth(1.0);
+                                      
+//        indexBufLines.bind();
+//        glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
+//        indexBufLines.release();
+//     }                          
+                                                                                           
+//     arrayBufVertices.release();
+//}

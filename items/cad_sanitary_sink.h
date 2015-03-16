@@ -18,11 +18,11 @@
 
 #include "caditem.h"
 
-class CAD_sanitary_sink : public CADitem
+class CAD_Sanitary_Sink : public CADitem
 {
 public:
-    CAD_sanitary_sink();
-    virtual ~CAD_sanitary_sink();
+    CAD_Sanitary_Sink();
+    virtual ~CAD_Sanitary_Sink();
     virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
@@ -30,6 +30,11 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
+//    virtual void paint(GLWidget* glwidget);
+
+//    QOpenGLBuffer arrayBufVertices;
+//    QOpenGLBuffer indexBufFaces;
+//    QOpenGLBuffer indexBufLines;
 };
 
 #endif // CAD_SANITARY_SINK_H

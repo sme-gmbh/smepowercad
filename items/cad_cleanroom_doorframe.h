@@ -13,16 +13,16 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#ifndef CAD_SANITARY_FLANGE_H
-#define CAD_SANITARY_FLANGE_H
+#ifndef CAD_CLEANROOM_DOORFRAME_H
+#define CAD_CLEANROOM_DOORFRAME_H
 
 #include "caditem.h"
 
-class CAD_Sanitary_Flange : public CADitem
+class CAD_Cleanroom_DoorFrame : public CADitem
 {
 public:
-    CAD_Sanitary_Flange();
-    virtual ~CAD_Sanitary_Flange();
+    CAD_Cleanroom_DoorFrame();
+    virtual ~CAD_Cleanroom_DoorFrame();
     virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
@@ -37,4 +37,4 @@ public:
 //    QOpenGLBuffer indexBufLines;
 };
 
-#endif // CAD_SANITARY_FLANGE_H
+#endif // CAD_CLEANROOM_DOORFRAME_H

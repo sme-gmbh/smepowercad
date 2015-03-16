@@ -41,8 +41,6 @@ CAD_Basic_TorisphericalHeadDIN28011::CAD_Basic_TorisphericalHeadDIN28011() : CAD
 
     processWizardInput();
     calculate();
-
-    qDebug() << wizardImage();
 }
 
 
