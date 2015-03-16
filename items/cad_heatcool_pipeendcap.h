@@ -32,6 +32,8 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
+
+    qreal d, l, s, fe, ff;
     CAD_basic_pipe *flange;
     CAD_Basic_TorisphericalHeadDIN28011 *endcap;
 };

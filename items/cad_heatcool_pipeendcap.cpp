@@ -18,12 +18,21 @@
 
 CAD_heatcool_pipeEndCap::CAD_heatcool_pipeEndCap() : CADitem(CADitemTypes::HeatCool_PipeEndCap)
 {
+    flange = new CAD_basic_pipe;
+    endcap = new CAD_Basic_TorisphericalHeadDIN28011;
+    this->subItems.append(flange);
+    this->subItems.append(endcap);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
+    wizardParams.insert("d", 150.0);
+    wizardParams.insert("l", 100.0);
+    wizardParams.insert("s",  10.0);
+    wizardParams.insert("fe", 10.0);
+    wizardParams.insert("ff", 10.0);
 
     processWizardInput();
     calculate();
@@ -93,11 +102,6 @@ QString CAD_heatcool_pipeEndCap::description()
 
 void CAD_heatcool_pipeEndCap::calculate()
 {
-    matrix_rotation.setToIdentity();
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-
     boundingBox.reset();
 
     this->snap_flanges.clear();
@@ -105,6 +109,37 @@ void CAD_heatcool_pipeEndCap::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+
+    flange->wizardParams.insert("Position x", position.x());
+    flange->wizardParams.insert("Position y", position.x());
+    flange->wizardParams.insert("Position z", position.x());
+    flange->wizardParams.insert("Angle x", angle_x);
+    flange->wizardParams.insert("Angle y", angle_y);
+    flange->wizardParams.insert("Angle z", angle_z);
+    flange->wizardParams.insert("l", fe);
+    flange->wizardParams.insert("d", d + 2 * ff);
+    flange->wizardParams.insert("s",  ff + s);
+    flange->layer = this->layer;
+    flange->processWizardInput();
+    flange->calculate();
+
+    endcap->wizardParams.insert("Position x", position.x());
+    endcap->wizardParams.insert("Position y", position.x());
+    endcap->wizardParams.insert("Position z", position.x());
+    endcap->wizardParams.insert("Angle x", angle_x);
+    endcap->wizardParams.insert("Angle y", angle_y);
+    endcap->wizardParams.insert("Angle z", angle_z);
+    endcap->wizardParams.insert("d", d);   // Durchmesser
+    qreal h = l - 0.1937742252 * d; // h - (1-sqrt(0.65)) * d
+    endcap->wizardParams.insert("h", h);     // Höhe
+    endcap->layer = this->layer;
+    endcap->processWizardInput();
+    endcap->rotateAroundAxis(90.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
+    endcap->calculate();
+
+    foreach(CADitem *item, subItems)
+        this->boundingBox.enterVertices(item->boundingBox.getVertices());
+    this->snap_flanges.append(position);
 }
 
 void CAD_heatcool_pipeEndCap::processWizardInput()
@@ -115,5 +150,17 @@ void CAD_heatcool_pipeEndCap::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+
+    d = wizardParams.value("d").toDouble();
+    l = wizardParams.value("l").toDouble();
+    s = wizardParams.value("s").toDouble();
+    fe = wizardParams.value("fe").toDouble();
+    ff = wizardParams.value("ff").toDouble();
+
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 
 }
