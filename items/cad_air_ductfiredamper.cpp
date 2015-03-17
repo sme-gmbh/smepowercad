@@ -61,7 +61,7 @@ QList<CADitemTypes::ItemType> CAD_air_ductFireDamper::flangable_items()
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Air_Duct);
     flangable_items.append(CADitemTypes::Air_DuctTeeConnector);
-    flangable_items.append(CADitemTypes::Air_DuctTransition);
+    flangable_items.append(CADitemTypes::Air_DuctTransitionRectRect);
     flangable_items.append(CADitemTypes::Air_DuctTransitionRectRound);
     flangable_items.append(CADitemTypes::Air_DuctTurn);
     flangable_items.append(CADitemTypes::Air_DuctVolumetricFlowController);

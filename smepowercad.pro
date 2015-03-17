@@ -103,7 +103,6 @@ SOURCES += main.cpp\
     items/cad_sprinkler_zonecheck.cpp \
     items/cad_air_ductfireresistant.cpp \
     items/cad_air_ductteeconnector.cpp \
-    items/cad_air_ducttransition.cpp \
     items/cad_air_ducttransitionrectround.cpp \
     items/cad_air_ductypiece.cpp \
     items/cad_air_ductendplate.cpp \
@@ -304,7 +303,8 @@ SOURCES += main.cpp\
     items/cad_heatcool_nonreturnflap.cpp \
     items/cad_cleanroom_doorframe.cpp \
     items/cad_sanitary_pipeypiece.cpp \
-    items/cad_basic_pipereducer.cpp
+    items/cad_basic_pipereducer.cpp \
+    items/cad_air_ducttransitionrectrect.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -368,7 +368,6 @@ HEADERS  += mainwindow.h \
     items/cad_sprinkler_zonecheck.h \
     items/cad_air_ductfireresistant.h \
     items/cad_air_ductteeconnector.h \
-    items/cad_air_ducttransition.h \
     items/cad_air_ducttransitionrectround.h \
     items/cad_air_ductypiece.h \
     items/cad_air_ductendplate.h \
@@ -570,7 +569,8 @@ HEADERS  += mainwindow.h \
     items/cad_heatcool_nonreturnflap.h \
     items/cad_cleanroom_doorframe.h \
     items/cad_sanitary_pipeypiece.h \
-    items/cad_basic_pipereducer.h
+    items/cad_basic_pipereducer.h \
+    items/cad_air_ducttransitionrectrect.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

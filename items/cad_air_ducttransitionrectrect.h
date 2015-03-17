@@ -13,17 +13,17 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#ifndef CAD_AIR_DUCTTRANSITION_H
-#define CAD_AIR_DUCTTRANSITION_H
+#ifndef CAD_AIR_DUCTTRANSITIONRECTRECT_H
+#define CAD_AIR_DUCTTRANSITIONRECTRECT_H
 
 #include "caditem.h"
 #include "cad_basic_duct.h"
 
-class CAD_air_ductTransition : public CADitem
+class CAD_air_ductTransitionRectRect : public CADitem
 {
 public:
-    CAD_air_ductTransition();
-    virtual ~CAD_air_ductTransition();
+    CAD_air_ductTransitionRectRect();
+    virtual ~CAD_air_ductTransitionRectRect();
     virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
@@ -47,4 +47,4 @@ private:
 
 };
 
-#endif // CAD_AIR_DUCTTRANSITION_H
+#endif // CAD_AIR_DUCTTRANSITIONRECTRECT_H

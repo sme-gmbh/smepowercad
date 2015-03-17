@@ -13,10 +13,10 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#include "cad_air_ducttransition.h"
+#include "cad_air_ducttransitionrectrect.h"
 #include "itemdb.h"
 
-CAD_air_ductTransition::CAD_air_ductTransition() : CADitem(CADitemTypes::Air_DuctTransition)
+CAD_air_ductTransitionRectRect::CAD_air_ductTransitionRectRect() : CADitem(CADitemTypes::Air_DuctTransitionRectRect)
 {
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
@@ -52,11 +52,11 @@ CAD_air_ductTransition::CAD_air_ductTransition() : CADitem(CADitemTypes::Air_Duc
     calculate();
 }
 
-CAD_air_ductTransition::~CAD_air_ductTransition()
+CAD_air_ductTransitionRectRect::~CAD_air_ductTransitionRectRect()
 {
 }
 
-QList<CADitemTypes::ItemType> CAD_air_ductTransition::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_ductTransitionRectRect::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Air_Duct);
@@ -74,7 +74,7 @@ QList<CADitemTypes::ItemType> CAD_air_ductTransition::flangable_items()
     return flangable_items;
 }
 
-QImage CAD_air_ductTransition::wizardImage()
+QImage CAD_air_ductTransitionRectRect::wizardImage()
 {
     QImage image;
     QFileInfo fileinfo(__FILE__);
@@ -87,22 +87,22 @@ QImage CAD_air_ductTransition::wizardImage()
     return image;
 }
 
-QString CAD_air_ductTransition::iconPath()
+QString CAD_air_ductTransitionRectRect::iconPath()
 {
-    return ":/icons/cad_air/cad_air_ducttransition.svg";
+    return ":/icons/cad_air/cad_air_ducttransitionrectrect.svg";
 }
 
-QString CAD_air_ductTransition::domain()
+QString CAD_air_ductTransitionRectRect::domain()
 {
     return "Air";
 }
 
-QString CAD_air_ductTransition::description()
+QString CAD_air_ductTransitionRectRect::description()
 {
     return "Air|Duct transition rect/rect";
 }
 
-void CAD_air_ductTransition::calculate()
+void CAD_air_ductTransitionRectRect::calculate()
 {
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
@@ -301,7 +301,7 @@ void CAD_air_ductTransition::calculate()
 
 }
 
-void CAD_air_ductTransition::processWizardInput()
+void CAD_air_ductTransitionRectRect::processWizardInput()
 {
 
     position.setX(wizardParams.value("Position x").toDouble());

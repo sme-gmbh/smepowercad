@@ -355,8 +355,8 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Air_DuctTeeConnector:
         newItem = new CAD_air_ductTeeConnector();
         break;
-    case CADitemTypes::Air_DuctTransition:
-        newItem = new CAD_air_ductTransition();
+    case CADitemTypes::Air_DuctTransitionRectRect:
+        newItem = new CAD_air_ductTransitionRectRect();
         break;
     case CADitemTypes::Air_DuctTransitionRectRound:
         newItem = new CAD_air_ductTransitionRectRound();

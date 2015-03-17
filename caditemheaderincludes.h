@@ -25,7 +25,7 @@
 #include "items/cad_air_ductfiredamper.h"
 #include "items/cad_air_ductfireresistant.h"
 #include "items/cad_air_ductteeconnector.h"
-#include "items/cad_air_ducttransition.h"
+#include "items/cad_air_ducttransitionrectrect.h"
 #include "items/cad_air_ducttransitionrectround.h"
 #include "items/cad_air_ductturn.h"
 #include "items/cad_air_ductvolumetricflowcontroller.h"

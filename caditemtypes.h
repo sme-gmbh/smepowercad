@@ -39,7 +39,7 @@ public:
         Air_PipeReducer,                        // Rohrreduzierung
         Air_PipeTeeConnector,                   // Rohr-T-Stück, auch mit mehr als 3 Anschlüssen
         Air_DuctTeeConnector,                   // Kanal-T-Stück
-        Air_DuctTransition,                     // Kanalübergang (eckig)
+        Air_DuctTransitionRectRect,                     // Kanalübergang (eckig)
         Air_DuctTransitionRectRound,            // Kanalübergang eckig/rund
         Air_DuctYpiece,                         // Kanal-Hosenstück
         Air_DuctEndPlate,                       // Kanalenddeckel (Boden)
