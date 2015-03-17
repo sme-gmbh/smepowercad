@@ -57,7 +57,7 @@ CAD_HeatCool_ValveMotorRound::~CAD_HeatCool_ValveMotorRound()
 QList<CADitemTypes::ItemType> CAD_HeatCool_ValveMotorRound::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
-    flangable_items.append(CADitemTypes::HeatCool_Valve);
+
     return flangable_items;
 }
 

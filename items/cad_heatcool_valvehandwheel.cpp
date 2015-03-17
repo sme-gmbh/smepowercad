@@ -64,7 +64,7 @@ CAD_HeatCool_ValveHandwheel::~CAD_HeatCool_ValveHandwheel()
 QList<CADitemTypes::ItemType> CAD_HeatCool_ValveHandwheel::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
-    flangable_items.append(CADitemTypes::HeatCool_Valve);
+
     return flangable_items;
 }
 

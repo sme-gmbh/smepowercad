@@ -60,7 +60,7 @@ CAD_HeatCool_ValveLever::~CAD_HeatCool_ValveLever()
 QList<CADitemTypes::ItemType> CAD_HeatCool_ValveLever::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
-    flangable_items.append(CADitemTypes::HeatCool_Valve);
+
     return flangable_items;
 }
 

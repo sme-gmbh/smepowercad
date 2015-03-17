@@ -69,12 +69,23 @@ CAD_HeatCool_Valve90Degree::~CAD_HeatCool_Valve90Degree()
 QList<CADitemTypes::ItemType> CAD_HeatCool_Valve90Degree::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::HeatCool_Adjustvalve);
+    flangable_items.append(CADitemTypes::HeatCool_BallValve);
+    flangable_items.append(CADitemTypes::HeatCool_Boiler);
     flangable_items.append(CADitemTypes::HeatCool_ButterflyValveBolted);
     flangable_items.append(CADitemTypes::HeatCool_ButterflyValveClamped);
+    flangable_items.append(CADitemTypes::HeatCool_Chiller);
+    flangable_items.append(CADitemTypes::HeatCool_Controlvalve);
+    flangable_items.append(CADitemTypes::HeatCool_CoolingTower);
     flangable_items.append(CADitemTypes::HeatCool_DirtArrester);
+    flangable_items.append(CADitemTypes::HeatCool_ExpansionChamber);
     flangable_items.append(CADitemTypes::HeatCool_Filter);
-    flangable_items.append(CADitemTypes::HeatCool_HeatexchangerBolted);
+    flangable_items.append(CADitemTypes::HeatCool_Flange);
+    flangable_items.append(CADitemTypes::HeatCool_Flowmeter);
+    flangable_items.append(CADitemTypes::HeatCool_Gauge);
+    flangable_items.append(CADitemTypes::HeatCool_Gauge90Degree);
     flangable_items.append(CADitemTypes::HeatCool_HeatexchangerSoldered);
+    flangable_items.append(CADitemTypes::HeatCool_HeatexchangerBolted);
     flangable_items.append(CADitemTypes::HeatCool_NonReturnFlap);
     flangable_items.append(CADitemTypes::HeatCool_NonReturnValve);
     flangable_items.append(CADitemTypes::HeatCool_Pipe);
@@ -84,9 +95,22 @@ QList<CADitemTypes::ItemType> CAD_HeatCool_Valve90Degree::flangable_items()
     flangable_items.append(CADitemTypes::HeatCool_PipeTurn);
     flangable_items.append(CADitemTypes::HeatCool_PumpInline);
     flangable_items.append(CADitemTypes::HeatCool_PumpNorm);
+    flangable_items.append(CADitemTypes::HeatCool_Radiator);
+    flangable_items.append(CADitemTypes::HeatCool_RadiatorCompact);
+    flangable_items.append(CADitemTypes::HeatCool_RadiatorFlange);
+    flangable_items.append(CADitemTypes::HeatCool_RadiatorFlangeBent);
+    flangable_items.append(CADitemTypes::HeatCool_RadiatorValve);
     flangable_items.append(CADitemTypes::HeatCool_SafetyValve);
+    flangable_items.append(CADitemTypes::HeatCool_Sensor);
+    flangable_items.append(CADitemTypes::HeatCool_StorageBoiler);
     flangable_items.append(CADitemTypes::HeatCool_Valve);
     flangable_items.append(CADitemTypes::HeatCool_Valve90Degree);
+    flangable_items.append(CADitemTypes::HeatCool_ValveHandwheel);
+    flangable_items.append(CADitemTypes::HeatCool_ValveHandwheelGear);
+    flangable_items.append(CADitemTypes::HeatCool_ValveLever);
+    flangable_items.append(CADitemTypes::HeatCool_ValveMotorRect);
+    flangable_items.append(CADitemTypes::HeatCool_ValveMotorRound);
+    flangable_items.append(CADitemTypes::HeatCool_WaterHeater);
     return flangable_items;
 }
 
