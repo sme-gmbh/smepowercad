@@ -528,13 +528,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         {
             if (snapMode != SnapNo)
             {
-                CADitem* item = this->itemGripModifier->getItem();
-                item->wizardParams.insert("Position x", ((qreal)snapPos_scene.x()));
-                item->wizardParams.insert("Position y", ((qreal)snapPos_scene.y()));
-                item->wizardParams.insert("Position z", ((qreal)snapPos_scene.z()));
-                item->processWizardInput();
-                item->calculate();
-                this->itemGripModifier->finishGrip();
+                this->itemGripModifier->moveItemTo(snapPos_scene);
                 this->slot_repaint();
             }
         }
@@ -542,15 +536,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         {
             if (snapMode != SnapNo)
             {
-                CADitem* item = this->itemGripModifier->getItem();
-                CADitem* newItem = this->itemDB->drawItem(item->layer->name, item->getType());
-                newItem->wizardParams = item->wizardParams;
-                newItem->wizardParams.insert("Position x", ((qreal)snapPos_scene.x()));
-                newItem->wizardParams.insert("Position y", ((qreal)snapPos_scene.y()));
-                newItem->wizardParams.insert("Position z", ((qreal)snapPos_scene.z()));
-                newItem->processWizardInput();
-                newItem->calculate();
-                this->itemGripModifier->finishGrip();
+                this->itemGripModifier->copyItemTo(snapPos_scene);
                 this->slot_repaint();
             }
         }
@@ -635,7 +621,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     case Qt::Key_C:                         // Copy item
         if (item_lastHighlight != NULL)
         {
-            if (snapMode == SnapBasepoint)
+            if ((snapMode == SnapBasepoint) || (snapMode == SnapFlange) || (snapMode == SnapEndpoint))
             {
                 this->itemGripModifier->setItem(item_lastHighlight);
                 if (event->modifiers() & Qt::ShiftModifier)
@@ -672,7 +658,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     case Qt::Key_M:                         // Move item
         if (item_lastHighlight != NULL)
         {
-            if (snapMode == SnapBasepoint)
+            if ((snapMode == SnapBasepoint) || (snapMode == SnapFlange) || (snapMode == SnapEndpoint))
             {
                 this->itemGripModifier->setItem(item_lastHighlight);
                 this->itemGripModifier->activateGrip(ItemGripModifier::Grip_Move, QCursor::pos(), snapPos_scene);
@@ -683,7 +669,6 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     case Qt::Key_X:                         // Turn item around x axis
         if (item_lastHighlight != NULL)
         {
-                qDebug() << "GLWidget::keyPressEvent" << event->key();
             item_lastHighlight->angle_x += 45.0;
             if (item_lastHighlight->angle_x > 359.0) item_lastHighlight->angle_x = 0.0;
             item_lastHighlight->wizardParams.insert("Angle x", (item_lastHighlight->angle_x));

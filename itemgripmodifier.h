@@ -56,6 +56,8 @@ public:
     void setItem(CADitem* item);
     CADitem* getItem();
     void activateGrip(ItemGripModifier::ItemGripType gripType, QPoint mousePos, QVector3D scenePos);
+    void moveItemTo(QVector3D new_scenePos);
+    void copyItemTo(QVector3D new_scenePos);
     void finishGrip();
     ItemGripType getActiveGrip();
 

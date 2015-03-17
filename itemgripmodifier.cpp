@@ -95,6 +95,34 @@ void ItemGripModifier::activateGrip(ItemGripModifier::ItemGripType gripType, QPo
     }
 }
 
+void ItemGripModifier::moveItemTo(QVector3D new_scenePos)
+{
+    QVector3D offset = this->scenePos - this->getItem()->position;    // Offset between point of pickup and basepoint of picked object
+    QVector3D newPos = new_scenePos - offset;
+    CADitem* item = this->getItem();
+    item->wizardParams.insert("Position x", ((qreal)newPos.x()));
+    item->wizardParams.insert("Position y", ((qreal)newPos.y()));
+    item->wizardParams.insert("Position z", ((qreal)newPos.z()));
+    item->processWizardInput();
+    item->calculate();
+    this->finishGrip();
+}
+
+void ItemGripModifier::copyItemTo(QVector3D new_scenePos)
+{
+    QVector3D offset = this->scenePos - this->getItem()->position;    // Offset between point of pickup and basepoint of picked object
+    QVector3D newPos = new_scenePos - offset;
+    CADitem* item = this->getItem();
+    CADitem* newItem = this->itemDB->drawItem(item->layer->name, item->getType());
+    newItem->wizardParams = item->wizardParams;
+    newItem->wizardParams.insert("Position x", ((qreal)newPos.x()));
+    newItem->wizardParams.insert("Position y", ((qreal)newPos.y()));
+    newItem->wizardParams.insert("Position z", ((qreal)newPos.z()));
+    newItem->processWizardInput();
+    newItem->calculate();
+    this->finishGrip();
+}
+
 void ItemGripModifier::finishGrip()
 {
     this->item = NULL;
