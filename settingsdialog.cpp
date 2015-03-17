@@ -226,7 +226,8 @@ void SettingsDialog::loadCategorys()
     categories.clear();
 
     QDomDocument doc;
-    QFile file("../../src/settings.xml"); // TODO: move to resource file
+//    QFile file("../../src/settings.xml"); // TODO: move to resource file
+    QFile file(":/settings/settings.xml");
     if (!file.open(QFile::ReadOnly))
         return;
 

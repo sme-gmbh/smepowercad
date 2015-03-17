@@ -683,9 +683,10 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     case Qt::Key_X:                         // Turn item around x axis
         if (item_lastHighlight != NULL)
         {
+                qDebug() << "GLWidget::keyPressEvent" << event->key();
             item_lastHighlight->angle_x += 45.0;
             if (item_lastHighlight->angle_x > 359.0) item_lastHighlight->angle_x = 0.0;
-            item_lastHighlight->wizardParams.insert(QObject::tr("Angle x"), (item_lastHighlight->angle_x));
+            item_lastHighlight->wizardParams.insert("Angle x", (item_lastHighlight->angle_x));
             item_lastHighlight->processWizardInput();
             item_lastHighlight->calculate();
             slot_repaint();
@@ -696,7 +697,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         {
             item_lastHighlight->angle_y += 45.0;
             if (item_lastHighlight->angle_y > 359.0) item_lastHighlight->angle_y = 0.0;
-            item_lastHighlight->wizardParams.insert(QObject::tr("Angle y"), (item_lastHighlight->angle_y));
+            item_lastHighlight->wizardParams.insert("Angle y", (item_lastHighlight->angle_y));
             item_lastHighlight->processWizardInput();
             item_lastHighlight->calculate();
             slot_repaint();
@@ -707,7 +708,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         {
             item_lastHighlight->angle_z += 45.0;
             if (item_lastHighlight->angle_z > 359.0) item_lastHighlight->angle_z = 0.0;
-            item_lastHighlight->wizardParams.insert(QObject::tr("Angle z"), (item_lastHighlight->angle_z));
+            item_lastHighlight->wizardParams.insert("Angle z", (item_lastHighlight->angle_z));
             item_lastHighlight->processWizardInput();
             item_lastHighlight->calculate();
             slot_repaint();

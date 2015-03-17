@@ -359,5 +359,6 @@
         <file>itemGraphic/cad_heatcool_radiatorflangebent.png</file>
         <file>icons/cad_heatcool/cad_heatcool_radiatorflangebent.svg</file>
         <file>icons/cad_heatcool/cad_heatcool_adjustvalve.svg</file>
+        <file>settings.xml</file>
     </qresource>
 </RCC>
