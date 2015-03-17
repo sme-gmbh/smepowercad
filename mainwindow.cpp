@@ -146,7 +146,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     Layer* layerX = itemDB->addLayer("X");
     layerX->pen.setColor(Qt::gray);
-    layerX->brush.setColor(QColor(150,0,0));
+    layerX->brush.setColor(QColor(0x1c,0x1c,0x1c));
     layerX->lineType = "Continuos";
     layerX->width = 1;
 

@@ -47,6 +47,7 @@ QList<CADitemTypes::ItemType> CAD_heatcool_pipe::flangable_items()
     flangable_items.append(CADitemTypes::HeatCool_ButterflyValveClamped);
     flangable_items.append(CADitemTypes::HeatCool_DirtArrester);
     flangable_items.append(CADitemTypes::HeatCool_Filter);
+    flangable_items.append(CADitemTypes::HeatCool_Flange);
     flangable_items.append(CADitemTypes::HeatCool_HeatexchangerBolted);
     flangable_items.append(CADitemTypes::HeatCool_HeatexchangerSoldered);
     flangable_items.append(CADitemTypes::HeatCool_NonReturnFlap);

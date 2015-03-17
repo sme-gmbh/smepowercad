@@ -332,6 +332,7 @@
         <file>itemGraphic/cad_sanitary_pipeendcap.png</file>
         <file>icons/cad_basic/cad_basic_pipereducer.svg</file>
         <file>itemGraphic/cad_basic_pipereducer.png</file>
+        <file>itemGraphic/cad_air_lineardiffuser.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>
