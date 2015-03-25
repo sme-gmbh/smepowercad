@@ -192,6 +192,9 @@ void CAD_air_canvasFlange::calculate()
     canvas3->processWizardInput();
     canvas3->calculate();
 
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0,0.0));
+
     boundingBox.enterVertices(flange_left->boundingBox.getVertices());
     boundingBox.enterVertices(flange_right->boundingBox.getVertices());
 }
