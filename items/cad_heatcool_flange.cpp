@@ -187,3 +187,20 @@ void CAD_heatcool_flange::processWizardInput()
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 
 }
+
+QMatrix4x4 CAD_heatcool_flange::rotationOfFlange(quint8 num)
+{
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        return matrix_rotation;
+    }
+    else
+        return matrix_rotation;
+}

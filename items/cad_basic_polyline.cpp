@@ -167,3 +167,8 @@ void CAD_basic_polyline::paint(GLWidget *glwidget)
     }
     glwidget->glEnd();
 }
+
+QMatrix4x4 CAD_basic_polyline::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

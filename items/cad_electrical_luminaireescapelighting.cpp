@@ -168,3 +168,8 @@ void CAD_Electrical_LuminaireEscapeLighting::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Electrical_LuminaireEscapeLighting::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

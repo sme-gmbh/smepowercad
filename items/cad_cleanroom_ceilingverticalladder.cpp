@@ -140,3 +140,8 @@ void CAD_Cleanroom_CeilingVerticalLadder::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Cleanroom_CeilingVerticalLadder::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

@@ -138,3 +138,8 @@ void CAD_heatcool_boiler::processWizardInput()
     angle_z = wizardParams.value("Angle z").toDouble();
 
 }
+
+QMatrix4x4 CAD_heatcool_boiler::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

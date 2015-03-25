@@ -109,3 +109,8 @@ void CAD_sprinkler_pump::processWizardInput()
     angle_z = wizardParams.value("Angle z").toDouble();
 
 }
+
+QMatrix4x4 CAD_sprinkler_pump::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

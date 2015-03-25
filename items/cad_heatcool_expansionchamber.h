@@ -33,6 +33,7 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
+    virtual QMatrix4x4 rotationOfFlange(quint8 num);
 
     qreal a, b, c, d, d2, s;
     CAD_Basic_TorisphericalHeadDIN28011 *upper, *lower;

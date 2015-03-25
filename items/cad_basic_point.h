@@ -31,6 +31,7 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
     virtual void paint(GLWidget* glwidget);
+    virtual QMatrix4x4 rotationOfFlange(quint8 num);
 };
 
 #endif // CAD_BASIC_POINT_H

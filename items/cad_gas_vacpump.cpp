@@ -140,3 +140,8 @@ void CAD_Gas_VACPump::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Gas_VACPump::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

@@ -140,3 +140,8 @@ void CAD_Gas_CDAPipeTFitting::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Gas_CDAPipeTFitting::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

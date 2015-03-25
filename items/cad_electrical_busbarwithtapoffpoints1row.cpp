@@ -37,27 +37,27 @@ CAD_electrical_busbarwithtapoffpoints1row::CAD_electrical_busbarwithtapoffpoints
     wizardParams.insert("l4", 100.0);
     wizardParams.insert("n", 5);
 
-//    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
-//    arrayBufVertices.create();
-//    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    //    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    //    arrayBufVertices.create();
+    //    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-//    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-//    indexBufFaces.create();
-//    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    //    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    //    indexBufFaces.create();
+    //    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-//    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-//    indexBufLines.create();
-//    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
-   
+    //    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    //    indexBufLines.create();
+    //    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
     processWizardInput();
     calculate();
 }
 
 CAD_electrical_busbarwithtapoffpoints1row::~CAD_electrical_busbarwithtapoffpoints1row()
 {
-//    arrayBufVertices.destroy();
-//    indexBufFaces.destroy();
-//    indexBufLines.destroy();
+    //    arrayBufVertices.destroy();
+    //    indexBufFaces.destroy();
+    //    indexBufLines.destroy();
 }
 
 QList<CADitemTypes::ItemType> CAD_electrical_busbarwithtapoffpoints1row::flangable_items()
@@ -77,9 +77,9 @@ QImage CAD_electrical_busbarwithtapoffpoints1row::wizardImage()
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-                    
+
     image.load(imageFileName, "PNG");
-                       
+
     return image;
 }
 
@@ -200,11 +200,20 @@ void CAD_electrical_busbarwithtapoffpoints1row::processWizardInput()
 //    {
 //        glwidget->setPaintingColor(color_pen_tmp);
 //        glwidget->glLineWidth(1.0);
-                                      
+
 //        indexBufLines.bind();
 //        glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
 //        indexBufLines.release();
 //     }                          
-                                                                                           
+
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_electrical_busbarwithtapoffpoints1row::rotationOfFlange(quint8 num)
+{
+    QMatrix4x4 m;
+    m.setToIdentity();
+    m.rotate(90.0, 0.0, 0.0, 1.0);
+    return matrix_rotation * m;
+
+}

@@ -30,27 +30,27 @@ CAD_Electrical_EquipmentSwitchOrSocket::CAD_Electrical_EquipmentSwitchOrSocket()
     wizardParams.insert("y", 10.0);
     wizardParams.insert("z", 50.0);
 
-//    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
-//    arrayBufVertices.create();
-//    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    //    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    //    arrayBufVertices.create();
+    //    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-//    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-//    indexBufFaces.create();
-//    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    //    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    //    indexBufFaces.create();
+    //    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-//    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-//    indexBufLines.create();
-//    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
-   
+    //    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    //    indexBufLines.create();
+    //    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
     processWizardInput();
     calculate();
 }
 
 CAD_Electrical_EquipmentSwitchOrSocket::~CAD_Electrical_EquipmentSwitchOrSocket()
 {
-//    arrayBufVertices.destroy();
-//    indexBufFaces.destroy();
-//    indexBufLines.destroy();
+    //    arrayBufVertices.destroy();
+    //    indexBufFaces.destroy();
+    //    indexBufLines.destroy();
 }
 
 QList<CADitemTypes::ItemType> CAD_Electrical_EquipmentSwitchOrSocket::flangable_items()
@@ -67,9 +67,9 @@ QImage CAD_Electrical_EquipmentSwitchOrSocket::wizardImage()
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-                    
+
     image.load(imageFileName, "PNG");
-                       
+
     return image;
 }
 
@@ -94,13 +94,13 @@ void CAD_Electrical_EquipmentSwitchOrSocket::calculate()
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
     matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-                
+
     boundingBox.reset();
-                    
+
     this->snap_flanges.clear();
     this->snap_center.clear();
     this->snap_vertices.clear();
-                                
+
     this->snap_basepoint = (position);
 
     QVector3D position_equ = position + matrix_rotation * QVector3D(0.0, -y/2, -z/2);
@@ -161,11 +161,16 @@ void CAD_Electrical_EquipmentSwitchOrSocket::processWizardInput()
 //    {
 //        glwidget->setPaintingColor(color_pen_tmp);
 //        glwidget->glLineWidth(1.0);
-                                      
+
 //        indexBufLines.bind();
 //        glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
 //        indexBufLines.release();
 //     }                          
-                                                                                           
+
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Electrical_EquipmentSwitchOrSocket::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

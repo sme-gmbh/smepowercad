@@ -94,13 +94,6 @@ QString CAD_basic_duct::description()
 
 void CAD_basic_duct::calculate()
 {
-    matrix_rotation.setToIdentity();
-    matrix_rotation.translate(position);
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-    matrix_rotation.translate(-position);
-
     boundingBox.reset();
 
     this->snap_flanges.clear();
@@ -109,26 +102,45 @@ void CAD_basic_duct::calculate()
 
     this->snap_basepoint = (position);
 
-    pos_bot_1 = matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + position);
-    pos_bot_2 = matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + position);
-    pos_bot_3 = matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + position);
-    pos_bot_4 = matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + position);
+//    pos_bot_1 = position + matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + position);
+//    pos_bot_2 = position + matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + position);
+//    pos_bot_3 = position + matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + position);
+//    pos_bot_4 = position + matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + position);
 
-    pos_top_1 = matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z() + position);
-    pos_top_2 = matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z() + position);
-    pos_top_3 = matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z() + position);
-    pos_top_4 = matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z() + position);
+//    pos_top_1 = position + matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z() + position);
+//    pos_top_2 = position + matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z() + position);
+//    pos_top_3 = position + matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z() + position);
+//    pos_top_4 = position + matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z() + position);
 
-    inner_pos_bot_1 = matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + QVector3D(0.0, 1.0, 1.0) * s + position);
-    inner_pos_bot_2 = matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + QVector3D(0.0, 1.0, 1.0) * s + position);
-    inner_pos_bot_3 = matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + QVector3D(0.0,-1.0, 1.0) * s + position);
-    inner_pos_bot_4 = matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + QVector3D(0.0,-1.0, 1.0) * s + position);
+//    inner_pos_bot_1 = position + matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + QVector3D(0.0, 1.0, 1.0) * s + position);
+//    inner_pos_bot_2 = position + matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + QVector3D(0.0, 1.0, 1.0) * s + position);
+//    inner_pos_bot_3 = position + matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + QVector3D(0.0,-1.0, 1.0) * s + position);
+//    inner_pos_bot_4 = position + matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + QVector3D(0.0,-1.0, 1.0) * s + position);
 
-    inner_pos_top_1 = matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z() + QVector3D(0.0, 1.0,-1.0) * s + position);
-    inner_pos_top_2 = matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z() + QVector3D(0.0, 1.0,-1.0) * s + position);
-    inner_pos_top_3 = matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z() + QVector3D(0.0,-1.0,-1.0) * s + position);
-    inner_pos_top_4 = matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z() + QVector3D(0.0,-1.0,-1.0) * s + position);
+//    inner_pos_top_1 = position + matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z() + QVector3D(0.0, 1.0,-1.0) * s + position);
+//    inner_pos_top_2 = position + matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z() + QVector3D(0.0, 1.0,-1.0) * s + position);
+//    inner_pos_top_3 = position + matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z() + QVector3D(0.0,-1.0,-1.0) * s + position);
+//    inner_pos_top_4 = position + matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z() + QVector3D(0.0,-1.0,-1.0) * s + position);
 
+    pos_bot_1 = position + matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z());
+    pos_bot_2 = position + matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z());
+    pos_bot_3 = position + matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z());
+    pos_bot_4 = position + matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z());
+
+    pos_top_1 = position + matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z());
+    pos_top_2 = position + matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z());
+    pos_top_3 = position + matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z());
+    pos_top_4 = position + matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z());
+
+    inner_pos_bot_1 = position + matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + QVector3D(0.0, 1.0, 1.0) * s);
+    inner_pos_bot_2 = position + matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + QVector3D(0.0, 1.0, 1.0) * s);
+    inner_pos_bot_3 = position + matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + QVector3D(0.0,-1.0, 1.0) * s);
+    inner_pos_bot_4 = position + matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0, -0.5) * size.z() + QVector3D(0.0,-1.0, 1.0) * s);
+
+    inner_pos_top_1 = position + matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z() + QVector3D(0.0, 1.0,-1.0) * s);
+    inner_pos_top_2 = position + matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0, -0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z() + QVector3D(0.0, 1.0,-1.0) * s);
+    inner_pos_top_3 = position + matrix_rotation * (QVector3D( 0.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z() + QVector3D(0.0,-1.0,-1.0) * s);
+    inner_pos_top_4 = position + matrix_rotation * (QVector3D( 1.0, 0.0, 0.0) * size.x() + QVector3D(0.0,  0.5, 0.0) * size.y() + QVector3D(0.0, 0.0,  0.5) * size.z() + QVector3D(0.0,-1.0,-1.0) * s);
 
 
     boundingBox.enterVertex(pos_bot_1);
@@ -140,8 +152,8 @@ void CAD_basic_duct::calculate()
     boundingBox.enterVertex(pos_top_3);
     boundingBox.enterVertex(pos_top_4);
 
-    this->snap_flanges.append((pos_bot_2 + pos_top_3) / 2);
-    this->snap_flanges.append((pos_bot_1 + pos_top_4) / 2);
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(size.x(), 0.0, 0.0));
 
     this->snap_vertices.append(pos_top_1);
     this->snap_vertices.append(pos_top_2);
@@ -241,9 +253,11 @@ void CAD_basic_duct::processWizardInput()
     s = wizardParams.value("s").toDouble();
 
     matrix_rotation.setToIdentity();
+//    matrix_rotation.translate(position);
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
     matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
+//    matrix_rotation.translate(-position);
 
 }
 
@@ -445,3 +459,8 @@ void CAD_basic_duct::paint(GLWidget *glwidget)
     arrayBufVertices.release();
 }
 
+
+QMatrix4x4 CAD_basic_duct::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

@@ -132,8 +132,8 @@ void CAD_heatcool_pipeEndCap::calculate()
     this->snap_basepoint = (position);
 
     flange->wizardParams.insert("Position x", position.x());
-    flange->wizardParams.insert("Position y", position.x());
-    flange->wizardParams.insert("Position z", position.x());
+    flange->wizardParams.insert("Position y", position.y());
+    flange->wizardParams.insert("Position z", position.z());
     flange->wizardParams.insert("Angle x", angle_x);
     flange->wizardParams.insert("Angle y", angle_y);
     flange->wizardParams.insert("Angle z", angle_z);
@@ -145,8 +145,8 @@ void CAD_heatcool_pipeEndCap::calculate()
     flange->calculate();
 
     endcap->wizardParams.insert("Position x", position.x());
-    endcap->wizardParams.insert("Position y", position.x());
-    endcap->wizardParams.insert("Position z", position.x());
+    endcap->wizardParams.insert("Position y", position.y());
+    endcap->wizardParams.insert("Position z", position.z());
     endcap->wizardParams.insert("Angle x", angle_x);
     endcap->wizardParams.insert("Angle y", angle_y);
     endcap->wizardParams.insert("Angle z", angle_z);
@@ -184,4 +184,17 @@ void CAD_heatcool_pipeEndCap::processWizardInput()
     matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 
+}
+
+QMatrix4x4 CAD_heatcool_pipeEndCap::rotationOfFlange(quint8 num)
+{
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else
+        return matrix_rotation;
 }

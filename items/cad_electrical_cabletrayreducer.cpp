@@ -266,3 +266,20 @@ void CAD_electrical_cabletrayreducer::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_electrical_cabletrayreducer::rotationOfFlange(quint8 num)
+{
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        return matrix_rotation;
+    }
+    else
+        return matrix_rotation;
+}

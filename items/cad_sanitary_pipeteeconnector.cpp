@@ -52,6 +52,7 @@ CAD_sanitary_pipeTeeConnector::~CAD_sanitary_pipeTeeConnector()
 QList<CADitemTypes::ItemType> CAD_sanitary_pipeTeeConnector::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
+
     flangable_items.append(CADitemTypes::Sanitary_ElectricWaterHeater);
     flangable_items.append(CADitemTypes::Sanitary_EmergencyEyeShower);
     flangable_items.append(CADitemTypes::Sanitary_EmergencyShower);
@@ -62,6 +63,7 @@ QList<CADitemTypes::ItemType> CAD_sanitary_pipeTeeConnector::flangable_items()
     flangable_items.append(CADitemTypes::Sanitary_PipeReducer);
     flangable_items.append(CADitemTypes::Sanitary_PipeTeeConnector);
     flangable_items.append(CADitemTypes::Sanitary_PipeTurn);
+    flangable_items.append(CADitemTypes::Sanitary_PipeYPiece);
     flangable_items.append(CADitemTypes::Sanitary_Shower);
     flangable_items.append(CADitemTypes::Sanitary_Sink);
     flangable_items.append(CADitemTypes::Sanitary_WashBasin);
@@ -127,7 +129,7 @@ void CAD_sanitary_pipeTeeConnector::calculate()
     pipe->processWizardInput();
     pipe->calculate();
 
-    QVector3D position_branch = matrix_rotation * QVector3D(l2, 0.0, 0.0);
+    QVector3D position_branch = position + matrix_rotation * QVector3D(l2, 0.0, 0.0);
     QVector3D angles_branch = anglesFromVector(matrix_rotation * QVector3D(cos(alpha / 180 * PI), 0.0, sin(alpha / 180 * PI)));
     branch->wizardParams.insert("Position x", position_branch.x());
     branch->wizardParams.insert("Position y", position_branch.y());
@@ -167,4 +169,28 @@ void CAD_sanitary_pipeTeeConnector::processWizardInput()
     iso3 = wizardParams.value("iso3").toDouble();
     alpha = wizardParams.value("alpha").toDouble();
     s = wizardParams.value("s").toDouble();
+}
+
+QMatrix4x4 CAD_sanitary_pipeTeeConnector::rotationOfFlange(quint8 num)
+{
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        return matrix_rotation;
+    }
+    else if(num == 3)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(-alpha, 0.0, 1.0, 0.0);
+        return matrix_rotation * m;
+    }
+    else
+        return matrix_rotation;
 }

@@ -211,3 +211,8 @@ void CAD_Electrical_CabinetWithoutDoor::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Electrical_CabinetWithoutDoor::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

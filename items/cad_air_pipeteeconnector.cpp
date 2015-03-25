@@ -104,3 +104,9 @@ void CAD_air_pipeTeeConnector::processWizardInput()
     angle_z = wizardParams.value("Angle z").toDouble();
 
 }
+
+QMatrix4x4 CAD_air_pipeTeeConnector::rotationOfFlange(quint8 num)
+{
+
+        return matrix_rotation;
+}

@@ -132,7 +132,7 @@ void CAD_air_canvasFlange::calculate()
     flange_left->processWizardInput();
     flange_left->calculate();
 
-    QVector3D position_fr = matrix_rotation * QVector3D(l - fe, 0.0, 0.0);
+    QVector3D position_fr = position + matrix_rotation * QVector3D(l - fe, 0.0, 0.0);
     flange_right->wizardParams.insert("Position x", (position_fr.x()));
     flange_right->wizardParams.insert("Position y", (position_fr.y()));
     flange_right->wizardParams.insert("Position z", (position_fr.z()));
@@ -147,7 +147,7 @@ void CAD_air_canvasFlange::calculate()
     flange_right->processWizardInput();
     flange_right->calculate();
 
-    QVector3D position_ca1 = matrix_rotation * QVector3D(fe, 0.0, 0.0);
+    QVector3D position_ca1 = position + matrix_rotation * QVector3D(fe, 0.0, 0.0);
     canvas1->wizardParams.insert("Position x", (position_ca1.x()));
     canvas1->wizardParams.insert("Position y", (position_ca1.y()));
     canvas1->wizardParams.insert("Position z", (position_ca1.z()));
@@ -162,7 +162,7 @@ void CAD_air_canvasFlange::calculate()
     canvas1->processWizardInput();
     canvas1->calculate();
 
-    QVector3D position_ca2 = matrix_rotation * QVector3D((fe + l) / 3, 0.0, 0.0);
+    QVector3D position_ca2 = position + matrix_rotation * QVector3D((fe + l) / 3, 0.0, 0.0);
     canvas2->wizardParams.insert("Position x", (position_ca2.x()));
     canvas2->wizardParams.insert("Position y", (position_ca2.y()));
     canvas2->wizardParams.insert("Position z", (position_ca2.z()));
@@ -177,7 +177,7 @@ void CAD_air_canvasFlange::calculate()
     canvas2->processWizardInput();
     canvas2->calculate();
 
-    QVector3D position_ca3 = matrix_rotation * QVector3D((2 * l - fe) / 3, 0.0, 0.0);
+    QVector3D position_ca3 = position + matrix_rotation * QVector3D((2 * l - fe) / 3, 0.0, 0.0);
     canvas3->wizardParams.insert("Position x", (position_ca3.x()));
     canvas3->wizardParams.insert("Position y", (position_ca3.y()));
     canvas3->wizardParams.insert("Position z", (position_ca3.z()));
@@ -215,4 +215,21 @@ void CAD_air_canvasFlange::processWizardInput()
     this->fe = wizardParams.value("fe").toDouble();
     this->s = wizardParams.value("s").toDouble();
 
+}
+
+QMatrix4x4 CAD_air_canvasFlange::rotationOfFlange(quint8 num)
+{
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        return matrix_rotation;
+    }
+    else
+        return matrix_rotation;
 }

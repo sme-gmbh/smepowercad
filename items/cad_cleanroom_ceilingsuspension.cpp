@@ -140,3 +140,8 @@ void CAD_Cleanroom_CeilingSuspension::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Cleanroom_CeilingSuspension::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

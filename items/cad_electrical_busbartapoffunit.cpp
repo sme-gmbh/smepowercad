@@ -140,3 +140,8 @@ void CAD_Electrical_BusbarTapOffUnit::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Electrical_BusbarTapOffUnit::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

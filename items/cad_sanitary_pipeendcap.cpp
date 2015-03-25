@@ -60,7 +60,21 @@ CAD_Sanitary_PipeEndCap::~CAD_Sanitary_PipeEndCap()
 QList<CADitemTypes::ItemType> CAD_Sanitary_PipeEndCap::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
-    
+
+    flangable_items.append(CADitemTypes::Sanitary_ElectricWaterHeater);
+    flangable_items.append(CADitemTypes::Sanitary_EmergencyEyeShower);
+    flangable_items.append(CADitemTypes::Sanitary_EmergencyShower);
+    flangable_items.append(CADitemTypes::Sanitary_Flange);
+    flangable_items.append(CADitemTypes::Sanitary_LiftingUnit);
+    flangable_items.append(CADitemTypes::Sanitary_Pipe);
+    flangable_items.append(CADitemTypes::Sanitary_PipeEndCap);
+    flangable_items.append(CADitemTypes::Sanitary_PipeReducer);
+    flangable_items.append(CADitemTypes::Sanitary_PipeTeeConnector);
+    flangable_items.append(CADitemTypes::Sanitary_PipeTurn);
+    flangable_items.append(CADitemTypes::Sanitary_PipeYPiece);
+    flangable_items.append(CADitemTypes::Sanitary_Shower);
+    flangable_items.append(CADitemTypes::Sanitary_Sink);
+    flangable_items.append(CADitemTypes::Sanitary_WashBasin);
     return flangable_items;
 }
 
@@ -103,8 +117,8 @@ void CAD_Sanitary_PipeEndCap::calculate()
     this->snap_basepoint = (position);
 
     flange->wizardParams.insert("Position x", position.x());
-    flange->wizardParams.insert("Position y", position.x());
-    flange->wizardParams.insert("Position z", position.x());
+    flange->wizardParams.insert("Position y", position.y());
+    flange->wizardParams.insert("Position z", position.z());
     flange->wizardParams.insert("Angle x", angle_x);
     flange->wizardParams.insert("Angle y", angle_y);
     flange->wizardParams.insert("Angle z", angle_z);
@@ -116,8 +130,8 @@ void CAD_Sanitary_PipeEndCap::calculate()
     flange->calculate();
 
     endcap->wizardParams.insert("Position x", position.x());
-    endcap->wizardParams.insert("Position y", position.x());
-    endcap->wizardParams.insert("Position z", position.x());
+    endcap->wizardParams.insert("Position y", position.y());
+    endcap->wizardParams.insert("Position z", position.z());
     endcap->wizardParams.insert("Angle x", angle_x);
     endcap->wizardParams.insert("Angle y", angle_y);
     endcap->wizardParams.insert("Angle z", angle_z);
@@ -186,3 +200,16 @@ void CAD_Sanitary_PipeEndCap::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Sanitary_PipeEndCap::rotationOfFlange(quint8 num)
+{
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else
+        return matrix_rotation;
+}

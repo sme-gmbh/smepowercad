@@ -59,7 +59,8 @@ CAD_air_heatExchangerWaterAir::~CAD_air_heatExchangerWaterAir()
 QList<CADitemTypes::ItemType> CAD_air_heatExchangerWaterAir::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
-
+    flangable_items.append(CADitemTypes::Air_Duct);
+    flangable_items.append(CADitemTypes::HeatCool_Pipe);
     return flangable_items;
 }
 
@@ -166,8 +167,8 @@ void CAD_air_heatExchangerWaterAir::calculate()
     exchanger->calculate();
 
     this->snap_flanges.append(duct->snap_flanges);
-    this->snap_flanges.append(pipe3->snap_flanges.at(0));
-    this->snap_flanges.append(pipe4->snap_flanges.at(0));
+    this->snap_flanges.append(pipe3->snap_flanges.at(1));
+    this->snap_flanges.append(pipe4->snap_flanges.at(1));
 
     this->boundingBox = duct->boundingBox;
     this->boundingBox.enterVertex(pipe3->snap_flanges.at(0));
@@ -198,4 +199,28 @@ void CAD_air_heatExchangerWaterAir::processWizardInput()
     a = wizardParams.value("a").toDouble();
     b = wizardParams.value("b").toDouble();
 
+}
+
+QMatrix4x4 CAD_air_heatExchangerWaterAir::rotationOfFlange(quint8 num)
+{
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        return matrix_rotation;
+    }
+    else if(num == 3 || num == 4)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(-90.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else
+        return matrix_rotation;
 }

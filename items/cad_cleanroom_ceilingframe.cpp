@@ -140,3 +140,8 @@ void CAD_Cleanroom_CeilingFrame::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Cleanroom_CeilingFrame::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

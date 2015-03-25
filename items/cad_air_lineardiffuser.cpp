@@ -51,6 +51,7 @@ QList<CADitemTypes::ItemType> CAD_air_lineardiffuser::flangable_items()
     flangable_items.append(CADitemTypes::Air_HeatExchangerAirAir);
     flangable_items.append(CADitemTypes::Air_HeatExchangerWaterAir);
     flangable_items.append(CADitemTypes::Air_MultiLeafDamper);
+    flangable_items.append(CADitemTypes::Air_Pipe);
     return flangable_items;
 }
 
@@ -118,7 +119,7 @@ void CAD_air_lineardiffuser::calculate()
     lower->wizardParams.insert("Position y", position.y());
     lower->wizardParams.insert("Position z", position.z());
     lower->wizardParams.insert("Angle x", angle_x);
-    lower->wizardParams.insert("Angle y", angle_y-90);
+    lower->wizardParams.insert("Angle y", angle_y);
     lower->wizardParams.insert("Angle z", angle_z);
     lower->wizardParams.insert("s",  0.05 * a);
     lower->wizardParams.insert("l", a1);
@@ -126,6 +127,7 @@ void CAD_air_lineardiffuser::calculate()
     lower->wizardParams.insert("a",  l);
     lower->layer =  this->layer;
     lower->processWizardInput();
+    lower->rotateAroundAxis(-90.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
     lower->calculate();
 
     foreach(CADitem* item, subItems)
@@ -200,4 +202,25 @@ void CAD_air_lineardiffuser::processWizardInput()
     n = wizardParams.value("n").toDouble();
     dist = wizardParams.value("dist").toDouble();
     d = wizardParams.value("d").toDouble();
+}
+
+QMatrix4x4 CAD_air_lineardiffuser::rotationOfFlange(quint8 num)
+{
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(-90.0, 0.0, 1.0, 0.0);
+        return matrix_rotation * m;
+    }
+    else if(num >= 2 && num <= n + 1)
+    {
+
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(-90.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else
+        return matrix_rotation;
 }

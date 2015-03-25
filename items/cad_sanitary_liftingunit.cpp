@@ -142,3 +142,8 @@ void CAD_Sanitary_LiftingUnit::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Sanitary_LiftingUnit::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

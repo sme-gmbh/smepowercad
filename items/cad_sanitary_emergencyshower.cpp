@@ -142,3 +142,8 @@ void CAD_Sanitary_EmergencyShower::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Sanitary_EmergencyShower::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

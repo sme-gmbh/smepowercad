@@ -201,3 +201,8 @@ void CAD_electrical_cabinet::processWizardInput()
     alpha = wizardParams.value("alpha").toDouble();
 
 }
+
+QMatrix4x4 CAD_electrical_cabinet::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

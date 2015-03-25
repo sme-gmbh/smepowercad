@@ -186,3 +186,16 @@ void CAD_HeatCool_ValveLever::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_HeatCool_ValveLever::rotationOfFlange(quint8 num)
+{
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(-90.0, 0.0, 1.0, 0.0);
+        return matrix_rotation * m;
+    }
+    else
+        return matrix_rotation;
+}

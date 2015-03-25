@@ -138,3 +138,8 @@ void CAD_heatcool_waterHeater::processWizardInput()
     angle_z = wizardParams.value("Angle z").toDouble();
 
 }
+
+QMatrix4x4 CAD_heatcool_waterHeater::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

@@ -170,3 +170,8 @@ void CAD_Electrical_LuminaireSurfaceMounted::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Electrical_LuminaireSurfaceMounted::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

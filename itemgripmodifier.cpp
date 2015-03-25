@@ -155,9 +155,16 @@ void ItemGripModifier::slot_button_clicked()
     newItem->wizardParams.insert("Position y", ((qreal)scenePos.y()));
     newItem->wizardParams.insert("Position z", ((qreal)scenePos.z()));
     // tbd: add flange angles
-    newItem->wizardParams.insert("Angle x", ((qreal)this->item->angle_x));
-    newItem->wizardParams.insert("Angle y", ((qreal)this->item->angle_y));
-    newItem->wizardParams.insert("Angle z", ((qreal)this->item->angle_z));
+//    newItem->wizardParams.insert("Angle x", ((qreal)this->item->angle_x));
+//    newItem->wizardParams.insert("Angle y", ((qreal)this->item->angle_y));
+//    newItem->wizardParams.insert("Angle z", ((qreal)this->item->angle_z));
+
+    //calculate angles from flange matrix:
+    QMatrix4x4 matrix_rotation = item->rotationOfFlange(flangeIndex);
+    QVector3D angles = MAngleCalculations().anglesFromMatrix(matrix_rotation);
+    newItem->wizardParams.insert("Angle x", angles.x());
+    newItem->wizardParams.insert("Angle y", angles.y());
+    newItem->wizardParams.insert("Angle z", angles.z());
 
     // Copy parameters that are parameters of the flange, but ony if they exist in the both items
     foreach (QString key, newItem->wizardParams.keys())

@@ -111,6 +111,11 @@ void CAD_mainul_subul::processWizardInput()
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 }
 
+QMatrix4x4 CAD_mainul_subul::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}
+
 //void CAD_mainul_subul::paint(GLWidget *glwidget)
 //{
 //    QColor color_pen_tmp = getColorPen();

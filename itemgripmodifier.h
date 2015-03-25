@@ -27,6 +27,7 @@
 #include "caditem.h"
 #include "itemdb.h"
 #include "itemwizard.h"
+#include "math/manglecalculations.h"
 
 namespace Ui {
 class ItemGripModifier;

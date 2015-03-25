@@ -32,6 +32,7 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
+    virtual QMatrix4x4 rotationOfFlange(quint8 num);
 
     qreal d1, d2, l, l1, l2, e, s, iso1, iso2;
     CAD_basic_pipe *left, *right;

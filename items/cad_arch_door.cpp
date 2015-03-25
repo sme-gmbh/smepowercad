@@ -97,3 +97,8 @@ void CAD_arch_door::processWizardInput()
     angle_z = wizardParams.value("Angle z").toDouble();
 
 }
+
+QMatrix4x4 CAD_arch_door::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

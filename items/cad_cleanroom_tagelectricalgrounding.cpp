@@ -140,3 +140,8 @@ void CAD_Cleanroom_TagElectricalGrounding::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Cleanroom_TagElectricalGrounding::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

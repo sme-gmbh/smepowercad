@@ -33,6 +33,7 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
     virtual void paint(GLWidget* glwidget);
+    virtual QMatrix4x4 rotationOfFlange(quint8 num);
 
     qreal ff, fe, s;
     qreal l, a, b, i;

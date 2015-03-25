@@ -140,3 +140,8 @@ void CAD_Gas_VACNonReturnValve::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Gas_VACNonReturnValve::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}
