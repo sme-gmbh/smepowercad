@@ -32,6 +32,7 @@
 #include <QOpenGLBuffer>
 #include <math.h>
 #include "math/m3dboundingbox.h"
+#include "math/manglecalculations.h"
 #include "caditemtypes.h"
 #include "wizardparams.h"
 
