@@ -10,6 +10,22 @@
     <height>480</height>
    </rect>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QToolButton{
+border: 1px solid gray; 
+background-color: rgb(240, 240, 240);
+}
+
+QToolButton:hover{
+border: 2px solid white; 
+background-color: rgb(255, 255, 0);
+}
+
+QToolButton:pressed{
+border: 2px solid rgb(150, 150, 255); 
+background-color: rgb(255, 255, 0);
+}</string>
+  </property>
   <property name="floating">
    <bool>true</bool>
   </property>
@@ -28,6 +44,35 @@
     </property>
     <property name="text">
      <string>Printer</string>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="toolButton_print">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>10</y>
+      <width>51</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Print</string>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="toolButton_layout">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>10</y>
+      <width>81</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>Layout</string>
     </property>
    </widget>
   </widget>

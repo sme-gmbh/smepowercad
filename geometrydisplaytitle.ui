@@ -63,6 +63,7 @@ QDoubleSpinBox {
 	color: white;
 	padding-right: 20px;
 	background-color: rgb(59, 59, 51);
+	border: 0;
 	border-left: 1px solid rgb(200, 200, 200);
 	margin: 0;
 	padding: 0;

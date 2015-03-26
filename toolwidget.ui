@@ -30,38 +30,39 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QLabel{
-border: 1px solid gray;
-background-color: rgb(240, 240, 240);
+	border: 1px solid gray;
+	background-color: rgb(240, 240, 240);
+	color: rgb(40,40, 40);
 }
 
 QLabel:hover{
-border: 2px solid black;
-background-color: rgb(255, 255, 0);
+	border: 2px solid black;
+	background-color: rgb(255, 255, 0);
 }
 
 QLabel:pressed{
-border: 2px solid rgb(150, 150, 255); 
-background-color: rgb(255, 255, 0);
+	border: 2px solid rgb(150, 150, 255); 
+	background-color: rgb(255, 255, 0);
 }
 
 QToolButton{
-border: 1px solid gray; 
-background-color: rgb(240, 240, 240);
+	border: 1px solid gray; 
+	background-color: rgb(240, 240, 240);
 }
 
 QToolButton:hover{
-border: 2px solid black; 
-background-color: rgb(255, 255, 0);
+	border: 2px solid black; 
+	background-color: rgb(255, 255, 0);
 }
 
 QToolButton:pressed{
-border: 2px solid rgb(150, 150, 255); 
-background-color: rgb(255, 255, 0);
+	border: 2px solid rgb(150, 150, 255); 
+	background-color: rgb(255, 255, 0);
 }
 
 QToolTip{ 
-border: 1px solid gray; 
-background-color: gray; color: white;
+	border: 1px solid gray; 
+	background-color: gray; color: white;
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">

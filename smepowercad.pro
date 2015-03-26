@@ -305,7 +305,8 @@ SOURCES += main.cpp\
     items/cad_sanitary_pipeypiece.cpp \
     items/cad_basic_pipereducer.cpp \
     items/cad_air_ducttransitionrectrect.cpp \
-    math/manglecalculations.cpp
+    math/manglecalculations.cpp \
+    printpapertemplate.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -572,7 +573,8 @@ HEADERS  += mainwindow.h \
     items/cad_sanitary_pipeypiece.h \
     items/cad_basic_pipereducer.h \
     items/cad_air_ducttransitionrectrect.h \
-    math/manglecalculations.h
+    math/manglecalculations.h \
+    printpapertemplate.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
@@ -582,7 +584,8 @@ FORMS    += mainwindow.ui \
     itemwizard.ui \
     itemgripmodifier.ui \
     toolwidget.ui \
-    printwidget.ui
+    printwidget.ui \
+    printpapertemplate.ui
 
 RESOURCES += \
     icons.qrc

@@ -48,11 +48,158 @@ QDockWidget {
     titlebar-normal-icon: url(:/ui/dockwidget/icons/float.svg);
 }
 
+QDialog {
+	background-color: rgb(49, 49, 41);
+	color: white;
+	border: 1px solid rgb(200, 200, 200);
+}
+
+QLabel {
+	color: rgb(240, 250, 240);
+}
+
+QPushButton {
+	color: rgb(240, 250, 240);
+	background-color: rgb(59, 59, 51);
+	border: 0;
+	border: 1px solid rgb(200, 200, 200);
+	padding: 2px;
+	padding-left: 3px;
+	padding-right: 3px;
+	/*border-right: 1px solid rgb(200, 200, 200);*/
+}
+/*QPushButton#pushButtonSolid {
+	border-right: 1px solid rgb(200, 200, 200);
+}*/
+QPushButton:hover {
+	background-color: rgb(110, 110, 95);
+}
+QPushButton:pressed {
+	background-color: rgb(150, 150, 130);
+}
+QPushButton:checked {
+	background-color: rgb(19, 156, 39);
+}
+
+QSpinBox, QDoubleSpinBox {
+	color: white;
+	padding-right: 20px;
+	background-color: rgb(59, 59, 51);
+	border: 1px solid rgb(200, 200, 200);
+	margin: 0;
+	padding: 0;
+	height: 20px;
+}
+
+QSpinBox::up-button, QSpinBox:down-button, QDoubleSpinBox::up-button, QDoubleSpinBox::down-button {
+    subcontrol-origin: border;
+    width: 30px;
+	border: 0;
+	border-left: 1px solid rgb(110, 110, 110);;
+	border-right: 1px solid rgb(200, 200, 200);
+	background: 0;
+	margin: 0;
+	padding-right: 2px;
+}
+
+QSpinBox::up-button, QDoubleSpinBox::up-button {
+	subcontrol-position: top right;
+	border-bottom: 1px solid rgb(110, 110, 110);;
+	margin-bottom: -1px;
+}
+
+QSpinBox::down-button, QDoubleSpinBox::down-button {
+	subcontrol-position: bottom right;
+	border-top: 1px solid rgb(110, 110, 110);;
+}
+
+QSpinBox::up-button:hover, QSpinBox::down-button:hover, QDoubleSpinBox::up-button:hover, QDoubleSpinBox::down-button:hover {
+	background-color: rgb(110, 110, 95);
+}
+
+QSpinBox::up-button:pressed, QSpinBox::down-button:pressed, QDoubleSpinBox::up-button:pressed, QDoubleSpinBox::down-button:pressed {
+	background-color: rgb(150, 150, 130);
+}
+
+QSpinBox::up-arrow, QSpinBox::down-arrow, QDoubleSpinBox::up-arrow, QDoubleSpinBox::down-arrow {
+	width: 17px;
+	height: 17px;
+	padding-left: 7px;
+	padding-right: 6px;
+}
+
+QSpinBox::up-arrow, QDoubleSpinBox::up-arrow
+{
+	image: url(:/ui/3Dcontrols/icons/arrow_up.svg);
+}
+QSpinBox::down-arrow, QDoubleSpinBox::down-arrow {
+	image: url(:/ui/3Dcontrols/icons/arrow_down.svg);
+}
+
+QSpinBox::up-arrow:disabled, QSpinBox::up-arrow:off, QSpinBox::down-arrow:disabled, QSpinBox::down-arrow:off,
+QDoubleSpinBox::up-arrow:disabled, QDoubleSpinBox::up-arrow:off, QDoubleSpinBox::down-arrow:disabled, QDoubleSpinBox::down-arrow:off {
+	/* off state when value is max or min */
+	background-color: rgb(110, 110, 95);
+	border-left: 1px solid rgb(110, 110, 110);;
+	border-right: 1px solid rgb(200, 200, 200);;
+}
+
+QComboBox {
+	color: white;
+	border: 0;
+	border: 1px solid rgb(200, 200, 200);
+	background-color: rgb(59, 59, 51);
+	padding: 0 10px 0 5px;
+	selection-background-color: rgb(150, 150, 130);
+}
+
+QComboBox::drop-down {
+	subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 25px;
+	border: 0;
+	border-left: 1px solid rgb(110, 110, 110);
+}
+QComboBox::drop-down:hover {
+	background-color: rgb(110, 110, 95);
+}
+QComboBox::drop-down:pressed {
+	background-color: rgb(150, 150, 130);
+}
+QComboBox::drop-down:on {
+	background-color: rgb(150, 150, 130);
+}
+
+QComboBox::down-arrow {
+	image: url(:/ui/3Dcontrols/icons/arrow_down.svg);
+	width: 17px;
+	height: 17px;
+	border: 0;
+}
+
+QPlainTextEdit {
+	background-color: rgb(70, 70, 70);
+	color: rgb(60, 255, 60);
+}
+
+QTabWidget {
+	background-color: rgb(90, 90, 90);
+	color: rgb(230, 80, 80);
+	border: 1px solid gray;
+	padding-left: 5px;
+}
+
 QDockWidget::title {
+    text-align: left; /* align the text to the left */
+    background: rgb(49, 49, 41);
+}
+
+QDialog::title {
     text-align: left; /* align the text to the left */
     background: rgb(49, 49, 41);
     padding-left: 5px;
 }
+
 
  QDockWidget::close-button, QDockWidget::float-button {
 	border: 0;
