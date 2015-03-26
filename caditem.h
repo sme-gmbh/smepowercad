@@ -32,6 +32,7 @@
 #include <QOpenGLBuffer>
 #include <math.h>
 #include "math/m3dboundingbox.h"
+#include "math/manglecalculations.h"
 #include "caditemtypes.h"
 #include "wizardparams.h"
 
@@ -53,6 +54,8 @@ public:
     virtual void calculate() = 0;
     virtual void processWizardInput() = 0;
     virtual void paint(GLWidget* glwidget) {Q_UNUSED(glwidget)}
+    //Flanging
+    virtual QMatrix4x4 rotationOfFlange(quint8 num) {Q_UNUSED(num)};
     QColor getColorPen();
     QColor getColorBrush();
     void setLayer(Layer* layer);
@@ -98,6 +101,7 @@ public:
 
     // Painting
     bool isMaintenanceArea;
+
 
 private:
     void setLayer_processItems(QList<CADitem*> subItems);

@@ -172,3 +172,8 @@ void CAD_electrical_busbarwithouttapoffpoints::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_electrical_busbarwithouttapoffpoints::rotationOfFlange(quint8 num)
+{
+        return matrix_rotation;
+}

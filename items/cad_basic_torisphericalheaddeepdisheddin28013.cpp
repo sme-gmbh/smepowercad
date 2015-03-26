@@ -245,3 +245,8 @@ void CAD_Basic_TorisphericalHeadDeepDishedDIN28013::paint(GLWidget *glwidget)
                                                                                            
      arrayBufVertices.release();
 }
+
+QMatrix4x4 CAD_Basic_TorisphericalHeadDeepDishedDIN28013::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

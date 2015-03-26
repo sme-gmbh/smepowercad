@@ -183,3 +183,8 @@ void CAD_Basic_Gauge::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Basic_Gauge::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

@@ -32,6 +32,7 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
+    virtual QMatrix4x4 rotationOfFlange(quint8 num);
 
     qreal a, a1, b, l, i, alpha, s;
     CAD_basic_duct *cabinet;

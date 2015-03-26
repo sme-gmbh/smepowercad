@@ -414,3 +414,8 @@ void CAD_basic_turn::paint(GLWidget *glwidget)
 
     arrayBufVertices.release();
 }
+
+QMatrix4x4 CAD_basic_turn::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

@@ -111,7 +111,7 @@ void CAD_air_pipeTurn::calculate()
     left->wizardParams.insert("Angle y", angle_y);
     left->wizardParams.insert("Angle z", angle_z);
     left->wizardParams.insert("l", l1);
-    left->wizardParams.insert("d", d+2*s);
+    left->wizardParams.insert("d", d);
     left->wizardParams.insert("s",  s);
     left->layer = this->layer;
     left->processWizardInput();
@@ -126,7 +126,7 @@ void CAD_air_pipeTurn::calculate()
     right->wizardParams.insert("Angle y", angles_right.y());
     right->wizardParams.insert("Angle z", angles_right.z());
     right->wizardParams.insert("l", l2);
-    right->wizardParams.insert("d", d+2*s);
+    right->wizardParams.insert("d", d);
     right->wizardParams.insert("s",  s);
     right->layer = this->layer;
     right->processWizardInput();
@@ -139,7 +139,7 @@ void CAD_air_pipeTurn::calculate()
     turn->wizardParams.insert("Angle x", 0.0);
     turn->wizardParams.insert("Angle y", 0.0);
     turn->wizardParams.insert("Angle z", 0.0);
-    turn->wizardParams.insert("Outer diameter", d + 2*s);
+    turn->wizardParams.insert("Outer diameter", d);
     turn->wizardParams.insert("Turn radius", r);
     turn->wizardParams.insert("Turn angle", alpha);
     turn->wizardParams.insert("s", s);
@@ -173,4 +173,24 @@ void CAD_air_pipeTurn::processWizardInput()
     d = wizardParams.value("d").toDouble();
     s = wizardParams.value("s").toDouble();
 
+}
+
+QMatrix4x4 CAD_air_pipeTurn::rotationOfFlange(quint8 num)
+{
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(alpha, 0.0, 1.0, 0.0);
+        return matrix_rotation * m;
+    }
+    else
+        return matrix_rotation;
 }

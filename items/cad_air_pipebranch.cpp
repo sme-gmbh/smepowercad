@@ -26,10 +26,10 @@ CAD_air_pipeBranch::CAD_air_pipeBranch() : CADitem(CADitemTypes::Air_PipeBranch)
     wizardParams.insert("Angle z", 0.0);
 
     wizardParams.insert("l",    1000.0);
-    wizardParams.insert("l1",    500.0);
     wizardParams.insert("l2",    500.0);
+    wizardParams.insert("l3",    500.0);
     wizardParams.insert("d",     200.0);
-    wizardParams.insert("d2",    150.0);
+    wizardParams.insert("d3",    150.0);
     wizardParams.insert("alpha",  30.0);
     wizardParams.insert("s",      10.0);
 
@@ -93,11 +93,6 @@ QString CAD_air_pipeBranch::description()
 
 void CAD_air_pipeBranch::calculate()
 {
-    matrix_rotation.setToIdentity();
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-
     boundingBox.reset();
 
     this->snap_flanges.clear();
@@ -105,7 +100,6 @@ void CAD_air_pipeBranch::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
-    this->snap_flanges.append(position);
 
     pipe->wizardParams.insert("Position x", (position.x()));
     pipe->wizardParams.insert("Position y", (position.y()));
@@ -119,25 +113,27 @@ void CAD_air_pipeBranch::calculate()
     pipe->processWizardInput();
     pipe->calculate();
 
-    QVector3D position_br = position + matrix_rotation * QVector3D(l1, 0.0, 0.0);
+    QVector3D position_br = position + matrix_rotation * QVector3D(l2, 0.0, 0.0);
     branch->wizardParams.insert("Position x", (position_br.x()));
     branch->wizardParams.insert("Position y", (position_br.y()));
     branch->wizardParams.insert("Position z", (position_br.z()));
     branch->wizardParams.insert("Angle x", (angle_x));
     branch->wizardParams.insert("Angle y", (angle_y));
-    branch->wizardParams.insert("Angle z", (angle_z+alpha));
-    branch->wizardParams.insert("l", (l2));
-    branch->wizardParams.insert("d", (d2));
+    branch->wizardParams.insert("Angle z", (angle_z));
+    branch->wizardParams.insert("l", (l3));
+    branch->wizardParams.insert("d", (d3));
     branch->wizardParams.insert("s", (s));
     branch->processWizardInput();
+    branch->rotateAroundAxis(-alpha, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
     branch->calculate();
 
-    this->snap_flanges.append(pipe->snap_flanges);
-    this->snap_flanges.append(branch->snap_flanges.at(0));
-    this->snap_vertices.append(pipe->snap_vertices);
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(pipe->snap_flanges.at(1));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l2 + cos(alpha / 180.0 * PI) * l3, 0.0, sin(alpha / 180.0 * PI) * l3));
+    //this->snap_vertices.append(pipe->snap_vertices);
 
     this->boundingBox = pipe->boundingBox;
-    this->boundingBox.enterVertex(position + matrix_rotation * QVector3D(sin(alpha) * l2 + cos(alpha) * d2, cos(alpha) * l2 - sin(alpha) * d2, 0.0));
+    this->boundingBox.enterVertices(branch->boundingBox.getVertices());
 }
 
 void CAD_air_pipeBranch::processWizardInput()
@@ -151,10 +147,39 @@ void CAD_air_pipeBranch::processWizardInput()
 
 
     d = wizardParams.value("d").toDouble();
-    d2 = wizardParams.value("d2").toDouble();
+    d3 = wizardParams.value("d3").toDouble();
     s = wizardParams.value("s").toDouble();
     l = wizardParams.value("l").toDouble();
-    l1 = wizardParams.value("l1").toDouble();
     l2 = wizardParams.value("l2").toDouble();
+    l3 = wizardParams.value("l3").toDouble();
     alpha = wizardParams.value("alpha").toDouble();
+
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
+}
+
+QMatrix4x4 CAD_air_pipeBranch::rotationOfFlange(quint8 num)
+{
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        return matrix_rotation;
+    }
+    else if(num == 3)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(-alpha, 0.0, 1.0, 0.0);
+        return matrix_rotation * m;
+    }
+    else
+        return matrix_rotation;
 }

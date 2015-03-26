@@ -109,3 +109,8 @@ void CAD_basic_face::paint(GLWidget *glwidget)
 {
 
 }
+
+QMatrix4x4 CAD_basic_face::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

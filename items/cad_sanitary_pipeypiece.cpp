@@ -69,7 +69,21 @@ CAD_Sanitary_PipeYPiece::~CAD_Sanitary_PipeYPiece()
 QList<CADitemTypes::ItemType> CAD_Sanitary_PipeYPiece::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
-    
+
+    flangable_items.append(CADitemTypes::Sanitary_ElectricWaterHeater);
+    flangable_items.append(CADitemTypes::Sanitary_EmergencyEyeShower);
+    flangable_items.append(CADitemTypes::Sanitary_EmergencyShower);
+    flangable_items.append(CADitemTypes::Sanitary_Flange);
+    flangable_items.append(CADitemTypes::Sanitary_LiftingUnit);
+    flangable_items.append(CADitemTypes::Sanitary_Pipe);
+    flangable_items.append(CADitemTypes::Sanitary_PipeEndCap);
+    flangable_items.append(CADitemTypes::Sanitary_PipeReducer);
+    flangable_items.append(CADitemTypes::Sanitary_PipeTeeConnector);
+    flangable_items.append(CADitemTypes::Sanitary_PipeTurn);
+    flangable_items.append(CADitemTypes::Sanitary_PipeYPiece);
+    flangable_items.append(CADitemTypes::Sanitary_Shower);
+    flangable_items.append(CADitemTypes::Sanitary_Sink);
+    flangable_items.append(CADitemTypes::Sanitary_WashBasin);
     return flangable_items;
 }
 
@@ -231,3 +245,30 @@ void CAD_Sanitary_PipeYPiece::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Sanitary_PipeYPiece::rotationOfFlange(quint8 num)
+{
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(alpha, 0.0, 1.0, 0.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 3)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(-alpha, 0.0, 1.0, 0.0);
+        return matrix_rotation * m;
+    }
+    else
+        return matrix_rotation;
+}

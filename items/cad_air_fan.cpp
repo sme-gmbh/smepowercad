@@ -97,3 +97,8 @@ void CAD_air_fan::processWizardInput()
     angle_z = wizardParams.value("Angle z").toDouble();
 
 }
+
+QMatrix4x4 CAD_air_fan::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

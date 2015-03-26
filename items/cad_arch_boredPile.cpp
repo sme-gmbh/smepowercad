@@ -96,13 +96,14 @@ void CAD_arch_boredPile::calculate()
     pile->wizardParams.insert("Position x", (position.x()));
     pile->wizardParams.insert("Position y", (position.y()));
     pile->wizardParams.insert("Position z", (position.z()));
-    pile->wizardParams.insert("Angle x", (0.0));
-    pile->wizardParams.insert("Angle y", (90.0));
-    pile->wizardParams.insert("Angle z", (0.0));
+    pile->wizardParams.insert("Angle x", angle_x);
+    pile->wizardParams.insert("Angle y", angle_y);
+    pile->wizardParams.insert("Angle z", angle_z);
     pile->wizardParams.insert("l", (a));
     pile->wizardParams.insert("d", (d));
     pile->wizardParams.insert("s", (d/2));
     pile->processWizardInput();
+    pile->rotateAroundAxis(90.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
     pile->calculate();
 
     this->snap_flanges.append(pile->snap_flanges);
@@ -122,4 +123,9 @@ void CAD_arch_boredPile::processWizardInput()
     a = wizardParams.value("a").toDouble();
     d = wizardParams.value("d").toDouble();
 
+}
+
+QMatrix4x4 CAD_arch_boredPile::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
 }

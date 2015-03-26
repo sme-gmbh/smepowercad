@@ -262,3 +262,8 @@ void CAD_Basic_Flume::paint(GLWidget *glwidget)
                                                                                            
      arrayBufVertices.release();
 }
+
+QMatrix4x4 CAD_Basic_Flume::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

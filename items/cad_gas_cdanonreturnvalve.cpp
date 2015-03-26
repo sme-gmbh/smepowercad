@@ -140,3 +140,8 @@ void CAD_Gas_CDANonReturnValve::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Gas_CDANonReturnValve::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

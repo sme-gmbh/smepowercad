@@ -333,6 +333,7 @@
         <file>icons/cad_basic/cad_basic_pipereducer.svg</file>
         <file>itemGraphic/cad_basic_pipereducer.png</file>
         <file>itemGraphic/cad_air_lineardiffuser.png</file>
+        <file>itemGraphic/cad_air_pipebranch.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>

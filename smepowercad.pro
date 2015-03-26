@@ -304,7 +304,8 @@ SOURCES += main.cpp\
     items/cad_cleanroom_doorframe.cpp \
     items/cad_sanitary_pipeypiece.cpp \
     items/cad_basic_pipereducer.cpp \
-    items/cad_air_ducttransitionrectrect.cpp
+    items/cad_air_ducttransitionrectrect.cpp \
+    math/manglecalculations.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -570,7 +571,8 @@ HEADERS  += mainwindow.h \
     items/cad_cleanroom_doorframe.h \
     items/cad_sanitary_pipeypiece.h \
     items/cad_basic_pipereducer.h \
-    items/cad_air_ducttransitionrectrect.h
+    items/cad_air_ducttransitionrectrect.h \
+    math/manglecalculations.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

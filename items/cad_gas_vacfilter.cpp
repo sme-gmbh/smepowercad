@@ -140,3 +140,8 @@ void CAD_Gas_VACFilter::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Gas_VACFilter::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

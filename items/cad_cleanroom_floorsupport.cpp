@@ -140,3 +140,8 @@ void CAD_Cleanroom_FloorSupport::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Cleanroom_FloorSupport::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

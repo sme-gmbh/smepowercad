@@ -131,3 +131,8 @@ void CAD_arch_support::processWizardInput()
     l = wizardParams.value("l").toDouble();
 
 }
+
+QMatrix4x4 CAD_arch_support::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

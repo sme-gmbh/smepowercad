@@ -52,6 +52,7 @@ CAD_sanitary_pipeTurn::~CAD_sanitary_pipeTurn()
 QList<CADitemTypes::ItemType> CAD_sanitary_pipeTurn::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
+
     flangable_items.append(CADitemTypes::Sanitary_ElectricWaterHeater);
     flangable_items.append(CADitemTypes::Sanitary_EmergencyEyeShower);
     flangable_items.append(CADitemTypes::Sanitary_EmergencyShower);
@@ -62,6 +63,7 @@ QList<CADitemTypes::ItemType> CAD_sanitary_pipeTurn::flangable_items()
     flangable_items.append(CADitemTypes::Sanitary_PipeReducer);
     flangable_items.append(CADitemTypes::Sanitary_PipeTeeConnector);
     flangable_items.append(CADitemTypes::Sanitary_PipeTurn);
+    flangable_items.append(CADitemTypes::Sanitary_PipeYPiece);
     flangable_items.append(CADitemTypes::Sanitary_Shower);
     flangable_items.append(CADitemTypes::Sanitary_Sink);
     flangable_items.append(CADitemTypes::Sanitary_WashBasin);
@@ -183,4 +185,24 @@ void CAD_sanitary_pipeTurn::processWizardInput()
     d = wizardParams.value("d").toDouble();
     iso = wizardParams.value("iso").toDouble();
     s = wizardParams.value("s").toDouble();
+}
+
+QMatrix4x4 CAD_sanitary_pipeTurn::rotationOfFlange(quint8 num)
+{
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(alpha, 0.0, 1.0, 0.0);
+        return matrix_rotation * m;
+    }
+    else
+        return matrix_rotation;
 }

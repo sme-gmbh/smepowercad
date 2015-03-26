@@ -53,6 +53,7 @@ QList<CADitemTypes::ItemType> CAD_sanitary_pipe::flangable_items()
     flangable_items.append(CADitemTypes::Sanitary_PipeReducer);
     flangable_items.append(CADitemTypes::Sanitary_PipeTeeConnector);
     flangable_items.append(CADitemTypes::Sanitary_PipeTurn);
+    flangable_items.append(CADitemTypes::Sanitary_PipeYPiece);
     flangable_items.append(CADitemTypes::Sanitary_Shower);
     flangable_items.append(CADitemTypes::Sanitary_Sink);
     flangable_items.append(CADitemTypes::Sanitary_WashBasin);
@@ -139,4 +140,21 @@ void CAD_sanitary_pipe::processWizardInput()
     iso = wizardParams.value("iso").toDouble();
     s = wizardParams.value("s").toDouble();
 
+}
+
+QMatrix4x4 CAD_sanitary_pipe::rotationOfFlange(quint8 num)
+{
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        return matrix_rotation;
+    }
+    else
+        return matrix_rotation;
 }

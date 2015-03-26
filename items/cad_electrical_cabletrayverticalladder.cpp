@@ -30,10 +30,10 @@ CAD_Electrical_CabletrayVerticalLadder::CAD_Electrical_CabletrayVerticalLadder()
     wizardParams.insert("Angle z", 0.0);
 
     wizardParams.insert("a", 100.0);    // Breite (in y-Richtung)
-    wizardParams.insert("a2", 10.0);    // Abstand der Sprossen vom Rand
-    wizardParams.insert("a3", 10.0);    // Breite der Sprossen (in y-Richtung)
+    wizardParams.insert("h2", 10.0);    // Abstand der Sprossen vom Rand
+    wizardParams.insert("h3", 10.0);    // Breite der Sprossen (in y-Richtung)
     wizardParams.insert("b", 100.0);    // Tiefe (in x-Richtung)
-    wizardParams.insert("b2", 10.0);    // Tife der Randteile
+    wizardParams.insert("g2", 10.0);    // Tife der Randteile
     wizardParams.insert("l", 1000.0);   // Höhe (in z-Richtung)
     wizardParams.insert("l2", 150.0);   // Abstand der Sprossen (in z-Richtung)
     wizardParams.insert("l3", 10.0);    // Höhe der Sprossen (in z-Richtung
@@ -121,7 +121,7 @@ void CAD_Electrical_CabletrayVerticalLadder::calculate()
                                 
     this->snap_basepoint = (position);
 
-    QVector3D position_lft = position + matrix_rotation * QVector3D(b/2 - b2/2, a/2, l/2);
+    QVector3D position_lft = position + matrix_rotation * QVector3D(b/2 - g2/2, a/2, l/2);
     left->wizardParams.insert("Position x", position_lft.x());
     left->wizardParams.insert("Position y", position_lft.y());
     left->wizardParams.insert("Position z", position_lft.z());
@@ -129,14 +129,14 @@ void CAD_Electrical_CabletrayVerticalLadder::calculate()
     left->wizardParams.insert("Angle y", angle_y);
     left->wizardParams.insert("Angle z", angle_z);
 
-    left->wizardParams.insert("l", b2);
+    left->wizardParams.insert("l", g2);
     left->wizardParams.insert("b", a);
     left->wizardParams.insert("a", l);
     left->layer = this->layer;
     left->processWizardInput();
     left->calculate();
 
-    QVector3D position_rgt = position + matrix_rotation * QVector3D(-b/2 + b2/2, a/2, l/2);
+    QVector3D position_rgt = position + matrix_rotation * QVector3D(-b/2 + g2/2, a/2, l/2);
     right->wizardParams.insert("Position x", position_rgt.x());
     right->wizardParams.insert("Position y", position_rgt.y());
     right->wizardParams.insert("Position z", position_rgt.z());
@@ -144,7 +144,7 @@ void CAD_Electrical_CabletrayVerticalLadder::calculate()
     right->wizardParams.insert("Angle y", angle_y);
     right->wizardParams.insert("Angle z", angle_z);
 
-    right->wizardParams.insert("l", b2);
+    right->wizardParams.insert("l", g2);
     right->wizardParams.insert("b", a);
     right->wizardParams.insert("a", l);
     right->layer = this->layer;
@@ -155,7 +155,7 @@ void CAD_Electrical_CabletrayVerticalLadder::calculate()
     {
         CAD_basic_box *step = new CAD_basic_box;
         qreal l4 = (l - (n-1) * l2) / 2; //Abstand der Sprossen zum Rand
-        QVector3D position_step = position + matrix_rotation * QVector3D(0.0, a2 + a3/2, l4 + i*l2);
+        QVector3D position_step = position + matrix_rotation * QVector3D(0.0, h2 + h3/2, l4 + i*l2);
         step->wizardParams.insert("Position x", position_step.x());
         step->wizardParams.insert("Position y", position_step.y());
         step->wizardParams.insert("Position z", position_step.z());
@@ -163,8 +163,8 @@ void CAD_Electrical_CabletrayVerticalLadder::calculate()
         step->wizardParams.insert("Angle y", angle_y);
         step->wizardParams.insert("Angle z", angle_z);
 
-        step->wizardParams.insert("l", b - 2 * b2);
-        step->wizardParams.insert("b", a3);
+        step->wizardParams.insert("l", b - 2 * g2);
+        step->wizardParams.insert("b", h3);
         step->wizardParams.insert("a", l3);
         step->layer = this->layer;
         step->processWizardInput();
@@ -191,10 +191,10 @@ void CAD_Electrical_CabletrayVerticalLadder::processWizardInput()
 
 
     a = wizardParams.value("a").toDouble();
-    a2 = wizardParams.value("a2").toDouble();
-    a3 = wizardParams.value("a3").toDouble();
+    h2 = wizardParams.value("h2").toDouble();
+    h3 = wizardParams.value("h3").toDouble();
     b = wizardParams.value("b").toDouble();
-    b2 = wizardParams.value("b2").toDouble();
+    g2 = wizardParams.value("g2").toDouble();
     l = wizardParams.value("l").toDouble();
     l2 = wizardParams.value("l2").toDouble();
     l3 = wizardParams.value("l3").toDouble();
@@ -232,3 +232,24 @@ void CAD_Electrical_CabletrayVerticalLadder::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Electrical_CabletrayVerticalLadder::rotationOfFlange(quint8 num)
+{
+
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(90.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(-90.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else
+        return matrix_rotation;
+}

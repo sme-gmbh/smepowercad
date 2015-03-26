@@ -188,3 +188,13 @@ void CAD_air_ductEndPlate::processWizardInput()
     fe = wizardParams.value("fe").toDouble();
     s = wizardParams.value("s").toDouble();
 }
+
+QMatrix4x4 CAD_air_ductEndPlate::rotationOfFlange(quint8 num)
+{
+
+    QMatrix4x4 m;
+    m.setToIdentity();
+    m.rotate(180.0, 0.0, 0.0, 1.0);
+    return matrix_rotation * m;
+
+}

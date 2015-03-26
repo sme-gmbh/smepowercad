@@ -101,10 +101,6 @@ QString CAD_air_duct::description()
 
 void CAD_air_duct::calculate()
 {
-    matrix_rotation.setToIdentity();
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 
     boundingBox.reset();
 
@@ -127,10 +123,10 @@ void CAD_air_duct::calculate()
     main_duct->processWizardInput();
     main_duct->calculate();
 
-    QVector3D pos_rot = position + matrix_rotation * (QVector3D((l - fe), 0.0, 0.0));
-    flange_duct_left->wizardParams.insert("Position x", (pos_rot.x()));
-    flange_duct_left->wizardParams.insert("Position y", (pos_rot.y()));
-    flange_duct_left->wizardParams.insert("Position z", (pos_rot.z()));
+    QVector3D position_fdl = main_duct->snap_flanges.at(1);
+    flange_duct_left->wizardParams.insert("Position x", (position_fdl.x()));
+    flange_duct_left->wizardParams.insert("Position y", (position_fdl.y()));
+    flange_duct_left->wizardParams.insert("Position z", (position_fdl.z()));
     flange_duct_left->wizardParams.insert("Angle x", (angle_x));
     flange_duct_left->wizardParams.insert("Angle y", (angle_y));
     flange_duct_left->wizardParams.insert("Angle z", (angle_z));
@@ -139,6 +135,7 @@ void CAD_air_duct::calculate()
     flange_duct_left->wizardParams.insert("a", (a + 2 * ff));
     flange_duct_left->wizardParams.insert("s", (ff));
     flange_duct_left->processWizardInput();
+    flange_duct_left->matrix_rotation = this->matrix_rotation;
     flange_duct_left->calculate();
 
     flange_duct_right->wizardParams.insert("Position x", (position.x()));
@@ -193,8 +190,29 @@ void CAD_air_duct::processWizardInput()
     ff = wizardParams.value("ff").toDouble();
     fe = wizardParams.value("fe").toDouble();
 
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 
 //    size.setX(wizardParams.value("Length (l)").toDouble());
 //    size.setY(wizardParams.value("Width (b)").toDouble());
 //    size.setZ(wizardParams.value("Height (a)").toDouble());
+}
+
+QMatrix4x4 CAD_air_duct::rotationOfFlange(quint8 num)
+{
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        return matrix_rotation;
+    }
+    else
+        return matrix_rotation;
 }

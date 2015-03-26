@@ -184,3 +184,8 @@ void CAD_Basic_Gauge90Degree::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Basic_Gauge90Degree::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

@@ -187,3 +187,8 @@ void CAD_Electrical_LuminaireSemicircular::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Electrical_LuminaireSemicircular::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

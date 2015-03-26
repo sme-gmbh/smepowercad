@@ -31,12 +31,13 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
+    virtual QMatrix4x4 rotationOfFlange(quint8 num);
 //    virtual void paint(GLWidget* glwidget);
 
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
-    qreal a, a2, a3, b, b2, l, l2, l3;
+    qreal a, h2, h3, b, g2, l, l2, l3;
     quint8 n;
 
     CAD_basic_box *left, *right;

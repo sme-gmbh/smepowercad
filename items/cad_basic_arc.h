@@ -32,6 +32,7 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
     virtual void paint(GLWidget* glwidget);
+    virtual QMatrix4x4 rotationOfFlange(quint8 num);
 
 
     QVector3D center;

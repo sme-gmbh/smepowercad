@@ -123,8 +123,8 @@ void CAD_Electrical_CabletrayTransition::calculate()
     this->snap_basepoint = (position);
 
     end_lower->wizardParams.insert("Position x", position.x());
-    end_lower->wizardParams.insert("Position y", position.x());
-    end_lower->wizardParams.insert("Position z", position.x());
+    end_lower->wizardParams.insert("Position y", position.y());
+    end_lower->wizardParams.insert("Position z", position.z());
     end_lower->wizardParams.insert("Angle x", angle_x);
     end_lower->wizardParams.insert("Angle y", angle_y);
     end_lower->wizardParams.insert("Angle z", angle_z);
@@ -305,3 +305,21 @@ void CAD_Electrical_CabletrayTransition::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Electrical_CabletrayTransition::rotationOfFlange(quint8 num)
+{
+
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        return matrix_rotation;
+    }
+    else
+        return matrix_rotation;
+}

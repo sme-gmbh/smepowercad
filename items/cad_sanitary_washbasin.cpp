@@ -142,3 +142,8 @@ void CAD_Sanitary_WashBasin::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Sanitary_WashBasin::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

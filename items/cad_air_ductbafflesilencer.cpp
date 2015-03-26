@@ -172,8 +172,8 @@ void CAD_air_ductBaffleSilencer::calculate()
     {
         CAD_basic_box* plate = new CAD_basic_box();
         subItems.append(plate);
-        qreal offset = (b - 2 * s) / (2 * n);
-        QVector3D position_sl = position + matrix_rotation * QVector3D(l / 2, b/2 - (2 * i + 1) * offset - s, 0.0);
+        qreal offset = (a - 2 * s) / (2 * n);
+        QVector3D position_sl = position + matrix_rotation * QVector3D(l / 2, 0.0, a/2 - s - (2*i+1) * offset);
         plate->wizardParams.insert("Position x", (position_sl.x()));
         plate->wizardParams.insert("Position y", (position_sl.y()));
         plate->wizardParams.insert("Position z", (position_sl.z()));
@@ -181,8 +181,8 @@ void CAD_air_ductBaffleSilencer::calculate()
         plate->wizardParams.insert("Angle y", (angle_y));
         plate->wizardParams.insert("Angle z", (angle_z));
         plate->wizardParams.insert("l", (l));
-        plate->wizardParams.insert("b", (d));
-        plate->wizardParams.insert("a", (a - 2 * s));
+        plate->wizardParams.insert("b", (b - 2 * s));
+        plate->wizardParams.insert("a", (d));
         plate->layer = this->layer;
         plate->processWizardInput();
         plate->calculate();
@@ -234,4 +234,21 @@ void CAD_air_ductBaffleSilencer::processWizardInput()
     ff = wizardParams.value("ff").toDouble();
     s = wizardParams.value("s").toDouble();
 
+}
+
+QMatrix4x4 CAD_air_ductBaffleSilencer::rotationOfFlange(quint8 num)
+{
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        return matrix_rotation;
+    }
+    else
+        return matrix_rotation;
 }

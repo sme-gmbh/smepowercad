@@ -142,3 +142,8 @@ void CAD_Cleanroom_DoorFrame::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Cleanroom_DoorFrame::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

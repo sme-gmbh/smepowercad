@@ -31,6 +31,7 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
+    virtual QMatrix4x4 rotationOfFlange(quint8 num);
 
     qreal g, h, b;
     CAD_basic_box *blockout;

@@ -133,3 +133,8 @@ void CAD_arch_beam::processWizardInput()
 
 
 }
+
+QMatrix4x4 CAD_arch_beam::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

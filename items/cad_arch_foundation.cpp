@@ -97,3 +97,8 @@ void CAD_arch_foundation::processWizardInput()
     angle_z = wizardParams.value("Angle z").toDouble();
 
 }
+
+QMatrix4x4 CAD_arch_foundation::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

@@ -372,12 +372,13 @@ void CAD_air_ductTurn::calculate()
     flange_right_duct->wizardParams.insert("Position z", (position_rfd.z()));
     flange_right_duct->wizardParams.insert("Angle x", (angle_x));
     flange_right_duct->wizardParams.insert("Angle y", (angle_y));
-    flange_right_duct->wizardParams.insert("Angle z", (angle_z-alpha+180));
+    flange_right_duct->wizardParams.insert("Angle z", (angle_z));
     flange_right_duct->wizardParams.insert("l", (fe));
     flange_right_duct->wizardParams.insert("b", (b2+2*ff));
     flange_right_duct->wizardParams.insert("a", (this->a+2*ff));
     flange_right_duct->wizardParams.insert("s", (ff));
     flange_right_duct->processWizardInput();
+    flange_right_duct->rotateAroundAxis(-alpha, QVector3D(0.0, 0.0, 1.0), angle_x, angle_y, angle_z);
     flange_right_duct->calculate();
 
     boundingBox.enterVertex(flange_left_duct->pos_bot_1);
@@ -572,3 +573,23 @@ void CAD_air_ductTurn::paint(GLWidget *glwidget)
     arrayBufVertices.release();
 }
 
+
+QMatrix4x4 CAD_air_ductTurn::rotationOfFlange(quint8 num)
+{
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(-alpha, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else
+        return matrix_rotation;
+}

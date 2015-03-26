@@ -33,6 +33,7 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
+    virtual QMatrix4x4 rotationOfFlange(quint8 num);
 
     qreal s, ff, fe;
     qreal l, l3, l4;

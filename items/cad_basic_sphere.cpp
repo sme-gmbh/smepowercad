@@ -204,3 +204,8 @@ void CAD_basic_sphere::paint(GLWidget *glwidget)
     arrayBufVertices.release();
 }
 
+
+QMatrix4x4 CAD_basic_sphere::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

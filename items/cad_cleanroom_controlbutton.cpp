@@ -140,3 +140,8 @@ void CAD_Cleanroom_ControlButton::processWizardInput()
                                                                                            
 //     arrayBufVertices.release();
 //}
+
+QMatrix4x4 CAD_Cleanroom_ControlButton::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

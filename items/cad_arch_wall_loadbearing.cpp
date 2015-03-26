@@ -131,3 +131,8 @@ void CAD_arch_wall_loadBearing::processWizardInput()
     l = wizardParams.value("l").toDouble();
     a = wizardParams.value("a").toDouble();
 }
+
+QMatrix4x4 CAD_arch_wall_loadBearing::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

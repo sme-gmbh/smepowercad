@@ -97,3 +97,8 @@ void CAD_arch_grating::processWizardInput()
     angle_z = wizardParams.value("Angle z").toDouble();
 
 }
+
+QMatrix4x4 CAD_arch_grating::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}

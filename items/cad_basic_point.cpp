@@ -91,7 +91,13 @@ void CAD_basic_point::processWizardInput()
     position.setZ(wizardParams.value("Position z").toDouble());
 }
 
+QMatrix4x4 CAD_basic_point::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}
+
 void CAD_basic_point::paint(GLWidget *glwidget)
 {
-
+    return;
 }
+

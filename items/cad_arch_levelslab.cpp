@@ -131,3 +131,8 @@ void CAD_arch_levelSlab::processWizardInput()
     l = wizardParams.value("l").toDouble();
 
 }
+
+QMatrix4x4 CAD_arch_levelSlab::rotationOfFlange(quint8 num)
+{
+    return matrix_rotation;
+}
