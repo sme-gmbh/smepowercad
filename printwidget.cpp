@@ -12,3 +12,13 @@ PrintWidget::~PrintWidget()
 {
     delete ui;
 }
+
+void PrintWidget::on_toolButton_printer_clicked()
+{
+    QPrintDialog* printDialog = new QPrintDialog(this);
+
+    if (printDialog->exec() == QDialog::Rejected)
+        return;
+
+    printer = printDialog->printer();
+}
