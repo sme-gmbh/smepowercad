@@ -124,7 +124,7 @@ void CAD_sanitary_pipeReducer::calculate()
     left->wizardParams.insert("Angle y", (angle_y));
     left->wizardParams.insert("Angle z", (angle_z));
     left->wizardParams.insert("l", (l1));
-    left->wizardParams.insert("d", (d1+2*iso1+2*s));
+    left->wizardParams.insert("d", (d1+2*iso1));
     left->wizardParams.insert("s", (iso1+s));
     left->layer = this->layer;
     left->processWizardInput();
@@ -138,7 +138,7 @@ void CAD_sanitary_pipeReducer::calculate()
     right->wizardParams.insert("Angle y", (angle_y));
     right->wizardParams.insert("Angle z", (angle_z));
     right->wizardParams.insert("l", (l2));
-    right->wizardParams.insert("d", (d2+2*iso2+2*s));
+    right->wizardParams.insert("d", (d2+2*iso2));
     right->wizardParams.insert("s", (iso2+s));
     right->layer = this->layer;
     right->processWizardInput();
@@ -153,8 +153,8 @@ void CAD_sanitary_pipeReducer::calculate()
     reducer->wizardParams.insert("Angle y", (angle_y));
     reducer->wizardParams.insert("Angle z", (angle_z));
     reducer->wizardParams.insert("l", (l - l1 - l2));
-    reducer->wizardParams.insert("d1", (d1 + 2 * iso1 + 2 * s));
-    reducer->wizardParams.insert("d2", (d2 + 2 * iso2 + 2 * s));
+    reducer->wizardParams.insert("d1", (d1 + 2 * iso1));
+    reducer->wizardParams.insert("d2", (d2 + 2 * iso2));
     reducer->wizardParams.insert("e", (e));
     reducer->wizardParams.insert("s", (s));
     reducer->layer = this->layer;

@@ -123,7 +123,7 @@ void CAD_sanitary_pipeTurn::calculate()
     left->wizardParams.insert("Angle y", angle_y);
     left->wizardParams.insert("Angle z", angle_z);
     left->wizardParams.insert("l", l1);
-    left->wizardParams.insert("d", d+2*iso+2*s);
+    left->wizardParams.insert("d", d + 2*iso);
     left->wizardParams.insert("s",  iso+s);
     left->layer = this->layer;
     left->processWizardInput();
@@ -138,7 +138,7 @@ void CAD_sanitary_pipeTurn::calculate()
     right->wizardParams.insert("Angle y", angles_right.y());
     right->wizardParams.insert("Angle z", angles_right.z());
     right->wizardParams.insert("l", l2);
-    right->wizardParams.insert("d", d+2*iso+2*s);
+    right->wizardParams.insert("d", d + 2*iso);
     right->wizardParams.insert("s",  iso+s);
     right->layer = this->layer;
     right->processWizardInput();
@@ -151,7 +151,7 @@ void CAD_sanitary_pipeTurn::calculate()
     turn->wizardParams.insert("Angle x", 0.0);
     turn->wizardParams.insert("Angle y", 0.0);
     turn->wizardParams.insert("Angle z", 0.0);
-    turn->wizardParams.insert("d", d + 2*iso + 2*s);
+    turn->wizardParams.insert("d", d + 2*iso);
     turn->wizardParams.insert("r", r);
     turn->wizardParams.insert("alpha", alpha);
     turn->wizardParams.insert("s", s + iso);

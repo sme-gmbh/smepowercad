@@ -146,7 +146,7 @@ void CAD_Sanitary_PipeYPiece::calculate()
     reducer->wizardParams.insert("Angle y", angle_y);
     reducer->wizardParams.insert("Angle z", angle_z);
     reducer->wizardParams.insert("l", 2 * l1 / 3);
-    reducer->wizardParams.insert("d1", d1 + 2*iso1);
+    reducer->wizardParams.insert("d1", d1 + 2 * iso1);
     reducer->wizardParams.insert("d2", d2 + 2 * iso2);
     reducer->wizardParams.insert("e", 0.0);
     reducer->wizardParams.insert("s", s + iso1);

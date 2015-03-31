@@ -149,7 +149,7 @@ void CAD_heatcool_pipeTeeConnector::calculate()
     pipe->wizardParams.insert("Angle y", angle_y);
     pipe->wizardParams.insert("Angle z", angle_z);
     pipe->wizardParams.insert("l", l);
-    pipe->wizardParams.insert("d", d+2*s+2*iso);
+    pipe->wizardParams.insert("d", d+2*iso);
     pipe->wizardParams.insert("s",  s+iso);
     pipe->layer = this->layer;
     pipe->processWizardInput();
@@ -164,7 +164,7 @@ void CAD_heatcool_pipeTeeConnector::calculate()
     branch->wizardParams.insert("Angle y", angles_branch.y());
     branch->wizardParams.insert("Angle z", angles_branch.z());
     branch->wizardParams.insert("l", l3);
-    branch->wizardParams.insert("d", d3+2*s+2*iso3);
+    branch->wizardParams.insert("d", d3+2*iso3);
     branch->wizardParams.insert("s",  s+iso3);
     branch->layer = this->layer;
     branch->processWizardInput();
