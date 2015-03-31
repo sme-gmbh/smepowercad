@@ -126,7 +126,7 @@ void CAD_air_pipeReducer::calculate()
     right->wizardParams.insert("Angle y", (angle_y));
     right->wizardParams.insert("Angle z", (angle_z));
     right->wizardParams.insert("l", (l2));
-    right->wizardParams.insert("d", (d2);
+    right->wizardParams.insert("d", (d2));
     right->wizardParams.insert("s", (s));
     right->layer = this->layer;
     right->processWizardInput();

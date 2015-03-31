@@ -112,7 +112,7 @@ void CAD_air_pipeTurn::calculate()
     left->wizardParams.insert("Angle z", angle_z);
     left->wizardParams.insert("l", l1);
     left->wizardParams.insert("d", d);
-    left->wizardParams.insert("s",  s);
+    left->wizardParams.insert("s", s);
     left->layer = this->layer;
     left->processWizardInput();
     left->calculate();
@@ -127,7 +127,7 @@ void CAD_air_pipeTurn::calculate()
     right->wizardParams.insert("Angle z", angles_right.z());
     right->wizardParams.insert("l", l2);
     right->wizardParams.insert("d", d);
-    right->wizardParams.insert("s",  s);
+    right->wizardParams.insert("s", s);
     right->layer = this->layer;
     right->processWizardInput();
     right->calculate();
