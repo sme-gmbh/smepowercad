@@ -340,6 +340,27 @@
         <file>itemGraphic/cad_basic_torus.png</file>
         <file>itemGraphic/cad_basic_hemisphere.png</file>
         <file>itemGraphic/cad_basic_duct.png</file>
+        <file>itemGraphic/cad_electrical_busbarendfeederunitdoublesided.png</file>
+        <file>itemGraphic/cad_electrical_busbarendfeederunitsinglesided.png</file>
+        <file>itemGraphic/cad_electrical_busbarwithouttapoffpoints.png</file>
+        <file>itemGraphic/cad_electrical_busbarwithtapoffpoints1row.png</file>
+        <file>itemGraphic/cad_electrical_busbarwithtapoffpoints2row.png</file>
+        <file>itemGraphic/cad_electrical_cabinet.png</file>
+        <file>itemGraphic/cad_electrical_cabinetwithdoorfrontandback.png</file>
+        <file>itemGraphic/cad_electrical_cabinetwithdoorleftandright.png</file>
+        <file>itemGraphic/cad_electrical_cabinetwithoutdoor.png</file>
+        <file>itemGraphic/cad_electrical_cabletray.png</file>
+        <file>itemGraphic/cad_electrical_cabletraycross.png</file>
+        <file>itemGraphic/cad_electrical_cabletrayreducer.png</file>
+        <file>itemGraphic/cad_electrical_cabletrayteeconnector.png</file>
+        <file>itemGraphic/cad_electrical_cabletraytransition.png</file>
+        <file>itemGraphic/cad_electrical_cabletrayturn.png</file>
+        <file>itemGraphic/cad_electrical_cabletrayverticalladder.png</file>
+        <file>itemGraphic/cad_electrical_equiqmentswitchorsocket.png</file>
+        <file>itemGraphic/cad_electrical_luminaireescapelightning.png</file>
+        <file>itemGraphic/cad_electrical_luminairerecessedmounted.png</file>
+        <file>itemGraphic/cad_electrical_luminairesemicircular.png</file>
+        <file>itemGraphic/cad_electrical_luminairesurfacemounted.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>
