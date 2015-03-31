@@ -26,8 +26,8 @@ CAD_basic_plane::CAD_basic_plane() : CADitem(CADitemTypes::Basic_Plane)
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("Length (A)", 10.0);
-    wizardParams.insert("Width (B)",  10.0);
+    wizardParams.insert("a", 10.0);
+    wizardParams.insert("b",  10.0);
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();
@@ -146,8 +146,8 @@ void CAD_basic_plane::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
-    a = wizardParams.value("Length (A)").toDouble();
-    b = wizardParams.value("Width (B)").toDouble();
+    a = wizardParams.value("a").toDouble();
+    b = wizardParams.value("b").toDouble();
 
 }
 

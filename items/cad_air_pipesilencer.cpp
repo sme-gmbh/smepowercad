@@ -28,7 +28,7 @@ CAD_air_pipeSilencer::CAD_air_pipeSilencer() : CADitem(CADitemTypes::Air_PipeSil
     wizardParams.insert("Angle z", 0.0);
 
     wizardParams.insert("d",  200.0);
-    wizardParams.insert("D",  300.0);
+    wizardParams.insert("e",  300.0);
     wizardParams.insert("l", 1000.0);
     wizardParams.insert("s",   5.0);
 
@@ -107,8 +107,8 @@ void CAD_air_pipeSilencer::calculate()
     pipe->wizardParams.insert("Angle y", (angle_y));
     pipe->wizardParams.insert("Angle z", (angle_z));
     pipe->wizardParams.insert("l", (l));
-    pipe->wizardParams.insert("d", (D));
-    pipe->wizardParams.insert("s", ((D-d)/2 + s));
+    pipe->wizardParams.insert("d", (d + 2 * e));
+    pipe->wizardParams.insert("s", (e + s));
     pipe->processWizardInput();
     pipe->calculate();
 
@@ -130,7 +130,7 @@ void CAD_air_pipeSilencer::processWizardInput()
     d = wizardParams.value("d").toDouble();
     s = wizardParams.value("s").toDouble();
     l = wizardParams.value("l").toDouble();
-    D = wizardParams.value("D").toDouble();
+    e = wizardParams.value("e").toDouble();
 
 }
 

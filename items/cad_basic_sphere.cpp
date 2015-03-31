@@ -20,12 +20,10 @@
 
 CAD_basic_sphere::CAD_basic_sphere() : CADitem(CADitemTypes::Basic_Sphere)
 {
-    this->radius = 0.0;
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
-    wizardParams.insert("Radius", 100.0);
+    wizardParams.insert("r", 100.0);
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();
@@ -108,7 +106,7 @@ void CAD_basic_sphere::calculate()
         {
             qreal phi = i * PI / 10;
             qreal psi = j * PI / 5;
-            vertices[10*i + j] = position + QVector3D(radius * sin(phi) * cos(psi), radius * sin(phi) * sin(psi), radius * cos(phi));
+            vertices[10*i + j] = position + QVector3D(r * sin(phi) * cos(psi), r * sin(phi) * sin(psi), r * cos(phi));
         }
     }
 
@@ -155,12 +153,12 @@ void CAD_basic_sphere::calculate()
     indexBufLines.bind();
     indexBufLines.allocate(indicesLines, sizeof(indicesLines));
 
-    boundingBox.enterVertex(position + QVector3D( radius, 0, 0));
-    boundingBox.enterVertex(position + QVector3D(-radius, 0, 0));
-    boundingBox.enterVertex(position + QVector3D(0,  radius, 0));
-    boundingBox.enterVertex(position + QVector3D(0, -radius, 0));
-    boundingBox.enterVertex(position + QVector3D(0, 0,  radius));
-    boundingBox.enterVertex(position + QVector3D(0, 0, -radius));
+    boundingBox.enterVertex(position + QVector3D( r, 0, 0));
+    boundingBox.enterVertex(position + QVector3D(-r, 0, 0));
+    boundingBox.enterVertex(position + QVector3D(0,  r, 0));
+    boundingBox.enterVertex(position + QVector3D(0, -r, 0));
+    boundingBox.enterVertex(position + QVector3D(0, 0,  r));
+    boundingBox.enterVertex(position + QVector3D(0, 0, -r));
 }
 
 void CAD_basic_sphere::processWizardInput()
@@ -168,7 +166,7 @@ void CAD_basic_sphere::processWizardInput()
     position.setX(wizardParams.value("Position x").toDouble());
     position.setY(wizardParams.value("Position y").toDouble());
     position.setZ(wizardParams.value("Position z").toDouble());
-    radius = wizardParams.value("Radius").toDouble();
+    r = wizardParams.value("r").toDouble();
 }
 
 

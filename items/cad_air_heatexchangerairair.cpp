@@ -148,8 +148,8 @@ void CAD_air_heatExchangerAirAir::calculate()
     this->seperator_1->wizardParams.insert("Angle x", (angle_x));
     this->seperator_1->wizardParams.insert("Angle y", (angle_y));
     this->seperator_1->wizardParams.insert("Angle z", (angle_z));
-    this->seperator_1->wizardParams.insert("Length (A)", ((l - i) / 2));
-    this->seperator_1->wizardParams.insert("Width (B)", (b-2*s));
+    this->seperator_1->wizardParams.insert("a", ((l - i) / 2));
+    this->seperator_1->wizardParams.insert("b", (b-2*s));
 
     this->seperator_1->processWizardInput();
     this->seperator_1->calculate();
@@ -161,8 +161,8 @@ void CAD_air_heatExchangerAirAir::calculate()
     this->seperator_2->wizardParams.insert("Angle x", (angle_x));
     this->seperator_2->wizardParams.insert("Angle y", (angle_y));
     this->seperator_2->wizardParams.insert("Angle z", (angle_z));
-    this->seperator_2->wizardParams.insert("Length (A)", ((l - i) / 2));
-    this->seperator_2->wizardParams.insert("Width (B)", (b-2*s));
+    this->seperator_2->wizardParams.insert("a", ((l - i) / 2));
+    this->seperator_2->wizardParams.insert("b", (b-2*s));
 
     this->seperator_2->processWizardInput();
     this->seperator_2->calculate();

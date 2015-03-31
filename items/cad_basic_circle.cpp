@@ -30,7 +30,7 @@ CAD_basic_circle::CAD_basic_circle() : CADitem(CADitemTypes::Basic_Circle)
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("Radius", 1000.0);
+    wizardParams.insert("r", 1000.0);
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();
@@ -110,7 +110,7 @@ void CAD_basic_circle::calculate()
         QVector3D linePos;
         linePos = this->center;
 
-        linePos += matrix_rotation * QVector3D(sin(angle) * this->radius, cos(angle) * this->radius, 0.0);
+        linePos += matrix_rotation * QVector3D(sin(angle) * this->r, cos(angle) * this->r, 0.0);
         vertices[i] = linePos;
         boundingBox.enterVertex(linePos);
     }
@@ -140,7 +140,7 @@ void CAD_basic_circle::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
-    radius = wizardParams.value("Radius").toDouble();
+    r = wizardParams.value("r").toDouble();
 }
 
 //void CAD_basic_circle::paint(GLWidget *glwidget)

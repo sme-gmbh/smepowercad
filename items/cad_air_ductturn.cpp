@@ -31,8 +31,8 @@ CAD_air_ductTurn::CAD_air_ductTurn() : CADitem(CADitemTypes::Air_DuctTurn)
     wizardParams.insert("b2",    400.0);
     wizardParams.insert("r",    1000.0);
     wizardParams.insert("alpha",  90.0);
-    wizardParams.insert("e",      50.0);
-    wizardParams.insert("f",      50.0);
+    wizardParams.insert("l2",      50.0);
+    wizardParams.insert("l1",      50.0);
     wizardParams.insert("fe",     10.0);
     wizardParams.insert("ff",     10.0);
     wizardParams.insert("s",      10.0);
@@ -196,33 +196,33 @@ void CAD_air_ductTurn::calculate()
                 if(this->b2 >= this->b)
                 {
                     vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->b, -this->a/2)
-                                                         + QVector3D(this->f + this->b2 - this->b, -this->r - this->b/2, 0.0)) + position;
+                                                         + QVector3D(this->l1 + this->b2 - this->b, -this->r - this->b/2, 0.0)) + position;
                     index++;
                     vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->b, this->a/2)
-                                                         + QVector3D(this->f + this->b2 - this->b, -this->r - this->b/2, 0.0)) + position;
+                                                         + QVector3D(this->l1 + this->b2 - this->b, -this->r - this->b/2, 0.0)) + position;
                     index++;
                     vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r, this->a/2)
-                                                         + QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)) + position;
+                                                         + QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)) + position;
                     index++;
                     vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r, -this->a/2)
-                                                         + QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)) + position;
+                                                         + QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)) + position;
                     index++;
                 }
                 else
                 {
                     vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->b2, -this->a/2)
-                                                         + QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)
+                                                         + QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)
                                                          + QVector3D(0.0, this->b - this->b2, 0.0)) + position;
                     index++;
                     vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->b2, this->a/2)
-                                                         + QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)
+                                                         + QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)
                                                          + QVector3D(0.0, this->b - this->b2, 0.0)) + position;
                     index++;
                     vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r, this->a/2)
-                                                         + QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)) + position;
+                                                         + QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)) + position;
                     index++;
                     vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r, -this->a/2)
-                                                         + QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)) + position;
+                                                         + QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)) + position;
                     index++;
                 }
             }
@@ -232,33 +232,33 @@ void CAD_air_ductTurn::calculate()
                 if(this->b2 >= this->b)
                 {
                     vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->b - this->s, -this->a/2 + this->s)
-                                                         +QVector3D(this->f + this->b2 - this->b, -this->r - this->b/2, 0.0)) + position;
+                                                         +QVector3D(this->l1 + this->b2 - this->b, -this->r - this->b/2, 0.0)) + position;
                     index++;
                     vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->b - this->s, this->a/2 - this->s)
-                                                         +QVector3D(this->f + this->b2 - this->b, -this->r - this->b/2, 0.0)) + position;
+                                                         +QVector3D(this->l1 + this->b2 - this->b, -this->r - this->b/2, 0.0)) + position;
                     index++;
                     vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->s, this->a/2 - this->s)
-                                                         +QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)) + position;
+                                                         +QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)) + position;
                     index++;
                     vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->s, -this->a/2 + this->s)
-                                                         +QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)) + position;
+                                                         +QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)) + position;
                     index++;
                 }
                 else
                 {
                     vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->b2 - this->s, -this->a/2 + this->s)
-                                                         + QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)
+                                                         + QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)
                                                          + QVector3D(0.0, this->b - this->b2, 0.0)) + position;
                     index++;
                     vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->b2 - this->s, this->a/2 - this->s)
-                                                         +QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)
+                                                         +QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)
                                                          + QVector3D(0.0, this->b - this->b2, 0.0)) + position;
                     index++;
                     vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->s, this->a/2 - this->s)
-                                                         +QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)) + position;
+                                                         +QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)) + position;
                     index++;
                     vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->s, -this->a/2 - this->s)
-                                                         +QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)) + position;
+                                                         +QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)) + position;
                     index++;
                 }
             }
@@ -269,7 +269,7 @@ void CAD_air_ductTurn::calculate()
         QMatrix4x4 matrix_angle;
         matrix_angle.setToIdentity();
         matrix_angle.rotate(angle, 0.0, 0.0, 1.0);
-        QVector3D offset = matrix_angle * QVector3D(this->e, 0.0, 0.0);
+        QVector3D offset = matrix_angle * QVector3D(this->l2, 0.0, 0.0);
 
         //endcap outer vertices
         if(w == 0)
@@ -277,38 +277,38 @@ void CAD_air_ductTurn::calculate()
             if(this->b2 >= this->b)
             {
                 vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->b, -this->a/2)
-                                                     + QVector3D(this->f + this->b2 - this->b, -this->r - this->b/2, 0.0)
+                                                     + QVector3D(this->l1 + this->b2 - this->b, -this->r - this->b/2, 0.0)
                                                      + offset) + position;
                 index++;
                 vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->b, this->a/2)
-                                                     + QVector3D(this->f + this->b2 - this->b, -this->r - this->b/2, 0.0)
+                                                     + QVector3D(this->l1 + this->b2 - this->b, -this->r - this->b/2, 0.0)
                                                      + offset) + position;
                 index++;
                 vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r, this->a/2)
-                                                     + QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)
+                                                     + QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)
                                                      + offset) + position;
                 index++;
                 vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r, -this->a/2)
-                                                     + QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)
+                                                     + QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)
                                                      + offset) + position;
                 index++;
             }
             else
             {
                 vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->b2, -this->a/2)
-                                                     + QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)
+                                                     + QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)
                                                      + offset) + position;
                 index++;
                 vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->b2, this->a/2)
-                                                     + QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)
+                                                     + QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)
                                                      + offset) + position;
                 index++;
                 vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r, this->a/2)
-                                                     + QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)
+                                                     + QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)
                                                      + offset) + position;
                 index++;
                 vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r, -this->a/2)
-                                                     + QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)
+                                                     + QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)
                                                      + offset) + position;
                 index++;
             }
@@ -319,21 +319,21 @@ void CAD_air_ductTurn::calculate()
             if(this->b2 >= this->b)
             {
                 vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->b - this->s, -this->a/2 + this->s)
-                                                     +QVector3D(this->f + this->b2 - this->b, -this->r - this->b/2, 0.0)
+                                                     +QVector3D(this->l1 + this->b2 - this->b, -this->r - this->b/2, 0.0)
                                                      + offset) + position;
                 QVector3D lp1 = vertices[index];
                 index++;
                 vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->b - this->s, this->a/2 - this->s)
-                                                     +QVector3D(this->f + this->b2 - this->b, -this->r - this->b/2, 0.0)
+                                                     +QVector3D(this->l1 + this->b2 - this->b, -this->r - this->b/2, 0.0)
                                                      + offset) + position;
                 index++;
                 vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->s, this->a/2 - this->s)
-                                                     +QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)
+                                                     +QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)
                                                      + offset) + position;
                 QVector3D lp2 = vertices[index];
                 index++;
                 vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->s, -this->a/2 + this->s)
-                                                     +QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)
+                                                     +QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)
                                                      + offset) + position;
                 index++;
                 position_rfd = (lp1 + lp2)/2;
@@ -342,23 +342,23 @@ void CAD_air_ductTurn::calculate()
             else
             {
                 vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->b - this->s, -this->a/2 + this->s)
-                                                     +QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)
+                                                     +QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)
                                                      + QVector3D(-this->b + this->b2, 0.0, 0.0)
                                                      + offset) + position;
                 QVector3D lp1 = vertices[index];
                 index++;
                 vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->b - this->s, this->a/2 - this->s)
-                                                     +QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)
+                                                     +QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)
                                                      + QVector3D(-this->b + this->b2, 0.0, 0.0)
                                                      + offset) + position;
                 index++;
                 vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->s, this->a/2 - this->s)
-                                                     +QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)
+                                                     +QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)
                                                      + offset) + position;
                  QVector3D lp2 = vertices[index];
                 index++;
                 vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->s, -this->a/2 - this->s)
-                                                     +QVector3D(this->f + 0.0, -this->r - this->b/2, 0.0)
+                                                     +QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)
                                                      + offset) + position;
                 index++;
                 position_rfd = (lp1 + lp2) / 2;
@@ -529,8 +529,8 @@ void CAD_air_ductTurn::processWizardInput()
     b2 = wizardParams.value("b2").toDouble();
     a = wizardParams.value("a").toDouble();
     alpha = wizardParams.value("alpha").toDouble();
-    f = wizardParams.value("f").toDouble();
-    e = wizardParams.value("e").toDouble();
+    l1 = wizardParams.value("l1").toDouble();
+    l2 = wizardParams.value("l2").toDouble();
     //    b2 = b;
 
     if(abs(alpha - 90) > 10E-8 && abs(b - b2) > 10E-8)

@@ -151,9 +151,9 @@ void CAD_sanitary_pipeTurn::calculate()
     turn->wizardParams.insert("Angle x", 0.0);
     turn->wizardParams.insert("Angle y", 0.0);
     turn->wizardParams.insert("Angle z", 0.0);
-    turn->wizardParams.insert("Outer diameter", d + 2*iso + 2*s);
-    turn->wizardParams.insert("Turn radius", r);
-    turn->wizardParams.insert("Turn angle", alpha);
+    turn->wizardParams.insert("d", d + 2*iso + 2*s);
+    turn->wizardParams.insert("r", r);
+    turn->wizardParams.insert("alpha", alpha);
     turn->wizardParams.insert("s", s + iso);
     turn->layer = this->layer;
     turn->processWizardInput();

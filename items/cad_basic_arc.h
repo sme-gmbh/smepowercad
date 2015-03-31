@@ -36,8 +36,8 @@ public:
 
 
     QVector3D center;
-    qreal radius;
-    qreal centralAngle;
+    qreal r;
+    qreal alpha;
     qreal width;
     bool widthByLayer;
     bool widthByBlock;

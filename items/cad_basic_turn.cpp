@@ -29,10 +29,10 @@ CAD_basic_turn::CAD_basic_turn() : CADitem(CADitemTypes::Basic_Turn)
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
-    wizardParams.insert("Outer diameter", 100.0);
-    wizardParams.insert("Turn radius",    200.0);
-    wizardParams.insert("Turn angle",      90.0);
-    wizardParams.insert("s",               10.0);
+    wizardParams.insert("d",    100.0);
+    wizardParams.insert("r",    200.0);
+    wizardParams.insert("alpha", 90.0);
+    wizardParams.insert("s",      0.0);
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();
@@ -261,9 +261,9 @@ void CAD_basic_turn::processWizardInput()
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
     wallThickness = wizardParams.value("s").toDouble();
-    radius_turn = wizardParams.value("Turn radius").toDouble();
-    angle_turn = wizardParams.value("Turn angle").toDouble();
-    radius_pipe = wizardParams.value("Outer diameter").toDouble() / 2.0;
+    radius_turn = wizardParams.value("r").toDouble();
+    angle_turn = wizardParams.value("alpha").toDouble();
+    radius_pipe = wizardParams.value("d").toDouble() / 2.0;
 
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);

@@ -26,8 +26,8 @@ CAD_basic_cylinder::CAD_basic_cylinder() : CADitem(CADitemTypes::Basic_Cylinder)
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("Radius",  500.0);
-    wizardParams.insert("Height", 1000.0);
+    wizardParams.insert("r",  500.0);
+    wizardParams.insert("a", 1000.0);
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();
@@ -106,7 +106,7 @@ void CAD_basic_cylinder::calculate()
     this->snap_basepoint = (position);
 
     this->snap_basepoint = this->center_base;
-    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,0.0, this->height));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,0.0, this->a));
 
     QVector3D vertices[32];
     int index = 0;
@@ -116,11 +116,11 @@ void CAD_basic_cylinder::calculate()
         QVector3D linePos;
         linePos = center_base;
 
-        linePos += matrix_rotation * QVector3D(sin(angle) * radius, cos(angle) * radius, 0.0);
+        linePos += matrix_rotation * QVector3D(sin(angle) * r, cos(angle) * r, 0.0);
         vertices[index] = linePos;
         index = index + 1;
         boundingBox.enterVertex(linePos);
-        linePos += matrix_rotation * QVector3D(0.0,0.0, this->height);
+        linePos += matrix_rotation * QVector3D(0.0,0.0, this->a);
         vertices[index] = linePos;
         index = index + 1;
         boundingBox.enterVertex(linePos);
@@ -168,8 +168,8 @@ void CAD_basic_cylinder::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
-    radius = wizardParams.value("Radius").toDouble();
-    height = wizardParams.value("Height").toDouble();
+    r = wizardParams.value("r").toDouble();
+    a = wizardParams.value("a").toDouble();
 
 }
 

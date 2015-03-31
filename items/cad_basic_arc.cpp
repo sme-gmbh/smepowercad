@@ -29,8 +29,8 @@ CAD_basic_arc::CAD_basic_arc() : CADitem(CADitemTypes::Basic_Arc)
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("Radius", 1.0);
-    wizardParams.insert("Central Angle", 90.0);
+    wizardParams.insert("r", 1000.0);
+    wizardParams.insert("alpha", 90.0);
 
     arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices.create();
@@ -104,17 +104,17 @@ void CAD_basic_arc::calculate()
 //    this->snap_vertices.append(QVector3D(position.x()+radius, position.y(), position.z()));
 //    this->snap_vertices.append(QVector3D(position.x()+radius*qCos(centralAngle/180.0f*PI), position.y()+radius*qSin(centralAngle/180.0f*PI), position.z()));
 //    this->snap_vertices.append(QVector3D(position.x()+radius*qCos(centralAngle/360.0f*PI), position.y()+radius*qSin(centralAngle/360.0f*PI), position.z()));
-    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0, this->radius, 0.0));
-    this->snap_vertices.append(position + matrix_rotation * QVector3D(sin(centralAngle/180.0f*PI) * this->radius, cos(centralAngle/180.0f*PI) * this->radius, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0, this->r, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(sin(alpha/180.0f*PI) * this->r, cos(alpha/180.0f*PI) * this->r, 0.0));
 
     QVector3D vertices[21];
     for (int i = 0; i < 21; i++)
     {
-        qreal angle = this->centralAngle/180.0f * PI * i / 20;
+        qreal angle = this->alpha/180.0f * PI * i / 20;
         QVector3D linePos;
         linePos = this->position;
 
-        linePos += matrix_rotation * (QVector3D(sin(angle) * this->radius, cos(angle) * this->radius, 0.0));
+        linePos += matrix_rotation * (QVector3D(sin(angle) * this->r, cos(angle) * this->r, 0.0));
         boundingBox.enterVertex(linePos);
         vertices[i] = linePos;
     }
@@ -155,10 +155,10 @@ void CAD_basic_arc::processWizardInput()
     this->position.setX(wizardParams.value("Center x").toDouble());
     this->position.setY(wizardParams.value("Center y").toDouble());
     this->position.setZ(wizardParams.value("Center z").toDouble());
-    this->center = QVector3D(position.x()+radius*qCos(centralAngle/360.0f*PI), position.y()+radius*qSin(centralAngle/360.0f*PI), position.z());
+    //this->center = QVector3D(position.x()+r*qCos(alpha/360.0f*PI), position.y()+r*qSin(alpha/360.0f*PI), position.z());
 
-    this->radius = wizardParams.value("Radius").toDouble();
-    this->centralAngle = wizardParams.value("Central Angle").toDouble();
+    this->r = wizardParams.value("r").toDouble();
+    this->alpha = wizardParams.value("alpha").toDouble();
 
     this->angle_x = wizardParams.value("Angle x").toDouble();
     this->angle_y = wizardParams.value("Angle y").toDouble();

@@ -42,8 +42,8 @@ public:
     qreal b2;
     qreal a;
     qreal alpha;
-    qreal f;
-    qreal e;
+    qreal l1;
+    qreal l2;
 
 //    QVector3D vertices[2][13][5];
 

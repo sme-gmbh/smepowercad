@@ -34,7 +34,7 @@ public:
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
 
 //    QVector3D pos;
-    qreal radius;
+    qreal r;
 
     QOpenGLBuffer arrayBufVertices;
     QOpenGLBuffer indexBufFaces;

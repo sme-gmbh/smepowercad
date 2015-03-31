@@ -34,9 +34,9 @@ public:
     virtual void paint(GLWidget* glwidget);
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
 
-    qreal radius;
+    qreal r;
     QVector3D center_base;
-    qreal height;
+    qreal a;
     QList<QVector3D> vertices_bottom, vertices_top;
 
     QOpenGLBuffer arrayBufVertices;

@@ -35,7 +35,7 @@ public:
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
 
     QVector3D center;
-    qreal radius;
+    qreal r;
     qreal width;
     bool widthByLayer;
     bool widthByBlock;

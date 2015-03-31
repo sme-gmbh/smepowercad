@@ -34,7 +34,7 @@ public:
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
 
     qreal d;
-    qreal D;
+    qreal e;
     qreal s;
     qreal l;
 
