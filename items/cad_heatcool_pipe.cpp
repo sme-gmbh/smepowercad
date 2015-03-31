@@ -140,8 +140,8 @@ void CAD_heatcool_pipe::calculate()
     pipe->wizardParams.insert("Angle y", angle_y);
     pipe->wizardParams.insert("Angle z", angle_z);
     pipe->wizardParams.insert("l", l);
-    pipe->wizardParams.insert("d", d+2*s+2*iso);
-    pipe->wizardParams.insert("s",  s+iso);
+    pipe->wizardParams.insert("d", d + 2*iso);
+    pipe->wizardParams.insert("s",  s + iso);
     pipe->layer = this->layer;
     pipe->processWizardInput();
     pipe->calculate();
