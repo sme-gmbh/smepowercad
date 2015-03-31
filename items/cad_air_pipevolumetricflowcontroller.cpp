@@ -113,7 +113,7 @@ void CAD_air_pipeVolumetricFlowController::calculate()
     mainPipe->wizardParams.insert("Angle z", angle_z);
     mainPipe->wizardParams.insert("l", l);
     mainPipe->wizardParams.insert("d", d);
-    mainPipe->wizardParams.insert("s",  s);
+    mainPipe->wizardParams.insert("s", s);
     mainPipe->layer = this->layer;
     mainPipe->processWizardInput();
     mainPipe->calculate();
