@@ -124,7 +124,7 @@ void CAD_air_ductTransitionRectRound::calculate()
 
     this->snap_basepoint = (position);
     this->snap_flanges.append(position);
-    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, b/2 - e - d/2, a/2 - f - d/2 ));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, b/2 + e - d/2, a/2 + f - d/2 ));
 
     QVector3D vertices[40];
     //inner <-> outer
@@ -138,7 +138,7 @@ void CAD_air_ductTransitionRectRound::calculate()
             QMatrix4x4 matrix_turn = QMatrix4x4();
             matrix_turn.setToIdentity();
             matrix_turn.rotate(step * 360, 1.0, 0.0, 0.0);
-            vertices[16*j + k]= position + matrix_rotation * (matrix_turn * rad + QVector3D(l - u, b/2 - e - d/2, a/2 - f - d/2 ));
+            vertices[16*j + k]= position + matrix_rotation * (matrix_turn * rad + QVector3D(l - u, b/2 + e - d/2, a/2 + f - d/2 ));
             boundingBox.enterVertex(vertices[16*j + k]);
             k++;
 
@@ -338,7 +338,7 @@ void CAD_air_ductTransitionRectRound::calculate()
     endcap_rect->calculate();
 
 
-    QVector3D position_fr = position + matrix_rotation *  QVector3D(l, b/2 - e - d/2, a/2 - f - d/2 );
+    QVector3D position_fr = position + matrix_rotation *  QVector3D(l, b/2 + e - d/2, a/2 + f - d/2 );
     flange_round->wizardParams.insert("Position x", (position_fr.x()));
     flange_round->wizardParams.insert("Position y", (position_fr.y()));
     flange_round->wizardParams.insert("Position z", (position_fr.z()));
