@@ -211,12 +211,23 @@ void CAD_electrical_busbarwithtapoffpoints2row::processWizardInput()
 
 QMatrix4x4 CAD_electrical_busbarwithtapoffpoints2row::rotationOfFlange(quint8 num)
 {
-
-    QMatrix4x4 m;
-    m.setToIdentity();
-    if(num % 2 == 0)
-        m.rotate(-90.0, 0.0, 0.0, 1.0);
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 1.0, 0.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+        return matrix_rotation;
     else
-        m.rotate(90.0, 0.0, 0.0, 1.0);
-    return matrix_rotation * m;
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        if(num % 2 == 0)
+            m.rotate(-90.0, 0.0, 0.0, 1.0);
+        else
+            m.rotate(90.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
 }

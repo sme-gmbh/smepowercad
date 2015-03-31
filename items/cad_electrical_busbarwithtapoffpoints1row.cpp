@@ -34,7 +34,6 @@ CAD_electrical_busbarwithtapoffpoints1row::CAD_electrical_busbarwithtapoffpoints
     wizardParams.insert("l1", 200.0);
     wizardParams.insert("l2", 10.0);
     wizardParams.insert("l3", 100.0);
-    wizardParams.insert("l4", 100.0);
     wizardParams.insert("n", 5);
 
     //    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
@@ -173,7 +172,6 @@ void CAD_electrical_busbarwithtapoffpoints1row::processWizardInput()
     l1 = wizardParams.value("l1").toDouble();
     l2 = wizardParams.value("l2").toDouble();
     l3 = wizardParams.value("l3").toDouble();
-    l4 = wizardParams.value("l4").toDouble();
     n = wizardParams.value("n").toInt();
 }
 
@@ -211,9 +209,21 @@ void CAD_electrical_busbarwithtapoffpoints1row::processWizardInput()
 
 QMatrix4x4 CAD_electrical_busbarwithtapoffpoints1row::rotationOfFlange(quint8 num)
 {
-    QMatrix4x4 m;
-    m.setToIdentity();
-    m.rotate(90.0, 0.0, 0.0, 1.0);
-    return matrix_rotation * m;
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 1.0, 0.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+        return matrix_rotation;
+    else
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(90.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
 
 }
