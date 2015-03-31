@@ -38,7 +38,7 @@ public:
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
 
-    qreal l, l1, l2, l3, l4, a, a2, b;
+    qreal l, l1, l2, l3, a, a2, b;
     quint8 n;
     CAD_basic_box *busbar;
 };

@@ -34,7 +34,6 @@ CAD_electrical_busbarwithtapoffpoints2row::CAD_electrical_busbarwithtapoffpoints
     wizardParams.insert("l1", 200.0);
     wizardParams.insert("l2", 0.0);
     wizardParams.insert("l3", 100.0);
-    wizardParams.insert("l4", 100.0);
     wizardParams.insert("n", 5);
     //    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     //    arrayBufVertices.create();
@@ -175,7 +174,6 @@ void CAD_electrical_busbarwithtapoffpoints2row::processWizardInput()
     l1 = wizardParams.value("l1").toDouble();
     l2 = wizardParams.value("l2").toDouble();
     l3 = wizardParams.value("l3").toDouble();
-    l4 = wizardParams.value("l4").toDouble();
     n = wizardParams.value("n").toInt();
 }
 
