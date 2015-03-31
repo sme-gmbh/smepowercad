@@ -13,10 +13,10 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#include "cad_gas_vacpipetfitting.h"
+#include "cad_gas_cdapipeteeconnector.h"
 #include "glwidget.h"
 
-CAD_Gas_VACPipeTFitting::CAD_Gas_VACPipeTFitting() : CADitem(CADitemTypes::Gas_VACPipeTFitting)
+CAD_Gas_CDAPipeTeeConnector::CAD_Gas_CDAPipeTeeConnector() : CADitem(CADitemTypes::Gas_CDAPipeTeeConnector)
 {
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
@@ -41,21 +41,21 @@ CAD_Gas_VACPipeTFitting::CAD_Gas_VACPipeTFitting() : CADitem(CADitemTypes::Gas_V
     calculate();
 }
 
-CAD_Gas_VACPipeTFitting::~CAD_Gas_VACPipeTFitting()
+CAD_Gas_CDAPipeTeeConnector::~CAD_Gas_CDAPipeTeeConnector()
 {
 //    arrayBufVertices.destroy();
 //    indexBufFaces.destroy();
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_Gas_VACPipeTFitting::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Gas_CDAPipeTeeConnector::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;
 }
 
-QImage CAD_Gas_VACPipeTFitting::wizardImage()
+QImage CAD_Gas_CDAPipeTeeConnector::wizardImage()
 {
     QImage image;
     QFileInfo fileinfo(__FILE__);
@@ -68,22 +68,22 @@ QImage CAD_Gas_VACPipeTFitting::wizardImage()
     return image;
 }
 
-QString CAD_Gas_VACPipeTFitting::iconPath()
+QString CAD_Gas_CDAPipeTeeConnector::iconPath()
 {
-    return ":/icons/cad_gas/cad_gas_vacpipetfitting.svg";
+    return ":/icons/cad_gas/cad_gas_cdapipeteeconnector.svg";
 }
 
-QString CAD_Gas_VACPipeTFitting::domain()
+QString CAD_Gas_CDAPipeTeeConnector::domain()
 {
     return "Gas";
 }
 
-QString CAD_Gas_VACPipeTFitting::description()
+QString CAD_Gas_CDAPipeTeeConnector::description()
 {
-    return "Gas|VAC Pipe T Fitting";
+    return "Gas|CDA Pipe Tee Connector";
 }
 
-void CAD_Gas_VACPipeTFitting::calculate()
+void CAD_Gas_CDAPipeTeeConnector::calculate()
 {
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
@@ -99,7 +99,7 @@ void CAD_Gas_VACPipeTFitting::calculate()
     this->snap_basepoint = (position);
 }
 
-void CAD_Gas_VACPipeTFitting::processWizardInput()
+void CAD_Gas_CDAPipeTeeConnector::processWizardInput()
 {
     position.setX(wizardParams.value("Position x").toDouble());
     position.setY(wizardParams.value("Position y").toDouble());
@@ -109,7 +109,7 @@ void CAD_Gas_VACPipeTFitting::processWizardInput()
     angle_z = wizardParams.value("Angle z").toDouble();
 }
 
-//void CAD_Gas_VACPipeTFitting::paint(GLWidget *glwidget)
+//void CAD_Gas_CDAPipeTeeConnector::paint(GLWidget *glwidget)
 //{
 //    QColor color_pen_tmp = getColorPen();
 //    QColor color_brush_tmp = getColorBrush();
@@ -141,7 +141,7 @@ void CAD_Gas_VACPipeTFitting::processWizardInput()
 //     arrayBufVertices.release();
 //}
 
-QMatrix4x4 CAD_Gas_VACPipeTFitting::rotationOfFlange(quint8 num)
+QMatrix4x4 CAD_Gas_CDAPipeTeeConnector::rotationOfFlange(quint8 num)
 {
     return matrix_rotation;
 }

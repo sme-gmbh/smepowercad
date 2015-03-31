@@ -223,7 +223,7 @@
         <file>icons/cad_gas/cad_gas_cdamoisturesensor.svg</file>
         <file>icons/cad_gas/cad_gas_cdanonreturnvalve.svg</file>
         <file>icons/cad_gas/cad_gas_cdapipe.svg</file>
-        <file>icons/cad_gas/cad_gas_cdapipearc.svg</file>
+        <file>icons/cad_gas/cad_gas_cdapipeturn.svg</file>
         <file>icons/cad_gas/cad_gas_cdapressureregulator.svg</file>
         <file>icons/cad_gas/cad_gas_cdaquicklockcoupling.svg</file>
         <file>icons/cad_gas/cad_gas_cdarefrigerantdryer.svg</file>
@@ -237,12 +237,10 @@
         <file>icons/cad_gas/cad_gas_vacmanometer.svg</file>
         <file>icons/cad_gas/cad_gas_vacnonreturnvalve.svg</file>
         <file>icons/cad_gas/cad_gas_vacpipe.svg</file>
-        <file>icons/cad_gas/cad_gas_vacpipearc.svg</file>
+        <file>icons/cad_gas/cad_gas_vacpipeturn.svg</file>
         <file>icons/cad_gas/cad_gas_vacpump.svg</file>
         <file>icons/cad_gas/cad_gas_vacquicklockcoupling.svg</file>
         <file>icons/cad_gas/cad_gas_vactank.svg</file>
-        <file>icons/cad_gas/cad_gas_cdapipetfitting.svg</file>
-        <file>icons/cad_gas/cad_gas_vacpipetfitting.svg</file>
         <file>itemGraphic/cad_sanitary_pipeturn.png</file>
         <file>itemGraphic/cad_sanitary_pipeteeconnector.png</file>
         <file>itemGraphic/cad_sanitary_pipeypiece.png</file>
@@ -361,6 +359,8 @@
         <file>itemGraphic/cad_electrical_luminairerecessedmounted.png</file>
         <file>itemGraphic/cad_electrical_luminairesemicircular.png</file>
         <file>itemGraphic/cad_electrical_luminairesurfacemounted.png</file>
+        <file>icons/cad_gas/cad_gas_cdapipeteeconnector.svg</file>
+        <file>icons/cad_gas/cad_gas_vacpipeteeconnector.svg</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>

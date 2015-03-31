@@ -250,7 +250,6 @@ SOURCES += main.cpp\
     items/cad_gas_cdamoisturesensor.cpp \
     items/cad_gas_cdanonreturnvalve.cpp \
     items/cad_gas_cdapipe.cpp \
-    items/cad_gas_cdapipearc.cpp \
     items/cad_gas_cdapressureregulator.cpp \
     items/cad_gas_cdaquicklockcoupling.cpp \
     items/cad_gas_cdarefrigerantdryer.cpp \
@@ -264,12 +263,9 @@ SOURCES += main.cpp\
     items/cad_gas_vacmanometer.cpp \
     items/cad_gas_vacnonreturnvalve.cpp \
     items/cad_gas_vacpipe.cpp \
-    items/cad_gas_vacpipearc.cpp \
     items/cad_gas_vacpump.cpp \
     items/cad_gas_vacquicklockcoupling.cpp \
     items/cad_gas_vactank.cpp \
-    items/cad_gas_cdapipetfitting.cpp \
-    items/cad_gas_vacpipetfitting.cpp \
     items/cad_sanitary_cleaningpiece.cpp \
     printwidget.cpp \
     items/cad_basic_torisphericalheaddeepdisheddin28013.cpp \
@@ -306,7 +302,11 @@ SOURCES += main.cpp\
     items/cad_basic_pipereducer.cpp \
     items/cad_air_ducttransitionrectrect.cpp \
     math/manglecalculations.cpp \
-    printpapertemplate.cpp
+    printpapertemplate.cpp \
+    items/cad_gas_cdapipeteeconnector.cpp \
+    items/cad_gas_cdapipeturn.cpp \
+    items/cad_gas_vacpipeteeconnector.cpp \
+    items/cad_gas_vacpipeturn.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -574,7 +574,11 @@ HEADERS  += mainwindow.h \
     items/cad_basic_pipereducer.h \
     items/cad_air_ducttransitionrectrect.h \
     math/manglecalculations.h \
-    printpapertemplate.h
+    printpapertemplate.h \
+    items/cad_gas_cdapipeteeconnector.h \
+    items/cad_gas_cdapipeturn.h \
+    items/cad_gas_vacpipeteeconnector.h \
+    items/cad_gas_vacpipeturn.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

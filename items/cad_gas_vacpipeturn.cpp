@@ -13,10 +13,10 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#include "cad_gas_vacpipearc.h"
+#include "cad_gas_vacpipeturn.h"
 #include "glwidget.h"
 
-CAD_Gas_VACPipeArc::CAD_Gas_VACPipeArc() : CADitem(CADitemTypes::Gas_VACPipeArc)
+CAD_Gas_VACPipeTurn::CAD_Gas_VACPipeTurn() : CADitem(CADitemTypes::Gas_VACPipeTurn)
 {
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
@@ -41,21 +41,21 @@ CAD_Gas_VACPipeArc::CAD_Gas_VACPipeArc() : CADitem(CADitemTypes::Gas_VACPipeArc)
     calculate();
 }
 
-CAD_Gas_VACPipeArc::~CAD_Gas_VACPipeArc()
+CAD_Gas_VACPipeTurn::~CAD_Gas_VACPipeTurn()
 {
 //    arrayBufVertices.destroy();
 //    indexBufFaces.destroy();
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_Gas_VACPipeArc::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Gas_VACPipeTurn::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;
 }
 
-QImage CAD_Gas_VACPipeArc::wizardImage()
+QImage CAD_Gas_VACPipeTurn::wizardImage()
 {
     QImage image;
     QFileInfo fileinfo(__FILE__);
@@ -68,22 +68,22 @@ QImage CAD_Gas_VACPipeArc::wizardImage()
     return image;
 }
 
-QString CAD_Gas_VACPipeArc::iconPath()
+QString CAD_Gas_VACPipeTurn::iconPath()
 {
-    return ":/icons/cad_gas/cad_gas_vacpipearc.svg";
+    return ":/icons/cad_gas/cad_gas_vacpipeturn.svg";
 }
 
-QString CAD_Gas_VACPipeArc::domain()
+QString CAD_Gas_VACPipeTurn::domain()
 {
     return "Gas";
 }
 
-QString CAD_Gas_VACPipeArc::description()
+QString CAD_Gas_VACPipeTurn::description()
 {
-    return "Gas|VAC Pipe Arc";
+    return "Gas|VAC Pipe Turn";
 }
 
-void CAD_Gas_VACPipeArc::calculate()
+void CAD_Gas_VACPipeTurn::calculate()
 {
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
@@ -99,7 +99,7 @@ void CAD_Gas_VACPipeArc::calculate()
     this->snap_basepoint = (position);
 }
 
-void CAD_Gas_VACPipeArc::processWizardInput()
+void CAD_Gas_VACPipeTurn::processWizardInput()
 {
     position.setX(wizardParams.value("Position x").toDouble());
     position.setY(wizardParams.value("Position y").toDouble());
@@ -109,7 +109,7 @@ void CAD_Gas_VACPipeArc::processWizardInput()
     angle_z = wizardParams.value("Angle z").toDouble();
 }
 
-//void CAD_Gas_VACPipeArc::paint(GLWidget *glwidget)
+//void CAD_Gas_VACPipeTurn::paint(GLWidget *glwidget)
 //{
 //    QColor color_pen_tmp = getColorPen();
 //    QColor color_brush_tmp = getColorBrush();
@@ -141,7 +141,7 @@ void CAD_Gas_VACPipeArc::processWizardInput()
 //     arrayBufVertices.release();
 //}
 
-QMatrix4x4 CAD_Gas_VACPipeArc::rotationOfFlange(quint8 num)
+QMatrix4x4 CAD_Gas_VACPipeTurn::rotationOfFlange(quint8 num)
 {
     return matrix_rotation;
 }

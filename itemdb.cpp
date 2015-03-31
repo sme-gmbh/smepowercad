@@ -767,11 +767,11 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Gas_CDAPipe:
         newItem = new CAD_Gas_CDAPipe;
         break;
-    case CADitemTypes::Gas_CDAPipeArc:
-        newItem = new CAD_Gas_CDAPipeArc;
+    case CADitemTypes::Gas_CDAPipeTeeConnector:
+        newItem = new CAD_Gas_CDAPipeTeeConnector;
         break;
-    case CADitemTypes::Gas_CDAPipeTFitting:
-        newItem = new CAD_Gas_CDAPipeTFitting;
+    case CADitemTypes::Gas_CDAPipeTurn:
+        newItem = new CAD_Gas_CDAPipeTurn;
         break;
     case CADitemTypes::Gas_CDAPressureRegulator:
         newItem = new CAD_Gas_CDAPressureRegulator;
@@ -812,11 +812,11 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Gas_VACPipe:
         newItem = new CAD_Gas_VACPipe;
         break;
-    case CADitemTypes::Gas_VACPipeArc:
-        newItem = new CAD_Gas_VACPipeArc;
+    case CADitemTypes::Gas_VACPipeTeeConnector:
+        newItem = new CAD_Gas_VACPipeTeeConnector;
         break;
-    case CADitemTypes::Gas_VACPipeTFitting:
-        newItem = new CAD_Gas_VACPipeTFitting;
+    case CADitemTypes::Gas_VACPipeTurn:
+        newItem = new CAD_Gas_VACPipeTurn;
         break;
     case CADitemTypes::Gas_VACPump:
         newItem = new CAD_Gas_VACPump;

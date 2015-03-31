@@ -13,16 +13,16 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#ifndef CAD_GAS_CDAPIPETFITTING_H
-#define CAD_GAS_CDAPIPETFITTING_H
+#ifndef CAD_GAS_VACPIPETEECONNECTOR_H
+#define CAD_GAS_VACPIPETEECONNECTOR_H
 
 #include "caditem.h"
 
-class CAD_Gas_CDAPipeTFitting : public CADitem
+class CAD_Gas_VACPipeTeeConnector : public CADitem
 {
 public:
-    CAD_Gas_CDAPipeTFitting();
-    virtual ~CAD_Gas_CDAPipeTFitting();
+    CAD_Gas_VACPipeTeeConnector();
+    virtual ~CAD_Gas_VACPipeTeeConnector();
     virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
@@ -38,4 +38,4 @@ public:
 //    QOpenGLBuffer indexBufLines;
 };
 
-#endif // CAD_GAS_CDAPIPETFITTING_H
+#endif // CAD_GAS_VACPIPETEECONNECTOR_H
