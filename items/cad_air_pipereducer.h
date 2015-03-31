@@ -17,7 +17,8 @@
 #define CAD_AIR_PIPEREDUCER_H
 
 #include "caditem.h"
-#include "cad_basic_pipereducer.h"
+#include "items/cad_basic_pipereducer.h"
+#include "items/cad_basic_pipe.h"
 
 class CAD_air_pipeReducer : public CADitem
 {
@@ -35,8 +36,11 @@ public:
 
     qreal d1, d2;
     qreal s, l;
+    qreal l1, l2;
+    qreal e;
 
     CAD_Basic_PipeReducer *reducer;
+    CAD_basic_pipe *left, *right;
 
 };
 

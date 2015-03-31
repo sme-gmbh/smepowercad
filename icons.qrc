@@ -94,7 +94,6 @@
         <file>icons/cad_arch/cad_arch_bored_pile.svg</file>
         <file>itemGraphic/cad_air_canvasflange.png</file>
         <file>itemGraphic/cad_air_ductfiredamper.png</file>
-        <file>itemGraphic/cad_air_ductsilencer.png</file>
         <file>itemGraphic/cad_air_ductteeconnector.png</file>
         <file>itemGraphic/cad_air_ducttransitionrectround.png</file>
         <file>itemGraphic/cad_air_ductvolumetricflowcontroller.png</file>
@@ -334,6 +333,10 @@
         <file>itemGraphic/cad_basic_pipereducer.png</file>
         <file>itemGraphic/cad_air_lineardiffuser.png</file>
         <file>itemGraphic/cad_air_pipebranch.png</file>
+        <file>itemGraphic/cad_air_ductbafflesilencer.png</file>
+        <file>itemGraphic/cad_air_ductendplate.png</file>
+        <file>itemGraphic/cad_air_pipeendcap.png</file>
+        <file>itemGraphic/cad_air_pipereducer.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>
