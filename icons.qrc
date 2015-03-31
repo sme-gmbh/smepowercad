@@ -337,6 +337,9 @@
         <file>itemGraphic/cad_air_ductendplate.png</file>
         <file>itemGraphic/cad_air_pipeendcap.png</file>
         <file>itemGraphic/cad_air_pipereducer.png</file>
+        <file>itemGraphic/cad_basic_torus.png</file>
+        <file>itemGraphic/cad_basic_hemisphere.png</file>
+        <file>itemGraphic/cad_basic_duct.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>
