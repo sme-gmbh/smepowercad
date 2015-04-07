@@ -17,6 +17,8 @@
 #define CAD_GAS_VACPIPETURN_H
 
 #include "caditem.h"
+#include "cad_basic_turn.h"
+#include "cad_basic_pipe.h"
 
 class CAD_Gas_VACPipeTurn : public CADitem
 {
@@ -36,6 +38,10 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
+
+    qreal l1, l2, r, alpha, d, iso, s;
+    CAD_basic_pipe *left, *right;
+    CAD_basic_turn *turn;
 };
 
 #endif // CAD_GAS_VACPIPETURN_H
