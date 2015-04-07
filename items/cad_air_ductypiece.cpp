@@ -271,7 +271,7 @@ void CAD_air_ductYpiece::calculate()
 
     QVector3D vertices[] = {
         splitPoint[0], splitPoint[1],
-        endcap_1->pos_bot_2, endcap_1->pos_top_2, endcap_1->pos_bot_3, endcap_1->pos_top_3,
+        endcap_1->pos_bot_1, endcap_1->pos_top_1, endcap_1->pos_bot_4, endcap_1->pos_top_4,
         endcap_2->pos_bot_1, endcap_2->pos_top_1, endcap_2->pos_bot_4, endcap_2->pos_top_4,
         endcap_3->pos_bot_1, endcap_3->pos_top_1, endcap_3->pos_bot_4, endcap_3->pos_top_4,
     };
