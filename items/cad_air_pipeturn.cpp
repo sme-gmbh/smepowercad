@@ -38,6 +38,9 @@ CAD_air_pipeTurn::CAD_air_pipeTurn() : CADitem(CADitemTypes::Air_PipeTurn)
     wizardParams.insert("s", 10.0);
     wizardParams.insert("l1", 100.0);
     wizardParams.insert("l2", 100.0);
+
+    processWizardInput();
+    calculate();
 }
 
 CAD_air_pipeTurn::~CAD_air_pipeTurn()
