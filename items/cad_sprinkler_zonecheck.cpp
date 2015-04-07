@@ -45,7 +45,7 @@ QList<CADitemTypes::ItemType> CAD_sprinkler_zoneCheck::flangable_items()
     flangable_items.append(CADitemTypes::Sprinkler_PipeReducer);
     flangable_items.append(CADitemTypes::Sprinkler_PipeTurn);
     flangable_items.append(CADitemTypes::Sprinkler_Pump);
-    flangable_items.append(CADitemTypes::Sprinkler_TeeConnector);
+    flangable_items.append(CADitemTypes::Sprinkler_PipeTeeConnector);
     flangable_items.append(CADitemTypes::Sprinkler_Valve);
     flangable_items.append(CADitemTypes::Sprinkler_WetAlarmValve);
     flangable_items.append(CADitemTypes::Sprinkler_ZoneCheck);

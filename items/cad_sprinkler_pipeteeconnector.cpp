@@ -13,10 +13,10 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#include "cad_sprinkler_teeconnector.h"
+#include "cad_sprinkler_pipeteeconnector.h"
 #include "itemdb.h"
 
-CAD_sprinkler_teeConnector::CAD_sprinkler_teeConnector() : CADitem(CADitemTypes::Sprinkler_TeeConnector)
+CAD_sprinkler_pipeTeeConnector::CAD_sprinkler_pipeTeeConnector() : CADitem(CADitemTypes::Sprinkler_PipeTeeConnector)
 {
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
@@ -29,12 +29,12 @@ CAD_sprinkler_teeConnector::CAD_sprinkler_teeConnector() : CADitem(CADitemTypes:
     calculate();
 }
 
-CAD_sprinkler_teeConnector::~CAD_sprinkler_teeConnector()
+CAD_sprinkler_pipeTeeConnector::~CAD_sprinkler_pipeTeeConnector()
 {
 
 }
 
-QList<CADitemTypes::ItemType> CAD_sprinkler_teeConnector::flangable_items()
+QList<CADitemTypes::ItemType> CAD_sprinkler_pipeTeeConnector::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Sprinkler_CompressedAirWaterContainer);
@@ -45,7 +45,7 @@ QList<CADitemTypes::ItemType> CAD_sprinkler_teeConnector::flangable_items()
     flangable_items.append(CADitemTypes::Sprinkler_PipeReducer);
     flangable_items.append(CADitemTypes::Sprinkler_PipeTurn);
     flangable_items.append(CADitemTypes::Sprinkler_Pump);
-    flangable_items.append(CADitemTypes::Sprinkler_TeeConnector);
+    flangable_items.append(CADitemTypes::Sprinkler_PipeTeeConnector);
     flangable_items.append(CADitemTypes::Sprinkler_Valve);
     flangable_items.append(CADitemTypes::Sprinkler_WetAlarmValve);
     flangable_items.append(CADitemTypes::Sprinkler_ZoneCheck);
@@ -53,7 +53,7 @@ QList<CADitemTypes::ItemType> CAD_sprinkler_teeConnector::flangable_items()
     return flangable_items;
 }
 
-QImage CAD_sprinkler_teeConnector::wizardImage()
+QImage CAD_sprinkler_pipeTeeConnector::wizardImage()
 {
     QImage image;
     QFileInfo fileinfo(__FILE__);
@@ -68,22 +68,22 @@ QImage CAD_sprinkler_teeConnector::wizardImage()
     return image;
 }
 
-QString CAD_sprinkler_teeConnector::iconPath()
+QString CAD_sprinkler_pipeTeeConnector::iconPath()
 {
-    return ":/icons/cad_sprinkler/cad_sprinkler_teeconnector.svg";
+    return ":/icons/cad_sprinkler/cad_sprinkler_pipeteeconnector.svg";
 }
 
-QString CAD_sprinkler_teeConnector::domain()
+QString CAD_sprinkler_pipeTeeConnector::domain()
 {
     return "Sprinkler";
 }
 
-QString CAD_sprinkler_teeConnector::description()
+QString CAD_sprinkler_pipeTeeConnector::description()
 {
-    return "Sprinkler|T-Connector";
+    return "Sprinkler|Pipe T-Connector";
 }
 
-void CAD_sprinkler_teeConnector::calculate()
+void CAD_sprinkler_pipeTeeConnector::calculate()
 {
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
@@ -99,7 +99,7 @@ void CAD_sprinkler_teeConnector::calculate()
     this->snap_basepoint = (position);
 }
 
-void CAD_sprinkler_teeConnector::processWizardInput()
+void CAD_sprinkler_pipeTeeConnector::processWizardInput()
 {
     position.setX(wizardParams.value("Position x").toDouble());
     position.setY(wizardParams.value("Position y").toDouble());
@@ -110,7 +110,7 @@ void CAD_sprinkler_teeConnector::processWizardInput()
 
 }
 
-QMatrix4x4 CAD_sprinkler_teeConnector::rotationOfFlange(quint8 num)
+QMatrix4x4 CAD_sprinkler_pipeTeeConnector::rotationOfFlange(quint8 num)
 {
     return matrix_rotation;
 }

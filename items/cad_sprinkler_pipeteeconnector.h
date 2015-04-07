@@ -13,16 +13,16 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#ifndef CAD_SPRINKLER_TEECONNECTOR_H
-#define CAD_SPRINKLER_TEECONNECTOR_H
+#ifndef CAD_SPRINKLER_PIPETEECONNECTOR_H
+#define CAD_SPRINKLER_PIPETEECONNECTOR_H
 
 #include "caditem.h"
 
-class CAD_sprinkler_teeConnector : public CADitem
+class CAD_sprinkler_pipeTeeConnector : public CADitem
 {
 public:
-    CAD_sprinkler_teeConnector();
-    virtual ~CAD_sprinkler_teeConnector();
+    CAD_sprinkler_pipeTeeConnector();
+    virtual ~CAD_sprinkler_pipeTeeConnector();
     virtual QList<CADitemTypes::ItemType> flangable_items();
     virtual QImage wizardImage();
     virtual QString iconPath();
@@ -33,4 +33,4 @@ public:
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
 };
 
-#endif // CAD_SPRINKLER_TEECONNECTOR_H
+#endif // CAD_SPRINKLER_PIPETEECONNECTOR_H

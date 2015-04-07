@@ -95,7 +95,6 @@ SOURCES += main.cpp\
     items/cad_sprinkler_pump.cpp \
     items/cad_sprinkler_valve.cpp \
     items/cad_sprinkler_distribution.cpp \
-    items/cad_sprinkler_teeconnector.cpp \
     items/cad_sprinkler_wetalarmvalve.cpp \
     items/cad_sprinkler_compressedairwatercontainer.cpp \
     items/cad_electrical_cabletray.cpp \
@@ -306,7 +305,8 @@ SOURCES += main.cpp\
     items/cad_gas_cdapipeteeconnector.cpp \
     items/cad_gas_cdapipeturn.cpp \
     items/cad_gas_vacpipeteeconnector.cpp \
-    items/cad_gas_vacpipeturn.cpp
+    items/cad_gas_vacpipeturn.cpp \
+    items/cad_sprinkler_pipeteeconnector.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -362,7 +362,6 @@ HEADERS  += mainwindow.h \
     items/cad_sprinkler_pump.h \
     items/cad_sprinkler_valve.h \
     items/cad_sprinkler_distribution.h \
-    items/cad_sprinkler_teeconnector.h \
     items/cad_sprinkler_wetalarmvalve.h \
     items/cad_sprinkler_compressedairwatercontainer.h \
     items/cad_electrical_cabletray.h \
@@ -578,7 +577,8 @@ HEADERS  += mainwindow.h \
     items/cad_gas_cdapipeteeconnector.h \
     items/cad_gas_cdapipeturn.h \
     items/cad_gas_vacpipeteeconnector.h \
-    items/cad_gas_vacpipeturn.h
+    items/cad_gas_vacpipeturn.h \
+    items/cad_sprinkler_pipeteeconnector.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

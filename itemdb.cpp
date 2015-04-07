@@ -1019,8 +1019,8 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Sprinkler_Pump:
         newItem = new CAD_sprinkler_pump();
         break;
-    case CADitemTypes::Sprinkler_TeeConnector:
-        newItem = new CAD_sprinkler_teeConnector();
+    case CADitemTypes::Sprinkler_PipeTeeConnector:
+        newItem = new CAD_sprinkler_pipeTeeConnector();
         break;
     case CADitemTypes::Sprinkler_Valve:
         newItem = new CAD_sprinkler_valve();

@@ -229,7 +229,7 @@
         <file>icons/cad_sprinkler/cad_sprinkler_pipe.svg</file>
         <file>icons/cad_sprinkler/cad_sprinkler_pipeturn.svg</file>
         <file>icons/cad_sprinkler/cad_sprinkler_pump.svg</file>
-        <file>icons/cad_sprinkler/cad_sprinkler_teeconnector.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_pipeteeconnector.svg</file>
         <file>icons/cad_sprinkler/cad_sprinkler_valve.svg</file>
         <file>icons/cad_sprinkler/cad_sprinkler_wetalarmvalve.svg</file>
         <file>icons/cad_sprinkler/cad_sprinkler_zonecheck.svg</file>
@@ -368,7 +368,6 @@
         <file>shaders/shader_1.vert</file>
         <file>shaders/shader_2.frag</file>
         <file>shaders/shader_2.vert</file>
-
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/check.svg</file>

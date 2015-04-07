@@ -257,18 +257,18 @@ public:
         Sanitary_EmergencyEyeShower,            // Augendusche
         Sanitary_LiftingUnit,                   // Hebeanlage
 
-        Sprinkler_Pipe,                         // Sprinklerrohr
-        Sprinkler_PipeTurn,                     // Rohrbogen
-        Sprinkler_PipeReducer,                  // Reduzierung
-        Sprinkler_PipeEndCap,                   // Rohr-Endkappe
+        Sprinkler_CompressedAirWaterContainer,  // Druckluftwasserbehälter
+        Sprinkler_Distribution,                 // Verteiler
         Sprinkler_Head,                         // Sprinklerkopf
+        Sprinkler_Pipe,                         // Sprinklerrohr
+        Sprinkler_PipeEndCap,                   // Rohr-Endkappe
+        Sprinkler_PipeReducer,                  // Reduzierung
+        Sprinkler_PipeTeeConnector,             // T-Stück
+        Sprinkler_PipeTurn,                     // Rohrbogen
         Sprinkler_Pump,                         // Sprinklerpumpe
         Sprinkler_Valve,                        // Ventil
-        Sprinkler_Distribution,                 // Verteiler
-        Sprinkler_TeeConnector,                 // T-Stück
-        Sprinkler_ZoneCheck,                    // Zone-Check
         Sprinkler_WetAlarmValve,                // Nassalarmventil
-        Sprinkler_CompressedAirWaterContainer,  // Druckluftwasserbehälter
+        Sprinkler_ZoneCheck,                    // Zone-Check
 
         LastItem
     };

@@ -278,13 +278,13 @@
 #include "items/cad_sprinkler_distribution.h"
 #include "items/cad_sprinkler_head.h"
 #include "items/cad_sprinkler_pipe.h"
+#include "items/cad_sprinkler_pipeendcap.h"
+#include "items/cad_sprinkler_pipereducer.h"
+#include "items/cad_sprinkler_pipeteeconnector.h"
+#include "items/cad_sprinkler_pipeturn.h"
 #include "items/cad_sprinkler_pump.h"
-#include "items/cad_sprinkler_teeconnector.h"
 #include "items/cad_sprinkler_valve.h"
 #include "items/cad_sprinkler_wetalarmvalve.h"
 #include "items/cad_sprinkler_zonecheck.h"
-#include "items/cad_sprinkler_pipeturn.h"
-#include "items/cad_sprinkler_pipeendcap.h"
-#include "items/cad_sprinkler_pipereducer.h"
 
 #endif // CADITEMHEADERINCLUDES_H
