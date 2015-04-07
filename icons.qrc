@@ -224,12 +224,12 @@
         <file>icons/cad_sprinkler/cad_sprinkler_compressedairwatercontainer.svg</file>
         <file>icons/cad_sprinkler/cad_sprinkler_distribution.svg</file>
         <file>icons/cad_sprinkler/cad_sprinkler_head.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_pipe.svg</file>
         <file>icons/cad_sprinkler/cad_sprinkler_pipeendcap.svg</file>
         <file>icons/cad_sprinkler/cad_sprinkler_pipereducer.svg</file>
-        <file>icons/cad_sprinkler/cad_sprinkler_pipe.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_pipeteeconnector.svg</file>
         <file>icons/cad_sprinkler/cad_sprinkler_pipeturn.svg</file>
         <file>icons/cad_sprinkler/cad_sprinkler_pump.svg</file>
-        <file>icons/cad_sprinkler/cad_sprinkler_pipeteeconnector.svg</file>
         <file>icons/cad_sprinkler/cad_sprinkler_valve.svg</file>
         <file>icons/cad_sprinkler/cad_sprinkler_wetalarmvalve.svg</file>
         <file>icons/cad_sprinkler/cad_sprinkler_zonecheck.svg</file>
@@ -361,6 +361,11 @@
         <file>itemGraphic/cad_sprinkler_compressedairwatercontaine.png</file>
         <file>itemGraphic/cad_sprinkler_feedtank-500liter.png</file>
         <file>itemGraphic/cad_sprinkler_gatevalve.png</file>
+        <file>itemGraphic/cad_sprinkler_pipe.png</file>
+        <file>itemGraphic/cad_sprinkler_pipeendcap.png</file>
+        <file>itemGraphic/cad_sprinkler_pipereducer.png</file>
+        <file>itemGraphic/cad_sprinkler_pipeteeconnector.png</file>
+        <file>itemGraphic/cad_sprinkler_pipeturn.png</file>
         <file>itemGraphic/cad_sprinkler_wetpipealarmvalves_FL-NAV.png</file>
         <file>shaders/shader_1.frag</file>
         <file>shaders/shader_1_lines.geom</file>

@@ -17,6 +17,8 @@
 #define CAD_SPRINKLER_PIPETURN_H
 
 #include "caditem.h"
+#include "items/cad_basic_pipe.h"
+#include "items/cad_basic_turn.h"
 
 class CAD_sprinkler_pipeTurn : public CADitem
 {
@@ -31,6 +33,10 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
+
+    qreal l1, l2, r, alpha, d, iso, s;
+    CAD_basic_pipe *left, *right;
+    CAD_basic_turn *turn;
 };
 
 #endif // CAD_SPRINKLER_PIPETURN_H

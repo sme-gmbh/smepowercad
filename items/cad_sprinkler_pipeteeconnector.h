@@ -17,6 +17,7 @@
 #define CAD_SPRINKLER_PIPETEECONNECTOR_H
 
 #include "caditem.h"
+#include "items/cad_basic_pipe.h"
 
 class CAD_sprinkler_pipeTeeConnector : public CADitem
 {
@@ -31,6 +32,13 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
+
+    qreal d, d3;
+    qreal s;
+    qreal l, l2 , l3;
+    qreal alpha;
+
+    CAD_basic_pipe *pipe, *branch;
 };
 
 #endif // CAD_SPRINKLER_PIPETEECONNECTOR_H
