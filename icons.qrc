@@ -1,28 +1,12 @@
 <RCC>
     <qresource prefix="/">
         <file>icons/cad_air/cad_air_canvasflange.svg</file>
-        <file>icons/cad_air/cad_air_duct.svg</file>
         <file>icons/cad_air/cad_air_ductbafflesilencer.svg</file>
         <file>icons/cad_air/cad_air_ductendplate.svg</file>
         <file>icons/cad_air/cad_air_ductfiredamper.svg</file>
         <file>icons/cad_air/cad_air_ductfireresistant.svg</file>
+        <file>icons/cad_air/cad_air_duct.svg</file>
         <file>icons/cad_air/cad_air_ductteeconnector.svg</file>
-        <file>icons/cad_air/cad_air_pipefiredamper.svg</file>
-        <file>icons/cad_arch/cad_arch_blockout.svg</file>
-        <file>icons/cad_arch/cad_arch_door.svg</file>
-        <file>icons/cad_arch/cad_arch_levelslab.svg</file>
-        <file>icons/cad_arch/cad_arch_support.svg</file>
-        <file>icons/cad_arch/cad_arch_wall_loadbearing.svg</file>
-        <file>icons/cad_arch/cad_arch_window.svg</file>
-        <file>icons/cad_basic/cad_basic_arc.svg</file>
-        <file>icons/cad_basic/cad_basic_box.svg</file>
-        <file>icons/cad_basic/cad_basic_circle.svg</file>
-        <file>icons/cad_basic/cad_basic_cylinder.svg</file>
-        <file>icons/cad_basic/cad_basic_face.svg</file>
-        <file>icons/cad_basic/cad_basic_line.svg</file>
-        <file>icons/cad_basic/cad_basic_point.svg</file>
-        <file>icons/cad_basic/cad_basic_polyline.svg</file>
-        <file>icons/cad_basic/cad_basic_sphere.svg</file>
         <file>icons/cad_air/cad_air_ducttransitionrectrect.svg</file>
         <file>icons/cad_air/cad_air_ducttransitionrectround.svg</file>
         <file>icons/cad_air/cad_air_ductturn.svg</file>
@@ -35,73 +19,239 @@
         <file>icons/cad_air/cad_air_heatexchangerairair.svg</file>
         <file>icons/cad_air/cad_air_heatexchangerwaterair.svg</file>
         <file>icons/cad_air/cad_air_humidifier.svg</file>
+        <file>icons/cad_air/cad_air_lineardiffuser.svg</file>
         <file>icons/cad_air/cad_air_multileafdamper.svg</file>
-        <file>icons/cad_air/cad_air_pipe.svg</file>
+        <file>icons/cad_air/cad_air_pipebranch.svg</file>
         <file>icons/cad_air/cad_air_pipeendcap.svg</file>
+        <file>icons/cad_air/cad_air_pipefiredamper.svg</file>
         <file>icons/cad_air/cad_air_pipereducer.svg</file>
         <file>icons/cad_air/cad_air_pipesilencer.svg</file>
+        <file>icons/cad_air/cad_air_pipe.svg</file>
         <file>icons/cad_air/cad_air_pipeteeconnector.svg</file>
         <file>icons/cad_air/cad_air_pipeturn.svg</file>
         <file>icons/cad_air/cad_air_pipevolumetricflowcontroller.svg</file>
-        <file>icons/cad_basic/cad_basic_3Dface.svg</file>
-        <file>icons/cad_basic/cad_basic_plane.svg</file>
-        <file>icons/cad_arch/cad_arch_beam.svg</file>
-        <file>icons/cad_arch/cad_arch_wall_nonloadbearing.svg</file>
-        <file>icons/cad_air/cad_air_throttlevalve.svg</file>
         <file>icons/cad_air/cad_air_pressurereliefdamper.svg</file>
-        <file>shaders/shader_1.frag</file>
-        <file>shaders/shader_1.vert</file>
-        <file>icons/cad_heatcool/cad_heatcool_pipe.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_boiler.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_waterheater.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_storageboiler.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_sensor.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_safetyvalve.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_radiator.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_pump.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_pipeturn.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_pipeteeconnector.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_pipereducer.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_pipeendcap.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_flowmeter.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_flange.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_filter.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_expansionchamber.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_coolingtower.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_controlvalve.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_chiller.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_ballvalve.svg</file>
+        <file>icons/cad_air/cad_air_throttlevalve.svg</file>
+        <file>icons/cad_arch/cad_arch_beam.svg</file>
+        <file>icons/cad_arch/cad_arch_blockout.svg</file>
+        <file>icons/cad_arch/cad_arch_bored_pile.svg</file>
+        <file>icons/cad_arch/cad_arch_door.svg</file>
+        <file>icons/cad_arch/cad_arch_foundation.svg</file>
+        <file>icons/cad_arch/cad_arch_grating.svg</file>
+        <file>icons/cad_arch/cad_arch_levelslab.svg</file>
+        <file>icons/cad_arch/cad_arch_support.svg</file>
+        <file>icons/cad_arch/cad_arch_wall_loadbearing.svg</file>
+        <file>icons/cad_arch/cad_arch_wall_nonloadbearing.svg</file>
+        <file>icons/cad_arch/cad_arch_window.svg</file>
+        <file>icons/cad_basic/cad_basic_3Dface.svg</file>
+        <file>icons/cad_basic/cad_basic_arc.svg</file>
+        <file>icons/cad_basic/cad_basic_box.svg</file>
+        <file>icons/cad_basic/cad_basic_circle.svg</file>
+        <file>icons/cad_basic/cad_basic_cylinder.svg</file>
+        <file>icons/cad_basic/cad_basic_duct.svg</file>
+        <file>icons/cad_basic/cad_basic_face.svg</file>
+        <file>icons/cad_basic/cad_basic_flume.svg</file>
+        <file>icons/cad_basic/cad_basic_gauge90degree.svg</file>
+        <file>icons/cad_basic/cad_basic_gauge.svg</file>
+        <file>icons/cad_basic/cad_basic_hemisphere.svg</file>
+        <file>icons/cad_basic/cad_basic_line.svg</file>
+        <file>icons/cad_basic/cad_basic_pipereducer.svg</file>
+        <file>icons/cad_basic/cad_basic_pipe.svg</file>
+        <file>icons/cad_basic/cad_basic_plane.svg</file>
+        <file>icons/cad_basic/cad_basic_point.svg</file>
+        <file>icons/cad_basic/cad_basic_polyline.svg</file>
+        <file>icons/cad_basic/cad_basic_sphere.svg</file>
+        <file>icons/cad_basic/cad_basic_torisphericalheaddeepdisheddin28013.svg</file>
+        <file>icons/cad_basic/cad_basic_torisphericalheaddin28011.svg</file>
+        <file>icons/cad_basic/cad_basic_torus.svg</file>
+        <file>icons/cad_basic/cad_basic_turn.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingcornerpiece.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingfilterfanunit.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingframefeedthrough.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingframe.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilinggrating.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingjoiningknot.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingmaintenanceflap.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingmountingrails.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingpanel.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingsmokeextractflap.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingsuspension.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingteejoiningpiece.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_ceilingverticalladder.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_controlbutton.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_controlemergencyswitch.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_controlledtouchkey.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_controlradarsensor.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_controlswitch.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_doorframe.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_doorslidingdouble.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_doorslidingsingle.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_doorswingingdouble.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_doorswingingsingle.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_floorgrating.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_floorpanelperforated.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_floorpanel.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_floorpanelwithbushing.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_floorpanelwithtank.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_floorstiffenerdiagonal.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_floorstiffenerhorizontal.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_floorsupport.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_tagelectricalgrounding.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_tagfiredetector.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_tagleakagedetector.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_tagsmokedetector.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_vacuumcleanersocket.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_wallmountingprofile.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_walloverflowgrate.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_wallpanel.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_wallpost.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_wallsmokeextractflap.svg</file>
+        <file>icons/cad_cleanroom/cad_cleanroom_wallstiffenerdiagonal.svg</file>
+        <file>icons/cad_electrical/cad_electrical_busbarendfeederunitdoublesided.svg</file>
+        <file>icons/cad_electrical/cad_electrical_busbarendfeederunitsinglesided.svg</file>
+        <file>icons/cad_electrical/cad_electrical_busbartapoffunit.svg</file>
+        <file>icons/cad_electrical/cad_electrical_busbarwithouttapoffpoints.svg</file>
+        <file>icons/cad_electrical/cad_electrical_busbarwithtapoffpoints1row.svg</file>
+        <file>icons/cad_electrical/cad_electrical_busbarwithtapoffpoints2row.svg</file>
+        <file>icons/cad_electrical/cad_electrical_cabinet.svg</file>
+        <file>icons/cad_electrical/cad_electrical_cabinetwithdoorfrontandback.svg</file>
+        <file>icons/cad_electrical/cad_electrical_cabinetwithdoorleftandright.svg</file>
+        <file>icons/cad_electrical/cad_electrical_cabinetwithoutdoor.svg</file>
+        <file>icons/cad_electrical/cad_electrical_cabletraycross.svg</file>
+        <file>icons/cad_electrical/cad_electrical_cabletrayreducer.svg</file>
+        <file>icons/cad_electrical/cad_electrical_cabletray.svg</file>
+        <file>icons/cad_electrical/cad_electrical_cabletrayteeconnector.svg</file>
+        <file>icons/cad_electrical/cad_electrical_cabletraytransition.svg</file>
+        <file>icons/cad_electrical/cad_electrical_cabletrayturn.svg</file>
+        <file>icons/cad_electrical/cad_electrical_cabletrayverticalladder.svg</file>
+        <file>icons/cad_electrical/cad_electrical_equipmentswitchorsocket.svg</file>
+        <file>icons/cad_electrical/cad_electrical_luminaireescapelighting.svg</file>
+        <file>icons/cad_electrical/cad_electrical_luminairerailmounted.svg</file>
+        <file>icons/cad_electrical/cad_electrical_luminairerecessedmounted.svg</file>
+        <file>icons/cad_electrical/cad_electrical_luminairesemicircular.svg</file>
+        <file>icons/cad_electrical/cad_electrical_luminairesurfacemounted.svg</file>
+        <file>icons/cad_electrical/cad_electrical_motorasynchronous.svg</file>
+        <file>icons/cad_gas/cad_gas_cdaballvalve.svg</file>
+        <file>icons/cad_gas/cad_gas_cdacompressor.svg</file>
+        <file>icons/cad_gas/cad_gas_cdadesiccantdryer.svg</file>
+        <file>icons/cad_gas/cad_gas_cdadiaphragmvalve.svg</file>
+        <file>icons/cad_gas/cad_gas_cdafilter.svg</file>
+        <file>icons/cad_gas/cad_gas_cdaflowmeter.svg</file>
+        <file>icons/cad_gas/cad_gas_cdahose.svg</file>
+        <file>icons/cad_gas/cad_gas_cdamanometer.svg</file>
+        <file>icons/cad_gas/cad_gas_cdamoisturesensor.svg</file>
+        <file>icons/cad_gas/cad_gas_cdanonreturnvalve.svg</file>
+        <file>icons/cad_gas/cad_gas_cdapipe.svg</file>
+        <file>icons/cad_gas/cad_gas_cdapipeteeconnector.svg</file>
+        <file>icons/cad_gas/cad_gas_cdapipeturn.svg</file>
+        <file>icons/cad_gas/cad_gas_cdapressureregulator.svg</file>
+        <file>icons/cad_gas/cad_gas_cdaquicklockcoupling.svg</file>
+        <file>icons/cad_gas/cad_gas_cdarefrigerantdryer.svg</file>
+        <file>icons/cad_gas/cad_gas_cdatank.svg</file>
+        <file>icons/cad_gas/cad_gas_vacballvalve.svg</file>
+        <file>icons/cad_gas/cad_gas_vacdiaphragmvalve.svg</file>
+        <file>icons/cad_gas/cad_gas_vacfilter.svg</file>
+        <file>icons/cad_gas/cad_gas_vacflowmeter.svg</file>
+        <file>icons/cad_gas/cad_gas_vachose.svg</file>
+        <file>icons/cad_gas/cad_gas_vacliquidseparator.svg</file>
+        <file>icons/cad_gas/cad_gas_vacmanometer.svg</file>
+        <file>icons/cad_gas/cad_gas_vacnonreturnvalve.svg</file>
+        <file>icons/cad_gas/cad_gas_vacpipe.svg</file>
+        <file>icons/cad_gas/cad_gas_vacpipeteeconnector.svg</file>
+        <file>icons/cad_gas/cad_gas_vacpipeturn.svg</file>
+        <file>icons/cad_gas/cad_gas_vacpump.svg</file>
+        <file>icons/cad_gas/cad_gas_vacquicklockcoupling.svg</file>
+        <file>icons/cad_gas/cad_gas_vactank.svg</file>
         <file>icons/cad_heatcool/cad_heatcool_adjustvalve.svg</file>
-        <file>icons/cad_sprinkler/cad_sprinkler_pipeturn.svg</file>
-        <file>icons/cad_sprinkler/cad_sprinkler_pipe.svg</file>
-        <file>icons/cad_sprinkler/cad_sprinkler_zonecheck.svg</file>
-        <file>icons/cad_sprinkler/cad_sprinkler_wetalarmvalve.svg</file>
-        <file>icons/cad_sprinkler/cad_sprinkler_valve.svg</file>
-        <file>icons/cad_sprinkler/cad_sprinkler_teeconnector.svg</file>
-        <file>icons/cad_sprinkler/cad_sprinkler_head.svg</file>
-        <file>icons/cad_sprinkler/cad_sprinkler_pump.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_ballvalve.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_boiler.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_butterflyvalvebolted.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_butterflyvalveclamped.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_chiller.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_controlvalve.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_coolingtower.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_dirtarrester.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_expansionchamber.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_filter.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_flange.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_flowmeter.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_gauge90degree.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_gauge.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_heatexchangerbolted.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_heatexchangersoldered.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_nonreturnflap.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_nonreturnvalve.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_pipeendcap.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_pipereducer.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_pipe.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_pipeteeconnector.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_pipeturn.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_pumpinline.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_pumpnorm.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_pump.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_radiatorcompact.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_radiatorflange.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_radiatorflangebent.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_radiatorflange.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_radiator.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_radiatorvalve.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_safetyvalve.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_sensor.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_storageboiler.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_valve90degree.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_valvehandwheelgear.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_valvehandwheel.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_valvelever.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_valvemotorrect.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_valvemotorround.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_valve.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_waterheater.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_cleaningpiece.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_electricwaterheater.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_emergencyeyeshower.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_emergencyshower.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_flange.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_liftingunit.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_pipeendcap.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_pipereducer.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_pipe.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_pipeteeconnector.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_pipeturn.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_pipeypiece.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_shower.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_sink.svg</file>
+        <file>icons/cad_sanitary/cad_sanitary_washbasin.svg</file>
         <file>icons/cad_sprinkler/cad_sprinkler_compressedairwatercontainer.svg</file>
         <file>icons/cad_sprinkler/cad_sprinkler_distribution.svg</file>
-        <file>icons/cad_basic/cad_basic_turn.svg</file>
-        <file>icons/cad_basic/cad_basic_pipe.svg</file>
-        <file>itemGraphic/cad_sanitary_pipereducer.png</file>
-        <file>itemGraphic/cad_basic_pipe.png</file>
-        <file>itemGraphic/cad_basic_turn.png</file>
-        <file>itemGraphic/cad_sanitary_pipe.png</file>
-        <file>itemGraphic/cad_air_ductturn.png</file>
-        <file>itemGraphic/cad_air_ducttransitionrectrect.png</file>
-        <file>itemGraphic/cad_air_duct.png</file>
-        <file>icons/cad_arch/cad_arch_bored_pile.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_head.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_pipeendcap.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_pipereducer.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_pipe.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_pipeturn.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_pump.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_teeconnector.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_valve.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_wetalarmvalve.svg</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_zonecheck.svg</file>
         <file>itemGraphic/cad_air_canvasflange.png</file>
+        <file>itemGraphic/cad_air_ductbafflesilencer.png</file>
+        <file>itemGraphic/cad_air_ductendplate.png</file>
         <file>itemGraphic/cad_air_ductfiredamper.png</file>
+        <file>itemGraphic/cad_air_duct.png</file>
         <file>itemGraphic/cad_air_ductteeconnector.png</file>
+        <file>itemGraphic/cad_air_ducttransitionrectrect.png</file>
         <file>itemGraphic/cad_air_ducttransitionrectround.png</file>
+        <file>itemGraphic/cad_air_ductturn.png</file>
         <file>itemGraphic/cad_air_ductvolumetricflowcontroller.png</file>
         <file>itemGraphic/cad_air_ductypiece.png</file>
         <file>itemGraphic/cad_air_heatexchangerairair.png</file>
         <file>itemGraphic/cad_air_heatexchangerwaterair.png</file>
-        <file>itemGraphic/cad_air_pipe.png</file>
+        <file>itemGraphic/cad_air_lineardiffuser.png</file>
+        <file>itemGraphic/cad_air_pipebranch.png</file>
+        <file>itemGraphic/cad_air_pipeendcap.png</file>
         <file>itemGraphic/cad_air_pipefiredamper.png</file>
+        <file>itemGraphic/cad_air_pipe.png</file>
+        <file>itemGraphic/cad_air_pipereducer.png</file>
         <file>itemGraphic/cad_air_pipesilencer.png</file>
         <file>itemGraphic/cad_air_pipeturn.png</file>
         <file>itemGraphic/cad_air_pipevolumetricflowcontroller.png</file>
@@ -117,227 +267,22 @@
         <file>itemGraphic/cad_basic_box.png</file>
         <file>itemGraphic/cad_basic_circle.png</file>
         <file>itemGraphic/cad_basic_cylinder.png</file>
+        <file>itemGraphic/cad_basic_duct.png</file>
+        <file>itemGraphic/cad_basic_flume.png</file>
+        <file>itemGraphic/cad_basic_gauge90degree.png</file>
+        <file>itemGraphic/cad_basic_gauge.png</file>
+        <file>itemGraphic/cad_basic_hemisphere.png</file>
         <file>itemGraphic/cad_basic_line.png</file>
+        <file>itemGraphic/cad_basic_pipe.png</file>
+        <file>itemGraphic/cad_basic_pipereducer.png</file>
         <file>itemGraphic/cad_basic_plane.png</file>
         <file>itemGraphic/cad_basic_point.png</file>
         <file>itemGraphic/cad_basic_polyline.png</file>
         <file>itemGraphic/cad_basic_sphere.png</file>
-        <file>itemGraphic/cad_sanitary_cleaningpiece.png</file>
-        <file>itemGraphic/cad_sanitary_eccentricpipereducerlong.png</file>
-        <file>itemGraphic/cad_sanitary_eccentricpipereducershort.png</file>
-        <file>itemGraphic/cad_sanitary_electroweldingfitting.png</file>
-        <file>itemGraphic/cad_sanitary_mapressfitting.png</file>
-        <file>itemGraphic/cad_sanitary_mapressreducer.png</file>
-        <file>itemGraphic/cad_sanitary_mapresssealingcap.png</file>
-        <file>itemGraphic/cad_sanitary_mapressstainlesssteelslidingfitting.png</file>
-        <file>itemGraphic/cad_sanitary_mapressteeconnectorequal.png</file>
-        <file>itemGraphic/cad_sanitary_mapressteeconnectorreduced.png</file>
-        <file>itemGraphic/cad_sprinkler_compressedairwatercontaine.png</file>
-        <file>itemGraphic/cad_sprinkler_feedtank-500liter.png</file>
-        <file>itemGraphic/cad_sprinkler_gatevalve.png</file>
-        <file>itemGraphic/cad_sprinkler_wetpipealarmvalves_FL-NAV.png</file>
-        <file>icons/cad_arch/cad_arch_grating.svg</file>
-        <file>icons/cad_arch/cad_arch_foundation.svg</file>
-        <file>icons/cad_basic/cad_basic_duct.svg</file>
-        <file>shaders/shader_1_triangles.geom</file>
-        <file>shaders/shader_1_lines.geom</file>
-        <file>shaders/shader_2.frag</file>
-        <file>shaders/shader_2.vert</file>
-        <file>icons/cad_electrical/cad_electrical_busbarwithouttapoffpoints.svg</file>
-        <file>icons/cad_electrical/cad_electrical_busbarwithtapoffpoints1row.svg</file>
-        <file>icons/cad_electrical/cad_electrical_busbarwithtapoffpoints2row.svg</file>
-        <file>icons/cad_electrical/cad_electrical_cabletray.svg</file>
-        <file>icons/cad_electrical/cad_electrical_cabletrayreducer.svg</file>
-        <file>icons/cad_electrical/cad_electrical_cabletrayteeconnector.svg</file>
-        <file>icons/cad_electrical/cad_electrical_cabletraytransition.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_doorslidingsingle.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_wallsmokeextractflap.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_wallpost.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_wallpanel.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_walloverflowgrate.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_wallmountingprofile.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_wallstiffenerdiagonal.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_vacuumcleanersocket.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_tagsmokedetector.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_tagleakagedetector.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_floorsupport.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_floorpanelperforated.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_floorpanelwithtank.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_floorpanelwithbushing.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_floorpanel.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_floorgrating.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_floorstiffenerhorizontal.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_floorstiffenerdiagonal.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_doorswingingsingle.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_doorswingingdouble.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_doorslidingdouble.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_controlswitch.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_controlradarsensor.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_controlledtouchkey.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_controlemergencyswitch.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_ceilingverticalladder.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_ceilingteejoiningpiece.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_ceilingsuspension.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_ceilingsmokeextractflap.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_ceilingpanel.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_ceilingmountingrails.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_ceilingmaintenanceflap.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_ceilingjoiningknot.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_ceilinggrating.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_ceilingframe.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_ceilingframefeedthrough.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_ceilingfilterfanunit.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_ceilingcornerpiece.svg</file>
-        <file>icons/cad_electrical/cad_electrical_busbarendfeederunitdoublesided.svg</file>
-        <file>icons/cad_electrical/cad_electrical_busbarendfeederunitsinglesided.svg</file>
-        <file>icons/cad_electrical/cad_electrical_cabinetwithdoorfrontandback.svg</file>
-        <file>icons/cad_electrical/cad_electrical_cabinetwithdoorleftandright.svg</file>
-        <file>icons/cad_electrical/cad_electrical_cabinetwithoutdoor.svg</file>
-        <file>icons/cad_electrical/cad_electrical_cabletraycross.svg</file>
-        <file>icons/cad_electrical/cad_electrical_cabletrayturn.svg</file>
-        <file>icons/cad_electrical/cad_electrical_cabletrayverticalladder.svg</file>
-        <file>icons/cad_electrical/cad_electrical_equipmentswitchorsocket.svg</file>
-        <file>icons/cad_electrical/cad_electrical_luminaireescapelighting.svg</file>
-        <file>icons/cad_electrical/cad_electrical_luminairerecessedmounted.svg</file>
-        <file>icons/cad_electrical/cad_electrical_luminairesemicircular.svg</file>
-        <file>icons/cad_electrical/cad_electrical_luminairesurfacemounted.svg</file>
-        <file>icons/cad_electrical/cad_electrical_cabinet.svg</file>
-        <file>icons/cad_air/cad_air_lineardiffuser.svg</file>
-        <file>icons/cad_air/cad_air_pipebranch.svg</file>
-        <file>icons/cad_basic/cad_basic_hemisphere.svg</file>
-        <file>icons/cad_sprinkler/cad_sprinkler_pipeendcap.svg</file>
-        <file>icons/cad_sprinkler/cad_sprinkler_pipereducer.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_controlbutton.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_tagelectricalgrounding.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_tagfiredetector.svg</file>
-        <file>icons/cad_electrical/cad_electrical_busbartapoffunit.svg</file>
-        <file>icons/cad_electrical/cad_electrical_luminairerailmounted.svg</file>
-        <file>icons/cad_gas/cad_gas_cdaballvalve.svg</file>
-        <file>icons/cad_gas/cad_gas_cdacompressor.svg</file>
-        <file>icons/cad_gas/cad_gas_cdadesiccantdryer.svg</file>
-        <file>icons/cad_gas/cad_gas_cdadiaphragmvalve.svg</file>
-        <file>icons/cad_gas/cad_gas_cdafilter.svg</file>
-        <file>icons/cad_gas/cad_gas_cdaflowmeter.svg</file>
-        <file>icons/cad_gas/cad_gas_cdahose.svg</file>
-        <file>icons/cad_gas/cad_gas_cdamanometer.svg</file>
-        <file>icons/cad_gas/cad_gas_cdamoisturesensor.svg</file>
-        <file>icons/cad_gas/cad_gas_cdanonreturnvalve.svg</file>
-        <file>icons/cad_gas/cad_gas_cdapipe.svg</file>
-        <file>icons/cad_gas/cad_gas_cdapipeturn.svg</file>
-        <file>icons/cad_gas/cad_gas_cdapressureregulator.svg</file>
-        <file>icons/cad_gas/cad_gas_cdaquicklockcoupling.svg</file>
-        <file>icons/cad_gas/cad_gas_cdarefrigerantdryer.svg</file>
-        <file>icons/cad_gas/cad_gas_cdatank.svg</file>
-        <file>icons/cad_gas/cad_gas_vacballvalve.svg</file>
-        <file>icons/cad_gas/cad_gas_vacdiaphragmvalve.svg</file>
-        <file>icons/cad_gas/cad_gas_vacfilter.svg</file>
-        <file>icons/cad_gas/cad_gas_vacflowmeter.svg</file>
-        <file>icons/cad_gas/cad_gas_vachose.svg</file>
-        <file>icons/cad_gas/cad_gas_vacliquidseparator.svg</file>
-        <file>icons/cad_gas/cad_gas_vacmanometer.svg</file>
-        <file>icons/cad_gas/cad_gas_vacnonreturnvalve.svg</file>
-        <file>icons/cad_gas/cad_gas_vacpipe.svg</file>
-        <file>icons/cad_gas/cad_gas_vacpipeturn.svg</file>
-        <file>icons/cad_gas/cad_gas_vacpump.svg</file>
-        <file>icons/cad_gas/cad_gas_vacquicklockcoupling.svg</file>
-        <file>icons/cad_gas/cad_gas_vactank.svg</file>
-        <file>itemGraphic/cad_sanitary_pipeturn.png</file>
-        <file>itemGraphic/cad_sanitary_pipeteeconnector.png</file>
-        <file>itemGraphic/cad_sanitary_pipeypiece.png</file>
-        <file>itemGraphic/cad_heatcool_pipeturn.png</file>
-        <file>itemGraphic/cad_heatcool_pipereducer.png</file>
-        <file>itemGraphic/cad_heatcool_pipe.png</file>
-        <file>itemGraphic/cad_heatcool_pipeteeconnector.png</file>
-        <file>icons/cad_sanitary/cad_sanitary_cleaningpiece.svg</file>
-        <file>icons/cad_sanitary/cad_sanitary_pipe.svg</file>
-        <file>icons/cad_sanitary/cad_sanitary_pipereducer.svg</file>
-        <file>icons/cad_sanitary/cad_sanitary_pipeteeconnector.svg</file>
-        <file>icons/cad_sanitary/cad_sanitary_pipeturn.svg</file>
-        <file>icons/cad_basic/cad_basic_torisphericalheaddeepdisheddin28013.svg</file>
-        <file>icons/cad_basic/cad_basic_torisphericalheaddin28011.svg</file>
         <file>itemGraphic/cad_basic_torisphericalheaddeepdisheddin28013.png</file>
         <file>itemGraphic/cad_basic_torisphericalheaddin28011.png</file>
-        <file>itemGraphic/cad_heatcool_expansionchamber.png</file>
-        <file>icons/cad_basic/cad_basic_torus.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_valve.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_valvehandwheel.svg</file>
-        <file>itemGraphic/cad_heatcool_valvehandwheel.png</file>
-        <file>itemGraphic/cad_heatcool_valvelever.png</file>
-        <file>icons/cad_heatcool/cad_heatcool_valvelever.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_valvemotorrect.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_valvemotorround.svg</file>
-        <file>itemGraphic/cad_heatcool_valvemotorrect.png</file>
-        <file>itemGraphic/cad_heatcool_valvemotorround.png</file>
-        <file>icons/cad_heatcool/cad_heatcool_heatexchangersoldered.svg</file>
-        <file>itemGraphic/cad_heatcool_heatexchangerbolted.png</file>
-        <file>itemGraphic/cad_heatcool_heatexchangersoldered.png</file>
-        <file>icons/cad_heatcool/cad_heatcool_heatexchangerbolted.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_nonreturnvalve.svg</file>
-        <file>itemGraphic/cad_heatcool_nonreturnvalve.png</file>
-        <file>itemGraphic/cad_heatcool_butterflyvalvebolted.png</file>
-        <file>icons/cad_heatcool/cad_heatcool_butterflyvalvebolted.svg</file>
-        <file>itemGraphic/cad_heatcool_butterflyvalveclamped.png</file>
-        <file>itemGraphic/cad_basic_flume.png</file>
-        <file>icons/cad_heatcool/cad_heatcool_butterflyvalveclamped.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_radiatorcompact.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_valvehandwheelgear.svg</file>
-        <file>itemGraphic/cad_heatcool_radiatorcompact.png</file>
-        <file>itemGraphic/cad_heatcool_radiatorvalve.png</file>
-        <file>icons/cad_heatcool/cad_heatcool_radiatorvalve.svg</file>
-        <file>itemGraphic/cad_heatcool_safetyvalve.png</file>
-        <file>itemGraphic/cad_heatcool_dirtarrester.png</file>
-        <file>icons/cad_heatcool/cad_heatcool_dirtarrester.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_pumpinline.svg</file>
-        <file>itemGraphic/cad_heatcool_pumpinline.png</file>
-        <file>icons/cad_heatcool/cad_heatcool_pumpnorm.svg</file>
-        <file>itemGraphic/cad_heatcool_pumpnorm.png</file>
-        <file>icons/cad_electrical/cad_electrical_motorasynchronous.svg</file>
-        <file>itemGraphic/cad_electrical_motorasynchronous.png</file>
-        <file>icons/cad_heatcool/cad_heatcool_valve90degree.svg</file>
-        <file>itemGraphic/cad_heatcool_valve90degree.png</file>
-        <file>itemGraphic/cad_basic_gauge.png</file>
-        <file>itemGraphic/cad_basic_gauge90degree.png</file>
-        <file>icons/cad_basic/cad_basic_gauge.svg</file>
-        <file>icons/cad_basic/cad_basic_gauge90degree.svg</file>
-        <file>itemGraphic/cad_heatcool_gauge.png</file>
-        <file>itemGraphic/cad_heatcool_gauge90degree.png</file>
-        <file>icons/cad_heatcool/cad_heatcool_gauge.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_gauge90degree.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_nonreturnflap.svg</file>
-        <file>itemGraphic/cad_heatcool_nonreturnflap.png</file>
-        <file>itemGraphic/cad_heatcool_valvehandwheelgear.png</file>
-        <file>itemGraphic/cad_heatcool_filter.png</file>
-        <file>itemGraphic/cad_heatcool_flange.png</file>
-        <file>icons/cad_basic/cad_basic_flume.svg</file>
-        <file>icons/cad_cleanroom/cad_cleanroom_doorframe.svg</file>
-        <file>icons/cad_sanitary/cad_sanitary_electricwaterheater.svg</file>
-        <file>icons/cad_sanitary/cad_sanitary_emergencyeyeshower.svg</file>
-        <file>icons/cad_sanitary/cad_sanitary_emergencyshower.svg</file>
-        <file>icons/cad_sanitary/cad_sanitary_flange.svg</file>
-        <file>icons/cad_sanitary/cad_sanitary_liftingunit.svg</file>
-        <file>icons/cad_sanitary/cad_sanitary_pipeendcap.svg</file>
-        <file>icons/cad_sanitary/cad_sanitary_shower.svg</file>
-        <file>icons/cad_sanitary/cad_sanitary_sink.svg</file>
-        <file>icons/cad_sanitary/cad_sanitary_washbasin.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_radiatorflange.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_radiatorflangebent.svg</file>
-        <file>itemGraphic/cad_heatcool_valve.png</file>
-        <file>itemGraphic/cad_heatcool_radiatorflange.png</file>
-        <file>itemGraphic/cad_heatcool_radiatorflangebent.png</file>
-        <file>itemGraphic/cad_heatcool_pipeendcap.png</file>
-        <file>icons/cad_sanitary/cad_sanitary_pipeypiece.svg</file>
-        <file>itemGraphic/cad_sanitary_pipeendcap.png</file>
-        <file>icons/cad_basic/cad_basic_pipereducer.svg</file>
-        <file>itemGraphic/cad_basic_pipereducer.png</file>
-        <file>itemGraphic/cad_air_lineardiffuser.png</file>
-        <file>itemGraphic/cad_air_pipebranch.png</file>
-        <file>itemGraphic/cad_air_ductbafflesilencer.png</file>
-        <file>itemGraphic/cad_air_ductendplate.png</file>
-        <file>itemGraphic/cad_air_pipeendcap.png</file>
-        <file>itemGraphic/cad_air_pipereducer.png</file>
         <file>itemGraphic/cad_basic_torus.png</file>
-        <file>itemGraphic/cad_basic_hemisphere.png</file>
-        <file>itemGraphic/cad_basic_duct.png</file>
+        <file>itemGraphic/cad_basic_turn.png</file>
         <file>itemGraphic/cad_electrical_busbarendfeederunitdoublesided.png</file>
         <file>itemGraphic/cad_electrical_busbarendfeederunitsinglesided.png</file>
         <file>itemGraphic/cad_electrical_busbarwithouttapoffpoints.png</file>
@@ -347,8 +292,8 @@
         <file>itemGraphic/cad_electrical_cabinetwithdoorfrontandback.png</file>
         <file>itemGraphic/cad_electrical_cabinetwithdoorleftandright.png</file>
         <file>itemGraphic/cad_electrical_cabinetwithoutdoor.png</file>
-        <file>itemGraphic/cad_electrical_cabletray.png</file>
         <file>itemGraphic/cad_electrical_cabletraycross.png</file>
+        <file>itemGraphic/cad_electrical_cabletray.png</file>
         <file>itemGraphic/cad_electrical_cabletrayreducer.png</file>
         <file>itemGraphic/cad_electrical_cabletrayteeconnector.png</file>
         <file>itemGraphic/cad_electrical_cabletraytransition.png</file>
@@ -359,23 +304,80 @@
         <file>itemGraphic/cad_electrical_luminairerecessedmounted.png</file>
         <file>itemGraphic/cad_electrical_luminairesemicircular.png</file>
         <file>itemGraphic/cad_electrical_luminairesurfacemounted.png</file>
-        <file>icons/cad_gas/cad_gas_cdapipeteeconnector.svg</file>
-        <file>icons/cad_gas/cad_gas_vacpipeteeconnector.svg</file>
-        <file>itemGraphic/cad_gas_vacpipeturn.png</file>
-        <file>itemGraphic/cad_gas_cdapipeturn.png</file>
+        <file>itemGraphic/cad_electrical_motorasynchronous.png</file>
         <file>itemGraphic/cad_gas_cdapipe.png</file>
-        <file>itemGraphic/cad_gas_vacpipe.png</file>
         <file>itemGraphic/cad_gas_cdapipeteeconnector.png</file>
+        <file>itemGraphic/cad_gas_cdapipeturn.png</file>
+        <file>itemGraphic/cad_gas_vacpipe.png</file>
         <file>itemGraphic/cad_gas_vacpipeteeconnector.png</file>
+        <file>itemGraphic/cad_gas_vacpipeturn.png</file>
+        <file>itemGraphic/cad_heatcool_butterflyvalvebolted.png</file>
+        <file>itemGraphic/cad_heatcool_butterflyvalveclamped.png</file>
+        <file>itemGraphic/cad_heatcool_dirtarrester.png</file>
+        <file>itemGraphic/cad_heatcool_expansionchamber.png</file>
+        <file>itemGraphic/cad_heatcool_filter.png</file>
+        <file>itemGraphic/cad_heatcool_flange.png</file>
+        <file>itemGraphic/cad_heatcool_gauge90degree.png</file>
+        <file>itemGraphic/cad_heatcool_gauge.png</file>
+        <file>itemGraphic/cad_heatcool_heatexchangerbolted.png</file>
+        <file>itemGraphic/cad_heatcool_heatexchangersoldered.png</file>
+        <file>itemGraphic/cad_heatcool_nonreturnflap.png</file>
+        <file>itemGraphic/cad_heatcool_nonreturnvalve.png</file>
+        <file>itemGraphic/cad_heatcool_pipeendcap.png</file>
+        <file>itemGraphic/cad_heatcool_pipe.png</file>
+        <file>itemGraphic/cad_heatcool_pipereducer.png</file>
+        <file>itemGraphic/cad_heatcool_pipeteeconnector.png</file>
+        <file>itemGraphic/cad_heatcool_pipeturn.png</file>
+        <file>itemGraphic/cad_heatcool_pumpinline.png</file>
+        <file>itemGraphic/cad_heatcool_pumpnorm.png</file>
+        <file>itemGraphic/cad_heatcool_radiatorcompact.png</file>
+        <file>itemGraphic/cad_heatcool_radiatorflangebent.png</file>
+        <file>itemGraphic/cad_heatcool_radiatorflange.png</file>
+        <file>itemGraphic/cad_heatcool_radiatorvalve.png</file>
+        <file>itemGraphic/cad_heatcool_safetyvalve.png</file>
+        <file>itemGraphic/cad_heatcool_valve90degree.png</file>
+        <file>itemGraphic/cad_heatcool_valvehandwheelgear.png</file>
+        <file>itemGraphic/cad_heatcool_valvehandwheel.png</file>
+        <file>itemGraphic/cad_heatcool_valvelever.png</file>
+        <file>itemGraphic/cad_heatcool_valvemotorrect.png</file>
+        <file>itemGraphic/cad_heatcool_valvemotorround.png</file>
+        <file>itemGraphic/cad_heatcool_valve.png</file>
+        <file>itemGraphic/cad_sanitary_cleaningpiece.png</file>
+        <file>itemGraphic/cad_sanitary_eccentricpipereducerlong.png</file>
+        <file>itemGraphic/cad_sanitary_eccentricpipereducershort.png</file>
+        <file>itemGraphic/cad_sanitary_electroweldingfitting.png</file>
+        <file>itemGraphic/cad_sanitary_mapressfitting.png</file>
+        <file>itemGraphic/cad_sanitary_mapressreducer.png</file>
+        <file>itemGraphic/cad_sanitary_mapresssealingcap.png</file>
+        <file>itemGraphic/cad_sanitary_mapressstainlesssteelslidingfitting.png</file>
+        <file>itemGraphic/cad_sanitary_mapressteeconnectorequal.png</file>
+        <file>itemGraphic/cad_sanitary_mapressteeconnectorreduced.png</file>
+        <file>itemGraphic/cad_sanitary_pipeendcap.png</file>
+        <file>itemGraphic/cad_sanitary_pipe.png</file>
+        <file>itemGraphic/cad_sanitary_pipereducer.png</file>
+        <file>itemGraphic/cad_sanitary_pipeteeconnector.png</file>
+        <file>itemGraphic/cad_sanitary_pipeturn.png</file>
+        <file>itemGraphic/cad_sanitary_pipeypiece.png</file>
+        <file>itemGraphic/cad_sprinkler_compressedairwatercontaine.png</file>
+        <file>itemGraphic/cad_sprinkler_feedtank-500liter.png</file>
+        <file>itemGraphic/cad_sprinkler_gatevalve.png</file>
+        <file>itemGraphic/cad_sprinkler_wetpipealarmvalves_FL-NAV.png</file>
+        <file>shaders/shader_1.frag</file>
+        <file>shaders/shader_1_lines.geom</file>
+        <file>shaders/shader_1_triangles.geom</file>
+        <file>shaders/shader_1.vert</file>
+        <file>shaders/shader_2.frag</file>
+        <file>shaders/shader_2.vert</file>
+
     </qresource>
     <qresource prefix="/ui/layermanager">
+        <file>icons/check.svg</file>
+        <file>icons/hide_layer.svg</file>
         <file>icons/layerLockHeader.svg</file>
         <file>icons/layerOnHeader.svg</file>
         <file>icons/pencil.svg</file>
         <file>icons/pencil_locked.svg</file>
         <file>icons/pencil_off.svg</file>
-        <file>icons/check.svg</file>
-        <file>icons/hide_layer.svg</file>
     </qresource>
     <qresource prefix="/ui/dockwidget">
         <file>icons/close.svg</file>
@@ -388,11 +390,6 @@
         <file>icons/wireframe.svg</file>
     </qresource>
     <qresource prefix="/settings">
-        <file>itemGraphic/cad_heatcool_radiatorflange.png</file>
-        <file>icons/cad_heatcool/cad_heatcool_radiatorflange.svg</file>
-        <file>itemGraphic/cad_heatcool_radiatorflangebent.png</file>
-        <file>icons/cad_heatcool/cad_heatcool_radiatorflangebent.svg</file>
-        <file>icons/cad_heatcool/cad_heatcool_adjustvalve.svg</file>
         <file>settings.xml</file>
     </qresource>
 </RCC>
