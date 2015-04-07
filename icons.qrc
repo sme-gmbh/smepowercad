@@ -49,7 +49,7 @@
         <file>icons/cad_arch/cad_arch_wall_nonloadbearing.svg</file>
         <file>icons/cad_air/cad_air_throttlevalve.svg</file>
         <file>icons/cad_air/cad_air_pressurereliefdamper.svg</file>
-        <file>shaders/test.frag</file>
+        <file>shaders/shader_1.frag</file>
         <file>shaders/shader_1.vert</file>
         <file>icons/cad_heatcool/cad_heatcool_pipe.svg</file>
         <file>icons/cad_heatcool/cad_heatcool_boiler.svg</file>

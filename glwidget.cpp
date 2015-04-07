@@ -1647,7 +1647,7 @@ void GLWidget::initializeGL()
         QMessageBox::critical(this, "Shader compiler", "Lines geometry shader failed to compile!");
 
     shader_1_frag = new QOpenGLShader(QOpenGLShader::Fragment);
-    if (!shader_1_frag->compileSourceFile(":/shaders/test.frag"))
+    if (!shader_1_frag->compileSourceFile(":/shaders/shader_1.frag"))
         QMessageBox::critical(this, "Shader compiler", "Fragment shader failed to compile!");
 
     shader_2_vert = new QOpenGLShader(QOpenGLShader::Vertex);

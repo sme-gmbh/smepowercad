@@ -1,3 +1,4 @@
+#version 430 core
 /**********************************************************************
 ** smepowercad
 ** Copyright (C) 2015 Smart Micro Engineering GmbH
@@ -13,7 +14,6 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#version 430 core
 
 in vec4 gColor;
 in vec4 gTexCoord;

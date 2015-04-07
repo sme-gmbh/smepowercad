@@ -1,3 +1,4 @@
+#version 430 core
 /**********************************************************************
 ** smepowercad
 ** Copyright (C) 2015 Smart Micro Engineering GmbH
@@ -12,8 +13,6 @@
 ** You should have received a copy of the GNU General Public License
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
-
-#version 430 core
 
 layout ( lines ) in;
 layout ( line_strip, max_vertices = 2 ) out;
