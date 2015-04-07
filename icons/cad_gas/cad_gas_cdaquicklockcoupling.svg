@@ -14,9 +14,22 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="Hintergrund.svg">
+   sodipodi:docname="cad_gas_cdaquicklockcoupling.svg">
   <defs
-     id="defs4" />
+     id="defs4">
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect16649"
+       is_visible="true" />
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect16645"
+       is_visible="true" />
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect16641"
+       is_visible="true" />
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -25,10 +38,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="26.709537"
+     inkscape:cx="10.81668"
      inkscape:cy="30.841684"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer1"
      showgrid="true"
      objecttolerance="10000"
      guidetolerance="10000"
@@ -80,5 +93,38 @@
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-988.36217)" />
+     transform="translate(0,-988.36217)">
+    <path
+       sodipodi:type="arc"
+       style="fill:none;stroke:#bc00c8;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:25.9"
+       id="path16129"
+       sodipodi:cx="41"
+       sodipodi:cy="27"
+       sodipodi:rx="6"
+       sodipodi:ry="6"
+       d="m 47,27 a 6,6 0 1 1 -12,0 6,6 0 1 1 12,0 z"
+       transform="translate(-8,990.36217)" />
+    <path
+       style="fill:none;stroke:#bc00c8;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:25.9"
+       d="m 27,1017.3622 -21,0"
+       id="path16639"
+       inkscape:path-effect="#path-effect16641"
+       inkscape:original-d="m 27,1017.3622 -21,0"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#bc00c8;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:25.9"
+       d="m 39,1017.3622 6,0"
+       id="path16643"
+       inkscape:path-effect="#path-effect16645"
+       inkscape:original-d="m 39,1017.3622 6,0"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#bc00c8;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:25.9"
+       d="m 51,1011.3622 -6,6 6,6"
+       id="path16647"
+       inkscape:path-effect="#path-effect16649"
+       inkscape:original-d="m 51,1011.3622 -6,6 6,6"
+       inkscape:connector-curvature="0" />
+  </g>
 </svg>

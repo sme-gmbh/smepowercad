@@ -361,6 +361,12 @@
         <file>itemGraphic/cad_electrical_luminairesurfacemounted.png</file>
         <file>icons/cad_gas/cad_gas_cdapipeteeconnector.svg</file>
         <file>icons/cad_gas/cad_gas_vacpipeteeconnector.svg</file>
+        <file>itemGraphic/cad_gas_vacpipeturn.png</file>
+        <file>itemGraphic/cad_gas_cdapipeturn.png</file>
+        <file>itemGraphic/cad_gas_cdapipe.png</file>
+        <file>itemGraphic/cad_gas_vacpipe.png</file>
+        <file>itemGraphic/cad_gas_cdapipeteeconnector.png</file>
+        <file>itemGraphic/cad_gas_vacpipeteeconnector.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/layerLockHeader.svg</file>

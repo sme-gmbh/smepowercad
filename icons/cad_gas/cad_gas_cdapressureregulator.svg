@@ -14,9 +14,14 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="Hintergrund.svg">
+   sodipodi:docname="cad_gas_cdapressureregulator.svg">
   <defs
-     id="defs4" />
+     id="defs4">
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect19367"
+       is_visible="true" />
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -25,10 +30,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="26.709537"
+     inkscape:cx="10.81668"
      inkscape:cy="30.841684"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer1"
      showgrid="true"
      objecttolerance="10000"
      guidetolerance="10000"
@@ -80,5 +85,25 @@
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-988.36217)" />
+     transform="translate(0,-988.36217)">
+    <path
+       style="fill:none;stroke:#bc00c8;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:25.9"
+       d="M 5,19 5,39 57,9 57,49 5,19"
+       id="path19365"
+       inkscape:path-effect="#path-effect19367"
+       inkscape:original-d="M 5,19 5,39 57,9 57,49 z"
+       inkscape:connector-curvature="0"
+       transform="translate(0,988.36217)"
+       sodipodi:nodetypes="ccccc" />
+    <path
+       transform="translate(-7.857143,971.77288)"
+       d="m 35.41071,46 a 5.4107099,5.4107099 0 1 1 -10.82142,0 5.4107099,5.4107099 0 1 1 10.82142,0 z"
+       sodipodi:ry="5.4107099"
+       sodipodi:rx="5.4107099"
+       sodipodi:cy="46"
+       sodipodi:cx="30"
+       id="path14851"
+       style="fill:#bc00c8;fill-opacity:1;fill-rule:evenodd;stroke:#bc00c8;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:25.9"
+       sodipodi:type="arc" />
+  </g>
 </svg>
