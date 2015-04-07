@@ -123,7 +123,7 @@ void CAD_air_duct::calculate()
     main_duct->processWizardInput();
     main_duct->calculate();
 
-    QVector3D position_fdl = main_duct->snap_flanges.at(1);
+    QVector3D position_fdl = position + matrix_rotation * QVector3D(l - fe, 0.0, 0.0);
     flange_duct_left->wizardParams.insert("Position x", (position_fdl.x()));
     flange_duct_left->wizardParams.insert("Position y", (position_fdl.y()));
     flange_duct_left->wizardParams.insert("Position z", (position_fdl.z()));
@@ -151,24 +151,23 @@ void CAD_air_duct::calculate()
     flange_duct_right->processWizardInput();
     flange_duct_right->calculate();
 
-    // tbd: not all vertices are needed here!
     boundingBox.enterVertex(flange_duct_left->pos_top_1);
-    boundingBox.enterVertex(flange_duct_left->pos_top_2);
-    boundingBox.enterVertex(flange_duct_left->pos_top_3);
+//    boundingBox.enterVertex(flange_duct_left->pos_top_2);
+//    boundingBox.enterVertex(flange_duct_left->pos_top_3);
     boundingBox.enterVertex(flange_duct_left->pos_top_4);
     boundingBox.enterVertex(flange_duct_left->pos_bot_1);
-    boundingBox.enterVertex(flange_duct_left->pos_bot_2);
-    boundingBox.enterVertex(flange_duct_left->pos_bot_3);
+//    boundingBox.enterVertex(flange_duct_left->pos_bot_2);
+//    boundingBox.enterVertex(flange_duct_left->pos_bot_3);
     boundingBox.enterVertex(flange_duct_left->pos_bot_4);
 
-    boundingBox.enterVertex(flange_duct_right->pos_top_1);
+//    boundingBox.enterVertex(flange_duct_right->pos_top_1);
     boundingBox.enterVertex(flange_duct_right->pos_top_2);
     boundingBox.enterVertex(flange_duct_right->pos_top_3);
-    boundingBox.enterVertex(flange_duct_right->pos_top_4);
-    boundingBox.enterVertex(flange_duct_right->pos_bot_1);
+//    boundingBox.enterVertex(flange_duct_right->pos_top_4);
+//    boundingBox.enterVertex(flange_duct_right->pos_bot_1);
     boundingBox.enterVertex(flange_duct_right->pos_bot_2);
     boundingBox.enterVertex(flange_duct_right->pos_bot_3);
-    boundingBox.enterVertex(flange_duct_right->pos_bot_4);
+//    boundingBox.enterVertex(flange_duct_right->pos_bot_4);
 
     this->snap_vertices.append(main_duct->snap_vertices);
     this->snap_flanges.append(main_duct->snap_flanges);

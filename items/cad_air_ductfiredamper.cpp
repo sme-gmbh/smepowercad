@@ -184,24 +184,23 @@ void CAD_air_ductFireDamper::calculate()
     function->processWizardInput();
     function->calculate();
 
-    // tbd: not all vertices are needed here!
     boundingBox.enterVertex(flange_duct_left->pos_top_1);
-    boundingBox.enterVertex(flange_duct_left->pos_top_2);
-    boundingBox.enterVertex(flange_duct_left->pos_top_3);
+//    boundingBox.enterVertex(flange_duct_left->pos_top_2);
+//    boundingBox.enterVertex(flange_duct_left->pos_top_3);
     boundingBox.enterVertex(flange_duct_left->pos_top_4);
     boundingBox.enterVertex(flange_duct_left->pos_bot_1);
-    boundingBox.enterVertex(flange_duct_left->pos_bot_2);
-    boundingBox.enterVertex(flange_duct_left->pos_bot_3);
+//    boundingBox.enterVertex(flange_duct_left->pos_bot_2);
+//    boundingBox.enterVertex(flange_duct_left->pos_bot_3);
     boundingBox.enterVertex(flange_duct_left->pos_bot_4);
 
-    boundingBox.enterVertex(flange_duct_right->pos_top_1);
+//    boundingBox.enterVertex(flange_duct_right->pos_top_1);
     boundingBox.enterVertex(flange_duct_right->pos_top_2);
     boundingBox.enterVertex(flange_duct_right->pos_top_3);
-    boundingBox.enterVertex(flange_duct_right->pos_top_4);
-    boundingBox.enterVertex(flange_duct_right->pos_bot_1);
+//    boundingBox.enterVertex(flange_duct_right->pos_top_4);
+//    boundingBox.enterVertex(flange_duct_right->pos_bot_1);
     boundingBox.enterVertex(flange_duct_right->pos_bot_2);
     boundingBox.enterVertex(flange_duct_right->pos_bot_3);
-    boundingBox.enterVertex(flange_duct_right->pos_bot_4);
+//    boundingBox.enterVertex(flange_duct_right->pos_bot_4);
 
     this->snap_flanges.append(position);
     this->snap_vertices.append(main_duct->snap_vertices);

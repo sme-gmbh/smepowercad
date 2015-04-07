@@ -154,10 +154,6 @@ void ItemGripModifier::slot_button_clicked()
     newItem->wizardParams.insert("Position x", ((qreal)scenePos.x()));
     newItem->wizardParams.insert("Position y", ((qreal)scenePos.y()));
     newItem->wizardParams.insert("Position z", ((qreal)scenePos.z()));
-    // tbd: add flange angles
-//    newItem->wizardParams.insert("Angle x", ((qreal)this->item->angle_x));
-//    newItem->wizardParams.insert("Angle y", ((qreal)this->item->angle_y));
-//    newItem->wizardParams.insert("Angle z", ((qreal)this->item->angle_z));
 
     //calculate angles from flange matrix:
     QMatrix4x4 matrix_rotation = item->rotationOfFlange(flangeIndex);
