@@ -51,7 +51,37 @@ CAD_Gas_CDANonReturnValve::~CAD_Gas_CDANonReturnValve()
 QList<CADitemTypes::ItemType> CAD_Gas_CDANonReturnValve::flangable_items()
 {
     QList<CADitemTypes::ItemType> flangable_items;
-    
+    flangable_items.append(CADitemTypes::Gas_CDABallValve);
+    flangable_items.append(CADitemTypes::Gas_CDACompressor);
+    flangable_items.append(CADitemTypes::Gas_CDADesiccantDryer);
+    flangable_items.append(CADitemTypes::Gas_CDADiaphragmValve);
+    flangable_items.append(CADitemTypes::Gas_CDAFilter);
+    flangable_items.append(CADitemTypes::Gas_CDAFlowmeter);
+    flangable_items.append(CADitemTypes::Gas_CDAHose);
+    flangable_items.append(CADitemTypes::Gas_CDAManometer);
+    flangable_items.append(CADitemTypes::Gas_CDAMoistureSensor);
+    flangable_items.append(CADitemTypes::Gas_CDANonReturnValve);
+    flangable_items.append(CADitemTypes::Gas_CDAPipe);
+    flangable_items.append(CADitemTypes::Gas_CDAPipeTeeConnector);
+    flangable_items.append(CADitemTypes::Gas_CDAPipeTurn);
+    flangable_items.append(CADitemTypes::Gas_CDAPressureRegulator);
+    flangable_items.append(CADitemTypes::Gas_CDAQuickLockCoupling);
+    flangable_items.append(CADitemTypes::Gas_CDARefrigerantDryer);
+    flangable_items.append(CADitemTypes::Gas_CDATank);
+    flangable_items.append(CADitemTypes::Gas_VACBallValve);
+    flangable_items.append(CADitemTypes::Gas_VACDiaphragmValve);
+    flangable_items.append(CADitemTypes::Gas_VACFilter);
+    flangable_items.append(CADitemTypes::Gas_VACFlowmeter);
+    flangable_items.append(CADitemTypes::Gas_VACHose);
+    flangable_items.append(CADitemTypes::Gas_VACLiquidSeparator);
+    flangable_items.append(CADitemTypes::Gas_VACManometer);
+    flangable_items.append(CADitemTypes::Gas_VACNonReturnValve);
+    flangable_items.append(CADitemTypes::Gas_VACPipe);
+    flangable_items.append(CADitemTypes::Gas_VACPipeTeeConnector);
+    flangable_items.append(CADitemTypes::Gas_VACPipeTurn);
+    flangable_items.append(CADitemTypes::Gas_VACPump);
+    flangable_items.append(CADitemTypes::Gas_VACQuickLockCoupling);
+    flangable_items.append(CADitemTypes::Gas_VACTank);
     return flangable_items;
 }
 
