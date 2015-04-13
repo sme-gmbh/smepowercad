@@ -377,6 +377,10 @@ void MainWindow::slot_file_open_xml(QString filename)
     bool ok = itemDB->file_loadDB(filename, &error);
     if (!ok)
         QMessageBox::critical(this, tr("Error while loading"), tr("Unable to open or parse file. Error:\n") + error);
+    else if (!error.isEmpty())
+    {
+        QMessageBox::information(this, tr("Information while loading"), error);
+    }
     else
         this->project_filepath = filename;
 }

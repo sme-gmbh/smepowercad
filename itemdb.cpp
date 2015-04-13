@@ -63,6 +63,7 @@ void ItemDB::deriveDomainsAndItemTypes()
         itemTypesByDomain.insertMulti(item->domain(), (int)type);
         iconPathByItemType.insert(type, item->iconPath());
         itemDescriptionByItemType.insert(type, item->description());
+        itemTypeByItemDescription.insert(item->description(), type);
         delete item;
         type++;
     }
@@ -90,6 +91,11 @@ QList<int> ItemDB::getItemTypesByDomain(QString domain)
 QString ItemDB::getItemDescriptionByItemType(CADitemTypes::ItemType type)
 {
     return itemDescriptionByItemType.value((int)type);
+}
+
+CADitemTypes::ItemType ItemDB::getItemTypeByItemDescription(QString description)
+{
+    return (CADitemTypes::ItemType) itemTypeByItemDescription.value(description);
 }
 
 QString ItemDB::getIconPathByItemType(CADitemTypes::ItemType type)
@@ -1324,7 +1330,7 @@ bool ItemDB::file_storeDB(QString filename)
     root.appendChild(element_itemTypeList);
 
     int numberOfItemTypes = this->getNumberOfItemTypes();
-    for (int i = 0; i < numberOfItemTypes; i++)
+    for (int i = 1; i < numberOfItemTypes; i++)
     {
         QString description = this->getItemDescriptionByItemType((CADitemTypes::ItemType) i);
         QDomElement element_itemType = document.createElement("ItemType");
@@ -1333,8 +1339,10 @@ bool ItemDB::file_storeDB(QString filename)
         element_itemType.setAttribute("Description", description);
     }
 
-
-    file_storeDB_processLayers(document, root, this->topLevelLayer->subLayers);
+    // Store cad data
+    QDomElement element_cad = document.createElement("CadData");
+    root.appendChild(element_cad);
+    file_storeDB_processLayers(document, element_cad, this->topLevelLayer->subLayers);
 
     QFile file(filename);
 
@@ -1421,18 +1429,34 @@ bool ItemDB::file_loadDB(QString filename, QString* error)
     }
 
     // Version check
+    bool mapByDescription = false;
     if (root.attribute("Version") != currentVersion)
     {
         *error = tr("Old file version: ") + root.attribute("Version") + "\n" +
                                  tr("Current version: ") + currentVersion + "\n" +
                                  tr("Converting file to current version.");
+        mapByDescription = true;
     }
 
-    QDomElement child = root.firstChildElement("");
-    while (!child.isNull())
+    // Read itemTypeList from file and build map
+    QMap <int, QString> file_itemDescriptionByItemType;
+    QDomElement element_itemTypeList = root.firstChildElement("ItemTypeList");
+    QDomElement element_itemType = element_itemTypeList.firstChildElement("ItemType");
+    while (!element_itemType.isNull())
     {
-        this->file_loadDB_parseDomElement(child, this->topLevelLayer);  // tbd. toplevellayer may be wrong here...
-        child = child.nextSiblingElement();
+        QString type = element_itemType.attribute("Type");
+        QString description = element_itemType.attribute("Description");
+        type.remove(0, 1);   // Strip "I"
+        file_itemDescriptionByItemType.insert(type.toInt(), description);
+        element_itemType = element_itemType.nextSiblingElement("ItemType");
+    }
+
+    // Read cad data from file
+    QDomElement element_cadData = root.firstChildElement("CadData");
+    while (!element_cadData.isNull())
+    {
+        this->file_loadDB_parseDomElement(element_cadData, this->topLevelLayer, mapByDescription, &file_itemDescriptionByItemType);  // tbd. toplevellayer may be wrong here...
+        element_cadData = element_cadData.nextSiblingElement();
     }
 
     file.close();
@@ -1440,7 +1464,7 @@ bool ItemDB::file_loadDB(QString filename, QString* error)
     return true;
 }
 
-void ItemDB::file_loadDB_parseDomElement(QDomElement element, Layer *currentLayer)
+void ItemDB::file_loadDB_parseDomElement(QDomElement element, Layer *currentLayer, bool mapByDescription, QMap<int, QString>* file_itemDescriptionByItemType)
 {
     QString tagName = element.tagName();
     if (tagName == "L")
@@ -1456,6 +1480,11 @@ void ItemDB::file_loadDB_parseDomElement(QDomElement element, Layer *currentLaye
     {
         tagName.remove(0, 1);   // Strip "I"
         int itemType = tagName.toInt();
+        if (mapByDescription)   // Get the right item type if file version is out of date (fetch item by descrition string instead of item type number which may have changed)
+        {
+            QString itemDescription = file_itemDescriptionByItemType->value(itemType);
+            itemType = this->getItemTypeByItemDescription(itemDescription);
+        }
         CADitem* item = this->drawItem(currentLayer, (CADitemTypes::ItemType)itemType);
         foreach (QString key, item->wizardParams.keys())
         {
@@ -1487,7 +1516,7 @@ void ItemDB::file_loadDB_parseDomElement(QDomElement element, Layer *currentLaye
     QDomElement child = element.firstChildElement();
     while (!child.isNull())
     {
-        this->file_loadDB_parseDomElement(child, currentLayer);
+        this->file_loadDB_parseDomElement(child, currentLayer, mapByDescription, file_itemDescriptionByItemType);
         child = child.nextSiblingElement();
     }
 }

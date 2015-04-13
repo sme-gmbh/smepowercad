@@ -49,6 +49,7 @@ public:
     QList<QString> getDomains();
     QList<int> getItemTypesByDomain(QString domain);
     QString getItemDescriptionByItemType(CADitemTypes::ItemType type);
+    CADitemTypes::ItemType getItemTypeByItemDescription(QString description);
     QString getIconPathByItemType(CADitemTypes::ItemType type);
     QPixmap getIconByItemType(CADitemTypes::ItemType type, QSize size);
 
@@ -96,13 +97,14 @@ public:
     void file_storeDB_processLayers(QDomDocument document, QDomElement parentElement, QList<Layer*> layers);
     void file_storeDB_processItems(QDomDocument document, QDomElement parentElement, QList<CADitem*> items);
     bool file_loadDB(QString filename, QString *error);
-    void file_loadDB_parseDomElement(QDomElement element, Layer* currentLayer);
+    void file_loadDB_parseDomElement(QDomElement element, Layer* currentLayer, bool mapByDescription, QMap<int, QString> *file_itemDescriptionByItemType);
 
 private:
     QList<QString> domains;
     QMap<QString, int> itemTypesByDomain;
     QMap <int, QString> iconPathByItemType;
     QMap <int, QString> itemDescriptionByItemType;
+    QMap <QString, int> itemTypeByItemDescription;
     void deriveDomainsAndItemTypes();
 
     Layer* topLevelLayer;
