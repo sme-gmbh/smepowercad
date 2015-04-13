@@ -373,9 +373,10 @@ void MainWindow::slot_file_open_dxf(QString filename)
 
 void MainWindow::slot_file_open_xml(QString filename)
 {
-    bool ok = itemDB->file_loadDB(filename);
+    QString error;
+    bool ok = itemDB->file_loadDB(filename, &error);
     if (!ok)
-        QMessageBox::critical(this, tr("Error while loading"), tr("Unable to open or parse file."));
+        QMessageBox::critical(this, tr("Error while loading"), tr("Unable to open or parse file. Error:\n") + error);
     else
         this->project_filepath = filename;
 }
@@ -407,11 +408,30 @@ void MainWindow::slot_file_save_action()
 void MainWindow::slot_file_save_as_action()
 {
     qDebug() << "slot_file_save_as_action()";
+
+    QString filename;
+    filename = QFileDialog::getSaveFileName(this, tr("Save project as file"), this->project_filepath, "XML File (*.xml)");
+
+    if (filename.isEmpty())
+        return;
+
+    if (!filename.endsWith(".xml"))
+        filename.append(".xml");
+
+    bool ok = itemDB->file_storeDB(filename);
+
+    if (ok)
+        this->project_filepath = filename;
+    else
+        QMessageBox::critical(this, tr("Error while saving"), tr("Unable to write file."));
 }
 
 void MainWindow::slot_file_print_action()
 {
     qDebug() << "slot_file_print_action()";
+
+    printwidget->show();
+    printwidget->raise();
 }
 
 void MainWindow::slot_file_pdf_export_action()
@@ -443,15 +463,6 @@ void MainWindow::slot_file_close_action()
 {
     qDebug() << "slot_file_close_action()";
 }
-
-//void MainWindow::on_prompt_input_returnPressed()
-//{
-//    QString str = ui->prompt_input->text();
-//    ui->prompt_input->clear();
-
-//    ui->prompt_output->appendPlainText(str);
-//    emit signal_command_prompt_input(str);
-//}
 
 void MainWindow::slot_openRecentFile()
 {
@@ -567,9 +578,9 @@ void MainWindow::on_actionAbout_triggered()
     about << QCoreApplication::organizationName() << "Rudolf-Diesel-Str. 17";
     about << "" << "82205 Gilching";
     about << tr("Tel.") << "+49 8105 2713 -0";
-    about << "Email" << "diener@sme-gmbh.com";
-    about << "Email" << "moritz.sternemann@web.de";
-    about << "Email" << "sebwolf@web.de";
+    about << "Email" << "diener.git@sme-gmbh.com";
+    about << "Email" << "sternemann.git@sme-gmbh.com";
+    about << "Email" << "wolf.git@sme-gmbh.com";
 
     ModalDialog *dialog = new ModalDialog(tr("About %1").arg(QCoreApplication::applicationName()), about, this);
     dialog->exec();
@@ -578,9 +589,6 @@ void MainWindow::on_actionAbout_triggered()
 
 void MainWindow::on_actionSettings_triggered()
 {
-    //SettingsDialog *dialog = new SettingsDialog(this);
-    //dialog->exec();
-    //delete dialog;
     settingsDialog->show();
 }
 

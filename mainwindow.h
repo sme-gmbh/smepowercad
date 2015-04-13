@@ -124,7 +124,6 @@ public slots:
     void slot_createNewItem(CADitemTypes::ItemType type);
 
 private slots:
-//    void on_prompt_input_returnPressed();
     void slot_openRecentFile();
     void slot_clearRecentFiles();
     void on_actionAbout_OpenGL_triggered();

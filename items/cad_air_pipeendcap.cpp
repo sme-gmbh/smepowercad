@@ -79,7 +79,7 @@ QString CAD_air_pipeEndCap::domain()
 
 QString CAD_air_pipeEndCap::description()
 {
-    return "Heat/Cool|Pipe endcap";
+    return "Air|Pipe endcap";
 }
 
 void CAD_air_pipeEndCap::calculate()

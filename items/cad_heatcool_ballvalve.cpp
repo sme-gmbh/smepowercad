@@ -109,7 +109,7 @@ QString CAD_heatcool_ballValve::domain()
 
 QString CAD_heatcool_ballValve::description()
 {
-    return "Heat/Cool|Ballvalve";
+    return "HeatCool|Ballvalve";
 }
 
 void CAD_heatcool_ballValve::calculate()

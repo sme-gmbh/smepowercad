@@ -109,7 +109,7 @@ QString CAD_heatcool_boiler::domain()
 
 QString CAD_heatcool_boiler::description()
 {
-    return "Heat/Cool|Boiler";
+    return "HeatCool|Boiler";
 }
 
 void CAD_heatcool_boiler::calculate()

@@ -129,7 +129,7 @@ QString CAD_heatcool_filter::domain()
 
 QString CAD_heatcool_filter::description()
 {
-    return "Heat/Cool|Filter";
+    return "HeatCool|Filter";
 }
 
 void CAD_heatcool_filter::calculate()

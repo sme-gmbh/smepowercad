@@ -109,7 +109,7 @@ QString CAD_heatcool_flowmeter::domain()
 
 QString CAD_heatcool_flowmeter::description()
 {
-    return "Heat/Cool|Flowmeter";
+    return "HeatCool|Flowmeter";
 }
 
 void CAD_heatcool_flowmeter::calculate()

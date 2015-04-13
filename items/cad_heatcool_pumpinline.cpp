@@ -130,7 +130,7 @@ QString CAD_HeatCool_PumpInline::domain()
 
 QString CAD_HeatCool_PumpInline::description()
 {
-    return "Heat/Cool|Pump Inline";
+    return "HeatCool|Pump Inline";
 }
 
 void CAD_HeatCool_PumpInline::calculate()

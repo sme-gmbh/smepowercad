@@ -68,8 +68,14 @@ void ItemDB::deriveDomainsAndItemTypes()
     }
 
     this->domains = itemTypesByDomain.uniqueKeys();
+
+    qDebug() << "Item Type Count:" << itemTypesByDomain.count();
 }
 
+int ItemDB::getNumberOfItemTypes()
+{
+    return itemTypesByDomain.count();
+}
 
 QList<QString> ItemDB::getDomains()
 {
@@ -1311,7 +1317,22 @@ bool ItemDB::file_storeDB(QString filename)
     QDomDocument document;
     QDomElement root = document.createElement("SmePowerCadProject");
     document.appendChild(root);
-    root.setAttribute("Version", QString());    //tbd.
+    root.setAttribute("Version", QString("Build ") + QString(__DATE__) + " " + QString(__TIME__));
+
+    // Store item [type <-> description] list
+    QDomElement element_itemTypeList = document.createElement("ItemTypeList");
+    root.appendChild(element_itemTypeList);
+
+    int numberOfItemTypes = this->getNumberOfItemTypes();
+    for (int i = 0; i < numberOfItemTypes; i++)
+    {
+        QString description = this->getItemDescriptionByItemType((CADitemTypes::ItemType) i);
+        QDomElement element_itemType = document.createElement("ItemType");
+        element_itemTypeList.appendChild(element_itemType);
+        element_itemType.setAttribute("Type", QString().sprintf("I%i", i));
+        element_itemType.setAttribute("Description", description);
+    }
+
 
     file_storeDB_processLayers(document, root, this->topLevelLayer->subLayers);
 
@@ -1361,7 +1382,7 @@ void ItemDB::file_storeDB_processItems(QDomDocument document, QDomElement parent
     }
 }
 
-bool ItemDB::file_loadDB(QString filename)
+bool ItemDB::file_loadDB(QString filename, QString* error)
 {
     QFile file(filename);
 
@@ -1376,28 +1397,35 @@ bool ItemDB::file_loadDB(QString filename)
     if (!document.setContent(&file, true, &errorStr, &errorLine, &errorColumn))
     {
         file.close();
-        //        QMessageBox::information(this, tr("Error while reading xml-file"),
-        //                                 tr("line %1, column %2:\n%3")
-        //                                 .arg(errorLine)
-        //                                 .arg(errorColumn)
-        //                                 .arg(errorStr));
+        *error = tr("line %1, column %2:\n%3")
+                .arg(errorLine)
+                .arg(errorColumn)
+                .arg(errorStr);
         return false;
     }
+
+    QString currentVersion = QString("Build ") + QString(__DATE__) + " " + QString(__TIME__);
 
     QDomElement root = document.documentElement();
     if (root.tagName() != "SmePowerCadProject")
     {
         file.close();
-        //        QMessageBox::information(this, tr("Error"),
-        //                                 tr("Root-Node has wrong tagName."));
+        *error = tr("Root-Node has wrong tagName: ") + root.tagName();
         return false;
     }
-    else if (root.hasAttribute("Version") && root.attribute("Version") != "")
+    else if (!root.hasAttribute("Version") || root.attribute("Version").isEmpty())
     {
         file.close();
-        //        QMessageBox::information(this, tr("Error"),
-        //                                 tr("Invalid file version"));
+        *error =  tr("Version attribute is missing.");
         return false;
+    }
+
+    // Version check
+    if (root.attribute("Version") != currentVersion)
+    {
+        *error = tr("Old file version: ") + root.attribute("Version") + "\n" +
+                                 tr("Current version: ") + currentVersion + "\n" +
+                                 tr("Converting file to current version.");
     }
 
     QDomElement child = root.firstChildElement("");

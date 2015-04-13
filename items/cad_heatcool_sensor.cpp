@@ -109,7 +109,7 @@ QString CAD_heatcool_sensor::domain()
 
 QString CAD_heatcool_sensor::description()
 {
-    return "Heat/Cool|Sensor";
+    return "HeatCool|Sensor";
 }
 
 void CAD_heatcool_sensor::calculate()

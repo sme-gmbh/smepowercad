@@ -124,7 +124,7 @@ QString CAD_heatcool_pipeTeeConnector::domain()
 
 QString CAD_heatcool_pipeTeeConnector::description()
 {
-    return "Heat/Cool|Pipe-T-Connector";
+    return "HeatCool|Pipe-T-Connector";
 }
 
 void CAD_heatcool_pipeTeeConnector::calculate()

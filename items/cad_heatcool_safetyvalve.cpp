@@ -133,7 +133,7 @@ QString CAD_heatcool_safetyValve::domain()
 
 QString CAD_heatcool_safetyValve::description()
 {
-    return "Heat/Cool|Safety valve";
+    return "HeatCool|Safety valve";
 }
 
 void CAD_heatcool_safetyValve::calculate()

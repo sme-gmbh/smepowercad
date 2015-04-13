@@ -109,7 +109,7 @@ QString CAD_heatcool_radiator::domain()
 
 QString CAD_heatcool_radiator::description()
 {
-    return "Heat/Cool|Radiator";
+    return "HeatCool|Radiator";
 }
 
 void CAD_heatcool_radiator::calculate()

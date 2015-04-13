@@ -109,7 +109,7 @@ QString CAD_heatcool_waterHeater::domain()
 
 QString CAD_heatcool_waterHeater::description()
 {
-    return "Heat/Cool|Water heater";
+    return "HeatCool|Water heater";
 }
 
 void CAD_heatcool_waterHeater::calculate()

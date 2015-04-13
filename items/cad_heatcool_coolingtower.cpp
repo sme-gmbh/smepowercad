@@ -109,7 +109,7 @@ QString CAD_heatcool_coolingTower::domain()
 
 QString CAD_heatcool_coolingTower::description()
 {
-    return "Heat/Cool|Coolingtower";
+    return "HeatCool|Coolingtower";
 }
 
 void CAD_heatcool_coolingTower::calculate()

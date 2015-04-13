@@ -27,7 +27,6 @@
 #include <QFile>
 #include <QDomDocument>
 #include <QTextStream>
-#include <QMessageBox>
 #include <QDebug>
 
 #include "layer.h"
@@ -46,6 +45,7 @@ public:
     QList<Layer*> layers;
     bool layerSoloActive;
 
+    int getNumberOfItemTypes();
     QList<QString> getDomains();
     QList<int> getItemTypesByDomain(QString domain);
     QString getItemDescriptionByItemType(CADitemTypes::ItemType type);
@@ -95,7 +95,7 @@ public:
     bool file_storeDB(QString filename);
     void file_storeDB_processLayers(QDomDocument document, QDomElement parentElement, QList<Layer*> layers);
     void file_storeDB_processItems(QDomDocument document, QDomElement parentElement, QList<CADitem*> items);
-    bool file_loadDB(QString filename);
+    bool file_loadDB(QString filename, QString *error);
     void file_loadDB_parseDomElement(QDomElement element, Layer* currentLayer);
 
 private:

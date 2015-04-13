@@ -124,7 +124,7 @@ QString CAD_heatcool_pipeTurn::domain()
 
 QString CAD_heatcool_pipeTurn::description()
 {
-    return "Heat/Cool|Pipe turn";
+    return "HeatCool|Pipe turn";
 }
 
 void CAD_heatcool_pipeTurn::calculate()

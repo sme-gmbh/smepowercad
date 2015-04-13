@@ -109,7 +109,7 @@ QString CAD_heatcool_chiller::domain()
 
 QString CAD_heatcool_chiller::description()
 {
-    return "Heat/Cool|Chiller";
+    return "HeatCool|Chiller";
 }
 
 void CAD_heatcool_chiller::calculate()

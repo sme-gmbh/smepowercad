@@ -90,7 +90,7 @@ QString CAD_heatcool_expansionChamber::domain()
 
 QString CAD_heatcool_expansionChamber::description()
 {
-    return "Heat/Cool|Expansion chamber";
+    return "HeatCool|Expansion chamber";
 }
 
 void CAD_heatcool_expansionChamber::calculate()

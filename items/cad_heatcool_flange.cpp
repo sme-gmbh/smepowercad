@@ -120,7 +120,7 @@ QString CAD_heatcool_flange::domain()
 
 QString CAD_heatcool_flange::description()
 {
-    return "Heat/Cool|Flange";
+    return "HeatCool|Flange";
 }
 
 void CAD_heatcool_flange::calculate()

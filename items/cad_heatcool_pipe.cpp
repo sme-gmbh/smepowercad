@@ -115,7 +115,7 @@ QString CAD_heatcool_pipe::domain()
 
 QString CAD_heatcool_pipe::description()
 {
-    return "Heat/Cool|Pipe";
+    return "HeatCool|Pipe";
 }
 
 void CAD_heatcool_pipe::calculate()
