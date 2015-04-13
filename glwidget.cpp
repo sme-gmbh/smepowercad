@@ -528,7 +528,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         {
             if (snapMode != SnapNo)
             {
-                this->itemGripModifier->moveItemTo(snapPos_scene);
+                this->itemGripModifier->moveItemsTo(snapPos_scene);
                 this->slot_repaint();
             }
         }
@@ -536,7 +536,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         {
             if (snapMode != SnapNo)
             {
-                this->itemGripModifier->copyItemTo(snapPos_scene);
+                this->itemGripModifier->copyItemsTo(snapPos_scene);
                 this->slot_repaint();
             }
         }
@@ -619,7 +619,24 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         }
         break;
     case Qt::Key_C:                         // Copy item
-        if (item_lastHighlight != NULL)
+        if ((this->selection_itemList.count() > 0) && (item_lastHighlight != NULL))   // more than one item
+        {
+            if ((snapMode == SnapBasepoint) || (snapMode == SnapFlange) || (snapMode == SnapEndpoint))
+            {
+                QList<CADitem*> itemsToDo = this->selection_itemList;
+                if (QMessageBox::question(this, tr("Copy items"), tr("You are going to copy ") + QString().setNum(itemsToDo.count()) + "item(s). Proceed?")
+                        == QMessageBox::Yes)
+                {
+                    this->itemGripModifier->setItems(itemsToDo);
+                    if (event->modifiers() & Qt::ShiftModifier)
+                        this->itemGripModifier->activateGrip(ItemGripModifier::Grip_CopyMulti, QCursor::pos(), snapPos_scene);
+                    else
+                        this->itemGripModifier->activateGrip(ItemGripModifier::Grip_Copy, QCursor::pos(), snapPos_scene);
+                    this->slot_repaint();
+                }
+            }
+        }
+        else if (item_lastHighlight != NULL)        // only one item
         {
             if ((snapMode == SnapBasepoint) || (snapMode == SnapFlange) || (snapMode == SnapEndpoint))
             {
@@ -656,7 +673,21 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         }
         break;
     case Qt::Key_M:                         // Move item
-        if (item_lastHighlight != NULL)
+        if ((this->selection_itemList.count() > 0) && (item_lastHighlight != NULL))   // more than one item
+        {
+            if ((snapMode == SnapBasepoint) || (snapMode == SnapFlange) || (snapMode == SnapEndpoint))
+            {
+                QList<CADitem*> itemsToDo = this->selection_itemList;
+                if (QMessageBox::question(this, tr("Moving items"), tr("You are going to move ") + QString().setNum(itemsToDo.count()) + "item(s). Proceed?")
+                        == QMessageBox::Yes)
+                {
+                    this->itemGripModifier->setItems(itemsToDo);
+                    this->itemGripModifier->activateGrip(ItemGripModifier::Grip_Move, QCursor::pos(), snapPos_scene);
+                    this->slot_repaint();
+                }
+            }
+        }
+        else if (item_lastHighlight != NULL)        // only one item
         {
             if ((snapMode == SnapBasepoint) || (snapMode == SnapFlange) || (snapMode == SnapEndpoint))
             {
@@ -703,9 +734,14 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         if (this->selection_itemList.count() > 0)
         {
             QList<CADitem*> itemsToDelete = this->selection_itemList;
-            selectionClear();
-            itemDB->deleteItems(itemsToDelete);
-            slot_repaint();
+
+            if (QMessageBox::question(this, tr("Deleting items"), tr("You are going to delete ") + QString().setNum(itemsToDelete.count()) + "item(s). Proceed?")
+                    == QMessageBox::Yes)
+            {
+                selectionClear();
+                itemDB->deleteItems(itemsToDelete);
+                slot_repaint();
+            }
         }
         break;
     }
@@ -964,9 +1000,9 @@ void GLWidget::paintGL()
     QRect focusRect = QRect(0, 0, _snapIndicatorSize, _snapIndicatorSize);
 
     if (this->itemGripModifier->getActiveGrip() == ItemGripModifier::Grip_Move)
-    {
-        QString itemDescription = "[" + this->itemGripModifier->getItem()->description() + "]";
-        QVector3D pos = this->itemGripModifier->getItem()->position;
+    { 
+        QString itemDescription = "[" + this->itemGripModifier->getItemDescription() + "]";
+        QVector3D pos = this->itemGripModifier->getScenePosSource();
         QString itemPosition_from = QString().sprintf(" @{%.3lf|%.3lf|%.3lf}", pos.x(), pos.y(), pos.z());
         infoText = "Move " + itemDescription + itemPosition_from;
         if (snapMode != SnapNo)
@@ -975,8 +1011,8 @@ void GLWidget::paintGL()
     }
     if (this->itemGripModifier->getActiveGrip() == ItemGripModifier::Grip_Copy)
     {
-        QString itemDescription = "[" + this->itemGripModifier->getItem()->description() + "]";
-        QVector3D pos = this->itemGripModifier->getItem()->position;
+        QString itemDescription = "[" + this->itemGripModifier->getItemDescription() + "]";
+        QVector3D pos = this->itemGripModifier->getScenePosSource();
         QString itemPosition_from = QString().sprintf(" @{%.3lf|%.3lf|%.3lf}", pos.x(), pos.y(), pos.z());
         infoText = "Copy " + itemDescription + itemPosition_from;
         if (snapMode != SnapNo)

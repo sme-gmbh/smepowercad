@@ -25,9 +25,9 @@ ItemGripModifier::ItemGripModifier(ItemDB *itemDB, ItemWizard *itemWizard, QWidg
     ui->setupUi(this);
     this->setWindowFlags(windowFlags() | Qt::FramelessWindowHint);
     this->hide();
+    this->item = NULL;
     this->itemDB = itemDB;
     this->itemWizard = itemWizard;
-    this->item = NULL;
     this->activeGrip = Grip_None;
 
     connect(this, SIGNAL(rejected()), this, SLOT(slot_rejected()));
@@ -41,11 +41,59 @@ ItemGripModifier::~ItemGripModifier()
 void ItemGripModifier::setItem(CADitem *item)
 {
     this->item = item;
+    this->items.append(item);
+}
+
+void ItemGripModifier::setItems(QList<CADitem *> items)
+{
+    this->items = items;
+}
+
+void ItemGripModifier::setScenePosSource(QVector3D pos)
+{
+    this->scenePos = pos;
 }
 
 CADitem *ItemGripModifier::getItem()
 {
     return this->item;
+}
+
+QList<CADitem*> ItemGripModifier::getItems()
+{
+    return this->items;
+}
+
+QString ItemGripModifier::getItemDescription()
+{
+    QString description;
+
+    bool multiTypes = false;
+
+    foreach (CADitem* item, this->items)
+    {
+        if (description.isEmpty())
+            description = item->description();
+        else
+        {
+            if (item->description() != description)
+                multiTypes = true;
+            break;
+        }
+    }
+
+    if (multiTypes)
+        description = QString().sprintf("%i different items", this->items.count());
+    else if (this->items.count() > 1)
+        description.prepend(QString().sprintf("%i of ", this->items.count()));
+
+
+    return description;
+}
+
+QVector3D ItemGripModifier::getScenePosSource()
+{
+    return this->scenePos;
 }
 
 void ItemGripModifier::activateGrip(ItemGripModifier::ItemGripType gripType, QPoint mousePos, QVector3D scenePos)
@@ -95,36 +143,41 @@ void ItemGripModifier::activateGrip(ItemGripModifier::ItemGripType gripType, QPo
     }
 }
 
-void ItemGripModifier::moveItemTo(QVector3D new_scenePos)
+void ItemGripModifier::moveItemsTo(QVector3D new_scenePos)
 {
-    QVector3D offset = this->scenePos - this->getItem()->position;    // Offset between point of pickup and basepoint of picked object
-    QVector3D newPos = new_scenePos - offset;
-    CADitem* item = this->getItem();
-    item->wizardParams.insert("Position x", ((qreal)newPos.x()));
-    item->wizardParams.insert("Position y", ((qreal)newPos.y()));
-    item->wizardParams.insert("Position z", ((qreal)newPos.z()));
-    item->processWizardInput();
-    item->calculate();
+    foreach (CADitem* item, this->items)
+    {
+        QVector3D offset = this->scenePos - item->position;    // Offset between point of pickup and basepoint of picked object
+        QVector3D newPos = new_scenePos - offset;
+        item->wizardParams.insert("Position x", ((qreal)newPos.x()));
+        item->wizardParams.insert("Position y", ((qreal)newPos.y()));
+        item->wizardParams.insert("Position z", ((qreal)newPos.z()));
+        item->processWizardInput();
+        item->calculate();
+    }
     this->finishGrip();
 }
 
-void ItemGripModifier::copyItemTo(QVector3D new_scenePos)
+void ItemGripModifier::copyItemsTo(QVector3D new_scenePos)
 {
-    QVector3D offset = this->scenePos - this->getItem()->position;    // Offset between point of pickup and basepoint of picked object
-    QVector3D newPos = new_scenePos - offset;
-    CADitem* item = this->getItem();
-    CADitem* newItem = this->itemDB->drawItem(item->layer->name, item->getType());
-    newItem->wizardParams = item->wizardParams;
-    newItem->wizardParams.insert("Position x", ((qreal)newPos.x()));
-    newItem->wizardParams.insert("Position y", ((qreal)newPos.y()));
-    newItem->wizardParams.insert("Position z", ((qreal)newPos.z()));
-    newItem->processWizardInput();
-    newItem->calculate();
+    foreach (CADitem* item, this->items)
+    {
+        QVector3D offset = this->scenePos - item->position;    // Offset between point of pickup and basepoint of picked object
+        QVector3D newPos = new_scenePos - offset;
+        CADitem* newItem = this->itemDB->drawItem(item->layer->name, item->getType());
+        newItem->wizardParams = item->wizardParams;
+        newItem->wizardParams.insert("Position x", ((qreal)newPos.x()));
+        newItem->wizardParams.insert("Position y", ((qreal)newPos.y()));
+        newItem->wizardParams.insert("Position z", ((qreal)newPos.z()));
+        newItem->processWizardInput();
+        newItem->calculate();
+    }
     this->finishGrip();
 }
 
 void ItemGripModifier::finishGrip()
 {
+    this->items.clear();
     this->item = NULL;
     this->activeGrip = Grip_None;
     hide();
@@ -138,6 +191,7 @@ ItemGripModifier::ItemGripType ItemGripModifier::getActiveGrip()
 
 void ItemGripModifier::slot_rejected()
 {
+    this->items.clear();
     this->item = NULL;
     this->hide();
     deleteWdgs(ui->gridLayout);
@@ -198,40 +252,43 @@ void ItemGripModifier::slot_button_clicked()
 
 void ItemGripModifier::slot_button_copyMulty()
 {
-    CADitem* item = this->item;
-    CADitem* newItem;
-    qreal deltaX;
-    qreal deltaY;
-    qreal deltaZ;
-
-    for (int x=0; x < copyMulti_spinBox_countX->value(); x++)
+    foreach (CADitem* item, this->items)
     {
-        deltaX = (qreal)x * copyMulti_doubleSpinBox_distanceX->value();
-        for (int y=0; y < copyMulti_spinBox_countY->value(); y++)
+        CADitem* newItem;
+        qreal deltaX;
+        qreal deltaY;
+        qreal deltaZ;
+
+        for (int x=0; x < copyMulti_spinBox_countX->value(); x++)
         {
-            deltaY = (qreal)y * copyMulti_doubleSpinBox_distanceY->value();
-            for (int z=0; z < copyMulti_spinBox_countZ->value(); z++)
+            deltaX = (qreal)x * copyMulti_doubleSpinBox_distanceX->value();
+            for (int y=0; y < copyMulti_spinBox_countY->value(); y++)
             {
-                // Do not make an in place copy of the source item
-                if ((x == 0) && (y == 0) && (z == 0))
-                    continue;
+                deltaY = (qreal)y * copyMulti_doubleSpinBox_distanceY->value();
+                for (int z=0; z < copyMulti_spinBox_countZ->value(); z++)
+                {
+                    // Do not make an in place copy of the source item
+                    if ((x == 0) && (y == 0) && (z == 0))
+                        continue;
 
-                deltaZ = (qreal)z * copyMulti_doubleSpinBox_distanceZ->value();
-                QVector3D pos = item->position + QVector3D(deltaX, deltaY, deltaZ);
+                    deltaZ = (qreal)z * copyMulti_doubleSpinBox_distanceZ->value();
+                    QVector3D pos = item->position + QVector3D(deltaX, deltaY, deltaZ);
 
-                // Copy Item
-                newItem = this->itemDB->drawItem(item->layer->name, item->getType());
-                newItem->wizardParams = item->wizardParams;
-                newItem->wizardParams.insert("Position x", ((qreal)pos.x()));
-                newItem->wizardParams.insert("Position y", ((qreal)pos.y()));
-                newItem->wizardParams.insert("Position z", ((qreal)pos.z()));
-                newItem->processWizardInput();
-                newItem->calculate();
+                    // Copy Item
+                    newItem = this->itemDB->drawItem(item->layer->name, item->getType());
+                    newItem->wizardParams = item->wizardParams;
+                    newItem->wizardParams.insert("Position x", ((qreal)pos.x()));
+                    newItem->wizardParams.insert("Position y", ((qreal)pos.y()));
+                    newItem->wizardParams.insert("Position z", ((qreal)pos.z()));
+                    newItem->processWizardInput();
+                    newItem->calculate();
+                }
             }
         }
     }
 
     finishGrip();
+
     emit signal_sceneRepaintNeeded();
 }
 

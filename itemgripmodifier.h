@@ -23,6 +23,7 @@
 #include <QSpinBox>
 #include <QDoubleSpinBox>
 #include <QLayout>
+#include <QList>
 
 #include "caditem.h"
 #include "itemdb.h"
@@ -55,10 +56,15 @@ public:
     };
 
     void setItem(CADitem* item);
+    void setItems(QList< CADitem*> items);
+    void setScenePosSource(QVector3D pos);
     CADitem* getItem();
+    QList<CADitem *> getItems();
+    QString getItemDescription();
+    QVector3D getScenePosSource();
     void activateGrip(ItemGripModifier::ItemGripType gripType, QPoint mousePos, QVector3D scenePos);
-    void moveItemTo(QVector3D new_scenePos);
-    void copyItemTo(QVector3D new_scenePos);
+    void moveItemsTo(QVector3D new_scenePos);
+    void copyItemsTo(QVector3D new_scenePos);
     void finishGrip();
     ItemGripType getActiveGrip();
 
@@ -72,6 +78,7 @@ private:
     ItemDB* itemDB;
     ItemWizard* itemWizard;
     CADitem* item;
+    QList<CADitem*> items;
     QVector3D scenePos;
     ItemGripType activeGrip;
 

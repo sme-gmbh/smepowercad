@@ -25,21 +25,25 @@ QVector3D MAngleCalculations::anglesFromMatrix(QMatrix4x4 matrix_rotation)
 
     if(qAbs(r13 - 1) < EPS || qAbs(r13 + 1) < EPS)
     {
-        phi = 0;
+        phi = 0.0;
         qreal delta = atan2(r21, r31);
         if(qAbs(r13 + 1) < EPS)
         {
-            theta = PI / 2;
+            qDebug() << "anglesFromMatrix case 1";
+            theta = PI / 2.0;
             psi = phi + delta;
         }
         else
         {
-            theta = -PI / 2;
+            qDebug() << "anglesFromMatrix case 2";
+            theta = -PI / 2.0;
             psi = - phi + delta;
         }
     }
     else
     {
+        qDebug() << "anglesFromMatrix case 3";
+
         theta =  asin(r13);
         //qreal theta2 = -PI + theta1;
         psi = -atan2(r23 / cos(theta), r33 / cos(theta));
