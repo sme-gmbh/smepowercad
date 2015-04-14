@@ -95,7 +95,7 @@ QString ItemDB::getItemDescriptionByItemType(CADitemTypes::ItemType type)
 
 CADitemTypes::ItemType ItemDB::getItemTypeByItemDescription(QString description)
 {
-    return (CADitemTypes::ItemType) itemTypeByItemDescription.value(description);
+    return (CADitemTypes::ItemType) itemTypeByItemDescription.value(description, CADitemTypes::None);
 }
 
 QString ItemDB::getIconPathByItemType(CADitemTypes::ItemType type)
@@ -1072,6 +1072,12 @@ CADitem* ItemDB::drawItem(Layer* layer, CADitemTypes::ItemType type)
         return NULL;
     }
 
+    if (type == CADitemTypes::None)
+    {
+        qDebug() << "ItemDB::drawItem(): Tried to create a CADitemTypes::None.";
+        return NULL;
+    }
+
     this->activeDrawCommand = type;
 
     CADitem* newItem = this->createItem(type);
@@ -1455,7 +1461,7 @@ bool ItemDB::file_loadDB(QString filename, QString* error)
     QDomElement element_cadData = root.firstChildElement("CadData");
     while (!element_cadData.isNull())
     {
-        this->file_loadDB_parseDomElement(element_cadData, this->topLevelLayer, mapByDescription, &file_itemDescriptionByItemType);  // tbd. toplevellayer may be wrong here...
+        this->file_loadDB_parseDomElement(element_cadData, this->topLevelLayer, mapByDescription, &file_itemDescriptionByItemType, error);  // tbd. toplevellayer may be wrong here...
         element_cadData = element_cadData.nextSiblingElement();
     }
 
@@ -1464,7 +1470,7 @@ bool ItemDB::file_loadDB(QString filename, QString* error)
     return true;
 }
 
-void ItemDB::file_loadDB_parseDomElement(QDomElement element, Layer *currentLayer, bool mapByDescription, QMap<int, QString>* file_itemDescriptionByItemType)
+void ItemDB::file_loadDB_parseDomElement(QDomElement element, Layer *currentLayer, bool mapByDescription, QMap<int, QString>* file_itemDescriptionByItemType, QString* error)
 {
     QString tagName = element.tagName();
     if (tagName == "L")
@@ -1484,8 +1490,15 @@ void ItemDB::file_loadDB_parseDomElement(QDomElement element, Layer *currentLaye
         {
             QString itemDescription = file_itemDescriptionByItemType->value(itemType);
             itemType = this->getItemTypeByItemDescription(itemDescription);
+            if ((CADitemTypes::ItemType)itemType == CADitemTypes::None)
+                error->append("\nUnable to resolve name: " + itemDescription);
         }
         CADitem* item = this->drawItem(currentLayer, (CADitemTypes::ItemType)itemType);
+        if (item == NULL)
+        {
+            error->append(tr("\nItemDB::file_loadDB_parseDomElement(): Got a NULL item."));
+            return;
+        }
         foreach (QString key, item->wizardParams.keys())
         {
             QString elementKey = key;
@@ -1516,7 +1529,7 @@ void ItemDB::file_loadDB_parseDomElement(QDomElement element, Layer *currentLaye
     QDomElement child = element.firstChildElement();
     while (!child.isNull())
     {
-        this->file_loadDB_parseDomElement(child, currentLayer, mapByDescription, file_itemDescriptionByItemType);
+        this->file_loadDB_parseDomElement(child, currentLayer, mapByDescription, file_itemDescriptionByItemType, error);
         child = child.nextSiblingElement();
     }
 }

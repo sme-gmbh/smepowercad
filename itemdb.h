@@ -97,7 +97,7 @@ public:
     void file_storeDB_processLayers(QDomDocument document, QDomElement parentElement, QList<Layer*> layers);
     void file_storeDB_processItems(QDomDocument document, QDomElement parentElement, QList<CADitem*> items);
     bool file_loadDB(QString filename, QString *error);
-    void file_loadDB_parseDomElement(QDomElement element, Layer* currentLayer, bool mapByDescription, QMap<int, QString> *file_itemDescriptionByItemType);
+    void file_loadDB_parseDomElement(QDomElement element, Layer* currentLayer, bool mapByDescription, QMap<int, QString> *file_itemDescriptionByItemType, QString *error);
 
 private:
     QList<QString> domains;
