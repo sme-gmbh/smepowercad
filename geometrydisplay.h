@@ -95,7 +95,7 @@ private:
     GLWidget *glwidget;
 
 //    void setWindowText();
-    void paintAnchor(QPainter* painter, CuttingPlane cuttingplane);
+//    void paintAnchor(QPainter* painter, CuttingPlane cuttingplane);
 
 
 public slots:
