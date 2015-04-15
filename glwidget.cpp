@@ -65,7 +65,7 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, Item
 
 GLWidget::~GLWidget()
 {
-    //    qDebug() << "GLWidget destroyed";
+//    qDebug() << "GLWidget destroyed";
     makeCurrent();
     openGLTimerQuery->destroy();
     shaderProgram->release();
@@ -241,7 +241,7 @@ void GLWidget::slot_snapTo(QVector3D snapPos_scene, int snapMode)
 void GLWidget::slot_changeSelection(QList<CADitem *> selectedItems)
 {
     this->selection_itemList = selectedItems;
-    //    emit signal_selectionChanged(this->selection_itemList);
+//    emit signal_selectionChanged(this->selection_itemList);
     slot_repaint();
 }
 
@@ -274,9 +274,9 @@ void GLWidget::slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c)
         zoomFactor += zoomStep;
 
     // rot tbd.
-    //    rot_x += -((float)a / 15.0);
-    //    rot_y += -((float)b / 15.0);
-    //    rot_z += -((float)c / 15.0);
+//    rot_x += -((float)a / 15.0);
+//    rot_y += -((float)b / 15.0);
+//    rot_z += -((float)c / 15.0);
 
     updateMatrixAll();
     emit signal_matrix_rotation_changed(matrix_rotation);
@@ -770,7 +770,7 @@ void GLWidget::paintGL()
     else
 //        qDebug() << "render without time" << "@" << QCursor::pos();
 
-    openGLTimerQuery->begin();
+        openGLTimerQuery->begin();
 
     matrix_modelview.setToIdentity();
     matrix_modelview.translate(translationOffset.x(), translationOffset.y(), 0.0);
@@ -972,7 +972,7 @@ void GLWidget::paintGL()
             glEnd();
         }
 
-        //draw Arcball
+        // draw Arcball
         if(arcballShown)
         {
             QPointF lookAtScreenCoords = mapFromScene(lookAtPosition);
@@ -1000,7 +1000,7 @@ void GLWidget::paintGL()
     QRect focusRect = QRect(0, 0, _snapIndicatorSize, _snapIndicatorSize);
 
     if (this->itemGripModifier->getActiveGrip() == ItemGripModifier::Grip_Move)
-    { 
+    {
         QString itemDescription = "[" + this->itemGripModifier->getItemDescription() + "]";
         QVector3D pos = this->itemGripModifier->getScenePosSource();
         QString itemPosition_from = QString().sprintf(" @{%.3lf|%.3lf|%.3lf}", pos.x(), pos.y(), pos.z());
@@ -1254,7 +1254,7 @@ void GLWidget::paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFon
     delete texture;
 
 
-    //    // Draw outline
+    // Draw outline
     setPaintingColor(colorOutline);
     glLineWidth(1.0);
     glBegin(GL_LINE_LOOP);
@@ -1348,12 +1348,12 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundin
     {
         if(checkBoundingBox)
         {
-//             Global culling performance test
-            // Exclude all items from painting that do not reach the canvas with their boundingRect
+            //Global culling performance test
+            //Exclude all items from painting that do not reach the canvas with their boundingRect
             int screen_x_min = -this->width() / 2;
-            //            int screen_x_max =  this->width() / 2;
+//            int screen_x_max =  this->width() / 2;
             int screen_y_min = -this->height() / 2;
-            //            int screen_y_max =  this->height() / 2;
+//            int screen_y_max =  this->height() / 2;
 
             int p_x_min =  100000;
             int p_x_max = -100000;
@@ -1411,7 +1411,7 @@ QList<CADitem*> GLWidget::itemsAtPosition_v2(QPoint pos, int size_x, int size_y)
 {
     makeCurrent();
 
-    //qDebug() << "highlight";
+//    qDebug() << "highlight";
 
     if (fbo_select->size() != QSize(size_x, size_y))
     {
@@ -1668,7 +1668,7 @@ void GLWidget::initializeGL()
 
     glEnable(GL_FRAMEBUFFER_SRGB);
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE | GL_EMISSION);
-//    glEnableClientState(GL_VERTEX_ARRAY);
+    //    glEnableClientState(GL_VERTEX_ARRAY);
 
     shader_1_vert = new QOpenGLShader(QOpenGLShader::Vertex);
     if (!shader_1_vert->compileSourceFile(":/shaders/shader_1.vert"))
@@ -1860,18 +1860,55 @@ void GLWidget::initializeGL()
     format.setInternalTextureFormat(GL_RGBA);
     format.setMipmap(false);
     format.setTextureTarget(GL_TEXTURE_2D);
-//    fbo_select = new QOpenGLFramebufferObject(size_x, size_y, format);
+    //    fbo_select = new QOpenGLFramebufferObject(size_x, size_y, format);
     fbo_select = new QOpenGLFramebufferObject(_cursorPickboxSize, _cursorPickboxSize, format);
+
+    //*** Spielwiese ***
+//    qDebug() << "Start test anglesFromMatrix()";
+//    for(int x = 0; x < 360; x++)
+//    {
+//        qDebug() << x << " / 360";
+//        for(int y = 0; y < 360; y++)
+//        {
+//            for(int z = 0; z < 360; z++)
+//            {
+//                qreal psi = 0.0;
+//                qreal theta = 0.0;
+//                qreal phi = 0.0;
+
+//                psi = x;
+//                theta = y;
+//                phi = z;
+//                QMatrix4x4 m;
+//                m.setToIdentity();
+//                m.rotate(psi, 1.0, 0.0, 0.0);
+//                m.rotate(theta, 0.0, 1.0, 0.0);
+//                m.rotate(phi, 0.0, 0.0, 1.0);
+//                QVector3D angles = MAngleCalculations().anglesFromMatrix(m);
+//                QMatrix4x4 w;
+//                w.setToIdentity();
+//                w.rotate(angles.x(), 1.0, 0.0, 0.0);
+//                w.rotate(angles.y(), 0.0, 1.0, 0.0);
+//                w.rotate(angles.z(), 0.0, 0.0, 1.0);
+//                if(MAngleCalculations().matrixNorm(m-w) > 10E-6)
+//                {
+//                    qDebug() << m;
+//                    qDebug() << w;
+//                }
+//            }
+//        }
+//    }
+//    qDebug() << "Finished test anglesFromMatrix()";
 }
 
-void GLWidget::resizeGL(int w, int h)
-{
-    displayCenter = QPoint(w, h) / 2;
+    void GLWidget::resizeGL(int w, int h)
+    {
+        displayCenter = QPoint(w, h) / 2;
 
-    matrix_projection.setToIdentity();
-    matrix_projection.scale(2.0 / (qreal)w, 2.0 / (qreal)h, 1.0);
-    matrix_projection.translate(-0.5, -0.5);
+        matrix_projection.setToIdentity();
+        matrix_projection.scale(2.0 / (qreal)w, 2.0 / (qreal)h, 1.0);
+        matrix_projection.translate(-0.5, -0.5);
 
-    updateMatrixAll();
-    slot_repaint();
-}
+        updateMatrixAll();
+        slot_repaint();
+    }
