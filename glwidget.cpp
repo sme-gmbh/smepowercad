@@ -199,50 +199,97 @@ QMatrix4x4 GLWidget::getMatrix_all()
     return this->matrix_all;
 }
 
-QImage GLWidget::render_image(int size_x, int size_y, QMatrix4x4 matrix_all)
+QImage GLWidget::render_image(int size_x, int size_y, QMatrix4x4 matrix_modelview, QMatrix4x4 matrix_rotation)
 {
-    // Set matrix to requested state for image rendering
-    this->matrix_all = matrix_all;
+    QImage image(size_x, size_y, QImage::Format_ARGB32_Premultiplied);
+//    image.fill(Qt::yellow);
+    QPainter painter (&image);
+    QMatrix4x4 matrix_tile;
+
+    // Check if image size can be rendered in framebuffer or if tile rendering is needed
+    int tile_pos_x;
+    int tile_pos_y;
+    int tile_size_x = this->width();
+    int tile_size_y = this->height();
+    int num_tiles_x = size_x / tile_size_x + 1;
+    int num_tiles_y = size_y / tile_size_y + 1;
+
+    qreal zoom = qMin((qreal)size_x / (qreal)this->width(), (qreal)size_y / (qreal)this->height());
+
 
     // Set cutting planes to requested state for image rendering - tbd.
 //    this->height_of_intersection.setZ(height);
 //    this->depth_of_view.setZ(depth);
 
     // Render it **************************************************************
-    makeCurrent();
 
-    if (fbo_renderImage->size() != QSize(size_x, size_y))
+
+    for (int current_tile_x = 0; current_tile_x < num_tiles_x; current_tile_x++)
     {
-//        qDebug() << "fbo_renderImage resize" << QSize(size_x, size_y);
-        QOpenGLFramebufferObjectFormat format = fbo_renderImage->format();
-        delete fbo_renderImage;
-        fbo_renderImage = new QOpenGLFramebufferObject(size_x, size_y, format);
+        for (int current_tile_y = 0; current_tile_y < num_tiles_y; current_tile_y++)
+        {
+            tile_pos_x = tile_size_x * current_tile_x;
+            tile_pos_y = tile_size_y * current_tile_y;
+
+
+            // Set matrix to requested state for tile image rendering
+            matrix_tile.setToIdentity();
+            matrix_tile.translate((-(qreal)current_tile_x) * (qreal)tile_size_x / zoom, ((qreal)current_tile_y + 1.0) * (qreal)tile_size_y / zoom, 0);
+
+            QMatrix4x4 matrix_projection_tile;
+            matrix_projection_tile.setToIdentity();
+            matrix_projection_tile.translate(-1.0, -1.0);
+            matrix_projection_tile.scale(zoom, zoom, 1.0);
+            matrix_projection_tile.translate(+1.0, -1.0);
+            matrix_projection_tile.scale(2.0 / (qreal)this->width(), 2.0 / (qreal)this->height(), 1.0);
+
+            this->matrix_all = matrix_projection_tile * matrix_tile * matrix_modelview * matrix_rotation;
+
+            makeCurrent();
+
+            if (fbo_renderImage->size() != QSize(tile_size_x, tile_size_y))
+            {
+                QOpenGLFramebufferObjectFormat format = fbo_renderImage->format();
+                delete fbo_renderImage;
+                fbo_renderImage = new QOpenGLFramebufferObject(tile_size_x, tile_size_y, format);
+            }
+
+            fbo_renderImage->bind();
+
+            glDepthFunc(GL_LEQUAL);
+            glDepthRange(1,0);
+            glDisable(GL_BLEND);
+            glEnable(GL_MULTISAMPLE);
+            glDisable(GL_CULL_FACE);
+            glEnable(GL_DEPTH_TEST);
+            glDisable(GL_ALPHA_TEST);
+            glClearColor(1.0, 1.0, 1.0, 1.0);   // white background
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            paintContent(itemDB->layers);
+            QImage image_tile = fbo_renderImage->toImage(true);
+
+            painter.drawImage(tile_pos_x, tile_pos_y, image_tile);
+            fbo_renderImage->release();
+
+            doneCurrent();
+        }
     }
 
-    // GL select matrix is not touched in image rendering function!
-//    matrix_glSelect.setToIdentity();
-//    matrix_glSelect.translate(-(qreal)(pos.x() + (this->width() - size_x) / 2), -(qreal)(pos.y() + (this->height() - size_y) / 2), 0.0);
-//    updateMatrixAll();
+    painter.setPen(Qt::blue);
+    for (int current_tile_x = 0; current_tile_x < num_tiles_x; current_tile_x++)
+    {
+        for (int current_tile_y = 0; current_tile_y < num_tiles_y; current_tile_y++)
+        {
+            tile_pos_x = tile_size_x * current_tile_x;
+            tile_pos_y = tile_size_y * current_tile_y;
 
-    fbo_renderImage->bind();
 
-    glDepthFunc(GL_LEQUAL);
-    glDepthRange(1,0);
-    glDisable(GL_BLEND);
-    glEnable(GL_MULTISAMPLE);
-    glDisable(GL_CULL_FACE);
-    glEnable(GL_DEPTH_TEST);
-    glDisable(GL_ALPHA_TEST);
-    glClearColor(1.0, 1.0, 1.0, 1.0);   // white background
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            painter.drawRect(tile_pos_x, tile_pos_y, tile_size_x, tile_size_y);
+        }
+    }
 
-    paintContent(itemDB->layers);
 
-    QImage image = fbo_renderImage->toImage(true);
-
-    fbo_renderImage->release();
-
-    doneCurrent();
 
     // Rendering done *********************************************************
 
@@ -253,6 +300,8 @@ QImage GLWidget::render_image(int size_x, int size_y, QMatrix4x4 matrix_all)
 
     // Change matrix back back to previous state
     this->updateMatrixAll();
+
+    painter.end();
 
     return image;
 }
@@ -684,9 +733,11 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         break;
     case Qt::Key_A:                         // Render a test image
     {
-        QImage testImage = this->render_image(this->width(), this->height(), this->matrix_all);
+        qDebug() << matrix_modelview;
+        qDebug() << matrix_rotation;
+        QImage testImage = this->render_image(this->width() * 4, this->height() * 4, this->matrix_modelview, this->matrix_rotation);
         QString filename = QFileDialog::getSaveFileName(this, tr("Save captured image"), "", "PNG image file (*.png)");
-        testImage.save(filename, "PNG", 100);
+        testImage.save(filename, "PNG", -1);
         break;
     }
     case Qt::Key_C:                         // Copy item

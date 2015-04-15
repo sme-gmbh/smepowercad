@@ -42,6 +42,7 @@
 #include <QColor>
 #include <QRgb>
 #include <QImage>
+#include <QPainter>
 #include <QFileDialog>
 
 #include <qmath.h>
@@ -79,7 +80,7 @@ public:
     void set_WorldRotation(float rot_x, float rot_y, float rot_z);
     QMatrix4x4 getMatrix_all();
 
-    QImage render_image(int size_x, int size_y, QMatrix4x4 matrix_all);
+    QImage render_image(int size_x, int size_y, QMatrix4x4 matrix_modelview, QMatrix4x4 matrix_rotation);
 
 
     QStringList getOpenGLinfo();
