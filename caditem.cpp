@@ -146,7 +146,9 @@ QVector3D CADitem::anglesFromVector(QVector3D vector)
 
     //optimize until difference angle ist smaller than 10E-6°
     quint32 i = 1;
-    while(difference(vector, angle_x, angle_y, angle_z) > 10E-6)
+    //tbd: we need an algorithm with faster convergence rate
+    //at this moment we just terminate after 10000 steps
+    while(difference(vector, angle_x, angle_y, angle_z) > 10E-6 && i < 10000)
     {
         //optimize angle_x
         if( difference(vector, angle_x + alpha(i), angle_y, angle_z) < difference(vector, angle_x, angle_y, angle_z))
