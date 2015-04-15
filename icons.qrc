@@ -162,6 +162,7 @@
         <file>icons/cad_gas/cad_gas_vacpump.svg</file>
         <file>icons/cad_gas/cad_gas_vacquicklockcoupling.svg</file>
         <file>icons/cad_gas/cad_gas_vactank.svg</file>
+        <file>icons/cad_heatcool/cad_heatcool_32wayvalve.svg</file>
         <file>icons/cad_heatcool/cad_heatcool_adjustvalve.svg</file>
         <file>icons/cad_heatcool/cad_heatcool_ballvalve.svg</file>
         <file>icons/cad_heatcool/cad_heatcool_boiler.svg</file>
@@ -310,6 +311,7 @@
         <file>itemGraphic/cad_gas_vacpipe.png</file>
         <file>itemGraphic/cad_gas_vacpipeteeconnector.png</file>
         <file>itemGraphic/cad_gas_vacpipeturn.png</file>
+        <file>itemGraphic/cad_heatcool_32wayvalve.png</file>
         <file>itemGraphic/cad_heatcool_butterflyvalvebolted.png</file>
         <file>itemGraphic/cad_heatcool_butterflyvalveclamped.png</file>
         <file>itemGraphic/cad_heatcool_dirtarrester.png</file>
