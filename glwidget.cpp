@@ -700,9 +700,19 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     case Qt::Key_X:                         // Turn item around x axis
         if (item_lastHighlight != NULL)
         {
-            item_lastHighlight->angle_x += 45.0;
-            if (item_lastHighlight->angle_x > 359.0) item_lastHighlight->angle_x = 0.0;
-            item_lastHighlight->wizardParams.insert("Angle x", (item_lastHighlight->angle_x));
+//            item_lastHighlight->angle_x += 45.0;
+//            if (item_lastHighlight->angle_x > 359.0) item_lastHighlight->angle_x = 0.0;
+//            item_lastHighlight->wizardParams.insert("Angle x", (item_lastHighlight->angle_x));
+//            item_lastHighlight->processWizardInput();
+//            item_lastHighlight->calculate();
+            QMatrix4x4 matrix_old = item_lastHighlight->matrix_rotation;
+            QMatrix4x4 m;
+            m.setToIdentity();
+            m.rotate(45.0, 1.0, 0.0, 0.0);
+            QVector3D angles = MAngleCalculations().anglesFromMatrix(m * matrix_old);
+            item_lastHighlight->wizardParams.insert("Angle x", (angles.x()));
+            item_lastHighlight->wizardParams.insert("Angle y", (angles.y()));
+            item_lastHighlight->wizardParams.insert("Angle z", (angles.z()));
             item_lastHighlight->processWizardInput();
             item_lastHighlight->calculate();
             slot_repaint();
@@ -711,9 +721,19 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Y:                         // Turn item around y axis
         if (item_lastHighlight != NULL)
         {
-            item_lastHighlight->angle_y += 45.0;
-            if (item_lastHighlight->angle_y > 359.0) item_lastHighlight->angle_y = 0.0;
-            item_lastHighlight->wizardParams.insert("Angle y", (item_lastHighlight->angle_y));
+//            item_lastHighlight->angle_y += 45.0;
+//            if (item_lastHighlight->angle_y > 359.0) item_lastHighlight->angle_y = 0.0;
+//            item_lastHighlight->wizardParams.insert("Angle y", (item_lastHighlight->angle_y));
+//            item_lastHighlight->processWizardInput();
+//            item_lastHighlight->calculate();
+            QMatrix4x4 matrix_old = item_lastHighlight->matrix_rotation;
+            QMatrix4x4 m;
+            m.setToIdentity();
+            m.rotate(45.0, 0.0, 1.0, 0.0);
+            QVector3D angles = MAngleCalculations().anglesFromMatrix(m * matrix_old);
+            item_lastHighlight->wizardParams.insert("Angle x", (angles.x()));
+            item_lastHighlight->wizardParams.insert("Angle y", (angles.y()));
+            item_lastHighlight->wizardParams.insert("Angle z", (angles.z()));
             item_lastHighlight->processWizardInput();
             item_lastHighlight->calculate();
             slot_repaint();
@@ -722,9 +742,19 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Z:                         // Turn item around z axis
         if (item_lastHighlight != NULL)
         {
-            item_lastHighlight->angle_z += 45.0;
-            if (item_lastHighlight->angle_z > 359.0) item_lastHighlight->angle_z = 0.0;
-            item_lastHighlight->wizardParams.insert("Angle z", (item_lastHighlight->angle_z));
+//            item_lastHighlight->angle_z += 45.0;
+//            if (item_lastHighlight->angle_z > 359.0) item_lastHighlight->angle_z = 0.0;
+//            item_lastHighlight->wizardParams.insert("Angle z", (item_lastHighlight->angle_z));
+//            item_lastHighlight->processWizardInput();
+//            item_lastHighlight->calculate();
+            QMatrix4x4 matrix_old = item_lastHighlight->matrix_rotation;
+            QMatrix4x4 m;
+            m.setToIdentity();
+            m.rotate(45.0, 0.0, 0.0, 1.0);
+            QVector3D angles = MAngleCalculations().anglesFromMatrix(m * matrix_old);
+            item_lastHighlight->wizardParams.insert("Angle x", (angles.x()));
+            item_lastHighlight->wizardParams.insert("Angle y", (angles.y()));
+            item_lastHighlight->wizardParams.insert("Angle z", (angles.z()));
             item_lastHighlight->processWizardInput();
             item_lastHighlight->calculate();
             slot_repaint();
