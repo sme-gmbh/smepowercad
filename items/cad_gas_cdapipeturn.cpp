@@ -139,7 +139,7 @@ void CAD_Gas_CDAPipeTurn::calculate()
     left->calculate();
 
     QVector3D position_right = position + matrix_rotation * QVector3D(l1 + sin(alpha / 180 * PI) * r, 0.0, -(1-cos(alpha / 180 * PI)) * r);
-    QVector3D angles_right = anglesFromVector(matrix_rotation * QVector3D(cos(alpha / 180 * PI), 0.0, -sin(alpha / 180 * PI)));
+    QVector3D angles_right = MAngleCalculations().anglesFromVector(matrix_rotation * QVector3D(cos(alpha / 180 * PI), 0.0, -sin(alpha / 180 * PI)));
     right->wizardParams.insert("Position x", position_right.x());
     right->wizardParams.insert("Position y", position_right.y());
     right->wizardParams.insert("Position z", position_right.z());

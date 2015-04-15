@@ -15,6 +15,11 @@ public:
     ~MAngleCalculations();
     QVector3D anglesFromMatrix(QMatrix4x4 matrix_rotation);
     qreal matrixNorm(QMatrix4x4 matrix);
+    QVector3D anglesFromVector(QVector3D vector);
+
+private:
+    qreal difference(QVector3D vec, qreal alpha, qreal beta, qreal gamma);
+    qreal alpha(quint32 i);
 };
 
 #endif // MANGLECALCULATIONS_H

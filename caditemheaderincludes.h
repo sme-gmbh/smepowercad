@@ -187,6 +187,7 @@
 #include "items/cad_gas_vacquicklockcoupling.h"
 #include "items/cad_gas_vactank.h"
 
+#include "items/cad_heatcool_32wayvalve.h"
 #include "items/cad_heatcool_adjustvalve.h"
 #include "items/cad_heatcool_ballvalve.h"
 #include "items/cad_heatcool_boiler.h"

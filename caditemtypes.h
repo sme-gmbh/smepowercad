@@ -198,6 +198,7 @@ public:
         Gas_VACQuickLockCoupling,
         Gas_VACTank,
 
+        HeatCool_32WayValve,                   // 3/2 Wegeventil
         HeatCool_Adjustvalve,                   // Regulierventil
         HeatCool_BallValve,                     // Kugelhahn
         HeatCool_Boiler,                        // Heizkessel

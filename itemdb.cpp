@@ -841,6 +841,9 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
         break;
 
         //Heatcool
+    case CADitemTypes::HeatCool_32WayValve:
+        newItem = new CAD_HeatCool_32WayValve();
+        break;
     case CADitemTypes::HeatCool_Adjustvalve:
         newItem = new CAD_heatcool_adjustvalve();
         break;

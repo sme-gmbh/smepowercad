@@ -156,7 +156,7 @@ void CAD_heatcool_pipeTeeConnector::calculate()
     pipe->calculate();
 
     QVector3D position_branch = position + matrix_rotation * QVector3D(l2, 0.0, 0.0);
-    QVector3D angles_branch = anglesFromVector(matrix_rotation * QVector3D(cos(alpha / 180 * PI), 0.0, sin(alpha / 180 * PI)));
+    QVector3D angles_branch = MAngleCalculations().anglesFromVector(matrix_rotation * QVector3D(cos(alpha / 180 * PI), 0.0, sin(alpha / 180 * PI)));
     branch->wizardParams.insert("Position x", position_branch.x());
     branch->wizardParams.insert("Position y", position_branch.y());
     branch->wizardParams.insert("Position z", position_branch.z());

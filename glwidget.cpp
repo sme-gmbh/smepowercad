@@ -65,7 +65,7 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, Item
 
 GLWidget::~GLWidget()
 {
-    //    qDebug() << "GLWidget destroyed";
+//    qDebug() << "GLWidget destroyed";
     makeCurrent();
     openGLTimerQuery->destroy();
     shaderProgram->release();
@@ -354,7 +354,7 @@ void GLWidget::slot_snapTo(QVector3D snapPos_scene, int snapMode)
 void GLWidget::slot_changeSelection(QList<CADitem *> selectedItems)
 {
     this->selection_itemList = selectedItems;
-    //    emit signal_selectionChanged(this->selection_itemList);
+//    emit signal_selectionChanged(this->selection_itemList);
     slot_repaint();
 }
 
@@ -387,9 +387,9 @@ void GLWidget::slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c)
         zoomFactor += zoomStep;
 
     // rot tbd.
-    //    rot_x += -((float)a / 15.0);
-    //    rot_y += -((float)b / 15.0);
-    //    rot_z += -((float)c / 15.0);
+//    rot_x += -((float)a / 15.0);
+//    rot_y += -((float)b / 15.0);
+//    rot_z += -((float)c / 15.0);
 
     updateMatrixAll();
     emit signal_matrix_rotation_changed(matrix_rotation);
@@ -822,9 +822,19 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     case Qt::Key_X:                         // Turn item around x axis
         if (item_lastHighlight != NULL)
         {
-            item_lastHighlight->angle_x += 45.0;
-            if (item_lastHighlight->angle_x > 359.0) item_lastHighlight->angle_x = 0.0;
-            item_lastHighlight->wizardParams.insert("Angle x", (item_lastHighlight->angle_x));
+//            item_lastHighlight->angle_x += 45.0;
+//            if (item_lastHighlight->angle_x > 359.0) item_lastHighlight->angle_x = 0.0;
+//            item_lastHighlight->wizardParams.insert("Angle x", (item_lastHighlight->angle_x));
+//            item_lastHighlight->processWizardInput();
+//            item_lastHighlight->calculate();
+            QMatrix4x4 matrix_old = item_lastHighlight->matrix_rotation;
+            QMatrix4x4 m;
+            m.setToIdentity();
+            m.rotate(45.0, 1.0, 0.0, 0.0);
+            QVector3D angles = MAngleCalculations().anglesFromMatrix(m * matrix_old);
+            item_lastHighlight->wizardParams.insert("Angle x", (angles.x()));
+            item_lastHighlight->wizardParams.insert("Angle y", (angles.y()));
+            item_lastHighlight->wizardParams.insert("Angle z", (angles.z()));
             item_lastHighlight->processWizardInput();
             item_lastHighlight->calculate();
             slot_repaint();
@@ -833,9 +843,19 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Y:                         // Turn item around y axis
         if (item_lastHighlight != NULL)
         {
-            item_lastHighlight->angle_y += 45.0;
-            if (item_lastHighlight->angle_y > 359.0) item_lastHighlight->angle_y = 0.0;
-            item_lastHighlight->wizardParams.insert("Angle y", (item_lastHighlight->angle_y));
+//            item_lastHighlight->angle_y += 45.0;
+//            if (item_lastHighlight->angle_y > 359.0) item_lastHighlight->angle_y = 0.0;
+//            item_lastHighlight->wizardParams.insert("Angle y", (item_lastHighlight->angle_y));
+//            item_lastHighlight->processWizardInput();
+//            item_lastHighlight->calculate();
+            QMatrix4x4 matrix_old = item_lastHighlight->matrix_rotation;
+            QMatrix4x4 m;
+            m.setToIdentity();
+            m.rotate(45.0, 0.0, 1.0, 0.0);
+            QVector3D angles = MAngleCalculations().anglesFromMatrix(m * matrix_old);
+            item_lastHighlight->wizardParams.insert("Angle x", (angles.x()));
+            item_lastHighlight->wizardParams.insert("Angle y", (angles.y()));
+            item_lastHighlight->wizardParams.insert("Angle z", (angles.z()));
             item_lastHighlight->processWizardInput();
             item_lastHighlight->calculate();
             slot_repaint();
@@ -844,9 +864,19 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Z:                         // Turn item around z axis
         if (item_lastHighlight != NULL)
         {
-            item_lastHighlight->angle_z += 45.0;
-            if (item_lastHighlight->angle_z > 359.0) item_lastHighlight->angle_z = 0.0;
-            item_lastHighlight->wizardParams.insert("Angle z", (item_lastHighlight->angle_z));
+//            item_lastHighlight->angle_z += 45.0;
+//            if (item_lastHighlight->angle_z > 359.0) item_lastHighlight->angle_z = 0.0;
+//            item_lastHighlight->wizardParams.insert("Angle z", (item_lastHighlight->angle_z));
+//            item_lastHighlight->processWizardInput();
+//            item_lastHighlight->calculate();
+            QMatrix4x4 matrix_old = item_lastHighlight->matrix_rotation;
+            QMatrix4x4 m;
+            m.setToIdentity();
+            m.rotate(45.0, 0.0, 0.0, 1.0);
+            QVector3D angles = MAngleCalculations().anglesFromMatrix(m * matrix_old);
+            item_lastHighlight->wizardParams.insert("Angle x", (angles.x()));
+            item_lastHighlight->wizardParams.insert("Angle y", (angles.y()));
+            item_lastHighlight->wizardParams.insert("Angle z", (angles.z()));
             item_lastHighlight->processWizardInput();
             item_lastHighlight->calculate();
             slot_repaint();
@@ -892,7 +922,7 @@ void GLWidget::paintGL()
     else
 //        qDebug() << "render without time" << "@" << QCursor::pos();
 
-    openGLTimerQuery->begin();
+        openGLTimerQuery->begin();
 
     matrix_modelview.setToIdentity();
     matrix_modelview.translate(translationOffset.x(), translationOffset.y(), 0.0);
@@ -1094,7 +1124,7 @@ void GLWidget::paintGL()
             glEnd();
         }
 
-        //draw Arcball
+        // draw Arcball
         if(arcballShown)
         {
             QPointF lookAtScreenCoords = mapFromScene(lookAtPosition);
@@ -1122,7 +1152,7 @@ void GLWidget::paintGL()
     QRect focusRect = QRect(0, 0, _snapIndicatorSize, _snapIndicatorSize);
 
     if (this->itemGripModifier->getActiveGrip() == ItemGripModifier::Grip_Move)
-    { 
+    {
         QString itemDescription = "[" + this->itemGripModifier->getItemDescription() + "]";
         QVector3D pos = this->itemGripModifier->getScenePosSource();
         QString itemPosition_from = QString().sprintf(" @{%.3lf|%.3lf|%.3lf}", pos.x(), pos.y(), pos.z());
@@ -1376,7 +1406,7 @@ void GLWidget::paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFon
     delete texture;
 
 
-    //    // Draw outline
+    // Draw outline
     setPaintingColor(colorOutline);
     glLineWidth(1.0);
     glBegin(GL_LINE_LOOP);
@@ -1470,12 +1500,12 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundin
     {
         if(checkBoundingBox)
         {
-//             Global culling performance test
-            // Exclude all items from painting that do not reach the canvas with their boundingRect
+            //Global culling performance test
+            //Exclude all items from painting that do not reach the canvas with their boundingRect
             int screen_x_min = -this->width() / 2;
-            //            int screen_x_max =  this->width() / 2;
+//            int screen_x_max =  this->width() / 2;
             int screen_y_min = -this->height() / 2;
-            //            int screen_y_max =  this->height() / 2;
+//            int screen_y_max =  this->height() / 2;
 
             int p_x_min =  100000;
             int p_x_max = -100000;
@@ -1533,7 +1563,7 @@ QList<CADitem*> GLWidget::itemsAtPosition_v2(QPoint pos, int size_x, int size_y)
 {
     makeCurrent();
 
-    //qDebug() << "highlight";
+//    qDebug() << "highlight";
 
     if (fbo_select->size() != QSize(size_x, size_y))
     {
@@ -1790,7 +1820,7 @@ void GLWidget::initializeGL()
 
     glEnable(GL_FRAMEBUFFER_SRGB);
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE | GL_EMISSION);
-//    glEnableClientState(GL_VERTEX_ARRAY);
+    //    glEnableClientState(GL_VERTEX_ARRAY);
 
     shader_1_vert = new QOpenGLShader(QOpenGLShader::Vertex);
     if (!shader_1_vert->compileSourceFile(":/shaders/shader_1.vert"))
@@ -1989,14 +2019,14 @@ void GLWidget::initializeGL()
     fbo_renderImage = new QOpenGLFramebufferObject(this->width(), this->height(), format);
 }
 
-void GLWidget::resizeGL(int w, int h)
-{
-    displayCenter = QPoint(w, h) / 2;
+    void GLWidget::resizeGL(int w, int h)
+    {
+        displayCenter = QPoint(w, h) / 2;
 
-    matrix_projection.setToIdentity();
-    matrix_projection.scale(2.0 / (qreal)w, 2.0 / (qreal)h, 1.0);
-    matrix_projection.translate(-0.5, -0.5);
+        matrix_projection.setToIdentity();
+        matrix_projection.scale(2.0 / (qreal)w, 2.0 / (qreal)h, 1.0);
+        matrix_projection.translate(-0.5, -0.5);
 
-    updateMatrixAll();
-    slot_repaint();
-}
+        updateMatrixAll();
+        slot_repaint();
+    }

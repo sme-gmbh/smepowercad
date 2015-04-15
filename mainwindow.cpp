@@ -244,6 +244,42 @@ MainWindow::MainWindow(QWidget *parent) :
 //        item->calculate();
 //    }
 
+//    qDebug() << "Start test anglesFromMatrix()";
+//    for(int x = 0; x < 360; x++)
+//    {
+//        qDebug() << x << " / 360";
+//        for(int y = 0; y < 360; y++)
+//        {
+//            for(int z = 0; z < 360; z++)
+//            {
+//                qreal psi = 0.0;
+//                qreal theta = 0.0;
+//                qreal phi = 0.0;
+
+//                psi = x;
+//                theta = y;
+//                phi = z;
+//                QMatrix4x4 m;
+//                m.setToIdentity();
+//                m.rotate(psi, 1.0, 0.0, 0.0);
+//                m.rotate(theta, 0.0, 1.0, 0.0);
+//                m.rotate(phi, 0.0, 0.0, 1.0);
+//                QVector3D angles = MAngleCalculations().anglesFromMatrix(m);
+//                QMatrix4x4 w;
+//                w.setToIdentity();
+//                w.rotate(angles.x(), 1.0, 0.0, 0.0);
+//                w.rotate(angles.y(), 0.0, 1.0, 0.0);
+//                w.rotate(angles.z(), 0.0, 0.0, 1.0);
+//                if(MAngleCalculations().matrixNorm(m-w) > 10E-6)
+//                {
+//                    qDebug() << m;
+//                    qDebug() << w;
+//                }
+//            }
+//        }
+//    }
+//    qDebug() << "Finished test anglesFromMatrix()";
+
     this->layerManager->slot_updateAllLayers();
 
 
