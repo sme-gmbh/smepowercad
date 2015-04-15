@@ -138,55 +138,6 @@ bool CADitem::serialIn(QByteArray* in)
 
 }
 
-QVector3D CADitem::anglesFromVector(QVector3D vector)
-{
-    qreal angle_x = 0.0;
-    qreal angle_y = 0.0;
-    qreal angle_z = 0.0;
-
-    //optimize until difference angle ist smaller than 10E-6°
-    quint32 i = 1;
-    //tbd: we need an algorithm with faster convergence rate
-    //at this moment we just terminate after 10000 steps
-    while(difference(vector, angle_x, angle_y, angle_z) > 10E-6 && i < 10000)
-    {
-        //optimize angle_x
-        if( difference(vector, angle_x + alpha(i), angle_y, angle_z) < difference(vector, angle_x, angle_y, angle_z))
-            angle_x = angle_x + alpha(i);
-        else if( difference(vector, angle_x - alpha(i), angle_y, angle_z) < difference(vector, angle_x, angle_y, angle_z))
-            angle_x = angle_x - alpha(i);
-        //optimize angle_y
-        if( difference(vector, angle_x, angle_y + alpha(i), angle_z) < difference(vector, angle_x, angle_y, angle_z))
-            angle_y = angle_y + alpha(i);
-        else if( difference(vector, angle_x, angle_y - alpha(i), angle_z) < difference(vector, angle_x, angle_y, angle_z))
-            angle_y = angle_y - alpha(i);
-        //optimize angle_z
-        if( difference(vector, angle_x, angle_y, angle_z + alpha(i)) < difference(vector, angle_x, angle_y, angle_z))
-            angle_z = angle_z + alpha(i);
-        else if( difference(vector, angle_x, angle_y, angle_z - alpha(i)) < difference(vector, angle_x, angle_y, angle_z))
-            angle_z = angle_z - alpha(i);
-        i++;
-    }
-    return QVector3D(angle_x, angle_y, angle_z);
-}
-
-qreal CADitem::difference(QVector3D vec, qreal angle_x, qreal angle_y, qreal angle_z)
-{
-    QMatrix4x4 matrix_difference;
-    matrix_difference.setToIdentity();
-    matrix_difference.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_difference.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_difference.rotate(angle_z, 0.0, 0.0, 1.0);
-    QVector3D a = matrix_difference * QVector3D(1.0, 0.0, 0.0);
-    qreal phi = acos(a.dotProduct(vec, a) / (vec.length() * a.length())) / PI * 180.0;
-    return phi;
-}
-
-qreal CADitem::alpha(quint32 i)
-{
-    return 45.0 / i;
-}
-
 void CADitem::rotateAroundAxis(qreal angle, QVector3D axis, qreal angle_x, qreal angle_y, qreal angle_z)
 {
     matrix_rotation.setToIdentity();
@@ -194,6 +145,10 @@ void CADitem::rotateAroundAxis(qreal angle, QVector3D axis, qreal angle_x, qreal
     matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
     matrix_rotation.rotate(angle, QVector3D(axis));
+    QVector3D angles = MAngleCalculations().anglesFromMatrix(matrix_rotation);
+    this->wizardParams.insert("Angle x", (angles.x()));
+    this->wizardParams.insert("Angle y", (angles.y()));
+    this->wizardParams.insert("Angle z", (angles.z()));
 }
 
 CADitemTypes::ItemType CADitem::getType()
