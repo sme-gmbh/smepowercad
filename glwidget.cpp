@@ -77,6 +77,7 @@ GLWidget::~GLWidget()
     texture_cube5->destroy();
     texture_cube6->destroy();
     delete fbo_select;
+    delete fbo_renderImage;
     delete openGLTimerQuery;
     delete shader_1_vert;
     delete shader_1_lines_geom;
@@ -191,6 +192,69 @@ void GLWidget::set_WorldRotation(float rot_x, float rot_y, float rot_z)
     matrix_rotation.rotate(rot_z, 0.0, 0.0, 1.0);
     updateMatrixAll();
     slot_repaint();
+}
+
+QMatrix4x4 GLWidget::getMatrix_all()
+{
+    return this->matrix_all;
+}
+
+QImage GLWidget::render_image(int size_x, int size_y, QMatrix4x4 matrix_all)
+{
+    // Set matrix to requested state for image rendering
+    this->matrix_all = matrix_all;
+
+    // Set cutting planes to requested state for image rendering - tbd.
+//    this->height_of_intersection.setZ(height);
+//    this->depth_of_view.setZ(depth);
+
+    // Render it **************************************************************
+    makeCurrent();
+
+    if (fbo_renderImage->size() != QSize(size_x, size_y))
+    {
+//        qDebug() << "fbo_renderImage resize" << QSize(size_x, size_y);
+        QOpenGLFramebufferObjectFormat format = fbo_renderImage->format();
+        delete fbo_renderImage;
+        fbo_renderImage = new QOpenGLFramebufferObject(size_x, size_y, format);
+    }
+
+    // GL select matrix is not touched in image rendering function!
+//    matrix_glSelect.setToIdentity();
+//    matrix_glSelect.translate(-(qreal)(pos.x() + (this->width() - size_x) / 2), -(qreal)(pos.y() + (this->height() - size_y) / 2), 0.0);
+//    updateMatrixAll();
+
+    fbo_renderImage->bind();
+
+    glDepthFunc(GL_LEQUAL);
+    glDepthRange(1,0);
+    glDisable(GL_BLEND);
+    glEnable(GL_MULTISAMPLE);
+    glDisable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_ALPHA_TEST);
+    glClearColor(1.0, 1.0, 1.0, 1.0);   // white background
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    paintContent(itemDB->layers);
+
+    QImage image = fbo_renderImage->toImage(true);
+
+    fbo_renderImage->release();
+
+    doneCurrent();
+
+    // Rendering done *********************************************************
+
+
+    // Change cutting planes back to previous state - tbd.
+//    this->height_of_intersection.setZ(height);
+//    this->depth_of_view.setZ(depth);
+
+    // Change matrix back back to previous state
+    this->updateMatrixAll();
+
+    return image;
 }
 
 QStringList GLWidget::getOpenGLinfo()
@@ -618,6 +682,13 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             this->slot_repaint();
         }
         break;
+    case Qt::Key_A:                         // Render a test image
+    {
+        QImage testImage = this->render_image(this->width(), this->height(), this->matrix_all);
+        QString filename = QFileDialog::getSaveFileName(this, tr("Save captured image"), "", "PNG image file (*.png)");
+        testImage.save(filename, "PNG", 100);
+        break;
+    }
     case Qt::Key_C:                         // Copy item
         if ((this->selection_itemList.count() > 0) && (item_lastHighlight != NULL))   // more than one item
         {
@@ -1860,8 +1931,11 @@ void GLWidget::initializeGL()
     format.setInternalTextureFormat(GL_RGBA);
     format.setMipmap(false);
     format.setTextureTarget(GL_TEXTURE_2D);
-//    fbo_select = new QOpenGLFramebufferObject(size_x, size_y, format);
+
     fbo_select = new QOpenGLFramebufferObject(_cursorPickboxSize, _cursorPickboxSize, format);
+
+    format.setSamples(8);
+    fbo_renderImage = new QOpenGLFramebufferObject(this->width(), this->height(), format);
 }
 
 void GLWidget::resizeGL(int w, int h)

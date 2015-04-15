@@ -104,114 +104,114 @@ void GeometryDisplay::paintEvent(QPaintEvent *event)
     return;
 }
 
-void GeometryDisplay::paintAnchor(QPainter *painter, CuttingPlane cuttingplane)
-{
-    QPoint bottomLeft = this->rect().bottomLeft();
+//void GeometryDisplay::paintAnchor(QPainter *painter, CuttingPlane cuttingplane)
+//{
+//    QPoint bottomLeft = this->rect().bottomLeft();
 
-    // Anchor
-    // axes colors: x = red, y = green, z = blue
-    QPoint anchorPoint = bottomLeft + QPoint(10, -10);
+//    // Anchor
+//    // axes colors: x = red, y = green, z = blue
+//    QPoint anchorPoint = bottomLeft + QPoint(10, -10);
 
-    switch (cuttingplane)
-    {
-        case CuttingPlane_pX:
-        {
-            QPen pen(Qt::green);
-            pen.setWidth(1);
-            painter->setPen(pen);
-            painter->drawLine(anchorPoint, anchorPoint + QPoint(0, -50));
-            painter->drawText(anchorPoint + QPoint(0, -55), "y");
-            pen.setColor(QColor(120, 120, 255));
-            painter->setPen(pen);
-            painter->drawLine(anchorPoint, anchorPoint + QPoint(50, 0));
-            painter->drawText(anchorPoint + QPoint(55, 0), "z");
-            break;
-        }
-        case CuttingPlane_nX:
-        {
-            QPen pen(QColor(120, 120, 255));
-            pen.setWidth(1);
-            painter->setPen(pen);
-            painter->drawLine(anchorPoint, anchorPoint + QPoint(0, -50));
-            painter->drawText(anchorPoint + QPoint(0, -55), "z");
-            pen.setColor(Qt::green);
-            painter->setPen(pen);
-            painter->drawLine(anchorPoint, anchorPoint + QPoint(50, 0));
-            painter->drawText(anchorPoint + QPoint(55, 0), "y");
-            break;
-        }
-        case CuttingPlane_pY:
-        {
-            QPen pen(QColor(120, 120, 255));
-            pen.setWidth(1);
-            painter->setPen(pen);
-            painter->drawLine(anchorPoint, anchorPoint + QPoint(0, -50));
-            painter->drawText(anchorPoint + QPoint(0, -55), "z");
-            pen.setColor(Qt::red);
-            painter->setPen(pen);
-            painter->drawLine(anchorPoint, anchorPoint + QPoint(50, 0));
-            painter->drawText(anchorPoint + QPoint(55, 0), "x");
-            break;
-        }
-        case CuttingPlane_nY:
-        {
-            QPen pen(Qt::red);
-            pen.setWidth(1);
-            painter->setPen(pen);
-            painter->drawLine(anchorPoint, anchorPoint + QPoint(0, -50));
-            painter->drawText(anchorPoint + QPoint(0, -55), "x");
-            pen.setColor(QColor(120, 120, 255));
-            painter->setPen(pen);
-            painter->drawLine(anchorPoint, anchorPoint + QPoint(50, 0));
-            painter->drawText(anchorPoint + QPoint(55, 0), "z");
-            break;
-        }
-        case CuttingPlane_pZ:
-        {
-            QPen pen(Qt::red);
-            pen.setWidth(1);
-            painter->setPen(pen);
-            painter->drawLine(anchorPoint, anchorPoint + QPoint(0, -50));
-            painter->drawText(anchorPoint + QPoint(0, -55), "x");
-            pen.setColor(Qt::green);
-            painter->setPen(pen);
-            painter->drawLine(anchorPoint, anchorPoint + QPoint(50, 0));
-            painter->drawText(anchorPoint + QPoint(55, 0), "y");
-            break;
-        }
-        case CuttingPlane_nZ:
-        {
-            QPen pen(Qt::green);
-            pen.setWidth(1);
-            painter->setPen(pen);
-            painter->drawLine(anchorPoint, anchorPoint + QPoint(0, -50));
-            painter->drawText(anchorPoint + QPoint(0, -55), "y");
-            pen.setColor(Qt::red);
-            painter->setPen(pen);
-            painter->drawLine(anchorPoint, anchorPoint + QPoint(50, 0));
-            painter->drawText(anchorPoint + QPoint(55, 0), "x");
-            break;
-        }
-        case CuttingPlane_ISO_001:
-        {
-            QPen pen(QColor(120, 120, 255));
-            pen.setWidth(1);
-            painter->setPen(pen);
-            painter->drawLine(anchorPoint, anchorPoint + QPoint(0, -50));
-            painter->drawText(anchorPoint + QPoint(0, -55), "z");
-            pen.setColor(Qt::red);
-            painter->setPen(pen);
-            painter->drawLine(anchorPoint, anchorPoint + QPoint(50, 0));
-            painter->drawText(anchorPoint + QPoint(55, 0), "x");
-            pen.setColor(Qt::green);
-            pen.setWidth(1);
-            painter->setPen(pen);
-            painter->drawLine(anchorPoint, anchorPoint + QPoint(50, -50));
-            painter->drawText(anchorPoint + QPoint(55, -55), "-y");
-            break;
-        }
-    }
-}
+//    switch (cuttingplane)
+//    {
+//        case CuttingPlane_pX:
+//        {
+//            QPen pen(Qt::green);
+//            pen.setWidth(1);
+//            painter->setPen(pen);
+//            painter->drawLine(anchorPoint, anchorPoint + QPoint(0, -50));
+//            painter->drawText(anchorPoint + QPoint(0, -55), "y");
+//            pen.setColor(QColor(120, 120, 255));
+//            painter->setPen(pen);
+//            painter->drawLine(anchorPoint, anchorPoint + QPoint(50, 0));
+//            painter->drawText(anchorPoint + QPoint(55, 0), "z");
+//            break;
+//        }
+//        case CuttingPlane_nX:
+//        {
+//            QPen pen(QColor(120, 120, 255));
+//            pen.setWidth(1);
+//            painter->setPen(pen);
+//            painter->drawLine(anchorPoint, anchorPoint + QPoint(0, -50));
+//            painter->drawText(anchorPoint + QPoint(0, -55), "z");
+//            pen.setColor(Qt::green);
+//            painter->setPen(pen);
+//            painter->drawLine(anchorPoint, anchorPoint + QPoint(50, 0));
+//            painter->drawText(anchorPoint + QPoint(55, 0), "y");
+//            break;
+//        }
+//        case CuttingPlane_pY:
+//        {
+//            QPen pen(QColor(120, 120, 255));
+//            pen.setWidth(1);
+//            painter->setPen(pen);
+//            painter->drawLine(anchorPoint, anchorPoint + QPoint(0, -50));
+//            painter->drawText(anchorPoint + QPoint(0, -55), "z");
+//            pen.setColor(Qt::red);
+//            painter->setPen(pen);
+//            painter->drawLine(anchorPoint, anchorPoint + QPoint(50, 0));
+//            painter->drawText(anchorPoint + QPoint(55, 0), "x");
+//            break;
+//        }
+//        case CuttingPlane_nY:
+//        {
+//            QPen pen(Qt::red);
+//            pen.setWidth(1);
+//            painter->setPen(pen);
+//            painter->drawLine(anchorPoint, anchorPoint + QPoint(0, -50));
+//            painter->drawText(anchorPoint + QPoint(0, -55), "x");
+//            pen.setColor(QColor(120, 120, 255));
+//            painter->setPen(pen);
+//            painter->drawLine(anchorPoint, anchorPoint + QPoint(50, 0));
+//            painter->drawText(anchorPoint + QPoint(55, 0), "z");
+//            break;
+//        }
+//        case CuttingPlane_pZ:
+//        {
+//            QPen pen(Qt::red);
+//            pen.setWidth(1);
+//            painter->setPen(pen);
+//            painter->drawLine(anchorPoint, anchorPoint + QPoint(0, -50));
+//            painter->drawText(anchorPoint + QPoint(0, -55), "x");
+//            pen.setColor(Qt::green);
+//            painter->setPen(pen);
+//            painter->drawLine(anchorPoint, anchorPoint + QPoint(50, 0));
+//            painter->drawText(anchorPoint + QPoint(55, 0), "y");
+//            break;
+//        }
+//        case CuttingPlane_nZ:
+//        {
+//            QPen pen(Qt::green);
+//            pen.setWidth(1);
+//            painter->setPen(pen);
+//            painter->drawLine(anchorPoint, anchorPoint + QPoint(0, -50));
+//            painter->drawText(anchorPoint + QPoint(0, -55), "y");
+//            pen.setColor(Qt::red);
+//            painter->setPen(pen);
+//            painter->drawLine(anchorPoint, anchorPoint + QPoint(50, 0));
+//            painter->drawText(anchorPoint + QPoint(55, 0), "x");
+//            break;
+//        }
+//        case CuttingPlane_ISO_001:
+//        {
+//            QPen pen(QColor(120, 120, 255));
+//            pen.setWidth(1);
+//            painter->setPen(pen);
+//            painter->drawLine(anchorPoint, anchorPoint + QPoint(0, -50));
+//            painter->drawText(anchorPoint + QPoint(0, -55), "z");
+//            pen.setColor(Qt::red);
+//            painter->setPen(pen);
+//            painter->drawLine(anchorPoint, anchorPoint + QPoint(50, 0));
+//            painter->drawText(anchorPoint + QPoint(55, 0), "x");
+//            pen.setColor(Qt::green);
+//            pen.setWidth(1);
+//            painter->setPen(pen);
+//            painter->drawLine(anchorPoint, anchorPoint + QPoint(50, -50));
+//            painter->drawText(anchorPoint + QPoint(55, -55), "-y");
+//            break;
+//        }
+//    }
+//}
 
 void GeometryDisplay::slot_changeCuttingplane(QString directionOfView)
 {

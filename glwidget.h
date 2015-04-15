@@ -41,6 +41,8 @@
 #include <QTimer>
 #include <QColor>
 #include <QRgb>
+#include <QImage>
+#include <QFileDialog>
 
 #include <qmath.h>
 
@@ -75,6 +77,9 @@ public:
     void set_snap_mode(SnapMode mode);
     void set_snapPos(QVector3D snapPos_screen);
     void set_WorldRotation(float rot_x, float rot_y, float rot_z);
+    QMatrix4x4 getMatrix_all();
+
+    QImage render_image(int size_x, int size_y, QMatrix4x4 matrix_all);
 
 
     QStringList getOpenGLinfo();
@@ -232,6 +237,7 @@ private:
     void paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFont font = QFont(), QColor colorText = QColor(255, 255, 30, 255), QColor colorBackground = QColor(0, 0, 0, 230), QColor colorOutline = QColor(200, 200, 200, 150));
 
     QOpenGLFramebufferObject* fbo_select;
+    QOpenGLFramebufferObject* fbo_renderImage;
     QList<CADitem *> itemsAtPosition_v2(QPoint pos, int size_x, int size_y);
     CADitem *itemsAtPosition_processLayers(QList<Layer*> layers, GLuint glName);
     CADitem *itemsAtPosition_processItems(QList<CADitem*> items, GLuint glName);
