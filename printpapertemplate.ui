@@ -61,7 +61,16 @@
        <string>Script</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <property name="spacing">
@@ -85,9 +94,9 @@
           <enum>QPlainTextEdit::NoWrap</enum>
          </property>
          <property name="plainText">
-          <string>papersize DIN A1
+          <string>papersize DIN A3
 pencolor black
-linewidth 20
+linewidth 5
 border
 foldMarking
 
@@ -101,7 +110,7 @@ linewidth 5
 translate -170mm, 0mm
 rect 0mm, 0mm, 45mm, -27mm
 fontsize 5mm
-textline 5mm, -5mm, hallo world
+textline 5mm, -5mm, copyleft cc
 
 #Footer rect
 save
@@ -118,19 +127,19 @@ rect 0mm, 0mm, 45mm, -35mm
 #Customer rect
 save
 translate 45mm, 0mm
-brushcolor yellow
 rect 0mm, 0mm, 125mm, -35mm
 restore
 
 #Change Info rect
 translate 0mm, -35mm
+brushcolor #30ffff00
 rect 0mm, 0mm, 170mm, -35mm
 fontsize 8mm
-pencolor orange
-textbox 0mm, 0mm, 170mm, -35mm, AlignCenter, This is a textbox...\nwith newline
+pencolor #20a040
+textbox 0mm, 0mm, 170mm, -35mm, AlignCenter, This is a small demo sheet\n with openGL tile-rendered scene
 
 #Preliminary info
-pencolor red
+pencolor #40ff0000
 fontsize 32mm
 translate 80mm, 0mm
 rotate -45
@@ -142,11 +151,14 @@ reset
 anchor top left
 pencolor blue
 linewidth 0.5mm
-brushcolor #50c0ffff
-rect 30mm, 15mm, 600mm, 560mm
-fontname URW Chancery L
-fontsize 24mm
-textbox 20mm, 5mm, 600mm, 560mm, AlignCenter, Here could be some drawing
+#brushcolor #50c0ffff
+brushcolor transparent
+scene 30mm, 15mm, 200mm, 260mm
+rect 30mm, 15mm, 200mm, 260mm
+#fontname URW Chancery L
+#fontsize 24mm
+#textbox 20mm, 5mm, 600mm, 560mm, AlignCenter, Here could be some drawing
+
 </string>
          </property>
         </widget>
@@ -161,7 +173,16 @@ textbox 20mm, 5mm, 600mm, 560mm, AlignCenter, Here could be some drawing
        <property name="sizeConstraint">
         <enum>QLayout::SetMinAndMaxSize</enum>
        </property>
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <property name="spacing">

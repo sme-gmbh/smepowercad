@@ -199,11 +199,18 @@ QMatrix4x4 GLWidget::getMatrix_all()
     return this->matrix_all;
 }
 
-QImage GLWidget::render_image(int size_x, int size_y, QMatrix4x4 matrix_modelview, QMatrix4x4 matrix_rotation)
+QMatrix4x4 GLWidget::getMatrix_modelview()
 {
-    QImage image(size_x, size_y, QImage::Format_ARGB32_Premultiplied);
-//    image.fill(Qt::yellow);
-    QPainter painter (&image);
+    return this->matrix_modelview;
+}
+
+QMatrix4x4 GLWidget::getMatrix_rotation()
+{
+    return this->matrix_rotation;
+}
+
+void GLWidget::render_image(QPainter* painter, int x, int y, int size_x, int size_y, QMatrix4x4 matrix_modelview, QMatrix4x4 matrix_rotation, bool showTiles)
+{
     QMatrix4x4 matrix_tile;
 
     // Check if image size can be rendered in framebuffer or if tile rendering is needed
@@ -223,6 +230,8 @@ QImage GLWidget::render_image(int size_x, int size_y, QMatrix4x4 matrix_modelvie
 
     // Render it **************************************************************
 
+    painter->save();
+    painter->setClipRect(x, y, size_x, size_y);
 
     for (int current_tile_x = 0; current_tile_x < num_tiles_x; current_tile_x++)
     {
@@ -269,41 +278,40 @@ QImage GLWidget::render_image(int size_x, int size_y, QMatrix4x4 matrix_modelvie
             paintContent(itemDB->layers);
             QImage image_tile = fbo_renderImage->toImage(true);
 
-            painter.drawImage(tile_pos_x, tile_pos_y, image_tile);
+            painter->drawImage(x + tile_pos_x, y + tile_pos_y, image_tile);
             fbo_renderImage->release();
 
             doneCurrent();
         }
     }
 
-    painter.setPen(Qt::blue);
-    for (int current_tile_x = 0; current_tile_x < num_tiles_x; current_tile_x++)
+    if (showTiles)
     {
-        for (int current_tile_y = 0; current_tile_y < num_tiles_y; current_tile_y++)
+        painter->setPen(Qt::blue);
+        for (int current_tile_x = 0; current_tile_x < num_tiles_x; current_tile_x++)
         {
-            tile_pos_x = tile_size_x * current_tile_x;
-            tile_pos_y = tile_size_y * current_tile_y;
+            for (int current_tile_y = 0; current_tile_y < num_tiles_y; current_tile_y++)
+            {
+                tile_pos_x = tile_size_x * current_tile_x;
+                tile_pos_y = tile_size_y * current_tile_y;
 
 
-            painter.drawRect(tile_pos_x, tile_pos_y, tile_size_x, tile_size_y);
+                painter->drawRect(x + tile_pos_x, y + tile_pos_y, tile_size_x, tile_size_y);
+            }
         }
     }
 
-
-
     // Rendering done *********************************************************
-
 
     // Change cutting planes back to previous state - tbd.
 //    this->height_of_intersection.setZ(height);
 //    this->depth_of_view.setZ(depth);
 
+    // Change painter back to previous state
+    painter->restore();
+
     // Change matrix back back to previous state
     this->updateMatrixAll();
-
-    painter.end();
-
-    return image;
 }
 
 QStringList GLWidget::getOpenGLinfo()
@@ -745,9 +753,10 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         break;
     case Qt::Key_A:                         // Render a test image
     {
-        qDebug() << matrix_modelview;
-        qDebug() << matrix_rotation;
-        QImage testImage = this->render_image(this->width() * 4, this->height() * 4, this->matrix_modelview, this->matrix_rotation);
+        QImage testImage(this->width() * 2, this->height() * 2, QImage::Format_ARGB32_Premultiplied);
+        QPainter painter (&testImage);
+        this->render_image(&painter, 0, 0, testImage.width(), testImage.height(), this->matrix_modelview, this->matrix_rotation);
+        painter.end();
         QString filename = QFileDialog::getSaveFileName(this, tr("Save captured image"), "", "PNG image file (*.png)");
         testImage.save(filename, "PNG", -1);
         break;

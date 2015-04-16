@@ -23,6 +23,9 @@
 #include <QPen>
 #include <QBrush>
 #include <QFont>
+#include <QMatrix>
+
+#include "glwidget.h"
 
 namespace Ui {
 class printPaperTemplate;
@@ -33,12 +36,13 @@ class PrintPaperTemplate : public QDialog
     Q_OBJECT
 
 public:
-    explicit PrintPaperTemplate(QWidget *parent = 0);
+    explicit PrintPaperTemplate(QWidget *parent, GLWidget* glWidget);
     ~PrintPaperTemplate();
 
     void parseScript(QPainter* painter);
 
     QString getScript();
+    QString getScriptFromEditor();
     void setScript(QString script);
     QMap<QString,QString> getDrawingVariables();
     void setDrawingVariables(QMap<QString,QString> drawingVariables);
@@ -49,6 +53,7 @@ private slots:
 
 private:
     Ui::printPaperTemplate *ui;
+    GLWidget* glWidget;
     QSizeF paperSize;
     QString script;
     QPen pen;

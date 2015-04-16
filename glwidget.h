@@ -79,8 +79,10 @@ public:
     void set_snapPos(QVector3D snapPos_screen);
     void set_WorldRotation(float rot_x, float rot_y, float rot_z);
     QMatrix4x4 getMatrix_all();
+    QMatrix4x4 getMatrix_modelview();
+    QMatrix4x4 getMatrix_rotation();
 
-    QImage render_image(int size_x, int size_y, QMatrix4x4 matrix_modelview, QMatrix4x4 matrix_rotation);
+    void render_image(QPainter *painter, int x, int y, int size_x, int size_y, QMatrix4x4 matrix_modelview, QMatrix4x4 matrix_rotation, bool showTiles = false);
 
 
     QStringList getOpenGLinfo();

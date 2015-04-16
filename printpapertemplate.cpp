@@ -25,11 +25,12 @@
 #include <qmath.h>
 #include <QDebug>
 
-PrintPaperTemplate::PrintPaperTemplate(QWidget *parent) :
+PrintPaperTemplate::PrintPaperTemplate(QWidget *parent, GLWidget *glWidget) :
     QDialog(parent),
     ui(new Ui::printPaperTemplate)
 {
     ui->setupUi(this);
+    this->glWidget = glWidget;
 }
 
 PrintPaperTemplate::~PrintPaperTemplate()
@@ -247,6 +248,11 @@ QString PrintPaperTemplate::getScript()
     return this->script;
 }
 
+QString PrintPaperTemplate::getScriptFromEditor()
+{
+    return ui->plainTextEdit_script->toPlainText();
+}
+
 void PrintPaperTemplate::setScript(QString script)
 {
     this->script = script;
@@ -399,7 +405,31 @@ void PrintPaperTemplate::paintTextBox(QPainter *painter, QString arguments)
 
 void PrintPaperTemplate::paintScene(QPainter *painter, QString arguments)
 {
+//    QString text = arguments;
+//    text.remove(QRegExp("^(\\S+\\s+){5}"));
+//    text.replace(QRegExp("\\\\n"), "\n"); // Convert "\n" to newline
+    QStringList coordStrings = arguments.split(',');
+    if (coordStrings.size() < 4)
+        return;
 
+    qreal x1 = this->text_to_pixel(coordStrings.at(0));
+    qreal y1 = this->text_to_pixel(coordStrings.at(1));
+    qreal w  = this->text_to_pixel(coordStrings.at(2));
+    qreal h  = this->text_to_pixel(coordStrings.at(3));
+    if (h < 0.0)
+    {
+        y1 += h;
+        h = -h;
+    }
+    if (w < 0.0)
+    {
+        x1 += w;
+        w = -w;
+    }
+
+    QMatrix4x4 matrix_modelview = this->glWidget->getMatrix_modelview();
+    QMatrix4x4 matrix_rotation = this->glWidget->getMatrix_rotation();
+    this->glWidget->render_image(painter, x1, y1, w, h, matrix_modelview, matrix_rotation);
 }
 
 int PrintPaperTemplate::mm_to_pixel(double mm)

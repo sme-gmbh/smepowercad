@@ -18,18 +18,19 @@
 
 
 #include <QMessageBox>
+#include <QPainter>
 
 PrintWidget::PrintWidget(QWidget *parent, ItemDB *itemDB) :
     QDockWidget(parent),
     ui(new Ui::PrintWidget)
 {
     ui->setupUi(this);
+    this->printer = NULL;
     this->itemDB = itemDB;
-    this->printPaperTemplate = new PrintPaperTemplate(this);
     this->glWidget = new GLWidget(this, itemDB);
     QVBoxLayout* layout = new QVBoxLayout(ui->graphicWidget);
     layout->addWidget(this->glWidget);
-//    this->glWidget->slot_set_cuttingplane_values_changed(100000.0, 100000.0);
+    this->printPaperTemplate = new PrintPaperTemplate(this, this->glWidget);
 }
 
 PrintWidget::~PrintWidget()
@@ -51,13 +52,31 @@ void PrintWidget::on_toolButton_printer_clicked()
 
 void PrintWidget::on_toolButton_print_clicked()
 {
-    if (printer = NULL)
+    if (printer == NULL)
     {
         QMessageBox::warning(this, tr("Print/Plot"), tr("There is no printer selected..."));
         return;
     }
 
+    printer->setColorMode(QPrinter::Color);
+    printer->setDuplex(QPrinter::DuplexNone);
+    printer->setOrientation(QPrinter::Landscape);
+    printer->setDoubleSidedPrinting(false);
+    printer->setFontEmbeddingEnabled(true);
+    printer->setFullPage(true);
+    printer->setResolution(600);
+    printer->setPaperSize(QPrinter::A3);
 
+    QPainter painter(printer);
+
+    QString script = this->printPaperTemplate->getScriptFromEditor();
+    this->printPaperTemplate->setScript(script);
+//    this->printPaperTemplate->parseScript(NULL);
+
+    // Production of graphic content
+    this->printPaperTemplate->parseScript(&painter);
+
+    painter.end();
 }
 
 void PrintWidget::on_toolButton_layout_clicked()
