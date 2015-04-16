@@ -62,6 +62,7 @@ QList<CADitemTypes::ItemType> CAD_heatcool_expansionChamber::flangable_items()
     flangable_items.append(CADitemTypes::HeatCool_PipeReducer);
     flangable_items.append(CADitemTypes::HeatCool_PipeTeeConnector);
     flangable_items.append(CADitemTypes::HeatCool_PipeTurn);
+    flangable_items.append(CADitemTypes::HeatCool_Valve);
     return flangable_items;
 }
 
