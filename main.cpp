@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 
 //    QGL::setPreferredPaintEngine(QPaintEngine::OpenGL);
 
-
+    QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
     QApplication a(argc, argv);
 

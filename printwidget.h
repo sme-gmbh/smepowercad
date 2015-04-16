@@ -21,6 +21,7 @@
 #include <QPrinter>
 #include <QDebug>
 #include <QLayout>
+#include <QOpenGLContext>
 
 #include "printpapertemplate.h"
 #include "itemdb.h"

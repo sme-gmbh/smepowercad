@@ -23,15 +23,13 @@ PrintWidget::PrintWidget(QWidget *parent, ItemDB *itemDB) :
     QDockWidget(parent),
     ui(new Ui::PrintWidget)
 {
-    qDebug() << "Created PrintWidget";
     ui->setupUi(this);
     this->itemDB = itemDB;
+    this->printPaperTemplate = new PrintPaperTemplate(this);
     this->glWidget = new GLWidget(this, itemDB);
-//    ui->graphicWidget->layout()->addWidget(this->glWidget);
     QVBoxLayout* layout = new QVBoxLayout(ui->graphicWidget);
     layout->addWidget(this->glWidget);
-    this->printPaperTemplate = new PrintPaperTemplate(this);
-    qDebug() << "PrintWidget constructor finished";
+    this->glWidget->slot_set_cuttingplane_values_changed(100000.0, 100000.0);
 }
 
 PrintWidget::~PrintWidget()
