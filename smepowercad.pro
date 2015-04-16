@@ -518,7 +518,6 @@ HEADERS  += mainwindow.h \
     items/cad_gas_cdamoisturesensor.h \
     items/cad_gas_cdanonreturnvalve.h \
     items/cad_gas_cdapipe.h \
-    items/cad_gas_cdapipearc.h \
     items/cad_gas_cdapressureregulator.h \
     items/cad_gas_cdaquicklockcoupling.h \
     items/cad_gas_cdarefrigerantdryer.h \
@@ -532,12 +531,9 @@ HEADERS  += mainwindow.h \
     items/cad_gas_vacmanometer.h \
     items/cad_gas_vacnonreturnvalve.h \
     items/cad_gas_vacpipe.h \
-    items/cad_gas_vacpipearc.h \
     items/cad_gas_vacpump.h \
     items/cad_gas_vacquicklockcoupling.h \
     items/cad_gas_vactank.h \
-    items/cad_gas_cdapipetfitting.h \
-    items/cad_gas_vacpipetfitting.h \
     items/cad_sanitary_cleaningpiece.h \
     printwidget.h \
     items/cad_basic_torisphericalheaddeepdisheddin28013.h \
