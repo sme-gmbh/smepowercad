@@ -37,7 +37,7 @@ CAD_heatcool_pipeTeeConnector::CAD_heatcool_pipeTeeConnector() : CADitem(CADitem
     wizardParams.insert("iso",10.0);
     wizardParams.insert("d3",100.0);
     wizardParams.insert("iso3",10.0);
-    wizardParams.insert("alpha",50.0);
+    wizardParams.insert("alpha",90.0);
     wizardParams.insert("s",10.0);
 
     processWizardInput();
