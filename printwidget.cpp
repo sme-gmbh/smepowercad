@@ -29,7 +29,7 @@ PrintWidget::PrintWidget(QWidget *parent, ItemDB *itemDB) :
     this->glWidget = new GLWidget(this, itemDB);
     QVBoxLayout* layout = new QVBoxLayout(ui->graphicWidget);
     layout->addWidget(this->glWidget);
-    this->glWidget->slot_set_cuttingplane_values_changed(100000.0, 100000.0);
+//    this->glWidget->slot_set_cuttingplane_values_changed(100000.0, 100000.0);
 }
 
 PrintWidget::~PrintWidget()

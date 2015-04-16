@@ -636,8 +636,14 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
             return;
         }
 
+        if (this->itemGripModifier == NULL)
+        {
+            event->accept();
+            return;
+        }
+
         // Check if there is a currently active command
-        if ((this->itemGripModifier != NULL) && (this->itemGripModifier->getActiveGrip() == ItemGripModifier::Grip_Move))
+        if (this->itemGripModifier->getActiveGrip() == ItemGripModifier::Grip_Move)
         {
             if (snapMode != SnapNo)
             {
@@ -645,7 +651,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
                 this->slot_repaint();
             }
         }
-        else if ((this->itemGripModifier != NULL) && (this->itemGripModifier->getActiveGrip() == ItemGripModifier::Grip_Copy))
+        else if (this->itemGripModifier->getActiveGrip() == ItemGripModifier::Grip_Copy)
         {
             if (snapMode != SnapNo)
             {
@@ -659,7 +665,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         {
             if (event->modifiers() && Qt::ShiftModifier)
                 selectionRemoveItem(item_lastHighlight);
-            else if ((this->itemGripModifier != NULL) && (snapMode == SnapFlange))
+            else if (snapMode == SnapFlange)
             {
                 this->itemGripModifier->setItem(item_lastHighlight);
                 this->itemGripModifier->activateGrip(ItemGripModifier::Grip_Append, QCursor::pos(), snapPos_scene);
@@ -910,6 +916,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
 
 void GLWidget::slot_set_cuttingplane_values_changed(qreal height, qreal depth)
 {
+    qDebug() << "GLWidget::slot_set_cuttingplane_values_changed";
     this->height_of_intersection.setZ(height);
     this->depth_of_view.setZ(depth);
 

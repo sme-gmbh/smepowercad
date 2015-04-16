@@ -193,6 +193,8 @@ void PrintPaperTemplate::parseScript(QPainter* painter)
         // Size and position functions
         else if (command == "papersize")
             this->paintSetPaperSize(arguments);
+        else if (painter == NULL)
+            continue;
         else if (command == "anchor")
             this->paintSetAnchor(painter, arguments);
         else if (command == "translate")
@@ -419,10 +421,15 @@ qreal PrintPaperTemplate::text_to_pixel(QString text)
 
 void PrintPaperTemplate::on_pushButton_preview_clicked()
 {
+    // First dummy-parse the script to get the papersize, so we know how large the image will be
+    this->script = ui->plainTextEdit_script->toPlainText();
+    this->parseScript(NULL);
+    // Now constuct the image and the corresponding painter
     QImage image_preview = QImage(this->mm_to_pixel(this->paperSize.width()), this->mm_to_pixel(this->paperSize.height()), QImage::Format_ARGB32_Premultiplied);
     image_preview.fill(Qt::white);
     QPainter painter(&image_preview);
-    this->script = ui->plainTextEdit_script->toPlainText();
+
+    // Production of graphic content
     this->parseScript(&painter);
     painter.end();
     ui->label_preview->setPixmap(QPixmap::fromImage(image_preview.scaled(ui->label_preview->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
