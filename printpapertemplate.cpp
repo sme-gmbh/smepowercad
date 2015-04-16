@@ -190,6 +190,7 @@ void PrintPaperTemplate::parseScript(QPainter* painter)
 
         if (command == "")
             continue;
+        // Size and position functions
         else if (command == "papersize")
             this->paintSetPaperSize(arguments);
         else if (command == "anchor")
@@ -205,6 +206,7 @@ void PrintPaperTemplate::parseScript(QPainter* painter)
         else if (command == "reset")
             this->paintResetTransform(painter);
 
+        // Direct drawing functions
         else if (command == "border")
             this->paintBorder(painter);
         else if (command == "foldMarking")
@@ -222,6 +224,7 @@ void PrintPaperTemplate::parseScript(QPainter* painter)
         else if (command == "rect")
             this->paintRect(painter, arguments);
 
+        // Text functions
         else if (command == "fontname")
             this->paintFontName(painter, arguments);
         else if (command == "fontsize")
@@ -230,6 +233,10 @@ void PrintPaperTemplate::parseScript(QPainter* painter)
             this->paintTextLine(painter, arguments);
         else if (command == "textbox")
             this->paintTextBox(painter, arguments);
+
+        // Scene drawing functions
+        else if (command == "scene")
+            this->paintScene(painter, arguments);
     }
 }
 
@@ -386,6 +393,11 @@ void PrintPaperTemplate::paintTextBox(QPainter *painter, QString arguments)
         flags |= Qt::TextWordWrap;
 
     painter->drawText(rect, flags, text);
+}
+
+void PrintPaperTemplate::paintScene(QPainter *painter, QString arguments)
+{
+
 }
 
 int PrintPaperTemplate::mm_to_pixel(double mm)

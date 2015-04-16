@@ -75,6 +75,7 @@ private:
     void paintFontSize(QPainter* painter, QString arguments);
     void paintTextLine(QPainter* painter, QString arguments);
     void paintTextBox(QPainter* painter, QString arguments);
+    void paintScene(QPainter* painter, QString arguments);
 
     int mm_to_pixel(double mm);
     qreal text_to_pixel(QString text);

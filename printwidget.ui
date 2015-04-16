@@ -75,6 +75,16 @@ background-color: rgb(255, 255, 0);
      <string>Layout</string>
     </property>
    </widget>
+   <widget class="QWidget" name="graphicWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>60</y>
+      <width>601</width>
+      <height>381</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>

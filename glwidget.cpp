@@ -637,7 +637,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         }
 
         // Check if there is a currently active command
-        if (this->itemGripModifier->getActiveGrip() == ItemGripModifier::Grip_Move)
+        if ((this->itemGripModifier != NULL) && (this->itemGripModifier->getActiveGrip() == ItemGripModifier::Grip_Move))
         {
             if (snapMode != SnapNo)
             {
@@ -645,7 +645,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
                 this->slot_repaint();
             }
         }
-        else if (this->itemGripModifier->getActiveGrip() == ItemGripModifier::Grip_Copy)
+        else if ((this->itemGripModifier != NULL) && (this->itemGripModifier->getActiveGrip() == ItemGripModifier::Grip_Copy))
         {
             if (snapMode != SnapNo)
             {
@@ -659,7 +659,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         {
             if (event->modifiers() && Qt::ShiftModifier)
                 selectionRemoveItem(item_lastHighlight);
-            else if (snapMode == SnapFlange)
+            else if ((this->itemGripModifier != NULL) && (snapMode == SnapFlange))
             {
                 this->itemGripModifier->setItem(item_lastHighlight);
                 this->itemGripModifier->activateGrip(ItemGripModifier::Grip_Append, QCursor::pos(), snapPos_scene);
@@ -713,6 +713,12 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *event)
 
 void GLWidget::keyPressEvent(QKeyEvent *event)
 {
+    if (this->itemGripModifier == NULL)
+    {
+        event->accept();
+        return;
+    }
+
     switch (event->key())
     {
     case Qt::Key_Escape:
@@ -774,7 +780,8 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     case Qt::Key_E:                         // Edit item
         if (item_lastHighlight != NULL)
         {
-            this->itemWizard->showWizard(item_lastHighlight);
+            if (this->itemWizard != NULL)
+                this->itemWizard->showWizard(item_lastHighlight);
         }
         break;
     case Qt::Key_F:                         // Flange item
@@ -1151,7 +1158,7 @@ void GLWidget::paintGL()
     QString infoText;
     QRect focusRect = QRect(0, 0, _snapIndicatorSize, _snapIndicatorSize);
 
-    if (this->itemGripModifier->getActiveGrip() == ItemGripModifier::Grip_Move)
+    if ((this->itemGripModifier != NULL) && (this->itemGripModifier->getActiveGrip() == ItemGripModifier::Grip_Move))
     {
         QString itemDescription = "[" + this->itemGripModifier->getItemDescription() + "]";
         QVector3D pos = this->itemGripModifier->getScenePosSource();
@@ -1161,7 +1168,7 @@ void GLWidget::paintGL()
             infoText += " to\n";
         focusRect.moveCenter(this->mousePos);
     }
-    if (this->itemGripModifier->getActiveGrip() == ItemGripModifier::Grip_Copy)
+    if ((this->itemGripModifier != NULL) && (this->itemGripModifier->getActiveGrip() == ItemGripModifier::Grip_Copy))
     {
         QString itemDescription = "[" + this->itemGripModifier->getItemDescription() + "]";
         QVector3D pos = this->itemGripModifier->getScenePosSource();

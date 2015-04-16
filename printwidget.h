@@ -19,8 +19,12 @@
 #include <QDockWidget>
 #include <QPrintDialog>
 #include <QPrinter>
+#include <QDebug>
+#include <QLayout>
 
 #include "printpapertemplate.h"
+#include "itemdb.h"
+#include "glwidget.h"
 
 namespace Ui {
 class PrintWidget;
@@ -31,7 +35,7 @@ class PrintWidget : public QDockWidget
     Q_OBJECT
 
 public:
-    explicit PrintWidget(QWidget *parent = 0);
+    explicit PrintWidget(QWidget *parent, ItemDB* itemDB);
     ~PrintWidget();
 
 private slots:
@@ -45,6 +49,8 @@ private:
     Ui::PrintWidget *ui;
     QPrinter* printer;
     PrintPaperTemplate* printPaperTemplate;
+    ItemDB* itemDB;
+    GLWidget* glWidget;
 };
 
 #endif // PRINTWIDGET_H

@@ -98,12 +98,14 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setCentralWidget(this->mainGeometryDisplay);
 
 
+
+
     // **** Toolbar toggles ****
     this->createItemToolBar();
     ui->menuWerkzeugleisten->addAction(ui->toolBarItems->toggleViewAction());
 
     // **** Print Widget ****
-    printwidget = new PrintWidget(this);
+    printwidget = new PrintWidget(this, itemDB);
 
     // **** Recent files ****
     QMenu *recentFilesMenu = new QMenu();

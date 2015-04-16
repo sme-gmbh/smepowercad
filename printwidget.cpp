@@ -16,14 +16,22 @@
 #include "printwidget.h"
 #include "ui_printwidget.h"
 
+
 #include <QMessageBox>
 
-PrintWidget::PrintWidget(QWidget *parent) :
+PrintWidget::PrintWidget(QWidget *parent, ItemDB *itemDB) :
     QDockWidget(parent),
     ui(new Ui::PrintWidget)
 {
+    qDebug() << "Created PrintWidget";
     ui->setupUi(this);
+    this->itemDB = itemDB;
+    this->glWidget = new GLWidget(this, itemDB);
+//    ui->graphicWidget->layout()->addWidget(this->glWidget);
+    QVBoxLayout* layout = new QVBoxLayout(ui->graphicWidget);
+    layout->addWidget(this->glWidget);
     this->printPaperTemplate = new PrintPaperTemplate(this);
+    qDebug() << "PrintWidget constructor finished";
 }
 
 PrintWidget::~PrintWidget()
