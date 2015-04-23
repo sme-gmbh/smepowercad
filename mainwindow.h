@@ -28,6 +28,7 @@
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QSettings>
+#include <QOpenGLContext>
 
 #ifdef USE_3D_MOUSE
 #include "3Dmouse/qmagellan.h"

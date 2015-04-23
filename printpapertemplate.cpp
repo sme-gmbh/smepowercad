@@ -25,11 +25,12 @@
 #include <qmath.h>
 #include <QDebug>
 
-PrintPaperTemplate::PrintPaperTemplate(QWidget *parent) :
+PrintPaperTemplate::PrintPaperTemplate(QWidget *parent, GLWidget *glWidget) :
     QDialog(parent),
     ui(new Ui::printPaperTemplate)
 {
     ui->setupUi(this);
+    this->glWidget = glWidget;
 }
 
 PrintPaperTemplate::~PrintPaperTemplate()
@@ -193,6 +194,8 @@ void PrintPaperTemplate::parseScript(QPainter* painter)
         // Size and position functions
         else if (command == "papersize")
             this->paintSetPaperSize(arguments);
+        else if (painter == NULL)
+            continue;
         else if (command == "anchor")
             this->paintSetAnchor(painter, arguments);
         else if (command == "translate")
@@ -243,6 +246,11 @@ void PrintPaperTemplate::parseScript(QPainter* painter)
 QString PrintPaperTemplate::getScript()
 {
     return this->script;
+}
+
+QString PrintPaperTemplate::getScriptFromEditor()
+{
+    return ui->plainTextEdit_script->toPlainText();
 }
 
 void PrintPaperTemplate::setScript(QString script)
@@ -397,7 +405,31 @@ void PrintPaperTemplate::paintTextBox(QPainter *painter, QString arguments)
 
 void PrintPaperTemplate::paintScene(QPainter *painter, QString arguments)
 {
+//    QString text = arguments;
+//    text.remove(QRegExp("^(\\S+\\s+){5}"));
+//    text.replace(QRegExp("\\\\n"), "\n"); // Convert "\n" to newline
+    QStringList coordStrings = arguments.split(',');
+    if (coordStrings.size() < 4)
+        return;
 
+    qreal x1 = this->text_to_pixel(coordStrings.at(0));
+    qreal y1 = this->text_to_pixel(coordStrings.at(1));
+    qreal w  = this->text_to_pixel(coordStrings.at(2));
+    qreal h  = this->text_to_pixel(coordStrings.at(3));
+    if (h < 0.0)
+    {
+        y1 += h;
+        h = -h;
+    }
+    if (w < 0.0)
+    {
+        x1 += w;
+        w = -w;
+    }
+
+    QMatrix4x4 matrix_modelview = this->glWidget->getMatrix_modelview();
+    QMatrix4x4 matrix_rotation = this->glWidget->getMatrix_rotation();
+    this->glWidget->render_image(painter, x1, y1, w, h, matrix_modelview, matrix_rotation);
 }
 
 int PrintPaperTemplate::mm_to_pixel(double mm)
@@ -419,10 +451,15 @@ qreal PrintPaperTemplate::text_to_pixel(QString text)
 
 void PrintPaperTemplate::on_pushButton_preview_clicked()
 {
+    // First dummy-parse the script to get the papersize, so we know how large the image will be
+    this->script = ui->plainTextEdit_script->toPlainText();
+    this->parseScript(NULL);
+    // Now constuct the image and the corresponding painter
     QImage image_preview = QImage(this->mm_to_pixel(this->paperSize.width()), this->mm_to_pixel(this->paperSize.height()), QImage::Format_ARGB32_Premultiplied);
     image_preview.fill(Qt::white);
     QPainter painter(&image_preview);
-    this->script = ui->plainTextEdit_script->toPlainText();
+
+    // Production of graphic content
     this->parseScript(&painter);
     painter.end();
     ui->label_preview->setPixmap(QPixmap::fromImage(image_preview.scaled(ui->label_preview->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));

@@ -33,58 +33,55 @@ background-color: rgb(255, 255, 0);
    <string>Print</string>
   </property>
   <widget class="QWidget" name="dockWidgetContents">
-   <widget class="QToolButton" name="toolButton_printer">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>10</y>
-      <width>101</width>
-      <height>29</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Printer</string>
-    </property>
-   </widget>
-   <widget class="QToolButton" name="toolButton_print">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>10</y>
-      <width>51</width>
-      <height>29</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Print</string>
-    </property>
-   </widget>
-   <widget class="QToolButton" name="toolButton_layout">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>10</y>
-      <width>81</width>
-      <height>29</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="text">
-     <string>Layout</string>
-    </property>
-   </widget>
-   <widget class="QWidget" name="graphicWidget" native="true">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>60</y>
-      <width>601</width>
-      <height>381</height>
-     </rect>
-    </property>
-   </widget>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="2">
+     <widget class="QToolButton" name="toolButton_print">
+      <property name="text">
+       <string>Print</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QToolButton" name="toolButton_layout">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>Layout</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QToolButton" name="toolButton_printer">
+      <property name="text">
+       <string>Printer</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="1" column="0" colspan="4">
+     <widget class="QWidget" name="graphicWidget" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

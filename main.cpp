@@ -15,11 +15,9 @@
 
 #include "mainwindow.h"
 #include <QApplication>
-//#include <QGuiApplication>
 #include <QTranslator>
 #include <QDebug>
 #include <QSettings>
-//#include <QtOpenGL/QGL>
 #include <QSurfaceFormat>
 
 int main(int argc, char *argv[])
@@ -28,9 +26,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain("sme-gmbh.net");
     QCoreApplication::setApplicationName("SME PowerCAD");
 
-//    QGL::setPreferredPaintEngine(QPaintEngine::OpenGL);
-
-
+    QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
     QApplication a(argc, argv);
 
