@@ -31,13 +31,14 @@ ItemWizard::~ItemWizard()
     delete ui;
 }
 
-void ItemWizard::showWizard(CADitem *item)
+void ItemWizard::showWizard(CADitem *item, ItemDB* itemDB)
 {
     if (item == NULL)
     {
         qDebug("CADitem is NULL");
         return;
     }
+    this->itemDB = itemDB;
 
     // Do not show an empty wizard
     if(item->wizardParams.isEmpty())
@@ -141,10 +142,11 @@ void ItemWizard::save()
 
     this->deleteWdgs(ui->formLayout);
 
-
-    currentItem->wizardParams = params;
-    currentItem->processWizardInput();
-    currentItem->calculate();
+    itemDB->setRestorePoint();
+    this->itemDB->modifyItem_withRestorePoint(currentItem, params);
+//    currentItem->wizardParams = params;
+//    currentItem->processWizardInput();
+//    currentItem->calculate();
     emit signal_itemModified(currentItem);
     emit signal_sceneRepaintNeeded();
 }

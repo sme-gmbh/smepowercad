@@ -811,7 +811,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         if (item_lastHighlight != NULL)
         {
             if (this->itemWizard != NULL)
-                this->itemWizard->showWizard(item_lastHighlight);
+                this->itemWizard->showWizard(item_lastHighlight, itemDB);
         }
         break;
     case Qt::Key_F:                         // Flange item
@@ -885,11 +885,17 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             m.setToIdentity();
             m.rotate(45.0, 1.0, 0.0, 0.0);
             QVector3D angles = MAngleCalculations().anglesFromMatrix(m * matrix_old);
-            item_lastHighlight->wizardParams.insert("Angle x", (angles.x()));
-            item_lastHighlight->wizardParams.insert("Angle y", (angles.y()));
-            item_lastHighlight->wizardParams.insert("Angle z", (angles.z()));
-            item_lastHighlight->processWizardInput();
-            item_lastHighlight->calculate();
+            WizardParams newParams;
+            newParams.insert("Angle x", (angles.x()));
+            newParams.insert("Angle y", (angles.y()));
+            newParams.insert("Angle z", (angles.z()));
+            itemDB->setRestorePoint();
+            itemDB->modifyItem_withRestorePoint(item_lastHighlight, newParams);
+//            item_lastHighlight->wizardParams.insert("Angle x", (angles.x()));
+//            item_lastHighlight->wizardParams.insert("Angle y", (angles.y()));
+//            item_lastHighlight->wizardParams.insert("Angle z", (angles.z()));
+//            item_lastHighlight->processWizardInput();
+//            item_lastHighlight->calculate();
             slot_repaint();
         }
         break;
@@ -906,11 +912,17 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             m.setToIdentity();
             m.rotate(45.0, 0.0, 1.0, 0.0);
             QVector3D angles = MAngleCalculations().anglesFromMatrix(m * matrix_old);
-            item_lastHighlight->wizardParams.insert("Angle x", (angles.x()));
-            item_lastHighlight->wizardParams.insert("Angle y", (angles.y()));
-            item_lastHighlight->wizardParams.insert("Angle z", (angles.z()));
-            item_lastHighlight->processWizardInput();
-            item_lastHighlight->calculate();
+            WizardParams newParams;
+            newParams.insert("Angle x", (angles.x()));
+            newParams.insert("Angle y", (angles.y()));
+            newParams.insert("Angle z", (angles.z()));
+            itemDB->setRestorePoint();
+            itemDB->modifyItem_withRestorePoint(item_lastHighlight, newParams);
+//            item_lastHighlight->wizardParams.insert("Angle x", (angles.x()));
+//            item_lastHighlight->wizardParams.insert("Angle y", (angles.y()));
+//            item_lastHighlight->wizardParams.insert("Angle z", (angles.z()));
+//            item_lastHighlight->processWizardInput();
+//            item_lastHighlight->calculate();
             slot_repaint();
         }
         break;
@@ -927,11 +939,17 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             m.setToIdentity();
             m.rotate(45.0, 0.0, 0.0, 1.0);
             QVector3D angles = MAngleCalculations().anglesFromMatrix(m * matrix_old);
-            item_lastHighlight->wizardParams.insert("Angle x", (angles.x()));
-            item_lastHighlight->wizardParams.insert("Angle y", (angles.y()));
-            item_lastHighlight->wizardParams.insert("Angle z", (angles.z()));
-            item_lastHighlight->processWizardInput();
-            item_lastHighlight->calculate();
+            WizardParams newParams;
+            newParams.insert("Angle x", (angles.x()));
+            newParams.insert("Angle y", (angles.y()));
+            newParams.insert("Angle z", (angles.z()));
+            itemDB->setRestorePoint();
+            itemDB->modifyItem_withRestorePoint(item_lastHighlight, newParams);
+//            item_lastHighlight->wizardParams.insert("Angle x", (angles.x()));
+//            item_lastHighlight->wizardParams.insert("Angle y", (angles.y()));
+//            item_lastHighlight->wizardParams.insert("Angle z", (angles.z()));
+//            item_lastHighlight->processWizardInput();
+//            item_lastHighlight->calculate();
             slot_repaint();
         }
         break;

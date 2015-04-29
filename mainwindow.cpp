@@ -602,7 +602,7 @@ void MainWindow::slot_createNewItem(CADitemTypes::ItemType type)
         return;
     }
     CADitem* item = itemDB->drawItem(currentLayer, type);
-    this->itemWizard->showWizard(item);
+    this->itemWizard->showWizard(item, itemDB);
 }
 
 void MainWindow::on_actionAbout_OpenGL_triggered()

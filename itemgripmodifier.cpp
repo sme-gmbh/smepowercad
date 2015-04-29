@@ -150,6 +150,7 @@ void ItemGripModifier::activateGrip(ItemGripModifier::ItemGripType gripType, QPo
 
 void ItemGripModifier::moveItemsTo(QVector3D new_scenePos)
 {
+    itemDB->setRestorePoint();
     foreach (CADitem* item, this->items)
     {
         QVector3D offset = this->scenePos - item->position;    // Offset between point of pickup and basepoint of picked object
@@ -170,17 +171,24 @@ void ItemGripModifier::moveItemsTo(QVector3D new_scenePos)
 
 void ItemGripModifier::copyItemsTo(QVector3D new_scenePos)
 {
+    itemDB->setRestorePoint();
     foreach (CADitem* item, this->items)
     {
         QVector3D offset = this->scenePos - item->position;    // Offset between point of pickup and basepoint of picked object
         QVector3D newPos = new_scenePos - offset;
         CADitem* newItem = this->itemDB->drawItem(item->layer->name, item->getType());
-        newItem->wizardParams = item->wizardParams;
-        newItem->wizardParams.insert("Position x", ((qreal)newPos.x()));
-        newItem->wizardParams.insert("Position y", ((qreal)newPos.y()));
-        newItem->wizardParams.insert("Position z", ((qreal)newPos.z()));
-        newItem->processWizardInput();
-        newItem->calculate();
+        WizardParams newParams;
+        newParams = item->wizardParams;
+        newParams.insert("Position x", ((qreal)newPos.x()));
+        newParams.insert("Position y", ((qreal)newPos.y()));
+        newParams.insert("Position z", ((qreal)newPos.z()));
+        itemDB->modifyItem_withRestorePoint(newItem, newParams);
+//        newItem->wizardParams = item->wizardParams;
+//        newItem->wizardParams.insert("Position x", ((qreal)newPos.x()));
+//        newItem->wizardParams.insert("Position y", ((qreal)newPos.y()));
+//        newItem->wizardParams.insert("Position z", ((qreal)newPos.z()));
+//        newItem->processWizardInput();
+//        newItem->calculate();
     }
     this->finishGrip();
 }
@@ -255,7 +263,9 @@ void ItemGripModifier::slot_button_clicked()
         }
     }
 
-    itemWizard->showWizard(newItem);
+    itemWizard->showWizard(newItem, itemDB);
+    itemDB->setRestorePoint();
+    itemDB->modifyItem_withRestorePoint(newItem, newItem->wizardParams);
 
     finishGrip();
 }
@@ -269,6 +279,7 @@ void ItemGripModifier::slot_button_copyMulty()
         qreal deltaY;
         qreal deltaZ;
 
+        itemDB->setRestorePoint();
         for (int x=0; x < copyMulti_spinBox_countX->value(); x++)
         {
             deltaX = (qreal)x * copyMulti_doubleSpinBox_distanceX->value();
@@ -286,12 +297,17 @@ void ItemGripModifier::slot_button_copyMulty()
 
                     // Copy Item
                     newItem = this->itemDB->drawItem(item->layer->name, item->getType());
-                    newItem->wizardParams = item->wizardParams;
-                    newItem->wizardParams.insert("Position x", ((qreal)pos.x()));
-                    newItem->wizardParams.insert("Position y", ((qreal)pos.y()));
-                    newItem->wizardParams.insert("Position z", ((qreal)pos.z()));
-                    newItem->processWizardInput();
-                    newItem->calculate();
+                    WizardParams newParams = item->wizardParams;
+                    newParams.insert("Position x", ((qreal)pos.x()));
+                    newParams.insert("Position y", ((qreal)pos.y()));
+                    newParams.insert("Position z", ((qreal)pos.z()));
+                    itemDB->modifyItem_withRestorePoint(newItem, newParams);
+//                    newItem->wizardParams = item->wizardParams;
+//                    newItem->wizardParams.insert("Position x", ((qreal)pos.x()));
+//                    newItem->wizardParams.insert("Position y", ((qreal)pos.y()));
+//                    newItem->wizardParams.insert("Position z", ((qreal)pos.z()));
+//                    newItem->processWizardInput();
+//                    newItem->calculate();
                 }
             }
         }
@@ -312,9 +328,11 @@ void ItemGripModifier::slot_button_rotateAroundPoint()
     qreal angleY  = rotate_doubleSpinBox_angleY->value();
     qreal angleZ  = rotate_doubleSpinBox_angleZ->value();
 
+    itemDB->setRestorePoint();
     foreach (CADitem* item, this->items)
     {
-        item->rotateAroundPoint(center, angleX, angleY, angleZ);
+        WizardParams newParams = item->rotateAroundPoint(center, angleX, angleY, angleZ);
+        itemDB->modifyItem_withRestorePoint(item, newParams);
     }
 
     finishGrip();

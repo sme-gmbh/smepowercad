@@ -149,9 +149,11 @@ void CADitem::rotateAroundAxis(qreal angle, QVector3D axis, qreal angle_x, qreal
     this->wizardParams.insert("Angle x", (angles.x()));
     this->wizardParams.insert("Angle y", (angles.y()));
     this->wizardParams.insert("Angle z", (angles.z()));
+    this->processWizardInput();
+    this->calculate();
 }
 
-void CADitem::rotateAroundPoint(QVector3D center, qreal rot_x, qreal rot_y, qreal rot_z)
+WizardParams CADitem::rotateAroundPoint(QVector3D center, qreal rot_x, qreal rot_y, qreal rot_z)
 {
     //calculate new position of object
     QVector3D vec = this->position - center;
@@ -161,18 +163,18 @@ void CADitem::rotateAroundPoint(QVector3D center, qreal rot_x, qreal rot_y, qrea
     m.rotate(rot_y, 0.0, 1.0, 0.0);
     m.rotate(rot_z, 0.0, 0.0, 1.0);
     QVector3D pos = center + m * vec;
-    wizardParams.insert("Position x", pos.x());
-    wizardParams.insert("Position y", pos.y());
-    wizardParams.insert("Position z", pos.z());
+    WizardParams newParams;
+    newParams.insert("Position x", pos.x());
+    newParams.insert("Position y", pos.y());
+    newParams.insert("Position z", pos.z());
     //rotate the object itself
     matrix_rotation = matrix_rotation * m;
     QVector3D angles = MAngleCalculations().anglesFromMatrix(matrix_rotation);
-    this->wizardParams.insert("Angle x", (angles.x()));
-    this->wizardParams.insert("Angle y", (angles.y()));
-    this->wizardParams.insert("Angle z", (angles.z()));
+    newParams.insert("Angle x", (angles.x()));
+    newParams.insert("Angle y", (angles.y()));
+    newParams.insert("Angle z", (angles.z()));
     //do the same for subitems
-    this->processWizardInput();
-    this->calculate();
+    return newParams;
 }
 
 CADitemTypes::ItemType CADitem::getType()

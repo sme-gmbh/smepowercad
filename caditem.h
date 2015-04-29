@@ -34,6 +34,7 @@
 #include "math/m3dboundingbox.h"
 #include "math/manglecalculations.h"
 #include "caditemtypes.h"
+//#include "itemdb.h"
 #include "wizardparams.h"
 
 #define PI 3.1415926535897
@@ -63,7 +64,7 @@ public:
     void serialOut(QByteArray *out);
     bool serialIn(QByteArray *in);
     void rotateAroundAxis(qreal angle, QVector3D axis, qreal angle_x, qreal angle_y, qreal angle_z);
-    void rotateAroundPoint(QVector3D center, qreal angle_x, qreal angle_y, qreal angle_z);
+    WizardParams rotateAroundPoint(QVector3D center, qreal angle_x, qreal angle_y, qreal angle_z);
 
     // data types tbd.
     CADitemTypes::ItemType getType();

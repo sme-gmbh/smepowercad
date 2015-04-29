@@ -1141,6 +1141,8 @@ void ItemDB::modifyItem_withRestorePoint(CADitem *item, WizardParams newParams)
 
     item->processWizardInput();
     item->calculate();
+
+    qDebug() << "stored item modification of" << item->getType();
 }
 
 void ItemDB::itemAdded(CADitem *item)

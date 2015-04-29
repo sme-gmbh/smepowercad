@@ -39,7 +39,7 @@ public:
     explicit ItemWizard(QWidget *parent = 0);
     ~ItemWizard();
 
-    void showWizard(CADitem *item);
+    void showWizard(CADitem *item, ItemDB *itemDB);
     static QImage wizardImage(CADitem *item);
 
 private slots:
@@ -52,6 +52,7 @@ private:
     Ui::ItemWizard *ui;
 
     CADitem *currentItem;
+    ItemDB* itemDB;
     void save();
     void deleteWdgs(QLayout *layout);
 
