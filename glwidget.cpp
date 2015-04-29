@@ -907,7 +907,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         {
             this->itemDB->restore_redo();
         }
-        if (item_lastHighlight != NULL)    // Turn item around y axis
+        else if (item_lastHighlight != NULL)    // Turn item around y axis
         {
 //            item_lastHighlight->angle_y += 45.0;
 //            if (item_lastHighlight->angle_y > 359.0) item_lastHighlight->angle_y = 0.0;

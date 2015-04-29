@@ -1258,17 +1258,15 @@ void ItemDB::restore_redo()
         restorePoint = this->restorePoints_redo.takeFirst();
         this->restorePoints_undo.append(restorePoint);
 
-        if ((this->restorePoints_undo.length() >= 2) && (this->restorePoints_undo.at(1)->getType() == RestorePoint::Restore_Stoppoint))
-        {
-            emit signal_repaintNeeded();
-            return;
-        }
-
         switch (restorePoint->getType())
         {
         case RestorePoint::Restore_ItemCreation:
         {
+            quint64 currentItemId_shadow = this->currentItemId;
+            this->currentItemId = restorePoint->itemID;
             CADitem* newItem = this->drawItem(restorePoint->layer, restorePoint->itemType);
+            this->currentItemId = currentItemId_shadow;
+
             newItem->wizardParams = restorePoint->wizardParamsBefore;
             newItem->processWizardInput();
             newItem->calculate();
@@ -1297,8 +1295,12 @@ void ItemDB::restore_redo()
             break;
         }
 
+        if ((this->restorePoints_redo.length() >= 1) && (this->restorePoints_redo.at(0)->getType() == RestorePoint::Restore_Stoppoint))
+        {
+            emit signal_repaintNeeded();
+            return;
+        }
     }
-
 }
 
 void ItemDB::itemAdded(CADitem *item)
