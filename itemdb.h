@@ -33,6 +33,7 @@
 
 #include "caditemheaderincludes.h"
 #include "caditemtypes.h"
+#include "restorepoint.h"
 
 
 class ItemDB : public QObject
@@ -44,6 +45,8 @@ public:
     ~ItemDB();
     QList<Layer*> layers;
     bool layerSoloActive;
+
+    QList<RestorePoint*> restorePoints;
 
     int getNumberOfItemTypes();
     QList<QString> getDomains();
@@ -77,6 +80,8 @@ public:
     CADitem *getItemById(quint64 id);
     bool modifyItem(quint64 &id, QString &key, QString &value);
     void modifyItem_withRestorePoint(CADitem* item, WizardParams newParams);
+    void setRestorePoint();
+    void makeRestore();
 
     void itemAdded(CADitem* item);
     void itemModified(CADitem* item);

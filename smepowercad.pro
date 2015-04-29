@@ -307,7 +307,8 @@ SOURCES += main.cpp\
     items/cad_gas_vacpipeteeconnector.cpp \
     items/cad_gas_vacpipeturn.cpp \
     items/cad_sprinkler_pipeteeconnector.cpp \
-    items/cad_heatcool_32wayvalve.cpp
+    items/cad_heatcool_32wayvalve.cpp \
+    restorepoint.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -576,7 +577,8 @@ HEADERS  += mainwindow.h \
     items/cad_gas_vacpipeteeconnector.h \
     items/cad_gas_vacpipeturn.h \
     items/cad_sprinkler_pipeteeconnector.h \
-    items/cad_heatcool_32wayvalve.h
+    items/cad_heatcool_32wayvalve.h \
+    restorepoint.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
