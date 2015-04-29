@@ -50,8 +50,9 @@ CAD_basic_plane::~CAD_basic_plane()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_basic_plane::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_plane::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;

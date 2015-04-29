@@ -41,8 +41,9 @@ CAD_basic_face::~CAD_basic_face()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_basic_face::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_face::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;

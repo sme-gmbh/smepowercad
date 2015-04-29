@@ -27,7 +27,7 @@ class CAD_basic_turn : public CADitem
 public:
     CAD_basic_turn();
     virtual ~CAD_basic_turn();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

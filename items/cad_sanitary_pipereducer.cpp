@@ -50,8 +50,9 @@ CAD_sanitary_pipeReducer::~CAD_sanitary_pipeReducer()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_sanitary_pipeReducer::flangable_items()
+QList<CADitemTypes::ItemType> CAD_sanitary_pipeReducer::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
 
     flangable_items.append(CADitemTypes::Sanitary_ElectricWaterHeater);

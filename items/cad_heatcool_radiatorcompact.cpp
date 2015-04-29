@@ -56,8 +56,9 @@ CAD_HeatCool_RadiatorCompact::~CAD_HeatCool_RadiatorCompact()
     //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_HeatCool_RadiatorCompact::flangable_items()
+QList<CADitemTypes::ItemType> CAD_HeatCool_RadiatorCompact::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::HeatCool_Pipe);
     flangable_items.append(CADitemTypes::HeatCool_PipeEndCap);

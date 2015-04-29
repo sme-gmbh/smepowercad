@@ -23,7 +23,7 @@ class CAD_Gas_CDAPressureRegulator : public CADitem
 public:
     CAD_Gas_CDAPressureRegulator();
     virtual ~CAD_Gas_CDAPressureRegulator();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

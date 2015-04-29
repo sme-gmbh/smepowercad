@@ -26,7 +26,7 @@ class CAD_air_ductBaffleSilencer : public CADitem
 public:
     CAD_air_ductBaffleSilencer();
     virtual ~CAD_air_ductBaffleSilencer();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

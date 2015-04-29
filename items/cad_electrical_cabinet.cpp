@@ -51,8 +51,9 @@ CAD_electrical_cabinet::~CAD_electrical_cabinet()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_electrical_cabinet::flangable_items()
+QList<CADitemTypes::ItemType> CAD_electrical_cabinet::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Electrical_Cabinet);
     return flangable_items;

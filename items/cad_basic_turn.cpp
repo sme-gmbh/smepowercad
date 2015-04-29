@@ -55,8 +55,9 @@ CAD_basic_turn::~CAD_basic_turn()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_basic_turn::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_turn::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Basic_Turn);
     flangable_items.append(CADitemTypes::Basic_Pipe);

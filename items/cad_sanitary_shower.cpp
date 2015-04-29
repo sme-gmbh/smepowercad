@@ -48,8 +48,9 @@ CAD_Sanitary_Shower::~CAD_Sanitary_Shower()
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_Sanitary_Shower::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Sanitary_Shower::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;

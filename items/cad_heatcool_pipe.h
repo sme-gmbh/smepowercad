@@ -24,7 +24,7 @@ class CAD_heatcool_pipe : public CADitem
 public:
     CAD_heatcool_pipe();
     virtual ~CAD_heatcool_pipe();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

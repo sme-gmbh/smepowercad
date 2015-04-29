@@ -24,7 +24,7 @@ class CAD_sanitary_pipeTeeConnector : public CADitem
 public:
     CAD_sanitary_pipeTeeConnector();
     virtual ~CAD_sanitary_pipeTeeConnector();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

@@ -24,7 +24,7 @@ class CAD_HeatCool_PumpNorm : public CADitem
 public:
     CAD_HeatCool_PumpNorm();
     virtual ~CAD_HeatCool_PumpNorm();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

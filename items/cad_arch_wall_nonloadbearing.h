@@ -24,7 +24,7 @@ class CAD_arch_wall_nonLoadBearing : public CADitem
 public:
     CAD_arch_wall_nonLoadBearing();
     virtual ~CAD_arch_wall_nonLoadBearing();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

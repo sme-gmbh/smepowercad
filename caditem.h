@@ -46,7 +46,7 @@ class CADitem
 public:
     CADitem(CADitemTypes::ItemType type);
     virtual ~CADitem() {}
-    virtual QList<CADitemTypes::ItemType> flangable_items() = 0;
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex) = 0;
     virtual QImage wizardImage() = 0;
     virtual QString iconPath() = 0;
     virtual QString domain() = 0;

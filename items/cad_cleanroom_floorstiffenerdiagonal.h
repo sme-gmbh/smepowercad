@@ -23,7 +23,7 @@ class CAD_Cleanroom_FloorStiffenerDiagonal : public CADitem
 public:
     CAD_Cleanroom_FloorStiffenerDiagonal();
     virtual ~CAD_Cleanroom_FloorStiffenerDiagonal();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

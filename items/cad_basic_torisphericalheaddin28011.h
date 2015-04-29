@@ -23,7 +23,7 @@ class CAD_Basic_TorisphericalHeadDIN28011 : public CADitem
 public:
     CAD_Basic_TorisphericalHeadDIN28011();
     virtual ~CAD_Basic_TorisphericalHeadDIN28011();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

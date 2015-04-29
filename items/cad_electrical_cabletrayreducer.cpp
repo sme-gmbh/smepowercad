@@ -61,8 +61,9 @@ CAD_electrical_cabletrayreducer::~CAD_electrical_cabletrayreducer()
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_electrical_cabletrayreducer::flangable_items()
+QList<CADitemTypes::ItemType> CAD_electrical_cabletrayreducer::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Electrical_Cabletray);
     flangable_items.append(CADitemTypes::Electrical_CabletrayCross);

@@ -14,7 +14,7 @@
 **********************************************************************/
 
 #include "cad_air_ductfireresistant.h"
-#include "itemdb.h"
+//#include "itemdb.h"
 
 CAD_air_ductFireResistant::CAD_air_ductFireResistant() : CADitem(CADitemTypes::Air_DuctFireResistant)
 {
@@ -42,8 +42,9 @@ CAD_air_ductFireResistant::~CAD_air_ductFireResistant()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_air_ductFireResistant::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_ductFireResistant::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;

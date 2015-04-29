@@ -55,8 +55,9 @@ CAD_HeatCool_Gauge::~CAD_HeatCool_Gauge()
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_HeatCool_Gauge::flangable_items()
+QList<CADitemTypes::ItemType> CAD_HeatCool_Gauge::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;

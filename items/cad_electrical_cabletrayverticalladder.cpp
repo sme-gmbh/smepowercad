@@ -62,8 +62,9 @@ CAD_Electrical_CabletrayVerticalLadder::~CAD_Electrical_CabletrayVerticalLadder(
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_Electrical_CabletrayVerticalLadder::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Electrical_CabletrayVerticalLadder::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Electrical_Cabletray);
     flangable_items.append(CADitemTypes::Electrical_CabletrayCross);

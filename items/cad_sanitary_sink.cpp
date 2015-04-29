@@ -48,8 +48,9 @@ CAD_Sanitary_Sink::~CAD_Sanitary_Sink()
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_Sanitary_Sink::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Sanitary_Sink::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;

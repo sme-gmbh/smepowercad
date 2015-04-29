@@ -49,8 +49,9 @@ CAD_basic_arc::~CAD_basic_arc()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_basic_arc::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_arc::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;

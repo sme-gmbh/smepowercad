@@ -25,7 +25,7 @@ class CAD_air_ductEndPlate : public CADitem
 public:
     CAD_air_ductEndPlate();
     virtual ~CAD_air_ductEndPlate();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

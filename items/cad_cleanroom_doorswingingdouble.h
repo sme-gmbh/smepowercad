@@ -23,7 +23,7 @@ class CAD_Cleanroom_DoorSwingingDouble : public CADitem
 public:
     CAD_Cleanroom_DoorSwingingDouble();
     virtual ~CAD_Cleanroom_DoorSwingingDouble();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

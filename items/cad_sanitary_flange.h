@@ -23,7 +23,7 @@ class CAD_Sanitary_Flange : public CADitem
 public:
     CAD_Sanitary_Flange();
     virtual ~CAD_Sanitary_Flange();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

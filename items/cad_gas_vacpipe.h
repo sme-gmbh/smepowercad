@@ -24,7 +24,7 @@ class CAD_Gas_VACPipe : public CADitem
 public:
     CAD_Gas_VACPipe();
     virtual ~CAD_Gas_VACPipe();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

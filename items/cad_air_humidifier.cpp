@@ -34,8 +34,9 @@ CAD_air_humidifier::~CAD_air_humidifier()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_air_humidifier::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_humidifier::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Air_Duct);
     flangable_items.append(CADitemTypes::Air_DuctEndPlate);

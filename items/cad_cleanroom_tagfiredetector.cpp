@@ -48,8 +48,9 @@ CAD_Cleanroom_TagFireDetector::~CAD_Cleanroom_TagFireDetector()
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_Cleanroom_TagFireDetector::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Cleanroom_TagFireDetector::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;

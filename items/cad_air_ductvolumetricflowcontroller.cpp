@@ -48,8 +48,9 @@ CAD_air_ductVolumetricFlowController::~CAD_air_ductVolumetricFlowController()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_air_ductVolumetricFlowController::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_ductVolumetricFlowController::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Air_Duct);
     flangable_items.append(CADitemTypes::Air_DuctEndPlate);

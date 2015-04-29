@@ -55,8 +55,9 @@ CAD_basic_duct::~CAD_basic_duct()
     indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_basic_duct::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_duct::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Basic_Duct);
     return flangable_items;

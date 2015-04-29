@@ -23,7 +23,7 @@ class CAD_heatcool_coolingTower : public CADitem
 public:
     CAD_heatcool_coolingTower();
     virtual ~CAD_heatcool_coolingTower();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

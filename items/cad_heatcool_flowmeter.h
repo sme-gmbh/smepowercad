@@ -23,7 +23,7 @@ class CAD_heatcool_flowmeter : public CADitem
 public:
     CAD_heatcool_flowmeter();
     virtual ~CAD_heatcool_flowmeter();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

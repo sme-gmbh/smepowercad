@@ -53,8 +53,9 @@ CAD_basic_cylinder::~CAD_basic_cylinder()
     indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_basic_cylinder::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_cylinder::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;

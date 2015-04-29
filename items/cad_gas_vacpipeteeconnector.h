@@ -24,7 +24,7 @@ class CAD_Gas_VACPipeTeeConnector : public CADitem
 public:
     CAD_Gas_VACPipeTeeConnector();
     virtual ~CAD_Gas_VACPipeTeeConnector();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

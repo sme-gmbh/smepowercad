@@ -317,7 +317,8 @@ void ItemGripModifier::deleteWdgs(QLayout *layout)
 
 void ItemGripModifier::showAppendBox()
 {
-    QList<CADitemTypes::ItemType> flangable_items = item->flangable_items();
+    int flangeIndex = this->item->snap_flanges.indexOf(this->scenePos) + 1;
+    QList<CADitemTypes::ItemType> flangable_items = item->flangable_items(flangeIndex);
 
     deleteWdgs(ui->gridLayout);
     ui->label->setText(tr("Choose new item"));

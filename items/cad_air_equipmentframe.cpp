@@ -34,8 +34,9 @@ CAD_air_equipmentFrame::~CAD_air_equipmentFrame()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_air_equipmentFrame::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_equipmentFrame::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;

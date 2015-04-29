@@ -24,7 +24,7 @@ class CAD_electrical_cabletrayreducer : public CADitem
 public:
     CAD_electrical_cabletrayreducer();
     virtual ~CAD_electrical_cabletrayreducer();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

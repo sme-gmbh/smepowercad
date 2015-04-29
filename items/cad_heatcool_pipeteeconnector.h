@@ -24,7 +24,7 @@ class CAD_heatcool_pipeTeeConnector : public CADitem
 public:
     CAD_heatcool_pipeTeeConnector();
     virtual ~CAD_heatcool_pipeTeeConnector();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

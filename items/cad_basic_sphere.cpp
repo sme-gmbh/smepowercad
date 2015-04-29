@@ -47,8 +47,9 @@ CAD_basic_sphere::~CAD_basic_sphere()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_basic_sphere::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_sphere::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;
