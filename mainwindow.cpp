@@ -601,7 +601,8 @@ void MainWindow::slot_createNewItem(CADitemTypes::ItemType type)
         QMessageBox::critical(this, tr("Item creation"), tr("No layer is selected."));
         return;
     }
-    CADitem* item = itemDB->drawItem(currentLayer, type);
+    itemDB->setRestorePoint();
+    CADitem* item = itemDB->drawItem_withRestorePoint(currentLayer, type, WizardParams());
     this->itemWizard->showWizard(item, itemDB);
 }
 

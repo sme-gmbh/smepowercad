@@ -811,7 +811,10 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         if (item_lastHighlight != NULL)
         {
             if (this->itemWizard != NULL)
+            {
+                itemDB->setRestorePoint();
                 this->itemWizard->showWizard(item_lastHighlight, itemDB);
+            }
         }
         break;
     case Qt::Key_F:                         // Flange item

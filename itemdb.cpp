@@ -1200,7 +1200,11 @@ void ItemDB::makeRestore()
             break;
         case RestorePoint::Restore_ItemDeletion:
         {
+            quint64 currentItemId_shadow = this->currentItemId;
+            this->currentItemId = restorePoint->itemID;
             CADitem* newItem = this->drawItem(restorePoint->layer, restorePoint->itemType);
+            this->currentItemId = currentItemId_shadow;
+
             newItem->wizardParams = restorePoint->wizardParamsBefore;
             newItem->processWizardInput();
             newItem->calculate();
@@ -1213,7 +1217,6 @@ void ItemDB::makeRestore()
             CADitem* item = this->getItemById(restorePoint->itemID);
             if (item == NULL)
                 continue;
-            qDebug() << "make restore";
             item->wizardParams.insert(restorePoint->wizardParamsBefore);
             item->processWizardInput();
             item->calculate();

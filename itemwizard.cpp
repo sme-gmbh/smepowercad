@@ -142,7 +142,6 @@ void ItemWizard::save()
 
     this->deleteWdgs(ui->formLayout);
 
-    itemDB->setRestorePoint();
     this->itemDB->modifyItem_withRestorePoint(currentItem, params);
 //    currentItem->wizardParams = params;
 //    currentItem->processWizardInput();
