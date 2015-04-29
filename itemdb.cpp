@@ -1137,12 +1137,56 @@ void ItemDB::modifyItem_withRestorePoint(CADitem *item, WizardParams newParams)
     if (item == NULL)
         return;
 
+    WizardParams paramsBefore = item->wizardParams;
     item->wizardParams.insert(newParams);
+    WizardParams paramsAfter = item->wizardParams;
+
+    restorePoints.append(new RestorePoint(RestorePoint::Restore_WizardParams, item->id, paramsBefore, paramsAfter));
 
     item->processWizardInput();
     item->calculate();
 
     qDebug() << "stored item modification of" << item->getType();
+}
+
+void ItemDB::setRestorePoint()
+{
+    restorePoints.append(new RestorePoint(RestorePoint::Restore_Stoppoint));
+}
+
+void ItemDB::makeRestore()
+{
+    RestorePoint* restorePoint;
+
+    while (1)
+    {
+        if (this->restorePoints.isEmpty())
+            return;
+
+        restorePoint = this->restorePoints.takeLast();
+
+        switch (restorePoint->getType())
+        {
+        case RestorePoint::Restore_ItemCreation:
+            break;
+        case RestorePoint::Restore_ItemDeletion:
+            break;
+        case RestorePoint::Restore_ItemLayerChange:
+            break;
+        case RestorePoint::Restore_WizardParams:
+        {
+            CADitem* item = this->getItemById(restorePoint->itemID);
+            item->wizardParams.insert(restorePoint->wizardParamsBefore);
+            item->processWizardInput();
+            item->calculate();
+        }
+            break;
+        case RestorePoint::Restore_Stoppoint:
+            return;
+        }
+
+        delete restorePoint;
+    }
 }
 
 void ItemDB::itemAdded(CADitem *item)
