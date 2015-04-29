@@ -3,6 +3,7 @@
 
 #include "wizardparams.h"
 #include "caditemtypes.h"
+#include "layer.h"
 
 class RestorePoint
 {
@@ -19,9 +20,10 @@ public:
     RestorePoint();
     RestorePoint(RestorePoint &restorePoint);
     RestorePoint(RestoreType type);
-    RestorePoint(RestoreType type, quint64 itemID, WizardParams wizardParamsBefore, WizardParams wizardParamsAfter);
+    RestorePoint(RestoreType type, Layer *layer, quint64 itemID, CADitemTypes::ItemType itemType, WizardParams wizardParamsBefore, WizardParams wizardParamsAfter);
     ~RestorePoint();
 
+    Layer* layer;
     CADitemTypes::ItemType itemType;
     quint64 itemID;
     WizardParams wizardParamsBefore;

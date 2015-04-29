@@ -927,7 +927,11 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         }
         break;
     case Qt::Key_Z:                         // Turn item around z axis
-        if (item_lastHighlight != NULL)
+        if (event->modifiers() & Qt::ControlModifier)
+        {
+            this->itemDB->makeRestore();
+        }
+        else if (item_lastHighlight!= NULL)
         {
 //            item_lastHighlight->angle_z += 45.0;
 //            if (item_lastHighlight->angle_z > 359.0) item_lastHighlight->angle_z = 0.0;
@@ -962,7 +966,8 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
                     == QMessageBox::Yes)
             {
                 selectionClear();
-                itemDB->deleteItems(itemsToDelete);
+                itemDB->setRestorePoint();
+                itemDB->deleteItems_withRestorePoint(itemsToDelete);
                 slot_repaint();
             }
         }

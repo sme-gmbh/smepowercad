@@ -160,11 +160,6 @@ void ItemGripModifier::moveItemsTo(QVector3D new_scenePos)
         newParams.insert("Position y", ((qreal)newPos.y()));
         newParams.insert("Position z", ((qreal)newPos.z()));
         itemDB->modifyItem_withRestorePoint(item, newParams);
-//        item->wizardParams.insert("Position x", ((qreal)newPos.x()));
-//        item->wizardParams.insert("Position y", ((qreal)newPos.y()));
-//        item->wizardParams.insert("Position z", ((qreal)newPos.z()));
-//        item->processWizardInput();
-//        item->calculate();
     }
     this->finishGrip();
 }
@@ -182,13 +177,9 @@ void ItemGripModifier::copyItemsTo(QVector3D new_scenePos)
         newParams.insert("Position x", ((qreal)newPos.x()));
         newParams.insert("Position y", ((qreal)newPos.y()));
         newParams.insert("Position z", ((qreal)newPos.z()));
-        itemDB->modifyItem_withRestorePoint(newItem, newParams);
-//        newItem->wizardParams = item->wizardParams;
-//        newItem->wizardParams.insert("Position x", ((qreal)newPos.x()));
-//        newItem->wizardParams.insert("Position y", ((qreal)newPos.y()));
-//        newItem->wizardParams.insert("Position z", ((qreal)newPos.z()));
-//        newItem->processWizardInput();
-//        newItem->calculate();
+        newItem->wizardParams.insert(newParams);
+        newItem->processWizardInput();
+        newItem->calculate();
     }
     this->finishGrip();
 }
@@ -301,13 +292,9 @@ void ItemGripModifier::slot_button_copyMulty()
                     newParams.insert("Position x", ((qreal)pos.x()));
                     newParams.insert("Position y", ((qreal)pos.y()));
                     newParams.insert("Position z", ((qreal)pos.z()));
-                    itemDB->modifyItem_withRestorePoint(newItem, newParams);
-//                    newItem->wizardParams = item->wizardParams;
-//                    newItem->wizardParams.insert("Position x", ((qreal)pos.x()));
-//                    newItem->wizardParams.insert("Position y", ((qreal)pos.y()));
-//                    newItem->wizardParams.insert("Position z", ((qreal)pos.z()));
-//                    newItem->processWizardInput();
-//                    newItem->calculate();
+                    newItem->wizardParams.insert(newParams);
+                    newItem->processWizardInput();
+                    newItem->calculate();
                 }
             }
         }
