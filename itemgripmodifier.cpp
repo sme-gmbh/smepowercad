@@ -142,6 +142,7 @@ void ItemGripModifier::activateGrip(ItemGripModifier::ItemGripType gripType, QPo
     }
     case Grip_Rotate_aroundPoint:
     {
+        showRotateAroundPointBox();
         break;
     }
     }
@@ -308,13 +309,7 @@ void ItemGripModifier::slot_button_rotateAroundPoint()
 
     foreach (CADitem* item, this->items)
     {
-
-
-
-
-
-
-
+        item->rotateAroundPoint(center, angleX, angleY, angleZ);
     }
 
     finishGrip();
@@ -450,6 +445,7 @@ void ItemGripModifier::showCopyMultiBox()
 
 void ItemGripModifier::showRotateAroundPointBox()
 {
+    qDebug() << "we are here!";
     deleteWdgs(ui->gridLayout);
     ui->label->setText(tr("Rotate around point"));
 
@@ -473,6 +469,10 @@ void ItemGripModifier::showRotateAroundPointBox()
     rotate_doubleSpinBox_angleX->setMaximum(1e+20);
     rotate_doubleSpinBox_angleY->setMaximum(1e+20);
     rotate_doubleSpinBox_angleZ->setMaximum(1e+20);
+
+    rotate_doubleSpinBox_centerX->setValue(this->scenePos.x());
+    rotate_doubleSpinBox_centerY->setValue(this->scenePos.y());
+    rotate_doubleSpinBox_centerZ->setValue(this->scenePos.z());
 
     ui->gridLayout->addWidget(new QLabel(tr("Center X")), 0, 0);
     ui->gridLayout->addWidget(new QLabel(tr("Center Y")), 1, 0);
