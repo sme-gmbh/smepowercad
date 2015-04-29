@@ -30,6 +30,7 @@ public:
     void insert(QString key, double value);
     void insert(QString key, int value);
     void insert(QString key, QString value);
+    void insert(WizardParams newParams);
     QVariant value(QString key);
     QVariant value(int index);
     QList<QString> keys();

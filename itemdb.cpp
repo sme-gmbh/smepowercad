@@ -1132,6 +1132,17 @@ bool ItemDB::modifyItem(quint64 &id, QString &key, QString &value)
     return true;
 }
 
+void ItemDB::modifyItem_withRestorePoint(CADitem *item, WizardParams newParams)
+{
+    if (item == NULL)
+        return;
+
+    item->wizardParams.insert(newParams);
+
+    item->processWizardInput();
+    item->calculate();
+}
+
 void ItemDB::itemAdded(CADitem *item)
 {
 

@@ -154,11 +154,16 @@ void ItemGripModifier::moveItemsTo(QVector3D new_scenePos)
     {
         QVector3D offset = this->scenePos - item->position;    // Offset between point of pickup and basepoint of picked object
         QVector3D newPos = new_scenePos - offset;
-        item->wizardParams.insert("Position x", ((qreal)newPos.x()));
-        item->wizardParams.insert("Position y", ((qreal)newPos.y()));
-        item->wizardParams.insert("Position z", ((qreal)newPos.z()));
-        item->processWizardInput();
-        item->calculate();
+        WizardParams newParams;
+        newParams.insert("Position x", ((qreal)newPos.x()));
+        newParams.insert("Position y", ((qreal)newPos.y()));
+        newParams.insert("Position z", ((qreal)newPos.z()));
+        itemDB->modifyItem_withRestorePoint(item, newParams);
+//        item->wizardParams.insert("Position x", ((qreal)newPos.x()));
+//        item->wizardParams.insert("Position y", ((qreal)newPos.y()));
+//        item->wizardParams.insert("Position z", ((qreal)newPos.z()));
+//        item->processWizardInput();
+//        item->calculate();
     }
     this->finishGrip();
 }

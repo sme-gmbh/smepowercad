@@ -76,6 +76,7 @@ public:
     CADitem *drawItem(QString layerName, CADitemTypes::ItemType type);
     CADitem *getItemById(quint64 id);
     bool modifyItem(quint64 &id, QString &key, QString &value);
+    void modifyItem_withRestorePoint(CADitem* item, WizardParams newParams);
 
     void itemAdded(CADitem* item);
     void itemModified(CADitem* item);

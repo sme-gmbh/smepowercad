@@ -149,6 +149,15 @@ void WizardParams::insert(QString key, QString value)
         values_string.replace(index, value);
 }
 
+void WizardParams::insert(WizardParams newParams)
+{
+    foreach(QString newKey, newParams.keys())
+    {
+        QVariant newValue = newParams.value(newKey);
+        this->insert(newKey, newValue);
+    }
+}
+
 QVariant WizardParams::value(QString key)
 {
 //    qDebug() << "WizardParams::value() key =" << key;
