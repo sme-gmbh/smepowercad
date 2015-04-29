@@ -46,7 +46,8 @@ public:
     QList<Layer*> layers;
     bool layerSoloActive;
 
-    QList<RestorePoint*> restorePoints;
+    QList<RestorePoint*> restorePoints_undo;
+    QList<RestorePoint*> restorePoints_redo;
 
     int getNumberOfItemTypes();
     QList<QString> getDomains();
@@ -83,7 +84,10 @@ public:
     void deleteItems_withRestorePoint(QList<CADitem*> items);
     void modifyItem_withRestorePoint(CADitem* item, WizardParams newParams);
     void setRestorePoint();
-    void makeRestore();
+    void restore_clearRedo();
+    void restore_undo();
+    void restore_redo();
+
 
     void itemAdded(CADitem* item);
     void itemModified(CADitem* item);

@@ -902,8 +902,12 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             slot_repaint();
         }
         break;
-    case Qt::Key_Y:                         // Turn item around y axis
-        if (item_lastHighlight != NULL)
+    case Qt::Key_Y:
+        if (event->modifiers() & Qt::ControlModifier)
+        {
+            this->itemDB->restore_redo();
+        }
+        if (item_lastHighlight != NULL)    // Turn item around y axis
         {
 //            item_lastHighlight->angle_y += 45.0;
 //            if (item_lastHighlight->angle_y > 359.0) item_lastHighlight->angle_y = 0.0;
@@ -929,12 +933,12 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             slot_repaint();
         }
         break;
-    case Qt::Key_Z:                         // Turn item around z axis
+    case Qt::Key_Z:
         if (event->modifiers() & Qt::ControlModifier)
         {
-            this->itemDB->makeRestore();
+            this->itemDB->restore_undo();
         }
-        else if (item_lastHighlight!= NULL)
+        else if (item_lastHighlight!= NULL)         // Turn item around z axis
         {
 //            item_lastHighlight->angle_z += 45.0;
 //            if (item_lastHighlight->angle_z > 359.0) item_lastHighlight->angle_z = 0.0;
