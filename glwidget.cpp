@@ -147,7 +147,7 @@ bool GLWidget::isPickActive()
 
 QRect GLWidget::selection()
 {
-    // Selection rect muss immer von topleft noch bottomright gehen
+    // Selection rect must be from topleft to bottomright
 
     QPoint topLeft;
     topLeft.setX(qMin(this->pickStartPos.x(), this->mousePos.x()));
@@ -469,6 +469,11 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     if (event->buttons() == Qt::MidButton)
     {
         translationOffset += mouseMoveDelta;
+        if (mouseMoveDelta.manhattanLength() > 20)  // Do not zoom_pan_all if double clicked and mouse was moved
+        {
+            QDateTime veryLongAgo = QDateTime::fromMSecsSinceEpoch(0);
+            mouse_lastMidPress_dateTime = veryLongAgo;
+        }
     }
 
     if (event->buttons() == Qt::RightButton)
@@ -616,7 +621,16 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 
     if (event->buttons() == Qt::MidButton)
     {
-        this->setCursor(Qt::OpenHandCursor);
+        QDateTime now = QDateTime::currentDateTime();
+        quint64 msecs_sinceLastMidPress = this->mouse_lastMidPress_dateTime.msecsTo(now);
+        this->mouse_lastMidPress_dateTime = now;
+
+        if (msecs_sinceLastMidPress < 500)
+        {
+            this->zoom_pan_showAll();
+        }
+        else
+            this->setCursor(Qt::OpenHandCursor);
     }
     else
         this->setCursor(Qt::BlankCursor);
@@ -1828,6 +1842,74 @@ void GLWidget::selectionClear_processItems(QList<CADitem *> items)
     {
         item->selected = false;
         selectionClear_processItems(item->subItems);
+    }
+}
+
+void GLWidget::zoom_pan_showAll()
+{
+    M3dBoundingBox boundingBox_scene;
+    boundingBox_scene.reset();
+    zoom_pan_showAll_processLayers(itemDB->layers, &boundingBox_scene);
+
+    QList<QVector3D> vertices = boundingBox_scene.getVertices();
+
+    M3dBoundingBox boundingBox_screen;
+    boundingBox_screen.reset();
+
+    foreach (QVector3D vertex, vertices)
+    {
+        QPointF screenPoint = this->mapFromScene(vertex);
+        boundingBox_screen.enterVertex(QVector3D(screenPoint));
+    }
+
+
+    // Set zoom to fit all items in screen
+    qreal current_width  = boundingBox_screen.x_max - boundingBox_screen.x_min;
+    qreal current_height = boundingBox_screen.y_max - boundingBox_screen.y_min;
+
+    qreal zoom_x = (qreal)this->width()  / current_width;
+    qreal zoom_y = (qreal)this->height() / current_height;
+
+    qreal zoom_final = qMin(zoom_x, zoom_y) * 0.99;
+
+    this->zoomFactor *= zoom_final;
+
+    // Calculate new center after zooming
+    matrix_modelview.setToIdentity();
+    matrix_modelview.translate(translationOffset.x(), translationOffset.y(), 0.0);
+    matrix_modelview.scale(this->zoomFactor, this->zoomFactor, 1.0 / 100000.0);
+    updateMatrixAll();
+
+    boundingBox_screen.reset();
+    foreach (QVector3D vertex, vertices)
+    {
+        QPointF screenPoint = this->mapFromScene(vertex);
+        boundingBox_screen.enterVertex(QVector3D(screenPoint));
+    }
+
+    // Move center of scene to center of screen
+    QPointF center_scene = QPointF((boundingBox_screen.x_min + boundingBox_screen.x_max) / 2.0, (boundingBox_screen.y_min + boundingBox_screen.y_max) / 2.0);
+    QPointF center_screen = QPointF(0.0, 0.0);
+    QPointF center_delta = center_screen - center_scene;
+
+    this->translationOffset += center_delta.toPoint();
+
+}
+
+void GLWidget::zoom_pan_showAll_processLayers(QList<Layer *> layers, M3dBoundingBox* boundingBox)
+{
+    foreach (Layer* layer, layers)
+    {
+        zoom_pan_showAll_processItems(layer->items, boundingBox);
+        zoom_pan_showAll_processLayers(layer->subLayers, boundingBox);
+    }
+}
+
+void GLWidget::zoom_pan_showAll_processItems(QList<CADitem *> items, M3dBoundingBox* boundingBox)
+{
+    foreach (CADitem* item, items)
+    {
+        boundingBox->enterVertices(item->boundingBox.getVertices());
     }
 }
 
