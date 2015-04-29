@@ -63,6 +63,7 @@ public:
     void serialOut(QByteArray *out);
     bool serialIn(QByteArray *in);
     void rotateAroundAxis(qreal angle, QVector3D axis, qreal angle_x, qreal angle_y, qreal angle_z);
+    void rotateAroundPoint(QVector3D center, qreal angle_x, qreal angle_y, qreal angle_z);
 
     // data types tbd.
     CADitemTypes::ItemType getType();

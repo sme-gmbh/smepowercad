@@ -43,7 +43,6 @@ CAD_basic_box::CAD_basic_box() : CADitem(CADitemTypes::Basic_Box)
 
     processWizardInput();
     calculate();
-
 }
 
 CAD_basic_box::~CAD_basic_box()
