@@ -1140,7 +1140,7 @@ CADitem *ItemDB::drawItem_withRestorePoint(Layer *layer, CADitemTypes::ItemType 
         return NULL;
 
     item->wizardParams.insert(wizardParams);
-    restorePoints.append(new RestorePoint(RestorePoint::Restore_ItemCreation, item->layer, item->id, item->getType(), wizardParams, wizardParams));
+    restorePoints_undo.append(new RestorePoint(RestorePoint::Restore_ItemCreation, item->layer, item->id, item->getType(), wizardParams, wizardParams));
 
     item->processWizardInput();
     item->calculate();
@@ -1152,7 +1152,7 @@ void ItemDB::deleteItems_withRestorePoint(QList<CADitem *> items)
 {
     foreach (CADitem* item, items)
     {
-        restorePoints.append(new RestorePoint(RestorePoint::Restore_ItemDeletion, item->layer, item->id, item->getType(), item->wizardParams, item->wizardParams));
+        restorePoints_undo.append(new RestorePoint(RestorePoint::Restore_ItemDeletion, item->layer, item->id, item->getType(), item->wizardParams, item->wizardParams));
         deleteItem(item);
     }
 }
@@ -1166,7 +1166,7 @@ void ItemDB::modifyItem_withRestorePoint(CADitem *item, WizardParams newParams)
     item->wizardParams.insert(newParams);
     WizardParams paramsAfter = item->wizardParams;
 
-    restorePoints.append(new RestorePoint(RestorePoint::Restore_WizardParams, item->layer, item->id, item->getType(), paramsBefore, paramsAfter));
+    restorePoints_undo.append(new RestorePoint(RestorePoint::Restore_WizardParams, item->layer, item->id, item->getType(), paramsBefore, paramsAfter));
 
     item->processWizardInput();
     item->calculate();
@@ -1174,22 +1174,33 @@ void ItemDB::modifyItem_withRestorePoint(CADitem *item, WizardParams newParams)
 
 void ItemDB::setRestorePoint()
 {
-    restorePoints.append(new RestorePoint(RestorePoint::Restore_Stoppoint));
+    restorePoints_undo.append(new RestorePoint(RestorePoint::Restore_Stoppoint));
+    this->restore_clearRedo();
 }
 
-void ItemDB::makeRestore()
+void ItemDB::restore_clearRedo()
+{
+    while(!this->restorePoints_redo.isEmpty())
+    {
+        RestorePoint* restorePoint = this->restorePoints_redo.takeLast();
+        delete restorePoint;
+    }
+}
+
+void ItemDB::restore_undo()
 {
     RestorePoint* restorePoint;
 
     while (1)
     {
-        if (this->restorePoints.isEmpty())
+        if (this->restorePoints_undo.isEmpty())
         {
             emit signal_repaintNeeded();
             return;
         }
 
-        restorePoint = this->restorePoints.takeLast();
+        restorePoint = this->restorePoints_undo.takeLast();
+        this->restorePoints_redo.prepend(restorePoint);
 
         switch (restorePoint->getType())
         {
@@ -1226,9 +1237,65 @@ void ItemDB::makeRestore()
         }
             break;
         }
-
-        delete restorePoint;
     }
+}
+
+void ItemDB::restore_redo()
+{
+    RestorePoint* restorePoint;
+
+    while (1)
+    {
+        if (this->restorePoints_redo.isEmpty())
+        {
+            emit signal_repaintNeeded();
+            return;
+        }
+
+        restorePoint = this->restorePoints_redo.takeFirst();
+        this->restorePoints_undo.append(restorePoint);
+
+        if ((this->restorePoints_undo.length() >= 2) && (this->restorePoints_undo.at(1)->getType() == RestorePoint::Restore_Stoppoint))
+        {
+            emit signal_repaintNeeded();
+            return;
+        }
+
+        switch (restorePoint->getType())
+        {
+        case RestorePoint::Restore_ItemCreation:
+        {
+            CADitem* newItem = this->drawItem(restorePoint->layer, restorePoint->itemType);
+            newItem->wizardParams = restorePoint->wizardParamsBefore;
+            newItem->processWizardInput();
+            newItem->calculate();
+        }
+            break;
+        case RestorePoint::Restore_ItemDeletion:
+        {
+            this->deleteItem(restorePoint->itemID);
+        }
+            break;
+        case RestorePoint::Restore_ItemLayerChange:
+            break;
+        case RestorePoint::Restore_WizardParams:
+        {
+            CADitem* item = this->getItemById(restorePoint->itemID);
+            if (item == NULL)
+                continue;
+            item->wizardParams.insert(restorePoint->wizardParamsAfter);
+            item->processWizardInput();
+            item->calculate();
+        }
+            break;
+        case RestorePoint::Restore_Stoppoint:
+        {
+        }
+            break;
+        }
+
+    }
+
 }
 
 void ItemDB::itemAdded(CADitem *item)
