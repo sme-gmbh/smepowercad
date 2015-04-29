@@ -140,6 +140,10 @@ void ItemGripModifier::activateGrip(ItemGripModifier::ItemGripType gripType, QPo
     {
         break;
     }
+    case Grip_Rotate_aroundPoint:
+    {
+        break;
+    }
     }
 }
 
@@ -292,6 +296,32 @@ void ItemGripModifier::slot_button_copyMulty()
     emit signal_sceneRepaintNeeded();
 }
 
+void ItemGripModifier::slot_button_rotateAroundPoint()
+{
+    qreal centerX = rotate_doubleSpinBox_centerX->value();
+    qreal centerY = rotate_doubleSpinBox_centerY->value();
+    qreal centerZ = rotate_doubleSpinBox_centerZ->value();
+    QVector3D center = QVector3D(centerX, centerY, centerZ);
+    qreal angleX  = rotate_doubleSpinBox_angleX->value();
+    qreal angleY  = rotate_doubleSpinBox_angleY->value();
+    qreal angleZ  = rotate_doubleSpinBox_angleZ->value();
+
+    foreach (CADitem* item, this->items)
+    {
+
+
+
+
+
+
+
+    }
+
+    finishGrip();
+
+    emit signal_sceneRepaintNeeded();
+}
+
 void ItemGripModifier::deleteWdgs(QLayout *layout)
 {
     QLayoutItem *item;
@@ -368,12 +398,12 @@ void ItemGripModifier::showCopyMultiBox()
     copyMulti_spinBox_countZ = new QSpinBox(this);
     copyMulti_doubleSpinBox_distanceZ = new QDoubleSpinBox(this);
 
-    copyMulti_doubleSpinBox_distanceX->setMinimum(-10e+20);
-    copyMulti_doubleSpinBox_distanceX->setMaximum( 10e+20);
-    copyMulti_doubleSpinBox_distanceY->setMinimum(-10e+20);
-    copyMulti_doubleSpinBox_distanceY->setMaximum( 10e+20);
-    copyMulti_doubleSpinBox_distanceZ->setMinimum(-10e+20);
-    copyMulti_doubleSpinBox_distanceZ->setMaximum( 10e+20);
+    copyMulti_doubleSpinBox_distanceX->setMinimum(-1e+20);
+    copyMulti_doubleSpinBox_distanceX->setMaximum( 1e+20);
+    copyMulti_doubleSpinBox_distanceY->setMinimum(-1e+20);
+    copyMulti_doubleSpinBox_distanceY->setMaximum( 1e+20);
+    copyMulti_doubleSpinBox_distanceZ->setMinimum(-1e+20);
+    copyMulti_doubleSpinBox_distanceZ->setMaximum( 1e+20);
     copyMulti_spinBox_countX->setMinimum(1);
     copyMulti_spinBox_countX->setMaximum(INT_MAX);
     copyMulti_spinBox_countY->setMinimum(1);
@@ -411,6 +441,68 @@ void ItemGripModifier::showCopyMultiBox()
     button_ok->setMaximumSize(200, 40);
     button_ok->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     connect(button_ok, SIGNAL(clicked()), this, SLOT(slot_button_copyMulty()));
+    ui->gridLayout->addWidget(button_ok, 6, 1);
+
+    this->move(QCursor::pos());
+    this->show();
+}
+
+void ItemGripModifier::showRotateAroundPointBox()
+{
+    deleteWdgs(ui->gridLayout);
+    ui->label->setText(tr("Rotate around point"));
+
+    rotate_doubleSpinBox_centerX = new QDoubleSpinBox(this);
+    rotate_doubleSpinBox_centerY = new QDoubleSpinBox(this);
+    rotate_doubleSpinBox_centerZ = new QDoubleSpinBox(this);
+    rotate_doubleSpinBox_angleX = new QDoubleSpinBox(this);
+    rotate_doubleSpinBox_angleY = new QDoubleSpinBox(this);
+    rotate_doubleSpinBox_angleZ = new QDoubleSpinBox(this);
+
+    rotate_doubleSpinBox_centerX->setMinimum(-1e+20);
+    rotate_doubleSpinBox_centerY->setMinimum(-1e+20);
+    rotate_doubleSpinBox_centerZ->setMinimum(-1e+20);
+    rotate_doubleSpinBox_angleX->setMinimum(-1e+20);
+    rotate_doubleSpinBox_angleY->setMinimum(-1e+20);
+    rotate_doubleSpinBox_angleZ->setMinimum(-1e+20);
+
+    rotate_doubleSpinBox_centerX->setMaximum(1e+20);
+    rotate_doubleSpinBox_centerY->setMaximum(1e+20);
+    rotate_doubleSpinBox_centerZ->setMaximum(1e+20);
+    rotate_doubleSpinBox_angleX->setMaximum(1e+20);
+    rotate_doubleSpinBox_angleY->setMaximum(1e+20);
+    rotate_doubleSpinBox_angleZ->setMaximum(1e+20);
+
+    ui->gridLayout->addWidget(new QLabel(tr("Center X")), 0, 0);
+    ui->gridLayout->addWidget(new QLabel(tr("Center Y")), 1, 0);
+    ui->gridLayout->addWidget(new QLabel(tr("Center Z")), 2, 0);
+    ui->gridLayout->addWidget(new QLabel(tr("Angle X")),  3, 0);
+    ui->gridLayout->addWidget(new QLabel(tr("Angle Y")),  4, 0);
+    ui->gridLayout->addWidget(new QLabel(tr("Angle Z")),  5, 0);
+
+    ui->gridLayout->addWidget(rotate_doubleSpinBox_centerX, 0, 1);
+    ui->gridLayout->addWidget(rotate_doubleSpinBox_centerY, 1, 1);
+    ui->gridLayout->addWidget(rotate_doubleSpinBox_centerZ, 2, 1);
+    ui->gridLayout->addWidget(rotate_doubleSpinBox_angleX,  3, 1);
+    ui->gridLayout->addWidget(rotate_doubleSpinBox_angleY,  4, 1);
+    ui->gridLayout->addWidget(rotate_doubleSpinBox_angleZ,  5, 1);
+
+    QToolButton* button_cancel = new QToolButton(this);
+    button_cancel->setText(tr("Cancel"));
+    button_cancel->setFocusPolicy(Qt::NoFocus);
+    button_cancel->setMinimumSize(150, 40);
+    button_cancel->setMaximumSize(200, 40);
+    button_cancel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    connect(button_cancel, SIGNAL(clicked()), this, SLOT(slot_rejected()));
+    ui->gridLayout->addWidget(button_cancel, 6, 0);
+
+    QToolButton* button_ok = new QToolButton(this);
+    button_ok->setText(tr("Ok"));
+    button_ok->setFocusPolicy(Qt::NoFocus);
+    button_ok->setMinimumSize(150, 40);
+    button_ok->setMaximumSize(200, 40);
+    button_ok->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    connect(button_ok, SIGNAL(clicked()), this, SLOT(slot_button_rotateAroundPoint()));
     ui->gridLayout->addWidget(button_ok, 6, 1);
 
     this->move(QCursor::pos());

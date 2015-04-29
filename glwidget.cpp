@@ -23,6 +23,7 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, Item
     this->itemWizard = itemWizard;
     this->itemGripModifier = itemGripModifier;
     this->mousePos = QPoint();
+    mouse_lastMidPress_dateTime = QDateTime::fromMSecsSinceEpoch(0);
 
     this->translationOffset = QPoint();
     this->zoomFactor = 1.0;
@@ -852,6 +853,22 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
                 this->itemGripModifier->setItem(item_lastHighlight);
                 this->itemGripModifier->activateGrip(ItemGripModifier::Grip_Move, QCursor::pos(), snapPos_scene);
                 this->slot_repaint();
+            }
+        }
+        break;
+    case Qt::Key_R:
+        if ((this->selection_itemList.count() > 0) && (item_lastHighlight != NULL))
+        {
+            if (snapMode != SnapNo)
+            {
+                QList<CADitem*> itemsToDo = this->selection_itemList;
+                if (QMessageBox::question(this, tr("Rotating items"), tr("You are going to rotate ") + QString().setNum(itemsToDo.count()) + "item(s). Proceed?")
+                        == QMessageBox::Yes)
+                {
+                    this->itemGripModifier->setItems(itemsToDo);
+                    this->itemGripModifier->activateGrip(ItemGripModifier::Grip_Rotate_aroundPoint, QCursor::pos(), snapPos_scene);
+                    this->slot_repaint();
+                }
             }
         }
         break;

@@ -53,6 +53,7 @@ public:
         Grip_Rotate_X,
         Grip_Rotate_Y,
         Grip_Rotate_Z,
+        Grip_Rotate_aroundPoint
     };
 
     void setItem(CADitem* item);
@@ -72,6 +73,7 @@ private slots:
     void slot_rejected();
     void slot_button_clicked();
     void slot_button_copyMulty();
+    void slot_button_rotateAroundPoint();
 
 private:
     Ui::ItemGripModifier *ui;
@@ -89,10 +91,18 @@ private:
     QDoubleSpinBox* copyMulti_doubleSpinBox_distanceY;
     QDoubleSpinBox* copyMulti_doubleSpinBox_distanceZ;
 
+    QDoubleSpinBox* rotate_doubleSpinBox_centerX;
+    QDoubleSpinBox* rotate_doubleSpinBox_centerY;
+    QDoubleSpinBox* rotate_doubleSpinBox_centerZ;
+    QDoubleSpinBox* rotate_doubleSpinBox_angleX;
+    QDoubleSpinBox* rotate_doubleSpinBox_angleY;
+    QDoubleSpinBox* rotate_doubleSpinBox_angleZ;
+
 
     void deleteWdgs(QLayout *layout);
     void showAppendBox();
     void showCopyMultiBox();
+    void showRotateAroundPointBox();
 
 signals:
     void signal_sceneRepaintNeeded();
