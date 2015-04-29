@@ -25,7 +25,7 @@ class CAD_electrical_cabinet : public CADitem
 public:
     CAD_electrical_cabinet();
     virtual ~CAD_electrical_cabinet();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

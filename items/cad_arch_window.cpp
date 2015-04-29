@@ -34,8 +34,9 @@ CAD_arch_window::~CAD_arch_window()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_arch_window::flangable_items()
+QList<CADitemTypes::ItemType> CAD_arch_window::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;

@@ -30,11 +30,11 @@ CAD_HeatCool_ValveHandwheelGear::CAD_HeatCool_ValveHandwheelGear() : CADitem(CAD
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("d",  50.0);
-    wizardParams.insert("h",  70.0);
-    wizardParams.insert("l", 100.0);
-    wizardParams.insert("a", 100.0);
-    wizardParams.insert("b1",100.0);
+    wizardParams.insert("d", 120.0);
+    wizardParams.insert("h",  60.0);
+    wizardParams.insert("l",  40.0);
+    wizardParams.insert("a",  70.0);
+    wizardParams.insert("b1", 40.0);
     wizardParams.insert("b2", 20.0);
 
     //    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
@@ -60,8 +60,9 @@ CAD_HeatCool_ValveHandwheelGear::~CAD_HeatCool_ValveHandwheelGear()
     //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_HeatCool_ValveHandwheelGear::flangable_items()
+QList<CADitemTypes::ItemType> CAD_HeatCool_ValveHandwheelGear::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;

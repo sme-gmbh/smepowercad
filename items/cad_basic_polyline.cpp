@@ -33,8 +33,9 @@ CAD_basic_polyline::~CAD_basic_polyline()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_basic_polyline::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_polyline::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;

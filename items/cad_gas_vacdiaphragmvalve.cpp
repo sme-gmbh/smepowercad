@@ -48,8 +48,9 @@ CAD_Gas_VACDiaphragmValve::~CAD_Gas_VACDiaphragmValve()
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_Gas_VACDiaphragmValve::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Gas_VACDiaphragmValve::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Gas_CDABallValve);
     flangable_items.append(CADitemTypes::Gas_CDACompressor);

@@ -24,7 +24,7 @@ class CAD_electrical_busbarwithtapoffpoints2row : public CADitem
 public:
     CAD_electrical_busbarwithtapoffpoints2row();
     virtual ~CAD_electrical_busbarwithtapoffpoints2row();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

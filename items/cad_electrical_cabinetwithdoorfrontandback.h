@@ -25,7 +25,7 @@ class CAD_Electrical_CabinetWithDoorFrontAndBack : public CADitem
 public:
     CAD_Electrical_CabinetWithDoorFrontAndBack();
     virtual ~CAD_Electrical_CabinetWithDoorFrontAndBack();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

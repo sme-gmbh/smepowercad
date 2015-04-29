@@ -25,7 +25,7 @@ class CAD_air_pipeTurn : public CADitem
 public:
     CAD_air_pipeTurn();
     virtual ~CAD_air_pipeTurn();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

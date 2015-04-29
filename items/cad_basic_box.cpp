@@ -43,7 +43,6 @@ CAD_basic_box::CAD_basic_box() : CADitem(CADitemTypes::Basic_Box)
 
     processWizardInput();
     calculate();
-
 }
 
 CAD_basic_box::~CAD_basic_box()
@@ -53,8 +52,9 @@ CAD_basic_box::~CAD_basic_box()
     indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_basic_box::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_box::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;

@@ -54,8 +54,9 @@ CAD_Basic_PipeReducer::~CAD_Basic_PipeReducer()
     indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_Basic_PipeReducer::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Basic_PipeReducer::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;

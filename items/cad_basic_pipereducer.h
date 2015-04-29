@@ -23,7 +23,7 @@ class CAD_Basic_PipeReducer : public CADitem
 public:
     CAD_Basic_PipeReducer();
     virtual ~CAD_Basic_PipeReducer();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

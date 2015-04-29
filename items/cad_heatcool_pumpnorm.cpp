@@ -50,17 +50,17 @@ CAD_HeatCool_PumpNorm::CAD_HeatCool_PumpNorm() : CADitem(CADitemTypes::HeatCool_
     wizardParams.insert("l3", 100.0);
     wizardParams.insert("s", 10.0);
 
-//    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
-//    arrayBufVertices.create();
-//    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    //    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    //    arrayBufVertices.create();
+    //    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-//    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-//    indexBufFaces.create();
-//    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    //    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    //    indexBufFaces.create();
+    //    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-//    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-//    indexBufLines.create();
-//    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    //    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    //    indexBufLines.create();
+    //    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
 
     processWizardInput();
     calculate();
@@ -68,57 +68,58 @@ CAD_HeatCool_PumpNorm::CAD_HeatCool_PumpNorm() : CADitem(CADitemTypes::HeatCool_
 
 CAD_HeatCool_PumpNorm::~CAD_HeatCool_PumpNorm()
 {
-//    arrayBufVertices.destroy();
-//    indexBufFaces.destroy();
-//    indexBufLines.destroy();
+    //    arrayBufVertices.destroy();
+    //    indexBufFaces.destroy();
+    //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_HeatCool_PumpNorm::flangable_items()
+QList<CADitemTypes::ItemType> CAD_HeatCool_PumpNorm::flangable_items(int flangeIndex)
 {
     QList<CADitemTypes::ItemType> flangable_items;
-    flangable_items.append(CADitemTypes::HeatCool_Adjustvalve);
-    flangable_items.append(CADitemTypes::HeatCool_BallValve);
-    flangable_items.append(CADitemTypes::HeatCool_Boiler);
-    flangable_items.append(CADitemTypes::HeatCool_ButterflyValveBolted);
-    flangable_items.append(CADitemTypes::HeatCool_ButterflyValveClamped);
-    flangable_items.append(CADitemTypes::HeatCool_Chiller);
-    flangable_items.append(CADitemTypes::HeatCool_Controlvalve);
-    flangable_items.append(CADitemTypes::HeatCool_CoolingTower);
-    flangable_items.append(CADitemTypes::HeatCool_DirtArrester);
-    flangable_items.append(CADitemTypes::HeatCool_ExpansionChamber);
-    flangable_items.append(CADitemTypes::HeatCool_Filter);
-    flangable_items.append(CADitemTypes::HeatCool_Flange);
-    flangable_items.append(CADitemTypes::HeatCool_Flowmeter);
-    flangable_items.append(CADitemTypes::HeatCool_Gauge);
-    flangable_items.append(CADitemTypes::HeatCool_Gauge90Degree);
-    flangable_items.append(CADitemTypes::HeatCool_HeatexchangerSoldered);
-    flangable_items.append(CADitemTypes::HeatCool_HeatexchangerBolted);
-    flangable_items.append(CADitemTypes::HeatCool_NonReturnFlap);
-    flangable_items.append(CADitemTypes::HeatCool_NonReturnValve);
-    flangable_items.append(CADitemTypes::HeatCool_Pipe);
-    flangable_items.append(CADitemTypes::HeatCool_PipeEndCap);
-    flangable_items.append(CADitemTypes::HeatCool_PipeReducer);
-    flangable_items.append(CADitemTypes::HeatCool_PipeTeeConnector);
-    flangable_items.append(CADitemTypes::HeatCool_PipeTurn);
-    flangable_items.append(CADitemTypes::HeatCool_PumpInline);
-    flangable_items.append(CADitemTypes::HeatCool_PumpNorm);
-    flangable_items.append(CADitemTypes::HeatCool_Radiator);
-    flangable_items.append(CADitemTypes::HeatCool_RadiatorCompact);
-    flangable_items.append(CADitemTypes::HeatCool_RadiatorFlange);
-    flangable_items.append(CADitemTypes::HeatCool_RadiatorFlangeBent);
-    flangable_items.append(CADitemTypes::HeatCool_RadiatorValve);
-    flangable_items.append(CADitemTypes::HeatCool_SafetyValve);
-    flangable_items.append(CADitemTypes::HeatCool_Sensor);
-    flangable_items.append(CADitemTypes::HeatCool_StorageBoiler);
-    flangable_items.append(CADitemTypes::HeatCool_Valve);
-    flangable_items.append(CADitemTypes::HeatCool_Valve90Degree);
-    flangable_items.append(CADitemTypes::HeatCool_ValveHandwheel);
-    flangable_items.append(CADitemTypes::HeatCool_ValveHandwheelGear);
-    flangable_items.append(CADitemTypes::HeatCool_ValveLever);
-    flangable_items.append(CADitemTypes::HeatCool_ValveMotorRect);
-    flangable_items.append(CADitemTypes::HeatCool_ValveMotorRound);
-    flangable_items.append(CADitemTypes::HeatCool_WaterHeater);
-    flangable_items.append(CADitemTypes::Electrical_MotorAsynchronous);
+    if(flangeIndex == 3)
+    {
+        flangable_items.append(CADitemTypes::Electrical_MotorAsynchronous);
+    }
+    else
+    {
+        flangable_items.append(CADitemTypes::HeatCool_Adjustvalve);
+        flangable_items.append(CADitemTypes::HeatCool_BallValve);
+        flangable_items.append(CADitemTypes::HeatCool_Boiler);
+        flangable_items.append(CADitemTypes::HeatCool_ButterflyValveBolted);
+        flangable_items.append(CADitemTypes::HeatCool_ButterflyValveClamped);
+        flangable_items.append(CADitemTypes::HeatCool_Chiller);
+        flangable_items.append(CADitemTypes::HeatCool_Controlvalve);
+        flangable_items.append(CADitemTypes::HeatCool_CoolingTower);
+        flangable_items.append(CADitemTypes::HeatCool_DirtArrester);
+        flangable_items.append(CADitemTypes::HeatCool_ExpansionChamber);
+        flangable_items.append(CADitemTypes::HeatCool_Filter);
+        flangable_items.append(CADitemTypes::HeatCool_Flange);
+        flangable_items.append(CADitemTypes::HeatCool_Flowmeter);
+        flangable_items.append(CADitemTypes::HeatCool_Gauge);
+        flangable_items.append(CADitemTypes::HeatCool_Gauge90Degree);
+        flangable_items.append(CADitemTypes::HeatCool_HeatexchangerSoldered);
+        flangable_items.append(CADitemTypes::HeatCool_HeatexchangerBolted);
+        flangable_items.append(CADitemTypes::HeatCool_NonReturnFlap);
+        flangable_items.append(CADitemTypes::HeatCool_NonReturnValve);
+        flangable_items.append(CADitemTypes::HeatCool_Pipe);
+        flangable_items.append(CADitemTypes::HeatCool_PipeEndCap);
+        flangable_items.append(CADitemTypes::HeatCool_PipeReducer);
+        flangable_items.append(CADitemTypes::HeatCool_PipeTeeConnector);
+        flangable_items.append(CADitemTypes::HeatCool_PipeTurn);
+        flangable_items.append(CADitemTypes::HeatCool_PumpInline);
+        flangable_items.append(CADitemTypes::HeatCool_PumpNorm);
+        flangable_items.append(CADitemTypes::HeatCool_Radiator);
+        flangable_items.append(CADitemTypes::HeatCool_RadiatorCompact);
+        flangable_items.append(CADitemTypes::HeatCool_RadiatorFlange);
+        flangable_items.append(CADitemTypes::HeatCool_RadiatorFlangeBent);
+        flangable_items.append(CADitemTypes::HeatCool_RadiatorValve);
+        flangable_items.append(CADitemTypes::HeatCool_SafetyValve);
+        flangable_items.append(CADitemTypes::HeatCool_Sensor);
+        flangable_items.append(CADitemTypes::HeatCool_StorageBoiler);
+        flangable_items.append(CADitemTypes::HeatCool_Valve);
+        flangable_items.append(CADitemTypes::HeatCool_Valve90Degree);
+        flangable_items.append(CADitemTypes::HeatCool_WaterHeater);
+    }
     return flangable_items;
 }
 
@@ -129,9 +130,9 @@ QImage CAD_HeatCool_PumpNorm::wizardImage()
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-                    
+
     image.load(imageFileName, "PNG");
-                       
+
     return image;
 }
 
@@ -304,12 +305,12 @@ void CAD_HeatCool_PumpNorm::processWizardInput()
 //    {
 //        glwidget->setPaintingColor(color_pen_tmp);
 //        glwidget->glLineWidth(1.0);
-                                      
+
 //        indexBufLines.bind();
 //        glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
 //        indexBufLines.release();
 //     }                          
-                                                                                           
+
 //     arrayBufVertices.release();
 //}
 

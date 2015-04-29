@@ -49,8 +49,9 @@ CAD_basic_circle::~CAD_basic_circle()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_basic_circle::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_circle::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;

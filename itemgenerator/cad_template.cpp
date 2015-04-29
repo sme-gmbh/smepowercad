@@ -48,8 +48,9 @@ CAD_mainul_subul::~CAD_mainul_subul()
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_mainul_subul::flangable_items()
+QList<CADitemTypes::ItemType> CAD_mainul_subul::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;

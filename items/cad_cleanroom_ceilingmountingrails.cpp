@@ -48,8 +48,9 @@ CAD_Cleanroom_CeilingMountingRails::~CAD_Cleanroom_CeilingMountingRails()
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_Cleanroom_CeilingMountingRails::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Cleanroom_CeilingMountingRails::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;

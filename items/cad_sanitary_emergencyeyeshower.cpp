@@ -48,8 +48,9 @@ CAD_Sanitary_EmergencyEyeShower::~CAD_Sanitary_EmergencyEyeShower()
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_Sanitary_EmergencyEyeShower::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Sanitary_EmergencyEyeShower::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;

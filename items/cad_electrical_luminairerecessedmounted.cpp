@@ -59,8 +59,9 @@ CAD_Electrical_LuminaireRecessedMounted::~CAD_Electrical_LuminaireRecessedMounte
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_Electrical_LuminaireRecessedMounted::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Electrical_LuminaireRecessedMounted::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;

@@ -14,7 +14,7 @@
 **********************************************************************/
 
 #include "cad_air_canvasflange.h"
-#include "itemdb.h"
+//#include "itemdb.h"
 
 CAD_air_canvasFlange::CAD_air_canvasFlange() : CADitem(CADitemTypes::Air_CanvasFlange)
 {
@@ -53,8 +53,9 @@ CAD_air_canvasFlange::~CAD_air_canvasFlange()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_air_canvasFlange::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_canvasFlange::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Air_CanvasFlange);
     flangable_items.append(CADitemTypes::Air_Duct);

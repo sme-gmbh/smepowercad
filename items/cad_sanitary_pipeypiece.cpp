@@ -66,8 +66,9 @@ CAD_Sanitary_PipeYPiece::~CAD_Sanitary_PipeYPiece()
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_Sanitary_PipeYPiece::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Sanitary_PipeYPiece::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
 
     flangable_items.append(CADitemTypes::Sanitary_ElectricWaterHeater);

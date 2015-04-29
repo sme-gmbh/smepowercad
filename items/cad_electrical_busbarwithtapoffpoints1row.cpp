@@ -59,8 +59,9 @@ CAD_electrical_busbarwithtapoffpoints1row::~CAD_electrical_busbarwithtapoffpoint
     //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_electrical_busbarwithtapoffpoints1row::flangable_items()
+QList<CADitemTypes::ItemType> CAD_electrical_busbarwithtapoffpoints1row::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Electrical_BusbarWithoutTapoffPoints);
     flangable_items.append(CADitemTypes::Electrical_BusbarWithTapoffPoints1Row);

@@ -34,8 +34,9 @@ CAD_sprinkler_compressedAirWaterContainer::~CAD_sprinkler_compressedAirWaterCont
 
 }
 
-QList<CADitemTypes::ItemType> CAD_sprinkler_compressedAirWaterContainer::flangable_items()
+QList<CADitemTypes::ItemType> CAD_sprinkler_compressedAirWaterContainer::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Sprinkler_CompressedAirWaterContainer);
     flangable_items.append(CADitemTypes::Sprinkler_Distribution);

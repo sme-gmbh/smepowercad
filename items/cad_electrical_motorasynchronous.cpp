@@ -64,8 +64,9 @@ CAD_Electrical_MotorAsynchronous::~CAD_Electrical_MotorAsynchronous()
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_Electrical_MotorAsynchronous::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Electrical_MotorAsynchronous::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::HeatCool_PumpNorm);
     return flangable_items;

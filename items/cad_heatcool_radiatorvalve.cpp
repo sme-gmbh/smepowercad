@@ -56,8 +56,9 @@ CAD_HeatCool_RadiatorValve::~CAD_HeatCool_RadiatorValve()
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_HeatCool_RadiatorValve::flangable_items()
+QList<CADitemTypes::ItemType> CAD_HeatCool_RadiatorValve::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::HeatCool_RadiatorFlange);
     flangable_items.append(CADitemTypes::HeatCool_RadiatorFlangeBent);

@@ -34,8 +34,9 @@ CAD_arch_foundation::~CAD_arch_foundation()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_arch_foundation::flangable_items()
+QList<CADitemTypes::ItemType> CAD_arch_foundation::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Arch_Foundation);
     return flangable_items;

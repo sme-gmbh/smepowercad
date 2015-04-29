@@ -60,8 +60,9 @@ CAD_Electrical_BusbarEndFeederUnitSingleSided::~CAD_Electrical_BusbarEndFeederUn
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_Electrical_BusbarEndFeederUnitSingleSided::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Electrical_BusbarEndFeederUnitSingleSided::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;

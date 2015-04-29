@@ -26,7 +26,7 @@ class CAD_heatcool_expansionChamber : public CADitem
 public:
     CAD_heatcool_expansionChamber();
     virtual ~CAD_heatcool_expansionChamber();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

@@ -27,7 +27,7 @@ class CAD_basic_pipe : public CADitem
 public:
     CAD_basic_pipe();
     virtual ~CAD_basic_pipe();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

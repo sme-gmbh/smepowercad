@@ -24,7 +24,7 @@ class CAD_basic_arc : public CADitem
 public:
     CAD_basic_arc();
     virtual ~CAD_basic_arc();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

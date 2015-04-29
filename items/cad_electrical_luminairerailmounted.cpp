@@ -48,8 +48,9 @@ CAD_Electrical_LuminaireRailMounted::~CAD_Electrical_LuminaireRailMounted()
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_Electrical_LuminaireRailMounted::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Electrical_LuminaireRailMounted::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;

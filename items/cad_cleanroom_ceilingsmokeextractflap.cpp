@@ -48,8 +48,9 @@ CAD_Cleanroom_CeilingSmokeExtractFlap::~CAD_Cleanroom_CeilingSmokeExtractFlap()
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_Cleanroom_CeilingSmokeExtractFlap::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Cleanroom_CeilingSmokeExtractFlap::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;

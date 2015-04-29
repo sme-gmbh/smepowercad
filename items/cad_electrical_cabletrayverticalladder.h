@@ -24,7 +24,7 @@ class CAD_Electrical_CabletrayVerticalLadder : public CADitem
 public:
     CAD_Electrical_CabletrayVerticalLadder();
     virtual ~CAD_Electrical_CabletrayVerticalLadder();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

@@ -23,7 +23,7 @@ class CAD_Gas_VACManometer : public CADitem
 public:
     CAD_Gas_VACManometer();
     virtual ~CAD_Gas_VACManometer();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

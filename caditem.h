@@ -46,7 +46,7 @@ class CADitem
 public:
     CADitem(CADitemTypes::ItemType type);
     virtual ~CADitem() {}
-    virtual QList<CADitemTypes::ItemType> flangable_items() = 0;
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex) = 0;
     virtual QImage wizardImage() = 0;
     virtual QString iconPath() = 0;
     virtual QString domain() = 0;
@@ -63,6 +63,7 @@ public:
     void serialOut(QByteArray *out);
     bool serialIn(QByteArray *in);
     void rotateAroundAxis(qreal angle, QVector3D axis, qreal angle_x, qreal angle_y, qreal angle_z);
+    void rotateAroundPoint(QVector3D center, qreal angle_x, qreal angle_y, qreal angle_z);
 
     // data types tbd.
     CADitemTypes::ItemType getType();

@@ -73,8 +73,9 @@ CAD_HeatCool_HeatexchangerSoldered::~CAD_HeatCool_HeatexchangerSoldered()
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_HeatCool_HeatexchangerSoldered::flangable_items()
+QList<CADitemTypes::ItemType> CAD_HeatCool_HeatexchangerSoldered::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::HeatCool_Adjustvalve);
     flangable_items.append(CADitemTypes::HeatCool_BallValve);
@@ -112,11 +113,6 @@ QList<CADitemTypes::ItemType> CAD_HeatCool_HeatexchangerSoldered::flangable_item
     flangable_items.append(CADitemTypes::HeatCool_StorageBoiler);
     flangable_items.append(CADitemTypes::HeatCool_Valve);
     flangable_items.append(CADitemTypes::HeatCool_Valve90Degree);
-    flangable_items.append(CADitemTypes::HeatCool_ValveHandwheel);
-    flangable_items.append(CADitemTypes::HeatCool_ValveHandwheelGear);
-    flangable_items.append(CADitemTypes::HeatCool_ValveLever);
-    flangable_items.append(CADitemTypes::HeatCool_ValveMotorRect);
-    flangable_items.append(CADitemTypes::HeatCool_ValveMotorRound);
     flangable_items.append(CADitemTypes::HeatCool_WaterHeater);
     return flangable_items;
 }

@@ -94,8 +94,9 @@ CAD_air_ductTeeConnector::~CAD_air_ductTeeConnector()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_air_ductTeeConnector::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_ductTeeConnector::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Air_Duct);
     flangable_items.append(CADitemTypes::Air_DuctEndPlate);

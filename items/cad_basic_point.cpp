@@ -31,8 +31,9 @@ CAD_basic_point::~CAD_basic_point()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_basic_point::flangable_items()
+QList<CADitemTypes::ItemType> CAD_basic_point::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;

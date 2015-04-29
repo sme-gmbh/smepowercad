@@ -24,7 +24,7 @@ class CAD_HeatCool_DirtArrester : public CADitem
 public:
     CAD_HeatCool_DirtArrester();
     virtual ~CAD_HeatCool_DirtArrester();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

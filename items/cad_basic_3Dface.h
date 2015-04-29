@@ -23,7 +23,7 @@ class CAD_basic_3Dface : public CADitem
 public:
     CAD_basic_3Dface();
     virtual ~CAD_basic_3Dface();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

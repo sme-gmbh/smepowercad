@@ -25,7 +25,7 @@ class CAD_air_pipeVolumetricFlowController : public CADitem
 public:
     CAD_air_pipeVolumetricFlowController();
     virtual ~CAD_air_pipeVolumetricFlowController();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();
@@ -35,7 +35,9 @@ public:
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
 
     qreal l, s, d;
-    CAD_basic_pipe* mainPipe, flangePipe_left, flangePipe_right;
+    CAD_basic_pipe* mainPipe;
+    CAD_basic_pipe* flangePipe_left;
+    CAD_basic_pipe* flangePipe_right;
     CAD_basic_box* function;
     CAD_basic_box* handle;
     CAD_basic_pipe* controller;

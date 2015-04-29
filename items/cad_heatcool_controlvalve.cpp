@@ -34,8 +34,9 @@ CAD_heatcool_controlvalve::~CAD_heatcool_controlvalve()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_heatcool_controlvalve::flangable_items()
+QList<CADitemTypes::ItemType> CAD_heatcool_controlvalve::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::HeatCool_Adjustvalve);
     flangable_items.append(CADitemTypes::HeatCool_BallValve);

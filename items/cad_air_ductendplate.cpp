@@ -14,7 +14,7 @@
 **********************************************************************/
 
 #include "cad_air_ductendplate.h"
-#include "itemdb.h"
+//#include "itemdb.h"
 
 CAD_air_ductEndPlate::CAD_air_ductEndPlate() : CADitem(CADitemTypes::Air_DuctEndPlate)
 {
@@ -50,8 +50,9 @@ CAD_air_ductEndPlate::~CAD_air_ductEndPlate()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_air_ductEndPlate::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_ductEndPlate::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Air_Duct);
     flangable_items.append(CADitemTypes::Air_DuctTeeConnector);

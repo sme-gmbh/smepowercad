@@ -24,7 +24,7 @@ class CAD_air_ductTransitionRectRect : public CADitem
 public:
     CAD_air_ductTransitionRectRect();
     virtual ~CAD_air_ductTransitionRectRect();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

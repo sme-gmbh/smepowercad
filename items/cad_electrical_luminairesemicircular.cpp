@@ -58,8 +58,9 @@ CAD_Electrical_LuminaireSemicircular::~CAD_Electrical_LuminaireSemicircular()
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_Electrical_LuminaireSemicircular::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Electrical_LuminaireSemicircular::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;

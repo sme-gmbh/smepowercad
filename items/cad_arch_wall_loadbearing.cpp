@@ -41,8 +41,9 @@ CAD_arch_wall_loadBearing::~CAD_arch_wall_loadBearing()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_arch_wall_loadBearing::flangable_items()
+QList<CADitemTypes::ItemType> CAD_arch_wall_loadBearing::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Arch_Wall_loadBearing);
     flangable_items.append(CADitemTypes::Arch_Wall_nonLoadBearing);

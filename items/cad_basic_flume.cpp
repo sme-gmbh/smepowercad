@@ -53,8 +53,9 @@ CAD_Basic_Flume::~CAD_Basic_Flume()
     indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_Basic_Flume::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Basic_Flume::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;

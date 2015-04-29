@@ -51,8 +51,9 @@ CAD_Basic_TorisphericalHeadDIN28011::~CAD_Basic_TorisphericalHeadDIN28011()
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_Basic_TorisphericalHeadDIN28011::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Basic_TorisphericalHeadDIN28011::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;

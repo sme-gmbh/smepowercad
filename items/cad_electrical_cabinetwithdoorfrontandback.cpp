@@ -69,8 +69,9 @@ CAD_Electrical_CabinetWithDoorFrontAndBack::~CAD_Electrical_CabinetWithDoorFront
 //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_Electrical_CabinetWithDoorFrontAndBack::flangable_items()
+QList<CADitemTypes::ItemType> CAD_Electrical_CabinetWithDoorFrontAndBack::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     
     return flangable_items;
@@ -217,6 +218,13 @@ void CAD_Electrical_CabinetWithDoorFrontAndBack::calculate()
 
 void CAD_Electrical_CabinetWithDoorFrontAndBack::processWizardInput()
 {
+    position.setX(wizardParams.value("Position x").toDouble());
+    position.setY(wizardParams.value("Position y").toDouble());
+    position.setZ(wizardParams.value("Position z").toDouble());
+    angle_x = wizardParams.value("Angle x").toDouble();
+    angle_y = wizardParams.value("Angle y").toDouble();
+    angle_z = wizardParams.value("Angle z").toDouble();
+
     a = wizardParams.value("a").toDouble();
     a1 = wizardParams.value("a1").toDouble();
     b = wizardParams.value("b").toDouble();

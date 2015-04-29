@@ -34,8 +34,9 @@ CAD_air_emptyCabinet::~CAD_air_emptyCabinet()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_air_emptyCabinet::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_emptyCabinet::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;

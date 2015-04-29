@@ -25,7 +25,7 @@ class CAD_Sanitary_PipeEndCap : public CADitem
 public:
     CAD_Sanitary_PipeEndCap();
     virtual ~CAD_Sanitary_PipeEndCap();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();

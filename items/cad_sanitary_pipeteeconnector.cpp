@@ -49,8 +49,9 @@ CAD_sanitary_pipeTeeConnector::~CAD_sanitary_pipeTeeConnector()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_sanitary_pipeTeeConnector::flangable_items()
+QList<CADitemTypes::ItemType> CAD_sanitary_pipeTeeConnector::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
 
     flangable_items.append(CADitemTypes::Sanitary_ElectricWaterHeater);

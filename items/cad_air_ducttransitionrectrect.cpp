@@ -14,7 +14,7 @@
 **********************************************************************/
 
 #include "cad_air_ducttransitionrectrect.h"
-#include "itemdb.h"
+//#include "itemdb.h"
 
 CAD_air_ductTransitionRectRect::CAD_air_ductTransitionRectRect() : CADitem(CADitemTypes::Air_DuctTransitionRectRect)
 {
@@ -56,8 +56,9 @@ CAD_air_ductTransitionRectRect::~CAD_air_ductTransitionRectRect()
 {
 }
 
-QList<CADitemTypes::ItemType> CAD_air_ductTransitionRectRect::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_ductTransitionRectRect::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Air_Duct);
     flangable_items.append(CADitemTypes::Air_DuctEndPlate);

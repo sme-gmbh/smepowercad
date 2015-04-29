@@ -51,8 +51,9 @@ CAD_air_ductBaffleSilencer::~CAD_air_ductBaffleSilencer()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_air_ductBaffleSilencer::flangable_items()
+QList<CADitemTypes::ItemType> CAD_air_ductBaffleSilencer::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Air_Duct);
     flangable_items.append(CADitemTypes::Air_DuctEndPlate);

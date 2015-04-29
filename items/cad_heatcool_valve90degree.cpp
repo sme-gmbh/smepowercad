@@ -66,52 +66,61 @@ CAD_HeatCool_Valve90Degree::~CAD_HeatCool_Valve90Degree()
     //    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_HeatCool_Valve90Degree::flangable_items()
+QList<CADitemTypes::ItemType> CAD_HeatCool_Valve90Degree::flangable_items(int flangeIndex)
 {
-    QList<CADitemTypes::ItemType> flangable_items;
-    flangable_items.append(CADitemTypes::HeatCool_Adjustvalve);
-    flangable_items.append(CADitemTypes::HeatCool_BallValve);
-    flangable_items.append(CADitemTypes::HeatCool_Boiler);
-    flangable_items.append(CADitemTypes::HeatCool_ButterflyValveBolted);
-    flangable_items.append(CADitemTypes::HeatCool_ButterflyValveClamped);
-    flangable_items.append(CADitemTypes::HeatCool_Chiller);
-    flangable_items.append(CADitemTypes::HeatCool_Controlvalve);
-    flangable_items.append(CADitemTypes::HeatCool_CoolingTower);
-    flangable_items.append(CADitemTypes::HeatCool_DirtArrester);
-    flangable_items.append(CADitemTypes::HeatCool_ExpansionChamber);
-    flangable_items.append(CADitemTypes::HeatCool_Filter);
-    flangable_items.append(CADitemTypes::HeatCool_Flange);
-    flangable_items.append(CADitemTypes::HeatCool_Flowmeter);
-    flangable_items.append(CADitemTypes::HeatCool_Gauge);
-    flangable_items.append(CADitemTypes::HeatCool_Gauge90Degree);
-    flangable_items.append(CADitemTypes::HeatCool_HeatexchangerSoldered);
-    flangable_items.append(CADitemTypes::HeatCool_HeatexchangerBolted);
-    flangable_items.append(CADitemTypes::HeatCool_NonReturnFlap);
-    flangable_items.append(CADitemTypes::HeatCool_NonReturnValve);
-    flangable_items.append(CADitemTypes::HeatCool_Pipe);
-    flangable_items.append(CADitemTypes::HeatCool_PipeEndCap);
-    flangable_items.append(CADitemTypes::HeatCool_PipeReducer);
-    flangable_items.append(CADitemTypes::HeatCool_PipeTeeConnector);
-    flangable_items.append(CADitemTypes::HeatCool_PipeTurn);
-    flangable_items.append(CADitemTypes::HeatCool_PumpInline);
-    flangable_items.append(CADitemTypes::HeatCool_PumpNorm);
-    flangable_items.append(CADitemTypes::HeatCool_Radiator);
-    flangable_items.append(CADitemTypes::HeatCool_RadiatorCompact);
-    flangable_items.append(CADitemTypes::HeatCool_RadiatorFlange);
-    flangable_items.append(CADitemTypes::HeatCool_RadiatorFlangeBent);
-    flangable_items.append(CADitemTypes::HeatCool_RadiatorValve);
-    flangable_items.append(CADitemTypes::HeatCool_SafetyValve);
-    flangable_items.append(CADitemTypes::HeatCool_Sensor);
-    flangable_items.append(CADitemTypes::HeatCool_StorageBoiler);
-    flangable_items.append(CADitemTypes::HeatCool_Valve);
-    flangable_items.append(CADitemTypes::HeatCool_Valve90Degree);
-    flangable_items.append(CADitemTypes::HeatCool_ValveHandwheel);
-    flangable_items.append(CADitemTypes::HeatCool_ValveHandwheelGear);
-    flangable_items.append(CADitemTypes::HeatCool_ValveLever);
-    flangable_items.append(CADitemTypes::HeatCool_ValveMotorRect);
-    flangable_items.append(CADitemTypes::HeatCool_ValveMotorRound);
-    flangable_items.append(CADitemTypes::HeatCool_WaterHeater);
-    return flangable_items;
+    Q_UNUSED(flangeIndex);
+    if(flangeIndex == 3)
+    {
+        QList<CADitemTypes::ItemType> flangable_items;
+        flangable_items.append(CADitemTypes::HeatCool_ValveHandwheel);
+        flangable_items.append(CADitemTypes::HeatCool_ValveHandwheelGear);
+        flangable_items.append(CADitemTypes::HeatCool_ValveLever);
+        flangable_items.append(CADitemTypes::HeatCool_ValveMotorRect);
+        flangable_items.append(CADitemTypes::HeatCool_ValveMotorRound);
+        return flangable_items;
+    }
+    else
+    {
+        QList<CADitemTypes::ItemType> flangable_items;
+        flangable_items.append(CADitemTypes::HeatCool_Adjustvalve);
+        flangable_items.append(CADitemTypes::HeatCool_BallValve);
+        flangable_items.append(CADitemTypes::HeatCool_Boiler);
+        flangable_items.append(CADitemTypes::HeatCool_ButterflyValveBolted);
+        flangable_items.append(CADitemTypes::HeatCool_ButterflyValveClamped);
+        flangable_items.append(CADitemTypes::HeatCool_Chiller);
+        flangable_items.append(CADitemTypes::HeatCool_Controlvalve);
+        flangable_items.append(CADitemTypes::HeatCool_CoolingTower);
+        flangable_items.append(CADitemTypes::HeatCool_DirtArrester);
+        flangable_items.append(CADitemTypes::HeatCool_ExpansionChamber);
+        flangable_items.append(CADitemTypes::HeatCool_Filter);
+        flangable_items.append(CADitemTypes::HeatCool_Flange);
+        flangable_items.append(CADitemTypes::HeatCool_Flowmeter);
+        flangable_items.append(CADitemTypes::HeatCool_Gauge);
+        flangable_items.append(CADitemTypes::HeatCool_Gauge90Degree);
+        flangable_items.append(CADitemTypes::HeatCool_HeatexchangerSoldered);
+        flangable_items.append(CADitemTypes::HeatCool_HeatexchangerBolted);
+        flangable_items.append(CADitemTypes::HeatCool_NonReturnFlap);
+        flangable_items.append(CADitemTypes::HeatCool_NonReturnValve);
+        flangable_items.append(CADitemTypes::HeatCool_Pipe);
+        flangable_items.append(CADitemTypes::HeatCool_PipeEndCap);
+        flangable_items.append(CADitemTypes::HeatCool_PipeReducer);
+        flangable_items.append(CADitemTypes::HeatCool_PipeTeeConnector);
+        flangable_items.append(CADitemTypes::HeatCool_PipeTurn);
+        flangable_items.append(CADitemTypes::HeatCool_PumpInline);
+        flangable_items.append(CADitemTypes::HeatCool_PumpNorm);
+        flangable_items.append(CADitemTypes::HeatCool_Radiator);
+        flangable_items.append(CADitemTypes::HeatCool_RadiatorCompact);
+        flangable_items.append(CADitemTypes::HeatCool_RadiatorFlange);
+        flangable_items.append(CADitemTypes::HeatCool_RadiatorFlangeBent);
+        flangable_items.append(CADitemTypes::HeatCool_RadiatorValve);
+        flangable_items.append(CADitemTypes::HeatCool_SafetyValve);
+        flangable_items.append(CADitemTypes::HeatCool_Sensor);
+        flangable_items.append(CADitemTypes::HeatCool_StorageBoiler);
+        flangable_items.append(CADitemTypes::HeatCool_Valve);
+        flangable_items.append(CADitemTypes::HeatCool_Valve90Degree);
+        flangable_items.append(CADitemTypes::HeatCool_WaterHeater);
+        return flangable_items;
+    }
 }
 
 QImage CAD_HeatCool_Valve90Degree::wizardImage()
@@ -152,9 +161,10 @@ void CAD_HeatCool_Valve90Degree::calculate()
 
     this->snap_basepoint = (position);
 
-    pipe_lower->wizardParams.insert("Position x", position.x());
-    pipe_lower->wizardParams.insert("Position y", position.y());
-    pipe_lower->wizardParams.insert("Position z", position.z());
+    QVector3D position_lower = position + matrix_rotation * QVector3D(l, 0.0, -a2);
+    pipe_lower->wizardParams.insert("Position x", position_lower.x());
+    pipe_lower->wizardParams.insert("Position y", position_lower.y());
+    pipe_lower->wizardParams.insert("Position z", position_lower.z());
     pipe_lower->wizardParams.insert("Angle x", angle_x);
     pipe_lower->wizardParams.insert("Angle y", angle_y);
     pipe_lower->wizardParams.insert("Angle z", angle_z);
@@ -166,9 +176,9 @@ void CAD_HeatCool_Valve90Degree::calculate()
     pipe_lower->rotateAroundAxis(-90.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
     pipe_lower->calculate();
 
-    flange_lower->wizardParams.insert("Position x", position.x());
-    flange_lower->wizardParams.insert("Position y", position.y());
-    flange_lower->wizardParams.insert("Position z", position.z());
+    flange_lower->wizardParams.insert("Position x", position_lower.x());
+    flange_lower->wizardParams.insert("Position y", position_lower.y());
+    flange_lower->wizardParams.insert("Position z", position_lower.z());
     flange_lower->wizardParams.insert("Angle x", angle_x);
     flange_lower->wizardParams.insert("Angle y", angle_y);
     flange_lower->wizardParams.insert("Angle z", angle_z);
@@ -180,10 +190,9 @@ void CAD_HeatCool_Valve90Degree::calculate()
     flange_lower->rotateAroundAxis(-90.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
     flange_lower->calculate();
 
-    QVector3D position_right = position + matrix_rotation * QVector3D(l, 0.0, a2);
-    pipe_right->wizardParams.insert("Position x", position_right.x());
-    pipe_right->wizardParams.insert("Position y", position_right.y());
-    pipe_right->wizardParams.insert("Position z", position_right.z());
+    pipe_right->wizardParams.insert("Position x", position.x());
+    pipe_right->wizardParams.insert("Position y", position.y());
+    pipe_right->wizardParams.insert("Position z", position.z());
     pipe_right->wizardParams.insert("Angle x", angle_x);
     pipe_right->wizardParams.insert("Angle y", angle_y);
     pipe_right->wizardParams.insert("Angle z", angle_z);
@@ -192,12 +201,11 @@ void CAD_HeatCool_Valve90Degree::calculate()
     pipe_right->wizardParams.insert("s",  s);
     pipe_right->layer = this->layer;
     pipe_right->processWizardInput();
-    pipe_right->rotateAroundAxis(180.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
     pipe_right->calculate();
 
-    flange_right->wizardParams.insert("Position x", position_right.x());
-    flange_right->wizardParams.insert("Position y", position_right.y());
-    flange_right->wizardParams.insert("Position z", position_right.z());
+    flange_right->wizardParams.insert("Position x", position.x());
+    flange_right->wizardParams.insert("Position y", position.y());
+    flange_right->wizardParams.insert("Position z", position.z());
     flange_right->wizardParams.insert("Angle x", angle_x);
     flange_right->wizardParams.insert("Angle y", angle_y);
     flange_right->wizardParams.insert("Angle z", angle_z);
@@ -206,10 +214,9 @@ void CAD_HeatCool_Valve90Degree::calculate()
     flange_right->wizardParams.insert("s",  ff);
     flange_right->layer = this->layer;
     flange_right->processWizardInput();
-    flange_right->rotateAroundAxis(180.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
     flange_right->calculate();
 
-    QVector3D position_upper = position + matrix_rotation * QVector3D(0.0, 0.0, a1 + a2);
+    QVector3D position_upper = position + matrix_rotation * QVector3D(l, 0.0, a1);
     endcap->wizardParams.insert("Position x", position_upper.x());
     endcap->wizardParams.insert("Position y", position_upper.y());
     endcap->wizardParams.insert("Position z", position_upper.z());
@@ -229,7 +236,7 @@ void CAD_HeatCool_Valve90Degree::calculate()
         this->boundingBox.enterVertices(item->boundingBox.getVertices());
     }
     this->snap_flanges.append(position);
-    this->snap_flanges.append(position_right);
+    this->snap_flanges.append(position_lower);
     this->snap_flanges.append(position_upper);
 
 
@@ -296,12 +303,15 @@ QMatrix4x4 CAD_HeatCool_Valve90Degree::rotationOfFlange(quint8 num)
     {
         QMatrix4x4 m;
         m.setToIdentity();
-        m.rotate(-90.0, 0.0, 1.0, 0.0);
+        m.rotate(-180.0, 0.0, 1.0, 0.0);
         return matrix_rotation * m;
     }
     else if(num == 2)
     {
-        return matrix_rotation;
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(90.0, 0.0, 1.0, 0.0);
+        return matrix_rotation * m;
     }
     else if(num == 3)
     {

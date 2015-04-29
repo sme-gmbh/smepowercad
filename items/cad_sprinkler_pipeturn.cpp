@@ -48,8 +48,9 @@ CAD_sprinkler_pipeTurn::~CAD_sprinkler_pipeTurn()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_sprinkler_pipeTurn::flangable_items()
+QList<CADitemTypes::ItemType> CAD_sprinkler_pipeTurn::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Sprinkler_CompressedAirWaterContainer);
     flangable_items.append(CADitemTypes::Sprinkler_Distribution);

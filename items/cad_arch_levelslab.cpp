@@ -40,8 +40,9 @@ CAD_arch_levelSlab::~CAD_arch_levelSlab()
 
 }
 
-QList<CADitemTypes::ItemType> CAD_arch_levelSlab::flangable_items()
+QList<CADitemTypes::ItemType> CAD_arch_levelSlab::flangable_items(int flangeIndex)
 {
+    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
 
     return flangable_items;

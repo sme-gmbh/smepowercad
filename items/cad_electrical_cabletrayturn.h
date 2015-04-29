@@ -24,7 +24,7 @@ class CAD_Electrical_CabletrayTurn : public CADitem
 public:
     CAD_Electrical_CabletrayTurn();
     virtual ~CAD_Electrical_CabletrayTurn();
-    virtual QList<CADitemTypes::ItemType> flangable_items();
+    virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
     virtual QString domain();
