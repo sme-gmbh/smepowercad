@@ -44,6 +44,7 @@
 #include <QImage>
 #include <QPainter>
 #include <QFileDialog>
+#include <QDateTime>
 
 #include <qmath.h>
 
@@ -88,9 +89,6 @@ public:
     QStringList getOpenGLinfo();
 
 private:
-// Qt 5
-//    QOpenGLContext *m_context;
-//    QOpenGLPaintDevice *m_device;
     ItemDB* itemDB;
     ItemWizard *itemWizard;
     ItemGripModifier* itemGripModifier;
@@ -99,12 +97,12 @@ private:
     CuttingPlane cuttingplane;
     QVector3D height_of_intersection;
     QVector3D depth_of_view;
-//    QList<Layer*> layers;
     QPoint translationOffset;
     QVector3D centerOfViewInScene;  // in coordsOnScene
     QPoint displayCenter;           // The Center of the widget in PixelsOnScreen, related to bottomLeft of Widget
     QVector3D cameraPosition;
     QVector3D lookAtPosition;
+    QDateTime mouse_lastMidPress_dateTime;
 
     QVector3D centerOfRotationSphere;
     QVector3D rotationStart;
@@ -259,6 +257,11 @@ private:
     void selectionClear();
     void selectionClear_processLayers(QList<Layer*> layers);
     void selectionClear_processItems(QList<CADitem*> items);
+
+// Zoom
+    void zoom_pan_showAll();
+    void zoom_pan_showAll_processLayers(QList<Layer*> layers, M3dBoundingBox *boundingBox);
+    void zoom_pan_showAll_processItems(QList<CADitem*> items, M3dBoundingBox *boundingBox);
 
 signals:
     void signal_selectionChanged(QList<CADitem*> items);
