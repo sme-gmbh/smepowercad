@@ -33,7 +33,6 @@ CAD_air_pipeFireDamper::CAD_air_pipeFireDamper() : CADitem(CADitemTypes::Air_Pip
     wizardParams.insert("l", 1000.0);
     wizardParams.insert("l2", 700.0);
     wizardParams.insert("d",  200.0);
-    wizardParams.insert("ff",  10.0);
     wizardParams.insert("s",   10.0);
 
     processWizardInput();
@@ -120,7 +119,7 @@ void CAD_air_pipeFireDamper::calculate()
     main_pipe->processWizardInput();
     main_pipe->calculate();
 
-    QVector3D position_f = position + matrix_rotation * QVector3D(-l2 / 3, -0.6 * d, 0.0);
+    QVector3D position_f = position + matrix_rotation * QVector3D(-l2 / 3, 0.6 * d, 0.0);
     function->wizardParams.insert("Position x", (position_f.x()));
     function->wizardParams.insert("Position y", (position_f.y()));
     function->wizardParams.insert("Position z", (position_f.z()));
@@ -151,7 +150,6 @@ void CAD_air_pipeFireDamper::processWizardInput()
     angle_z = wizardParams.value("Angle z").toDouble();
 
     d = wizardParams.value("d").toDouble();
-    ff = wizardParams.value("ff").toDouble();
     l = wizardParams.value("l").toDouble();
     l2 = wizardParams.value("l2").toDouble();
     s = wizardParams.value("s").toDouble();

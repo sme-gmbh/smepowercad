@@ -172,7 +172,7 @@ void CAD_air_ductFireDamper::calculate()
     main_duct->processWizardInput();
     main_duct->calculate();
 
-    QVector3D position_f = position + matrix_rotation * QVector3D(-l3 / 2, -0.6 * b, 0.0);
+    QVector3D position_f = position + matrix_rotation * QVector3D(-l3 / 2, 0.6 * b, 0.0);
     function->wizardParams.insert("Position x", (position_f.x()));
     function->wizardParams.insert("Position y", (position_f.y()));
     function->wizardParams.insert("Position z", (position_f.z()));

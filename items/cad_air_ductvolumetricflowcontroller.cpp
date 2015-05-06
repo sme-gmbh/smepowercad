@@ -125,7 +125,7 @@ void CAD_air_ductVolumetricFlowController::calculate()
     duct->processWizardInput();
     duct->calculate();
 
-    QVector3D position_f = position + matrix_rotation * QVector3D(l / 2, -0.6 * b, 0.0);
+    QVector3D position_f = position + matrix_rotation * QVector3D(l / 2, 0.6 * b, 0.0);
     function->wizardParams.insert("Position x", (position_f.x()));
     function->wizardParams.insert("Position y", (position_f.y()));
     function->wizardParams.insert("Position z", (position_f.z()));
@@ -148,10 +148,15 @@ void CAD_air_ductVolumetricFlowController::calculate()
     flap->wizardParams.insert("l", (a));
     flap->wizardParams.insert("b", (b - 2 * s));
     flap->wizardParams.insert("a", (0.1 * a));
+    flap->rotateAroundAxis(45.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
     flap->processWizardInput();
     flap->calculate();
 
     this->snap_flanges = this->duct->snap_flanges;
+    foreach(CADitem* item, subItems)
+    {
+        this->boundingBox.enterVertices(item->boundingBox.getVertices());
+    }
 }
 
 void CAD_air_ductVolumetricFlowController::processWizardInput()
