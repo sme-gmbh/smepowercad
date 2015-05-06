@@ -44,7 +44,9 @@ QList<CADitemTypes::ItemType> CAD_arch_levelSlab::flangable_items(int flangeInde
 {
     Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
-
+    flangable_items.append(CADitemTypes::Arch_Support);
+    flangable_items.append(CADitemTypes::Arch_Wall_loadBearing);
+    flangable_items.append(CADitemTypes::Arch_Wall_nonLoadBearing);
     return flangable_items;
 }
 
@@ -105,17 +107,22 @@ void CAD_arch_levelSlab::calculate()
     slab->processWizardInput();
     slab->calculate();
 
-    this->snap_vertices.append(slab->snap_vertices);
+    this->snap_flanges.append(slab->snap_vertices[4]);
+    this->snap_flanges.append(slab->snap_vertices[5]);
+    this->snap_flanges.append(slab->snap_vertices[6]);
+    this->snap_flanges.append(slab->snap_vertices[7]);
+    this->snap_vertices = slab->snap_vertices;
+    this->snap_center = slab->snap_center;
 
     this->boundingBox = slab->boundingBox;
-//    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(0.0, 0.0, 0.0)));
-//    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(0.0, a,   0.0)));
-//    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(0.0, a,   b)));
-//    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(0.0, 0.0, b)));
-//    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(l  , 0.0, 0.0)));
-//    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(l  , a  , 0.0)));
-//    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(l  , a  , b)));
-//    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(l  , 0.0, b)));
+    //    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(0.0, 0.0, 0.0)));
+    //    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(0.0, a,   0.0)));
+    //    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(0.0, a,   b)));
+    //    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(0.0, 0.0, b)));
+    //    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(l  , 0.0, 0.0)));
+    //    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(l  , a  , 0.0)));
+    //    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(l  , a  , b)));
+    //    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(l  , 0.0, b)));
 }
 
 void CAD_arch_levelSlab::processWizardInput()
@@ -135,5 +142,27 @@ void CAD_arch_levelSlab::processWizardInput()
 
 QMatrix4x4 CAD_arch_levelSlab::rotationOfFlange(quint8 num)
 {
-    return matrix_rotation;
+    if (num == 1)
+        return matrix_rotation;
+    else if(num == 2)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(90.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 3)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(270.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
 }

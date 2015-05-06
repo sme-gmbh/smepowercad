@@ -45,6 +45,8 @@ QList<CADitemTypes::ItemType> CAD_arch_boredPile::flangable_items(int flangeInde
     Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Arch_BoredPile);
+    flangable_items.append(CADitemTypes::Arch_LevelSlab);
+    flangable_items.append(CADitemTypes::Arch_Foundation);
     return flangable_items;
 }
 

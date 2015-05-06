@@ -43,8 +43,12 @@ CAD_arch_wall_loadBearing::~CAD_arch_wall_loadBearing()
 
 QList<CADitemTypes::ItemType> CAD_arch_wall_loadBearing::flangable_items(int flangeIndex)
 {
-    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
+    if(flangeIndex == 5 || flangeIndex == 6 || flangeIndex == 7 || flangeIndex == 8)
+    {
+        flangable_items.append(CADitemTypes::Arch_Support);
+        flangable_items.append(CADitemTypes::Arch_LevelSlab);
+    }
     flangable_items.append(CADitemTypes::Arch_Wall_loadBearing);
     flangable_items.append(CADitemTypes::Arch_Wall_nonLoadBearing);
     return flangable_items;
@@ -110,11 +114,7 @@ void CAD_arch_wall_loadBearing::calculate()
 
     this->snap_vertices.append(basic_box->snap_vertices);
     this->snap_center.append(basic_box->snap_center);
-    this->snap_flanges.append(basic_box->pos_bot_1);
-    this->snap_flanges.append(basic_box->pos_bot_2);
-    this->snap_flanges.append(basic_box->pos_bot_3);
-    this->snap_flanges.append(basic_box->pos_bot_4);
-
+    this->snap_flanges = basic_box->snap_vertices;
 
     boundingBox = basic_box->boundingBox;
 }
@@ -135,5 +135,52 @@ void CAD_arch_wall_loadBearing::processWizardInput()
 
 QMatrix4x4 CAD_arch_wall_loadBearing::rotationOfFlange(quint8 num)
 {
-    return matrix_rotation;
+    if (num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(90.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if (num == 2)
+    {
+        return matrix_rotation;
+    }
+    else if (num == 3)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(270.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if (num == 4)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if (num == 5)
+        return matrix_rotation;
+    else if(num == 6)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(90.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 7)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(270.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
 }

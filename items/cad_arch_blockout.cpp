@@ -114,8 +114,7 @@ void CAD_arch_blockOut::calculate()
     this->snap_flanges.append(position + matrix_rotation * QVector3D(  b,   g, 0.0));
     this->snap_flanges.append(position + matrix_rotation * QVector3D(  b, 0.0, 0.0));
 
-    foreach(QVector3D vec, blockout->snap_vertices)
-        boundingBox.enterVertex(vec);
+    this->boundingBox.enterVertices(blockout->boundingBox.getVertices());
 }
 
 void CAD_arch_blockOut::processWizardInput()

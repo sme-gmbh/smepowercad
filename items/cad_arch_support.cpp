@@ -44,7 +44,8 @@ QList<CADitemTypes::ItemType> CAD_arch_support::flangable_items(int flangeIndex)
 {
     Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
-
+    flangable_items.append(CADitemTypes::Arch_Support);
+    flangable_items.append(CADitemTypes::Arch_LevelSlab);
     return flangable_items;
 }
 
@@ -93,7 +94,7 @@ void CAD_arch_support::calculate()
 
     this->snap_basepoint = (position);
 
-    QVector3D position_sp = position + matrix_rotation * (QVector3D(0.0, 0.0, a/2));
+    QVector3D position_sp = position + matrix_rotation * (QVector3D(l/2, b/2, a/2));
     support->wizardParams.insert("Position x", (position_sp.x()));
     support->wizardParams.insert("Position y", (position_sp.y()));
     support->wizardParams.insert("Position z", (position_sp.z()));
@@ -107,6 +108,10 @@ void CAD_arch_support::calculate()
     support->calculate();
 
     this->snap_vertices.append(support->snap_vertices);
+    this->snap_flanges.append(support->snap_vertices.at(4));
+    this->snap_flanges.append(support->snap_vertices.at(5));
+    this->snap_flanges.append(support->snap_vertices.at(6));
+    this->snap_flanges.append(support->snap_vertices.at(7));
     this->boundingBox = support->boundingBox;
 //    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(0.0, 0.0, 0.0)));
 //    this->boundingBox.enterVertex(position + matrix_rotation * (QVector3D(0.0, a,   0.0)));
@@ -135,5 +140,27 @@ void CAD_arch_support::processWizardInput()
 
 QMatrix4x4 CAD_arch_support::rotationOfFlange(quint8 num)
 {
-    return matrix_rotation;
+    if (num == 1)
+        return matrix_rotation;
+    else if(num == 2)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(90.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 3)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(270.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
 }
