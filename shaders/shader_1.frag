@@ -14,7 +14,6 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-
 in vec4 gColor;
 in vec4 gTexCoord;
 in vec4 gVertexPosition;
