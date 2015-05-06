@@ -17,6 +17,8 @@
 #define CAD_SPRINKLER_HEAD_H
 
 #include "caditem.h"
+#include "items/cad_basic_pipe.h"
+#include "items/cad_basic_circle.h"
 
 class CAD_sprinkler_head : public CADitem
 {
@@ -31,6 +33,10 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
+
+    qreal a, d, d2;
+    CAD_basic_pipe* endcap;
+    CAD_basic_circle* head;
 };
 
 #endif // CAD_SPRINKLER_HEAD_H

@@ -43,6 +43,7 @@ public:
 
     QOpenGLBuffer arrayBufVertices;
     QOpenGLBuffer indexBufLines;
+    QOpenGLBuffer indexBufFaces;
 };
 
 #endif // CAD_BASIC_CIRCLE_H

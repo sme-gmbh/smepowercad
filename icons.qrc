@@ -374,6 +374,8 @@
         <file>shaders/shader_1.vert</file>
         <file>shaders/shader_2.frag</file>
         <file>shaders/shader_2.vert</file>
+        <file>itemGraphic/cad_sprinkler_head.png</file>
+        <file>itemGraphic/cad_sprinkler_pump.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/check.svg</file>

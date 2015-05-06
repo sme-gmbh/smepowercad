@@ -40,6 +40,10 @@ CAD_basic_circle::CAD_basic_circle() : CADitem(CADitemTypes::Basic_Circle)
     indexBufLines.create();
     indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
 
+    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufFaces.create();
+    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
     processWizardInput();
     calculate();
 }
@@ -104,7 +108,7 @@ void CAD_basic_circle::calculate()
 
     this->snap_basepoint = this->center;
 
-    QVector3D vertices[16];
+    QVector3D vertices[17];
     for (int i = 0; i < 16; i++)    // 16 edges
     {
         qreal angle = 2 * PI * i * 0.0625f;
@@ -114,6 +118,14 @@ void CAD_basic_circle::calculate()
         linePos += matrix_rotation * QVector3D(sin(angle) * this->r, cos(angle) * this->r, 0.0);
         vertices[i] = linePos;
         boundingBox.enterVertex(linePos);
+    }
+    vertices[16] = this->center;
+
+    GLushort indicesFaces[32];
+    for(int i = 0; i < 16; i++)
+    {
+        indicesFaces[2 * i] = i;
+        indicesFaces[2 * i + 1] = 16;
     }
 
 
@@ -131,6 +143,9 @@ void CAD_basic_circle::calculate()
 
     indexBufLines.bind();
     indexBufLines.allocate(indicesLines, sizeof(indicesLines));
+
+    indexBufFaces.bind();
+    indexBufFaces.allocate(indicesFaces, sizeof(indicesFaces));
 }
 
 void CAD_basic_circle::processWizardInput()
@@ -179,6 +194,7 @@ void CAD_basic_circle::processWizardInput()
 void CAD_basic_circle::paint(GLWidget *glwidget)
 {
     QColor color_pen_tmp = getColorPen();
+    QColor color_brush_tmp = getColorBrush();
 
     glwidget->glEnable(GL_PRIMITIVE_RESTART);
     glwidget->glPrimitiveRestartIndex(0xABCD);
@@ -195,6 +211,16 @@ void CAD_basic_circle::paint(GLWidget *glwidget)
         indexBufLines.bind();
         glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
         indexBufLines.release();
+    }
+
+    if (glwidget->render_solid)
+    {
+        glwidget->setPaintingColor(color_brush_tmp);
+
+        indexBufFaces.bind();
+        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces.size(), GL_UNSIGNED_SHORT, 0);
+
+        indexBufFaces.release();
     }
 
     arrayBufVertices.release();
