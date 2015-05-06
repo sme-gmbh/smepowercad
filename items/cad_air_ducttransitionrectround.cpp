@@ -69,16 +69,33 @@ CAD_air_ductTransitionRectRound::~CAD_air_ductTransitionRectRound()
 
 QList<CADitemTypes::ItemType> CAD_air_ductTransitionRectRound::flangable_items(int flangeIndex)
 {
-    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
-    flangable_items.append(CADitemTypes::Air_Pipe);
-    flangable_items.append(CADitemTypes::Air_PipeEndCap);
-    flangable_items.append(CADitemTypes::Air_PipeFireDamper);
-    flangable_items.append(CADitemTypes::Air_PipeReducer);
-    flangable_items.append(CADitemTypes::Air_PipeSilencer);
-    flangable_items.append(CADitemTypes::Air_PipeTeeConnector);
-    flangable_items.append(CADitemTypes::Air_PipeTurn);
-    flangable_items.append(CADitemTypes::Air_PipeVolumetricFlowController);
+    if (flangeIndex == 2)
+    {
+        flangable_items.append(CADitemTypes::Air_Pipe);
+        flangable_items.append(CADitemTypes::Air_PipeEndCap);
+        flangable_items.append(CADitemTypes::Air_PipeFireDamper);
+        flangable_items.append(CADitemTypes::Air_PipeReducer);
+        flangable_items.append(CADitemTypes::Air_PipeSilencer);
+        flangable_items.append(CADitemTypes::Air_PipeTeeConnector);
+        flangable_items.append(CADitemTypes::Air_PipeTurn);
+        flangable_items.append(CADitemTypes::Air_PipeVolumetricFlowController);
+    }
+    else
+    {
+        flangable_items.append(CADitemTypes::Air_Duct);
+        flangable_items.append(CADitemTypes::Air_DuctEndPlate);
+        flangable_items.append(CADitemTypes::Air_DuctFireDamper);
+        flangable_items.append(CADitemTypes::Air_DuctTeeConnector);
+        flangable_items.append(CADitemTypes::Air_DuctTransitionRectRound);
+        flangable_items.append(CADitemTypes::Air_DuctTurn);
+        flangable_items.append(CADitemTypes::Air_DuctVolumetricFlowController);
+        flangable_items.append(CADitemTypes::Air_DuctYpiece);
+        flangable_items.append(CADitemTypes::Air_Filter);
+        flangable_items.append(CADitemTypes::Air_HeatExchangerAirAir);
+        flangable_items.append(CADitemTypes::Air_HeatExchangerWaterAir);
+        flangable_items.append(CADitemTypes::Air_MultiLeafDamper);
+    }
     return flangable_items;
 }
 
@@ -247,13 +264,17 @@ void CAD_air_ductTransitionRectRound::calculate()
         indicesFaces[130 + 4*i] = 39;
         indicesFaces[131 + 4*i] = 0xABCD;
     }
-    for(int i = 0; i < 4; i++)
+    for(int i = 0; i < 3; i++)
     {
         indicesFaces[144 + 4*i] = 28 + i;
         indicesFaces[145 + 4*i] = 29 + i;
         indicesFaces[146 + 4*i] = 36;
         indicesFaces[147 + 4*i] = 0xABCD;
     }
+    indicesFaces[156] = 31;
+    indicesFaces[157] = 16;
+    indicesFaces[158] = 36;
+    indicesFaces[159] = 0xABCD;
 
 
 
