@@ -187,11 +187,13 @@ public:
     int shader_useClippingZLocation;
     int shader_Depth_of_view_location;
     int shader_Height_of_intersection_location;
+    int shader_is_Selection_location;
 
     qreal zoomFactor;
     bool render_solid;
     bool render_outline;
     bool render_maintenance_area;
+    bool render_selection;
 
 
 private:

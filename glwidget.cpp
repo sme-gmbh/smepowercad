@@ -35,6 +35,7 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, Item
     this->render_solid = true;
     this->render_outline = true;
     this->render_maintenance_area = true;
+    this->render_selection = false;
     this->cameraPosition = QVector3D();
     this->lookAtPosition = QVector3D(0.0f, 0.0f, 0.0f);
     this->matrix_modelview.setToIdentity();
@@ -1544,6 +1545,7 @@ void GLWidget::paintContent(QList<Layer*> layers)
     shaderProgram->setUniformValue(shader_Height_of_intersection_location, this->height_of_intersection);
     shaderProgram->setUniformValue(shader_Depth_of_view_location,  this->height_of_intersection - this->depth_of_view);
     shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
+    shaderProgram->setUniformValue(shader_is_Selection_location, render_selection);
     this->glEnable(GL_PRIMITIVE_RESTART);
     this->glPrimitiveRestartIndex(0xABCD);
 
@@ -1674,9 +1676,11 @@ QList<CADitem*> GLWidget::itemsAtPosition_v2(QPoint pos, int size_x, int size_y)
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    render_selection = true;
     selectItemsByColor = true;
     paintContent(itemDB->layers);
     selectItemsByColor = false;
+    render_selection = false;
 
     QImage image = fbo_select->toImage(false);
 
@@ -2054,6 +2058,7 @@ void GLWidget::initializeGL()
     shader_useClippingZLocation = shaderProgram->uniformLocation("UseClippingZ");
     shader_Depth_of_view_location = shaderProgram->uniformLocation("Depth_of_view");
     shader_Height_of_intersection_location = shaderProgram->uniformLocation("Height_of_intersection");
+    shader_is_Selection_location = shaderProgram->uniformLocation("is_Selection");
 
     if (shader_vertexLocation < 0)
         QMessageBox::information(this, "Vertex Location invalid", QString().setNum(shader_vertexLocation));
