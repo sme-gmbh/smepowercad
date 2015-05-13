@@ -282,11 +282,21 @@ void CAD_air_ductTeeConnector::calculate()
 
 
     static GLushort indicesFaces[] = {
+        //turn negative x
+        1,0,3,2,5,4,7,6,9,8,11,10,13,12,15,14,17,16,19,18,21,20,23,22,0xABCD,
         0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,0xABCD,
+        //turn positive x
         24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,0xABCD,
+        25,24,27,26,29,28,31,30,33,32,35,34,37,36,39,38,41,40,43,42,45,44,47,46,0xABCD,
+        //back side
         48,49,51,50,0xABCD,
+        49,48,50,51,0xABCD,
+        //bottom
         51,50,0,46,2,44,4,42,6,40,8,38,10,36,12,34,14,32,16,30,18,28,20,26,22,24,0xABCD,
-        48,49,1,47,3,45,5,43,7,41,9,39,11,37,13,35,15,33,17,31,19,29,21,27,23,25,0xABCD
+        50,51,46,0,44,2,42,4,40,6,38,8,36,10,34,12,32,14,30,16,28,18,26,20,24,22,0xABCD,
+        //top
+        48,49,1,47,3,45,5,43,7,41,9,39,11,37,13,35,15,33,17,31,19,29,21,27,23,25,0xABCD,
+        49,48,47,1,45,3,43,5,41,7,39,9,37,11,35,13,33,15,31,17,29,19,27,21,25,23,0xABCD
     };
 
     static GLushort indicesLines[] = {
@@ -386,152 +396,6 @@ void CAD_air_ductTeeConnector::processWizardInput()
         qDebug() << "This item can not be drawn! (n + h + r2 + u) != l";
 
 }
-
-//void CAD_air_ductTeeConnector::paint(GLWidget *glwidget)
-//{
-//    QColor color_pen = getColorPen();
-//    QColor color_brush = getColorBrush();
-//    int a;
-////    int b;
-
-//    int count_a = 12;
-////    int count_b = 2;
-
-//    //draw turns
-//    // s iteration
-//    for (int w = 0; w <= 0; w++)
-//    {
-//        if (glwidget->render_solid)
-//        {
-//            glwidget->setPaintingColor(color_brush);
-
-//            for (a=1; a < count_a; a ++)
-//            {
-
-//                QVector3D vertex_1 = vertices_turn1[w][a][0];
-//                QVector3D vertex_2 = vertices_turn1[w][a - 1][0];
-//                QVector3D vertex_3 = vertices_turn1[w][a - 1][1];
-//                QVector3D vertex_4 = vertices_turn1[w][a][1];
-
-//                glwidget->glBegin(GL_QUADS);
-//                glwidget->glVertex3f((GLfloat)vertex_1.x(), (GLfloat)vertex_1.y(), (GLfloat)vertex_1.z());
-//                glwidget->glVertex3f((GLfloat)vertex_2.x(), (GLfloat)vertex_2.y(), (GLfloat)vertex_2.z());
-//                glwidget->glVertex3f((GLfloat)vertex_3.x(), (GLfloat)vertex_3.y(), (GLfloat)vertex_3.z());
-//                glwidget->glVertex3f((GLfloat)vertex_4.x(), (GLfloat)vertex_4.y(), (GLfloat)vertex_4.z());
-//                glwidget->glEnd();
-//            }
-//            for (a=1; a < count_a; a ++)
-//            {
-
-//                QVector3D vertex_1 = vertices_turn2[w][a][0];
-//                QVector3D vertex_2 = vertices_turn2[w][a - 1][0];
-//                QVector3D vertex_3 = vertices_turn2[w][a - 1][1];
-//                QVector3D vertex_4 = vertices_turn2[w][a][1];
-
-//                glwidget->glBegin(GL_QUADS);
-//                glwidget->glVertex3f((GLfloat)vertex_1.x(), (GLfloat)vertex_1.y(), (GLfloat)vertex_1.z());
-//                glwidget->glVertex3f((GLfloat)vertex_2.x(), (GLfloat)vertex_2.y(), (GLfloat)vertex_2.z());
-//                glwidget->glVertex3f((GLfloat)vertex_3.x(), (GLfloat)vertex_3.y(), (GLfloat)vertex_3.z());
-//                glwidget->glVertex3f((GLfloat)vertex_4.x(), (GLfloat)vertex_4.y(), (GLfloat)vertex_4.z());
-//                glwidget->glEnd();
-//            }
-//            //draw backside
-//            glwidget->glBegin(GL_QUADS);
-//            glwidget->glVertex3f((GLfloat)vertices_backside[0].x(), (GLfloat)vertices_backside[0].y(), (GLfloat)vertices_backside[0].z());
-//            glwidget->glVertex3f((GLfloat)vertices_backside[1].x(), (GLfloat)vertices_backside[1].y(), (GLfloat)vertices_backside[1].z());
-//            glwidget->glVertex3f((GLfloat)vertices_backside[2].x(), (GLfloat)vertices_backside[2].y(), (GLfloat)vertices_backside[2].z());
-//            glwidget->glVertex3f((GLfloat)vertices_backside[3].x(), (GLfloat)vertices_backside[3].y(), (GLfloat)vertices_backside[3].z());
-//            glwidget->glEnd();
-
-//            //draw lower side
-//            glwidget->glBegin(GL_TRIANGLE_FAN);
-//            QVector3D vertex_1 = (vertices_backside[0] + vertices_backside[1]) / 2;
-//            glwidget->glVertex3f((GLfloat)vertex_1.x(), (GLfloat)vertex_1.y(), (GLfloat)vertex_1.z());
-//            glwidget->glVertex3f((GLfloat)vertices_backside[0].x(), (GLfloat)vertices_backside[0].y(), (GLfloat)vertices_backside[0].z());
-//            for (a=0; a < count_a; a ++)
-//            {
-//                QVector3D vertex_a = vertices_turn1[w][a][1];
-//                glwidget->glVertex3f((GLfloat)vertex_a.x(), (GLfloat)vertex_a.y(), (GLfloat)vertex_a.z());
-//            }
-//            for (a=0; a < count_a; a ++)
-//            {
-//                QVector3D vertex_a = vertices_turn2[w][a][1];
-//                glwidget->glVertex3f((GLfloat)vertex_a.x(), (GLfloat)vertex_a.y(), (GLfloat)vertex_a.z());
-//            }
-
-//            glwidget->glVertex3f((GLfloat)vertices_backside[1].x(), (GLfloat)vertices_backside[1].y(), (GLfloat)vertices_backside[1].z());
-//            glwidget->glEnd();
-
-//            //draw upper side
-
-//            glwidget->glBegin(GL_TRIANGLE_FAN);
-//            QVector3D vertex_2 = (vertices_backside[2] + vertices_backside[3]) / 2;
-//            glwidget->glVertex3f((GLfloat)vertex_2.x(), (GLfloat)vertex_2.y(), (GLfloat)vertex_2.z());
-//            glwidget->glVertex3f((GLfloat)vertices_backside[3].x(), (GLfloat)vertices_backside[3].y(), (GLfloat)vertices_backside[3].z());
-//            for (a=0; a < count_a; a ++)
-//            {
-//                QVector3D vertex_a = vertices_turn1[0][a][0];
-//                glwidget->glVertex3f((GLfloat)vertex_a.x(), (GLfloat)vertex_a.y(), (GLfloat)vertex_a.z());
-//            }
-//            for (a=0; a < count_a; a ++)
-//            {
-//                QVector3D vertex_a = vertices_turn2[0][a][0];
-//                glwidget->glVertex3f((GLfloat)vertex_a.x(), (GLfloat)vertex_a.y(), (GLfloat)vertex_a.z());
-//            }
-
-//            glwidget->glVertex3f((GLfloat)vertices_backside[2].x(), (GLfloat)vertices_backside[2].y(), (GLfloat)vertices_backside[2].z());
-//            glwidget->glEnd();
-
-
-//        }
-
-
-
-//        if (glwidget->render_outline)
-//        {
-//            glwidget->setPaintingColor(color_pen);
-//            glwidget->glLineWidth(1.0);
-
-
-
-//            for (a=1; a < count_a; a ++)
-//            {
-//                glwidget->glBegin(GL_LINE_STRIP);
-//                QVector3D vertex_1 = vertices_turn1[w][a][0];
-//                QVector3D vertex_2 = vertices_turn1[w][a - 1][0];
-//                QVector3D vertex_3 = vertices_turn1[w][a - 1][1];
-//                QVector3D vertex_4 = vertices_turn1[w][a][1];
-
-//                glwidget->glVertex3f((GLfloat)vertex_1.x(), (GLfloat)vertex_1.y(), (GLfloat)vertex_1.z());
-//                glwidget->glVertex3f((GLfloat)vertex_2.x(), (GLfloat)vertex_2.y(), (GLfloat)vertex_2.z());
-//                glwidget->glVertex3f((GLfloat)vertex_3.x(), (GLfloat)vertex_3.y(), (GLfloat)vertex_3.z());
-//                glwidget->glVertex3f((GLfloat)vertex_4.x(), (GLfloat)vertex_4.y(), (GLfloat)vertex_4.z());
-//                glwidget->glEnd();
-//                glwidget->glBegin(GL_LINE_STRIP);
-//                vertex_1 = vertices_turn2[w][a][0];
-//                vertex_2 = vertices_turn2[w][a - 1][0];
-//                vertex_3 = vertices_turn2[w][a - 1][1];
-//                vertex_4 = vertices_turn2[w][a][1];
-
-//                glwidget->glVertex3f((GLfloat)vertex_1.x(), (GLfloat)vertex_1.y(), (GLfloat)vertex_1.z());
-//                glwidget->glVertex3f((GLfloat)vertex_2.x(), (GLfloat)vertex_2.y(), (GLfloat)vertex_2.z());
-//                glwidget->glVertex3f((GLfloat)vertex_3.x(), (GLfloat)vertex_3.y(), (GLfloat)vertex_3.z());
-//                glwidget->glVertex3f((GLfloat)vertex_4.x(), (GLfloat)vertex_4.y(), (GLfloat)vertex_4.z());
-
-//                glwidget->glEnd();
-//            }
-
-//            glwidget->glBegin(GL_LINE_LOOP);
-//            glwidget->glVertex3f((GLfloat)vertices_backside[0].x(), (GLfloat)vertices_backside[0].y(), (GLfloat)vertices_backside[0].z());
-//            glwidget->glVertex3f((GLfloat)vertices_backside[1].x(), (GLfloat)vertices_backside[1].y(), (GLfloat)vertices_backside[1].z());
-//            glwidget->glVertex3f((GLfloat)vertices_backside[2].x(), (GLfloat)vertices_backside[2].y(), (GLfloat)vertices_backside[2].z());
-//            glwidget->glVertex3f((GLfloat)vertices_backside[3].x(), (GLfloat)vertices_backside[3].y(), (GLfloat)vertices_backside[3].z());
-//            glwidget->glEnd();
-//        }
-//        // This breaks the pipeline... is it needed?
-
-//    }
-//}
 
 void CAD_air_ductTeeConnector::paint(GLWidget *glwidget)
 {

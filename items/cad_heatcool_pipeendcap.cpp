@@ -14,14 +14,16 @@
 **********************************************************************/
 
 #include "cad_heatcool_pipeendcap.h"
-#include "itemdb.h"
+#include "glwidget.h"
 
 CAD_heatcool_pipeEndCap::CAD_heatcool_pipeEndCap() : CADitem(CADitemTypes::HeatCool_PipeEndCap)
 {
     flange = new CAD_basic_pipe;
-    endcap = new CAD_Basic_TorisphericalHeadDIN28011;
+    endcap_outer = new CAD_Basic_TorisphericalHeadDIN28011;
+    endcap_inner = new CAD_Basic_TorisphericalHeadDIN28011;
+    this->subItems.append(endcap_outer);
+    this->subItems.append(endcap_inner);
     this->subItems.append(flange);
-    this->subItems.append(endcap);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -33,6 +35,14 @@ CAD_heatcool_pipeEndCap::CAD_heatcool_pipeEndCap() : CADitem(CADitemTypes::HeatC
     wizardParams.insert("s",  10.0);
     wizardParams.insert("fe", 10.0);
     wizardParams.insert("ff", 10.0);
+
+    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    arrayBufVertices.create();
+    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufFaces.create();
+    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
 
     processWizardInput();
     calculate();
@@ -135,24 +145,58 @@ void CAD_heatcool_pipeEndCap::calculate()
     flange->wizardParams.insert("Angle z", angle_z);
     flange->wizardParams.insert("l", fe);
     flange->wizardParams.insert("d", d + 2 * ff);
-    flange->wizardParams.insert("s",  ff + s);
+    flange->wizardParams.insert("s",  ff);
     flange->layer = this->layer;
     flange->processWizardInput();
     flange->calculate();
 
-    endcap->wizardParams.insert("Position x", position.x());
-    endcap->wizardParams.insert("Position y", position.y());
-    endcap->wizardParams.insert("Position z", position.z());
-    endcap->wizardParams.insert("Angle x", angle_x);
-    endcap->wizardParams.insert("Angle y", angle_y);
-    endcap->wizardParams.insert("Angle z", angle_z);
-    endcap->wizardParams.insert("d", d);   // Durchmesser
+    endcap_outer->wizardParams.insert("Position x", position.x());
+    endcap_outer->wizardParams.insert("Position y", position.y());
+    endcap_outer->wizardParams.insert("Position z", position.z());
+    endcap_outer->wizardParams.insert("Angle x", angle_x);
+    endcap_outer->wizardParams.insert("Angle y", angle_y);
+    endcap_outer->wizardParams.insert("Angle z", angle_z);
+    endcap_outer->wizardParams.insert("d", d);   // Durchmesser
     qreal h = l - 0.1937742252 * d; // h - (1-sqrt(0.65)) * d
-    endcap->wizardParams.insert("h", h);     // Höhe
-    endcap->layer = this->layer;
-    endcap->processWizardInput();
-    endcap->rotateAroundAxis(90.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
-    endcap->calculate();
+    endcap_outer->wizardParams.insert("h", h);     // Höhe
+    endcap_outer->layer = this->layer;
+    endcap_outer->processWizardInput();
+    endcap_outer->rotateAroundAxis(90.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
+    endcap_outer->calculate();
+
+    endcap_inner->wizardParams.insert("Position x", position.x());
+    endcap_inner->wizardParams.insert("Position y", position.y());
+    endcap_inner->wizardParams.insert("Position z", position.z());
+    endcap_inner->wizardParams.insert("Angle x", angle_x);
+    endcap_inner->wizardParams.insert("Angle y", angle_y);
+    endcap_inner->wizardParams.insert("Angle z", angle_z);
+    endcap_inner->wizardParams.insert("d", d - 2 * s);   // Durchmesser
+    h = l - 0.1937742252 * (d - 2*s); // h - (1-sqrt(0.65)) * d
+    endcap_inner->wizardParams.insert("h", h);     // Höhe
+    endcap_inner->layer = this->layer;
+    endcap_inner->processWizardInput();
+    endcap_inner->rotateAroundAxis(90.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
+    endcap_inner->calculate();
+
+    QVector3D vertices[32];
+    for(int k = 0; k < 16; k++)
+        vertices[k] = position + matrix_rotation * QVector3D(0.0, sin(k * PI * 0.125) * d/2, cos(k * PI *0.125) * d/2);
+    for(int k = 0; k < 16; k++)
+        vertices[16 + k] = position + matrix_rotation * QVector3D(0.0, sin(k * PI * 0.125) * (d/2-s), cos(k * PI *0.125) * (d/2-s));
+
+    GLushort indicesFaces[] =
+    {
+        16, 0, 17, 1, 18, 2, 19, 3, 20, 4, 21, 5, 22, 6, 23, 7, 24, 8, 25, 9, 26, 10, 27, 11, 28, 12, 29, 13, 30, 14, 31, 15, 16, 0
+    };
+
+
+
+    arrayBufVertices.bind();
+    arrayBufVertices.allocate(vertices, sizeof(vertices));
+
+    indexBufFaces.bind();
+    indexBufFaces.allocate(indicesFaces, sizeof(indicesFaces));
+
 
     foreach(CADitem *item, subItems)
         this->boundingBox.enterVertices(item->boundingBox.getVertices());
@@ -193,4 +237,28 @@ QMatrix4x4 CAD_heatcool_pipeEndCap::rotationOfFlange(quint8 num)
     }
     else
         return matrix_rotation;
+}
+
+void CAD_heatcool_pipeEndCap::paint(GLWidget *glwidget)
+{
+    QColor color_brush_tmp = getColorBrush();
+
+    glwidget->glEnable(GL_PRIMITIVE_RESTART);
+    glwidget->glPrimitiveRestartIndex(0xABCD);
+
+    arrayBufVertices.bind();
+    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
+    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
+
+    if (glwidget->render_solid)
+    {
+        glwidget->setPaintingColor(color_brush_tmp);
+
+        indexBufFaces.bind();
+        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces.size(), GL_UNSIGNED_SHORT, 0);
+
+        indexBufFaces.release();
+    }
+
+    arrayBufVertices.release();
 }

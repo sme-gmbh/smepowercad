@@ -258,64 +258,6 @@ void CAD_air_heatExchangerAirAir::paint(GLWidget *glwidget)
     arrayBufVertices.release();
 }
 
-
-//void CAD_air_heatExchangerAirAir::paint(GLWidget *glwidget)
-//{
-//    QColor color_pen = getColorPen();
-//    QColor color_brush = getColorBrush();
-
-//    if (glwidget->render_solid)
-//    {
-//        glwidget->setPaintingColor(color_brush);
-//        glwidget->glBegin(GL_QUADS);
-
-//        glwidget->glVertex3f((GLfloat)points[0][0].x(), (GLfloat)points[0][0].y(), (GLfloat)points[0][0].z());
-//        glwidget->glVertex3f((GLfloat)points[0][1].x(), (GLfloat)points[0][1].y(), (GLfloat)points[0][1].z());
-//        glwidget->glVertex3f((GLfloat)points[1][1].x(), (GLfloat)points[1][1].y(), (GLfloat)points[1][1].z());
-//        glwidget->glVertex3f((GLfloat)points[1][0].x(), (GLfloat)points[1][0].y(), (GLfloat)points[1][0].z());
-
-//        glwidget->glVertex3f((GLfloat)points[0][1].x(), (GLfloat)points[0][1].y(), (GLfloat)points[0][1].z());
-//        glwidget->glVertex3f((GLfloat)points[0][2].x(), (GLfloat)points[0][2].y(), (GLfloat)points[0][2].z());
-//        glwidget->glVertex3f((GLfloat)points[1][2].x(), (GLfloat)points[1][2].y(), (GLfloat)points[1][2].z());
-//        glwidget->glVertex3f((GLfloat)points[1][1].x(), (GLfloat)points[1][1].y(), (GLfloat)points[1][1].z());
-
-//        glwidget->glVertex3f((GLfloat)points[0][2].x(), (GLfloat)points[0][2].y(), (GLfloat)points[0][2].z());
-//        glwidget->glVertex3f((GLfloat)points[0][3].x(), (GLfloat)points[0][3].y(), (GLfloat)points[0][3].z());
-//        glwidget->glVertex3f((GLfloat)points[1][3].x(), (GLfloat)points[1][3].y(), (GLfloat)points[1][3].z());
-//        glwidget->glVertex3f((GLfloat)points[1][2].x(), (GLfloat)points[1][2].y(), (GLfloat)points[1][2].z());
-
-//        glwidget->glVertex3f((GLfloat)points[0][3].x(), (GLfloat)points[0][3].y(), (GLfloat)points[0][3].z());
-//        glwidget->glVertex3f((GLfloat)points[0][0].x(), (GLfloat)points[0][0].y(), (GLfloat)points[0][0].z());
-//        glwidget->glVertex3f((GLfloat)points[1][0].x(), (GLfloat)points[1][0].y(), (GLfloat)points[1][0].z());
-//        glwidget->glVertex3f((GLfloat)points[1][3].x(), (GLfloat)points[1][3].y(), (GLfloat)points[1][3].z());
-//        glwidget->glEnd();
-
-//    }
-//    if (glwidget->render_outline)
-//    {
-//        glwidget->setPaintingColor(color_pen);
-//        glwidget->glLineWidth(1.0);
-//        glwidget->glBegin(GL_LINE_LOOP);
-//        glwidget->glVertex3f((GLfloat)points[0][0].x(), (GLfloat)points[0][0].y(), (GLfloat)points[0][0].z());
-//        glwidget->glVertex3f((GLfloat)points[0][1].x(), (GLfloat)points[0][1].y(), (GLfloat)points[0][1].z());
-//        glwidget->glVertex3f((GLfloat)points[0][2].x(), (GLfloat)points[0][2].y(), (GLfloat)points[0][2].z());
-//        glwidget->glVertex3f((GLfloat)points[0][3].x(), (GLfloat)points[0][3].y(), (GLfloat)points[0][3].z());
-//        glwidget->glEnd();
-//        glwidget->glBegin(GL_LINE_LOOP);
-//        glwidget->glVertex3f((GLfloat)points[1][0].x(), (GLfloat)points[1][0].y(), (GLfloat)points[1][0].z());
-//        glwidget->glVertex3f((GLfloat)points[1][1].x(), (GLfloat)points[1][1].y(), (GLfloat)points[1][1].z());
-//        glwidget->glVertex3f((GLfloat)points[1][2].x(), (GLfloat)points[1][2].y(), (GLfloat)points[1][2].z());
-//        glwidget->glVertex3f((GLfloat)points[1][3].x(), (GLfloat)points[1][3].y(), (GLfloat)points[1][3].z());
-//        glwidget->glEnd();
-//        glwidget->glBegin(GL_LINES);
-//        glwidget->glVertex3f((GLfloat)points[0][1].x(), (GLfloat)points[0][1].y(), (GLfloat)points[0][1].z());
-//        glwidget->glVertex3f((GLfloat)points[1][1].x(), (GLfloat)points[1][1].y(), (GLfloat)points[1][1].z());
-//        glwidget->glVertex3f((GLfloat)points[0][3].x(), (GLfloat)points[0][3].y(), (GLfloat)points[0][3].z());
-//        glwidget->glVertex3f((GLfloat)points[1][3].x(), (GLfloat)points[1][3].y(), (GLfloat)points[1][3].z());
-//        glwidget->glEnd();
-//    }
-//}
-
 QMatrix4x4 CAD_air_heatExchangerAirAir::rotationOfFlange(quint8 num)
 {
     if(num == 1 || num == 4)

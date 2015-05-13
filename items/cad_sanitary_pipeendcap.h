@@ -32,16 +32,19 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
+    virtual void paint(GLWidget* glwidget);
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
-//    virtual void paint(GLWidget* glwidget);
 
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
 
     qreal d, l, s, fe, ff;
+    CAD_Basic_TorisphericalHeadDIN28011 *endcap_outer, *endcap_inner;
     CAD_basic_pipe *flange;
-    CAD_Basic_TorisphericalHeadDIN28011 *endcap;
+
+    QOpenGLBuffer arrayBufVertices;
+    QOpenGLBuffer indexBufFaces;
 };
 
 #endif // CAD_SANITARY_PIPEENDCAP_H

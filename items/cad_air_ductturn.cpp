@@ -379,7 +379,7 @@ void CAD_air_ductTurn::calculate()
     flange_right_duct->wizardParams.insert("a", (this->a+2*ff));
     flange_right_duct->wizardParams.insert("s", (ff));
     flange_right_duct->processWizardInput();
-    flange_right_duct->rotateAroundAxis(-alpha, QVector3D(0.0, 0.0, 1.0), angle_x, angle_y, angle_z);
+    flange_right_duct->rotateAroundAxis(-alpha + 180.0, QVector3D(0.0, 0.0, 1.0), angle_x, angle_y, angle_z);
     flange_right_duct->calculate();
 
     boundingBox.enterVertex(flange_left_duct->pos_bot_1);
@@ -433,30 +433,30 @@ void CAD_air_ductTurn::calculate()
     //inner faces
     for(int i = 0; i < 13; i++)
     {
-        indicesFaces[108 + 2*i] = 52 + 4*i + 1;
-        indicesFaces[108 + 2*i + 1] = 52 + 4*i + 2;
+        indicesFaces[108 + 2*i] = 52 + 4*i + 2;
+        indicesFaces[108 + 2*i + 1] = 52 + 4*i + 1;
     }
     indicesFaces[134] = 0xABCD;
     for(int i = 0; i < 13; i++)
     {
-        indicesFaces[135 + 2*i] = 52 + 4*i + 2;
-        indicesFaces[135 + 2*i + 1] = 52 + 4*i + 3;
+        indicesFaces[135 + 2*i] = 52 + 4*i + 3;
+        indicesFaces[135 + 2*i + 1] = 52 + 4*i + 2;
     }
     indicesFaces[161] = 0xABCD;
     for(int i = 0; i < 13; i++)
     {
-        indicesFaces[162 + 2*i] = 52 + 4*i + 3;
-        indicesFaces[162 + 2*i + 1] = 52 + 4*i;
+        indicesFaces[162 + 2*i] = 52 + 4*i;
+        indicesFaces[162 + 2*i + 1] = 52 + 4*i + 3;
     }
     indicesFaces[188] = 0xABCD;
     for(int i = 0; i < 13; i++)
     {
-        indicesFaces[189 + 2*i] = 52 + 4*i;
-        indicesFaces[189 + 2*i + 1] = 52 + 4*i + 1;
+        indicesFaces[189 + 2*i] = 52 + 4*i + 1;
+        indicesFaces[189 + 2*i + 1] = 52 + 4*i;
     }
     indicesFaces[215] = 0xABCD;
     //front and back faces;
-    GLushort frontAndBack[] =  {0,52,1,53,2,54,3,55,0, 52, 0xABCD, 48, 100, 49, 101, 50, 102, 51, 103, 48, 100, 0xABCD};
+    GLushort frontAndBack[] =  {0,52,1,53,2,54,3,55,0, 52, 0xABCD, 100, 48, 101, 49, 102, 50, 103, 51, 100, 48, 0xABCD};
     for(int i = 0; i < 22; i++)
         indicesFaces[216 + i] = frontAndBack[i];
 

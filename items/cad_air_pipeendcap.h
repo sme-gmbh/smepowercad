@@ -31,10 +31,14 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
+    virtual void paint(GLWidget* glwidget);
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
 
     qreal d, l, s;
-    CAD_Basic_TorisphericalHeadDIN28011 *endcap;
+    CAD_Basic_TorisphericalHeadDIN28011 *endcap_outer, *endcap_inner;
+
+    QOpenGLBuffer arrayBufVertices;
+    QOpenGLBuffer indexBufFaces;
 };
 
 #endif // CAD_AIR_PIPEENDCAP_H
