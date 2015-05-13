@@ -113,15 +113,15 @@ void CAD_Basic_Torus::calculate()
     {
         for(int j = 0; j < 9; j++)
         {
-            indicesFaces[41 * i + 4*j] = 10 * i + j;
-            indicesFaces[41 * i + 4*j + 1] = 10 * i + j + 10;
-            indicesFaces[41 * i + 4*j + 2] = 10 * i + j + 1;
-            indicesFaces[41 * i + 4*j + 3] = 10 * i + j + 11;
+            indicesFaces[41 * i + 4*j] = 10 * i + j + 10;
+            indicesFaces[41 * i + 4*j + 1] = 10 * i + j;
+            indicesFaces[41 * i + 4*j + 2] = 10 * i + j + 11;
+            indicesFaces[41 * i + 4*j + 3] = 10 * i + j + 1;
         }
-        indicesFaces[41 * i + 36] = 10 * i + 9;
-        indicesFaces[41 * i + 37] = 10 * i + 19;
-        indicesFaces[41 * i + 38] = 10 * i + 0;
-        indicesFaces[41 * i + 39] = 10 * i + 10;
+        indicesFaces[41 * i + 36] = 10 * i + 19;
+        indicesFaces[41 * i + 37] = 10 * i + 9;
+        indicesFaces[41 * i + 38] = 10 * i + 10;
+        indicesFaces[41 * i + 39] = 10 * i + 0;
         indicesFaces[41 * i + 40] = 0xABCD;
     }
     //    for(int i = 0; j < 9; i++)

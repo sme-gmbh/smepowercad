@@ -130,11 +130,22 @@ void CAD_basic_cylinder::calculate()
 
 
 
-    static GLushort indicesFaces[34];
+    static GLushort indicesFaces[70];
+    //outer faces
     for(int i = 0; i < 32; i++)
         indicesFaces[i] = i;
     indicesFaces[32] = 0;
     indicesFaces[33] = 1;
+    indicesFaces[34] = 0xABCD;
+    //inner faces
+    for(int i = 0; i < 16; i++)
+    {
+        indicesFaces[35 + 2 * i] = 2 * i + 1;
+        indicesFaces[35 + 2 * i + 1] = 2 * i;
+    }
+    indicesFaces[67] = 1;
+    indicesFaces[68] = 0;
+    indicesFaces[69] = 0xABCD;
 
     static GLushort indicesLines[96];
     for(int i = 0; i < 30; i++)

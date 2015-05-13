@@ -185,16 +185,20 @@ void CAD_basic_duct::calculate()
     };
 
     static GLushort indicesFaces[] = {
-        0, 1,  4,  5,  7,  6,  3,  2,  0, 1, 0xABCD,
-        8, 9,  12, 13, 15, 14, 11, 10, 8, 9, 0xABCD,
-        1, 2,  9,  10, 0xABCD,
+        //outer faces
+        1, 0,  5,  4,  6,  7,  2,  3,  1, 0, 0xABCD,
+        //inner faces
+        8, 9, 12,  13, 15, 14, 11, 10, 8, 9, 0xABCD,
+        //front faces negative x end
+        2, 1,  10, 9, 0xABCD,
         2, 10, 6,  14, 0xABCD,
         6, 14, 5,  13, 0xABCD,
         5, 13, 1,  9, 0xABCD,
-        0, 8,  3,  11, 0xABCD,
-        3, 11, 7,  15, 0xABCD,
-        7, 15, 4,  12,0xABCD,
-        4, 12, 0,  8
+        //front faces positive x end
+        8,  0,  11,  3, 0xABCD,
+        11, 3,  15,  7, 0xABCD,
+        15, 7,  12,  4, 0xABCD,
+        12, 4,  8,   0
     };
 
     static GLushort indicesLines[] = {

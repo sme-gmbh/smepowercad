@@ -114,17 +114,30 @@ void CAD_Basic_Hemisphere::calculate()
         }
     }
 
-    static GLushort indicesFaces[230];
+    static GLushort indicesFaces[460];
+    //inner faces
     for(int j = 0; j < 10; j++)
     {
-    for(int i = 0; i < 10; i++)
-    {
-        indicesFaces[23 * j + 2 * i] = 10 * j + i;
-        indicesFaces[23 * j + 2 * i + 1] = 10 * j + i + 10;
+        for(int i = 0; i < 10; i++)
+        {
+            indicesFaces[23 * j + 2 * i] = 10 * j + i;
+            indicesFaces[23 * j + 2 * i + 1] = 10 * j + i + 10;
+        }
+        indicesFaces[23 * j + 20] = 10 * j + 0;
+        indicesFaces[23 * j + 21] = 10 * j + 10;
+        indicesFaces[23 * j + 22] = 0xABCD;
     }
-    indicesFaces[23 * j + 20] = 10 * j + 0;
-    indicesFaces[23 * j + 21] = 10 * j + 10;
-    indicesFaces[23 * j + 22] = 0xABCD;
+    //outer faces
+    for(int j = 0; j < 10; j++)
+    {
+        for(int i = 0; i < 10; i++)
+        {
+            indicesFaces[230 + 23 * j + 2 * i] = 10 * j + i + 10;
+            indicesFaces[230 + 23 * j + 2 * i + 1] = 10 * j + i;
+        }
+        indicesFaces[230 + 23 * j + 20] = 10 * j + 10;
+        indicesFaces[230 + 23 * j + 21] = 10 * j;
+        indicesFaces[230 + 23 * j + 22] = 0xABCD;
     }
 
 

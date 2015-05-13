@@ -45,9 +45,9 @@ CAD_Basic_TorisphericalHeadDeepDishedDIN28013::CAD_Basic_TorisphericalHeadDeepDi
 
 CAD_Basic_TorisphericalHeadDeepDishedDIN28013::~CAD_Basic_TorisphericalHeadDeepDishedDIN28013()
 {
-//    arrayBufVertices.destroy();
-//    indexBufFaces.destroy();
-//    indexBufLines.destroy();
+    //    arrayBufVertices.destroy();
+    //    indexBufFaces.destroy();
+    //    indexBufLines.destroy();
 }
 
 QList<CADitemTypes::ItemType> CAD_Basic_TorisphericalHeadDeepDishedDIN28013::flangable_items(int flangeIndex)
@@ -65,9 +65,9 @@ QImage CAD_Basic_TorisphericalHeadDeepDishedDIN28013::wizardImage()
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-                    
+
     image.load(imageFileName, "PNG");
-                       
+
     return image;
 }
 
@@ -112,10 +112,10 @@ void CAD_Basic_TorisphericalHeadDeepDishedDIN28013::calculate()
         {
             if(i < 7)
             {
-            qreal phi = i * beta / 12;
-            qreal psi = j * PI / 5;
-            vertices[10*i + j] = position + matrix_rotation * (QVector3D(r1 * sin(phi) * cos(psi), r1 * sin(phi) * sin(psi),r1 * cos(phi)) +
-                                                               QVector3D(0.0, 0.0, -b + h));
+                qreal phi = i * beta / 12;
+                qreal psi = j * PI / 5;
+                vertices[10*i + j] = position + matrix_rotation * (QVector3D(r1 * sin(phi) * cos(psi), r1 * sin(phi) * sin(psi),r1 * cos(phi)) +
+                                                                   QVector3D(0.0, 0.0, -b + h));
             }
             else if( i < 10)
             {
@@ -133,31 +133,43 @@ void CAD_Basic_TorisphericalHeadDeepDishedDIN28013::calculate()
         }
     }
 
-    static GLushort indicesFaces[230];
+    static GLushort indicesFaces[460];
     for(int j = 0; j < 10; j++)
     {
-    for(int i = 0; i < 10; i++)
+        for(int i = 0; i < 10; i++)
+        {
+            indicesFaces[23 * j + 2 * i] = 10 * j + i;
+            indicesFaces[23 * j + 2 * i + 1] = 10 * j + i + 10;
+        }
+        indicesFaces[23 * j + 20] = 10 * j + 0;
+        indicesFaces[23 * j + 21] = 10 * j + 10;
+        indicesFaces[23 * j + 22] = 0xABCD;
+    }
+
+    for(int j = 0; j < 10; j++)
     {
-        indicesFaces[23 * j + 2 * i] = 10 * j + i;
-        indicesFaces[23 * j + 2 * i + 1] = 10 * j + i + 10;
-    }
-    indicesFaces[23 * j + 20] = 10 * j + 0;
-    indicesFaces[23 * j + 21] = 10 * j + 10;
-    indicesFaces[23 * j + 22] = 0xABCD;
+        for(int i = 0; i < 10; i++)
+        {
+            indicesFaces[230 + 23 * j + 2 * i] = 10 * j + i + 10;
+            indicesFaces[230 + 23 * j + 2 * i + 1] = 10 * j + i;
+        }
+        indicesFaces[230 + 23 * j + 20] = 10 * j + 10;
+        indicesFaces[230 + 23 * j + 21] = 10 * j + 0;
+        indicesFaces[230 + 23 * j + 22] = 0xABCD;
     }
 
 
-//    for(int i = 0; i < 3; i++)
-//    {
-//        for(int j = 0; j < 10; j++)
-//        {
-//            indicesFaces[37*i + 4*j]   = 10*j + i;
-//            indicesFaces[37*i + 4*j+1] = 10*j + i + 10;
-//            indicesFaces[37*i + 4*j+2] = 10*j + i + 1;
-//            indicesFaces[37*i + 4*j+3] = 10*j + i + 11;
-//        }
-//        indicesFaces[37*i + 36] = 0xABCD;
-//    }
+    //    for(int i = 0; i < 3; i++)
+    //    {
+    //        for(int j = 0; j < 10; j++)
+    //        {
+    //            indicesFaces[37*i + 4*j]   = 10*j + i;
+    //            indicesFaces[37*i + 4*j+1] = 10*j + i + 10;
+    //            indicesFaces[37*i + 4*j+2] = 10*j + i + 1;
+    //            indicesFaces[37*i + 4*j+3] = 10*j + i + 11;
+    //        }
+    //        indicesFaces[37*i + 36] = 0xABCD;
+    //    }
 
     static GLushort indicesLines[420];
     for(int i = 0; i < 11; i++)
@@ -238,13 +250,13 @@ void CAD_Basic_TorisphericalHeadDeepDishedDIN28013::paint(GLWidget *glwidget)
     {
         glwidget->setPaintingColor(color_pen_tmp);
         glwidget->glLineWidth(1.0);
-                                      
+
         indexBufLines.bind();
         glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
         indexBufLines.release();
-     }
-                                                                                           
-     arrayBufVertices.release();
+    }
+
+    arrayBufVertices.release();
 }
 
 QMatrix4x4 CAD_Basic_TorisphericalHeadDeepDishedDIN28013::rotationOfFlange(quint8 num)

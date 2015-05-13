@@ -128,36 +128,41 @@ void CAD_Basic_Flume::calculate()
     }
 
     static GLushort indicesFaces[142];
+    //outer faces
     for(int i = 0; i < 32; i++)
         indicesFaces[i] = 2*i;
     indicesFaces[32] = 0xABCD;
-    for(int i = 0; i < 32; i++)
-        indicesFaces[33 + i] = 2*i + 1;
-    indicesFaces[64] = 0xABCD;
-
+    //inner faces
+    for(int i = 0; i < 16; i++)
+    {
+        indicesFaces[33 + 2*i] = 4 * i + 3;
+        indicesFaces[33 + 2*i + 1] = 4 * i +1;
+    }
+    indicesFaces[65] = 0xABCD;
+    //front faces on negative x end
     for(int i =0; i < 16; i++)
     {
-        indicesFaces[65 + 2 * i] = 4*i;
-        indicesFaces[65 + 2 * i + 1] = 4*i + 1;
+        indicesFaces[66 + 2 * i] = 4*i + 1;
+        indicesFaces[66 + 2 * i + 1] = 4*i;
     }
-    indicesFaces[97] = 0xABCD;
-
+    indicesFaces[98] = 0xABCD;
+    //front faces on positive x end
     for(int i =0; i < 16; i++)
     {
-        indicesFaces[98 + 2 * i] = 4 * i + 2;
-        indicesFaces[98 + 2 * i + 1] = 4*i + 3;
+        indicesFaces[99 + 2 * i] = 4 * i + 2;
+        indicesFaces[99 + 2 * i + 1] = 4*i + 3;
     }
-    indicesFaces[130] = 0xABCD;
+    indicesFaces[131] = 0xABCD;
 
     indicesFaces[132] = 0;
     indicesFaces[133] = 1;
     indicesFaces[134] = 2;
     indicesFaces[135] = 3;
     indicesFaces[136] = 0xABCD;
-    indicesFaces[137] = 60;
-    indicesFaces[138] = 61;
-    indicesFaces[139] = 62;
-    indicesFaces[140] = 63;
+    indicesFaces[137] = 61;
+    indicesFaces[138] = 60;
+    indicesFaces[139] = 63;
+    indicesFaces[140] = 62;
     indicesFaces[141] = 0xABCD;
 
 

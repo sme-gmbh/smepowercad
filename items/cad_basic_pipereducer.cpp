@@ -130,35 +130,44 @@ void CAD_Basic_PipeReducer::calculate()
         index++;
     }
 
-    static GLushort indicesFaces[150];
+    static GLushort indicesFaces[139];
+    //outer faces
     for(int i = 0; i < 32; i++)
         indicesFaces[i] = 2*i;
+
     indicesFaces[32] = 0;
     indicesFaces[33] = 2;
+    indicesFaces[34] = 0xABCD;
 
-    for(int i = 0; i < 32; i++)
-        indicesFaces[34+i] = 1+2*i;
-    indicesFaces[66] = 1;
+    //inner faces
+    for(int i = 0; i < 16; i++)
+    {
+        indicesFaces[35 + 2*i] = 4 * i + 3;
+        indicesFaces[35 + 2*i + 1] = 4 * i +1;
+    }
     indicesFaces[67] = 3;
-    indicesFaces[68] = 0xABCD;
+    indicesFaces[68] = 1;
+    indicesFaces[69] = 0xABCD;
 
+    //ring on negative x-end
     for(int i = 0; i < 16; i++)
     {
-        indicesFaces[69+2*i] = 4*i;
-        indicesFaces[69+2*i+1] = 4*i+1;
+        indicesFaces[70+2*i] = 4*i+1;
+        indicesFaces[70+2*i+1] = 4*i;
     }
-    indicesFaces[101] = 0;
     indicesFaces[102] = 1;
-    indicesFaces[103] = 0xABCD;
+    indicesFaces[103] = 0;
+    indicesFaces[104] = 0xABCD;
 
+    //ring on positive x-end
     for(int i = 0; i < 16; i++)
     {
-        indicesFaces[104+2*i] = 4*i+2;
-        indicesFaces[104+2*i+1] = 4*i+3;
+        indicesFaces[105+2*i] = 4*i+2;
+        indicesFaces[105+2*i+1] = 4*i+3;
     }
 
-    indicesFaces[136] = 2;
-    indicesFaces[137] = 3;
+    indicesFaces[137] = 2;
+    indicesFaces[138] = 3;
 
 
     static GLushort indicesLines[192];
