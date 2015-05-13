@@ -228,6 +228,8 @@ void CAD_air_ductYpiece::calculate()
 
     splitPoint[0] = position + matrix_rotation * QVector3D(l/2, (b/2 + e - b2 - m/2)/2, (f - a2) / 2);
     splitPoint[1] = position + matrix_rotation * QVector3D(l/2, (b/2 + e - b2 - m/2)/2, (a + f) / 2);
+    splitPoint[2] = position + matrix_rotation * QVector3D(l/2, (b/2 + e - b2 - m/2)/2, (f - a2) / 2 + s);
+    splitPoint[3] = position + matrix_rotation * QVector3D(l/2, (b/2 + e - b2 - m/2)/2, (a + f) / 2 - s);
 
     boundingBox.enterVertex(flange_1->pos_bot_1);
     boundingBox.enterVertex(flange_1->pos_bot_2);
@@ -275,6 +277,10 @@ void CAD_air_ductYpiece::calculate()
         endcap_1->pos_bot_1, endcap_1->pos_top_1, endcap_1->pos_bot_4, endcap_1->pos_top_4,
         endcap_2->pos_bot_1, endcap_2->pos_top_1, endcap_2->pos_bot_4, endcap_2->pos_top_4,
         endcap_3->pos_bot_1, endcap_3->pos_top_1, endcap_3->pos_bot_4, endcap_3->pos_top_4,
+        splitPoint[2], splitPoint[3],
+        endcap_1->inner_pos_bot_1, endcap_1->inner_pos_top_1, endcap_1->inner_pos_bot_4, endcap_1->inner_pos_top_4,
+        endcap_2->inner_pos_bot_1, endcap_2->inner_pos_top_1, endcap_2->inner_pos_bot_4, endcap_2->inner_pos_top_4,
+        endcap_3->inner_pos_bot_1, endcap_3->inner_pos_top_1, endcap_3->inner_pos_bot_4, endcap_3->inner_pos_top_4,
     };
 
     static GLushort indicesFaces[] = {
@@ -296,27 +302,27 @@ void CAD_air_ductYpiece::calculate()
         5,1, 7, 9,  0xABCD,
         3, 1, 5, 0xABCD,
 
-
         //facing in
         //positive y side
-        12, 2, 13, 3, 0xABCD,
+        26, 16, 27, 17, 0xABCD,
         //middle on positive y side
-        0, 10, 1, 11, 0xABCD,
+        14, 24, 15, 25, 0xABCD,
         //middle on negative y side
-        8, 0, 9, 1, 0xABCD,
+        22, 14, 23, 15, 0xABCD,
         //negative y side
-        4, 6, 5, 7, 0xABCD,
+        18, 20, 19, 21, 0xABCD,
         //bottom
-        2, 12, 0, 10, 0xABCD,
-        6, 4, 8, 0, 0xABCD,
-        0, 4, 2, 0xABCD,
+        16, 26, 14, 24, 0xABCD,
+        20, 18, 22, 14, 0xABCD,
+        14, 18, 16, 0xABCD,
         //top
-        13, 3, 11, 1, 0xABCD,
-        1, 5, 9, 7, 0xABCD,
-        1, 3, 5, 0xABCD
+        27, 17, 25, 15, 0xABCD,
+        15, 19, 23, 21, 0xABCD,
+        15, 17, 19, 0xABCD
     };
 
     static GLushort indicesLines[] = {
+        //outer
         2, 12,
         10, 0,
         0, 8,
@@ -325,12 +331,18 @@ void CAD_air_ductYpiece::calculate()
         11, 1,
         1, 9,
         7, 5,
-        0, 1
-        };
-
-
-
-
+        0, 1,
+        //inner
+        16, 26,
+        24, 14,
+        14, 22,
+        20, 18,
+        17, 27,
+        25, 15,
+        15, 23,
+        21, 19,
+        14, 15
+    };
 
     arrayBufVertices.bind();
     arrayBufVertices.allocate(vertices, sizeof(vertices));

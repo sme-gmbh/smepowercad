@@ -19,21 +19,6 @@
 
 CAD_air_ductTeeConnector::CAD_air_ductTeeConnector() : CADitem(CADitemTypes::Air_DuctTeeConnector)
 {
-//    for(int i = 0; i < 2; i++)
-//    {
-//        for(int j = 0; j < 12; j++)
-//        {
-//            for(int k = 0; k < 2; k++)
-//            {
-//                vertices_turn1[i][j][k] = QVector3D(0.0, 0.0, 0.0);
-//                vertices_turn2[i][j][k] = QVector3D(0.0, 0.0, 0.0);
-
-//            }
-//        }
-//    }
-//    for(int i = 0; i < 4; i++)
-//        vertices_backside[i] = QVector3D(0.0, 0.0, 0.0);
-
     endcap_1 = new CAD_basic_duct();
     endcap_2 = new CAD_basic_duct();
     endcap_3 = new CAD_basic_duct();
@@ -242,8 +227,8 @@ void CAD_air_ductTeeConnector::calculate()
     snap_flanges.append(position_e3);
 
 
-    QVector3D vertices[52];
-
+    QVector3D vertices[104];
+    //outer
     vertices[0] = position + matrix_rotation * QVector3D(this->u, -b/2, -a/2);
     vertices[1] = position + matrix_rotation * QVector3D(this->u, -b/2, a/2);
 
@@ -280,33 +265,88 @@ void CAD_air_ductTeeConnector::calculate()
     vertices[50] = position + matrix_rotation * QVector3D(l - u, b/2 - e, -a/2);
     vertices[51] = position + matrix_rotation * QVector3D(u, b/2, -a/2);
 
+    //inner
+    vertices[52] = position + matrix_rotation * QVector3D(this->u, -b/2 + s, -a/2 + s);
+    vertices[53] = position + matrix_rotation * QVector3D(this->u, -b/2 + s, a/2 - s);
+
+    vertices[76] = position + matrix_rotation * QVector3D(n + b3 - s, -b/2 - r1, -a/2 + s);
+    vertices[77]= position + matrix_rotation * QVector3D(n + b3 - s, -b/2 - r1, a/2 - s);
+
+    x = 54;
+    y = 78;
+    for (int i = 0; i < 10; i++)
+    {
+        qreal angle_turn = 9.0 * i;
+
+        matrix_turn.setToIdentity();
+        matrix_turn.rotate(-angle_turn, 0.0, 0.0, 1.0);
+
+        vertices[x] = position + matrix_rotation * (matrix_turn * QVector3D(0.0, r1 + s, -a/2 + s) + QVector3D(n-r1,-b/2 -r1, 0.0));
+        vertices[y] = position + matrix_rotation * (matrix_turn * QVector3D(-r2 - s, 0.0, -a/2 + s) + QVector3D(n+b3+r2, b/2 +e-b2-r2, 0.0));
+        y++;
+        x++;
+        vertices[x] = position + matrix_rotation * (matrix_turn * QVector3D(0.0, r1 + s, a/2 - s) + QVector3D(n-r1,-b/2 -r1, 0.0));
+        vertices[y] = position + matrix_rotation * (matrix_turn * QVector3D(-r2 - s, 0.0, a/2 - s) + QVector3D(n+b3+r2, b/2 +e-b2-r2, 0.0));
+        x++;
+        y++;
+    }
+    vertices[74] = position + matrix_rotation * QVector3D(n + s, -b/2 - r1, -a/2 + s);
+    vertices[75] = position + matrix_rotation * QVector3D(n + s, -b/2 - r1, a/2 - s);
+    vertices[76] = position + matrix_rotation * QVector3D(n + b3 + r2, b/2 - e -b2 + s, -a/2 + s);
+    vertices[77] = position + matrix_rotation * QVector3D(n + b3 + r2, b/2 - e -b2 + s, a/2 - s);
+
+
+    vertices[100] = position + matrix_rotation * QVector3D(u, b/2 - s, a/2 - s);
+    vertices[101] = position + matrix_rotation * QVector3D(l - u, b/2 - e - s, a/2 - s);
+    vertices[102] = position + matrix_rotation * QVector3D(l - u, b/2 - e - s, -a/2 + s);
+    vertices[103] = position + matrix_rotation * QVector3D(u, b/2 - s, -a/2 + s);
+
 
     static GLushort indicesFaces[] = {
+        //outer
         //turn negative x
         1,0,3,2,5,4,7,6,9,8,11,10,13,12,15,14,17,16,19,18,21,20,23,22,0xABCD,
-        0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,0xABCD,
         //turn positive x
-        24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,0xABCD,
         25,24,27,26,29,28,31,30,33,32,35,34,37,36,39,38,41,40,43,42,45,44,47,46,0xABCD,
         //back side
         48,49,51,50,0xABCD,
-        49,48,50,51,0xABCD,
         //bottom
         51,50,0,46,2,44,4,42,6,40,8,38,10,36,12,34,14,32,16,30,18,28,20,26,22,24,0xABCD,
-        50,51,46,0,44,2,42,4,40,6,38,8,36,10,34,12,32,14,30,16,28,18,26,20,24,22,0xABCD,
         //top
-        48,49,1,47,3,45,5,43,7,41,9,39,11,37,13,35,15,33,17,31,19,29,21,27,23,25,0xABCD,
-        49,48,47,1,45,3,43,5,41,7,39,9,37,11,35,13,33,15,31,17,29,19,27,21,25,23,0xABCD
+        49,48,47,1,45,3,43,5,41,7,39,9,37,11,35,13,33,15,31,17,29,19,27,21,25,23,0xABCD,
+
+        //inner
+        //turn negeative x
+        52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 0xABCD,
+        //turn positive x
+        78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 76, 77, 0xABCD,
+        //back side
+        101, 100, 102, 103, 0xABCD,
+        //bottom
+        102,103,76,52,96,54,94,56,92,58,90,60,88,62,86,64,84,66,82,68,80,70,78,72,74,0xABCD,
+        //top
+        100,101,53,77,55,97,57,95,59,93,61,91,63,89,65,87,67,85,69,83,71,81,73,79,75,0xABCD
+
     };
 
     static GLushort indicesLines[] = {
+        //outer
         0,2,2,4,4,6,6,8,8,10,10,12,12,14,14,16,16,18,18,20,20,22,
         1,3,3,5,5,7,7,9,9,11,11,13,13,15,15,17,17,19,19,21,21,23,
         24,26,26,28,28,30,30,32,32,34,34,36,36,38,38,40,40,42,42,44,44,46,
         25,27,27,29,29,31,31,33,33,35,35,37,37,39,39,41,41,43,43,45,45,47,
         48,49,50,51,
         0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,
-        23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47
+        23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,
+        //inner
+        52, 54, 54, 56, 56, 58, 58, 60, 60, 62, 62, 64, 64, 66, 66, 68, 68, 70, 70, 72, 72, 74,
+        53, 55, 55, 57, 57, 59, 59, 61, 61, 63, 63, 65, 65, 67, 67 ,69, 69, 71, 71, 73, 73, 75,
+        78, 80, 80, 82, 82, 84, 84, 86, 86, 88, 88, 90, 90, 92, 92, 94, 94, 96, 96, 76,
+        79, 81, 81, 83, 83, 85, 85, 87, 87, 89, 89, 91, 91, 93, 93, 95, 95, 97, 97, 77,
+        100, 101, 102, 103,
+        52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75,
+        78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99,
+
     };
 
 

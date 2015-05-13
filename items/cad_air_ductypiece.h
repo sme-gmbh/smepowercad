@@ -54,7 +54,7 @@ public:
     CAD_basic_duct *flange_2;
     CAD_basic_duct *flange_3;
 
-    QVector3D splitPoint[2];
+    QVector3D splitPoint[4];
 
 
     QOpenGLBuffer arrayBufVertices;
