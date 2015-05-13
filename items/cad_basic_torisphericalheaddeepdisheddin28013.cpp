@@ -105,90 +105,81 @@ void CAD_Basic_TorisphericalHeadDeepDishedDIN28013::calculate()
     qreal beta = 2*0.56522249; // = 2* asin(0.346 / 0.646)
     qreal alpha = PI / 2 - beta;
 
-    QVector3D vertices[111];
+    QVector3D vertices[176];
     for(int i = 0; i < 11; i++)
     {
-        for(int j = 0; j <= 10; j++)
+        for(int j = 0; j <= 16; j++)
         {
             if(i < 7)
             {
                 qreal phi = i * beta / 12;
-                qreal psi = j * PI / 5;
-                vertices[10*i + j] = position + matrix_rotation * (QVector3D(r1 * sin(phi) * cos(psi), r1 * sin(phi) * sin(psi),r1 * cos(phi)) +
+                qreal psi = j * PI / 8;
+                vertices[16*i + j] = position + matrix_rotation * (QVector3D(r1 * sin(phi) * cos(psi), r1 * sin(phi) * sin(psi),r1 * cos(phi)) +
                                                                    QVector3D(0.0, 0.0, -b + h));
             }
             else if( i < 10)
             {
                 QMatrix4x4 matrix_turn;
                 matrix_turn.setToIdentity();
-                matrix_turn.rotate(j * 36.0, 0.0, 0.0, 1.0);
+                matrix_turn.rotate(j * 22.5, 0.0, 0.0, 1.0);
                 QVector3D offset = QVector3D(a + cos(alpha * (10 - i) / 3) * r2, 0.0, h + sin(alpha * (10 - i) / 3) * r2);
-                vertices[10*i + j] = position + matrix_rotation * matrix_turn * offset;
+                vertices[16*i + j] = position + matrix_rotation * matrix_turn * offset;
             }
             else
             {
-                vertices[10*i + j] = position + matrix_rotation * QVector3D(cos(j * PI / 5) * d/2, sin(j * PI / 5) * d/2, 0.0);
+                vertices[16*i + j] = position + matrix_rotation * QVector3D(cos(j * PI / 8) * d/2, sin(j * PI / 8) * d/2, 0.0);
             }
 
         }
     }
 
-    static GLushort indicesFaces[460];
-    for(int j = 0; j < 10; j++)
-    {
-        for(int i = 0; i < 10; i++)
-        {
-            indicesFaces[23 * j + 2 * i] = 10 * j + i;
-            indicesFaces[23 * j + 2 * i + 1] = 10 * j + i + 10;
-        }
-        indicesFaces[23 * j + 20] = 10 * j + 0;
-        indicesFaces[23 * j + 21] = 10 * j + 10;
-        indicesFaces[23 * j + 22] = 0xABCD;
-    }
-
-    for(int j = 0; j < 10; j++)
-    {
-        for(int i = 0; i < 10; i++)
-        {
-            indicesFaces[230 + 23 * j + 2 * i] = 10 * j + i + 10;
-            indicesFaces[230 + 23 * j + 2 * i + 1] = 10 * j + i;
-        }
-        indicesFaces[230 + 23 * j + 20] = 10 * j + 10;
-        indicesFaces[230 + 23 * j + 21] = 10 * j + 0;
-        indicesFaces[230 + 23 * j + 22] = 0xABCD;
-    }
-
-
-    //    for(int i = 0; i < 3; i++)
-    //    {
-    //        for(int j = 0; j < 10; j++)
-    //        {
-    //            indicesFaces[37*i + 4*j]   = 10*j + i;
-    //            indicesFaces[37*i + 4*j+1] = 10*j + i + 10;
-    //            indicesFaces[37*i + 4*j+2] = 10*j + i + 1;
-    //            indicesFaces[37*i + 4*j+3] = 10*j + i + 11;
-    //        }
-    //        indicesFaces[37*i + 36] = 0xABCD;
-    //    }
-
-    static GLushort indicesLines[420];
-    for(int i = 0; i < 11; i++)
-    {
-        for(int j = 0; j < 10; j++)
-        {
-            indicesLines[20*i+2*j] = 10*i+j;
-            indicesLines[20*i+2*j+1] = 10*i+j+1;
-        }
-        indicesLines[20*i+18] = 10*i+9;
-        indicesLines[20*i+19] = 10*i;
-    }
-
+    static GLushort indicesFaces[700];
+    //outer
     for(int i = 0; i < 10; i++)
     {
-        for(int j = 0; j < 10; j++)
+        for(int j = 0; j < 16; j++)
         {
-            indicesLines[220+20*i+2*j] = 10*j+i;
-            indicesLines[220+20*i+2*j+1] = 10*j+i+10;
+            indicesFaces[35 * i + 2 * j] = 16 * i + j;
+            indicesFaces[35 * i + 2 * j + 1] = 16 * i + j + 16;
+        }
+        indicesFaces[35 * i + 32] = 16 * i + 0;
+        indicesFaces[35 * i + 33] = 16 * i + 16;
+        indicesFaces[35 * i + 34] = 0xABCD;
+    }
+    //inner
+    for(int i = 0; i < 10; i++)
+    {
+        for(int j = 0; j < 16; j++)
+        {
+            indicesFaces[350 + 35 * i + 2 * j] = 16 * i + j + 16;
+            indicesFaces[350 + 35 * i + 2 * j + 1] = 16 * i + j;
+        }
+        indicesFaces[350 + 35 * i + 32] = 16 * i + 16;
+        indicesFaces[350 + 35 * i + 33] = 16 * i + 0;
+        indicesFaces[350 + 35 * i + 34] = 0xABCD;
+    }
+
+
+    static GLushort indicesLines[672];
+    //rings
+    for(int i = 0; i < 11; i++)
+    {
+        for(int j = 0; j <= 14; j++)
+        {
+            indicesLines[32 * i + 2 * j] = j + 16 * i;
+            indicesLines[32 * i + 2 * j + 1] = j + 16 * i + 1;
+        }
+        indicesLines[32 * i + 30] = 16 * i + 15;
+        indicesLines[32 * i + 31] = 16 * i;
+    }
+
+    //stars
+    for(int i = 0; i < 10; i++)
+    {
+        for(int j = 0; j < 16; j++)
+        {
+            indicesLines[352 + 32 * i + 2 * j] = 16 * i + j;
+            indicesLines[352 + 32 * i + 2 * j +1] = 16 * i + j + 16;
         }
     }
 
