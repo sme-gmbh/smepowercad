@@ -111,9 +111,6 @@ void CAD_basic_turn::calculate()
     int a;
     int b;
 
-    //    int count_a = 11;
-    //    int count_b = 21;
-
     QVector3D vertices[352];
     // s iteration
     QMatrix4x4 matrix_turn;
@@ -157,7 +154,7 @@ void CAD_basic_turn::calculate()
     this->snap_flanges.append(endOfTurn);
 
 
-    static GLushort indicesFaces[2*768];
+    static GLushort indicesFaces[2*770];
 
     //outer faces
     for(int j = 0; j < 10; j++)
@@ -184,66 +181,68 @@ void CAD_basic_turn::calculate()
         indicesFaces[350 + 35 * j + 34] = 0xABCD;
     }
 
+    // enddisk 1
     for(int i = 0; i < 16; i++)
     {
-        indicesFaces[700 + 2*i] = i;
-        indicesFaces[700 + 2*i + 1] = 176 + i;
+        indicesFaces[700 + 2*i] = i;                    // inner vertex
+        indicesFaces[700 + 2*i + 1] = 176 + i;          // outer vertex
     }
-    indicesFaces[732] = 0;
-    indicesFaces[733] = 176;
+    indicesFaces[732] = 0;                              // inner start/end vertex
+    indicesFaces[733] = 176;                            // outer sart/end vertex
     indicesFaces[734] = 0xABCD;
 
     for(int i = 0; i < 16; i++)
     {
-        indicesFaces[735 + 2*i] = 160 + i;
-        indicesFaces[735 + 2*i + 1] = 336 + i;
+        indicesFaces[735 + 2*i] = 160 + i;              // inner vertex
+        indicesFaces[735 + 2*i + 1] = 336 + i;          // outer vertex
     }
-    indicesFaces[765] = 160;
-    indicesFaces[766] = 336;
-    indicesFaces[767] = 0xABCD;
+    indicesFaces[767] = 160;                            // inner start/end vertex
+    indicesFaces[768] = 336;                            // outer sart/end vertex
+    indicesFaces[769] = 0xABCD;
 
     //inner faces
     for(int j = 0; j < 10; j++)
     {
         for(int i = 0; i < 16; i++)
         {
-            indicesFaces[768 + 35 * j + 2*i] = j * 16 + i + 16;
-            indicesFaces[768 + 35 * j + 2*i+1] = j * 16 + i;
+            indicesFaces[770 + 35 * j + 2*i] = j * 16 + i + 16;
+            indicesFaces[770 + 35 * j + 2*i+1] = j * 16 + i;
         }
-        indicesFaces[768 + 35 * j + 32] = j * 16 + 16;
-        indicesFaces[768 + 35 * j + 33] = j * 16 + 0;
-        indicesFaces[768 + 35 * j + 34] = 0xABCD;
+        indicesFaces[770 + 35 * j + 32] = j * 16 + 16;
+        indicesFaces[770 + 35 * j + 33] = j * 16 + 0;
+        indicesFaces[770 + 35 * j + 34] = 0xABCD;
     }
 
     for(int j = 0; j < 10; j++)
     {
         for(int i = 0; i < 16; i++)
         {
-            indicesFaces[768 + 350 + 35 * j + 2*i] = 176 + j * 16 + i + 16;
-            indicesFaces[768 + 350 + 35 * j + 2*i+1] = 176 + j * 16 + i;
+            indicesFaces[770 + 350 + 35 * j + 2*i] = 176 + j * 16 + i + 16;
+            indicesFaces[770 + 350 + 35 * j + 2*i+1] = 176 + j * 16 + i;
         }
-        indicesFaces[768 + 350 + 35 * j + 32] = 176 + j * 16 + 16;
-        indicesFaces[768 + 350 + 35 * j + 33] = 176 + j * 16 + 0;
-        indicesFaces[768 + 350 + 35 * j + 34] = 0xABCD;
+        indicesFaces[770 + 350 + 35 * j + 32] = 176 + j * 16 + 16;
+        indicesFaces[770 + 350 + 35 * j + 33] = 176 + j * 16 + 0;
+        indicesFaces[770 + 350 + 35 * j + 34] = 0xABCD;
     }
+
+    // enddisc 2
+    for(int i = 0; i < 16; i++)
+    {
+        indicesFaces[770 + 700 + 2*i] = 176 + i;        // outer vertex
+        indicesFaces[770 + 700 + 2*i + 1] = i;          // inner vertex
+    }
+    indicesFaces[770 + 732] = 176;                      // outer start/end vertex
+    indicesFaces[770 + 733] = 0;                        // inner sart/end vertex
+    indicesFaces[770 + 734] = 0xABCD;
 
     for(int i = 0; i < 16; i++)
     {
-        indicesFaces[768 + 700 + 2*i] = 176 + i;
-        indicesFaces[768 + 700 + 2*i + 1] = i;
+        indicesFaces[770 + 735 + 2*i] = 336 + i;        // outer vertex
+        indicesFaces[770 + 735 + 2*i + 1] = 160 + i;    // inner vertex
     }
-    indicesFaces[768 + 732] = 176;
-    indicesFaces[768 + 733] = 0;
-    indicesFaces[768 + 734] = 0xABCD;
-
-    for(int i = 0; i < 16; i++)
-    {
-        indicesFaces[768 + 735 + 2*i] = 336 + i;
-        indicesFaces[768 + 735 + 2*i + 1] = 160 + i;
-    }
-    indicesFaces[768 + 765] = 336;
-    indicesFaces[768 + 766] = 160;
-    indicesFaces[768 + 767] = 0xABCD;
+    indicesFaces[770 + 767] = 336;                      // outer start/end vertex
+    indicesFaces[770 + 768] = 160;                      // inner sart/end vertex
+    indicesFaces[770 + 769] = 0xABCD;
 
     static GLushort indicesLines[1760];
     //radial
@@ -462,5 +461,20 @@ void CAD_basic_turn::paint(GLWidget *glwidget)
 
 QMatrix4x4 CAD_basic_turn::rotationOfFlange(quint8 num)
 {
-    return matrix_rotation;
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(angle_turn, 0.0, 1.0, 0.0);
+        return matrix_rotation * m;
+    }
+    else
+        return matrix_rotation;
 }
