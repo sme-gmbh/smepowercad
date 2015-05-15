@@ -57,6 +57,7 @@ QList<CADitemTypes::ItemType> CAD_sprinkler_pipeEndCap::flangable_items(int flan
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Sprinkler_CompressedAirWaterContainer);
     flangable_items.append(CADitemTypes::Sprinkler_Distribution);
+    flangable_items.append(CADitemTypes::Sprinkler_Flange);
     flangable_items.append(CADitemTypes::Sprinkler_Head);
     flangable_items.append(CADitemTypes::Sprinkler_Pipe);
     flangable_items.append(CADitemTypes::Sprinkler_PipeEndCap);

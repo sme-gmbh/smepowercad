@@ -13,16 +13,17 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#ifndef CAD_mainuu_subuu_H
-#define CAD_mainuu_subuu_H
+#ifndef CAD_SPRINKLER_FLANGE_H
+#define CAD_SPRINKLER_FLANGE_H
 
 #include "caditem.h"
+#include "items/cad_basic_pipe.h"
 
-class CAD_mainul_subul : public CADitem
+class CAD_Sprinkler_Flange : public CADitem
 {
 public:
-    CAD_mainul_subul();
-    virtual ~CAD_mainul_subul();
+    CAD_Sprinkler_Flange();
+    virtual ~CAD_Sprinkler_Flange();
     virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
@@ -36,6 +37,9 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
+
+    qreal d,ff, l, fe, s;
+    CAD_basic_pipe *pipe, *flange;
 };
 
-#endif // CAD_mainuu_subuu_H
+#endif // CAD_SPRINKLER_FLANGE_H

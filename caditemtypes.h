@@ -260,6 +260,7 @@ public:
 
         Sprinkler_CompressedAirWaterContainer,  // Druckluftwasserbehälter
         Sprinkler_Distribution,                 // Verteiler
+        Sprinkler_Flange,                       // Flansch
         Sprinkler_Head,                         // Sprinklerkopf
         Sprinkler_Pipe,                         // Sprinklerrohr
         Sprinkler_PipeEndCap,                   // Rohr-Endkappe

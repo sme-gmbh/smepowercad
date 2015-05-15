@@ -277,6 +277,7 @@
 
 #include "items/cad_sprinkler_compressedairwatercontainer.h"
 #include "items/cad_sprinkler_distribution.h"
+#include "items/cad_sprinkler_flange.h"
 #include "items/cad_sprinkler_head.h"
 #include "items/cad_sprinkler_pipe.h"
 #include "items/cad_sprinkler_pipeendcap.h"

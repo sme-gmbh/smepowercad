@@ -1025,6 +1025,9 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Sprinkler_Distribution:
         newItem = new CAD_sprinkler_distribution();
         break;
+    case CADitemTypes::Sprinkler_Flange:
+        newItem = new CAD_Sprinkler_Flange();
+        break;
     case CADitemTypes::Sprinkler_Head:
         newItem = new CAD_sprinkler_head();
         break;

@@ -38,7 +38,7 @@ void main()
         vec3 v2 = vec3(vVertexPosition[2].x, vVertexPosition[2].y, vVertexPosition[2].z);
         vec3 normal = normalize(cross(v1 - v0, v2 - v0));
         //calculate Color transformation
-        float transformation = 0.3 * normal.z + 0.7;
+        float transformation = 0.25 * normal.z + 0.05 * normal.x + 0.7;
         mat4 m = mat4(transformation, 0.0, 0.0, 0.0,
                       0.0, transformation, 0.0, 0.0,
                       0.0, 0.0, transformation, 0.0,

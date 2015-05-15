@@ -308,7 +308,8 @@ SOURCES += main.cpp\
     items/cad_gas_vacpipeturn.cpp \
     items/cad_sprinkler_pipeteeconnector.cpp \
     items/cad_heatcool_32wayvalve.cpp \
-    restorepoint.cpp
+    restorepoint.cpp \
+    items/cad_sprinkler_flange.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -578,7 +579,8 @@ HEADERS  += mainwindow.h \
     items/cad_gas_vacpipeturn.h \
     items/cad_sprinkler_pipeteeconnector.h \
     items/cad_heatcool_32wayvalve.h \
-    restorepoint.h
+    restorepoint.h \
+    items/cad_sprinkler_flange.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
@@ -608,4 +610,5 @@ OTHER_FILES += \
     shaders/shader_2.vert
 
 DISTFILES += \
-    shaders/shader_1.frag
+    shaders/shader_1.frag \
+    itemGraphic/cad_sprinkler_flange.dxf

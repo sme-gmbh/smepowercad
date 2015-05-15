@@ -378,6 +378,8 @@
         <file>itemGraphic/cad_sprinkler_pump.png</file>
         <file>itemGraphic/cad_air_ductfireresistant.png</file>
         <file>itemGraphic/cad_arch_boredpile.png</file>
+        <file>icons/cad_sprinkler/cad_sprinkler_flange.svg</file>
+        <file>itemGraphic/cad_sprinkler_flange.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/check.svg</file>

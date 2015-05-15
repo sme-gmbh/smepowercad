@@ -64,6 +64,7 @@ QList<CADitemTypes::ItemType> CAD_sprinkler_pump::flangable_items(int flangeInde
     {
         flangable_items.append(CADitemTypes::Sprinkler_CompressedAirWaterContainer);
         flangable_items.append(CADitemTypes::Sprinkler_Distribution);
+        flangable_items.append(CADitemTypes::Sprinkler_Flange);
         flangable_items.append(CADitemTypes::Sprinkler_Head);
         flangable_items.append(CADitemTypes::Sprinkler_Pipe);
         flangable_items.append(CADitemTypes::Sprinkler_PipeEndCap);
@@ -132,7 +133,7 @@ void CAD_sprinkler_pump::calculate()
     pipe_left->processWizardInput();
     pipe_left->calculate();
 
-    QVector3D position_upper = position + matrix_rotation * QVector3D(0.0, e, d4 + a);
+    QVector3D position_upper = position + matrix_rotation * QVector3D(0.0, e, d4/2);
     pipe_upper->wizardParams.insert("Position x", position_upper.x());
     pipe_upper->wizardParams.insert("Position y", position_upper.y());
     pipe_upper->wizardParams.insert("Position z", position_upper.z());
@@ -144,7 +145,7 @@ void CAD_sprinkler_pump::calculate()
     pipe_upper->wizardParams.insert("s",  s);
     pipe_upper->layer = this->layer;
     pipe_upper->processWizardInput();
-    pipe_upper->rotateAroundAxis(90.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
+    pipe_upper->rotateAroundAxis(-90.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
     pipe_upper->calculate();
 
     QVector3D position_axis = position + matrix_rotation * QVector3D(l2/2 + l3, 0.0, d4/2);
@@ -224,10 +225,11 @@ QMatrix4x4 CAD_sprinkler_pump::rotationOfFlange(quint8 num)
     }
     else if(num == 2)
     {
-        QMatrix4x4 m;
-        m.setToIdentity();
-        m.rotate(90.0, 0.0, 1.0, 0.0);
-        return matrix_rotation * m;
+//        QMatrix4x4 m;
+//        m.setToIdentity();
+//        m.rotate(90.0, 0.0, 1.0, 0.0);
+//        return matrix_rotation * m;
+        return pipe_upper->matrix_rotation;
     }
     else
         return matrix_rotation;

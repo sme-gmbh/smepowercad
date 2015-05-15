@@ -13,10 +13,10 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#include "cad_heatcool_flange.h"
-#include "itemdb.h"
+#include "cad_sprinkler_flange.h"
+#include "glwidget.h"
 
-CAD_heatcool_flange::CAD_heatcool_flange() : CADitem(CADitemTypes::HeatCool_Flange)
+CAD_Sprinkler_Flange::CAD_Sprinkler_Flange() : CADitem(CADitemTypes::Sprinkler_Flange)
 {
     pipe = new CAD_basic_pipe;
     flange = new CAD_basic_pipe;
@@ -36,91 +36,79 @@ CAD_heatcool_flange::CAD_heatcool_flange() : CADitem(CADitemTypes::HeatCool_Flan
     wizardParams.insert("l",  100.0);
     wizardParams.insert("s",    5.0);
 
+//    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+//    arrayBufVertices.create();
+//    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+//    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+//    indexBufFaces.create();
+//    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+//    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+//    indexBufLines.create();
+//    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
+   
     processWizardInput();
     calculate();
 }
 
-CAD_heatcool_flange::~CAD_heatcool_flange()
+CAD_Sprinkler_Flange::~CAD_Sprinkler_Flange()
 {
-
+//    arrayBufVertices.destroy();
+//    indexBufFaces.destroy();
+//    indexBufLines.destroy();
 }
 
-QList<CADitemTypes::ItemType> CAD_heatcool_flange::flangable_items(int flangeIndex)
+QList<CADitemTypes::ItemType> CAD_Sprinkler_Flange::flangable_items(int flangeIndex)
 {
     Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
-    flangable_items.append(CADitemTypes::HeatCool_Adjustvalve);
-    flangable_items.append(CADitemTypes::HeatCool_BallValve);
-    flangable_items.append(CADitemTypes::HeatCool_Boiler);
-    flangable_items.append(CADitemTypes::HeatCool_ButterflyValveBolted);
-    flangable_items.append(CADitemTypes::HeatCool_ButterflyValveClamped);
-    flangable_items.append(CADitemTypes::HeatCool_Chiller);
-    flangable_items.append(CADitemTypes::HeatCool_Controlvalve);
-    flangable_items.append(CADitemTypes::HeatCool_CoolingTower);
-    flangable_items.append(CADitemTypes::HeatCool_DirtArrester);
-    flangable_items.append(CADitemTypes::HeatCool_ExpansionChamber);
-    flangable_items.append(CADitemTypes::HeatCool_Filter);
-    flangable_items.append(CADitemTypes::HeatCool_Flange);
-    flangable_items.append(CADitemTypes::HeatCool_Flowmeter);
-    flangable_items.append(CADitemTypes::HeatCool_Gauge);
-    flangable_items.append(CADitemTypes::HeatCool_Gauge90Degree);
-    flangable_items.append(CADitemTypes::HeatCool_HeatexchangerSoldered);
-    flangable_items.append(CADitemTypes::HeatCool_HeatexchangerBolted);
-    flangable_items.append(CADitemTypes::HeatCool_NonReturnFlap);
-    flangable_items.append(CADitemTypes::HeatCool_NonReturnValve);
-    flangable_items.append(CADitemTypes::HeatCool_Pipe);
-    flangable_items.append(CADitemTypes::HeatCool_PipeEndCap);
-    flangable_items.append(CADitemTypes::HeatCool_PipeReducer);
-    flangable_items.append(CADitemTypes::HeatCool_PipeTeeConnector);
-    flangable_items.append(CADitemTypes::HeatCool_PipeTurn);
-    flangable_items.append(CADitemTypes::HeatCool_PumpInline);
-    flangable_items.append(CADitemTypes::HeatCool_PumpNorm);
-    flangable_items.append(CADitemTypes::HeatCool_Radiator);
-    flangable_items.append(CADitemTypes::HeatCool_RadiatorCompact);
-    flangable_items.append(CADitemTypes::HeatCool_RadiatorFlange);
-    flangable_items.append(CADitemTypes::HeatCool_RadiatorFlangeBent);
-    flangable_items.append(CADitemTypes::HeatCool_RadiatorValve);
-    flangable_items.append(CADitemTypes::HeatCool_SafetyValve);
-    flangable_items.append(CADitemTypes::HeatCool_Sensor);
-    flangable_items.append(CADitemTypes::HeatCool_StorageBoiler);
-    flangable_items.append(CADitemTypes::HeatCool_Valve);
-    flangable_items.append(CADitemTypes::HeatCool_Valve90Degree);
-    flangable_items.append(CADitemTypes::HeatCool_WaterHeater);
+    if (flangeIndex == 1)
+    {
+        flangable_items.append(CADitemTypes::Sprinkler_Pipe);
+        flangable_items.append(CADitemTypes::Sprinkler_PipeEndCap);
+        flangable_items.append(CADitemTypes::Sprinkler_PipeReducer);
+        flangable_items.append(CADitemTypes::Sprinkler_PipeTurn);
+        flangable_items.append(CADitemTypes::Sprinkler_PipeTeeConnector);
+    }
+    else if (flangeIndex == 2)
+    {
+        flangable_items.append(CADitemTypes::Sprinkler_Flange);
+        flangable_items.append(CADitemTypes::Sprinkler_Distribution);
+    }
     return flangable_items;
 }
 
-QImage CAD_heatcool_flange::wizardImage()
+QImage CAD_Sprinkler_Flange::wizardImage()
 {
     QImage image;
     QFileInfo fileinfo(__FILE__);
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-
-    ;
-
+                    
     image.load(imageFileName, "PNG");
-
+                       
     return image;
 }
 
-QString CAD_heatcool_flange::iconPath()
+QString CAD_Sprinkler_Flange::iconPath()
 {
-    return ":/icons/cad_heatcool/cad_heatcool_flange.svg";
+    return ":/icons/cad_sprinkler/cad_sprinkler_flange.svg";
 }
 
-QString CAD_heatcool_flange::domain()
+QString CAD_Sprinkler_Flange::domain()
 {
-    return "HeatCool";
+    return "Sprinkler";
 }
 
-QString CAD_heatcool_flange::description()
+QString CAD_Sprinkler_Flange::description()
 {
-    return "HeatCool|Flange";
+    return "Sprinkler|Flange";
 }
 
-void CAD_heatcool_flange::calculate()
-{
+void CAD_Sprinkler_Flange::calculate()
+{                
     boundingBox.reset();
 
     this->snap_flanges.clear();
@@ -161,7 +149,7 @@ void CAD_heatcool_flange::calculate()
     this->snap_flanges = pipe->snap_flanges;
 }
 
-void CAD_heatcool_flange::processWizardInput()
+void CAD_Sprinkler_Flange::processWizardInput()
 {
     position.setX(wizardParams.value("Position x").toDouble());
     position.setY(wizardParams.value("Position y").toDouble());
@@ -180,10 +168,9 @@ void CAD_heatcool_flange::processWizardInput()
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
     matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-
 }
 
-QMatrix4x4 CAD_heatcool_flange::rotationOfFlange(quint8 num)
+QMatrix4x4 CAD_Sprinkler_Flange::rotationOfFlange(quint8 num)
 {
     if(num == 1)
     {
@@ -199,3 +186,35 @@ QMatrix4x4 CAD_heatcool_flange::rotationOfFlange(quint8 num)
     else
         return matrix_rotation;
 }
+
+//void CAD_Sprinkler_Flange::paint(GLWidget *glwidget)
+//{
+//    QColor color_pen_tmp = getColorPen();
+//    QColor color_brush_tmp = getColorBrush();
+
+//    arrayBufVertices.bind();
+//    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
+//    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
+
+//    if (glwidget->render_solid)
+//    {
+//        glwidget->setPaintingColor(color_brush_tmp);
+
+//        indexBufFaces.bind();
+//        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces.size(), GL_UNSIGNED_SHORT, 0);
+
+//        indexBufFaces.release();
+//    }
+
+//    if (glwidget->render_outline)
+//    {
+//        glwidget->setPaintingColor(color_pen_tmp);
+//        glwidget->glLineWidth(1.0);
+                                      
+//        indexBufLines.bind();
+//        glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
+//        indexBufLines.release();
+//     }                          
+                                                                                           
+//     arrayBufVertices.release();
+//}
