@@ -309,7 +309,8 @@ SOURCES += main.cpp\
     items/cad_sprinkler_pipeteeconnector.cpp \
     items/cad_heatcool_32wayvalve.cpp \
     restorepoint.cpp \
-    items/cad_sprinkler_flange.cpp
+    items/cad_sprinkler_flange.cpp \
+    math/mintersection.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -580,7 +581,8 @@ HEADERS  += mainwindow.h \
     items/cad_sprinkler_pipeteeconnector.h \
     items/cad_heatcool_32wayvalve.h \
     restorepoint.h \
-    items/cad_sprinkler_flange.h
+    items/cad_sprinkler_flange.h \
+    math/mintersection.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

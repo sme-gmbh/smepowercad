@@ -13,6 +13,7 @@ MAngleCalculations::~MAngleCalculations()
 //calculates a set of kardan angles, which describe the same rotation as given by matrix_rotation
 QVector3D MAngleCalculations::anglesFromMatrix(QMatrix4x4 matrix_rotation)
 {
+    //compare to: http://staff.city.ac.uk/~sbbh653/publications/euler.pdf
 //    qDebug() << "original: " << matrix_rotation;
     qreal r11 = matrix_rotation.row(0).x();
     qreal r21 = matrix_rotation.row(1).x();
