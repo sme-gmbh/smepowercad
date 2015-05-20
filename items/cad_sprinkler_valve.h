@@ -17,6 +17,7 @@
 #define CAD_SPRINKLER_VALVE_H
 
 #include "caditem.h"
+#include "items/cad_basic_pipe.h"
 
 class CAD_sprinkler_valve : public CADitem
 {
@@ -31,6 +32,10 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
+
+    qreal alpha, d, d3, d4, fe, ff, l, l2,l3, s;
+    CAD_basic_pipe *pipe, *flange_left, *flange_right;
+    CAD_basic_pipe *valve_1, *valve_2;
 };
 
 #endif // CAD_SPRINKLER_VALVE_H

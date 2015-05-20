@@ -14,10 +14,21 @@
 **********************************************************************/
 
 #include "cad_sprinkler_valve.h"
-#include "itemdb.h"
+#include "glwidget.h"
 
 CAD_sprinkler_valve::CAD_sprinkler_valve() : CADitem(CADitemTypes::Sprinkler_Valve)
 {
+    pipe = new CAD_basic_pipe;
+    flange_left = new CAD_basic_pipe;
+    flange_right = new CAD_basic_pipe;
+    valve_1 = new CAD_basic_pipe;
+    valve_2 = new CAD_basic_pipe;
+    this->subItems.append(pipe);
+    this->subItems.append(flange_left);
+    this->subItems.append(flange_right);
+    this->subItems.append(valve_1);
+    this->subItems.append(valve_2);
+
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -25,34 +36,40 @@ CAD_sprinkler_valve::CAD_sprinkler_valve() : CADitem(CADitemTypes::Sprinkler_Val
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    processWizardInput();
-    calculate();
+    wizardParams.insert("alpha", 90.0);
+    wizardParams.insert("d",  150.0);
+    wizardParams.insert("d3", 100.0);
+    wizardParams.insert("d4", 150.0);
+    wizardParams.insert("fe",  10.0);
+    wizardParams.insert("ff",  10.0);
+    wizardParams.insert("l",  500.0);
+    wizardParams.insert("l2", 300.0);
+    wizardParams.insert("l3", 200.0);
+    wizardParams.insert("s",   10.0);
 }
 
 CAD_sprinkler_valve::~CAD_sprinkler_valve()
 {
-
+//    arrayBufVertices.destroy();
+//    indexBufFaces.destroy();
+//    indexBufLines.destroy();
 }
 
 QList<CADitemTypes::ItemType> CAD_sprinkler_valve::flangable_items(int flangeIndex)
 {
     Q_UNUSED(flangeIndex);
-    QList<CADitemTypes::ItemType> flangable_items;
-    flangable_items.append(CADitemTypes::Sprinkler_CompressedAirWaterContainer);
-    flangable_items.append(CADitemTypes::Sprinkler_Distribution);
-    flangable_items.append(CADitemTypes::Sprinkler_Flange);
-    flangable_items.append(CADitemTypes::Sprinkler_Head);
-    flangable_items.append(CADitemTypes::Sprinkler_Pipe);
-    flangable_items.append(CADitemTypes::Sprinkler_PipeEndCap);
-    flangable_items.append(CADitemTypes::Sprinkler_PipeReducer);
-    flangable_items.append(CADitemTypes::Sprinkler_PipeTurn);
-    flangable_items.append(CADitemTypes::Sprinkler_Pump);
-    flangable_items.append(CADitemTypes::Sprinkler_PipeTeeConnector);
-    flangable_items.append(CADitemTypes::Sprinkler_Valve);
-    flangable_items.append(CADitemTypes::Sprinkler_WetAlarmValve);
-    flangable_items.append(CADitemTypes::Sprinkler_ZoneCheck);
-
-    return flangable_items;
+    if(flangeIndex == 3)
+    {
+        QList<CADitemTypes::ItemType> flangable_items;
+        //handles
+        return flangable_items;
+    }
+    else
+    {
+        QList<CADitemTypes::ItemType> flangable_items;
+        //pipes
+        return flangable_items;
+    }
 }
 
 QImage CAD_sprinkler_valve::wizardImage()
@@ -62,8 +79,6 @@ QImage CAD_sprinkler_valve::wizardImage()
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-
-    ;
 
     image.load(imageFileName, "PNG");
 
@@ -99,6 +114,84 @@ void CAD_sprinkler_valve::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+
+    pipe->wizardParams.insert("Position x", position.x());
+    pipe->wizardParams.insert("Position y", position.y());
+    pipe->wizardParams.insert("Position z", position.z());
+    pipe->wizardParams.insert("Angle x", angle_x);
+    pipe->wizardParams.insert("Angle y", angle_y);
+    pipe->wizardParams.insert("Angle z", angle_z);
+    pipe->wizardParams.insert("l", l);
+    pipe->wizardParams.insert("d", d);
+    pipe->wizardParams.insert("s",  s);
+    pipe->layer = this->layer;
+    pipe->processWizardInput();
+    pipe->calculate();
+
+    flange_left->wizardParams.insert("Position x", position.x());
+    flange_left->wizardParams.insert("Position y", position.y());
+    flange_left->wizardParams.insert("Position z", position.z());
+    flange_left->wizardParams.insert("Angle x", angle_x);
+    flange_left->wizardParams.insert("Angle y", angle_y);
+    flange_left->wizardParams.insert("Angle z", angle_z);
+    flange_left->wizardParams.insert("l", fe);
+    flange_left->wizardParams.insert("d", d + 2 * ff);
+    flange_left->wizardParams.insert("s",  ff);
+    flange_left->layer = this->layer;
+    flange_left->processWizardInput();
+    flange_left->calculate();
+
+    QVector3D position_flange = position + matrix_rotation * QVector3D(l - fe, 0.0, 0.0);
+    flange_right->wizardParams.insert("Position x", position_flange.x());
+    flange_right->wizardParams.insert("Position y", position_flange.y());
+    flange_right->wizardParams.insert("Position z", position_flange.z());
+    flange_right->wizardParams.insert("Angle x", angle_x);
+    flange_right->wizardParams.insert("Angle y", angle_y);
+    flange_right->wizardParams.insert("Angle z", angle_z);
+    flange_right->wizardParams.insert("l", fe);
+    flange_right->wizardParams.insert("d", d + 2 * ff);
+    flange_right->wizardParams.insert("s",  ff);
+    flange_right->layer = this->layer;
+    flange_right->processWizardInput();
+    flange_right->calculate();
+
+    QVector3D position_v1 = position + matrix_rotation * QVector3D(l/2, 0.0, 0.0);
+    valve_1->wizardParams.insert("Position x", position_v1.x());
+    valve_1->wizardParams.insert("Position y", position_v1.y());
+    valve_1->wizardParams.insert("Position z", position_v1.z());
+    valve_1->wizardParams.insert("Angle x", angle_x);
+    valve_1->wizardParams.insert("Angle y", angle_y);
+    valve_1->wizardParams.insert("Angle z", angle_z);
+    valve_1->wizardParams.insert("l", l2);
+    valve_1->wizardParams.insert("d", d4);
+    valve_1->wizardParams.insert("s",  d4/2);
+    valve_1->layer = this->layer;
+    valve_1->processWizardInput();
+    valve_1->rotateAroundAxis(-alpha, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
+    valve_1->calculate();
+
+    QVector3D position_v2 = position + matrix_rotation * QVector3D(l/2 + cos(alpha / 180.0 * PI) * l2, 0.0, sin(alpha / 180.0 * PI) * l2);
+    valve_2->wizardParams.insert("Position x", position_v2.x());
+    valve_2->wizardParams.insert("Position y", position_v2.y());
+    valve_2->wizardParams.insert("Position z", position_v2.z());
+    valve_2->wizardParams.insert("Angle x", angle_x);
+    valve_2->wizardParams.insert("Angle y", angle_y);
+    valve_2->wizardParams.insert("Angle z", angle_z);
+    valve_2->wizardParams.insert("l", l3);
+    valve_2->wizardParams.insert("d", d3);
+    valve_2->wizardParams.insert("s",  d3/2);
+    valve_2->layer = this->layer;
+    valve_2->processWizardInput();
+    valve_2->rotateAroundAxis(-alpha, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
+    valve_2->calculate();
+
+    this->boundingBox = flange_left->boundingBox;
+    this->boundingBox.enterVertices(flange_right->boundingBox.getVertices());
+    this->boundingBox.enterVertices(valve_1->boundingBox.getVertices());
+    this->boundingBox.enterVertices(valve_2->boundingBox.getVertices());
+
+    this->snap_flanges = pipe->snap_flanges;
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l / 2 + cos(alpha / 180.0 * PI) * (l2 + l3), 0.0, sin(alpha / 180.0 * PI) * (l2 + l3)));
 }
 
 void CAD_sprinkler_valve::processWizardInput()
@@ -109,9 +202,65 @@ void CAD_sprinkler_valve::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+
+    alpha = wizardParams.value("alpha").toDouble();
+    d = wizardParams.value("d").toDouble();
+    d3 = wizardParams.value("d3").toDouble();
+    d4 = wizardParams.value("d4").toDouble();
+    fe = wizardParams.value("fe").toDouble();
+    ff = wizardParams.value("ff").toDouble();
+    l = wizardParams.value("l").toDouble();
+    l2  =wizardParams.value("l2").toDouble();
+    l3  =wizardParams.value("l3").toDouble();
+    s  =wizardParams.value("s").toDouble();
 }
+
+//void CAD_sprinkler_valve::paint(GLWidget *glwidget)
+//{
+//    QColor color_pen_tmp = getColorPen();
+//    QColor color_brush_tmp = getColorBrush();
+
+//    arrayBufVertices.bind();
+//    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
+//    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
+
+//    if (glwidget->render_solid)
+//    {
+//        glwidget->setPaintingColor(color_brush_tmp);
+
+//        indexBufFaces.bind();
+//        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces.size(), GL_UNSIGNED_SHORT, 0);
+
+//        indexBufFaces.release();
+//    }
+
+//    if (glwidget->render_outline)
+//    {
+//        glwidget->setPaintingColor(color_pen_tmp);
+//        glwidget->glLineWidth(1.0);
+
+//        indexBufLines.bind();
+//        glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
+//        indexBufLines.release();
+//     }
+
+//     arrayBufVertices.release();
+//}
 
 QMatrix4x4 CAD_sprinkler_valve::rotationOfFlange(quint8 num)
 {
-    return matrix_rotation;
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        return matrix_rotation;
+    }
+    else
+        return matrix_rotation;
 }
