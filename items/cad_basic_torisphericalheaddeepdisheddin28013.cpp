@@ -133,7 +133,7 @@ void CAD_Basic_TorisphericalHeadDeepDishedDIN28013::calculate()
         }
     }
 
-    static GLushort indicesFaces[700];
+    static GLushort indicesFaces[350];
     //outer
     for(int i = 0; i < 10; i++)
     {
@@ -146,18 +146,7 @@ void CAD_Basic_TorisphericalHeadDeepDishedDIN28013::calculate()
         indicesFaces[35 * i + 33] = 16 * i + 16;
         indicesFaces[35 * i + 34] = 0xABCD;
     }
-    //inner
-    for(int i = 0; i < 10; i++)
-    {
-        for(int j = 0; j < 16; j++)
-        {
-            indicesFaces[350 + 35 * i + 2 * j] = 16 * i + j + 16;
-            indicesFaces[350 + 35 * i + 2 * j + 1] = 16 * i + j;
-        }
-        indicesFaces[350 + 35 * i + 32] = 16 * i + 16;
-        indicesFaces[350 + 35 * i + 33] = 16 * i + 0;
-        indicesFaces[350 + 35 * i + 34] = 0xABCD;
-    }
+
 
 
     static GLushort indicesLines[672];

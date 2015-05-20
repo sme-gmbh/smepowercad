@@ -121,7 +121,7 @@ void CAD_basic_circle::calculate()
     }
     vertices[16] = this->center;
 
-    GLushort indicesFaces[70];
+    GLushort indicesFaces[35];
     for(int i = 0; i < 16; i++)
     {
         indicesFaces[2 * i] = i;
@@ -130,15 +130,6 @@ void CAD_basic_circle::calculate()
     indicesFaces[32] = 0;
     indicesFaces[33] = 16;
     indicesFaces[34] = 0xABCD;
-    for(int i = 0; i < 16; i++)
-    {
-        indicesFaces[35 + 2 * i] = 16;
-        indicesFaces[35 + 2 * i + 1] = i;
-    }
-    indicesFaces[67] = 16;
-    indicesFaces[68] = 0;
-    indicesFaces[69] = 0xABCD;
-
 
     GLushort indicesLines[32];
     for(int i = 0; i < 16; i++)

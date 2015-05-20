@@ -107,7 +107,7 @@ void CAD_basic_sphere::calculate()
         {
             qreal phi = i * PI / 10;
             qreal psi = j * PI / 5;
-            vertices[10*i + j] = position + QVector3D(r * sin(phi) * cos(psi), r * sin(phi) * sin(psi), r * cos(phi));
+            vertices[10*i + j] = position + matrix_rotation * QVector3D(r * sin(phi) * cos(psi), r * sin(phi) * sin(psi), r * cos(phi));
         }
     }
 

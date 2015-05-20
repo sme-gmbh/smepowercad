@@ -1025,7 +1025,7 @@ void GLWidget::paintGL()
     glClearColor(_backgroundColor.redF(), _backgroundColor.greenF(), _backgroundColor.blueF(), _backgroundColor.alphaF());
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_MULTISAMPLE);
-    glEnable(GL_CULL_FACE);
+    glDisable(GL_CULL_FACE);
     glDepthFunc(GL_LEQUAL);
     glDepthRange(1,0);
     glPolygonOffset(0.0, 3.0);
@@ -1034,7 +1034,6 @@ void GLWidget::paintGL()
     glEnable(GL_ALPHA_TEST);
 
     paintContent(itemDB->layers);   // After this: TRIANGLE SHADER IS ACTIVE!
-    glDisable(GL_CULL_FACE);
     // Overlay
     shaderProgram = shaderProgram_overlay;
     shaderProgram->bind();

@@ -154,7 +154,7 @@ void CAD_basic_turn::calculate()
     this->snap_flanges.append(endOfTurn);
 
 
-    static GLushort indicesFaces[2*770];
+    static GLushort indicesFaces[770];
 
     //outer faces
     for(int j = 0; j < 10; j++)
@@ -169,28 +169,30 @@ void CAD_basic_turn::calculate()
         indicesFaces[35 * j + 34] = 0xABCD;
     }
 
+    //inner faces
     for(int j = 0; j < 10; j++)
     {
         for(int i = 0; i < 16; i++)
         {
-            indicesFaces[350 + 35 * j + 2*i] = 176 + j * 16 + i;
-            indicesFaces[350 + 35 * j + 2*i+1] = 176 + j * 16 + i + 16;
+            indicesFaces[350 + 35 * j + 2*i] = 176 + j * 16 + i + 16;
+            indicesFaces[350 + 35 * j + 2*i+1] = 176 + j * 16 + i;
         }
-        indicesFaces[350 + 35 * j + 32] = 176 + j * 16 + 0;
-        indicesFaces[350 + 35 * j + 33] = 176 + j * 16 + 16;
+        indicesFaces[350 + 35 * j + 32] = 176 + j * 16 + 16;
+        indicesFaces[350 + 35 * j + 33] = 176 + j * 16;
         indicesFaces[350 + 35 * j + 34] = 0xABCD;
     }
 
     // enddisk 1
     for(int i = 0; i < 16; i++)
     {
-        indicesFaces[700 + 2*i] = i;                    // inner vertex
-        indicesFaces[700 + 2*i + 1] = 176 + i;          // outer vertex
+        indicesFaces[700 + 2*i] = 176 + i;              // outer vertex
+        indicesFaces[700 + 2*i + 1] = i;                // inner vertex
     }
-    indicesFaces[732] = 0;                              // inner start/end vertex
-    indicesFaces[733] = 176;                            // outer sart/end vertex
+    indicesFaces[732] = 176;                            // outer start/end vertex
+    indicesFaces[733] = 0;                              // inner sart/end vertex
     indicesFaces[734] = 0xABCD;
 
+    // enddisk 2
     for(int i = 0; i < 16; i++)
     {
         indicesFaces[735 + 2*i] = 160 + i;              // inner vertex
@@ -199,50 +201,6 @@ void CAD_basic_turn::calculate()
     indicesFaces[767] = 160;                            // inner start/end vertex
     indicesFaces[768] = 336;                            // outer sart/end vertex
     indicesFaces[769] = 0xABCD;
-
-    //inner faces
-    for(int j = 0; j < 10; j++)
-    {
-        for(int i = 0; i < 16; i++)
-        {
-            indicesFaces[770 + 35 * j + 2*i] = j * 16 + i + 16;
-            indicesFaces[770 + 35 * j + 2*i+1] = j * 16 + i;
-        }
-        indicesFaces[770 + 35 * j + 32] = j * 16 + 16;
-        indicesFaces[770 + 35 * j + 33] = j * 16 + 0;
-        indicesFaces[770 + 35 * j + 34] = 0xABCD;
-    }
-
-    for(int j = 0; j < 10; j++)
-    {
-        for(int i = 0; i < 16; i++)
-        {
-            indicesFaces[770 + 350 + 35 * j + 2*i] = 176 + j * 16 + i + 16;
-            indicesFaces[770 + 350 + 35 * j + 2*i+1] = 176 + j * 16 + i;
-        }
-        indicesFaces[770 + 350 + 35 * j + 32] = 176 + j * 16 + 16;
-        indicesFaces[770 + 350 + 35 * j + 33] = 176 + j * 16 + 0;
-        indicesFaces[770 + 350 + 35 * j + 34] = 0xABCD;
-    }
-
-    // enddisc 2
-    for(int i = 0; i < 16; i++)
-    {
-        indicesFaces[770 + 700 + 2*i] = 176 + i;        // outer vertex
-        indicesFaces[770 + 700 + 2*i + 1] = i;          // inner vertex
-    }
-    indicesFaces[770 + 732] = 176;                      // outer start/end vertex
-    indicesFaces[770 + 733] = 0;                        // inner sart/end vertex
-    indicesFaces[770 + 734] = 0xABCD;
-
-    for(int i = 0; i < 16; i++)
-    {
-        indicesFaces[770 + 735 + 2*i] = 336 + i;        // outer vertex
-        indicesFaces[770 + 735 + 2*i + 1] = 160 + i;    // inner vertex
-    }
-    indicesFaces[770 + 767] = 336;                      // outer start/end vertex
-    indicesFaces[770 + 768] = 160;                      // inner sart/end vertex
-    indicesFaces[770 + 769] = 0xABCD;
 
     static GLushort indicesLines[1760];
     //radial

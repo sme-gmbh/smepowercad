@@ -111,7 +111,7 @@ void CAD_basic_plane::calculate()
     };
 
     static GLushort indicesFaces[] = {
-        2,3,1,0,0xABCD, 3,2,0,1
+        2,3,1,0
     };
 
     static GLushort indicesLines[] = {

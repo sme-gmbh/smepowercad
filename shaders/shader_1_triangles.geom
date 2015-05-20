@@ -16,6 +16,7 @@
 
 layout ( triangles ) in;
 layout ( triangle_strip, max_vertices = 3 ) out;
+layout ( location = 0) uniform mat4x4 Matrix;
 layout ( location = 48) uniform bool is_Selection;
 
 
@@ -29,7 +30,7 @@ out vec4 gVertexPosition;
 
 void main()
 {
-    vec4 c[3];
+    vec4 c[3];  //output color
     if (!is_Selection)
     {
         //calculate normal
@@ -37,8 +38,14 @@ void main()
         vec3 v1 = vec3(vVertexPosition[1].x, vVertexPosition[1].y, vVertexPosition[1].z);
         vec3 v2 = vec3(vVertexPosition[2].x, vVertexPosition[2].y, vVertexPosition[2].z);
         vec3 normal = normalize(cross(v1 - v0, v2 - v0));
-        //calculate Color transformation
-        float transformation = 0.25 * normal.z + 0.05 * normal.x + 0.7;
+        vec3 light = normalize(vec3(0.05, 0.0, 0.25));
+        float facesLight = dot(light, normal);     //indicates whether this triangle faces the lightsource or not.
+        float facesCamera = normalize(Matrix * vec4(normal, 0.0)).z;     //indicates whether this triangle faces the camera.
+        float transformation;
+        if (facesCamera > 0.0)
+            transformation = 0.8 + 0.2 * facesLight;
+        else
+            transformation = 0.8 - 0.2 * facesLight;
         mat4 m = mat4(transformation, 0.0, 0.0, 0.0,
                       0.0, transformation, 0.0, 0.0,
                       0.0, 0.0, transformation, 0.0,

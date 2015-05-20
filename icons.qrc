@@ -380,6 +380,7 @@
         <file>itemGraphic/cad_arch_boredpile.png</file>
         <file>icons/cad_sprinkler/cad_sprinkler_flange.svg</file>
         <file>itemGraphic/cad_sprinkler_flange.png</file>
+        <file>itemGraphic/cad_sprinkler_valve.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/check.svg</file>
