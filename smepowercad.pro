@@ -32,7 +32,7 @@ MOC_DIR = .moc/
 UI_DIR = .ui/
 RCC_DIR = .rcc/
 
-LIBS += -lGLU -lX11
+LIBS += -lGLU -lX11 -ldxfrw
 
 TRANSLATIONS =  lang/powercad-de_DE.ts \
                 lang/powercad-ru_RU.ts
@@ -310,7 +310,8 @@ SOURCES += main.cpp\
     items/cad_heatcool_32wayvalve.cpp \
     restorepoint.cpp \
     items/cad_sprinkler_flange.cpp \
-    math/mintersection.cpp
+    math/mintersection.cpp \
+    dxfreaderinterface.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -582,7 +583,8 @@ HEADERS  += mainwindow.h \
     items/cad_heatcool_32wayvalve.h \
     restorepoint.h \
     items/cad_sprinkler_flange.h \
-    math/mintersection.h
+    math/mintersection.h \
+    dxfreaderinterface.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

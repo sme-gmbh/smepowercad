@@ -106,6 +106,7 @@ protected:
 public slots:
     void slot_file_open_action();
     void slot_file_open_dxf(QString filename);
+    void slot_file_open_dxf_with_libdxfrw(QString filename);
     void slot_file_open_xml(QString filename);
     void slot_file_save_action();
     void slot_file_save_as_action();

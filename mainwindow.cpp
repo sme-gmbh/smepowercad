@@ -17,12 +17,15 @@
 #include <QFileDialog>
 #include <QToolBar>
 #include <QPrinter>
+#include <libdxfrw0/drw_interface.h>
+#include <libdxfrw0/libdxfrw.h>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "dxflib/src/dl_dxf.h"
 #include "dxflib/src/dl_creationadapter.h"
 #include "creationinterface.h"
 #include "toolwidget.h"
+#include "dxfreaderinterface.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -407,6 +410,15 @@ void MainWindow::slot_file_open_dxf(QString filename)
     this->project_filepath = filename;
     this->layerManager->slot_updateAllLayers();
     emit signal_repaintNeeded();
+}
+
+void MainWindow::slot_file_open_dxf_with_libdxfrw(QString filename)
+{
+    QByteArray filename_array = filename.toUtf8();
+    char* filename_data = filename_array.data();
+    dxfRW reader(filename_data);
+    DxfReaderInterface dxfReaderInterface;
+    reader.read(&dxfReaderInterface, true);
 }
 
 void MainWindow::slot_file_open_xml(QString filename)
