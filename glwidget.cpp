@@ -1391,10 +1391,12 @@ void GLWidget::setPaintingColor(QColor color)
     {
         color.setRed(  (glName >> 16) & 0xff);
         color.setGreen((glName >>  8) & 0xff);
-        color.setBlue( (glName)       & 0xff);
+        color.setBlue( (glName >>  0) & 0xff);
+//        color.setRed(  ((glName >> 10) & 0xfc) | 0x01);
+//        color.setGreen(((glName >>  4) & 0xfc) | 0x01);
+//        color.setBlue( ((glName <<  2) & 0xfc) | 0x01);
         color.setAlpha(255);
-        vertex_color = QVector4D(color.redF(), color.greenF(), color.blueF(), color.alphaF());
-        shaderProgram->setAttributeValue(shader_colorLocation, vertex_color);
+        shaderProgram->setAttributeValue(shader_colorLocation, color.red() / 255.0f, color.green() / 255.0f, color.blue() / 255.0f);
     }
     else
     {
@@ -1550,7 +1552,7 @@ void GLWidget::paintContent(QList<Layer*> layers)
 
     setUseTexture(false);
 
-    glName = 1;
+    glName = 0;
 
     if (render_solid)
     {
@@ -1583,6 +1585,9 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundin
 {
     foreach (CADitem* item, items)
     {
+        if(!isSubItem)
+            glName ++;
+
         if(checkBoundingBox)
         {
             //Global culling performance test
@@ -1615,19 +1620,11 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundin
             screenRect = QRect(screen_x_min, screen_y_min, this->width(), this->height());
             itemRect = QRect(p_x_min, p_y_min, (p_x_max - p_x_min), (p_y_max - p_y_min));
 
-
             if (!screenRect.intersects(itemRect))
             {
-                if(!isSubItem)
-                    glName++;
                 continue;
             }
         }
-
-
-
-        if(!isSubItem)
-            glName++;
 
         item->index = glName;
         if (item->isMaintenanceArea)
@@ -1648,8 +1645,6 @@ QList<CADitem*> GLWidget::itemsAtPosition_v2(QPoint pos, int size_x, int size_y)
 {
     makeCurrent();
 
-//    qDebug() << "highlight";
-
     if (fbo_select->size() != QSize(size_x, size_y))
     {
 //        qDebug() << "fbo resize" << QSize(size_x, size_y);
@@ -1661,7 +1656,6 @@ QList<CADitem*> GLWidget::itemsAtPosition_v2(QPoint pos, int size_x, int size_y)
     matrix_glSelect.setToIdentity();
     matrix_glSelect.translate(-(qreal)(pos.x() + (this->width() - size_x) / 2), -(qreal)(pos.y() + (this->height() - size_y) / 2), 0.0);
     updateMatrixAll();
-//    shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
 
     fbo_select->bind();
 
@@ -1675,11 +1669,15 @@ QList<CADitem*> GLWidget::itemsAtPosition_v2(QPoint pos, int size_x, int size_y)
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    bool render_outline_shadow = this->render_outline;
+    if (this->render_solid == true)
+        render_outline = false;
     render_selection = true;
     selectItemsByColor = true;
     paintContent(itemDB->layers);
     selectItemsByColor = false;
     render_selection = false;
+    this->render_outline = render_outline_shadow;
 
     QImage image = fbo_select->toImage(false);
 
@@ -1702,6 +1700,10 @@ QList<CADitem*> GLWidget::itemsAtPosition_v2(QPoint pos, int size_x, int size_y)
             {
                 quint32 itemName;
                 itemName = (quint32)pixel & 0xffffff;
+//                itemName =  ((quint32)pixel & 0x0000fc) >> 2;
+//                itemName |= ((quint32)pixel & 0x00fc00) >> 4;
+//                itemName |= ((quint32)pixel & 0xfc0000) >> 6;
+
                 itemsDistMap.insertMulti(qAbs(size_x/2 - x) + qAbs(size_y/2 - y), itemName);
             }
         }
@@ -1750,9 +1752,9 @@ CADitem *GLWidget::itemsAtPosition_processItems(QList<CADitem *> items, GLuint g
             return item;
         }
 
-        item = itemsAtPosition_processItems(item->subItems, glName);
-        if (item)
-            return item;
+//        item = itemsAtPosition_processItems(item->subItems, glName);
+//        if (item)
+//            return item;
     }
 
     return NULL;
@@ -1974,7 +1976,7 @@ void GLWidget::initializeGL()
     openGLTimerQuery->create();
 
     glEnable(GL_FRAMEBUFFER_SRGB);
-    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE | GL_EMISSION);
+//    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE | GL_EMISSION);
     //    glEnableClientState(GL_VERTEX_ARRAY);
 
     shader_1_vert = new QOpenGLShader(QOpenGLShader::Vertex);
@@ -2163,7 +2165,7 @@ void GLWidget::initializeGL()
     painter.end();
 
     QOpenGLFramebufferObjectFormat format;
-    format.setSamples(1);
+    format.setSamples(0);
     format.setAttachment(QOpenGLFramebufferObject::Depth);
     format.setInternalTextureFormat(GL_RGBA);
     format.setMipmap(false);

@@ -20,11 +20,11 @@ layout ( location = 0) uniform mat4x4 Matrix;
 layout ( location = 48) uniform bool is_Selection;
 
 
-in vec4 Color[];
+flat in vec4 vColor[];
 in vec4 vTexCoord[];
 in vec4 vVertexPosition[];
 
-out vec4 gColor;
+flat out vec4 gColor;
 out vec4 gTexCoord;
 out vec4 gVertexPosition;
 
@@ -51,15 +51,15 @@ void main()
                       0.0, 0.0, transformation, 0.0,
                       0.0, 0.0, 0.0, 1.0);
 
-        c[0] = m * Color[0];
-        c[1] = m * Color[1];
-        c[2] = m * Color[2];
+        c[0] = m * vColor[0];
+        c[1] = m * vColor[1];
+        c[2] = m * vColor[2];
     }
     else
     {
-        c[0] = Color[0];
-        c[1] = Color[1];
-        c[2] = Color[2];
+        c[0] = vColor[0];
+        c[1] = vColor[1];
+        c[2] = vColor[2];
     }
 
     gVertexPosition = vVertexPosition[0];

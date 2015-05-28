@@ -14,7 +14,7 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-in vec4 gColor;
+flat in vec4 gColor;
 in vec4 gTexCoord;
 in vec4 gVertexPosition;
 layout (location = 40) uniform sampler2D texture0;

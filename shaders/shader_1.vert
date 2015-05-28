@@ -21,13 +21,13 @@ layout (location = 2) in vec4 TexCoord;
 
 layout (location = 0) uniform mat4x4 Matrix;
 
-out vec4 Color;
+flat out vec4 vColor;
 out vec4 vTexCoord;
 out vec4 vVertexPosition;
 
 void main(void)
 {
-    Color = VertexColor;
+    vColor = VertexColor;
     vTexCoord = TexCoord;
     vVertexPosition = vec4(VertexPosition, 1.0);
     gl_Position = Matrix * vec4(VertexPosition, 1.0);
