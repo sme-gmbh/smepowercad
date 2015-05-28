@@ -285,7 +285,6 @@ public:
     void printAttributes();
 
 private:
-//    QGraphicsScene* scene;
     ItemDB* itemDB;
     enum
     {

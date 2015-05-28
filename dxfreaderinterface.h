@@ -20,12 +20,13 @@
 
 #include <libdxfrw0/libdxfrw.h>
 #include <libdxfrw0/drw_interface.h>
+#include "itemdb.h"
 
 
 class DxfReaderInterface : public DRW_Interface
 {
 public:
-    DxfReaderInterface();
+    DxfReaderInterface(ItemDB* itemDB);
 
 
     /** Called when header is parsed.  */
@@ -198,6 +199,9 @@ public:
     virtual void writeTextstyles();
     virtual void writeVports();
     virtual void writeDimstyles();
+
+private:
+    ItemDB* itemDB;
 };
 
 #endif // DXFREADERINTERFACE_H

@@ -387,7 +387,7 @@ void MainWindow::slot_file_open_action()
     updateRecentFileActions();
 
     if (filename.endsWith(".dxf", Qt::CaseInsensitive))
-        slot_file_open_dxf(filename);
+        slot_file_open_dxf_with_libdxfrw(filename);
     else if (filename.endsWith(".xml", Qt::CaseInsensitive))
         slot_file_open_xml(filename);
 }
@@ -417,8 +417,10 @@ void MainWindow::slot_file_open_dxf_with_libdxfrw(QString filename)
     QByteArray filename_array = filename.toUtf8();
     char* filename_data = filename_array.data();
     dxfRW reader(filename_data);
-    DxfReaderInterface dxfReaderInterface;
-    reader.read(&dxfReaderInterface, true);
+    DxfReaderInterface* dxfReaderInterface = new DxfReaderInterface(this->itemDB);
+    reader.read(dxfReaderInterface, true);
+
+    delete dxfReaderInterface;
 }
 
 void MainWindow::slot_file_open_xml(QString filename)
@@ -539,7 +541,7 @@ void MainWindow::slot_openRecentFile()
     updateRecentFileActions();
 
     if (filename.endsWith(".dxf", Qt::CaseInsensitive))
-        slot_file_open_dxf(filename);
+        slot_file_open_dxf_with_libdxfrw(filename);
     else if (filename.endsWith(".xml", Qt::CaseInsensitive))
         slot_file_open_xml(filename);
 }
