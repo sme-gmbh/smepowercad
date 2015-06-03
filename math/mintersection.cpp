@@ -22,7 +22,8 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
     double dist_v0 = QVector3D::dotProduct(v0, m) + e;
     double dist_v1 = QVector3D::dotProduct(v1, m) + e;
     double dist_v2 = QVector3D::dotProduct(v2, m) + e;
-    //Triangle 1 completly lies on one side of the plane in which lies Triangle 2
+
+    //check whether triangle 1 completly lies on one side of the plane in which lies triangle 2
     if (dist_v0 > TOL && dist_v1 > TOL && dist_v2 > TOL)
         return false;
     if (dist_v0 < -TOL && dist_v1 < -TOL && dist_v2 < -TOL)
@@ -34,7 +35,8 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
     double dist_w0 = QVector3D::dotProduct(w0, n) + d;
     double dist_w1 = QVector3D::dotProduct(w1, n) + d;
     double dist_w2 = QVector3D::dotProduct(w2, n) + d;
-    //Triangle 2 completly lies on one side of the plane in which lies Triangle 1
+
+    //check whether triangle 2 completly lies on one side of the plane in which lies triangle 1
     if (dist_w0 > TOL && dist_w1 > TOL && dist_w2 > TOL)
         return false;
     if (dist_w0 < -TOL && dist_w1 < -TOL && dist_w2 < -TOL)
@@ -43,9 +45,8 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
     if (abs(dist_v0) < TOL && abs(dist_v1) < TOL && abs(dist_v2) < TOL)
     {
         //*****triangles are coplanar*****
-        qDebug() << "coplanar";
-        //project "onto the axis-aligned plane where the areas of the triangles are maximized."
 
+        //project "onto the axis-aligned plane where the areas of the triangles are maximized."
         QVector2D v0_2D, v1_2D, v2_2D, w0_2D, w1_2D, w2_2D;
         QVector3D a = QVector3D(qAbs(n.x()), qAbs(n.y()), qAbs(n.z()));
         if(a.x() > a.y())
@@ -122,7 +123,7 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
     else
     {
         //*****triangles are not coplanar*****
-        qDebug() << "not coplanar";
+
         //compute intersection line
         QVector3D direction = QVector3D::crossProduct(n, m);
 
@@ -134,42 +135,86 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
         float p_w1 = QVector3D::dotProduct(direction, w1);
         float p_w2 = QVector3D::dotProduct(direction, w2);
 
-        //calculate intervals on intersection line
-        float x0, x1;
-        interval(p_v0, p_v1, p_v2, dist_v0, dist_v1, dist_v2, &x0, &x1);
-        float y0, y1;
-        interval(p_w0, p_w1, p_w2, dist_w0, dist_w1, dist_w2, &y0, &y1);
-        //qDebug() << "[" << x0 << x1 << "],[" << y0 << y1 << "]";
-        if(x1 < y0)
-            return false;
-        if(y1 < x0)
+        /* compute interval for triangle 1 */
+        float a, b, c, x0, x1;
+        interval(p_v0, p_v1, p_v2, dist_v0, dist_v1, dist_v2, dist_v0 * dist_v1, dist_v0 * dist_v2, &a, &b, &c, &x0, &x1);
+
+        /* compute interval for triangle 2 */
+        float d, e, f, y0, y1;
+        interval(p_w0, p_w1, p_w2, dist_w0, dist_w1, dist_w2, dist_w0 * dist_w1, dist_w0 * dist_w2, &d, &e, &f, &y0, &y1);
+
+        float xx, yy, xxyy, tmp;
+        xx = x0 * x1;
+        yy = y0 * y1;
+        xxyy = xx * yy;
+
+        tmp = a * xxyy;
+        QList<float> isect1 = QList<float>();
+        QList<float> isect2 = QList<float>();
+        isect1.append(tmp + b * x1 * yy);
+        isect1.append(tmp + c * x0 * yy);
+
+        tmp = d * xxyy;
+        isect2.append(tmp + e * xx * y1);
+        isect2.append(tmp + f * xx * y0);
+
+        qSort(isect1);
+        qSort(isect2);
+
+        if(isect1[1] < isect2[0] || isect2[1] < isect1[0])
             return false;
         return true;
     }
 
 }
 
-void MIntersection::interval(float v0, float v1, float v2, float dist_v0, float dist_v1, float dist_v2, float* x0, float* x1)
+void MIntersection::interval(float VV0, float VV1, float VV2, float D0, float D1, float D2, float D0D1, float D0D2, float* A, float* B, float* C, float* X0, float* X1)
 {
-    //v0, v1 on the same side
-    if (dist_v0 * dist_v1 >= 0.0)
+    if (D0D1 > 0.0f)
     {
-        *x0 = v0 + (v2 - v0) * dist_v0 / ( dist_v0 - dist_v2);
-        *x1 = v1 + (v2 - v1) * dist_v1 / ( dist_v1 - dist_v2);
+        /* here we know that D0D2<=0.0 */
+        /* that is D0, D1 are on the same side, D2 on the other or on the plane */
+        *A = VV2;
+        *B = (VV0 - VV2) * D2;
+        *C = (VV1 - VV2) * D2;
+        *X0 = D2 - D0;
+        *X1 = D2 - D1;
     }
-    //v0, v2 on the same side
-    else if (dist_v0 * dist_v2 >= 0.0f)
+    else if (D0D2 > 0.0f)
     {
-        *x0 = v0 + (v1 - v0) * dist_v0 / ( dist_v0 - dist_v1);
-        *x1 = v2 + (v1 - v2) * dist_v2 / ( dist_v2 - dist_v1);
+        /* here we know that d0d1<=0.0 */
+        *A = VV1;
+        *B = (VV0 - VV1) * D1;
+        *C = (VV2 - VV1) * D1;
+        *X0 = D1 - D0;
+        *X1 = D1 - D2;
     }
-    //v1, v2 on the same side or v0 not in plane
-    else if (dist_v1 * dist_v2 >= 0.0f)
+    else if (D1 * D2 > 0.0f || D0 != 0.0f)
     {
-        *x0 = v1 + (v0 - v1) * dist_v1 / ( dist_v1 - dist_v0);
-        *x1 = v2 + (v0 - v2) * dist_v2 / ( dist_v2 - dist_v0);
+        /* here we know that d0d1<=0.0 or that D0!=0.0 */
+        *A = VV0;
+        *B = (VV1 - VV0) * D0;
+        *C = (VV2 - VV0) * D0;
+        *X0 = D0 - D1;
+        *X1 = D0 - D2;
+    }
+    else if (D1 != 0.0f)
+    {
+        *A = VV1;
+        *B = (VV0 - VV1) * D1;
+        *C = (VV2 - VV1) * D1;
+        *X0 = D1 - D0;
+        *X1 = D1 - D2;
+    }
+    else if (D2 != 0.0f)
+    {
+        *A = VV2;
+        *B = (VV0 - VV2) * D2;
+        *C = (VV1 - VV2) * D2;
+        *X0 = D2 - D0; *X1 = D2 - D1;
     }
 }
+
 
 
 bool MIntersection::edgeAgainstEdge(QVector2D v0, QVector2D v1, QVector2D w0, QVector2D w1)
