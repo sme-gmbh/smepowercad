@@ -96,7 +96,8 @@ public:
         Basic_Turn,                             // Basisgeometrie: Rohrbogen
         Basic_TorisphericalHeadDIN28011,        // Klöpperboden (nach DIN28011)
         Basic_TorisphericalHeadDeepDishedDIN28013,  // Korbbogenboden (nach DIN28013)
-        Basic_Torus,                             // Torus (Donut)
+        Basic_Torus,                            // Torus (Donut)
+        Basic_Triangle,                         //Dreieck
 
         Cleanroom_CeilingCornerPiece,
         Cleanroom_CeilingFilterFanUnit,

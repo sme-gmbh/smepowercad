@@ -311,7 +311,8 @@ SOURCES += main.cpp\
     restorepoint.cpp \
     items/cad_sprinkler_flange.cpp \
     math/mintersection.cpp \
-    dxfreaderinterface.cpp
+    dxfreaderinterface.cpp \
+    items/cad_basic_triangle.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -584,7 +585,8 @@ HEADERS  += mainwindow.h \
     restorepoint.h \
     items/cad_sprinkler_flange.h \
     math/mintersection.h \
-    dxfreaderinterface.h
+    dxfreaderinterface.h \
+    items/cad_basic_triangle.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

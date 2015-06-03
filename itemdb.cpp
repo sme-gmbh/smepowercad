@@ -539,6 +539,9 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Basic_Torus:
         newItem = new CAD_Basic_Torus();
         break;
+    case CADitemTypes::Basic_Triangle:
+        newItem = new CAD_Basic_Triangle();
+        break;
 
 
         //Cleanroom

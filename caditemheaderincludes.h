@@ -85,6 +85,7 @@
 #include "items/cad_basic_torisphericalheaddin28011.h"
 #include "items/cad_basic_torisphericalheaddeepdisheddin28013.h"
 #include "items/cad_basic_torus.h"
+#include "items/cad_basic_triangle.h"
 
 #include "items/cad_cleanroom_ceilingcornerpiece.h"
 #include "items/cad_cleanroom_ceilingfilterfanunit.h"

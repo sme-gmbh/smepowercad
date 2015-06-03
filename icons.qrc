@@ -381,6 +381,8 @@
         <file>icons/cad_sprinkler/cad_sprinkler_flange.svg</file>
         <file>itemGraphic/cad_sprinkler_flange.png</file>
         <file>itemGraphic/cad_sprinkler_valve.png</file>
+        <file>itemGraphic/cad_basic_triangle.png</file>
+        <file>icons/cad_basic/cad_basic_triangle.svg</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/check.svg</file>
