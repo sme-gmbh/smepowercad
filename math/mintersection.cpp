@@ -13,7 +13,6 @@ MIntersection::~MIntersection()
 
 bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2, QVector3D w0, QVector3D w1, QVector3D w2)
 {
-    qDebug() << "do some testing";
     //compare to: http://web.stanford.edu/class/cs277/resources/papers/Moller1997b.pdf
     //thanks to Tomas Möller
 
@@ -204,9 +203,9 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
         }
 
         //check for intersection
-        if((i1 < j1) && (i2 < j1))
+        if((i1 < j1 + TOL) && (i2 < j1 + TOL))
             return false;
-        if((i1 > j2) && (i2 > j2))
+        if((i1 > j2 - TOL) && (i2 > j2 - TOL))
             return false;
 
         //some debug output, generates XML, that can be loaded into PowerCAD
@@ -260,9 +259,9 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
 //        //        qDebug() << aufpunkt + t1 * direction;
 //        //        qDebug() << aufpunkt + t2 * direction;
 
-//        qDebug() << "Parameter:";
-//        qDebug() << s1 << s2;
-//        qDebug() << t1 << t2;
+        qDebug() << "Parameter:";
+        qDebug() << s1 << s2;
+        qDebug() << t1 << t2;
 
         return true;
     }

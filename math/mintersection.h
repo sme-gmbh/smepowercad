@@ -1,6 +1,6 @@
 #ifndef MINTERSECTION_H
 #define MINTERSECTION_H
-#define TOL 10E-10
+#define TOL 10E-2
 
 #include <QVector3D>
 #include <QVector2D>
