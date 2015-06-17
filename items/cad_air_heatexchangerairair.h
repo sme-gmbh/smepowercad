@@ -42,9 +42,9 @@ public:
     CAD_basic_plane *seperator_1, *seperator_2;
     //QVector3D points[2][4];
 
-    QOpenGLBuffer arrayBufVertices;
-    QOpenGLBuffer indexBufFaces;
-    QOpenGLBuffer indexBufLines;
+//    QOpenGLBuffer arrayBufVertices;
+//    QOpenGLBuffer indexBufFaces;
+//    QOpenGLBuffer indexBufLines;
 };
 
 #endif // CAD_AIR_HEATEXCHANGERAIRAIR_H

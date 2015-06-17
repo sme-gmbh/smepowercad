@@ -39,8 +39,6 @@ public:
     CAD_Basic_TorisphericalHeadDIN28011 *endcap_outer, *endcap_inner;
     CAD_basic_pipe *flange;
 
-    QOpenGLBuffer arrayBufVertices;
-    QOpenGLBuffer indexBufFaces;
 };
 
 #endif // CAD_HEATCOOL_PIPEENDCAP_H

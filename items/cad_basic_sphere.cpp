@@ -25,17 +25,17 @@ CAD_basic_sphere::CAD_basic_sphere() : CADitem(CADitemTypes::Basic_Sphere)
     wizardParams.insert("Position z", 0.0);
     wizardParams.insert("r", 100.0);
 
-    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
-    arrayBufVertices.create();
-    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    arrayBufVertices->create();
+    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-    indexBufFaces.create();
-    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    indexBufFaces = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufFaces->create();
+    indexBufFaces->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-    indexBufLines.create();
-    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    indexBufLines = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufLines->create();
+    indexBufLines->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
 
     processWizardInput();
@@ -124,7 +124,7 @@ void CAD_basic_sphere::calculate()
     indicesFaces[23 * j + 22] = 0xABCD;
     }
 
-    GLushort indicesLines[420];
+    GLushort indicesLines[400];
     for(int i = 0; i < 10; i++)
     {
         for(int j = 0; j < 9; j++)
@@ -136,23 +136,24 @@ void CAD_basic_sphere::calculate()
         indicesLines[20*i+19] = 10*i;
     }
 
-    for(int i = 0; i < 10; i++)
+    for(int j = 0; j < 10; j++)
     {
-        for(int j = 0; j < 10; j++)
+        for(int i = 0; i < 10; i++)
         {
-            indicesLines[200+20*i+2*j] = 10*j+i;
-            indicesLines[200+20*i+2*j+1] = 10*j+i+10;
+            indicesLines[200 + 20 * j + 2*i] = 10 * j + i;
+            indicesLines[201 + 20 * j + 2*i] = 10 * j + i + 10;
         }
     }
 
-    arrayBufVertices.bind();
-    arrayBufVertices.allocate(vertices, sizeof(vertices));
 
-    indexBufFaces.bind();
-    indexBufFaces.allocate(indicesFaces, sizeof(indicesFaces));
+    arrayBufVertices->bind();
+    arrayBufVertices->allocate(vertices, sizeof(vertices));
 
-    indexBufLines.bind();
-    indexBufLines.allocate(indicesLines, sizeof(indicesLines));
+    indexBufFaces->bind();
+    indexBufFaces->allocate(indicesFaces, sizeof(indicesFaces));
+
+    indexBufLines->bind();
+    indexBufLines->allocate(indicesLines, sizeof(indicesLines));
 
     boundingBox.enterVertex(position + QVector3D( r, 0, 0));
     boundingBox.enterVertex(position + QVector3D(-r, 0, 0));
@@ -176,7 +177,7 @@ void CAD_basic_sphere::paint(GLWidget *glwidget)
     QColor color_pen_tmp = getColorPen();
     QColor color_brush_tmp = getColorBrush();
 
-    arrayBufVertices.bind();
+    arrayBufVertices->bind();
     glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
     glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
 
@@ -184,10 +185,10 @@ void CAD_basic_sphere::paint(GLWidget *glwidget)
     {
         glwidget->setPaintingColor(color_brush_tmp);
 
-        indexBufFaces.bind();
-        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces.size(), GL_UNSIGNED_SHORT, 0);
+        indexBufFaces->bind();
+        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces->size(), GL_UNSIGNED_SHORT, 0);
 
-        indexBufFaces.release();
+        indexBufFaces->release();
     }
 
     if (glwidget->render_outline)
@@ -195,12 +196,12 @@ void CAD_basic_sphere::paint(GLWidget *glwidget)
         glwidget->setPaintingColor(color_pen_tmp);
         glwidget->glLineWidth(1.0);
 
-        indexBufLines.bind();
-        glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
-        indexBufLines.release();
+        indexBufLines->bind();
+        glwidget->glDrawElements(GL_LINES, indexBufLines->size(), GL_UNSIGNED_SHORT, 0);
+        indexBufLines->release();
     }
 
-    arrayBufVertices.release();
+    arrayBufVertices->release();
 }
 
 

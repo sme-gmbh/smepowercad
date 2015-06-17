@@ -37,8 +37,8 @@ public:
     qreal d, l, s;
     CAD_Basic_TorisphericalHeadDIN28011 *endcap_outer, *endcap_inner;
 
-    QOpenGLBuffer arrayBufVertices;
-    QOpenGLBuffer indexBufFaces;
+//    QOpenGLBuffer arrayBufVertices;
+//    QOpenGLBuffer indexBufFaces;
 };
 
 #endif // CAD_AIR_PIPEENDCAP_H

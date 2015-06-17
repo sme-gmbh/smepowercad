@@ -30,11 +30,13 @@
 #include <QDataStream>
 #include <QDebug>
 #include <QOpenGLBuffer>
+#include <QOpenGLContext>
+#include <QOffscreenSurface>
 #include <math.h>
 #include "math/m3dboundingbox.h"
 #include "math/manglecalculations.h"
+#include "math/mtriangle.h"
 #include "caditemtypes.h"
-//#include "itemdb.h"
 #include "wizardparams.h"
 
 #define PI 3.1415926535897
@@ -55,6 +57,7 @@ public:
     virtual void calculate() = 0;
     virtual void processWizardInput() = 0;
     virtual void paint(GLWidget* glwidget) {Q_UNUSED(glwidget)}
+    virtual QList<MTriangle> getTriangles();
     //Flanging
     virtual QMatrix4x4 rotationOfFlange(quint8 num) {Q_UNUSED(num); return QMatrix4x4();}
     QColor getColorPen();
@@ -103,11 +106,17 @@ public:
     // Painting
     bool isMaintenanceArea;
 
+    // OpenGL Buffers
+    QOpenGLBuffer* arrayBufVertices;
+    QOpenGLBuffer* indexBufFaces;
+    QOpenGLBuffer* indexBufLines;
 
 private:
     void setLayer_processItems(QList<CADitem*> subItems);
     void setID_processItems(QList<CADitem*> subItems);
+    QList<MTriangle> triangleListFromIndexedBuffers();
     CADitemTypes::ItemType type;
+
 };
 
 

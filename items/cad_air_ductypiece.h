@@ -57,9 +57,9 @@ public:
     QVector3D splitPoint[4];
 
 
-    QOpenGLBuffer arrayBufVertices;
-    QOpenGLBuffer indexBufFaces;
-    QOpenGLBuffer indexBufLines;
+//    QOpenGLBuffer arrayBufVertices;
+//    QOpenGLBuffer indexBufFaces;
+//    QOpenGLBuffer indexBufLines;
 
 };
 

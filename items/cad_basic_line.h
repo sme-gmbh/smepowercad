@@ -39,8 +39,8 @@ public:
     bool widthByLayer;
     bool widthByBlock;
 
-    QOpenGLBuffer arrayBufVertices;
-    QOpenGLBuffer indexBufLines;
+//    QOpenGLBuffer arrayBufVertices;
+//    QOpenGLBuffer indexBufLines;
 
 
 private:

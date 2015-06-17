@@ -13,33 +13,34 @@ MIntersection::~MIntersection()
 
 bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2, QVector3D w0, QVector3D w1, QVector3D w2)
 {
+    qDebug() << "do some testing";
     //compare to: http://web.stanford.edu/class/cs277/resources/papers/Moller1997b.pdf
     //thanks to Tomas Möller
 
     //plane for triangle 2
-    QVector3D m = QVector3D::crossProduct(w1 - w0, w2 - w0);
+    QVector3D m = QVector3D::crossProduct(w1 - w0, w2 - w0).normalized();
     double e = - QVector3D::dotProduct(m, w0);
     double dist_v0 = QVector3D::dotProduct(v0, m) + e;
     double dist_v1 = QVector3D::dotProduct(v1, m) + e;
     double dist_v2 = QVector3D::dotProduct(v2, m) + e;
 
     //check whether triangle 1 completly lies on one side of the plane in which lies triangle 2
-    if (dist_v0 > TOL && dist_v1 > TOL && dist_v2 > TOL)
+    if (dist_v0 > -TOL && dist_v1 > -TOL && dist_v2 > -TOL)
         return false;
-    if (dist_v0 < -TOL && dist_v1 < -TOL && dist_v2 < -TOL)
+    if (dist_v0 < TOL && dist_v1 < TOL && dist_v2 < TOL)
         return false;
 
     //plane for triangle 1
-    QVector3D n = QVector3D::crossProduct(v1 - v0, v2 - v0);
+    QVector3D n = QVector3D::crossProduct(v1 - v0, v2 - v0).normalized();
     double d = - QVector3D::dotProduct(n, v0);
     double dist_w0 = QVector3D::dotProduct(w0, n) + d;
     double dist_w1 = QVector3D::dotProduct(w1, n) + d;
     double dist_w2 = QVector3D::dotProduct(w2, n) + d;
 
     //check whether triangle 2 completly lies on one side of the plane in which lies triangle 1
-    if (dist_w0 > TOL && dist_w1 > TOL && dist_w2 > TOL)
+    if (dist_w0 > -TOL && dist_w1 > -TOL && dist_w2 > -TOL)
         return false;
-    if (dist_w0 < -TOL && dist_w1 < -TOL && dist_w2 < -TOL)
+    if (dist_w0 < TOL && dist_w1 < TOL && dist_w2 < TOL)
         return false;
 
     if (abs(dist_v0) < TOL && abs(dist_v1) < TOL && abs(dist_v2) < TOL)
@@ -125,7 +126,7 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
         //*****triangles are not coplanar*****
 
         //compute intersection line
-        QVector3D direction = QVector3D::crossProduct(n, m);
+        QVector3D direction = QVector3D::crossProduct(n, m).normalized();
 
         //projections
         float p_v0 = QVector3D::dotProduct(direction, v0);
@@ -135,87 +136,144 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
         float p_w1 = QVector3D::dotProduct(direction, w1);
         float p_w2 = QVector3D::dotProduct(direction, w2);
 
-        /* compute interval for triangle 1 */
-        float a, b, c, x0, x1;
-        interval(p_v0, p_v1, p_v2, dist_v0, dist_v1, dist_v2, dist_v0 * dist_v1, dist_v0 * dist_v2, &a, &b, &c, &x0, &x1);
+        float s1, s2, t1, t2;
 
-        /* compute interval for triangle 2 */
-        float d, e, f, y0, y1;
-        interval(p_w0, p_w1, p_w2, dist_w0, dist_w1, dist_w2, dist_w0 * dist_w1, dist_w0 * dist_w2, &d, &e, &f, &y0, &y1);
+        //v0 and v1 on same side
+        if(dist_v0 * dist_v1 > TOL)
+        {
+            s1 = p_v0 + (p_v2 - p_v0) * dist_v0 / (dist_v0 - dist_v2);
+            s2 = p_v1 + (p_v2 - p_v1) * dist_v1 / (dist_v1 - dist_v2);
+        }
+        //v0 and v2 on same side
+        else if(dist_v0 * dist_v2 > TOL)
+        {
+            s1 = p_v0 + (p_v1 - p_v0) * dist_v0 / (dist_v0 - dist_v1);
+            s2 = p_v2 + (p_v1 - p_v2) * dist_v2 / (dist_v2 - dist_v1);
+        }
+        //v1 and v2 on same side
+        else if(dist_v1 * dist_v2 > TOL)
+        {
+            s1 = p_v1 + (p_v0 - p_v1) * dist_v1 / (dist_v1 - dist_v0);
+            s2 = p_v2 + (p_v0 - p_v2) * dist_v2 / (dist_v2 - dist_v0);
+        }
 
-        float xx, yy, xxyy, tmp;
-        xx = x0 * x1;
-        yy = y0 * y1;
-        xxyy = xx * yy;
+        //*********************************************************************
 
-        tmp = a * xxyy;
-        QList<float> isect1 = QList<float>();
-        QList<float> isect2 = QList<float>();
-        isect1.append(tmp + b * x1 * yy);
-        isect1.append(tmp + c * x0 * yy);
+        //w0 and w1 on same side
+        if(dist_w0 * dist_w1 > TOL)
+        {
+            t1 = p_w0 + (p_w2 - p_w0) * dist_w0 / (dist_w0 - dist_w2);
+            t2 = p_w1 + (p_w2 - p_w1) * dist_w1 / (dist_w1 - dist_w2);
+        }
+        //w0 and w2 on same side
+        else if(dist_w0 * dist_w2 > TOL)
+        {
+            t1 = p_w0 + (p_w1 - p_w0) * dist_w0 / (dist_w0 - dist_w1);
+            t2 = p_w2 + (p_w1 - p_w2) * dist_w2 / (dist_w2 - dist_w1);
+        }
+        //w1 and w2 on same side
+        else if(dist_w1 * dist_w2 > TOL)
+        {
+            t1 = p_w1 + (p_w0 - p_w1) * dist_w1 / (dist_w1 - dist_w0);
+            t2 = p_w2 + (p_w0 - p_w2) * dist_w2 / (dist_w2 - dist_w0);
+        }
 
-        tmp = d * xxyy;
-        isect2.append(tmp + e * xx * y1);
-        isect2.append(tmp + f * xx * y0);
+        //sort interval limits
+        float i1, i2;
+        if(t1 < t2)
+        {
+            i1 = t1;
+            i2 = t2;
+        }
+        else
+        {
+            i1 = t2;
+            i2 = t1;
+        }
 
-        qSort(isect1);
-        qSort(isect2);
+        float j1, j2;
+        if(s1 < s2)
+        {
+            j1 = s1;
+            j2 = s2;
+        }
+        else
+        {
+            j1 = s2;
+            j2 = s1;
+        }
 
-        if(isect1[1] < isect2[0] || isect2[1] < isect1[0])
+        //check for intersection
+        if((i1 < j1) && (i2 < j1))
             return false;
+        if((i1 > j2) && (i2 > j2))
+            return false;
+
+        //some debug output, generates XML, that can be loaded into PowerCAD
+//        float norm_n_squared = QVector3D::dotProduct(n, n);
+//        float norm_m_squared = QVector3D::dotProduct(m, m);
+//        float n_dot_m = QVector3D::dotProduct(n, m);
+//        QVector3D aufpunkt = (-d * norm_m_squared + e * n_dot_m) / (norm_n_squared * norm_m_squared - n_dot_m * n_dot_m) * n +
+//                (-e * norm_n_squared + d * n_dot_m) / (norm_n_squared * norm_m_squared - n_dot_m * n_dot_m) * m;
+
+//        qDebug() << "<I54 "
+//                 << "Position_x1=" << '"' << (aufpunkt - 10000*direction).x()<< '"'
+//                 << "Position_y1=" << '"' << (aufpunkt - 10000*direction).y()<< '"'
+//                 << "Position_z1=" << '"' << (aufpunkt - 10000*direction).z()<< '"'
+//                 << "Position_x2=" << '"' << (aufpunkt + 10000*direction).x()<< '"'
+//                 << "Position_y2=" << '"' << (aufpunkt + 10000*direction).y()<< '"'
+//                 << "Position_z2=" << '"' << (aufpunkt + 10000*direction).z()<< '"'
+//                 << "Width=" << '"' << 1 << '"'
+//                 << "/>" ;
+
+//        //        qDebug() << aufpunkt - 10000 * direction;
+//        //        qDebug() << aufpunkt + 10000 * direction;
+
+
+//        qDebug() << "<I60 "
+//                 << "Position_x=" << '"' << (aufpunkt + s1*direction).x()<< '"'
+//                 << "Position_y=" << '"' << (aufpunkt + s1*direction).y()<< '"'
+//                 << "Position_z=" << '"' << (aufpunkt + s1*direction).z()<< '"'
+//                 << "r=" << '"' << 10 << '"'
+//                 << "/>" ;
+//        qDebug() << "<I60 "
+//                 << "Position_x=" << '"' << (aufpunkt + s2*direction).x()<< '"'
+//                 << "Position_y=" << '"' << (aufpunkt + s2*direction).y()<< '"'
+//                 << "Position_z=" << '"' << (aufpunkt + s2*direction).z()<< '"'
+//                 << "r=" << '"' << 10 << '"'
+//                 << "/>" ;
+//        qDebug() << "<I60 "
+//                 << "Position_x=" << '"' << (aufpunkt + t1*direction).x()<< '"'
+//                 << "Position_y=" << '"' << (aufpunkt + t1*direction).y()<< '"'
+//                 << "Position_z=" << '"' << (aufpunkt + t1*direction).z()<< '"'
+//                 << "r=" << '"' << 10 << '"'
+//                 << "/>" ;
+//        qDebug() << "<I60 "
+//                 << "Position_x=" << '"' << (aufpunkt + t2*direction).x()<< '"'
+//                 << "Position_y=" << '"' << (aufpunkt + t2*direction).y()<< '"'
+//                 << "Position_z=" << '"' << (aufpunkt + t2*direction).z()<< '"'
+//                 << "r=" << '"' << 10 << '"'
+//                 << "/>" ;
+//        //        qDebug() << aufpunkt + s1 * direction;
+//        //        qDebug() << aufpunkt + s2 * direction;
+
+//        //        qDebug() << aufpunkt + t1 * direction;
+//        //        qDebug() << aufpunkt + t2 * direction;
+
+//        qDebug() << "Parameter:";
+//        qDebug() << s1 << s2;
+//        qDebug() << t1 << t2;
+
         return true;
     }
 
 }
 
-void MIntersection::interval(float VV0, float VV1, float VV2, float D0, float D1, float D2, float D0D1, float D0D2, float* A, float* B, float* C, float* X0, float* X1)
+
+bool MIntersection::trianglesIntersect(MTriangle t1, MTriangle t2)
 {
-    if (D0D1 > 0.0f)
-    {
-        /* here we know that D0D2<=0.0 */
-        /* that is D0, D1 are on the same side, D2 on the other or on the plane */
-        *A = VV2;
-        *B = (VV0 - VV2) * D2;
-        *C = (VV1 - VV2) * D2;
-        *X0 = D2 - D0;
-        *X1 = D2 - D1;
-    }
-    else if (D0D2 > 0.0f)
-    {
-        /* here we know that d0d1<=0.0 */
-        *A = VV1;
-        *B = (VV0 - VV1) * D1;
-        *C = (VV2 - VV1) * D1;
-        *X0 = D1 - D0;
-        *X1 = D1 - D2;
-    }
-    else if (D1 * D2 > 0.0f || D0 != 0.0f)
-    {
-        /* here we know that d0d1<=0.0 or that D0!=0.0 */
-        *A = VV0;
-        *B = (VV1 - VV0) * D0;
-        *C = (VV2 - VV0) * D0;
-        *X0 = D0 - D1;
-        *X1 = D0 - D2;
-    }
-    else if (D1 != 0.0f)
-    {
-        *A = VV1;
-        *B = (VV0 - VV1) * D1;
-        *C = (VV2 - VV1) * D1;
-        *X0 = D1 - D0;
-        *X1 = D1 - D2;
-    }
-    else if (D2 != 0.0f)
-    {
-        *A = VV2;
-        *B = (VV0 - VV2) * D2;
-        *C = (VV1 - VV2) * D2;
-        *X0 = D2 - D0; *X1 = D2 - D1;
-    }
+    return trianglesIntersect(t1.getV0(), t1.getV1(), t1.getV2(), t2.getV0(), t2.getV1(), t2.getV2());
 }
-
-
 
 bool MIntersection::edgeAgainstEdge(QVector2D v0, QVector2D v1, QVector2D w0, QVector2D w1)
 {

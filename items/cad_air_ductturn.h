@@ -47,9 +47,9 @@ public:
 
 //    QVector3D vertices[2][13][5];
 
-    QOpenGLBuffer arrayBufVertices;
-    QOpenGLBuffer indexBufFaces;
-    QOpenGLBuffer indexBufLines;
+//    QOpenGLBuffer arrayBufVertices;
+//    QOpenGLBuffer indexBufFaces;
+//    QOpenGLBuffer indexBufLines;
 
     CAD_basic_duct *flange_left_duct;
     CAD_basic_duct *flange_right_duct;

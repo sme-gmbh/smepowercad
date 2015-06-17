@@ -86,6 +86,16 @@ QStringList GeometryDisplay::getOpenGLinfo()
     return glwidget->getOpenGLinfo();
 }
 
+QOpenGLContext* GeometryDisplay::getContext()
+{
+    return this->glwidget->context();
+}
+
+GLWidget *GeometryDisplay::getWidget()
+{
+    return this->glwidget;
+}
+
 void GeometryDisplay::paintEvent(QPaintEvent *event)
 {
     event->accept();

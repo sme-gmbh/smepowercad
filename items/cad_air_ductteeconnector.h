@@ -61,9 +61,9 @@ public:
 
 //    QVector3D vertices_backside[4];
 
-    QOpenGLBuffer arrayBufVertices;
-    QOpenGLBuffer indexBufFaces;
-    QOpenGLBuffer indexBufLines;
+//    QOpenGLBuffer arrayBufVertices;
+//    QOpenGLBuffer indexBufFaces;
+//    QOpenGLBuffer indexBufLines;
 };
 
 #endif // CAD_AIR_DUCTTEECONNECTOR_H

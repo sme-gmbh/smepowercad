@@ -52,9 +52,9 @@ public:
     CAD_basic_pipe *flange_round, *endcap_round;
     CAD_basic_duct *flange_rect, *endcap_rect;
 
-    QOpenGLBuffer arrayBufVertices;
-    QOpenGLBuffer indexBufFaces;
-    QOpenGLBuffer indexBufLines;
+//    QOpenGLBuffer arrayBufVertices;
+//    QOpenGLBuffer indexBufFaces;
+//    QOpenGLBuffer indexBufLines;
 };
 
 #endif // CAD_AIR_DUCTTRANSITIONRECTROUND_H

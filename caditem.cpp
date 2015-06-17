@@ -31,6 +31,9 @@ CADitem::CADitem(CADitemTypes::ItemType type)
     angle_z = 0.0;
     position = QVector3D(0.0, 0.0, 0.0);
     matrix_rotation.setToIdentity();
+    this->arrayBufVertices = NULL;
+    this->indexBufFaces = NULL;
+    this->indexBufLines = NULL;
 }
 
 QColor CADitem::getColorPen()
@@ -180,4 +183,51 @@ WizardParams CADitem::rotateAroundPoint(QVector3D center, qreal rot_x, qreal rot
 CADitemTypes::ItemType CADitem::getType()
 {
     return type;
+}
+
+QList<MTriangle> CADitem::getTriangles()
+{
+    QList<MTriangle> l;
+    l.append(triangleListFromIndexedBuffers());
+
+    foreach(CADitem *item, subItems)
+        l.append(item->getTriangles());
+    return l;
+}
+
+QList<MTriangle> CADitem::triangleListFromIndexedBuffers()
+{
+    QList<MTriangle> list;
+    if((indexBufFaces != NULL) && (arrayBufVertices != NULL))
+    {
+        //reads the index buffer into dataFaces
+        indexBufFaces->bind();
+        int numberOfIndices = indexBufFaces->size() / sizeof(GLushort);
+        void* dataRawFaces = malloc(indexBufFaces->size());
+        indexBufFaces->read(0, dataRawFaces, indexBufFaces->size());
+        GLushort* dataFaces = (GLushort*) dataRawFaces;
+        indexBufFaces->release();
+
+        //reads the vertex buffer into dataVertices
+        arrayBufVertices->bind();
+        void* dataRawVertices = malloc(arrayBufVertices->size());
+        arrayBufVertices->read(0, dataRawVertices, arrayBufVertices->size());
+        QVector3D* dataVertices = (QVector3D*) dataRawVertices;
+        arrayBufVertices->release();
+
+        //fill list
+        for(int i = 2; i < numberOfIndices; i++)
+        {
+            if(dataFaces[i] == 0xABCD)  //0xABCD = primitive restart index
+            {
+                i += 2;
+                continue;
+            }
+            MTriangle triangle = MTriangle(dataVertices[dataFaces[i-2]], dataVertices[dataFaces[i-1]], dataVertices[dataFaces[i]]);
+            list.append(triangle);
+        }
+        delete dataRawVertices;
+        delete dataRawFaces;
+    }
+    return list;
 }

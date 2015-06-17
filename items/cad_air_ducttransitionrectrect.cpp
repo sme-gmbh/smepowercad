@@ -249,8 +249,8 @@ void CAD_air_ductTransitionRectRect::calculate()
 //    transition_duct->inner_pos_top_3 = endcap_right_duct->inner_pos_top_1;
 //    transition_duct->inner_pos_top_4 = endcap_left_duct->inner_pos_top_4;
 
-    transition_duct->arrayBufVertices.bind();
-    transition_duct->arrayBufVertices.allocate(vertices, sizeof(vertices));
+    transition_duct->arrayBufVertices->bind();
+    transition_duct->arrayBufVertices->allocate(vertices, sizeof(vertices));
 
 
     boundingBox.enterVertex(flange_left_duct->pos_bot_1);

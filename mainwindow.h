@@ -29,6 +29,8 @@
 #include <QMouseEvent>
 #include <QSettings>
 #include <QOpenGLContext>
+#include <QOffscreenSurface>
+#include <QSurfaceFormat>
 
 #ifdef USE_3D_MOUSE
 #include "3Dmouse/qmagellan.h"

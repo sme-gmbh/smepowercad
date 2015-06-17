@@ -39,9 +39,9 @@ public:
     qreal a;
     QList<QVector3D> vertices_bottom, vertices_top;
 
-    QOpenGLBuffer arrayBufVertices;
-    QOpenGLBuffer indexBufFaces;
-    QOpenGLBuffer indexBufLines;
+//    QOpenGLBuffer arrayBufVertices;
+//    QOpenGLBuffer indexBufFaces;
+//    QOpenGLBuffer indexBufLines;
 
 
 };

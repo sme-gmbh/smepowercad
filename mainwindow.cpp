@@ -78,11 +78,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(itemDB, SIGNAL(signal_layerDeleted(Layer*)), layerManager, SLOT(slot_layerDeleted(Layer*)));
     ui->menuFormat->addAction(action_layerManager);
 
-    // **** Collision detection ****
-    this->collisionDetection = new CollisionDetection(this->itemDB, this);
-    connect(itemWizard, SIGNAL(signal_itemModified(CADitem*)), collisionDetection, SLOT(slot_testModifiedItem(CADitem*)));
-    connect(itemDB, SIGNAL(signal_itemDeleted(CADitem*)), collisionDetection, SLOT(slot_itemDeleted(CADitem*)));
-
     // **** CAD window (2nd version) *****
     mainGeometryDisplay = new GeometryDisplay(itemDB, itemWizard, itemGripModifier, this);
     connect(this, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
@@ -100,6 +95,14 @@ MainWindow::MainWindow(QWidget *parent) :
     geometryDisplays.append(mainGeometryDisplay);       // Test if this works!
     this->setCentralWidget(this->mainGeometryDisplay);
 
+    // **** Collision detection ****
+    QOffscreenSurface* offscreensurface = new QOffscreenSurface();
+    offscreensurface->create();
+    offscreensurface->setFormat(QSurfaceFormat::defaultFormat());
+    this->collisionDetection = new CollisionDetection(this->itemDB, mainGeometryDisplay, offscreensurface, this);
+    offscreensurface->moveToThread(collisionDetection);
+    connect(itemWizard, SIGNAL(signal_itemModified(CADitem*)), collisionDetection, SLOT(slot_testModifiedItem(CADitem*)));
+    connect(itemDB, SIGNAL(signal_itemDeleted(CADitem*)), collisionDetection, SLOT(slot_itemDeleted(CADitem*)));
 
 
 

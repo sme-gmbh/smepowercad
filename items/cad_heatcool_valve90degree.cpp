@@ -43,17 +43,17 @@ CAD_HeatCool_Valve90Degree::CAD_HeatCool_Valve90Degree() : CADitem(CADitemTypes:
     wizardParams.insert("l", 100.0);
     wizardParams.insert("s", 10.0);
 
-    //    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
-    //    arrayBufVertices.create();
-    //    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    //    arrayBufVertices->create();
+    //    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-    //    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-    //    indexBufFaces.create();
-    //    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    //    indexBufFaces = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    //    indexBufFaces->create();
+    //    indexBufFaces->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-    //    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-    //    indexBufLines.create();
-    //    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    //    indexBufLines = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    //    indexBufLines->create();
+    //    indexBufLines->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
     processWizardInput();
     calculate();
@@ -61,9 +61,12 @@ CAD_HeatCool_Valve90Degree::CAD_HeatCool_Valve90Degree() : CADitem(CADitemTypes:
 
 CAD_HeatCool_Valve90Degree::~CAD_HeatCool_Valve90Degree()
 {
-    //    arrayBufVertices.destroy();
-    //    indexBufFaces.destroy();
-    //    indexBufLines.destroy();
+//    arrayBufVertices->destroy();
+//    indexBufFaces->destroy();
+//    indexBufLines->destroy();
+//    delete arrayBufVertices;
+//    delete indexBufFaces;
+//    delete indexBufLines;
 }
 
 QList<CADitemTypes::ItemType> CAD_HeatCool_Valve90Degree::flangable_items(int flangeIndex)
@@ -270,7 +273,7 @@ void CAD_HeatCool_Valve90Degree::processWizardInput()
 //    QColor color_pen_tmp = getColorPen();
 //    QColor color_brush_tmp = getColorBrush();
 
-//    arrayBufVertices.bind();
+//    arrayBufVertices->bind();
 //    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
 //    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
 
@@ -278,10 +281,10 @@ void CAD_HeatCool_Valve90Degree::processWizardInput()
 //    {
 //        glwidget->setPaintingColor(color_brush_tmp);
 
-//        indexBufFaces.bind();
-//        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces.size(), GL_UNSIGNED_SHORT, 0);
+//        indexBufFaces->bind();
+//        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces->size(), GL_UNSIGNED_SHORT, 0);
 
-//        indexBufFaces.release();
+//        indexBufFaces->release();
 //    }
 
 //    if (glwidget->render_outline)
@@ -289,12 +292,12 @@ void CAD_HeatCool_Valve90Degree::processWizardInput()
 //        glwidget->setPaintingColor(color_pen_tmp);
 //        glwidget->glLineWidth(1.0);
 
-//        indexBufLines.bind();
-//        glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
-//        indexBufLines.release();
+//        indexBufLines->bind();
+//        glwidget->glDrawElements(GL_LINES, indexBufLines->size(), GL_UNSIGNED_SHORT, 0);
+//        indexBufLines->release();
 //     }                          
 
-//     arrayBufVertices.release();
+//     arrayBufVertices->release();
 //}
 
 QMatrix4x4 CAD_HeatCool_Valve90Degree::rotationOfFlange(quint8 num)

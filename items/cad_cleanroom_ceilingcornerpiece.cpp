@@ -25,27 +25,30 @@ CAD_Cleanroom_CeilingCornerPiece::CAD_Cleanroom_CeilingCornerPiece() : CADitem(C
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-//    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
-//    arrayBufVertices.create();
-//    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    //    arrayBufVertices->create();
+    //    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-//    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-//    indexBufFaces.create();
-//    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    //    indexBufFaces = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    //    indexBufFaces->create();
+    //    indexBufFaces->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-//    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-//    indexBufLines.create();
-//    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
-   
+    //    indexBufLines = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    //    indexBufLines->create();
+    //    indexBufLines->setUsagePattern(QOpenGLBuffer::StaticDraw);
+
     processWizardInput();
     calculate();
 }
 
 CAD_Cleanroom_CeilingCornerPiece::~CAD_Cleanroom_CeilingCornerPiece()
 {
-//    arrayBufVertices.destroy();
-//    indexBufFaces.destroy();
-//    indexBufLines.destroy();
+    //    arrayBufVertices->destroy();
+    //    indexBufFaces->destroy();
+    //    indexBufLines->destroy();
+    //    delete arrayBufVertices;
+    //    delete indexBufFaces;
+    //    delete indexBufLines;
 }
 
 QList<CADitemTypes::ItemType> CAD_Cleanroom_CeilingCornerPiece::flangable_items(int flangeIndex)
@@ -63,9 +66,9 @@ QImage CAD_Cleanroom_CeilingCornerPiece::wizardImage()
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-                    
+
     image.load(imageFileName, "PNG");
-                       
+
     return image;
 }
 
@@ -90,13 +93,13 @@ void CAD_Cleanroom_CeilingCornerPiece::calculate()
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
     matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-                
+
     boundingBox.reset();
-                    
+
     this->snap_flanges.clear();
     this->snap_center.clear();
     this->snap_vertices.clear();
-                                
+
     this->snap_basepoint = (position);
 }
 
@@ -115,7 +118,7 @@ void CAD_Cleanroom_CeilingCornerPiece::processWizardInput()
 //    QColor color_pen_tmp = getColorPen();
 //    QColor color_brush_tmp = getColorBrush();
 
-//    arrayBufVertices.bind();
+//    arrayBufVertices->bind();
 //    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
 //    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
 
@@ -123,23 +126,23 @@ void CAD_Cleanroom_CeilingCornerPiece::processWizardInput()
 //    {
 //        glwidget->setPaintingColor(color_brush_tmp);
 
-//        indexBufFaces.bind();
-//        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces.size(), GL_UNSIGNED_SHORT, 0);
+//        indexBufFaces->bind();
+//        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces->size(), GL_UNSIGNED_SHORT, 0);
 
-//        indexBufFaces.release();
+//        indexBufFaces->release();
 //    }
 
 //    if (glwidget->render_outline)
 //    {
 //        glwidget->setPaintingColor(color_pen_tmp);
 //        glwidget->glLineWidth(1.0);
-                                      
-//        indexBufLines.bind();
-//        glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
-//        indexBufLines.release();
+
+//        indexBufLines->bind();
+//        glwidget->glDrawElements(GL_LINES, indexBufLines->size(), GL_UNSIGNED_SHORT, 0);
+//        indexBufLines->release();
 //     }                          
-                                                                                           
-//     arrayBufVertices.release();
+
+//     arrayBufVertices->release();
 //}
 
 QMatrix4x4 CAD_Cleanroom_CeilingCornerPiece::rotationOfFlange(quint8 num)

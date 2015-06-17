@@ -43,8 +43,8 @@ public:
     bool widthByBlock;
     //QList<QVector3D> arc;
 
-    QOpenGLBuffer arrayBufVertices;
-    QOpenGLBuffer indexBufLines;
+//    QOpenGLBuffer arrayBufVertices;
+//    QOpenGLBuffer indexBufLines;
 
 };
 

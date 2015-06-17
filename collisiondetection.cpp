@@ -14,14 +14,29 @@
 **********************************************************************/
 
 #include "collisiondetection.h"
+#include "caditemheaderincludes.h"
 
 #include <QDebug>
 
-CollisionDetection::CollisionDetection(ItemDB *itemDB, QObject *parent) :
+CollisionDetection::CollisionDetection(ItemDB *itemDB, GeometryDisplay* geometrydisplay, QOffscreenSurface *offscreensurface, QObject *parent) :
     QThread(parent)
 {
     this->itemDB = itemDB;
+    this->geometrydisplay = geometrydisplay;
+    this->offscreensurface = offscreensurface;
+    this->context = new QOpenGLContext();
+    this->context->moveToThread(this);
     connect(this, SIGNAL(finished()), this, SLOT(slot_checkNextItem()));
+}
+
+void CollisionDetection::setContext(QOpenGLContext* context)
+{
+    this->context = context;
+}
+
+void CollisionDetection::setGeometryDisplay(GeometryDisplay *display)
+{
+    this->geometrydisplay = display;
 }
 
 void CollisionDetection::run()
@@ -33,31 +48,56 @@ void CollisionDetection::testLayers(QList<Layer *> layers)
 {
     foreach (Layer* layer, layers)
     {
-        testItems(layer->items, layer);
+        foreach (CADitem* item, layer->items)
+        {
+            testItems(item);
+        }
         testLayers(layer->subLayers);
     }
 }
 
-void CollisionDetection::testItems(QList<CADitem *> items, Layer *layer, bool isSubItem)
+void CollisionDetection::testItems(CADitem* item)
 {
-    foreach (CADitem* item, items)
+    if (!this->context->isValid())
     {
-        if (item == currentItem)
-            continue;
-
-        if (!currentBoundingBox.intersectsWith(item->boundingBox))
-            continue;
-
-        if (!isSubItem)
-            currentReferenceItem = item;
-
-        // simple test
-        emit signal_itemsDoCollide(currentItem, currentReferenceItem);
-        qDebug() << "Collision!";
-
-        if (item->subItems.count() > 0)
-            testItems(item->subItems, layer, true);
+        this->context->setShareContext(this->geometrydisplay->getContext());
+        this->context->create();
     }
+    this->context->makeCurrent(this->offscreensurface);
+
+    // Don't check with itself
+    if (item == currentItem)
+        return;
+
+        // Bounding Box intersection test
+        if (!currentItem_boundingBox.intersectsWith(item->boundingBox))
+            return;
+
+    qDebug() << "Bounding Boxes intersect, start Triangle vs Triangle test";
+
+    // Triangle vs. triangle intersection test
+    QList<MTriangle> item_triangleList = item->getTriangles();
+    MIntersection intersectionTester;
+    foreach(MTriangle item_triangle, item_triangleList)
+    {
+        foreach(MTriangle currentItem_triangle, currentItem_triangleList)
+        {
+            if(intersectionTester.trianglesIntersect(item_triangle, currentItem_triangle))
+            {
+                quint64 msec_stop = datetime->currentMSecsSinceEpoch();
+                emit signal_itemsDoCollide(currentItem, item);
+                qDebug() << "Collision!";
+                qDebug() << "Triangle 1:" << currentItem_triangle.getV0() << currentItem_triangle.getV1() << currentItem_triangle.getV2();
+                qDebug() << "Triangle 2:" << item_triangle.getV0() << item_triangle.getV1() << item_triangle.getV2();
+
+                this->context->doneCurrent();
+                return;
+            }
+        }
+    }
+    quint64 msec_stop = datetime->currentMSecsSinceEpoch();
+    this->context->doneCurrent();
+
 }
 
 void CollisionDetection::slot_checkNextItem()
@@ -65,7 +105,8 @@ void CollisionDetection::slot_checkNextItem()
     if (!itemsToCheck.isEmpty())
     {
         currentItem = itemsToCheck.takeFirst();
-        currentBoundingBox = currentItem->boundingBox;
+        currentItem_boundingBox = currentItem->boundingBox;
+        currentItem_triangleList = currentItem->getTriangles();
         this->start(QThread::IdlePriority);
     }
 }

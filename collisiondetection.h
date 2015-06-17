@@ -18,15 +18,22 @@
 
 #include <QThread>
 #include <QList>
+#include <QOpenGLContext>
+#include <QOffscreenSurface>
 
+#include "geometrydisplay.h"
 #include "itemdb.h"
 #include "math/m3dboundingbox.h"
+#include "math/mintersection.h"
+#include "math/mtriangle.h"
 
 class CollisionDetection : public QThread
 {
     Q_OBJECT
 public:
-    explicit CollisionDetection(ItemDB* itemDB, QObject *parent = 0);
+    explicit CollisionDetection(ItemDB* itemDB, GeometryDisplay *geometrydisplay, QOffscreenSurface* offscreensurface, QObject *parent = 0);
+    void setContext(QOpenGLContext* context);
+    void setGeometryDisplay(GeometryDisplay* geometrydisplay);
 
     void run();
     void finished();
@@ -35,11 +42,15 @@ private:
     ItemDB* itemDB;
     QList<CADitem*> itemsToCheck;
     CADitem* currentItem;
-    CADitem* currentReferenceItem;
-    M3dBoundingBox currentBoundingBox;
+    M3dBoundingBox currentItem_boundingBox;
+    QList<MTriangle> currentItem_triangleList;
+    QOpenGLContext* context;
+    QOffscreenSurface* offscreensurface;
+    GeometryDisplay* geometrydisplay;
+    QDateTime* datetime;
 
     void testLayers(QList<Layer*> layers);
-    void testItems(QList<CADitem *> items, Layer *layer, bool isSubItem = false);
+    void testItems(CADitem *item);
 
 private slots:
     void slot_checkNextItem();

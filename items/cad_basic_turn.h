@@ -46,9 +46,9 @@ public:
 //    QVector3D vertices[2][11][21];
 //    QVector3D direction;
 
-    QOpenGLBuffer arrayBufVertices;
-    QOpenGLBuffer indexBufFaces;
-    QOpenGLBuffer indexBufLines;
+//    QOpenGLBuffer arrayBufVertices;
+//    QOpenGLBuffer indexBufFaces;
+//    QOpenGLBuffer indexBufLines;
 };
 
 #endif // CAD_BASIC_TURN_H

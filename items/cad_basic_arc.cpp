@@ -32,13 +32,13 @@ CAD_basic_arc::CAD_basic_arc() : CADitem(CADitemTypes::Basic_Arc)
     wizardParams.insert("r", 1000.0);
     wizardParams.insert("alpha", 90.0);
 
-    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
-    arrayBufVertices.create();
-    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    arrayBufVertices->create();
+    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-    indexBufLines = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-    indexBufLines.create();
-    indexBufLines.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    indexBufLines = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufLines->create();
+    indexBufLines->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
     processWizardInput();
     calculate();
@@ -143,11 +143,11 @@ void CAD_basic_arc::calculate()
         19,20};
 
 
-    arrayBufVertices.bind();
-    arrayBufVertices.allocate(vertices, sizeof(vertices));
+    arrayBufVertices->bind();
+    arrayBufVertices->allocate(vertices, sizeof(vertices));
 
-    indexBufLines.bind();
-    indexBufLines.allocate(indicesLines, sizeof(indicesLines));
+    indexBufLines->bind();
+    indexBufLines->allocate(indicesLines, sizeof(indicesLines));
 
 }
 
@@ -174,7 +174,7 @@ void CAD_basic_arc::paint(GLWidget *glwidget)
     glwidget->glEnable(GL_PRIMITIVE_RESTART);
     glwidget->glPrimitiveRestartIndex(0xABCD);
 
-    arrayBufVertices.bind();
+    arrayBufVertices->bind();
     glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
     glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
 
@@ -183,12 +183,12 @@ void CAD_basic_arc::paint(GLWidget *glwidget)
         glwidget->setPaintingColor(color_pen_tmp);
         glwidget->glLineWidth(1.0);
 
-        indexBufLines.bind();
-        glwidget->glDrawElements(GL_LINES, indexBufLines.size(), GL_UNSIGNED_SHORT, 0);
-        indexBufLines.release();
+        indexBufLines->bind();
+        glwidget->glDrawElements(GL_LINES, indexBufLines->size(), GL_UNSIGNED_SHORT, 0);
+        indexBufLines->release();
     }
 
-    arrayBufVertices.release();
+    arrayBufVertices->release();
 }
 
 QMatrix4x4 CAD_basic_arc::rotationOfFlange(quint8 num)

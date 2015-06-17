@@ -312,7 +312,8 @@ SOURCES += main.cpp\
     items/cad_sprinkler_flange.cpp \
     math/mintersection.cpp \
     dxfreaderinterface.cpp \
-    items/cad_basic_triangle.cpp
+    items/cad_basic_triangle.cpp \
+    math/mtriangle.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -586,7 +587,8 @@ HEADERS  += mainwindow.h \
     items/cad_sprinkler_flange.h \
     math/mintersection.h \
     dxfreaderinterface.h \
-    items/cad_basic_triangle.h
+    items/cad_basic_triangle.h \
+    math/mtriangle.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

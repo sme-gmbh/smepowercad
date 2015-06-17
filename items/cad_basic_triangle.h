@@ -33,9 +33,9 @@ public:
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
     virtual void paint(GLWidget* glwidget);
 
-    QOpenGLBuffer arrayBufVertices;
-    QOpenGLBuffer indexBufFaces;
-    QOpenGLBuffer indexBufLines;
+//    QOpenGLBuffer arrayBufVertices;
+//    QOpenGLBuffer indexBufFaces;
+//    QOpenGLBuffer indexBufLines;
 
     QVector3D position1;
     QVector3D position2;

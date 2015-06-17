@@ -36,13 +36,13 @@ CAD_heatcool_pipeEndCap::CAD_heatcool_pipeEndCap() : CADitem(CADitemTypes::HeatC
     wizardParams.insert("fe", 10.0);
     wizardParams.insert("ff", 10.0);
 
-    arrayBufVertices = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
-    arrayBufVertices.create();
-    arrayBufVertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    arrayBufVertices->create();
+    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-    indexBufFaces = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-    indexBufFaces.create();
-    indexBufFaces.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    indexBufFaces = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufFaces->create();
+    indexBufFaces->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
     processWizardInput();
     calculate();
@@ -191,11 +191,11 @@ void CAD_heatcool_pipeEndCap::calculate()
 
 
 
-    arrayBufVertices.bind();
-    arrayBufVertices.allocate(vertices, sizeof(vertices));
+    arrayBufVertices->bind();
+    arrayBufVertices->allocate(vertices, sizeof(vertices));
 
-    indexBufFaces.bind();
-    indexBufFaces.allocate(indicesFaces, sizeof(indicesFaces));
+    indexBufFaces->bind();
+    indexBufFaces->allocate(indicesFaces, sizeof(indicesFaces));
 
 
     foreach(CADitem *item, subItems)
@@ -246,7 +246,7 @@ void CAD_heatcool_pipeEndCap::paint(GLWidget *glwidget)
     glwidget->glEnable(GL_PRIMITIVE_RESTART);
     glwidget->glPrimitiveRestartIndex(0xABCD);
 
-    arrayBufVertices.bind();
+    arrayBufVertices->bind();
     glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
     glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
 
@@ -254,11 +254,11 @@ void CAD_heatcool_pipeEndCap::paint(GLWidget *glwidget)
     {
         glwidget->setPaintingColor(color_brush_tmp);
 
-        indexBufFaces.bind();
-        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces.size(), GL_UNSIGNED_SHORT, 0);
+        indexBufFaces->bind();
+        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces->size(), GL_UNSIGNED_SHORT, 0);
 
-        indexBufFaces.release();
+        indexBufFaces->release();
     }
 
-    arrayBufVertices.release();
+    arrayBufVertices->release();
 }

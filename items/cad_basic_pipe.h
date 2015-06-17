@@ -49,9 +49,9 @@ public:
     QList<QVector3D> vertices_outer_top;
     QList<QVector3D> vertices_inner_top;
 
-    QOpenGLBuffer arrayBufVertices;
-    QOpenGLBuffer indexBufFaces;
-    QOpenGLBuffer indexBufLines;
+//    QOpenGLBuffer arrayBufVertices;
+//    QOpenGLBuffer indexBufFaces;
+//    QOpenGLBuffer indexBufLines;
 
 
 };

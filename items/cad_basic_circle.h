@@ -41,9 +41,9 @@ public:
     bool widthByBlock;
     //QList<QVector3D> circle;
 
-    QOpenGLBuffer arrayBufVertices;
-    QOpenGLBuffer indexBufLines;
-    QOpenGLBuffer indexBufFaces;
+//    QOpenGLBuffer arrayBufVertices;
+//    QOpenGLBuffer indexBufLines;
+//    QOpenGLBuffer indexBufFaces;
 };
 
 #endif // CAD_BASIC_CIRCLE_H
