@@ -11,7 +11,7 @@ MIntersection::~MIntersection()
 
 }
 
-bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2, QVector3D w0, QVector3D w1, QVector3D w2)
+bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2, QVector3D w0, QVector3D w1, QVector3D w2, QVector3D* line_1, QVector3D* line_2)
 {
     //compare to: http://web.stanford.edu/class/cs277/resources/papers/Moller1997b.pdf
     //thanks to Tomas Möller
@@ -212,11 +212,11 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
             return false;
 
         //some debug output, generates XML, that can be loaded into PowerCAD
-//        float norm_n_squared = QVector3D::dotProduct(n, n);
-//        float norm_m_squared = QVector3D::dotProduct(m, m);
-//        float n_dot_m = QVector3D::dotProduct(n, m);
-//        QVector3D aufpunkt = (-d * norm_m_squared + e * n_dot_m) / (norm_n_squared * norm_m_squared - n_dot_m * n_dot_m) * n +
-//                (-e * norm_n_squared + d * n_dot_m) / (norm_n_squared * norm_m_squared - n_dot_m * n_dot_m) * m;
+        float norm_n_squared = QVector3D::dotProduct(n, n);
+        float norm_m_squared = QVector3D::dotProduct(m, m);
+        float n_dot_m = QVector3D::dotProduct(n, m);
+        QVector3D aufpunkt = (-d * norm_m_squared + e * n_dot_m) / (norm_n_squared * norm_m_squared - n_dot_m * n_dot_m) * n +
+                (-e * norm_n_squared + d * n_dot_m) / (norm_n_squared * norm_m_squared - n_dot_m * n_dot_m) * m;
 
 //        qDebug() << "<I54 "
 //                 << "Position_x1=" << '"' << (aufpunkt - 10000*direction).x()<< '"'
@@ -257,15 +257,17 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
 //        qDebug() << s1 << s2;
 //        qDebug() << t1 << t2;
 
+        *line_1 = aufpunkt + 10000*direction;
+        *line_2 = aufpunkt - 10000*direction;
         return true;
     }
 
 }
 
 
-bool MIntersection::trianglesIntersect(MTriangle t1, MTriangle t2)
+bool MIntersection::trianglesIntersect(MTriangle t1, MTriangle t2, QVector3D *line_1, QVector3D *line_2)
 {
-    return trianglesIntersect(t1.getV0(), t1.getV1(), t1.getV2(), t2.getV0(), t2.getV1(), t2.getV2());
+    return trianglesIntersect(t1.getV0(), t1.getV1(), t1.getV2(), t2.getV0(), t2.getV1(), t2.getV2(), line_1, line_2);
 }
 
 bool MIntersection::edgeAgainstEdge(QVector2D v0, QVector2D v1, QVector2D w0, QVector2D w1)

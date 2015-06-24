@@ -101,10 +101,9 @@ MainWindow::MainWindow(QWidget *parent) :
     offscreensurface->setFormat(QSurfaceFormat::defaultFormat());
     this->collisionDetection = new CollisionDetection(this->itemDB, mainGeometryDisplay, offscreensurface, this);
     offscreensurface->moveToThread(collisionDetection);
-    connect(itemWizard, SIGNAL(signal_itemModified(CADitem*)), collisionDetection, SLOT(slot_testModifiedItem(CADitem*)));
     connect(itemDB, SIGNAL(signal_itemDeleted(CADitem*)), collisionDetection, SLOT(slot_itemDeleted(CADitem*)));
-    connect(mainGeometryDisplay->getWidget(), SIGNAL(signal_itemModified(CADitem*)), collisionDetection, SLOT(slot_testModifiedItem(CADitem*)));
-    connect(collisionDetection, SIGNAL(signal_itemsDoCollide(CADitem*,CADitem*)), this, SLOT(slot_collision_detected(CADitem*,CADitem*)));
+    connect(itemDB, SIGNAL(signal_itemModified(CADitem*)), collisionDetection, SLOT(slot_testModifiedItem(CADitem*)));
+    connect(collisionDetection, SIGNAL(signal_itemsDoCollide(CADitem*,CADitem*, QVector3D, QVector3D)), this, SLOT(slot_collision_detected(CADitem*,CADitem*, QVector3D, QVector3D)));
 
 
 
@@ -290,6 +289,9 @@ MainWindow::MainWindow(QWidget *parent) :
 //    }
 //    qDebug() << "Finished test anglesFromMatrix()";
 
+    itemDB->addLayer("Collision");
+    itemDB->getLayerByName("Collision")->pen.setColor(QColor(255,0,0));
+    itemDB->getLayerByName("Collision")->brush.setColor(QColor(255,0,0));
     this->layerManager->slot_updateAllLayers();
 
 
@@ -671,15 +673,37 @@ void MainWindow::on_actionServer_triggered(bool checked)
 
 }
 
-void MainWindow::slot_collision_detected(CADitem *item_1, CADitem *item_2)
+void MainWindow::slot_collision_detected(CADitem *item_1, CADitem *item_2, QVector3D line_1, QVector3D line_2)
 {
+    this->geometryDisplays.first()->getWidget()->setLookAt((line_1 + line_2)/2);
+//    CAD_basic_line* line = new CAD_basic_line;
+//    line->wizardParams.insert("Position x1", line_1.x());
+//    line->wizardParams.insert("Position y1", line_1.y());
+//    line->wizardParams.insert("Position z1", line_1.z());
+//    line->wizardParams.insert("Position x2", line_2.x());
+//    line->wizardParams.insert("Position y2", line_2.y());
+//    line->wizardParams.insert("Position z2", line_2.z());
+//    line->wizardParams.insert("r", 50.0);
+//    line->processWizardInput();
+//    line->calculate();
+//    itemDB->addItem(line, "Collision");
 
-    if(QMessageBox::question(this, tr("Collision Detection"), tr("There has been a collision between ") +
-                              item_1->description() + tr("@") + item_1->layer->name + " and " + item_2->description() +
-                              tr("@") + item_2->layer->name + ". Accept anyway?")
-            == QMessageBox::No)
-    {
-        this->itemDB->restore_undo();
-    }
+    itemDB->changeLayerOfItem(item_1->id, "Collision");
+    itemDB->changeLayerOfItem(item_2->id, "Collision");
+
+    QString pos_1 = QString().sprintf(" @{%.3lf|%.3lf|%.3lf}", item_1->position.x(), item_1->position.y(), item_1->position.z());
+    QString pos_2 = QString().sprintf(" @{%.3lf|%.3lf|%.3lf}", item_2->position.x(), item_2->position.y(), item_2->position.z());
+//    if(QMessageBox::question(this, tr("Collision Detection"), tr("There has been a collision between\n")
+//                             + item_1->description() + " on " + item_1->layer->name + pos_1 + "\nand\n"
+//                             + item_2->description() + " on " + item_2->layer->name + pos_2 + ".\n"
+//                             + "Accept anyway?")
+//            == QMessageBox::No)
+//    {
+//        this->itemDB->restore_undo();
+//    }
+
+    QMessageBox::information(this, tr("Collision Detection"), tr("There has been a collision between\n")
+                             + item_1->description() + " on " + item_1->layer->name + pos_1 + "\nand\n"
+                             + item_2->description() + " on " + item_2->layer->name + pos_2 + ".");
 
 }

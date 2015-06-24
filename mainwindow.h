@@ -134,7 +134,7 @@ private slots:
     void on_actionAbout_triggered();
     void on_actionSettings_triggered();
     void on_actionServer_triggered(bool checked);
-    void slot_collision_detected(CADitem* item_1, CADitem* item_2);
+    void slot_collision_detected(CADitem* item_1, CADitem* item_2, QVector3D line_1, QVector3D line_2);
 
 
 signals:

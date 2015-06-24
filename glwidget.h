@@ -84,6 +84,7 @@ public:
     QMatrix4x4 getMatrix_glSelect();
     QMatrix4x4 getMatrix_modelview();
     QMatrix4x4 getMatrix_rotation();
+    ItemGripModifier *getItemGripModifier();
     void render_image(QPainter *painter, int x, int y, int size_x, int size_y, QMatrix4x4 matrix_modelview, QMatrix4x4 matrix_rotation, bool showTiles = false);
 
 
@@ -217,6 +218,7 @@ public:
     void setTextureCoords(qreal x, qreal y, qreal z);
     void setUseTexture(bool on);
     void setMatrices(QMatrix4x4 matrix_projection, QMatrix4x4 matrix_glSelect, QMatrix4x4 matrix_modelview, QMatrix4x4 matrix_rotation);
+    void setLookAt(QVector3D lookAt);
 
 private:
     void paintContent(QList<Layer*> layers);
@@ -289,7 +291,6 @@ protected:
 signals:
     void signal_mouseMoved(QVector3D coords);
     void signal_matrix_rotation_changed(QMatrix4x4 matrix_rotation);
-    void signal_itemModified(CADitem* item);
 
 public slots:
     void slot_repaint();

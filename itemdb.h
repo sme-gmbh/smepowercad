@@ -136,6 +136,7 @@ signals:
 //    void signal_itemModified(CADitem* item, Layer* layer);
     void signal_layerManagerUpdateNeeded();
     void signal_repaintNeeded();
+    void signal_itemModified(CADitem* item);
 
 public slots:
 

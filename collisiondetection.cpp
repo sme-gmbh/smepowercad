@@ -78,11 +78,12 @@ void CollisionDetection::testItems(CADitem* item)
     // Triangle vs. triangle intersection test
     QList<MTriangle> item_triangleList = item->getTriangles();
     MIntersection intersectionTester;
+    QVector3D line_1, line_2;
     foreach(MTriangle item_triangle, item_triangleList)
     {
         foreach(MTriangle currentItem_triangle, currentItem_triangleList)
         {
-            if(intersectionTester.trianglesIntersect(item_triangle, currentItem_triangle))
+            if(intersectionTester.trianglesIntersect(item_triangle, currentItem_triangle, &line_1, &line_2))
             {
 //                qDebug() << "<I65 "
 //                         << "Position_x=" << '"' << currentItem_triangle.getV0().x() << '"'
@@ -107,7 +108,7 @@ void CollisionDetection::testItems(CADitem* item)
 //                         << "Position_z2=" << '"' << item_triangle.getV2().z() << '"'
 //                         << "/>" ;
                 qDebug() << "Collision!";
-                emit signal_itemsDoCollide(currentItem, item);
+                emit signal_itemsDoCollide(currentItem, item, line_1, line_2);
                 this->context->doneCurrent();
                 return;
             }
@@ -131,6 +132,15 @@ void CollisionDetection::slot_checkNextItem()
 void CollisionDetection::slot_testModifiedItem(CADitem *item)
 {
     itemsToCheck.append(item);
+
+    if (!this->isRunning())
+        slot_checkNextItem();
+}
+
+void CollisionDetection::slot_testModifiedItems(QList<CADitem *> *list)
+{
+    qDebug() << "slot";
+    itemsToCheck.append(*list);
 
     if (!this->isRunning())
         slot_checkNextItem();

@@ -12,8 +12,8 @@ public:
     MIntersection();
     ~MIntersection();
 
-     bool trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2, QVector3D w0, QVector3D w1, QVector3D w2);
-     bool trianglesIntersect(MTriangle t1, MTriangle t2);
+     bool trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2, QVector3D w0, QVector3D w1, QVector3D w2, QVector3D *line_1, QVector3D *line_2);
+     bool trianglesIntersect(MTriangle t1, MTriangle t2, QVector3D *line_1, QVector3D *line_2);
 
 private:
     void interval(float VV0, float VV1, float VV2, float D0, float D1, float D2, float D0D1, float D0D2, float* A, float* B, float* C, float* X0, float* X1);

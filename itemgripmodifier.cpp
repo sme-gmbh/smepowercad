@@ -171,13 +171,12 @@ void ItemGripModifier::copyItemsTo(QVector3D new_scenePos)
     {
         QVector3D offset = this->scenePos - item->position;    // Offset between point of pickup and basepoint of picked object
         QVector3D newPos = new_scenePos - offset;
-        CADitem* newItem = this->itemDB->drawItem_withRestorePoint(item->layer, item->getType(), item->wizardParams);
         WizardParams newParams;
         newParams = item->wizardParams;
         newParams.insert("Position x", ((qreal)newPos.x()));
         newParams.insert("Position y", ((qreal)newPos.y()));
         newParams.insert("Position z", ((qreal)newPos.z()));
-        newItem->wizardParams.insert(newParams);
+        CADitem* newItem = this->itemDB->drawItem_withRestorePoint(item->layer, item->getType(), newParams);
         newItem->processWizardInput();
         newItem->calculate();
     }
@@ -213,7 +212,7 @@ void ItemGripModifier::slot_button_clicked()
     int flangeIndex = this->item->snap_flanges.indexOf(this->scenePos) + 1;
 
     itemDB->setRestorePoint();
-    CADitem* newItem = itemDB->drawItem_withRestorePoint(this->item->layer, type, WizardParams());
+    CADitem* newItem = itemDB->drawItem(this->item->layer, type);
 
     newItem->wizardParams.insert("Position x", ((qreal)scenePos.x()));
     newItem->wizardParams.insert("Position y", ((qreal)scenePos.y()));
@@ -299,7 +298,6 @@ void ItemGripModifier::slot_button_copyMulty()
             }
         }
     }
-
     finishGrip();
 
     emit signal_sceneRepaintNeeded();

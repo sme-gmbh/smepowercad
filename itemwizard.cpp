@@ -146,7 +146,6 @@ void ItemWizard::save()
 //    currentItem->wizardParams = params;
 //    currentItem->processWizardInput();
 //    currentItem->calculate();
-    emit signal_itemModified(currentItem);
     emit signal_sceneRepaintNeeded();
 }
 

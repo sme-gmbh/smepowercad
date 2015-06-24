@@ -1151,6 +1151,7 @@ CADitem *ItemDB::drawItem_withRestorePoint(Layer *layer, CADitemTypes::ItemType 
     item->processWizardInput();
     item->calculate();
 
+    emit signal_itemModified(item);
     return item;
 }
 
@@ -1176,6 +1177,7 @@ void ItemDB::modifyItem_withRestorePoint(CADitem *item, WizardParams newParams)
 
     item->processWizardInput();
     item->calculate();
+    emit signal_itemModified(item);
 }
 
 void ItemDB::setRestorePoint()
@@ -1679,6 +1681,13 @@ bool ItemDB::file_loadDB(QString filename, QString* error, QMatrix4x4 *matrix_pr
     }
 
     //Read matrices
+    if(!root.hasAttribute("MatrixProjection"))
+    {
+       file.close();
+       *error = tr("No Entry for Matrix ist found");
+       return false;
+    }
+
     QDomElement element_matrix_projection = root.firstChildElement("MatrixProjection");
     for(int i = 0; i < 4; i++)
     {
