@@ -289,6 +289,7 @@ protected:
 signals:
     void signal_mouseMoved(QVector3D coords);
     void signal_matrix_rotation_changed(QMatrix4x4 matrix_rotation);
+    void signal_itemModified(CADitem* item);
 
 public slots:
     void slot_repaint();

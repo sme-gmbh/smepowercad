@@ -103,6 +103,7 @@ MainWindow::MainWindow(QWidget *parent) :
     offscreensurface->moveToThread(collisionDetection);
     connect(itemWizard, SIGNAL(signal_itemModified(CADitem*)), collisionDetection, SLOT(slot_testModifiedItem(CADitem*)));
     connect(itemDB, SIGNAL(signal_itemDeleted(CADitem*)), collisionDetection, SLOT(slot_itemDeleted(CADitem*)));
+    connect(mainGeometryDisplay->getWidget(), SIGNAL(signal_itemModified(CADitem*)), collisionDetection, SLOT(slot_testModifiedItem(CADitem*)));
 
 
 

@@ -645,7 +645,6 @@ void GLWidget::leaveEvent(QEvent *event)
 
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
-    qDebug() << matrix_modelview;
     this->setFocus();
 
     if (event->buttons() == Qt::MidButton)
@@ -927,6 +926,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
 //            item_lastHighlight->wizardParams.insert("Angle z", (angles.z()));
 //            item_lastHighlight->processWizardInput();
 //            item_lastHighlight->calculate();
+            emit signal_itemModified(item_lastHighlight);
             slot_repaint();
         }
         break;
@@ -958,6 +958,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
 //            item_lastHighlight->wizardParams.insert("Angle z", (angles.z()));
 //            item_lastHighlight->processWizardInput();
 //            item_lastHighlight->calculate();
+            emit signal_itemModified(item_lastHighlight);
             slot_repaint();
         }
         break;
@@ -989,6 +990,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
 //            item_lastHighlight->wizardParams.insert("Angle z", (angles.z()));
 //            item_lastHighlight->processWizardInput();
 //            item_lastHighlight->calculate();
+            emit signal_itemModified(item_lastHighlight);
             slot_repaint();
         }
         break;
