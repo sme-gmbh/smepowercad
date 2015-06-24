@@ -676,17 +676,17 @@ void MainWindow::on_actionServer_triggered(bool checked)
 void MainWindow::slot_collision_detected(CADitem *item_1, CADitem *item_2, QVector3D line_1, QVector3D line_2)
 {
     this->geometryDisplays.first()->getWidget()->setLookAt((line_1 + line_2)/2);
-//    CAD_basic_line* line = new CAD_basic_line;
-//    line->wizardParams.insert("Position x1", line_1.x());
-//    line->wizardParams.insert("Position y1", line_1.y());
-//    line->wizardParams.insert("Position z1", line_1.z());
-//    line->wizardParams.insert("Position x2", line_2.x());
-//    line->wizardParams.insert("Position y2", line_2.y());
-//    line->wizardParams.insert("Position z2", line_2.z());
-//    line->wizardParams.insert("r", 50.0);
-//    line->processWizardInput();
-//    line->calculate();
-//    itemDB->addItem(line, "Collision");
+    CAD_basic_line* line = new CAD_basic_line;
+    line->wizardParams.insert("Position x1", line_1.x());
+    line->wizardParams.insert("Position y1", line_1.y());
+    line->wizardParams.insert("Position z1", line_1.z());
+    line->wizardParams.insert("Position x2", line_2.x());
+    line->wizardParams.insert("Position y2", line_2.y());
+    line->wizardParams.insert("Position z2", line_2.z());
+    line->wizardParams.insert("r", 50.0);
+    line->processWizardInput();
+    line->calculate();
+    itemDB->addItem(line, "Collision");
 
     itemDB->changeLayerOfItem(item_1->id, "Collision");
     itemDB->changeLayerOfItem(item_2->id, "Collision");
