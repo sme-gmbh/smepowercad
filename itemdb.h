@@ -35,7 +35,6 @@
 #include "caditemtypes.h"
 #include "restorepoint.h"
 
-
 class ItemDB : public QObject
 {
     Q_OBJECT
@@ -105,10 +104,10 @@ public:
     QByteArray network_changeLayerOfItem(quint64 id, QMap<QString, QString> data);
     QByteArray network_deleteItem(quint64 id);
 
-    bool file_storeDB(QString filename);
+    bool file_storeDB(QString filename, QMatrix4x4 matrix_projection, QMatrix4x4 matrix_glSelect, QMatrix4x4 matrix_modelview, QMatrix4x4 matrix_rotation);
     void file_storeDB_processLayers(QDomDocument document, QDomElement parentElement, QList<Layer*> layers);
     void file_storeDB_processItems(QDomDocument document, QDomElement parentElement, QList<CADitem*> items);
-    bool file_loadDB(QString filename, QString *error);
+    bool file_loadDB(QString filename, QString *error, QMatrix4x4 *matrix_projection, QMatrix4x4 *matrix_glSelect, QMatrix4x4 *matrix_modelview, QMatrix4x4 *matrix_rotation);
     void file_loadDB_parseDomElement(QDomElement element, Layer* currentLayer, bool mapByDescription, QMap<int, QString> *file_itemDescriptionByItemType, QString *error);
 
 private:

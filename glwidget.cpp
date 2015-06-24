@@ -201,6 +201,16 @@ QMatrix4x4 GLWidget::getMatrix_all()
     return this->matrix_all;
 }
 
+QMatrix4x4 GLWidget::getMatrix_projection()
+{
+    return this->matrix_projection;
+}
+
+QMatrix4x4 GLWidget::getMatrix_glSelect()
+{
+    return this->matrix_glSelect;
+}
+
 QMatrix4x4 GLWidget::getMatrix_modelview()
 {
     return this->matrix_modelview;
@@ -209,6 +219,22 @@ QMatrix4x4 GLWidget::getMatrix_modelview()
 QMatrix4x4 GLWidget::getMatrix_rotation()
 {
     return this->matrix_rotation;
+}
+
+void GLWidget::setMatrices(QMatrix4x4 matrix_projection, QMatrix4x4 matrix_glSelect, QMatrix4x4 matrix_modelview, QMatrix4x4 matrix_rotation)
+{
+    this->matrix_projection = matrix_projection;
+    this->matrix_glSelect = matrix_glSelect;
+    this->matrix_modelview = matrix_modelview;
+    this->zoomFactor = matrix_modelview.column(0).x();
+    this->translationOffset.setX(matrix_modelview.column(3).x());
+    this->translationOffset.setY(matrix_modelview.column(3).y());
+    this->matrix_rotation = matrix_rotation;
+    QSize sizeShadow = this->size();
+    this->resize(500,500);
+    this->resize(sizeShadow);
+    this->updateMatrixAll();
+    this->slot_repaint();
 }
 
 void GLWidget::render_image(QPainter* painter, int x, int y, int size_x, int size_y, QMatrix4x4 matrix_modelview, QMatrix4x4 matrix_rotation, bool showTiles)
@@ -619,6 +645,7 @@ void GLWidget::leaveEvent(QEvent *event)
 
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
+    qDebug() << matrix_modelview;
     this->setFocus();
 
     if (event->buttons() == Qt::MidButton)

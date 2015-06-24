@@ -56,8 +56,8 @@ void ItemDB::deriveDomainsAndItemTypes()
         }
         else
         {
-//            QString enumName = CADitemTypes().getEnumNameOfItemType((CADitemTypes::ItemType)type);
-//            qDebug() << "ItemDB::deriveDomainsAndItemTypes()" << enumName;
+            //            QString enumName = CADitemTypes().getEnumNameOfItemType((CADitemTypes::ItemType)type);
+            //            qDebug() << "ItemDB::deriveDomainsAndItemTypes()" << enumName;
         }
 
         itemTypesByDomain.insertMulti(item->domain(), (int)type);
@@ -342,7 +342,7 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
 
     switch (type)
     {
-        //Air
+    //Air
     case CADitemTypes::Air_Duct:
         newItem = new CAD_air_duct();
         break;
@@ -1504,7 +1504,7 @@ QByteArray ItemDB::network_deleteItem(quint64 id)
         return QByteArray("Error while deleting item ") + QByteArray().setNum(id) + "\n";
 }
 
-bool ItemDB::file_storeDB(QString filename)
+bool ItemDB::file_storeDB(QString filename, QMatrix4x4 matrix_projection, QMatrix4x4 matrix_glSelect, QMatrix4x4 matrix_modelview, QMatrix4x4 matrix_rotation)
 {
     QDomDocument document;
     QDomElement root = document.createElement("SmePowerCadProject");
@@ -1523,6 +1523,60 @@ bool ItemDB::file_storeDB(QString filename)
         element_itemTypeList.appendChild(element_itemType);
         element_itemType.setAttribute("Type", QString().sprintf("I%i", i));
         element_itemType.setAttribute("Description", description);
+    }
+
+    //store matrices
+
+    qDebug() << "Projection" << matrix_projection;
+    qDebug() << "GL Select" << matrix_glSelect;
+    qDebug() << "modelview" << matrix_modelview;
+    qDebug() << "rotation!"<< matrix_rotation;
+    QDomElement element_matrix_projection = document.createElement("MatrixProjection");
+    root.appendChild(element_matrix_projection);
+    for(int i = 0; i < 4;i++)
+    {
+        QDomElement element_column = document.createElement("Column" + QString::number(i));
+        element_matrix_projection.appendChild(element_column);
+        element_column.setAttribute("x", matrix_projection.column(i).x());
+        element_column.setAttribute("y", matrix_projection.column(i).y());
+        element_column.setAttribute("z", matrix_projection.column(i).z());
+        element_column.setAttribute("w", matrix_projection.column(i).w());
+    }
+
+    QDomElement element_matrix_glselect = document.createElement("MatrixGLSelect");
+    root.appendChild(element_matrix_glselect);
+    for(int i = 0; i < 4;i++)
+    {
+        QDomElement element_column = document.createElement("Column" + QString::number(i));
+        element_matrix_glselect.appendChild(element_column);
+        element_column.setAttribute("x", matrix_glSelect.column(i).x());
+        element_column.setAttribute("y", matrix_glSelect.column(i).y());
+        element_column.setAttribute("z", matrix_glSelect.column(i).z());
+        element_column.setAttribute("w", matrix_glSelect.column(i).w());
+    }
+
+    QDomElement element_matrix_modelview = document.createElement("MatrixModelview");
+    root.appendChild(element_matrix_modelview);
+    for(int i = 0; i < 4;i++)
+    {
+        QDomElement element_column = document.createElement("Column" + QString::number(i));
+        element_matrix_modelview.appendChild(element_column);
+        element_column.setAttribute("x", matrix_modelview.column(i).x());
+        element_column.setAttribute("y", matrix_modelview.column(i).y());
+        element_column.setAttribute("z", matrix_modelview.column(i).z());
+        element_column.setAttribute("w", matrix_modelview.column(i).w());
+    }
+
+    QDomElement element_matrix_rotation = document.createElement("MatrixRotation");
+    root.appendChild(element_matrix_rotation);
+    for(int i = 0; i < 4;i++)
+    {
+        QDomElement element_column = document.createElement("Column" + QString::number(i));
+        element_matrix_rotation.appendChild(element_column);
+        element_column.setAttribute("x", matrix_rotation.column(i).x());
+        element_column.setAttribute("y", matrix_rotation.column(i).y());
+        element_column.setAttribute("z", matrix_rotation.column(i).z());
+        element_column.setAttribute("w", matrix_rotation.column(i).w());
     }
 
     // Store cad data
@@ -1576,7 +1630,7 @@ void ItemDB::file_storeDB_processItems(QDomDocument document, QDomElement parent
     }
 }
 
-bool ItemDB::file_loadDB(QString filename, QString* error)
+bool ItemDB::file_loadDB(QString filename, QString* error, QMatrix4x4 *matrix_projection, QMatrix4x4 *matrix_glSelect, QMatrix4x4 *matrix_modelview, QMatrix4x4 *matrix_rotation)
 {
     QFile file(filename);
 
@@ -1619,10 +1673,62 @@ bool ItemDB::file_loadDB(QString filename, QString* error)
     if (root.attribute("Version") != currentVersion)
     {
         *error = tr("Old file version: ") + root.attribute("Version") + "\n" +
-                                 tr("Current version: ") + currentVersion + "\n" +
-                                 tr("Converting file to current version.");
+                tr("Current version: ") + currentVersion + "\n" +
+                tr("Converting file to current version.");
         mapByDescription = true;
     }
+
+    //Read matrices
+    QDomElement element_matrix_projection = root.firstChildElement("MatrixProjection");
+    for(int i = 0; i < 4; i++)
+    {
+        QDomElement element_column = element_matrix_projection.firstChildElement("Column" + QString::number(i));
+        double x = element_column.attribute("x").toDouble();
+        double y = element_column.attribute("y").toDouble();
+        double z = element_column.attribute("z").toDouble();
+        double w = element_column.attribute("w").toDouble();
+        matrix_projection->setColumn(i, QVector4D(x, y, z, w));
+    }
+
+    QDomElement element_matrix_glselect = root.firstChildElement("MatrixGLSelect");
+    for(int i = 0; i < 4; i++)
+    {
+        QDomElement element_column = element_matrix_glselect.firstChildElement("Column" + QString::number(i));
+        double x = element_column.attribute("x").toDouble();
+        double y = element_column.attribute("y").toDouble();
+        double z = element_column.attribute("z").toDouble();
+        double w = element_column.attribute("w").toDouble();
+        matrix_glSelect->setColumn(i, QVector4D(x, y, z, w));
+    }
+
+    QDomElement element_matrix_modelview = root.firstChildElement("MatrixModelview");
+    for(int i = 0; i < 4; i++)
+    {
+        QDomElement element_column = element_matrix_modelview.firstChildElement("Column" + QString::number(i));
+        double x = element_column.attribute("x").toDouble();
+        double y = element_column.attribute("y").toDouble();
+        double z = element_column.attribute("z").toDouble();
+        double w = element_column.attribute("w").toDouble();
+        matrix_modelview->setColumn(i, QVector4D(x, y, z, w));
+    }
+
+    QDomElement element_matrix_rotation = root.firstChildElement("MatrixRotation");
+    for(int i = 0; i < 4; i++)
+    {
+        QDomElement element_column = element_matrix_rotation.firstChildElement("Column" + QString::number(i));
+        double x = element_column.attribute("x").toDouble();
+        double y = element_column.attribute("y").toDouble();
+        double z = element_column.attribute("z").toDouble();
+        double w = element_column.attribute("w").toDouble();
+        matrix_rotation->setColumn(i, QVector4D(x, y, z, w));
+    }
+
+
+    qDebug() << "Projection" << *matrix_projection;
+    qDebug() << "GL Select" << *matrix_glSelect;
+    qDebug() << "modelview" << *matrix_modelview;
+    qDebug() << "rotation!"<< *matrix_rotation;
+
 
     // Read itemTypeList from file and build map
     QMap <int, QString> file_itemDescriptionByItemType;

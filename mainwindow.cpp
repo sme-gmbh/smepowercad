@@ -429,7 +429,9 @@ void MainWindow::slot_file_open_dxf_with_libdxfrw(QString filename)
 void MainWindow::slot_file_open_xml(QString filename)
 {
     QString error;
-    bool ok = itemDB->file_loadDB(filename, &error);
+    QMatrix4x4 matrix_projection, matrix_glSelect, matrix_modelview, matrix_rotation;
+    bool ok = itemDB->file_loadDB(filename, &error, &matrix_projection, &matrix_glSelect, &matrix_modelview, &matrix_rotation);
+
     if (!ok)
         QMessageBox::critical(this, tr("Error while loading"), tr("Unable to open or parse file. Error:\n") + error);
     else if (!error.isEmpty())
@@ -437,7 +439,10 @@ void MainWindow::slot_file_open_xml(QString filename)
         QMessageBox::information(this, tr("Information while loading"), error);
     }
     else
+    {
         this->project_filepath = filename;
+        this->geometryDisplays.at(0)->getWidget()->setMatrices(matrix_projection, matrix_glSelect, matrix_modelview, matrix_rotation);
+    }
 }
 
 void MainWindow::slot_file_save_action()
@@ -456,7 +461,10 @@ void MainWindow::slot_file_save_action()
     if (!filename.endsWith(".xml"))
         filename.append(".xml");
 
-    bool ok = itemDB->file_storeDB(filename);
+    bool ok = itemDB->file_storeDB(filename, this->geometryDisplays.first()->getWidget()->getMatrix_projection(),
+                                   this->geometryDisplays.first()->getWidget()->getMatrix_glSelect(),
+                                   this->geometryDisplays.first()->getWidget()->getMatrix_modelview(),
+                                   this->geometryDisplays.first()->getWidget()->getMatrix_rotation());
 
     if (ok)
         this->project_filepath = filename;
@@ -477,7 +485,10 @@ void MainWindow::slot_file_save_as_action()
     if (!filename.endsWith(".xml"))
         filename.append(".xml");
 
-    bool ok = itemDB->file_storeDB(filename);
+    bool ok = itemDB->file_storeDB(filename, this->geometryDisplays.first()->getWidget()->getMatrix_projection(),
+                                   this->geometryDisplays.first()->getWidget()->getMatrix_glSelect(),
+                                   this->geometryDisplays.first()->getWidget()->getMatrix_modelview(),
+                                   this->geometryDisplays.first()->getWidget()->getMatrix_rotation());
 
     if (ok)
         this->project_filepath = filename;
