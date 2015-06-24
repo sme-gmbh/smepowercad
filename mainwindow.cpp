@@ -104,6 +104,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(itemWizard, SIGNAL(signal_itemModified(CADitem*)), collisionDetection, SLOT(slot_testModifiedItem(CADitem*)));
     connect(itemDB, SIGNAL(signal_itemDeleted(CADitem*)), collisionDetection, SLOT(slot_itemDeleted(CADitem*)));
     connect(mainGeometryDisplay->getWidget(), SIGNAL(signal_itemModified(CADitem*)), collisionDetection, SLOT(slot_testModifiedItem(CADitem*)));
+    connect(collisionDetection, SIGNAL(signal_itemsDoCollide(CADitem*,CADitem*)), this, SLOT(slot_collision_detected(CADitem*,CADitem*)));
 
 
 
@@ -667,5 +668,18 @@ void MainWindow::on_actionSettings_triggered()
 void MainWindow::on_actionServer_triggered(bool checked)
 {
     // Switch Server function on or off
+
+}
+
+void MainWindow::slot_collision_detected(CADitem *item_1, CADitem *item_2)
+{
+
+    if(QMessageBox::question(this, tr("Collision Detection"), tr("There has been a collision between ") +
+                              item_1->description() + tr("@") + item_1->layer->name + " and " + item_2->description() +
+                              tr("@") + item_2->layer->name + ". Accept anyway?")
+            == QMessageBox::No)
+    {
+        this->itemDB->restore_undo();
+    }
 
 }

@@ -212,50 +212,50 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
             return false;
 
         //some debug output, generates XML, that can be loaded into PowerCAD
-        float norm_n_squared = QVector3D::dotProduct(n, n);
-        float norm_m_squared = QVector3D::dotProduct(m, m);
-        float n_dot_m = QVector3D::dotProduct(n, m);
-        QVector3D aufpunkt = (-d * norm_m_squared + e * n_dot_m) / (norm_n_squared * norm_m_squared - n_dot_m * n_dot_m) * n +
-                (-e * norm_n_squared + d * n_dot_m) / (norm_n_squared * norm_m_squared - n_dot_m * n_dot_m) * m;
+//        float norm_n_squared = QVector3D::dotProduct(n, n);
+//        float norm_m_squared = QVector3D::dotProduct(m, m);
+//        float n_dot_m = QVector3D::dotProduct(n, m);
+//        QVector3D aufpunkt = (-d * norm_m_squared + e * n_dot_m) / (norm_n_squared * norm_m_squared - n_dot_m * n_dot_m) * n +
+//                (-e * norm_n_squared + d * n_dot_m) / (norm_n_squared * norm_m_squared - n_dot_m * n_dot_m) * m;
 
-        qDebug() << "<I54 "
-                 << "Position_x1=" << '"' << (aufpunkt - 10000*direction).x()<< '"'
-                 << "Position_y1=" << '"' << (aufpunkt - 10000*direction).y()<< '"'
-                 << "Position_z1=" << '"' << (aufpunkt - 10000*direction).z()<< '"'
-                 << "Position_x2=" << '"' << (aufpunkt + 10000*direction).x()<< '"'
-                 << "Position_y2=" << '"' << (aufpunkt + 10000*direction).y()<< '"'
-                 << "Position_z2=" << '"' << (aufpunkt + 10000*direction).z()<< '"'
-                 << "Width=" << '"' << 1 << '"'
-                 << "/>" ;
+//        qDebug() << "<I54 "
+//                 << "Position_x1=" << '"' << (aufpunkt - 10000*direction).x()<< '"'
+//                 << "Position_y1=" << '"' << (aufpunkt - 10000*direction).y()<< '"'
+//                 << "Position_z1=" << '"' << (aufpunkt - 10000*direction).z()<< '"'
+//                 << "Position_x2=" << '"' << (aufpunkt + 10000*direction).x()<< '"'
+//                 << "Position_y2=" << '"' << (aufpunkt + 10000*direction).y()<< '"'
+//                 << "Position_z2=" << '"' << (aufpunkt + 10000*direction).z()<< '"'
+//                 << "Width=" << '"' << 1 << '"'
+//                 << "/>" ;
 
-        qDebug() << "<I60 "
-                 << "Position_x=" << '"' << (aufpunkt + s1*direction).x()<< '"'
-                 << "Position_y=" << '"' << (aufpunkt + s1*direction).y()<< '"'
-                 << "Position_z=" << '"' << (aufpunkt + s1*direction).z()<< '"'
-                 << "r=" << '"' << 10 << '"'
-                 << "/>" ;
-        qDebug() << "<I60 "
-                 << "Position_x=" << '"' << (aufpunkt + s2*direction).x()<< '"'
-                 << "Position_y=" << '"' << (aufpunkt + s2*direction).y()<< '"'
-                 << "Position_z=" << '"' << (aufpunkt + s2*direction).z()<< '"'
-                 << "r=" << '"' << 10 << '"'
-                 << "/>" ;
-        qDebug() << "<I60 "
-                 << "Position_x=" << '"' << (aufpunkt + t1*direction).x()<< '"'
-                 << "Position_y=" << '"' << (aufpunkt + t1*direction).y()<< '"'
-                 << "Position_z=" << '"' << (aufpunkt + t1*direction).z()<< '"'
-                 << "r=" << '"' << 10 << '"'
-                 << "/>" ;
-        qDebug() << "<I60 "
-                 << "Position_x=" << '"' << (aufpunkt + t2*direction).x()<< '"'
-                 << "Position_y=" << '"' << (aufpunkt + t2*direction).y()<< '"'
-                 << "Position_z=" << '"' << (aufpunkt + t2*direction).z()<< '"'
-                 << "r=" << '"' << 10 << '"'
-                 << "/>" ;
+//        qDebug() << "<I60 "
+//                 << "Position_x=" << '"' << (aufpunkt + s1*direction).x()<< '"'
+//                 << "Position_y=" << '"' << (aufpunkt + s1*direction).y()<< '"'
+//                 << "Position_z=" << '"' << (aufpunkt + s1*direction).z()<< '"'
+//                 << "r=" << '"' << 10 << '"'
+//                 << "/>" ;
+//        qDebug() << "<I60 "
+//                 << "Position_x=" << '"' << (aufpunkt + s2*direction).x()<< '"'
+//                 << "Position_y=" << '"' << (aufpunkt + s2*direction).y()<< '"'
+//                 << "Position_z=" << '"' << (aufpunkt + s2*direction).z()<< '"'
+//                 << "r=" << '"' << 10 << '"'
+//                 << "/>" ;
+//        qDebug() << "<I60 "
+//                 << "Position_x=" << '"' << (aufpunkt + t1*direction).x()<< '"'
+//                 << "Position_y=" << '"' << (aufpunkt + t1*direction).y()<< '"'
+//                 << "Position_z=" << '"' << (aufpunkt + t1*direction).z()<< '"'
+//                 << "r=" << '"' << 10 << '"'
+//                 << "/>" ;
+//        qDebug() << "<I60 "
+//                 << "Position_x=" << '"' << (aufpunkt + t2*direction).x()<< '"'
+//                 << "Position_y=" << '"' << (aufpunkt + t2*direction).y()<< '"'
+//                 << "Position_z=" << '"' << (aufpunkt + t2*direction).z()<< '"'
+//                 << "r=" << '"' << 10 << '"'
+//                 << "/>" ;
 
-        qDebug() << "Parameter:";
-        qDebug() << s1 << s2;
-        qDebug() << t1 << t2;
+//        qDebug() << "Parameter:";
+//        qDebug() << s1 << s2;
+//        qDebug() << t1 << t2;
 
         return true;
     }
