@@ -17,6 +17,7 @@
 #define CAD_CLEANROOM_CEILINGGRATING_H
 
 #include "caditem.h"
+#include "items/cad_basic_box.h"
 
 class CAD_Cleanroom_CeilingGrating : public CADitem
 {
@@ -36,6 +37,9 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
+
+    qreal h, g, l;
+    CAD_basic_box *box;
 };
 
 #endif // CAD_CLEANROOM_CEILINGGRATING_H

@@ -25,6 +25,15 @@ CAD_Cleanroom_CeilingGrating::CAD_Cleanroom_CeilingGrating() : CADitem(CADitemTy
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
+    wizardParams.insert("h",   20.0);
+    wizardParams.insert("g", 600.0);
+    wizardParams.insert("l", 600.0);
+
+    box = new CAD_basic_box;
+    this->subItems.append(box);
+
+
+
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();
 //    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
@@ -89,10 +98,6 @@ QString CAD_Cleanroom_CeilingGrating::description()
 
 void CAD_Cleanroom_CeilingGrating::calculate()
 {
-    matrix_rotation.setToIdentity();
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
                 
     boundingBox.reset();
                     
@@ -101,6 +106,23 @@ void CAD_Cleanroom_CeilingGrating::calculate()
     this->snap_vertices.clear();
                                 
     this->snap_basepoint = (position);
+
+    QVector3D position_box = position + matrix_rotation * QVector3D(l/2, g/2, h/2);
+    box->wizardParams.insert("Position x", position_box.x());
+    box->wizardParams.insert("Position y", position_box.y());
+    box->wizardParams.insert("Position z", position_box.z());
+    box->wizardParams.insert("Angle x", angle_x);
+    box->wizardParams.insert("Angle y", angle_y);
+    box->wizardParams.insert("Angle z", angle_z);
+
+    box->wizardParams.insert("l", l);
+    box->wizardParams.insert("b", g);
+    box->wizardParams.insert("a", h);
+    box->layer = this->layer;
+    box->processWizardInput();
+    box->calculate();
+
+    this->boundingBox = box->boundingBox;
 }
 
 void CAD_Cleanroom_CeilingGrating::processWizardInput()
@@ -111,6 +133,15 @@ void CAD_Cleanroom_CeilingGrating::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    h = wizardParams.value("h").toDouble();
+    g = wizardParams.value("g").toDouble();
+    l = wizardParams.value("l").toDouble();
+
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 }
 
 //void CAD_cleanroom_CeilingGrating::paint(GLWidget *glwidget)

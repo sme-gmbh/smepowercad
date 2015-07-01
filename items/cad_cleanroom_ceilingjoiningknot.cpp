@@ -25,17 +25,21 @@ CAD_Cleanroom_CeilingJoiningKnot::CAD_Cleanroom_CeilingJoiningKnot() : CADitem(C
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-//    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
-//    arrayBufVertices->create();
-//    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
+    wizardParams.insert("a",  50.0);
+    wizardParams.insert("b",  20.0);
+    wizardParams.insert("l", 120.0);
 
-//    indexBufFaces = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-//    indexBufFaces->create();
-//    indexBufFaces->setUsagePattern(QOpenGLBuffer::StaticDraw);
+    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    arrayBufVertices->create();
+    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-//    indexBufLines = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-//    indexBufLines->create();
-//    indexBufLines->setUsagePattern(QOpenGLBuffer::StaticDraw);
+    indexBufFaces = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufFaces->create();
+    indexBufFaces->setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+    indexBufLines = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufLines->create();
+    indexBufLines->setUsagePattern(QOpenGLBuffer::StaticDraw);
    
     processWizardInput();
     calculate();
@@ -43,19 +47,29 @@ CAD_Cleanroom_CeilingJoiningKnot::CAD_Cleanroom_CeilingJoiningKnot() : CADitem(C
 
 CAD_Cleanroom_CeilingJoiningKnot::~CAD_Cleanroom_CeilingJoiningKnot()
 {
-//    arrayBufVertices->destroy();
-//    indexBufFaces->destroy();
-//    indexBufLines->destroy();
-//    delete arrayBufVertices;
-//    delete indexBufFaces;
-//    delete indexBufLines;
+    arrayBufVertices->destroy();
+    indexBufFaces->destroy();
+    indexBufLines->destroy();
+    delete arrayBufVertices;
+    delete indexBufFaces;
+    delete indexBufLines;
 }
 
 QList<CADitemTypes::ItemType> CAD_Cleanroom_CeilingJoiningKnot::flangable_items(int flangeIndex)
 {
-    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
-    
+    if(flangeIndex <= 4)
+    {
+    flangable_items.append(CADitemTypes::Cleanroom_CeilingCornerPiece);
+    flangable_items.append(CADitemTypes::Cleanroom_CeilingJoiningKnot);
+    flangable_items.append(CADitemTypes::Cleanroom_CeilingMountingRails);
+    flangable_items.append(CADitemTypes::Cleanroom_CeilingTeeJoiningPiece);
+    }
+    else
+    {
+        flangable_items.append(CADitemTypes::Cleanroom_CeilingGrating);
+        flangable_items.append(CADitemTypes::Cleanroom_CeilingPanel);
+    }
     return flangable_items;
 }
 
@@ -89,18 +103,100 @@ QString CAD_Cleanroom_CeilingJoiningKnot::description()
 
 void CAD_Cleanroom_CeilingJoiningKnot::calculate()
 {
-    matrix_rotation.setToIdentity();
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-                
     boundingBox.reset();
-                    
+
     this->snap_flanges.clear();
     this->snap_center.clear();
     this->snap_vertices.clear();
-                                
+
     this->snap_basepoint = (position);
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l/2, -l/2, 0.0));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l  ,  0.0, 0.0));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l/2,  l/2, 0.0));
+
+
+    this->snap_flanges.append(position + matrix_rotation * QVector3D((l - b)/ 2, -b/2, 0.0));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D((l + b)/ 2, -b/2, 0.0));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D((l + b)/ 2, +b/2, 0.0));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D((l - b)/ 2, +b/2, 0.0));
+
+
+    QVector3D vertices[24];
+    vertices[0]  = position + matrix_rotation * QVector3D(0.0,          -b/2,     0.0);
+    vertices[1]  = position + matrix_rotation * QVector3D((l - b)/2,    -b/2,     0.0);
+    vertices[2]  = position + matrix_rotation * QVector3D((l - b)/2,    -l/2,     0.0);
+    vertices[3]  = position + matrix_rotation * QVector3D((l + b)/2,    -l/2,     0.0);
+    vertices[4]  = position + matrix_rotation * QVector3D((l + b)/2,    -b/2,     0.0);
+    vertices[5]  = position + matrix_rotation * QVector3D(l,            -b/2,     0.0);
+
+    vertices[6]  = position + matrix_rotation * QVector3D(l,             b/2,     0.0);
+    vertices[7]  = position + matrix_rotation * QVector3D((l + b)/2,     b/2,     0.0);
+    vertices[8]  = position + matrix_rotation * QVector3D((l + b)/2,     l/2,     0.0);
+    vertices[9]  = position + matrix_rotation * QVector3D((l - b)/2,     l/2,     0.0);
+    vertices[10]  = position + matrix_rotation * QVector3D((l - b)/2,    b/2,     0.0);
+    vertices[11]  = position + matrix_rotation * QVector3D(0.0,          b/2,     0.0);
+
+    vertices[12]  = position + matrix_rotation * QVector3D(0.0,          -b/2,     a);
+    vertices[13]  = position + matrix_rotation * QVector3D((l - b)/2,    -b/2,     a);
+    vertices[14]  = position + matrix_rotation * QVector3D((l - b)/2,    -l/2,     a);
+    vertices[15]  = position + matrix_rotation * QVector3D((l + b)/2,    -l/2,     a);
+    vertices[16]  = position + matrix_rotation * QVector3D((l + b)/2,    -b/2,     a);
+    vertices[17]  = position + matrix_rotation * QVector3D(l,            -b/2,     a);
+
+    vertices[18]  = position + matrix_rotation * QVector3D(l,             b/2,     a);
+    vertices[19]  = position + matrix_rotation * QVector3D((l + b)/2,     b/2,     a);
+    vertices[20]  = position + matrix_rotation * QVector3D((l + b)/2,     l/2,     a);
+    vertices[21]  = position + matrix_rotation * QVector3D((l - b)/2,     l/2,     a);
+    vertices[22]  = position + matrix_rotation * QVector3D((l - b)/2,     b/2,     a);
+    vertices[23]  = position + matrix_rotation * QVector3D(0.0,           b/2,     a);
+
+    for(int i = 0; i < 24; i++)
+    {
+        this->boundingBox.enterVertex(vertices[i]);
+    }
+
+    GLushort indicesFaces[] =
+    {
+        0, 11, 5, 6, 0xABCD,
+        2, 1, 3, 4, 0xABCD, 10, 9, 7, 8, 0xABCD,
+
+        12, 23, 17, 18, 0xABCD,
+        14, 13, 15, 16, 0xABCD, 22, 21, 19, 20, 0xABCD,
+
+        0, 12, 1, 13, 2, 14, 3, 15, 4, 16, 5, 17, 6, 18, 7, 19, 8, 20, 9, 21, 10, 22, 11, 23, 0, 12, 0xABCD
+    };
+
+    GLushort indicesLines[72];
+    for(int i = 0; i < 11; i++)
+    {
+        indicesLines[2*i] = i;
+        indicesLines[2*i + 1] = i + 1;
+    }
+    for(int i = 0; i < 11; i++)
+    {
+        indicesLines[22 + 2*i] = i + 12;
+        indicesLines[23 + 2*i] = i + 13;
+    }
+    indicesLines[44] = 11;
+    indicesLines[45] = 0;
+    indicesLines[46] = 23;
+    indicesLines[47] = 12;
+
+    for(int i = 0; i < 12; i++)
+    {
+        indicesLines[48 + 2*i] = i;
+        indicesLines[49 + 2*i] = i + 12;
+    }
+
+    arrayBufVertices->bind();
+    arrayBufVertices->allocate(vertices, sizeof(vertices));
+
+    indexBufFaces->bind();
+    indexBufFaces->allocate(indicesFaces, sizeof(indicesFaces));
+
+    indexBufLines->bind();
+    indexBufLines->allocate(indicesLines, sizeof(indicesLines));
 }
 
 void CAD_Cleanroom_CeilingJoiningKnot::processWizardInput()
@@ -111,41 +207,93 @@ void CAD_Cleanroom_CeilingJoiningKnot::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    a = wizardParams.value("a").toDouble();
+    b = wizardParams.value("b").toDouble();
+    l = wizardParams.value("l").toDouble();
+
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 }
 
-//void CAD_cleanroom_CeilingJoiningKnot::paint(GLWidget *glwidget)
-//{
-//    QColor color_pen_tmp = getColorPen();
-//    QColor color_brush_tmp = getColorBrush();
+void CAD_Cleanroom_CeilingJoiningKnot::paint(GLWidget *glwidget)
+{
+    QColor color_pen_tmp = getColorPen();
+    QColor color_brush_tmp = getColorBrush();
 
-//    arrayBufVertices->bind();
-//    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
-//    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
+    arrayBufVertices->bind();
+    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
+    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
 
-//    if (glwidget->render_solid)
-//    {
-//        glwidget->setPaintingColor(color_brush_tmp);
+    if (glwidget->render_solid)
+    {
+        glwidget->setPaintingColor(color_brush_tmp);
 
-//        indexBufFaces->bind();
-//        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces->size(), GL_UNSIGNED_SHORT, 0);
+        indexBufFaces->bind();
+        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces->size(), GL_UNSIGNED_SHORT, 0);
 
-//        indexBufFaces->release();
-//    }
+        indexBufFaces->release();
+    }
 
-//    if (glwidget->render_outline)
-//    {
-//        glwidget->setPaintingColor(color_pen_tmp);
-//        glwidget->glLineWidth(1.0);
-                                      
-//        indexBufLines->bind();
-//        glwidget->glDrawElements(GL_LINES, indexBufLines->size(), GL_UNSIGNED_SHORT, 0);
-//        indexBufLines->release();
-//     }                          
-                                                                                           
-//     arrayBufVertices->release();
-//}
+    if (glwidget->render_outline)
+    {
+        glwidget->setPaintingColor(color_pen_tmp);
+        glwidget->glLineWidth(1.0);
+
+        indexBufLines->bind();
+        glwidget->glDrawElements(GL_LINES, indexBufLines->size(), GL_UNSIGNED_SHORT, 0);
+        indexBufLines->release();
+     }
+
+     arrayBufVertices->release();
+}
 
 QMatrix4x4 CAD_Cleanroom_CeilingJoiningKnot::rotationOfFlange(quint8 num)
 {
-    return matrix_rotation;
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(-90.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 4)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(90.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 5)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 6)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(-90.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 8)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(90.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else
+        return matrix_rotation;
 }

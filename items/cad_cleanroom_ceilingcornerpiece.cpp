@@ -25,17 +25,21 @@ CAD_Cleanroom_CeilingCornerPiece::CAD_Cleanroom_CeilingCornerPiece() : CADitem(C
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
-    //    arrayBufVertices->create();
-    //    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
+    wizardParams.insert("a",  50.0);
+    wizardParams.insert("b",  20.0);
+    wizardParams.insert("l",  70.0);
 
-    //    indexBufFaces = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-    //    indexBufFaces->create();
-    //    indexBufFaces->setUsagePattern(QOpenGLBuffer::StaticDraw);
+    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    arrayBufVertices->create();
+    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-    //    indexBufLines = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-    //    indexBufLines->create();
-    //    indexBufLines->setUsagePattern(QOpenGLBuffer::StaticDraw);
+    indexBufFaces = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufFaces->create();
+    indexBufFaces->setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+    indexBufLines = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufLines->create();
+    indexBufLines->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
     processWizardInput();
     calculate();
@@ -43,19 +47,29 @@ CAD_Cleanroom_CeilingCornerPiece::CAD_Cleanroom_CeilingCornerPiece() : CADitem(C
 
 CAD_Cleanroom_CeilingCornerPiece::~CAD_Cleanroom_CeilingCornerPiece()
 {
-    //    arrayBufVertices->destroy();
-    //    indexBufFaces->destroy();
-    //    indexBufLines->destroy();
-    //    delete arrayBufVertices;
-    //    delete indexBufFaces;
-    //    delete indexBufLines;
+    arrayBufVertices->destroy();
+    indexBufFaces->destroy();
+    indexBufLines->destroy();
+    delete arrayBufVertices;
+    delete indexBufFaces;
+    delete indexBufLines;
 }
 
 QList<CADitemTypes::ItemType> CAD_Cleanroom_CeilingCornerPiece::flangable_items(int flangeIndex)
 {
-    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
-    
+    if(flangeIndex == 3)
+    {
+        flangable_items.append(CADitemTypes::Cleanroom_CeilingGrating);
+        flangable_items.append(CADitemTypes::Cleanroom_CeilingPanel);
+    }
+    else
+    {
+        flangable_items.append(CADitemTypes::Cleanroom_CeilingCornerPiece);
+        flangable_items.append(CADitemTypes::Cleanroom_CeilingJoiningKnot);
+        flangable_items.append(CADitemTypes::Cleanroom_CeilingMountingRails);
+        flangable_items.append(CADitemTypes::Cleanroom_CeilingTeeJoiningPiece);
+    }
     return flangable_items;
 }
 
@@ -101,6 +115,51 @@ void CAD_Cleanroom_CeilingCornerPiece::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l - b/2, -l + b/2, 0.0));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l - b, -b/2, 0.0));
+
+    QVector3D vertices[12];
+    vertices[0]  = position + matrix_rotation * QVector3D(0.0,   -b/2,     0.0);
+    vertices[1]  = position + matrix_rotation * QVector3D(l - b, -b/2,     0.0);
+    vertices[2]  = position + matrix_rotation * QVector3D(l - b, -l + b/2, 0.0);
+    vertices[3]  = position + matrix_rotation * QVector3D(l    , -l + b/2, 0.0);
+    vertices[4]  = position + matrix_rotation * QVector3D(l    ,  b/2,     0.0);
+    vertices[5]  = position + matrix_rotation * QVector3D(0.0,    b/2,     0.0);
+    vertices[6]  = position + matrix_rotation * QVector3D(0.0,   -b/2,     a);
+    vertices[7]  = position + matrix_rotation * QVector3D(l - b, -b/2,     a);
+    vertices[8]  = position + matrix_rotation * QVector3D(l - b, -l + b/2, a);
+    vertices[9]  = position + matrix_rotation * QVector3D(l    , -l + b/2, a);
+    vertices[10] = position + matrix_rotation * QVector3D(l    ,  b/2,     a);
+    vertices[11] = position + matrix_rotation * QVector3D(0.0,    b/2,     a);
+
+    for(int i = 0; i < 12; i++)
+    {
+        this->boundingBox.enterVertex(vertices[i]);
+    }
+
+    GLushort indicesFaces[] =
+    {
+        0, 5, 1, 4, 2, 3, 0xABCD,
+        6, 11, 7, 10, 8, 9, 0xABCD,
+        0, 6, 1, 7, 2, 8, 3, 9, 4, 10, 5, 11, 0, 6, 0xABCD
+    };
+
+    GLushort indicesLines[] =
+    {
+        0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 0,
+        6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 6,
+        0, 6, 1, 7, 2, 8, 3, 9, 4, 10, 5, 11
+    };
+
+    arrayBufVertices->bind();
+    arrayBufVertices->allocate(vertices, sizeof(vertices));
+
+    indexBufFaces->bind();
+    indexBufFaces->allocate(indicesFaces, sizeof(indicesFaces));
+
+    indexBufLines->bind();
+    indexBufLines->allocate(indicesLines, sizeof(indicesLines));
 }
 
 void CAD_Cleanroom_CeilingCornerPiece::processWizardInput()
@@ -111,41 +170,67 @@ void CAD_Cleanroom_CeilingCornerPiece::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    a = wizardParams.value("a").toDouble();
+    b = wizardParams.value("b").toDouble();
+    l = wizardParams.value("l").toDouble();
 }
 
-//void CAD_cleanroom_CeilingCornerPiece::paint(GLWidget *glwidget)
-//{
-//    QColor color_pen_tmp = getColorPen();
-//    QColor color_brush_tmp = getColorBrush();
+void CAD_Cleanroom_CeilingCornerPiece::paint(GLWidget *glwidget)
+{
+    QColor color_pen_tmp = getColorPen();
+    QColor color_brush_tmp = getColorBrush();
 
-//    arrayBufVertices->bind();
-//    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
-//    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
+    arrayBufVertices->bind();
+    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
+    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
 
-//    if (glwidget->render_solid)
-//    {
-//        glwidget->setPaintingColor(color_brush_tmp);
+    if (glwidget->render_solid)
+    {
+        glwidget->setPaintingColor(color_brush_tmp);
 
-//        indexBufFaces->bind();
-//        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces->size(), GL_UNSIGNED_SHORT, 0);
+        indexBufFaces->bind();
+        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces->size(), GL_UNSIGNED_SHORT, 0);
 
-//        indexBufFaces->release();
-//    }
+        indexBufFaces->release();
+    }
 
-//    if (glwidget->render_outline)
-//    {
-//        glwidget->setPaintingColor(color_pen_tmp);
-//        glwidget->glLineWidth(1.0);
+    if (glwidget->render_outline)
+    {
+        glwidget->setPaintingColor(color_pen_tmp);
+        glwidget->glLineWidth(1.0);
 
-//        indexBufLines->bind();
-//        glwidget->glDrawElements(GL_LINES, indexBufLines->size(), GL_UNSIGNED_SHORT, 0);
-//        indexBufLines->release();
-//     }                          
+        indexBufLines->bind();
+        glwidget->glDrawElements(GL_LINES, indexBufLines->size(), GL_UNSIGNED_SHORT, 0);
+        indexBufLines->release();
+     }
 
-//     arrayBufVertices->release();
-//}
+     arrayBufVertices->release();
+}
 
 QMatrix4x4 CAD_Cleanroom_CeilingCornerPiece::rotationOfFlange(quint8 num)
 {
-    return matrix_rotation;
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(-90.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 3)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else
+        return matrix_rotation;
 }

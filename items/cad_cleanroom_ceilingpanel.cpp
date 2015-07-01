@@ -25,6 +25,15 @@ CAD_Cleanroom_CeilingPanel::CAD_Cleanroom_CeilingPanel() : CADitem(CADitemTypes:
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
+    wizardParams.insert("h",   20.0);
+    wizardParams.insert("g", 600.0);
+    wizardParams.insert("l", 600.0);
+
+    box = new CAD_basic_box;
+    this->subItems.append(box);
+
+
+
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();
 //    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
@@ -36,7 +45,7 @@ CAD_Cleanroom_CeilingPanel::CAD_Cleanroom_CeilingPanel() : CADitem(CADitemTypes:
 //    indexBufLines = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
 //    indexBufLines->create();
 //    indexBufLines->setUsagePattern(QOpenGLBuffer::StaticDraw);
-   
+
     processWizardInput();
     calculate();
 }
@@ -55,7 +64,7 @@ QList<CADitemTypes::ItemType> CAD_Cleanroom_CeilingPanel::flangable_items(int fl
 {
     Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
-    
+
     return flangable_items;
 }
 
@@ -66,9 +75,9 @@ QImage CAD_Cleanroom_CeilingPanel::wizardImage()
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-                    
+
     image.load(imageFileName, "PNG");
-                       
+
     return image;
 }
 
@@ -89,18 +98,31 @@ QString CAD_Cleanroom_CeilingPanel::description()
 
 void CAD_Cleanroom_CeilingPanel::calculate()
 {
-    matrix_rotation.setToIdentity();
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-                
+
     boundingBox.reset();
-                    
+
     this->snap_flanges.clear();
     this->snap_center.clear();
     this->snap_vertices.clear();
-                                
+
     this->snap_basepoint = (position);
+
+    QVector3D position_box = position + matrix_rotation * QVector3D(l/2, g/2, h/2);
+    box->wizardParams.insert("Position x", position_box.x());
+    box->wizardParams.insert("Position y", position_box.y());
+    box->wizardParams.insert("Position z", position_box.z());
+    box->wizardParams.insert("Angle x", angle_x);
+    box->wizardParams.insert("Angle y", angle_y);
+    box->wizardParams.insert("Angle z", angle_z);
+
+    box->wizardParams.insert("l", l);
+    box->wizardParams.insert("b", g);
+    box->wizardParams.insert("a", h);
+    box->layer = this->layer;
+    box->processWizardInput();
+    box->calculate();
+
+    this->boundingBox = box->boundingBox;
 }
 
 void CAD_Cleanroom_CeilingPanel::processWizardInput()
@@ -111,6 +133,15 @@ void CAD_Cleanroom_CeilingPanel::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    h = wizardParams.value("h").toDouble();
+    g = wizardParams.value("g").toDouble();
+    l = wizardParams.value("l").toDouble();
+
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 }
 
 //void CAD_cleanroom_CeilingPanel::paint(GLWidget *glwidget)
@@ -136,12 +167,12 @@ void CAD_Cleanroom_CeilingPanel::processWizardInput()
 //    {
 //        glwidget->setPaintingColor(color_pen_tmp);
 //        glwidget->glLineWidth(1.0);
-                                      
+
 //        indexBufLines->bind();
 //        glwidget->glDrawElements(GL_LINES, indexBufLines->size(), GL_UNSIGNED_SHORT, 0);
 //        indexBufLines->release();
-//     }                          
-                                                                                           
+//     }
+
 //     arrayBufVertices->release();
 //}
 

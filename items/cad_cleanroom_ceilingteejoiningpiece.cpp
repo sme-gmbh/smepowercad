@@ -25,17 +25,21 @@ CAD_Cleanroom_CeilingTeeJoiningPiece::CAD_Cleanroom_CeilingTeeJoiningPiece() : C
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-//    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
-//    arrayBufVertices->create();
-//    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
+    wizardParams.insert("a",  50.0);
+    wizardParams.insert("b",  20.0);
+    wizardParams.insert("l", 120.0);
 
-//    indexBufFaces = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-//    indexBufFaces->create();
-//    indexBufFaces->setUsagePattern(QOpenGLBuffer::StaticDraw);
+    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    arrayBufVertices->create();
+    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-//    indexBufLines = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-//    indexBufLines->create();
-//    indexBufLines->setUsagePattern(QOpenGLBuffer::StaticDraw);
+    indexBufFaces = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufFaces->create();
+    indexBufFaces->setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+    indexBufLines = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    indexBufLines->create();
+    indexBufLines->setUsagePattern(QOpenGLBuffer::StaticDraw);
    
     processWizardInput();
     calculate();
@@ -43,19 +47,29 @@ CAD_Cleanroom_CeilingTeeJoiningPiece::CAD_Cleanroom_CeilingTeeJoiningPiece() : C
 
 CAD_Cleanroom_CeilingTeeJoiningPiece::~CAD_Cleanroom_CeilingTeeJoiningPiece()
 {
-//    arrayBufVertices->destroy();
-//    indexBufFaces->destroy();
-//    indexBufLines->destroy();
-//    delete arrayBufVertices;
-//    delete indexBufFaces;
-//    delete indexBufLines;
+    arrayBufVertices->destroy();
+    indexBufFaces->destroy();
+    indexBufLines->destroy();
+    delete arrayBufVertices;
+    delete indexBufFaces;
+    delete indexBufLines;
 }
 
 QList<CADitemTypes::ItemType> CAD_Cleanroom_CeilingTeeJoiningPiece::flangable_items(int flangeIndex)
 {
-    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
-    
+    if(flangeIndex <= 3)
+    {
+    flangable_items.append(CADitemTypes::Cleanroom_CeilingCornerPiece);
+    flangable_items.append(CADitemTypes::Cleanroom_CeilingJoiningKnot);
+    flangable_items.append(CADitemTypes::Cleanroom_CeilingMountingRails);
+    flangable_items.append(CADitemTypes::Cleanroom_CeilingTeeJoiningPiece);
+    }
+    else
+    {
+        flangable_items.append(CADitemTypes::Cleanroom_CeilingGrating);
+        flangable_items.append(CADitemTypes::Cleanroom_CeilingPanel);
+    }
     return flangable_items;
 }
 
@@ -89,18 +103,88 @@ QString CAD_Cleanroom_CeilingTeeJoiningPiece::description()
 
 void CAD_Cleanroom_CeilingTeeJoiningPiece::calculate()
 {
-    matrix_rotation.setToIdentity();
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-                
     boundingBox.reset();
-                    
+
     this->snap_flanges.clear();
     this->snap_center.clear();
     this->snap_vertices.clear();
-                                
+
     this->snap_basepoint = (position);
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l/2, -l/2, 0.0));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l  ,  0.0, 0.0));
+
+    this->snap_flanges.append(position + matrix_rotation * QVector3D((l - b)/ 2, -b/2, 0.0));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D((l + b)/ 2, -b/2, 0.0));
+
+
+    QVector3D vertices[16];
+    vertices[0]  = position + matrix_rotation * QVector3D(0.0,          -b/2,     0.0);
+    vertices[1]  = position + matrix_rotation * QVector3D((l - b)/2,    -b/2,     0.0);
+    vertices[2]  = position + matrix_rotation * QVector3D((l - b)/2,    -l/2,     0.0);
+    vertices[3]  = position + matrix_rotation * QVector3D((l + b)/2,    -l/2,     0.0);
+    vertices[4]  = position + matrix_rotation * QVector3D((l + b)/2,    -b/2,     0.0);
+    vertices[5]  = position + matrix_rotation * QVector3D(l,            -b/2,     0.0);
+    vertices[6]  = position + matrix_rotation * QVector3D(l,             b/2,     0.0);
+    vertices[7]  = position + matrix_rotation * QVector3D(0.0,           b/2,     0.0);
+
+
+    vertices[8]  = position + matrix_rotation * QVector3D(0.0,          -b/2,     a);
+    vertices[9]  = position + matrix_rotation * QVector3D((l - b)/2,    -b/2,     a);
+    vertices[10]  = position + matrix_rotation * QVector3D((l - b)/2,    -l/2,     a);
+    vertices[11]  = position + matrix_rotation * QVector3D((l + b)/2,    -l/2,     a);
+    vertices[12]  = position + matrix_rotation * QVector3D((l + b)/2,    -b/2,     a);
+    vertices[13]  = position + matrix_rotation * QVector3D(l,            -b/2,     a);
+    vertices[14]  = position + matrix_rotation * QVector3D(l,             b/2,     a);
+    vertices[15]  = position + matrix_rotation * QVector3D(0.0,           b/2,     a);
+
+
+    for(int i = 0; i < 16; i++)
+    {
+        this->boundingBox.enterVertex(vertices[i]);
+    }
+
+    GLushort indicesFaces[] =
+    {
+        0, 7, 5, 6, 0xABCD,
+        2, 1, 3, 4, 0xABCD,
+
+        8, 15, 13, 14, 0xABCD,
+        10, 9, 11, 12, 0xABCD,
+
+        0, 8, 1, 9, 2, 10, 3, 11, 4, 12, 5, 13, 6, 14, 7, 15, 0, 8, 0xABCD
+    };
+
+    GLushort indicesLines[48];
+    for(int i = 0; i < 7; i++)
+    {
+        indicesLines[2*i] = i;
+        indicesLines[2*i + 1] = i + 1;
+    }
+    for(int i = 0; i < 7; i++)
+    {
+        indicesLines[14 + 2*i] = i + 8;
+        indicesLines[15 + 2*i] = i + 9;
+    }
+    indicesLines[28] = 7;
+    indicesLines[29] = 0;
+    indicesLines[30] = 15;
+    indicesLines[31] = 8;
+
+    for(int i = 0; i < 8; i++)
+    {
+        indicesLines[32 + 2*i] = i;
+        indicesLines[33 + 2*i] = i + 8;
+    }
+
+    arrayBufVertices->bind();
+    arrayBufVertices->allocate(vertices, sizeof(vertices));
+
+    indexBufFaces->bind();
+    indexBufFaces->allocate(indicesFaces, sizeof(indicesFaces));
+
+    indexBufLines->bind();
+    indexBufLines->allocate(indicesLines, sizeof(indicesLines));
 }
 
 void CAD_Cleanroom_CeilingTeeJoiningPiece::processWizardInput()
@@ -111,41 +195,79 @@ void CAD_Cleanroom_CeilingTeeJoiningPiece::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    a = wizardParams.value("a").toDouble();
+    b = wizardParams.value("b").toDouble();
+    l = wizardParams.value("l").toDouble();
+
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 }
 
-//void CAD_cleanroom_CeilingTeeJoiningPiece::paint(GLWidget *glwidget)
-//{
-//    QColor color_pen_tmp = getColorPen();
-//    QColor color_brush_tmp = getColorBrush();
+void CAD_Cleanroom_CeilingTeeJoiningPiece::paint(GLWidget *glwidget)
+{
+    QColor color_pen_tmp = getColorPen();
+    QColor color_brush_tmp = getColorBrush();
 
-//    arrayBufVertices->bind();
-//    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
-//    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
+    arrayBufVertices->bind();
+    glwidget->shaderProgram->enableAttributeArray(glwidget->shader_vertexLocation);
+    glwidget->shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(QVector3D));
 
-//    if (glwidget->render_solid)
-//    {
-//        glwidget->setPaintingColor(color_brush_tmp);
+    if (glwidget->render_solid)
+    {
+        glwidget->setPaintingColor(color_brush_tmp);
 
-//        indexBufFaces->bind();
-//        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces->size(), GL_UNSIGNED_SHORT, 0);
+        indexBufFaces->bind();
+        glwidget->glDrawElements(GL_TRIANGLE_STRIP, indexBufFaces->size(), GL_UNSIGNED_SHORT, 0);
 
-//        indexBufFaces->release();
-//    }
+        indexBufFaces->release();
+    }
 
-//    if (glwidget->render_outline)
-//    {
-//        glwidget->setPaintingColor(color_pen_tmp);
-//        glwidget->glLineWidth(1.0);
+    if (glwidget->render_outline)
+    {
+        glwidget->setPaintingColor(color_pen_tmp);
+        glwidget->glLineWidth(1.0);
                                       
-//        indexBufLines->bind();
-//        glwidget->glDrawElements(GL_LINES, indexBufLines->size(), GL_UNSIGNED_SHORT, 0);
-//        indexBufLines->release();
-//     }                          
+        indexBufLines->bind();
+        glwidget->glDrawElements(GL_LINES, indexBufLines->size(), GL_UNSIGNED_SHORT, 0);
+        indexBufLines->release();
+     }
                                                                                            
-//     arrayBufVertices->release();
-//}
+     arrayBufVertices->release();
+}
 
 QMatrix4x4 CAD_Cleanroom_CeilingTeeJoiningPiece::rotationOfFlange(quint8 num)
 {
-    return matrix_rotation;
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(-90.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 4)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 5)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(-90.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else
+        return matrix_rotation;
 }

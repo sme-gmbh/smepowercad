@@ -31,11 +31,13 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
-//    virtual void paint(GLWidget* glwidget);
+    virtual void paint(GLWidget* glwidget);
 
-//    QOpenGLBuffer arrayBufVertices;
-//    QOpenGLBuffer indexBufFaces;
-//    QOpenGLBuffer indexBufLines;
+    QOpenGLBuffer* arrayBufVertices;
+    QOpenGLBuffer* indexBufFaces;
+    QOpenGLBuffer* indexBufLines;
+
+    qreal a, b, l;
 };
 
 #endif // CAD_CLEANROOM_CEILINGCORNERPIECE_H

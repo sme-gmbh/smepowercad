@@ -25,6 +25,13 @@ CAD_Cleanroom_CeilingMountingRails::CAD_Cleanroom_CeilingMountingRails() : CADit
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
+    wizardParams.insert("a",  50.0);
+    wizardParams.insert("b",  20.0);
+    wizardParams.insert("l", 500.0);
+
+    box = new CAD_basic_box;
+    this->subItems.append(box);
+
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();
 //    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
@@ -55,6 +62,10 @@ QList<CADitemTypes::ItemType> CAD_Cleanroom_CeilingMountingRails::flangable_item
 {
     Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Cleanroom_CeilingCornerPiece);
+    flangable_items.append(CADitemTypes::Cleanroom_CeilingJoiningKnot);
+    flangable_items.append(CADitemTypes::Cleanroom_CeilingMountingRails);
+    flangable_items.append(CADitemTypes::Cleanroom_CeilingTeeJoiningPiece);
     
     return flangable_items;
 }
@@ -89,18 +100,32 @@ QString CAD_Cleanroom_CeilingMountingRails::description()
 
 void CAD_Cleanroom_CeilingMountingRails::calculate()
 {
-    matrix_rotation.setToIdentity();
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-                
     boundingBox.reset();
-                    
+
     this->snap_flanges.clear();
     this->snap_center.clear();
     this->snap_vertices.clear();
-                                
+
     this->snap_basepoint = (position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
+    this->snap_flanges.append(position);
+
+    QVector3D position_box = position + matrix_rotation * QVector3D(l/2, 0.0, a/2);
+    box->wizardParams.insert("Position x", position_box.x());
+    box->wizardParams.insert("Position y", position_box.y());
+    box->wizardParams.insert("Position z", position_box.z());
+    box->wizardParams.insert("Angle x", angle_x);
+    box->wizardParams.insert("Angle y", angle_y);
+    box->wizardParams.insert("Angle z", angle_z);
+
+    box->wizardParams.insert("l", l);
+    box->wizardParams.insert("b", b);
+    box->wizardParams.insert("a", a);
+    box->layer = this->layer;
+    box->processWizardInput();
+    box->calculate();
+
+    this->boundingBox = box->boundingBox;
 }
 
 void CAD_Cleanroom_CeilingMountingRails::processWizardInput()
@@ -111,6 +136,15 @@ void CAD_Cleanroom_CeilingMountingRails::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    a = wizardParams.value("a").toDouble();
+    b = wizardParams.value("b").toDouble();
+    l = wizardParams.value("l").toDouble();
+
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 }
 
 //void CAD_cleanroom_CeilingMountingRails::paint(GLWidget *glwidget)
@@ -147,5 +181,13 @@ void CAD_Cleanroom_CeilingMountingRails::processWizardInput()
 
 QMatrix4x4 CAD_Cleanroom_CeilingMountingRails::rotationOfFlange(quint8 num)
 {
-    return matrix_rotation;
+    if(num == 2)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else
+        return matrix_rotation;
 }
