@@ -744,101 +744,164 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
         break;
 
 
+//        //Gas
+    case CADitemTypes::Gas_ActivatedCarbonAdsorber:
+        newItem = new CAD_Gas_ActivatedCarbonAdsorber;
+        break;
+    case CADitemTypes::Gas_Compressor:
+        newItem = new CAD_Gas_Compressor;
+        break;
+    case CADitemTypes::Gas_DryerDesiccant:
+        newItem = new CAD_Gas_DryerDesiccant;
+        break;
+    case CADitemTypes::Gas_DryerRefrigerant:
+        newItem = new CAD_Gas_DryerRefrigerant;
+        break;
+    case CADitemTypes::Gas_Filter:
+        newItem = new CAD_Gas_Filter;
+        break;
+    case CADitemTypes::Gas_GaugePressure:
+        newItem = new CAD_Gas_GaugePressure;
+        break;
+    case CADitemTypes::Gas_Hose:
+        newItem = new CAD_Gas_Hose;
+        break;
+    case CADitemTypes::Gas_LiquidSeparator:
+        newItem = new CAD_Gas_LiquidSeparator;
+        break;
+    case CADitemTypes::Gas_OilWaterSeparationSystem:
+        newItem = new CAD_Gas_OilWaterSeparationSystem;
+        break;
+    case CADitemTypes::Gas_Pipe:
+        newItem = new CAD_Gas_Pipe;
+        break;
+    case CADitemTypes::Gas_PipeTeeConnector:
+        newItem = new CAD_Gas_PipeTeeConnector;
+        break;
+    case CADitemTypes::Gas_PipeTurn:
+        newItem = new CAD_Gas_PipeTurn;
+        break;
+    case CADitemTypes::Gas_PressureRegulator:
+        newItem = new CAD_Gas_PressureRegulator;
+        break;
+    case CADitemTypes::Gas_Pump:
+        newItem = new CAD_Gas_Pump;
+        break;
+    case CADitemTypes::Gas_QuicklockCoupling:
+        newItem = new CAD_Gas_QuicklockCoupling;
+        break;
+    case CADitemTypes::Gas_SensorFlowrate:
+        newItem = new CAD_Gas_SensorFlowrate;
+        break;
+    case CADitemTypes::Gas_SensorMoisture:
+        newItem = new CAD_Gas_SensorMoisture;
+        break;
+    case CADitemTypes::Gas_Tank:
+        newItem = new CAD_Gas_Tank;
+        break;
+    case CADitemTypes::Gas_ValveBall:
+        newItem = new CAD_Gas_ValveBall;
+        break;
+    case CADitemTypes::Gas_ValveDiaphragm:
+        newItem = new CAD_Gas_ValveDiaphragm;
+        break;
+    case CADitemTypes::Gas_ValveNonReturn:
+        newItem = new CAD_Gas_ValveNonReturn;
+        break;
 
-        //Gas
-    case CADitemTypes::Gas_CDABallValve:
-        newItem = new CAD_Gas_CDABallValve;
-        break;
-    case CADitemTypes::Gas_CDACompressor:
-        newItem = new CAD_Gas_CDACompressor;
-        break;
-    case CADitemTypes::Gas_CDADesiccantDryer:
-        newItem = new CAD_Gas_CDADesiccantDryer;
-        break;
-    case CADitemTypes::Gas_CDADiaphragmValve:
-        newItem = new CAD_Gas_CDADiaphragmValve;
-        break;
-    case CADitemTypes::Gas_CDAFilter:
-        newItem = new CAD_Gas_CDAFilter;
-        break;
-    case CADitemTypes::Gas_CDAFlowmeter:
-        newItem = new CAD_Gas_CDAFlowmeter;
-        break;
-    case CADitemTypes::Gas_CDAHose:
-        newItem = new CAD_Gas_CDAHose;
-        break;
-    case CADitemTypes::Gas_CDAManometer:
-        newItem = new CAD_Gas_CDAManometer;
-        break;
-    case CADitemTypes::Gas_CDANonReturnValve:
-        newItem = new CAD_Gas_CDANonReturnValve;
-        break;
-    case CADitemTypes::Gas_CDAMoistureSensor:
-        newItem = new CAD_Gas_CDAMoistureSensor;
-        break;
-    case CADitemTypes::Gas_CDAPipe:
-        newItem = new CAD_Gas_CDAPipe;
-        break;
-    case CADitemTypes::Gas_CDAPipeTeeConnector:
-        newItem = new CAD_Gas_CDAPipeTeeConnector;
-        break;
-    case CADitemTypes::Gas_CDAPipeTurn:
-        newItem = new CAD_Gas_CDAPipeTurn;
-        break;
-    case CADitemTypes::Gas_CDAPressureRegulator:
-        newItem = new CAD_Gas_CDAPressureRegulator;
-        break;
-    case CADitemTypes::Gas_CDAQuickLockCoupling:
-        newItem = new CAD_Gas_CDAQuickLockCoupling;
-        break;
-    case CADitemTypes::Gas_CDARefrigerantDryer:
-        newItem = new CAD_Gas_CDARefrigerantDryer;
-        break;
-    case CADitemTypes::Gas_CDATank:
-        newItem = new CAD_Gas_CDATank;
-        break;
-    case CADitemTypes::Gas_VACBallValve:
-        newItem = new CAD_Gas_VACBallValve;
-        break;
-    case CADitemTypes::Gas_VACDiaphragmValve:
-        newItem = new CAD_Gas_VACDiaphragmValve;
-        break;
-    case CADitemTypes::Gas_VACFilter:
-        newItem = new CAD_Gas_VACFilter;
-        break;
-    case CADitemTypes::Gas_VACFlowmeter:
-        newItem = new CAD_Gas_VACFlowmeter;
-        break;
-    case CADitemTypes::Gas_VACHose:
-        newItem = new CAD_Gas_VACHose;
-        break;
-    case CADitemTypes::Gas_VACLiquidSeparator:
-        newItem = new CAD_Gas_VACLiquidSeparator;
-        break;
-    case CADitemTypes::Gas_VACManometer:
-        newItem = new CAD_Gas_VACManometer;
-        break;
-    case CADitemTypes::Gas_VACNonReturnValve:
-        newItem = new CAD_Gas_VACNonReturnValve;
-        break;
-    case CADitemTypes::Gas_VACPipe:
-        newItem = new CAD_Gas_VACPipe;
-        break;
-    case CADitemTypes::Gas_VACPipeTeeConnector:
-        newItem = new CAD_Gas_VACPipeTeeConnector;
-        break;
-    case CADitemTypes::Gas_VACPipeTurn:
-        newItem = new CAD_Gas_VACPipeTurn;
-        break;
-    case CADitemTypes::Gas_VACPump:
-        newItem = new CAD_Gas_VACPump;
-        break;
-    case CADitemTypes::Gas_VACQuickLockCoupling:
-        newItem = new CAD_Gas_VACQuickLockCoupling;
-        break;
-    case CADitemTypes::Gas_VACTank:
-        newItem = new CAD_Gas_VACTank;
-        break;
+//    case CADitemTypes::Gas_CDABallValve:
+//        newItem = new CAD_Gas_CDABallValve;
+//        break;
+//    case CADitemTypes::Gas_CDACompressor:
+//        newItem = new CAD_Gas_CDACompressor;
+//        break;
+//    case CADitemTypes::Gas_CDADesiccantDryer:
+//        newItem = new CAD_Gas_CDADesiccantDryer;
+//        break;
+//    case CADitemTypes::Gas_CDADiaphragmValve:
+//        newItem = new CAD_Gas_CDADiaphragmValve;
+//        break;
+//    case CADitemTypes::Gas_CDAFilter:
+//        newItem = new CAD_Gas_CDAFilter;
+//        break;
+//    case CADitemTypes::Gas_CDAFlowmeter:
+//        newItem = new CAD_Gas_CDAFlowmeter;
+//        break;
+//    case CADitemTypes::Gas_CDAHose:
+//        newItem = new CAD_Gas_CDAHose;
+//        break;
+//    case CADitemTypes::Gas_CDAManometer:
+//        newItem = new CAD_Gas_CDAManometer;
+//        break;
+//    case CADitemTypes::Gas_CDANonReturnValve:
+//        newItem = new CAD_Gas_CDANonReturnValve;
+//        break;
+//    case CADitemTypes::Gas_CDAMoistureSensor:
+//        newItem = new CAD_Gas_CDAMoistureSensor;
+//        break;
+//    case CADitemTypes::Gas_CDAPipe:
+//        newItem = new CAD_Gas_CDAPipe;
+//        break;
+//    case CADitemTypes::Gas_CDAPipeTeeConnector:
+//        newItem = new CAD_Gas_CDAPipeTeeConnector;
+//        break;
+//    case CADitemTypes::Gas_CDAPipeTurn:
+//        newItem = new CAD_Gas_CDAPipeTurn;
+//        break;
+//    case CADitemTypes::Gas_CDAPressureRegulator:
+//        newItem = new CAD_Gas_CDAPressureRegulator;
+//        break;
+//    case CADitemTypes::Gas_CDAQuickLockCoupling:
+//        newItem = new CAD_Gas_CDAQuickLockCoupling;
+//        break;
+//    case CADitemTypes::Gas_CDARefrigerantDryer:
+//        newItem = new CAD_Gas_CDARefrigerantDryer;
+//        break;
+//    case CADitemTypes::Gas_CDATank:
+//        newItem = new CAD_Gas_CDATank;
+//        break;
+//    case CADitemTypes::Gas_VACBallValve:
+//        newItem = new CAD_Gas_VACBallValve;
+//        break;
+//    case CADitemTypes::Gas_VACDiaphragmValve:
+//        newItem = new CAD_Gas_VACDiaphragmValve;
+//        break;
+//    case CADitemTypes::Gas_VACFilter:
+//        newItem = new CAD_Gas_VACFilter;
+//        break;
+//    case CADitemTypes::Gas_VACFlowmeter:
+//        newItem = new CAD_Gas_VACFlowmeter;
+//        break;
+//    case CADitemTypes::Gas_VACHose:
+//        newItem = new CAD_Gas_VACHose;
+//        break;
+//    case CADitemTypes::Gas_VACLiquidSeparator:
+//        newItem = new CAD_Gas_VACLiquidSeparator;
+//        break;
+//    case CADitemTypes::Gas_VACManometer:
+//        newItem = new CAD_Gas_VACManometer;
+//        break;
+//    case CADitemTypes::Gas_VACNonReturnValve:
+//        newItem = new CAD_Gas_VACNonReturnValve;
+//        break;
+//    case CADitemTypes::Gas_VACPipe:
+//        newItem = new CAD_Gas_VACPipe;
+//        break;
+//    case CADitemTypes::Gas_VACPipeTeeConnector:
+//        newItem = new CAD_Gas_VACPipeTeeConnector;
+//        break;
+//    case CADitemTypes::Gas_VACPipeTurn:
+//        newItem = new CAD_Gas_VACPipeTurn;
+//        break;
+//    case CADitemTypes::Gas_VACPump:
+//        newItem = new CAD_Gas_VACPump;
+//        break;
+//    case CADitemTypes::Gas_VACQuickLockCoupling:
+//        newItem = new CAD_Gas_VACQuickLockCoupling;
+//        break;
+//    case CADitemTypes::Gas_VACTank:
+//        newItem = new CAD_Gas_VACTank;
+//        break;
 
         //Heatcool
     case CADitemTypes::HeatCool_32WayValve:
