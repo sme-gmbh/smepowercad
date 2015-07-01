@@ -89,7 +89,6 @@ SOURCES += main.cpp\
     items/cad_air_ductturn.cpp \
     items/cad_air_pipeturn.cpp \
     items/cad_air_pipereducer.cpp \
-    items/cad_air_pipeteeconnector.cpp \
     items/cad_sprinkler_pipe.cpp \
     items/cad_sprinkler_head.cpp \
     items/cad_sprinkler_pump.cpp \
@@ -363,7 +362,6 @@ HEADERS  += mainwindow.h \
     items/cad_air_ductturn.h \
     items/cad_air_pipeturn.h \
     items/cad_air_pipereducer.h \
-    items/cad_air_pipeteeconnector.h \
     items/cad_sprinkler_pipe.h \
     items/cad_sprinkler_head.h \
     items/cad_sprinkler_pump.h \

@@ -104,9 +104,6 @@ QImage CAD_heatcool_pipeEndCap::wizardImage()
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-
-    ;
-
     image.load(imageFileName, "PNG");
 
     return image;

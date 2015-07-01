@@ -69,7 +69,6 @@ QImage CAD_Basic_TorisphericalHeadDIN28011::wizardImage()
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-
     image.load(imageFileName, "PNG");
 
     return image;

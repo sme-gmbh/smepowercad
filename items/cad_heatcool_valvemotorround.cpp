@@ -72,7 +72,6 @@ QImage CAD_HeatCool_ValveMotorRound::wizardImage()
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-                    
     image.load(imageFileName, "PNG");
                        
     return image;

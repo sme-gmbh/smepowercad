@@ -56,7 +56,6 @@ QList<CADitemTypes::ItemType> CAD_air_pipeReducer::flangable_items(int flangeInd
     flangable_items.append(CADitemTypes::Air_Pipe);
     flangable_items.append(CADitemTypes::Air_PipeEndCap);
     flangable_items.append(CADitemTypes::Air_PipeReducer);
-    flangable_items.append(CADitemTypes::Air_PipeTeeConnector);
     flangable_items.append(CADitemTypes::Air_PipeTurn);
     return flangable_items;
 }
@@ -68,9 +67,6 @@ QImage CAD_air_pipeReducer::wizardImage()
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-
-    ;
-
     image.load(imageFileName, "PNG");
 
     return image;
