@@ -17,6 +17,7 @@
 #define CAD_CLEANROOM_CEILINGVERTICALLADDER_H
 
 #include "caditem.h"
+#include "items/cad_basic_box.h"
 
 class CAD_Cleanroom_CeilingVerticalLadder : public CADitem
 {
@@ -36,6 +37,13 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
+
+    qreal a, a2, b, g2, l, l2, l3, l4;
+    quint8 n;
+
+    CAD_basic_box *left, *right;
+    CAD_basic_box *left_horizontal, *right_horizontal;
+    CAD_basic_box *left_down, *right_down;
 };
 
 #endif // CAD_CLEANROOM_CEILINGVERTICALLADDER_H
