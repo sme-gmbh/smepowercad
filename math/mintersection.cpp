@@ -24,9 +24,9 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
     double dist_v2 = QVector3D::dotProduct(v2, m) + e;
 
     //check whether triangle 1 completly lies on one side of the plane in which lies triangle 2
-    if (dist_v0 > -TOL && dist_v1 > -TOL && dist_v2 > -TOL)
+    if (dist_v0 > TOL && dist_v1 > TOL && dist_v2 > TOL)
         return false;
-    if (dist_v0 < TOL && dist_v1 < TOL && dist_v2 < TOL)
+    if (dist_v0 < -TOL && dist_v1 < -TOL && dist_v2 < -TOL)
         return false;
 
     //plane for triangle 1
@@ -37,15 +37,29 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
     double dist_w2 = QVector3D::dotProduct(w2, n) + d;
 
     //check whether triangle 2 completly lies on one side of the plane in which lies triangle 1
-    if (dist_w0 > -TOL && dist_w1 > -TOL && dist_w2 > -TOL)
+    if (dist_w0 > TOL && dist_w1 > TOL && dist_w2 > TOL)
         return false;
-    if (dist_w0 < TOL && dist_w1 < TOL && dist_w2 < TOL)
+    if (dist_w0 < -TOL && dist_w1 < -TOL && dist_w2 < -TOL)
+        return false;
+
+    //bounding box check
+    M3dBoundingBox b1;
+    b1.enterVertex(v0);
+    b1.enterVertex(v1);
+    b1.enterVertex(v2);
+
+    M3dBoundingBox b2;
+    b2.enterVertex(w0);
+    b2.enterVertex(w1);
+    b2.enterVertex(w2);
+
+    if(!b1.intersectsWith(b2))
         return false;
 
     if (abs(dist_v0) < TOL && abs(dist_v1) < TOL && abs(dist_v2) < TOL)
     {
+        return false;
         //*****triangles are coplanar*****
-
         //project "onto the axis-aligned plane where the areas of the triangles are maximized."
         QVector2D v0_2D, v1_2D, v2_2D, w0_2D, w1_2D, w2_2D;
         QVector3D a = QVector3D(qAbs(n.x()), qAbs(n.y()), qAbs(n.z()));
@@ -123,7 +137,6 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
     else
     {
         //*****triangles are not coplanar*****
-
         //compute intersection line
         QVector3D direction = QVector3D::crossProduct(n, m).normalized();
 
@@ -153,11 +166,12 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
             s2 = p_v2 + (p_v1 - p_v2) * dist_v2 / (dist_v2 - dist_v1);
         }
         //v1 and v2 on same side
-        else //if(dist_v1 * dist_v2 > TOL)
+        else if(dist_v1 * dist_v2 > TOL)
         {
             s1 = p_v1 + (p_v0 - p_v1) * dist_v1 / (dist_v1 - dist_v0);
             s2 = p_v2 + (p_v0 - p_v2) * dist_v2 / (dist_v2 - dist_v0);
         }
+
 
         //*********************************************************************
 
@@ -174,11 +188,12 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
             t2 = p_w2 + (p_w1 - p_w2) * dist_w2 / (dist_w2 - dist_w1);
         }
         //w1 and w2 on same side
-        else //if(dist_w1 * dist_w2 > TOL)
+        else if(dist_w1 * dist_w2 > TOL)
         {
             t1 = p_w1 + (p_w0 - p_w1) * dist_w1 / (dist_w1 - dist_w0);
             t2 = p_w2 + (p_w0 - p_w2) * dist_w2 / (dist_w2 - dist_w0);
         }
+
 
         //sort interval limits
         float i1, i2;
@@ -205,11 +220,31 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
             j2 = s1;
         }
 
+        qDebug() << "Parameter:";
+        qDebug() << s1 << s2;
+        qDebug() << p_v0 << p_v1 << p_v2 << dist_v0 << dist_v1 << dist_v2;
+        qDebug() << t1 << t2;
+        qDebug() << p_w0 << p_w1 << p_w2 << dist_w0 << dist_w1 << dist_w2;
         //check for intersection
         if((i1 < j1 + 1) && (i2 < j1 + 1))
             return false;
         if((i1 > j2 - 1) && (i2 > j2 - 1))
             return false;
+
+        if(abs(s1 - s2) < TOL)
+        {
+            if(p_v0 < TOL && p_v1 < TOL && p_v2 < TOL)
+                return false;
+            if(p_v0 > -TOL && p_v1 > -TOL && p_v2 > -TOL)
+                return false;
+        }
+        if(abs(t1 - t2) < TOL)
+        {
+            if(p_w0 < TOL && p_w1 < TOL && p_w2 < TOL)
+                return false;
+            if(p_w0 > -TOL && p_w1 > -TOL && p_w2 > -TOL)
+                return false;
+        }
 
         //some debug output, generates XML, that can be loaded into PowerCAD
         float norm_n_squared = QVector3D::dotProduct(n, n);
@@ -253,9 +288,6 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
 //                 << "r=" << '"' << 10 << '"'
 //                 << "/>" ;
 
-//        qDebug() << "Parameter:";
-//        qDebug() << s1 << s2;
-//        qDebug() << t1 << t2;
 
         *line_1 = aufpunkt + 10000*direction;
         *line_2 = aufpunkt - 10000*direction;
@@ -309,4 +341,13 @@ bool MIntersection::vertexInTriangle(QVector2D v0, QVector2D w0, QVector2D w1, Q
     if(0.0 <= t && t <= 1.0 && 0.0 <= s && s <= 1.0 && s + t <= 1.0)
         return true;
     return false;
+}
+
+QVector3D MIntersection::randomVector()
+{
+    QVector3D vec;
+    vec.setX((float)(qrand()) / (float)(RAND_MAX) * 0.001);
+    vec.setY((float)(qrand()) / (float)(RAND_MAX) * 0.001);
+    vec.setZ((float)(qrand()) / (float)(RAND_MAX) * 0.001);
+    return vec;
 }
