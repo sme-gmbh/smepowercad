@@ -675,7 +675,6 @@ void MainWindow::on_actionServer_triggered(bool checked)
 
 void MainWindow::slot_collision_detected(CADitem *item_1, CADitem *item_2, QVector3D line_1, QVector3D line_2)
 {
-    this->geometryDisplays.first()->getWidget()->setLookAt((line_1 + line_2)/2);
     CAD_basic_line* line = new CAD_basic_line;
     line->wizardParams.insert("Position x1", line_1.x());
     line->wizardParams.insert("Position y1", line_1.y());
@@ -687,9 +686,6 @@ void MainWindow::slot_collision_detected(CADitem *item_1, CADitem *item_2, QVect
     line->processWizardInput();
     line->calculate();
     itemDB->addItem(line, "Collision");
-
-    itemDB->changeLayerOfItem(item_1->id, "Collision");
-    itemDB->changeLayerOfItem(item_2->id, "Collision");
 
     QString pos_1 = QString().sprintf(" @{%.3lf|%.3lf|%.3lf}", item_1->position.x(), item_1->position.y(), item_1->position.z());
     QString pos_2 = QString().sprintf(" @{%.3lf|%.3lf|%.3lf}", item_2->position.x(), item_2->position.y(), item_2->position.z());
@@ -705,5 +701,8 @@ void MainWindow::slot_collision_detected(CADitem *item_1, CADitem *item_2, QVect
     QMessageBox::information(this, tr("Collision Detection"), tr("There has been a collision between\n")
                              + item_1->description() + " on " + item_1->layer->name + pos_1 + "\nand\n"
                              + item_2->description() + " on " + item_2->layer->name + pos_2 + ".");
+
+    itemDB->changeLayerOfItem(item_1->id, "Collision");
+    itemDB->changeLayerOfItem(item_2->id, "Collision");
 
 }
