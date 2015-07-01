@@ -153,12 +153,15 @@ void CAD_Cleanroom_CeilingCornerPiece::calculate()
 
     arrayBufVertices->bind();
     arrayBufVertices->allocate(vertices, sizeof(vertices));
+    arrayBufVertices->release();
 
     indexBufFaces->bind();
     indexBufFaces->allocate(indicesFaces, sizeof(indicesFaces));
+    indexBufFaces->release();
 
     indexBufLines->bind();
     indexBufLines->allocate(indicesLines, sizeof(indicesLines));
+    indexBufLines->release();
 }
 
 void CAD_Cleanroom_CeilingCornerPiece::processWizardInput()
