@@ -111,7 +111,6 @@ QImage CAD_heatcool_safetyValve::wizardImage()
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-    qDebug() << imageFileName;
     image.load(imageFileName, "PNG");
 
     return image;

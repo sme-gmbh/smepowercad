@@ -77,7 +77,6 @@ QList<CADitemTypes::ItemType> CAD_air_ductTransitionRectRound::flangable_items(i
         flangable_items.append(CADitemTypes::Air_PipeFireDamper);
         flangable_items.append(CADitemTypes::Air_PipeReducer);
         flangable_items.append(CADitemTypes::Air_PipeSilencer);
-        flangable_items.append(CADitemTypes::Air_PipeTeeConnector);
         flangable_items.append(CADitemTypes::Air_PipeTurn);
         flangable_items.append(CADitemTypes::Air_PipeVolumetricFlowController);
     }
@@ -106,7 +105,6 @@ QImage CAD_air_ductTransitionRectRound::wizardImage()
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-
     image.load(imageFileName, "PNG");
 
     return image;

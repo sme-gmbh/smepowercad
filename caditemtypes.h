@@ -37,7 +37,6 @@ public:
         Air_DuctTurn,                           // Kanalbogen
         Air_PipeTurn,                           // Rohrbogen
         Air_PipeReducer,                        // Rohrreduzierung
-        Air_PipeTeeConnector,                   // Rohr-T-Stück, auch mit mehr als 3 Anschlüssen
         Air_DuctTeeConnector,                   // Kanal-T-Stück
         Air_DuctTransitionRectRect,                     // Kanalübergang (eckig)
         Air_DuctTransitionRectRound,            // Kanalübergang eckig/rund

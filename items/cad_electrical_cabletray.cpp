@@ -84,8 +84,7 @@ QImage CAD_electrical_cabletray::wizardImage()
     QFileInfo fileinfo(__FILE__);
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
-    imageFileName.append(".png");
-                    
+    imageFileName.append(".png");        
     image.load(imageFileName, "PNG");
                        
     return image;

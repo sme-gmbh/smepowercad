@@ -57,9 +57,6 @@ QImage CAD_arch_wall_nonLoadBearing::wizardImage()
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-
-    ;
-
     image.load(imageFileName, "PNG");
 
     return image;

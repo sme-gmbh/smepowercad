@@ -81,9 +81,6 @@ QImage CAD_basic_pipe::wizardImage()
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-
-    ;
-
     image.load(imageFileName, "PNG");
 
     return image;

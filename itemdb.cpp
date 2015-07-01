@@ -361,9 +361,6 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Air_PipeReducer:
         newItem = new CAD_air_pipeReducer();
         break;
-    case CADitemTypes::Air_PipeTeeConnector:
-        newItem = new CAD_air_pipeTeeConnector();
-        break;
     case CADitemTypes::Air_DuctTeeConnector:
         newItem = new CAD_air_ductTeeConnector();
         break;

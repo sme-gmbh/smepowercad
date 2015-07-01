@@ -45,7 +45,6 @@
 #include "items/cad_air_pipefiredamper.h"
 #include "items/cad_air_pipereducer.h"
 #include "items/cad_air_pipesilencer.h"
-#include "items/cad_air_pipeteeconnector.h"
 #include "items/cad_air_pipeturn.h"
 #include "items/cad_air_pipevolumetricflowcontroller.h"
 #include "items/cad_air_pressurereliefdamper.h"

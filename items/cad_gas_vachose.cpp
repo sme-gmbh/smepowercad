@@ -96,7 +96,6 @@ QImage CAD_Gas_VACHose::wizardImage()
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-                    
     image.load(imageFileName, "PNG");
                        
     return image;

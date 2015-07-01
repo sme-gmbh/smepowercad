@@ -68,7 +68,6 @@ QImage CAD_Basic_TorisphericalHeadDeepDishedDIN28013::wizardImage()
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
     imageFileName.append(".png");
-
     image.load(imageFileName, "PNG");
 
     return image;
