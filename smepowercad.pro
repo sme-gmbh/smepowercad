@@ -237,33 +237,6 @@ SOURCES += main.cpp\
     items/cad_cleanroom_tagelectricalgrounding.cpp \
     items/cad_electrical_busbartapoffunit.cpp \
     items/cad_electrical_luminairerailmounted.cpp \
-    items/cad_gas_cdaballvalve.cpp \
-    items/cad_gas_cdacompressor.cpp \
-    items/cad_gas_cdadesiccantdryer.cpp \
-    items/cad_gas_cdadiaphragmvalve.cpp \
-    items/cad_gas_cdafilter.cpp \
-    items/cad_gas_cdaflowmeter.cpp \
-    items/cad_gas_cdahose.cpp \
-    items/cad_gas_cdamanometer.cpp \
-    items/cad_gas_cdamoisturesensor.cpp \
-    items/cad_gas_cdanonreturnvalve.cpp \
-    items/cad_gas_cdapipe.cpp \
-    items/cad_gas_cdapressureregulator.cpp \
-    items/cad_gas_cdaquicklockcoupling.cpp \
-    items/cad_gas_cdarefrigerantdryer.cpp \
-    items/cad_gas_cdatank.cpp \
-    items/cad_gas_vacballvalve.cpp \
-    items/cad_gas_vacdiaphragmvalve.cpp \
-    items/cad_gas_vacfilter.cpp \
-    items/cad_gas_vacflowmeter.cpp \
-    items/cad_gas_vachose.cpp \
-    items/cad_gas_vacliquidseparator.cpp \
-    items/cad_gas_vacmanometer.cpp \
-    items/cad_gas_vacnonreturnvalve.cpp \
-    items/cad_gas_vacpipe.cpp \
-    items/cad_gas_vacpump.cpp \
-    items/cad_gas_vacquicklockcoupling.cpp \
-    items/cad_gas_vactank.cpp \
     items/cad_sanitary_cleaningpiece.cpp \
     printwidget.cpp \
     items/cad_basic_torisphericalheaddeepdisheddin28013.cpp \
@@ -301,10 +274,6 @@ SOURCES += main.cpp\
     items/cad_air_ducttransitionrectrect.cpp \
     math/manglecalculations.cpp \
     printpapertemplate.cpp \
-    items/cad_gas_cdapipeteeconnector.cpp \
-    items/cad_gas_cdapipeturn.cpp \
-    items/cad_gas_vacpipeteeconnector.cpp \
-    items/cad_gas_vacpipeturn.cpp \
     items/cad_sprinkler_pipeteeconnector.cpp \
     items/cad_heatcool_32wayvalve.cpp \
     restorepoint.cpp \
@@ -312,7 +281,28 @@ SOURCES += main.cpp\
     math/mintersection.cpp \
     dxfreaderinterface.cpp \
     items/cad_basic_triangle.cpp \
-    math/mtriangle.cpp
+    math/mtriangle.cpp \
+    items/cad_gas_liquidseparator.cpp \
+    items/cad_gas_pump.cpp \
+    items/cad_gas_pipeteeconnector.cpp \
+    items/cad_gas_pipeturn.cpp \
+    items/cad_gas_sensorflowrate.cpp \
+    items/cad_gas_sensormoisture.cpp \
+    items/cad_gas_quicklockcoupling.cpp \
+    items/cad_gas_pressureregulator.cpp \
+    items/cad_gas_gaugepressure.cpp \
+    items/cad_gas_valvenonreturn.cpp \
+    items/cad_gas_valvediaphragm.cpp \
+    items/cad_gas_valveball.cpp \
+    items/cad_gas_hose.cpp \
+    items/cad_gas_pipe.cpp \
+    items/cad_gas_oilwaterseparationsystem.cpp \
+    items/cad_gas_activatedcarbonadsorber.cpp \
+    items/cad_gas_tank.cpp \
+    items/cad_gas_filter.cpp \
+    items/cad_gas_dryerdesiccant.cpp \
+    items/cad_gas_dryerrefrigerant.cpp \
+    items/cad_gas_compressor.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -511,33 +501,6 @@ HEADERS  += mainwindow.h \
     items/cad_cleanroom_tagelectricalgrounding.h \
     items/cad_electrical_busbartapoffunit.h \
     items/cad_electrical_luminairerailmounted.h \
-    items/cad_gas_cdaballvalve.h \
-    items/cad_gas_cdacompressor.h \
-    items/cad_gas_cdadesiccantdryer.h \
-    items/cad_gas_cdadiaphragmvalve.h \
-    items/cad_gas_cdafilter.h \
-    items/cad_gas_cdaflowmeter.h \
-    items/cad_gas_cdahose.h \
-    items/cad_gas_cdamanometer.h \
-    items/cad_gas_cdamoisturesensor.h \
-    items/cad_gas_cdanonreturnvalve.h \
-    items/cad_gas_cdapipe.h \
-    items/cad_gas_cdapressureregulator.h \
-    items/cad_gas_cdaquicklockcoupling.h \
-    items/cad_gas_cdarefrigerantdryer.h \
-    items/cad_gas_cdatank.h \
-    items/cad_gas_vacballvalve.h \
-    items/cad_gas_vacdiaphragmvalve.h \
-    items/cad_gas_vacfilter.h \
-    items/cad_gas_vacflowmeter.h \
-    items/cad_gas_vachose.h \
-    items/cad_gas_vacliquidseparator.h \
-    items/cad_gas_vacmanometer.h \
-    items/cad_gas_vacnonreturnvalve.h \
-    items/cad_gas_vacpipe.h \
-    items/cad_gas_vacpump.h \
-    items/cad_gas_vacquicklockcoupling.h \
-    items/cad_gas_vactank.h \
     items/cad_sanitary_cleaningpiece.h \
     printwidget.h \
     items/cad_basic_torisphericalheaddeepdisheddin28013.h \
@@ -575,10 +538,6 @@ HEADERS  += mainwindow.h \
     items/cad_air_ducttransitionrectrect.h \
     math/manglecalculations.h \
     printpapertemplate.h \
-    items/cad_gas_cdapipeteeconnector.h \
-    items/cad_gas_cdapipeturn.h \
-    items/cad_gas_vacpipeteeconnector.h \
-    items/cad_gas_vacpipeturn.h \
     items/cad_sprinkler_pipeteeconnector.h \
     items/cad_heatcool_32wayvalve.h \
     restorepoint.h \
@@ -586,7 +545,28 @@ HEADERS  += mainwindow.h \
     math/mintersection.h \
     dxfreaderinterface.h \
     items/cad_basic_triangle.h \
-    math/mtriangle.h
+    math/mtriangle.h \
+    items/cad_gas_liquidseparator.h \
+    items/cad_gas_pump.h \
+    items/cad_gas_pipeteeconnector.h \
+    items/cad_gas_pipeturn.h \
+    items/cad_gas_sensorflowrate.h \
+    items/cad_gas_sensormoisture.h \
+    items/cad_gas_quicklockcoupling.h \
+    items/cad_gas_pressureregulator.h \
+    items/cad_gas_gaugepressure.h \
+    items/cad_gas_valvenonreturn.h \
+    items/cad_gas_valvediaphragm.h \
+    items/cad_gas_valveball.h \
+    items/cad_gas_hose.h \
+    items/cad_gas_pipe.h \
+    items/cad_gas_oilwaterseparationsystem.h \
+    items/cad_gas_activatedcarbonadsorber.h \
+    items/cad_gas_tank.h \
+    items/cad_gas_filter.h \
+    items/cad_gas_dryerdesiccant.h \
+    items/cad_gas_dryerrefrigerant.h \
+    items/cad_gas_compressor.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
