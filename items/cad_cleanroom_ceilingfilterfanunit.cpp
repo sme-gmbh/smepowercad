@@ -18,12 +18,24 @@
 
 CAD_Cleanroom_CeilingFilterFanUnit::CAD_Cleanroom_CeilingFilterFanUnit() : CADitem(CADitemTypes::Cleanroom_CeilingFilterFanUnit)
 {
+    lower = new CAD_basic_box;
+    upper = new CAD_basic_box;
+    this->subItems.append(lower);
+    this->subItems.append(upper);
+
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
+
+    wizardParams.insert("g",  600.0);
+    wizardParams.insert("l",  600.0);
+    wizardParams.insert("h",  100.0);
+    wizardParams.insert("b", 200.0);
+    wizardParams.insert("a", 400.0);
+    wizardParams.insert("h2", 100.0);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();
@@ -55,7 +67,7 @@ QList<CADitemTypes::ItemType> CAD_Cleanroom_CeilingFilterFanUnit::flangable_item
 {
     Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
-    
+    flangable_items.append(CADitemTypes::Air_HeatExchangerWaterAir);
     return flangable_items;
 }
 
@@ -101,6 +113,39 @@ void CAD_Cleanroom_CeilingFilterFanUnit::calculate()
     this->snap_vertices.clear();
                                 
     this->snap_basepoint = (position);
+
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l/2, g/2, h + h2));
+
+    QVector3D position_lower = position + matrix_rotation * QVector3D(l/2, g/2, h/2);
+    lower->wizardParams.insert("Position x", (position_lower.x()));
+    lower->wizardParams.insert("Position y", (position_lower.y()));
+    lower->wizardParams.insert("Position z", (position_lower.z()));
+    lower->wizardParams.insert("Angle x", (angle_x));
+    lower->wizardParams.insert("Angle y", (angle_y));
+    lower->wizardParams.insert("Angle z", (angle_z));
+    lower->wizardParams.insert("l", (l));
+    lower->wizardParams.insert("b", (g));
+    lower->wizardParams.insert("a", (h));
+    lower->layer = this->layer;
+    lower->processWizardInput();
+    lower->calculate();
+
+    QVector3D position_upper = position + matrix_rotation * QVector3D(l/2, g/2, h + h2/2);
+    upper->wizardParams.insert("Position x", (position_upper.x()));
+    upper->wizardParams.insert("Position y", (position_upper.y()));
+    upper->wizardParams.insert("Position z", (position_upper.z()));
+    upper->wizardParams.insert("Angle x", (angle_x));
+    upper->wizardParams.insert("Angle y", (angle_y));
+    upper->wizardParams.insert("Angle z", (angle_z));
+    upper->wizardParams.insert("l", (a));
+    upper->wizardParams.insert("b", (b));
+    upper->wizardParams.insert("a", (h2));
+    upper->layer = this->layer;
+    upper->processWizardInput();
+    upper->calculate();
+
+    this->boundingBox.enterVertices(upper->boundingBox.getVertices());
+    this->boundingBox.enterVertices(lower->boundingBox.getVertices());
 }
 
 void CAD_Cleanroom_CeilingFilterFanUnit::processWizardInput()
@@ -111,6 +156,13 @@ void CAD_Cleanroom_CeilingFilterFanUnit::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    g = wizardParams.value("g").toDouble();
+    h = wizardParams.value("h").toDouble();
+    l = wizardParams.value("l").toDouble();
+    b = wizardParams.value("b").toDouble();
+    h2 = wizardParams.value("h2").toDouble();
+    a = wizardParams.value("a").toDouble();
 }
 
 //void CAD_cleanroom_CeilingFilterFanUnit::paint(GLWidget *glwidget)
@@ -147,5 +199,9 @@ void CAD_Cleanroom_CeilingFilterFanUnit::processWizardInput()
 
 QMatrix4x4 CAD_Cleanroom_CeilingFilterFanUnit::rotationOfFlange(quint8 num)
 {
-    return matrix_rotation;
+    Q_UNUSED(num);
+    QMatrix4x4 m;
+    m.setToIdentity();
+    m.rotate(-90.0, 0.0, 1.0, 0.0);
+    return matrix_rotation * m;
 }
