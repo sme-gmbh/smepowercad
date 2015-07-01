@@ -1525,11 +1525,6 @@ bool ItemDB::file_storeDB(QString filename, QMatrix4x4 matrix_projection, QMatri
     }
 
     //store matrices
-
-    qDebug() << "Projection" << matrix_projection;
-    qDebug() << "GL Select" << matrix_glSelect;
-    qDebug() << "modelview" << matrix_modelview;
-    qDebug() << "rotation!"<< matrix_rotation;
     QDomElement element_matrix_projection = document.createElement("MatrixProjection");
     root.appendChild(element_matrix_projection);
     for(int i = 0; i < 4;i++)
@@ -1678,13 +1673,6 @@ bool ItemDB::file_loadDB(QString filename, QString* error, QMatrix4x4 *matrix_pr
     }
 
     //Read matrices
-    if(!root.hasAttribute("MatrixProjection"))
-    {
-       file.close();
-       *error = tr("No Entry for Matrix ist found");
-       return false;
-    }
-
     QDomElement element_matrix_projection = root.firstChildElement("MatrixProjection");
     for(int i = 0; i < 4; i++)
     {
@@ -1728,13 +1716,6 @@ bool ItemDB::file_loadDB(QString filename, QString* error, QMatrix4x4 *matrix_pr
         double w = element_column.attribute("w").toDouble();
         matrix_rotation->setColumn(i, QVector4D(x, y, z, w));
     }
-
-
-    qDebug() << "Projection" << *matrix_projection;
-    qDebug() << "GL Select" << *matrix_glSelect;
-    qDebug() << "modelview" << *matrix_modelview;
-    qDebug() << "rotation!"<< *matrix_rotation;
-
 
     // Read itemTypeList from file and build map
     QMap <int, QString> file_itemDescriptionByItemType;
