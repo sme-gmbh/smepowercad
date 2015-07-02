@@ -367,6 +367,9 @@
         <file>icons/cad_gas/cad_gas_dryerdesiccant.svg</file>
         <file>icons/cad_gas/cad_gas_dryerrefrigerant.svg</file>
         <file>icons/cad_gas/cad_gas_compressor.svg</file>
+        <file>itemGraphic/cad_gas_pipe.png</file>
+        <file>itemGraphic/cad_gas_pipeteeconnector.png</file>
+        <file>itemGraphic/cad_gas_pipeturn.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/check.svg</file>
