@@ -2,6 +2,7 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -13,10 +14,27 @@
    height="64"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
-   sodipodi:docname="Hintergrund.svg">
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="cad_sanitary_pipe.svg">
   <defs
-     id="defs4" />
+     id="defs4">
+    <linearGradient
+       id="linearGradient5420"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#0096c8;stop-opacity:1;"
+         offset="0"
+         id="stop5422" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient7917"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#0000ff;stop-opacity:1;"
+         offset="0"
+         id="stop7919" />
+    </linearGradient>
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -25,20 +43,26 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="26.709537"
-     inkscape:cy="30.841684"
+     inkscape:cx="22.094936"
+     inkscape:cy="32.981307"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer1"
      showgrid="true"
      objecttolerance="10000"
      guidetolerance="10000"
      gridtolerance="10000"
      inkscape:window-width="1920"
-     inkscape:window-height="1114"
-     inkscape:window-x="-4"
-     inkscape:window-y="-4"
+     inkscape:window-height="1134"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
-     inkscape:snap-grids="true">
+     inkscape:snap-grids="false"
+     inkscape:snap-to-guides="false"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:object-paths="true"
+     inkscape:snap-smooth-nodes="true">
     <inkscape:grid
        type="xygrid"
        id="grid2985"
@@ -62,23 +86,54 @@
     </rdf:RDF>
   </metadata>
   <g
+     inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
-     id="layer2"
-     inkscape:label="Ebene 0"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     id="layer1"
+     transform="translate(0,-988.36217)">
     <rect
-       style="fill:#f2f2f2;fill-opacity:1;fill-rule:evenodd;stroke:#b3b3b3;stroke-width:0.25;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:0;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#f2f2f2;fill-opacity:1;fill-rule:evenodd;stroke:#b3b3b3;stroke-width:0.25000000000000000;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:0;stroke-opacity:1;stroke-dasharray:none"
        id="rect3767"
        width="64"
        height="64"
        x="0"
        y="0"
-       rx="0" />
+       rx="0"
+       transform="translate(0,988.36217)" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 19,1024.3622 c 0,12 0,14 0,14"
+       id="path3972"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 12,1031.3622 c 12,0 14,0 14,0"
+       id="path3974"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       transform="matrix(0.70172234,-0.71245053,0.71245053,0.70172234,-24.968097,1014.7247)"
+       style="fill:none;stroke:#ff7b05;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dashoffset:16;stroke-opacity:1"
+       d="M 32,43 C 32,50.179702 26.179702,56 19,56 11.820298,56 6,50.179702 6,43 6,35.820298 11.820298,30 19,30 c 7.179702,0 13,5.820298 13,13 z"
+       id="path3380" />
+    <path
+       transform="matrix(-0.70710678,-0.70710678,0.70710678,-0.70710678,25.029437,1050.2028)"
+       style="fill:none;stroke:#ff7b05;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dashoffset:16;stroke-opacity:1"
+       inkscape:transform-center-x="-1.9038056"
+       inkscape:transform-center-y="-1.9037961"
+       d="M 32,43 C 32,50.179702 26.179702,56 19,56 11.820298,56 6,50.179702 6,43 c 0,0 0,0 0,-10e-7"
+       id="path4730" />
+    <path
+       style="fill:none;stroke:#ff7b05;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 32.807612,8.8076215 9.9934345,33.625369"
+       id="path4732"
+       inkscape:connector-curvature="0"
+       transform="translate(0,988.36217)" />
+    <path
+       style="fill:none;stroke:#ff7b05;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 51.254716,27.129653 28.106934,52.277139"
+       id="path4734"
+       inkscape:connector-curvature="0"
+       transform="translate(0,988.36217)" />
   </g>
-  <g
-     inkscape:label="Ebene 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-988.36217)" />
 </svg>

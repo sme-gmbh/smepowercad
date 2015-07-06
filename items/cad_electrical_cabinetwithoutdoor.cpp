@@ -32,7 +32,7 @@ CAD_Electrical_CabinetWithoutDoor::CAD_Electrical_CabinetWithoutDoor() : CADitem
     wizardParams.insert("Angle z", 0.0);
 
     wizardParams.insert("a", 1500.0);       // Höhe Schrank
-    wizardParams.insert("a1", 300.0);       // Höhe Sockel
+    wizardParams.insert("a1", 200.0);       // Höhe Sockel
     wizardParams.insert("b", 500.0);        // Tiefe Sockel
     wizardParams.insert("l", 500.0);        // Breite
     wizardParams.insert("i", 100.0);        // Überhang Schrank

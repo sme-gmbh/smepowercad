@@ -13,8 +13,8 @@
    height="64"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
-   sodipodi:docname="Hintergrund.svg">
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="cad_electrical_motorasynchronous.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -25,20 +25,23 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="26.709537"
-     inkscape:cy="30.841684"
+     inkscape:cx="28.852394"
+     inkscape:cy="25.395255"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer1"
      showgrid="true"
      objecttolerance="10000"
      guidetolerance="10000"
      gridtolerance="10000"
      inkscape:window-width="1920"
-     inkscape:window-height="1114"
-     inkscape:window-x="-4"
-     inkscape:window-y="-4"
+     inkscape:window-height="1134"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
-     inkscape:snap-grids="true">
+     inkscape:snap-grids="true"
+     inkscape:snap-others="true"
+     inkscape:snap-bbox="true"
+     inkscape:snap-object-midpoints="true">
     <inkscape:grid
        type="xygrid"
        id="grid2985"
@@ -80,5 +83,28 @@
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-988.36217)" />
+     transform="translate(0,-988.36217)">
+    <path
+       style="fill:#505050;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       d="m 48,1010.3622 11,0 0,24 -11,0"
+       id="path4149"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#c8c8c8;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       d="m 18,1036.3622 -8,12 44,0 -8,-12"
+       id="path4138"
+       inkscape:connector-curvature="0" />
+    <circle
+       style="fill:#c8c8c8;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path4136"
+       cx="32"
+       cy="1022.3622"
+       r="20" />
+    <circle
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#646464;stroke-width:2;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path4147"
+       cx="32"
+       cy="1022.3622"
+       r="4" />
+  </g>
 </svg>

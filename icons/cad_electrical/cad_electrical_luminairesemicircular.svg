@@ -2,21 +2,41 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="64"
    height="64"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
-   sodipodi:docname="Hintergrund.svg">
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="cad_electrical_luminairesemicircular.svg">
   <defs
-     id="defs4" />
+     id="defs4">
+    <linearGradient
+       id="linearGradient4805"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop4807" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4805"
+       id="linearGradient4809"
+       x1="5.9375"
+       y1="30"
+       x2="58.0625"
+       y2="30"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -24,21 +44,28 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.2"
-     inkscape:cx="26.709537"
-     inkscape:cy="30.841684"
+     inkscape:zoom="11.313709"
+     inkscape:cx="33.341474"
+     inkscape:cy="26.454205"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer1"
      showgrid="true"
      objecttolerance="10000"
      guidetolerance="10000"
      gridtolerance="10000"
      inkscape:window-width="1920"
-     inkscape:window-height="1114"
-     inkscape:window-x="-4"
-     inkscape:window-y="-4"
+     inkscape:window-height="1134"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
-     inkscape:snap-grids="true">
+     inkscape:snap-grids="true"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-others="false">
     <inkscape:grid
        type="xygrid"
        id="grid2985"
@@ -80,5 +107,41 @@
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-988.36217)" />
+     transform="translate(0,-988.36217)">
+    <rect
+       style="fill:#4d4d4d;stroke:#00dc00;stroke-width:0;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0.02694898;stroke-opacity:1"
+       id="rect5171"
+       width="12.124994"
+       height="63.999981"
+       x="52.000004"
+       y="988.36218" />
+    <path
+       style="fill:#ffffc8;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path4159"
+       sodipodi:type="arc"
+       sodipodi:cx="51.860851"
+       sodipodi:cy="1020.3625"
+       sodipodi:rx="36.53093"
+       sodipodi:ry="29.501379"
+       sodipodi:start="1.5670297"
+       sodipodi:end="4.713501"
+       d="m 51.998449,1049.8637 a 36.53093,29.501379 0 0 1 -31.735143,-14.6959 36.53093,29.501379 0 0 1 -0.04856,-29.5429 36.53093,29.501379 0 0 1 31.686724,-14.76377"
+       sodipodi:open="true" />
+    <circle
+       style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path4157"
+       cy="1020.3622"
+       cx="35"
+       r="15" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 45.606602,1009.7556 -21.213204,21.2132"
+       id="path4167"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 24.393398,1009.7556 21.213204,21.2132"
+       id="path4169"
+       inkscape:connector-curvature="0" />
+  </g>
 </svg>
