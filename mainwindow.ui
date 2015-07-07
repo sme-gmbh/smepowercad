@@ -334,6 +334,7 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
      <string>System</string>
     </property>
     <addaction name="actionServer"/>
+    <addaction name="actionCollision_Detection"/>
    </widget>
    <addaction name="menuDatei"/>
    <addaction name="menuFormat"/>
@@ -499,6 +500,17 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    </property>
    <property name="text">
     <string>Server</string>
+   </property>
+  </action>
+  <action name="actionCollision_Detection">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Collision Detection</string>
    </property>
   </action>
  </widget>

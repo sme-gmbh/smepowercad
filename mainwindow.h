@@ -137,6 +137,8 @@ private slots:
     void slot_collision_detected(CADitem* item_1, CADitem* item_2, QVector3D line_1, QVector3D line_2);
 
 
+    void on_actionCollision_Detection_triggered(bool checked);
+
 signals:
     void signal_command_prompt_input(QString str);
     void signal_repaintNeeded();

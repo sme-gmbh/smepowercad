@@ -212,7 +212,7 @@ void ItemGripModifier::slot_button_clicked()
     int flangeIndex = this->item->snap_flanges.indexOf(this->scenePos) + 1;
 
     itemDB->setRestorePoint();
-    CADitem* newItem = itemDB->drawItem(this->item->layer, type);
+    CADitem* newItem = itemDB->drawItem_withRestorePoint(this->item->layer, type, WizardParams());
 
     newItem->wizardParams.insert("Position x", ((qreal)scenePos.x()));
     newItem->wizardParams.insert("Position y", ((qreal)scenePos.y()));

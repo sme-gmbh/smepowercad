@@ -706,3 +706,17 @@ void MainWindow::slot_collision_detected(CADitem *item_1, CADitem *item_2, QVect
     itemDB->changeLayerOfItem(item_2->id, "Collision");
 
 }
+
+void MainWindow::on_actionCollision_Detection_triggered(bool checked)
+{
+    if (checked)
+    {
+        connect(itemDB, SIGNAL(signal_itemModified(CADitem*)), collisionDetection, SLOT(slot_testModifiedItem(CADitem*)));
+        connect(collisionDetection, SIGNAL(signal_itemsDoCollide(CADitem*,CADitem*, QVector3D, QVector3D)), this, SLOT(slot_collision_detected(CADitem*,CADitem*, QVector3D, QVector3D)));
+    }
+    else
+    {
+        disconnect(itemDB, SIGNAL(signal_itemModified(CADitem*)), collisionDetection, SLOT(slot_testModifiedItem(CADitem*)));
+        disconnect(collisionDetection, SIGNAL(signal_itemsDoCollide(CADitem*,CADitem*, QVector3D, QVector3D)), this, SLOT(slot_collision_detected(CADitem*,CADitem*, QVector3D, QVector3D)));
+    }
+}
