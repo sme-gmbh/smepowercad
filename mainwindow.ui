@@ -80,6 +80,10 @@ QPushButton:pressed {
 QPushButton:checked {
 	background-color: rgb(19, 156, 39);
 }
+QPushButton:focus {
+	background-color: rgb(5, 90, 11);
+	outline: none;
+}
 
 QSpinBox, QDoubleSpinBox {
 	color: white;
@@ -175,6 +179,13 @@ QComboBox::down-arrow {
 	width: 17px;
 	height: 17px;
 	border: 0;
+}
+
+QLineEdit{
+	border: 3px;
+	color: rgb(255, 255, 255);
+	background-color: rgb(80, 80, 80);
+	width: 400px;
 }
 
 QPlainTextEdit {

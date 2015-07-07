@@ -97,7 +97,9 @@ QTreeView {
 	border: 0;
 	background-color: rgb(59, 59, 51);
 	color: rgb(255, 255, 255);
-}</string>
+}
+
+</string>
   </property>
   <property name="floating">
    <bool>true</bool>
@@ -110,7 +112,16 @@ QTreeView {
   </property>
   <widget class="QWidget" name="dockWidgetContents">
    <layout class="QGridLayout" name="gridLayout">
-    <property name="margin">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
      <number>0</number>
     </property>
     <item row="0" column="0">
