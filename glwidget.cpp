@@ -819,8 +819,9 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             if ((snapMode == SnapBasepoint) || (snapMode == SnapFlange) || (snapMode == SnapEndpoint))
             {
                 QList<CADitem*> itemsToDo = this->selection_itemList;
-                if (QMessageBox::question(this, tr("Copy items"), tr("You are going to copy ") + QString().setNum(itemsToDo.count()) + "item(s). Proceed?")
-                        == QMessageBox::Yes)
+                if (QMessageBox::question(this, tr("Copy items"), tr("You are going to copy %1 item(s).").arg(itemsToDo.count()),
+                                          tr("Abort"), tr("Proceed"), "", 1, 0)
+                        == 1)
                 {
                     this->itemGripModifier->setItems(itemsToDo);
                     if (event->modifiers() & Qt::ShiftModifier)
@@ -877,8 +878,9 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             if ((snapMode == SnapBasepoint) || (snapMode == SnapFlange) || (snapMode == SnapEndpoint))
             {
                 QList<CADitem*> itemsToDo = this->selection_itemList;
-                if (QMessageBox::question(this, tr("Moving items"), tr("You are going to move ") + QString().setNum(itemsToDo.count()) + "item(s). Proceed?")
-                        == QMessageBox::Yes)
+                if (QMessageBox::question(this, tr("Moving items"), tr("You are going to move %1 item(s).").arg(itemsToDo.count()),
+                                          tr("Abort"), tr("Proceed"), "", 1, 0)
+                        == 1)
                 {
                     this->itemGripModifier->setItems(itemsToDo);
                     this->itemGripModifier->activateGrip(ItemGripModifier::Grip_Move, QCursor::pos(), snapPos_scene);
@@ -902,8 +904,10 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             if (snapMode != SnapNo)
             {
                 QList<CADitem*> itemsToDo = this->selection_itemList;
-                if (QMessageBox::question(this, tr("Rotating items"), tr("You are going to rotate ") + QString().setNum(itemsToDo.count()) + "item(s). Proceed?")
-                        == QMessageBox::Yes)
+                if (QMessageBox::question(this, tr("Rotating items"),
+                                          tr("You are going to rotate %1 item(s).").arg(itemsToDo.count()),
+                                          tr("Abort"), tr("Proceed"), "", 1, 0)
+                        == 1)
                 {
                     this->itemGripModifier->setItems(itemsToDo);
                     this->itemGripModifier->activateGrip(ItemGripModifier::Grip_Rotate_aroundPoint, QCursor::pos(), snapPos_scene);
@@ -976,8 +980,9 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         {
             QList<CADitem*> itemsToDelete = this->selection_itemList;
 
-            if (QMessageBox::question(this, tr("Deleting items"), tr("You are going to delete ") + QString().setNum(itemsToDelete.count()) + "item(s). Proceed?")
-                    == QMessageBox::Yes)
+            if (QMessageBox::question(this, tr("Deleting items"), tr("You are going to delete %1 item(s).").arg(itemsToDelete.count()),
+                                      tr("Abort"), tr("Proceed"), "", 1, 0)
+                    == 1)
             {
                 selectionClear();
                 itemDB->setRestorePoint();
