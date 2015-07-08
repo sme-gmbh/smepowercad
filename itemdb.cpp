@@ -272,7 +272,7 @@ void ItemDB::addItem(CADitem *item, Layer *layer)
     itemMap.insert(item->id, item);
     currentItemId++;
     layer->items.append(item);
-    emit signal_itemAdded(item, layer);
+//    emit signal_itemAdded(item, layer);
 }
 
 void ItemDB::deleteItem(CADitem *item)
@@ -1211,7 +1211,7 @@ CADitem *ItemDB::drawItem_withRestorePoint(Layer *layer, CADitemTypes::ItemType 
     item->processWizardInput();
     item->calculate();
 
-    emit signal_itemModified(item);
+//    emit signal_itemModified(item);
     return item;
 }
 

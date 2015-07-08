@@ -676,17 +676,17 @@ void MainWindow::on_actionServer_triggered(bool checked)
 
 void MainWindow::slot_collision_detected(CADitem *item_1, CADitem *item_2, QVector3D line_1, QVector3D line_2)
 {
-    CAD_basic_line* line = new CAD_basic_line;
-    line->wizardParams.insert("Position x1", line_1.x());
-    line->wizardParams.insert("Position y1", line_1.y());
-    line->wizardParams.insert("Position z1", line_1.z());
-    line->wizardParams.insert("Position x2", line_2.x());
-    line->wizardParams.insert("Position y2", line_2.y());
-    line->wizardParams.insert("Position z2", line_2.z());
-    line->wizardParams.insert("r", 50.0);
-    line->processWizardInput();
-    line->calculate();
-    itemDB->addItem(line, "Collision");
+//    CAD_basic_line* line = new CAD_basic_line;
+//    line->wizardParams.insert("Position x1", line_1.x());
+//    line->wizardParams.insert("Position y1", line_1.y());
+//    line->wizardParams.insert("Position z1", line_1.z());
+//    line->wizardParams.insert("Position x2", line_2.x());
+//    line->wizardParams.insert("Position y2", line_2.y());
+//    line->wizardParams.insert("Position z2", line_2.z());
+//    line->wizardParams.insert("r", 50.0);
+//    line->processWizardInput();
+//    line->calculate();
+//    itemDB->addItem(line, "Collision");
 
     QString pos_1 = QString().sprintf(" @{%.3lf|%.3lf|%.3lf}", item_1->position.x(), item_1->position.y(), item_1->position.z());
     QString pos_2 = QString().sprintf(" @{%.3lf|%.3lf|%.3lf}", item_2->position.x(), item_2->position.y(), item_2->position.z());
@@ -705,11 +705,10 @@ void MainWindow::slot_collision_detected(CADitem *item_1, CADitem *item_2, QVect
 
     if(item_1->layer->name != "Collision")
         item_1->setFormerLayer(item_1->layer);
-    if(item_2->layer->name != "Collision")
-        item_2->setFormerLayer(item_2->layer);
+//    if(item_2->layer->name != "Collision")
+//        item_2->setFormerLayer(item_2->layer);
     itemDB->changeLayerOfItem(item_1->id, "Collision");
-    itemDB->changeLayerOfItem(item_2->id, "Collision");
-
+//    itemDB->changeLayerOfItem(item_2->id, "Collision");
 }
 
 void MainWindow::slot_no_collision_detected(CADitem *item_1)
