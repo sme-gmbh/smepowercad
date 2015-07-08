@@ -45,12 +45,12 @@ CAD_Basic_TorisphericalHeadDeepDishedDIN28013::CAD_Basic_TorisphericalHeadDeepDi
 
 CAD_Basic_TorisphericalHeadDeepDishedDIN28013::~CAD_Basic_TorisphericalHeadDeepDishedDIN28013()
 {
-    //    arrayBufVertices->destroy();
-    //    indexBufFaces->destroy();
-    //    indexBufLines->destroy();
-    //    delete arrayBufVertices;
-    //    delete indexBufFaces;
-    //    delete indexBufLines;
+        arrayBufVertices->destroy();
+        indexBufFaces->destroy();
+        indexBufLines->destroy();
+        delete arrayBufVertices;
+        delete indexBufFaces;
+        delete indexBufLines;
 }
 
 QList<CADitemTypes::ItemType> CAD_Basic_TorisphericalHeadDeepDishedDIN28013::flangable_items(int flangeIndex)
@@ -135,6 +135,8 @@ void CAD_Basic_TorisphericalHeadDeepDishedDIN28013::calculate()
         }
     }
 
+    for(int i = 0; i < 176; i++)
+        boundingBox.enterVertex(vertices[i]);
     static GLushort indicesFaces[350];
     //outer
     for(int i = 0; i < 10; i++)
@@ -183,13 +185,6 @@ void CAD_Basic_TorisphericalHeadDeepDishedDIN28013::calculate()
 
     indexBufLines->bind();
     indexBufLines->allocate(indicesLines, sizeof(indicesLines));
-
-
-    boundingBox.enterVertex(position + matrix_rotation * QVector3D( d/2, 0.0, 0.0));
-    boundingBox.enterVertex(position + matrix_rotation * QVector3D( -d/2, 0.0, 0.0));
-    boundingBox.enterVertex(position + matrix_rotation * QVector3D( 0.0, d/2, 0.0));
-    boundingBox.enterVertex(position + matrix_rotation * QVector3D( 0.0, -d/2, 0.0));
-    boundingBox.enterVertex(position + matrix_rotation * QVector3D(0.0, 0.0, h + 0.2544727321 * d));
 }
 
 void CAD_Basic_TorisphericalHeadDeepDishedDIN28013::processWizardInput()
