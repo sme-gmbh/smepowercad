@@ -140,7 +140,6 @@ void CollisionDetection::slot_testModifiedItem(CADitem *item)
 
 void CollisionDetection::slot_testModifiedItems(QList<CADitem *> *list)
 {
-    qDebug() << "slot";
     itemsToCheck.append(*list);
 
     if (!this->isRunning())
