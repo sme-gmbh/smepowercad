@@ -191,9 +191,10 @@ void CAD_basic_duct::calculate()
         8, 9, 12,  13, 15, 14, 11, 10, 8, 9, 0xABCD,
         //front faces negative x end
         2, 1,  10, 9, 0xABCD,
-        2, 10, 6,  14, 0xABCD,
+        10, 2, 14, 6, 0xABCD,
         6, 14, 5,  13, 0xABCD,
-        5, 13, 1,  9, 0xABCD,
+//        5, 13, 1,  9, 0xABCD,
+        13, 5, 9, 1, 0xABCD,
         //front faces positive x end
         8,  0,  11,  3, 0xABCD,
         11, 3,  15,  7, 0xABCD,

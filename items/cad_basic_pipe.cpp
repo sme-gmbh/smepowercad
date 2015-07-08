@@ -171,12 +171,12 @@ void CAD_basic_pipe::calculate()
     //ring on positive x-end
     for(int i = 0; i < 16; i++)
     {
-        indicesFaces[105+2*i] = 4*i+2;
-        indicesFaces[105+2*i+1] = 4*i+3;
+        indicesFaces[105+2*i] = 4*i+3;
+        indicesFaces[105+2*i+1] = 4*i+2;
     }
 
-    indicesFaces[137] = 2;
-    indicesFaces[138] = 3;
+    indicesFaces[137] = 3;
+    indicesFaces[138] = 2;
 
 
     static GLushort indicesLines[192];

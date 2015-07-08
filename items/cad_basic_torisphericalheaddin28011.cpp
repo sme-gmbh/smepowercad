@@ -136,6 +136,9 @@ void CAD_Basic_TorisphericalHeadDIN28011::calculate()
         }
     }
 
+    for(int i = 0; i < 176; i++)
+        boundingBox.enterVertex(vertices[i]);
+
     static GLushort indicesFaces[350];
     //outer
     for(int i = 0; i < 10; i++)
