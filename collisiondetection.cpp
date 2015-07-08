@@ -54,6 +54,7 @@ void CollisionDetection::testLayers(QList<Layer *> layers)
         }
         testLayers(layer->subLayers);
     }
+    emit signal_itemsDoNotCollide(currentItem);
 }
 
 void CollisionDetection::testItems(CADitem* item)
@@ -85,28 +86,28 @@ void CollisionDetection::testItems(CADitem* item)
         {
             if(intersectionTester.trianglesIntersect(item_triangle, currentItem_triangle, &line_1, &line_2))
             {
-//                qDebug() << "<I65 "
-//                         << "Position_x=" << '"' << currentItem_triangle.getV0().x() << '"'
-//                         << "Position_y=" << '"' << currentItem_triangle.getV0().y() << '"'
-//                         << "Position_z=" << '"' << currentItem_triangle.getV0().z() << '"'
-//                         << "Position_x1=" << '"' << currentItem_triangle.getV1().x() << '"'
-//                         << "Position_y1=" << '"' << currentItem_triangle.getV1().y() << '"'
-//                         << "Position_z1=" << '"' << currentItem_triangle.getV1().z() << '"'
-//                         << "Position_x2=" << '"' << currentItem_triangle.getV2().x() << '"'
-//                         << "Position_y2=" << '"' << currentItem_triangle.getV2().y() << '"'
-//                         << "Position_z2=" << '"' << currentItem_triangle.getV2().z() << '"'
-//                         << "/>" ;
-//                qDebug() << "<I65 "
-//                         << "Position_x=" << '"' << item_triangle.getV0().x() << '"'
-//                         << "Position_y=" << '"' << item_triangle.getV0().y() << '"'
-//                         << "Position_z=" << '"' << item_triangle.getV0().z() << '"'
-//                         << "Position_x1=" << '"' << item_triangle.getV1().x() << '"'
-//                         << "Position_y1=" << '"' << item_triangle.getV1().y() << '"'
-//                         << "Position_z1=" << '"' << item_triangle.getV1().z() << '"'
-//                         << "Position_x2=" << '"' << item_triangle.getV2().x() << '"'
-//                         << "Position_y2=" << '"' << item_triangle.getV2().y() << '"'
-//                         << "Position_z2=" << '"' << item_triangle.getV2().z() << '"'
-//                         << "/>" ;
+                qDebug() << "<I65 "
+                         << "Position_x=" << '"' << currentItem_triangle.getV0().x() << '"'
+                         << "Position_y=" << '"' << currentItem_triangle.getV0().y() << '"'
+                         << "Position_z=" << '"' << currentItem_triangle.getV0().z() << '"'
+                         << "Position_x1=" << '"' << currentItem_triangle.getV1().x() << '"'
+                         << "Position_y1=" << '"' << currentItem_triangle.getV1().y() << '"'
+                         << "Position_z1=" << '"' << currentItem_triangle.getV1().z() << '"'
+                         << "Position_x2=" << '"' << currentItem_triangle.getV2().x() << '"'
+                         << "Position_y2=" << '"' << currentItem_triangle.getV2().y() << '"'
+                         << "Position_z2=" << '"' << currentItem_triangle.getV2().z() << '"'
+                         << "/>" ;
+                qDebug() << "<I65 "
+                         << "Position_x=" << '"' << item_triangle.getV0().x() << '"'
+                         << "Position_y=" << '"' << item_triangle.getV0().y() << '"'
+                         << "Position_z=" << '"' << item_triangle.getV0().z() << '"'
+                         << "Position_x1=" << '"' << item_triangle.getV1().x() << '"'
+                         << "Position_y1=" << '"' << item_triangle.getV1().y() << '"'
+                         << "Position_z1=" << '"' << item_triangle.getV1().z() << '"'
+                         << "Position_x2=" << '"' << item_triangle.getV2().x() << '"'
+                         << "Position_y2=" << '"' << item_triangle.getV2().y() << '"'
+                         << "Position_z2=" << '"' << item_triangle.getV2().z() << '"'
+                         << "/>" ;
                 qDebug() << "Collision!";
                 emit signal_itemsDoCollide(currentItem, item, line_1, line_2);
                 this->context->doneCurrent();

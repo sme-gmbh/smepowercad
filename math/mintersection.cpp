@@ -18,6 +18,8 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
 
     //plane for triangle 2
     QVector3D m = QVector3D::crossProduct(w1 - w0, w2 - w0).normalized();
+    if(m.length() < 0.5)
+        return false;
     double e = - QVector3D::dotProduct(m, w0);
     double dist_v0 = QVector3D::dotProduct(v0, m) + e;
     double dist_v1 = QVector3D::dotProduct(v1, m) + e;
@@ -31,6 +33,8 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
 
     //plane for triangle 1
     QVector3D n = QVector3D::crossProduct(v1 - v0, v2 - v0).normalized();
+    if(n.length() < 0.5)
+        return false;
     double d = - QVector3D::dotProduct(n, v0);
     double dist_w0 = QVector3D::dotProduct(w0, n) + d;
     double dist_w1 = QVector3D::dotProduct(w1, n) + d;
@@ -58,82 +62,148 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
 
     if (abs(dist_v0) < TOL && abs(dist_v1) < TOL && abs(dist_v2) < TOL)
     {
-        return false;
         //*****triangles are coplanar*****
-        //project "onto the axis-aligned plane where the areas of the triangles are maximized."
+
+        qDebug() << n << m;
+        if(QVector3D::dotProduct(n, m) / (n.length() * m.length()) < -1 + TOL_INEXACT)
+            return false;
+
+
         QVector2D v0_2D, v1_2D, v2_2D, w0_2D, w1_2D, w2_2D;
-        QVector3D a = QVector3D(qAbs(n.x()), qAbs(n.y()), qAbs(n.z()));
-        if(a.x() > a.y())
-        {
-            if(a.x() > a.z())
-            {
-                v0_2D = QVector2D(v0.y(), v0.z());
-                v1_2D = QVector2D(v1.y(), v1.z());
-                v2_2D = QVector2D(v2.y(), v2.z());
-                w0_2D = QVector2D(w0.y(), w0.z());
-                w1_2D = QVector2D(w1.y(), w1.z());
-                w2_2D = QVector2D(w2.y(), w2.z());
-            }
-            else
-            {
-                v0_2D = QVector2D(v0.x(), v0.y());
-                v1_2D = QVector2D(v1.x(), v1.y());
-                v2_2D = QVector2D(v2.x(), v2.y());
-                w0_2D = QVector2D(w0.x(), w0.y());
-                w1_2D = QVector2D(w1.x(), w1.y());
-                w2_2D = QVector2D(w2.x(), w2.y());
-            }
-        }
-        else
-        {
-            if(a.z() > a.y())
-            {
-                v0_2D = QVector2D(v0.x(), v0.y());
-                v1_2D = QVector2D(v1.x(), v1.y());
-                v2_2D = QVector2D(v2.x(), v2.y());
-                w0_2D = QVector2D(w0.x(), w0.y());
-                w1_2D = QVector2D(w1.x(), w1.y());
-                w2_2D = QVector2D(w2.x(), w2.y());
-            }
-            else
-            {
-                v0_2D = QVector2D(v0.x(), v0.z());
-                v1_2D = QVector2D(v1.x(), v1.z());
-                v2_2D = QVector2D(v2.x(), v2.z());
-                w0_2D = QVector2D(w0.x(), w0.z());
-                w1_2D = QVector2D(w1.x(), w1.z());
-                w2_2D = QVector2D(w2.x(), w2.z());
-            }
-        }
+
+        //calculate orthonormal base of cutting plane
+        QVector3D b1 = v1 - v0;
+        QVector3D b2 = QVector3D::crossProduct(n, b1);
+        b1.normalize();
+        b2.normalize();
+
+        //calculate coordinates respectively the new base
+        v0_2D = QVector2D(QVector3D::dotProduct(v0, b1), QVector3D::dotProduct(v0, b2));
+        v1_2D = QVector2D(QVector3D::dotProduct(v1, b1), QVector3D::dotProduct(v1, b2));
+        v2_2D = QVector2D(QVector3D::dotProduct(v2, b1), QVector3D::dotProduct(v2, b2));
+        w0_2D = QVector2D(QVector3D::dotProduct(w0, b1), QVector3D::dotProduct(w0, b2));
+        w1_2D = QVector2D(QVector3D::dotProduct(w1, b1), QVector3D::dotProduct(w1, b2));
+        w2_2D = QVector2D(QVector3D::dotProduct(w2, b1), QVector3D::dotProduct(w2, b2));
+
+        //project "onto the axis-aligned plane where the areas of the triangles are maximized."
+//        QVector3D a = QVector3D(qAbs(n.x()), qAbs(n.y()), qAbs(n.z()));
+//        if(a.x() > a.y())
+//        {
+//            if(a.x() > a.z())
+//            {
+//                v0_2D = QVector2D(v0.y(), v0.z());
+//                v1_2D = QVector2D(v1.y(), v1.z());
+//                v2_2D = QVector2D(v2.y(), v2.z());
+//                w0_2D = QVector2D(w0.y(), w0.z());
+//                w1_2D = QVector2D(w1.y(), w1.z());
+//                w2_2D = QVector2D(w2.y(), w2.z());
+//            }
+//            else
+//            {
+//                v0_2D = QVector2D(v0.x(), v0.y());
+//                v1_2D = QVector2D(v1.x(), v1.y());
+//                v2_2D = QVector2D(v2.x(), v2.y());
+//                w0_2D = QVector2D(w0.x(), w0.y());
+//                w1_2D = QVector2D(w1.x(), w1.y());
+//                w2_2D = QVector2D(w2.x(), w2.y());
+//            }
+//        }
+//        else
+//        {
+//            if(a.z() > a.y())
+//            {
+//                v0_2D = QVector2D(v0.x(), v0.y());
+//                v1_2D = QVector2D(v1.x(), v1.y());
+//                v2_2D = QVector2D(v2.x(), v2.y());
+//                w0_2D = QVector2D(w0.x(), w0.y());
+//                w1_2D = QVector2D(w1.x(), w1.y());
+//                w2_2D = QVector2D(w2.x(), w2.y());
+//            }
+//            else
+//            {
+//                v0_2D = QVector2D(v0.x(), v0.z());
+//                v1_2D = QVector2D(v1.x(), v1.z());
+//                v2_2D = QVector2D(v2.x(), v2.z());
+//                w0_2D = QVector2D(w0.x(), w0.z());
+//                w1_2D = QVector2D(w1.x(), w1.z());
+//                w2_2D = QVector2D(w2.x(), w2.z());
+//            }
+//        }
 
         //test all edges against all edges
         if (edgeAgainstEdge(v0_2D, v1_2D, w0_2D, w1_2D))
+        {
+            qDebug() << "edge vs. edge";
+            qDebug() << v0_2D << v1_2D << w0_2D << w1_2D;
             return true;
+        }
         if (edgeAgainstEdge(v0_2D, v1_2D, w1_2D, w2_2D))
+        {
+            qDebug() << "edge vs. edge";
+            qDebug() << v0_2D << v1_2D << w1_2D << w2_2D;
             return true;
+        }
         if (edgeAgainstEdge(v0_2D, v1_2D, w0_2D, w2_2D))
+        {
+            qDebug() << "edge vs. edge";
+            qDebug() << v0_2D << v1_2D << w0_2D << w2_2D;
             return true;
+        }
         if (edgeAgainstEdge(v1_2D, v2_2D, w0_2D, w1_2D))
+        {
+            qDebug() << "edge vs. edge";
+            qDebug() << v1_2D << v2_2D << w0_2D << w1_2D;
             return true;
+        }
         if (edgeAgainstEdge(v1_2D, v2_2D, w1_2D, w2_2D))
+        {
+            qDebug() << "edge vs. edge";
+            qDebug() << v1_2D << v2_2D << w1_2D << w2_2D;
             return true;
+        }
         if (edgeAgainstEdge(v1_2D, v2_2D, w0_2D, w2_2D))
+        {
+            qDebug() << "edge vs. edge";
+            qDebug() << v1_2D << v2_2D << w0_2D << w2_2D;
             return true;
+        }
         if (edgeAgainstEdge(v0_2D, v2_2D, w0_2D, w1_2D))
+        {
+            qDebug() << "edge vs. edge";
+            qDebug() << v0_2D << v2_2D << w0_2D << w1_2D;
             return true;
+        }
         if (edgeAgainstEdge(v0_2D, v2_2D, w1_2D, w2_2D))
+        {
+            qDebug() << "edge vs. edge";
+            qDebug() << v0_2D << v2_2D << w1_2D << w2_2D;
             return true;
+        }
         if (edgeAgainstEdge(v0_2D, v2_2D, w0_2D, w2_2D))
+        {
+            qDebug() << "edge vs. edge";
+            qDebug() << v0_2D << v2_2D << w0_2D << w2_2D;
             return true;
+        }
 
         //test if one triangle lies within another
         if (vertexInTriangle(v0_2D, w0_2D, w1_2D, w2_2D))
+        {
+            qDebug() << "vertex in triangle";
+            qDebug() << v0_2D << w0_2D << w1_2D << w2_2D;
             return true;
+        }
         if (vertexInTriangle(w0_2D, v0_2D, v1_2D, v2_2D))
+        {
+            qDebug() << "vertex in triangle";
+            qDebug() << w0_2D << v0_2D << v1_2D << v2_2D;
             return true;
+        }
 
         return false;
     }
+    else if(trianglesOnlyTouch(dist_v0, dist_v1, dist_v2, dist_w0, dist_w1, dist_w2))
+            return false;
     else
     {
         //*****triangles are not coplanar*****
@@ -166,12 +236,21 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
             s2 = p_v2 + (p_v1 - p_v2) * dist_v2 / (dist_v2 - dist_v1);
         }
         //v1 and v2 on same side
-        else if(dist_v1 * dist_v2 > TOL)
+        else if(dist_v1 * dist_v2 > TOL || abs(dist_v0) > TOL)
         {
             s1 = p_v1 + (p_v0 - p_v1) * dist_v1 / (dist_v1 - dist_v0);
             s2 = p_v2 + (p_v0 - p_v2) * dist_v2 / (dist_v2 - dist_v0);
         }
-
+        else if(abs(dist_v1) > TOL)
+        {
+            s1 = p_v0 + (p_v1 - p_v0) * dist_v0 / (dist_v0 - dist_v1);
+            s2 = p_v2 + (p_v1 - p_v2) * dist_v2 / (dist_v2 - dist_v1);
+        }
+        else if(abs(dist_v2) > TOL)
+        {
+            s1 = p_v0 + (p_v2 - p_v0) * dist_v0 / (dist_v0 - dist_v2);
+            s2 = p_v1 + (p_v2 - p_v1) * dist_v1 / (dist_v1 - dist_v2);
+        }
 
         //*********************************************************************
 
@@ -188,10 +267,20 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
             t2 = p_w2 + (p_w1 - p_w2) * dist_w2 / (dist_w2 - dist_w1);
         }
         //w1 and w2 on same side
-        else if(dist_w1 * dist_w2 > TOL)
+        else if(dist_w1 * dist_w2 > TOL || abs(dist_w0) > TOL)
         {
             t1 = p_w1 + (p_w0 - p_w1) * dist_w1 / (dist_w1 - dist_w0);
             t2 = p_w2 + (p_w0 - p_w2) * dist_w2 / (dist_w2 - dist_w0);
+        }
+        else if(abs(dist_w1) > TOL)
+        {
+            t1 = p_w0 + (p_w1 - p_w0) * dist_w0 / (dist_w0 - dist_w1);
+            t2 = p_w2 + (p_w1 - p_w2) * dist_w2 / (dist_w2 - dist_w1);
+        }
+        else if(abs(dist_w2) > TOL)
+        {
+            t1 = p_w0 + (p_w2 - p_w0) * dist_w0 / (dist_w0 - dist_w2);
+            t2 = p_w1 + (p_w2 - p_w1) * dist_w1 / (dist_w1 - dist_w2);
         }
 
 
@@ -220,31 +309,11 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
             j2 = s1;
         }
 
-        qDebug() << "Parameter:";
-        qDebug() << s1 << s2;
-        qDebug() << p_v0 << p_v1 << p_v2 << dist_v0 << dist_v1 << dist_v2;
-        qDebug() << t1 << t2;
-        qDebug() << p_w0 << p_w1 << p_w2 << dist_w0 << dist_w1 << dist_w2;
         //check for intersection
         if((i1 < j1 + 1) && (i2 < j1 + 1))
             return false;
         if((i1 > j2 - 1) && (i2 > j2 - 1))
             return false;
-
-        if(abs(s1 - s2) < TOL)
-        {
-            if(p_v0 < TOL && p_v1 < TOL && p_v2 < TOL)
-                return false;
-            if(p_v0 > -TOL && p_v1 > -TOL && p_v2 > -TOL)
-                return false;
-        }
-        if(abs(t1 - t2) < TOL)
-        {
-            if(p_w0 < TOL && p_w1 < TOL && p_w2 < TOL)
-                return false;
-            if(p_w0 > -TOL && p_w1 > -TOL && p_w2 > -TOL)
-                return false;
-        }
 
         //some debug output, generates XML, that can be loaded into PowerCAD
         float norm_n_squared = QVector3D::dotProduct(n, n);
@@ -288,6 +357,14 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
 //                 << "r=" << '"' << 10 << '"'
 //                 << "/>" ;
 
+//        qDebug() << "Parameter:";
+//        qDebug() << s1 << s2;
+//        qDebug() << p_v0 << p_v1 << p_v2 << dist_v0 << dist_v1 << dist_v2;
+//        qDebug() << t1 << t2;
+//        qDebug() << p_w0 << p_w1 << p_w2 << dist_w0 << dist_w1 << dist_w2;
+//        qDebug() << QVector3D::dotProduct(n, m) / (n.length() * m.length());
+
+        qDebug() << "face vs. face";
 
         *line_1 = aufpunkt + 10000*direction;
         *line_2 = aufpunkt - 10000*direction;
@@ -304,43 +381,89 @@ bool MIntersection::trianglesIntersect(MTriangle t1, MTriangle t2, QVector3D *li
 
 bool MIntersection::edgeAgainstEdge(QVector2D v0, QVector2D v1, QVector2D w0, QVector2D w1)
 {
-    float a = (v1 - v0).x();
-    float b = (w1 - w0).x();
-    float c = (v1 - v0).y();
-    float d = (w1 - w0).y();
-    // linear system is not solvable
-    if(qAbs(a*d - b*c) < TOL)
+    if(((v0 - w0).length() < TOL_INEXACT) || ((v0 - w1).length() < TOL_INEXACT) || ((v1 - w0).length() < TOL_INEXACT)|| ((v1 - w1).length() < TOL_INEXACT))
         return false;
-    // solve linear system
-    float k = (v0 - w0).x();
-    float l = (v0 - w0).y();
-    float mu = (l - c*k / a) / (d - c * b / a);
-    float lambda = (k - b* mu) / a;
+    float a1 = v1.y() - v0.y();
+    float b1 = v0.x() - v1.x();
+    float c1 = a1 * v0.x() + b1 * v0.y();
 
-    if(0.0 < lambda && lambda < 1.0 && 0.0 < mu && mu < 1.0)
-        return true;
-    return false;
+    float a2 = w1.y() - w0.y();
+    float b2 = w0.x() - w1.x();
+    float c2 = a2 * w0.x() + b2 * w0.y();
 
+    double det = a1*b2 - a2*b1;
+    if(abs(det) < TOL)
+    {
+        //Lines are parallel
+        return false;
+    }
+    else
+    {
+        QVector2D intersect = QVector2D((b2*c1 - b1*c2)/det, (a1*c2 - a2*c1)/det);
+        if(((v0 - intersect).length() < TOL_INEXACT) || ((v1 - intersect).length() < TOL_INEXACT) ||
+           ((w0 - intersect).length() < TOL_INEXACT) || ((w1 - intersect).length() < TOL_INEXACT))
+            return false;
+        if(pointOnLineSegment(intersect, v0, v1) && pointOnLineSegment(intersect, w0, w1))
+            return true;
+        else
+            return false;
+    }
+}
+
+bool MIntersection::pointOnLineSegment(QVector2D p, QVector2D v0, QVector2D v1)
+{
+    double max_x = qMax(v0.x(), v1.x());
+    double min_x = qMin(v0.x(), v1.x());
+    if(p.x() < min_x || p.x() > max_x)
+        return false;
+
+    double max_y = qMax(v0.y(), v1.y());
+    double min_y = qMin(v0.y(), v1.y());
+    if(p.y() < min_y || p.y() > max_y)
+        return false;
+
+    return true;
 }
 
 bool MIntersection::vertexInTriangle(QVector2D v0, QVector2D w0, QVector2D w1, QVector2D w2)
 {
-    float a = (w1 - w0).x();
-    float b = (w2 - w0).x();
-    float c = (w1 - w0).y();
-    float d = (w2 - w0).y();
-    // linear system is not solvable
-    if(qAbs(a*d - b*c) < TOL)
+    if(((v0 - w0).length() < TOL_INEXACT) || ((v0 - w1).length() < TOL_INEXACT) || ((v0 - w2).length() < TOL_INEXACT))
         return false;
-    // solve linear system
-    float k = (v0 - w0).x();
-    float l = (v0 - w0).y();
-    float t = (l - c*k / a) / (d - c * b / a);
-    float s = (k - b* t) / a;
+    if (verticesOnSameSide(v0, w0, w1, w2) && verticesOnSameSide(v0, w1, w0, w2) && verticesOnSameSide(v0, w2, w0, w1))
+        return true;
+    else
+        return false;
+}
 
-    if(0.0 <= t && t <= 1.0 && 0.0 <= s && s <= 1.0 && s + t <= 1.0)
+
+bool MIntersection::verticesOnSameSide(QVector2D p1,QVector2D p2, QVector2D a, QVector2D b)
+{
+    QVector3D cp1 = QVector3D::crossProduct(QVector3D(b-a,0.0), QVector3D(p1-a, 0.0));
+    QVector3D cp2 = QVector3D::crossProduct(QVector3D(b-a,0.0), QVector3D(p2-a, 0.0));
+        if(QVector3D::dotProduct(cp1, cp2) > TOL)
+            return true;
+        else
+            return false;
+}
+bool MIntersection::trianglesOnlyTouch(float dist_v0, float dist_v1, float dist_v2, float dist_w0, float dist_w1, float dist_w2)
+{
+    if((abs(dist_v0) < TOL) || (abs(dist_v1) < TOL) || (abs(dist_v2) < TOL) ||
+       (abs(dist_w0) < TOL) || (abs(dist_w1) < TOL) || (abs(dist_w2) < TOL))
         return true;
     return false;
+//    if(abs(dist_v0) < TOL_INEXACT && abs(dist_v1) < TOL_INEXACT)
+//        return true;
+//    if(abs(dist_v0) < TOL_INEXACT && abs(dist_v2) < TOL_INEXACT)
+//        return true;
+//    if(abs(dist_v1) < TOL_INEXACT && abs(dist_v2) < TOL_INEXACT)
+//        return true;
+//    if(abs(dist_w0) < TOL_INEXACT && abs(dist_w1) < TOL_INEXACT)
+//        return true;
+//    if(abs(dist_w0) < TOL_INEXACT && abs(dist_w2) < TOL_INEXACT)
+//        return true;
+//    if(abs(dist_w1) < TOL_INEXACT && abs(dist_w2) < TOL_INEXACT)
+//        return true;
+//    return false;
 }
 
 QVector3D MIntersection::randomVector()
