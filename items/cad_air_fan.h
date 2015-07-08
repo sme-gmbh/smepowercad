@@ -17,6 +17,7 @@
 #define CAD_AIR_FAN_H
 
 #include "caditem.h"
+#include "cad_basic_duct.h"
 
 class CAD_air_fan : public CADitem
 {
@@ -31,6 +32,10 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
+
+    qreal l, a, b, s;
+
+    CAD_basic_duct *duct;
 };
 
 #endif // CAD_AIR_FAN_H

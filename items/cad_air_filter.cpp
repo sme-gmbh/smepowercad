@@ -25,6 +25,15 @@ CAD_air_filter::CAD_air_filter() : CADitem(CADitemTypes::Air_Filter)
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
+    wizardParams.insert("a", 2000.0);
+    wizardParams.insert("b", 2000.0);
+    wizardParams.insert("l", 1500.0);
+    wizardParams.insert("s", 1.0);
+
+    duct = new CAD_basic_duct();
+
+    subItems.append(duct);
+
     processWizardInput();
     calculate();
 }
@@ -38,6 +47,12 @@ QList<CADitemTypes::ItemType> CAD_air_filter::flangable_items(int flangeIndex)
 {
     Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Air_EmptyCabinet);
+    flangable_items.append(CADitemTypes::Air_CanvasFlange);
+    flangable_items.append(CADitemTypes::Air_Humidifier);
+    flangable_items.append(CADitemTypes::Air_Fan);
+    flangable_items.append(CADitemTypes::Air_Filter);
+    flangable_items.append(CADitemTypes::Air_DuctBaffleSilencer);
     flangable_items.append(CADitemTypes::Air_Duct);
     flangable_items.append(CADitemTypes::Air_DuctEndPlate);
     flangable_items.append(CADitemTypes::Air_DuctFireDamper);
@@ -82,11 +97,6 @@ QString CAD_air_filter::description()
 
 void CAD_air_filter::calculate()
 {
-    matrix_rotation.setToIdentity();
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-
     boundingBox.reset();
 
     this->snap_flanges.clear();
@@ -94,6 +104,27 @@ void CAD_air_filter::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+
+    QVector3D position_duct = position + matrix_rotation * QVector3D(0.0, 0.0, a/2.0);
+
+    duct->wizardParams.insert("Position x", position_duct.x());
+    duct->wizardParams.insert("Position y", position_duct.y());
+    duct->wizardParams.insert("Position z", position_duct.z());
+    duct->wizardParams.insert("Angle x", angle_x);
+    duct->wizardParams.insert("Angle y", angle_y);
+    duct->wizardParams.insert("Angle z", angle_z);
+    duct->wizardParams.insert("l", l);
+    duct->wizardParams.insert("b", b);
+    duct->wizardParams.insert("a", a);
+    duct->wizardParams.insert("s", s);
+    duct->processWizardInput();
+    duct->calculate();
+
+    boundingBox.enterVertices(duct->boundingBox.getVertices());
+
+    this->snap_vertices.append(duct->snap_vertices);
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
 }
 
 void CAD_air_filter::processWizardInput()
@@ -105,9 +136,30 @@ void CAD_air_filter::processWizardInput()
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
 
+    a = wizardParams.value("a").toDouble();
+    b = wizardParams.value("b").toDouble();
+    l = wizardParams.value("l").toDouble();
+    s = wizardParams.value("s").toDouble();
+
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 }
 
 QMatrix4x4 CAD_air_filter::rotationOfFlange(quint8 num)
 {
-    return matrix_rotation;
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        return matrix_rotation;
+    }
+    else
+        return matrix_rotation;
 }

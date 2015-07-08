@@ -52,6 +52,7 @@ QList<CADitemTypes::ItemType> CAD_air_humidifier::flangable_items(int flangeInde
     flangable_items.append(CADitemTypes::Air_Fan);
     flangable_items.append(CADitemTypes::Air_Filter);
     flangable_items.append(CADitemTypes::Air_Duct);
+    flangable_items.append(CADitemTypes::Air_DuctBaffleSilencer);
     flangable_items.append(CADitemTypes::Air_DuctEndPlate);
     flangable_items.append(CADitemTypes::Air_DuctFireDamper);
     flangable_items.append(CADitemTypes::Air_DuctTeeConnector);
