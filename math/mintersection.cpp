@@ -64,7 +64,6 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
     {
         //*****triangles are coplanar*****
 
-        qDebug() << n << m;
         if(QVector3D::dotProduct(n, m) / (n.length() * m.length()) < -1 + TOL_INEXACT)
             return false;
 
@@ -223,62 +222,74 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
         float t1 = 0.0;
         float t2 = 0.0;
 
+        QString which_v;
         //v0 and v1 on same side
         if(dist_v0 * dist_v1 > TOL)
         {
+            which_v = "v0v1";
             s1 = p_v0 + (p_v2 - p_v0) * dist_v0 / (dist_v0 - dist_v2);
             s2 = p_v1 + (p_v2 - p_v1) * dist_v1 / (dist_v1 - dist_v2);
         }
         //v0 and v2 on same side
         else if(dist_v0 * dist_v2 > TOL)
         {
+            which_v = "v0v2";
             s1 = p_v0 + (p_v1 - p_v0) * dist_v0 / (dist_v0 - dist_v1);
             s2 = p_v2 + (p_v1 - p_v2) * dist_v2 / (dist_v2 - dist_v1);
         }
         //v1 and v2 on same side
         else if(dist_v1 * dist_v2 > TOL || abs(dist_v0) > TOL)
         {
+            which_v = "v1v2";
             s1 = p_v1 + (p_v0 - p_v1) * dist_v1 / (dist_v1 - dist_v0);
             s2 = p_v2 + (p_v0 - p_v2) * dist_v2 / (dist_v2 - dist_v0);
         }
         else if(abs(dist_v1) > TOL)
         {
+            which_v = "v0v2";
             s1 = p_v0 + (p_v1 - p_v0) * dist_v0 / (dist_v0 - dist_v1);
             s2 = p_v2 + (p_v1 - p_v2) * dist_v2 / (dist_v2 - dist_v1);
         }
         else if(abs(dist_v2) > TOL)
         {
+            which_v = "v0v1";
             s1 = p_v0 + (p_v2 - p_v0) * dist_v0 / (dist_v0 - dist_v2);
             s2 = p_v1 + (p_v2 - p_v1) * dist_v1 / (dist_v1 - dist_v2);
         }
 
         //*********************************************************************
 
+        QString which_w;
         //w0 and w1 on same side
         if(dist_w0 * dist_w1 > TOL)
         {
+            which_w = "w0w1";
             t1 = p_w0 + (p_w2 - p_w0) * dist_w0 / (dist_w0 - dist_w2);
             t2 = p_w1 + (p_w2 - p_w1) * dist_w1 / (dist_w1 - dist_w2);
         }
         //w0 and w2 on same side
         else if(dist_w0 * dist_w2 > TOL)
         {
+            which_w = "w0w2";
             t1 = p_w0 + (p_w1 - p_w0) * dist_w0 / (dist_w0 - dist_w1);
             t2 = p_w2 + (p_w1 - p_w2) * dist_w2 / (dist_w2 - dist_w1);
         }
         //w1 and w2 on same side
         else if(dist_w1 * dist_w2 > TOL || abs(dist_w0) > TOL)
         {
+            which_w = "w1w2";
             t1 = p_w1 + (p_w0 - p_w1) * dist_w1 / (dist_w1 - dist_w0);
             t2 = p_w2 + (p_w0 - p_w2) * dist_w2 / (dist_w2 - dist_w0);
         }
         else if(abs(dist_w1) > TOL)
         {
+            which_w = "w0w2";
             t1 = p_w0 + (p_w1 - p_w0) * dist_w0 / (dist_w0 - dist_w1);
             t2 = p_w2 + (p_w1 - p_w2) * dist_w2 / (dist_w2 - dist_w1);
         }
         else if(abs(dist_w2) > TOL)
         {
+            which_w = "w0w1";
             t1 = p_w0 + (p_w2 - p_w0) * dist_w0 / (dist_w0 - dist_w2);
             t2 = p_w1 + (p_w2 - p_w1) * dist_w1 / (dist_w1 - dist_w2);
         }
@@ -313,6 +324,19 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
         if((i1 < j1 + 1) && (i2 < j1 + 1))
             return false;
         if((i1 > j2 - 1) && (i2 > j2 - 1))
+            return false;
+
+        if(which_v == "v0v1" && abs(dist_v2) < TOL)
+            return false;
+        if(which_v == "v0v2" && abs(dist_v1) < TOL)
+            return false;
+        if(which_v == "v1v2" && abs(dist_v0) < TOL)
+            return false;
+        if(which_w == "w0w1" && abs(dist_w2) < TOL)
+            return false;
+        if(which_w == "w0w2" && abs(dist_w1) < TOL)
+            return false;
+        if(which_w == "w1w2" && abs(dist_w0) < TOL)
             return false;
 
         //some debug output, generates XML, that can be loaded into PowerCAD
@@ -357,14 +381,13 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
 //                 << "r=" << '"' << 10 << '"'
 //                 << "/>" ;
 
-//        qDebug() << "Parameter:";
-//        qDebug() << s1 << s2;
-//        qDebug() << p_v0 << p_v1 << p_v2 << dist_v0 << dist_v1 << dist_v2;
-//        qDebug() << t1 << t2;
-//        qDebug() << p_w0 << p_w1 << p_w2 << dist_w0 << dist_w1 << dist_w2;
-//        qDebug() << QVector3D::dotProduct(n, m) / (n.length() * m.length());
-
         qDebug() << "face vs. face";
+        qDebug() << s1 << s2;
+        qDebug() << p_v0 << p_v1 << p_v2 << dist_v0 << dist_v1 << dist_v2;
+        qDebug() << t1 << t2;
+        qDebug() << p_w0 << p_w1 << p_w2 << dist_w0 << dist_w1 << dist_w2;
+        qDebug() << QVector3D::dotProduct(n, m) / (n.length() * m.length());
+
 
         *line_1 = aufpunkt + 10000*direction;
         *line_2 = aufpunkt - 10000*direction;
@@ -447,23 +470,23 @@ bool MIntersection::verticesOnSameSide(QVector2D p1,QVector2D p2, QVector2D a, Q
 }
 bool MIntersection::trianglesOnlyTouch(float dist_v0, float dist_v1, float dist_v2, float dist_w0, float dist_w1, float dist_w2)
 {
-    if((abs(dist_v0) < TOL) || (abs(dist_v1) < TOL) || (abs(dist_v2) < TOL) ||
-       (abs(dist_w0) < TOL) || (abs(dist_w1) < TOL) || (abs(dist_w2) < TOL))
-        return true;
-    return false;
-//    if(abs(dist_v0) < TOL_INEXACT && abs(dist_v1) < TOL_INEXACT)
-//        return true;
-//    if(abs(dist_v0) < TOL_INEXACT && abs(dist_v2) < TOL_INEXACT)
-//        return true;
-//    if(abs(dist_v1) < TOL_INEXACT && abs(dist_v2) < TOL_INEXACT)
-//        return true;
-//    if(abs(dist_w0) < TOL_INEXACT && abs(dist_w1) < TOL_INEXACT)
-//        return true;
-//    if(abs(dist_w0) < TOL_INEXACT && abs(dist_w2) < TOL_INEXACT)
-//        return true;
-//    if(abs(dist_w1) < TOL_INEXACT && abs(dist_w2) < TOL_INEXACT)
+//    if((abs(dist_v0) < TOL) || (abs(dist_v1) < TOL) || (abs(dist_v2) < TOL) ||
+//       (abs(dist_w0) < TOL) || (abs(dist_w1) < TOL) || (abs(dist_w2) < TOL))
 //        return true;
 //    return false;
+    if(abs(dist_v0) < TOL_INEXACT && abs(dist_v1) < TOL_INEXACT)
+        return true;
+    if(abs(dist_v0) < TOL_INEXACT && abs(dist_v2) < TOL_INEXACT)
+        return true;
+    if(abs(dist_v1) < TOL_INEXACT && abs(dist_v2) < TOL_INEXACT)
+        return true;
+    if(abs(dist_w0) < TOL_INEXACT && abs(dist_w1) < TOL_INEXACT)
+        return true;
+    if(abs(dist_w0) < TOL_INEXACT && abs(dist_w2) < TOL_INEXACT)
+        return true;
+    if(abs(dist_w1) < TOL_INEXACT && abs(dist_w2) < TOL_INEXACT)
+        return true;
+    return false;
 }
 
 QVector3D MIntersection::randomVector()
