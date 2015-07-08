@@ -193,10 +193,6 @@ void CAD_air_duct::processWizardInput()
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
     matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-
-//    size.setX(wizardParams.value("Length (l)").toDouble());
-//    size.setY(wizardParams.value("Width (b)").toDouble());
-//    size.setZ(wizardParams.value("Height (a)").toDouble());
 }
 
 QMatrix4x4 CAD_air_duct::rotationOfFlange(quint8 num)
