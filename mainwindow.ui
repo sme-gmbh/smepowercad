@@ -84,6 +84,10 @@ QPushButton:focus {
 	background-color: rgb(5, 90, 11);
 	outline: none;
 }
+QPushButton:focus:hover {
+	background-color: rgb(9, 177, 21);
+	outline: none;
+}
 
 QSpinBox, QDoubleSpinBox {
 	color: white;
