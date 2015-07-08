@@ -371,6 +371,7 @@
         <file>itemGraphic/cad_gas_pipeturn.png</file>
         <file>itemGraphic/cad_air_equipmentframe.png</file>
         <file>itemGraphic/cad_air_emptycabinet.png</file>
+        <file>itemGraphic/cad_air_humidifier.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/check.svg</file>

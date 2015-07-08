@@ -48,6 +48,9 @@ QList<CADitemTypes::ItemType> CAD_air_equipmentFrame::flangable_items(int flange
     Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Air_EmptyCabinet);
+    flangable_items.append(CADitemTypes::Air_Humidifier);
+    flangable_items.append(CADitemTypes::Air_Fan);
+    flangable_items.append(CADitemTypes::Air_Filter);
     return flangable_items;
 }
 
