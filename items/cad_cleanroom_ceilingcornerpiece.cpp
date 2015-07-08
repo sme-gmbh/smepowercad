@@ -139,9 +139,9 @@ void CAD_Cleanroom_CeilingCornerPiece::calculate()
 
     GLushort indicesFaces[] =
     {
-        0, 5, 1, 4, 2, 3, 0xABCD,
-        6, 11, 7, 10, 8, 9, 0xABCD,
-        0, 6, 1, 7, 2, 8, 3, 9, 4, 10, 5, 11, 0, 6, 0xABCD
+        3, 2, 4, 1, 5, 0, 0xABCD,
+        6, 0, 11, 5, 10, 4, 9, 3, 8, 2, 7, 1, 6, 0, 0xABCD,
+        6, 11, 7, 10, 8, 9, 0xABCD
     };
 
     GLushort indicesLines[] =
