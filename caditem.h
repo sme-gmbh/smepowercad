@@ -63,6 +63,7 @@ public:
     QColor getColorPen();
     QColor getColorBrush();
     void setLayer(Layer* layer);
+    void setFormerLayer(Layer *layer);
     void setID(quint64 id);
     void serialOut(QByteArray *out);
     bool serialIn(QByteArray *in);
@@ -72,6 +73,7 @@ public:
     // data types tbd.
     CADitemTypes::ItemType getType();
     Layer* layer;
+    Layer* formerLayer;
     QColor color_pen;       // Transparent means "BYLAYER"
     QColor color_brush;       // Transparent means "BYLAYER"
 //    QMap<QString, QString> attributes;
@@ -113,6 +115,7 @@ public:
 
 private:
     void setLayer_processItems(QList<CADitem*> subItems);
+    void setFormerLayer_processItems(QList<CADitem *> subItems);
     void setID_processItems(QList<CADitem*> subItems);
     QList<MTriangle> triangleListFromIndexedBuffers();
     CADitemTypes::ItemType type;

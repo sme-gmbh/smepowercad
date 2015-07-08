@@ -20,6 +20,7 @@ CADitem::CADitem(CADitemTypes::ItemType type)
 {
     this->type = type;
     this->layer = NULL;
+    this->formerLayer = NULL;
     this->highlight = false;
     this->selected = false;
     this->index = 0;
@@ -94,12 +95,27 @@ void CADitem::setLayer(Layer *layer)
     this->setLayer_processItems(this->subItems);
 }
 
+void CADitem::setFormerLayer(Layer *layer)
+{
+    this->formerLayer = layer;
+    this->setFormerLayer_processItems(this->subItems);
+}
+
 void CADitem::setLayer_processItems(QList<CADitem *> subItems)
 {
     foreach (CADitem* item, subItems)
     {
         item->layer = this->layer;
         this->setLayer_processItems(item->subItems);
+    }
+}
+
+void CADitem::setFormerLayer_processItems(QList<CADitem *> subItems)
+{
+    foreach (CADitem* item, subItems)
+    {
+        item->formerLayer = this->formerLayer;
+        this->setFormerLayer_processItems(item->subItems);
     }
 }
 
@@ -223,7 +239,11 @@ QList<MTriangle> CADitem::triangleListFromIndexedBuffers()
                 i += 2;
                 continue;
             }
-            MTriangle triangle = MTriangle(dataVertices[dataFaces[i-2]], dataVertices[dataFaces[i-1]], dataVertices[dataFaces[i]]);
+            MTriangle triangle;
+            if(i % 2 == 0)
+                 triangle = MTriangle(dataVertices[dataFaces[i-2]], dataVertices[dataFaces[i-1]], dataVertices[dataFaces[i]]);
+            else
+                triangle = MTriangle(dataVertices[dataFaces[i-1]], dataVertices[dataFaces[i-2]], dataVertices[dataFaces[i]]);
             list.append(triangle);
         }
         delete dataRawVertices;

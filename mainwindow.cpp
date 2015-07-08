@@ -104,6 +104,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(itemDB, SIGNAL(signal_itemDeleted(CADitem*)), collisionDetection, SLOT(slot_itemDeleted(CADitem*)));
     connect(itemDB, SIGNAL(signal_itemModified(CADitem*)), collisionDetection, SLOT(slot_testModifiedItem(CADitem*)));
     connect(collisionDetection, SIGNAL(signal_itemsDoCollide(CADitem*,CADitem*, QVector3D, QVector3D)), this, SLOT(slot_collision_detected(CADitem*,CADitem*, QVector3D, QVector3D)));
+    connect(collisionDetection, SIGNAL(signal_itemsDoNotCollide(CADitem*)), this, SLOT(slot_no_collision_detected(CADitem*)));
 
 
 
@@ -702,9 +703,19 @@ void MainWindow::slot_collision_detected(CADitem *item_1, CADitem *item_2, QVect
                              + item_1->description() + " on " + item_1->layer->name + pos_1 + "\nand\n"
                              + item_2->description() + " on " + item_2->layer->name + pos_2 + ".");
 
+    if(item_1->layer->name != "Collision")
+        item_1->setFormerLayer(item_1->layer);
+    if(item_2->layer->name != "Collision")
+        item_2->setFormerLayer(item_2->layer);
     itemDB->changeLayerOfItem(item_1->id, "Collision");
     itemDB->changeLayerOfItem(item_2->id, "Collision");
 
+}
+
+void MainWindow::slot_no_collision_detected(CADitem *item_1)
+{
+    if(item_1->formerLayer != NULL)
+        itemDB->changeLayerOfItem(item_1->id, item_1->formerLayer->name);
 }
 
 void MainWindow::on_actionCollision_Detection_triggered(bool checked)
