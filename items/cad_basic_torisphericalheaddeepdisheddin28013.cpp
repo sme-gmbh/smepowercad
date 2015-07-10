@@ -110,7 +110,7 @@ void CAD_Basic_TorisphericalHeadDeepDishedDIN28013::calculate()
     QVector3D vertices[176];
     for(int i = 0; i < 11; i++)
     {
-        for(int j = 0; j <= 16; j++)
+        for(int j = 0; j < 16; j++)
         {
             if(i < 7)
             {

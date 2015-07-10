@@ -27,7 +27,7 @@ ItemDB::ItemDB(QObject *parent) :
 
     this->activeDrawCommand = CADitemTypes::None;
 
-    this->deriveDomainsAndItemTypes();
+//    this->deriveDomainsAndItemTypes();
 }
 
 ItemDB::~ItemDB()
@@ -56,8 +56,8 @@ void ItemDB::deriveDomainsAndItemTypes()
         }
         else
         {
-            //            QString enumName = CADitemTypes().getEnumNameOfItemType((CADitemTypes::ItemType)type);
-            //            qDebug() << "ItemDB::deriveDomainsAndItemTypes()" << enumName;
+//            QString enumName = CADitemTypes().getEnumNameOfItemType((CADitemTypes::ItemType)type);
+//            qDebug() << "ItemDB::deriveDomainsAndItemTypes()" << enumName;
         }
 
         itemTypesByDomain.insertMulti(item->domain(), (int)type);
@@ -495,10 +495,10 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
         newItem = new CAD_Basic_Flume();
         break;
     case CADitemTypes::Basic_Gauge:
-        newItem = new CAD_Basic_Gauge;
+        newItem = new CAD_Basic_Gauge();
         break;
     case CADitemTypes::Basic_Gauge90Degree:
-        newItem = new CAD_Basic_Gauge90Degree;
+        newItem = new CAD_Basic_Gauge90Degree();
         break;
     case CADitemTypes::Basic_Hemisphere:
         newItem = new CAD_Basic_Hemisphere();
@@ -677,7 +677,7 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
         newItem = new CAD_Electrical_BusbarEndFeederUnitSingleSided();
         break;
     case CADitemTypes::Electrical_BusbarTapOffUnit:
-        newItem = new CAD_Electrical_BusbarTapOffUnit;
+        newItem = new CAD_Electrical_BusbarTapOffUnit();
         break;
     case CADitemTypes::Electrical_BusbarWithoutTapoffPoints:
         newItem = new CAD_electrical_busbarwithouttapoffpoints();
@@ -701,207 +701,114 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
         newItem = new CAD_Electrical_CabinetWithoutDoor();
         break;
     case CADitemTypes::Electrical_Cabletray:
-        newItem = new CAD_electrical_cabletray;
+        newItem = new CAD_electrical_cabletray();
         break;
     case CADitemTypes::Electrical_CabletrayCross:
-        newItem = new CAD_Electrical_CabletrayCross;
+        newItem = new CAD_Electrical_CabletrayCross();
         break;
     case CADitemTypes::Electrical_CabletrayReducer:
-        newItem = new CAD_electrical_cabletrayreducer;
+        newItem = new CAD_electrical_cabletrayreducer();
         break;
     case CADitemTypes::Electrical_CabletrayTeeConnector:
-        newItem = new CAD_electrical_CabletrayTeeconnector;
+        newItem = new CAD_electrical_CabletrayTeeconnector();
         break;
     case CADitemTypes::Electrical_CabletrayTransition:
-        newItem = new CAD_Electrical_CabletrayTransition;
+        newItem = new CAD_Electrical_CabletrayTransition();
         break;
     case CADitemTypes::Electrical_CabletrayTurn:
-        newItem = new CAD_Electrical_CabletrayTurn;
+        newItem = new CAD_Electrical_CabletrayTurn();
         break;
     case CADitemTypes::Electrical_CabletrayVerticalLadder:
-        newItem = new CAD_Electrical_CabletrayVerticalLadder;
+        newItem = new CAD_Electrical_CabletrayVerticalLadder();
         break;
     case CADitemTypes::Electrical_EquipmentSwitchOrSocket:
-        newItem = new CAD_Electrical_EquipmentSwitchOrSocket;
+        newItem = new CAD_Electrical_EquipmentSwitchOrSocket();
         break;
     case CADitemTypes::Electrical_LuminaireEscapeLighting:
-        newItem = new CAD_Electrical_LuminaireEscapeLighting;
+        newItem = new CAD_Electrical_LuminaireEscapeLighting();
         break;
     case CADitemTypes::Electrical_LuminaireRailMounted:
-        newItem = new CAD_Electrical_LuminaireRailMounted;
+        newItem = new CAD_Electrical_LuminaireRailMounted();
         break;
     case CADitemTypes::Electrical_LuminaireRecessedMounted:
-        newItem = new CAD_Electrical_LuminaireRecessedMounted;
+        newItem = new CAD_Electrical_LuminaireRecessedMounted();
         break;
     case CADitemTypes::Electrical_LuminaireSemicircular:
-        newItem = new CAD_Electrical_LuminaireSemicircular;
+        newItem = new CAD_Electrical_LuminaireSemicircular();
         break;
     case CADitemTypes::Electrical_LuminaireSurfaceMounted:
-        newItem = new CAD_Electrical_LuminaireSurfaceMounted;
+        newItem = new CAD_Electrical_LuminaireSurfaceMounted();
         break;
     case CADitemTypes::Electrical_MotorAsynchronous:
-        newItem = new CAD_Electrical_MotorAsynchronous;
+        newItem = new CAD_Electrical_MotorAsynchronous();
         break;
 
 
 //        //Gas
     case CADitemTypes::Gas_ActivatedCarbonAdsorber:
-        newItem = new CAD_Gas_ActivatedCarbonAdsorber;
+        newItem = new CAD_Gas_ActivatedCarbonAdsorber();
         break;
     case CADitemTypes::Gas_Compressor:
-        newItem = new CAD_Gas_Compressor;
+        newItem = new CAD_Gas_Compressor();
         break;
     case CADitemTypes::Gas_DryerDesiccant:
-        newItem = new CAD_Gas_DryerDesiccant;
+        newItem = new CAD_Gas_DryerDesiccant();
         break;
     case CADitemTypes::Gas_DryerRefrigerant:
-        newItem = new CAD_Gas_DryerRefrigerant;
+        newItem = new CAD_Gas_DryerRefrigerant();
         break;
     case CADitemTypes::Gas_Filter:
-        newItem = new CAD_Gas_Filter;
+        newItem = new CAD_Gas_Filter();
         break;
     case CADitemTypes::Gas_GaugePressure:
-        newItem = new CAD_Gas_GaugePressure;
+        newItem = new CAD_Gas_GaugePressure();
         break;
     case CADitemTypes::Gas_Hose:
-        newItem = new CAD_Gas_Hose;
+        newItem = new CAD_Gas_Hose();
         break;
     case CADitemTypes::Gas_LiquidSeparator:
-        newItem = new CAD_Gas_LiquidSeparator;
+        newItem = new CAD_Gas_LiquidSeparator();
         break;
     case CADitemTypes::Gas_OilWaterSeparationSystem:
-        newItem = new CAD_Gas_OilWaterSeparationSystem;
+        newItem = new CAD_Gas_OilWaterSeparationSystem();
         break;
     case CADitemTypes::Gas_Pipe:
-        newItem = new CAD_Gas_Pipe;
+        newItem = new CAD_Gas_Pipe();
         break;
     case CADitemTypes::Gas_PipeTeeConnector:
-        newItem = new CAD_Gas_PipeTeeConnector;
+        newItem = new CAD_Gas_PipeTeeConnector();
         break;
     case CADitemTypes::Gas_PipeTurn:
-        newItem = new CAD_Gas_PipeTurn;
+        newItem = new CAD_Gas_PipeTurn();
         break;
     case CADitemTypes::Gas_PressureRegulator:
-        newItem = new CAD_Gas_PressureRegulator;
+        newItem = new CAD_Gas_PressureRegulator();
         break;
     case CADitemTypes::Gas_Pump:
-        newItem = new CAD_Gas_Pump;
+        newItem = new CAD_Gas_Pump();
         break;
     case CADitemTypes::Gas_QuicklockCoupling:
-        newItem = new CAD_Gas_QuicklockCoupling;
+        newItem = new CAD_Gas_QuicklockCoupling();
         break;
     case CADitemTypes::Gas_SensorFlowrate:
-        newItem = new CAD_Gas_SensorFlowrate;
+        newItem = new CAD_Gas_SensorFlowrate();
         break;
     case CADitemTypes::Gas_SensorMoisture:
-        newItem = new CAD_Gas_SensorMoisture;
+        newItem = new CAD_Gas_SensorMoisture();
         break;
     case CADitemTypes::Gas_Tank:
-        newItem = new CAD_Gas_Tank;
+        newItem = new CAD_Gas_Tank();
         break;
     case CADitemTypes::Gas_ValveBall:
-        newItem = new CAD_Gas_ValveBall;
+        newItem = new CAD_Gas_ValveBall();
         break;
     case CADitemTypes::Gas_ValveDiaphragm:
-        newItem = new CAD_Gas_ValveDiaphragm;
+        newItem = new CAD_Gas_ValveDiaphragm();
         break;
     case CADitemTypes::Gas_ValveNonReturn:
-        newItem = new CAD_Gas_ValveNonReturn;
+        newItem = new CAD_Gas_ValveNonReturn();
         break;
 
-//    case CADitemTypes::Gas_CDABallValve:
-//        newItem = new CAD_Gas_CDABallValve;
-//        break;
-//    case CADitemTypes::Gas_CDACompressor:
-//        newItem = new CAD_Gas_CDACompressor;
-//        break;
-//    case CADitemTypes::Gas_CDADesiccantDryer:
-//        newItem = new CAD_Gas_CDADesiccantDryer;
-//        break;
-//    case CADitemTypes::Gas_CDADiaphragmValve:
-//        newItem = new CAD_Gas_CDADiaphragmValve;
-//        break;
-//    case CADitemTypes::Gas_CDAFilter:
-//        newItem = new CAD_Gas_CDAFilter;
-//        break;
-//    case CADitemTypes::Gas_CDAFlowmeter:
-//        newItem = new CAD_Gas_CDAFlowmeter;
-//        break;
-//    case CADitemTypes::Gas_CDAHose:
-//        newItem = new CAD_Gas_CDAHose;
-//        break;
-//    case CADitemTypes::Gas_CDAManometer:
-//        newItem = new CAD_Gas_CDAManometer;
-//        break;
-//    case CADitemTypes::Gas_CDANonReturnValve:
-//        newItem = new CAD_Gas_CDANonReturnValve;
-//        break;
-//    case CADitemTypes::Gas_CDAMoistureSensor:
-//        newItem = new CAD_Gas_CDAMoistureSensor;
-//        break;
-//    case CADitemTypes::Gas_CDAPipe:
-//        newItem = new CAD_Gas_CDAPipe;
-//        break;
-//    case CADitemTypes::Gas_CDAPipeTeeConnector:
-//        newItem = new CAD_Gas_CDAPipeTeeConnector;
-//        break;
-//    case CADitemTypes::Gas_CDAPipeTurn:
-//        newItem = new CAD_Gas_CDAPipeTurn;
-//        break;
-//    case CADitemTypes::Gas_CDAPressureRegulator:
-//        newItem = new CAD_Gas_CDAPressureRegulator;
-//        break;
-//    case CADitemTypes::Gas_CDAQuickLockCoupling:
-//        newItem = new CAD_Gas_CDAQuickLockCoupling;
-//        break;
-//    case CADitemTypes::Gas_CDARefrigerantDryer:
-//        newItem = new CAD_Gas_CDARefrigerantDryer;
-//        break;
-//    case CADitemTypes::Gas_CDATank:
-//        newItem = new CAD_Gas_CDATank;
-//        break;
-//    case CADitemTypes::Gas_VACBallValve:
-//        newItem = new CAD_Gas_VACBallValve;
-//        break;
-//    case CADitemTypes::Gas_VACDiaphragmValve:
-//        newItem = new CAD_Gas_VACDiaphragmValve;
-//        break;
-//    case CADitemTypes::Gas_VACFilter:
-//        newItem = new CAD_Gas_VACFilter;
-//        break;
-//    case CADitemTypes::Gas_VACFlowmeter:
-//        newItem = new CAD_Gas_VACFlowmeter;
-//        break;
-//    case CADitemTypes::Gas_VACHose:
-//        newItem = new CAD_Gas_VACHose;
-//        break;
-//    case CADitemTypes::Gas_VACLiquidSeparator:
-//        newItem = new CAD_Gas_VACLiquidSeparator;
-//        break;
-//    case CADitemTypes::Gas_VACManometer:
-//        newItem = new CAD_Gas_VACManometer;
-//        break;
-//    case CADitemTypes::Gas_VACNonReturnValve:
-//        newItem = new CAD_Gas_VACNonReturnValve;
-//        break;
-//    case CADitemTypes::Gas_VACPipe:
-//        newItem = new CAD_Gas_VACPipe;
-//        break;
-//    case CADitemTypes::Gas_VACPipeTeeConnector:
-//        newItem = new CAD_Gas_VACPipeTeeConnector;
-//        break;
-//    case CADitemTypes::Gas_VACPipeTurn:
-//        newItem = new CAD_Gas_VACPipeTurn;
-//        break;
-//    case CADitemTypes::Gas_VACPump:
-//        newItem = new CAD_Gas_VACPump;
-//        break;
-//    case CADitemTypes::Gas_VACQuickLockCoupling:
-//        newItem = new CAD_Gas_VACQuickLockCoupling;
-//        break;
-//    case CADitemTypes::Gas_VACTank:
-//        newItem = new CAD_Gas_VACTank;
-//        break;
 
         //Heatcool
     case CADitemTypes::HeatCool_32WayValve:
@@ -917,10 +824,10 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
         newItem = new CAD_heatcool_boiler();
         break;
     case CADitemTypes::HeatCool_ButterflyValveBolted:
-        newItem = new CAD_HeatCool_ButterflyValveBolted;
+        newItem = new CAD_HeatCool_ButterflyValveBolted();
         break;
     case CADitemTypes::HeatCool_ButterflyValveClamped:
-        newItem = new CAD_HeatCool_ButterflyValveClamped;
+        newItem = new CAD_HeatCool_ButterflyValveClamped();
         break;
     case CADitemTypes::HeatCool_Chiller:
         newItem = new CAD_heatcool_chiller();
@@ -947,10 +854,10 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
         newItem = new CAD_heatcool_flowmeter();
         break;
     case CADitemTypes::HeatCool_Gauge:
-        newItem = new CAD_HeatCool_Gauge;
+        newItem = new CAD_HeatCool_Gauge();
         break;
     case CADitemTypes::HeatCool_Gauge90Degree:
-        newItem = new CAD_HeatCool_Gauge90Degree;
+        newItem = new CAD_HeatCool_Gauge90Degree();
         break;
     case CADitemTypes::HeatCool_HeatexchangerBolted:
         newItem = new CAD_HeatCool_HeatexchangerBolted();
@@ -983,7 +890,7 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
         newItem = new CAD_HeatCool_PumpInline();
         break;
     case CADitemTypes::HeatCool_PumpNorm:
-        newItem = new CAD_HeatCool_PumpNorm;
+        newItem = new CAD_HeatCool_PumpNorm();
         break;
     case CADitemTypes::HeatCool_Radiator:
         newItem = new CAD_heatcool_radiator();
@@ -1036,49 +943,49 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
 
         //Sanitary
     case CADitemTypes::Sanitary_CleaningPiece:
-        newItem = new CAD_Sanitary_CleaningPiece;
+        newItem = new CAD_Sanitary_CleaningPiece();
         break;
     case CADitemTypes::Sanitary_ElectricWaterHeater:
-        newItem = new CAD_Sanitary_ElectricWaterHeater;
+        newItem = new CAD_Sanitary_ElectricWaterHeater();
         break;
     case CADitemTypes::Sanitary_EmergencyEyeShower:
-        newItem = new CAD_Sanitary_EmergencyEyeShower;
+        newItem = new CAD_Sanitary_EmergencyEyeShower();
         break;
     case CADitemTypes::Sanitary_EmergencyShower:
-        newItem = new CAD_Sanitary_EmergencyShower;
+        newItem = new CAD_Sanitary_EmergencyShower();
         break;
     case CADitemTypes::Sanitary_Flange:
-        newItem = new CAD_Sanitary_Flange;
+        newItem = new CAD_Sanitary_Flange();
         break;
     case CADitemTypes::Sanitary_LiftingUnit:
-        newItem = new CAD_Sanitary_LiftingUnit;
+        newItem = new CAD_Sanitary_LiftingUnit();
         break;
     case CADitemTypes::Sanitary_Pipe:
-        newItem = new CAD_sanitary_pipe;
+        newItem = new CAD_sanitary_pipe();
         break;
     case CADitemTypes::Sanitary_PipeEndCap:
-        newItem = new CAD_Sanitary_PipeEndCap;
+        newItem = new CAD_Sanitary_PipeEndCap();
         break;
     case CADitemTypes::Sanitary_PipeReducer:
-        newItem = new CAD_sanitary_pipeReducer;
+        newItem = new CAD_sanitary_pipeReducer();
         break;
     case CADitemTypes::Sanitary_PipeTeeConnector:
-        newItem = new CAD_sanitary_pipeTeeConnector;
+        newItem = new CAD_sanitary_pipeTeeConnector();
         break;
     case CADitemTypes::Sanitary_PipeTurn:
-        newItem = new CAD_sanitary_pipeTurn;
+        newItem = new CAD_sanitary_pipeTurn();
         break;
     case CADitemTypes::Sanitary_PipeYPiece:
-        newItem = new CAD_Sanitary_PipeYPiece;
+        newItem = new CAD_Sanitary_PipeYPiece();
         break;
     case CADitemTypes::Sanitary_Shower:
-        newItem = new CAD_Sanitary_Shower;
+        newItem = new CAD_Sanitary_Shower();
         break;
     case CADitemTypes::Sanitary_Sink:
-        newItem = new CAD_Sanitary_Sink;
+        newItem = new CAD_Sanitary_Sink();
         break;
     case CADitemTypes::Sanitary_WashBasin:
-        newItem = new CAD_Sanitary_WashBasin;
+        newItem = new CAD_Sanitary_WashBasin();
         break;
 
         //Sprinkler

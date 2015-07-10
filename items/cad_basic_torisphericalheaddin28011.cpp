@@ -111,7 +111,7 @@ void CAD_Basic_TorisphericalHeadDIN28011::calculate()
     QVector3D vertices[176];
     for(int i = 0; i < 11; i++)
     {
-        for(int j = 0; j <= 16; j++)
+        for(int j = 0; j < 16; j++) // BUG? Upper limit was j <= 16 !
         {
             if(i < 7)
             {

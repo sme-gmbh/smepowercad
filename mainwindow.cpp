@@ -109,6 +109,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // **** Toolbar toggles ****
+    this->itemDB->deriveDomainsAndItemTypes();
     this->createItemToolBar();
     ui->menuWerkzeugleisten->addAction(ui->toolBarItems->toggleViewAction());
 

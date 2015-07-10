@@ -110,13 +110,14 @@ public:
     bool file_loadDB(QString filename, QString *error, QMatrix4x4 *matrix_projection, QMatrix4x4 *matrix_glSelect, QMatrix4x4 *matrix_modelview, QMatrix4x4 *matrix_rotation);
     void file_loadDB_parseDomElement(QDomElement element, Layer* currentLayer, bool mapByDescription, QMap<int, QString> *file_itemDescriptionByItemType, QString *error);
 
+    void deriveDomainsAndItemTypes();
+
 private:
     QList<QString> domains;
     QMap<QString, int> itemTypesByDomain;
     QMap <int, QString> iconPathByItemType;
     QMap <int, QString> itemDescriptionByItemType;
     QMap <QString, int> itemTypeByItemDescription;
-    void deriveDomainsAndItemTypes();
 
     Layer* topLevelLayer;
     QMap<QString, Layer*> layerMap;

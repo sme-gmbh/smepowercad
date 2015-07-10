@@ -18,8 +18,8 @@
 
 CAD_air_pipeEndCap::CAD_air_pipeEndCap() : CADitem(CADitemTypes::Air_PipeEndCap)
 {
-    endcap_outer = new CAD_Basic_TorisphericalHeadDIN28011;
-    endcap_inner = new CAD_Basic_TorisphericalHeadDIN28011;
+    endcap_outer = new CAD_Basic_TorisphericalHeadDIN28011();
+    endcap_inner = new CAD_Basic_TorisphericalHeadDIN28011();
     this->subItems.append(endcap_outer);
     this->subItems.append(endcap_inner);
     wizardParams.insert("Position x", 0.0);

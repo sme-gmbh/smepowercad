@@ -20,7 +20,7 @@ CAD_air_ductEndPlate::CAD_air_ductEndPlate() : CADitem(CADitemTypes::Air_DuctEnd
 {
     this->plate = new CAD_basic_box();
     this->flange = new CAD_basic_duct();
-    this->duct = new CAD_basic_duct;
+    this->duct = new CAD_basic_duct();
     this->subItems.append(plate);
     this->subItems.append(flange);
     this->subItems.append(duct);
@@ -38,8 +38,6 @@ CAD_air_ductEndPlate::CAD_air_ductEndPlate() : CADitem(CADitemTypes::Air_DuctEnd
     wizardParams.insert("fe", 10.0);
     wizardParams.insert("ff", 10.0);
     wizardParams.insert("s",  10.0);
-
-
 
     processWizardInput();
     calculate();
@@ -89,11 +87,6 @@ QString CAD_air_ductEndPlate::description()
 
 void CAD_air_ductEndPlate::calculate()
 {
-    matrix_rotation.setToIdentity();
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-
     boundingBox.reset();
 
     this->snap_flanges.clear();
@@ -187,11 +180,15 @@ void CAD_air_ductEndPlate::processWizardInput()
     ff = wizardParams.value("ff").toDouble();
     fe = wizardParams.value("fe").toDouble();
     s = wizardParams.value("s").toDouble();
+
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
 }
 
 QMatrix4x4 CAD_air_ductEndPlate::rotationOfFlange(quint8 num)
 {
-
     QMatrix4x4 m;
     m.setToIdentity();
     m.rotate(180.0, 0.0, 0.0, 1.0);
