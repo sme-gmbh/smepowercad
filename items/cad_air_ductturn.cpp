@@ -28,11 +28,11 @@ CAD_air_ductTurn::CAD_air_ductTurn() : CADitem(CADitemTypes::Air_DuctTurn)
 
     wizardParams.insert("a",     200.0);
     wizardParams.insert("b",     300.0);
-    wizardParams.insert("b2",    400.0);
+    wizardParams.insert("b2",    300.0);
     wizardParams.insert("r",    1000.0);
     wizardParams.insert("alpha",  90.0);
-    wizardParams.insert("l2",      50.0);
-    wizardParams.insert("l1",      50.0);
+    wizardParams.insert("l2",     50.0);
+    wizardParams.insert("l1",     50.0);
     wizardParams.insert("fe",     10.0);
     wizardParams.insert("ff",     10.0);
     wizardParams.insert("s",      10.0);
@@ -456,11 +456,8 @@ void CAD_air_ductTurn::calculate()
     indicesFaces[215] = 0xABCD;
     //front and back faces;
     GLushort frontAndBack[] =  {
-        52, 0, 53, 1, 54, 2, 55, 3, 52, 0, 0xABCD,
         48, 100, 49, 101, 50, 102, 51, 103, 48, 100, 0xABCD,
-
-//        0,52,1,53,2,54,3,55,0, 52, 0xABCD,
-//        100, 48, 101, 49, 102, 50, 103, 51, 100, 48, 0xABCD
+        0,52,1,53,2,54,3,55,0, 52, 0xABCD,
     };
     for(int i = 0; i < 22; i++)
         indicesFaces[216 + i] = frontAndBack[i];
