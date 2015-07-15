@@ -250,6 +250,13 @@
         <file>itemGraphic/cad_basic_torisphericalheaddin28011.png</file>
         <file>itemGraphic/cad_basic_torus.png</file>
         <file>itemGraphic/cad_basic_turn.png</file>
+        <file>itemGraphic/cad_cleanroom_ceilingcornerpiece.png</file>
+        <file>itemGraphic/cad_cleanroom_ceilinggrating.png</file>
+        <file>itemGraphic/cad_cleanroom_ceilingjoiningknot.png</file>
+        <file>itemGraphic/cad_cleanroom_ceilingmountingrail.png</file>
+        <file>itemGraphic/cad_cleanroom_ceilingpanel.png</file>
+        <file>itemGraphic/cad_cleanroom_ceilingteejoiningpiece.png</file>
+        <file>itemGraphic/cad_cleanroom_ceilingverticalladder.png</file>
         <file>itemGraphic/cad_electrical_busbarendfeederunitdoublesided.png</file>
         <file>itemGraphic/cad_electrical_busbarendfeederunitsinglesided.png</file>
         <file>itemGraphic/cad_electrical_busbarwithouttapoffpoints.png</file>
@@ -384,13 +391,6 @@
         <file>icons/pencil.svg</file>
         <file>icons/pencil_locked.svg</file>
         <file>icons/pencil_off.svg</file>
-        <file>itemGraphic/cad_cleanroom_ceilingcornerpiece.png</file>
-        <file>itemGraphic/cad_cleanroom_ceilinggrating.png</file>
-        <file>itemGraphic/cad_cleanroom_ceilingjoiningknot.png</file>
-        <file>itemGraphic/cad_cleanroom_ceilingmountingrail.png</file>
-        <file>itemGraphic/cad_cleanroom_ceilingpanel.png</file>
-        <file>itemGraphic/cad_cleanroom_ceilingteejoiningpiece.png</file>
-        <file>itemGraphic/cad_cleanroom_ceilingverticalladder.png</file>
     </qresource>
     <qresource prefix="/ui/dockwidget">
         <file>icons/close.svg</file>
