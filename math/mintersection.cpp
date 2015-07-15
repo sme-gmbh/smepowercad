@@ -17,9 +17,10 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
     //thanks to Tomas Möller
 
     //plane for triangle 2
-    QVector3D m = QVector3D::crossProduct(w1 - w0, w2 - w0).normalized();
-    if(m.length() < 0.5)
+    QVector3D m = QVector3D::crossProduct(w1 - w0, w2 - w0);
+    if(m.length() < TOL_INEXACT)
         return false;
+    m.normalize();
     double e = - QVector3D::dotProduct(m, w0);
     double dist_v0 = QVector3D::dotProduct(v0, m) + e;
     double dist_v1 = QVector3D::dotProduct(v1, m) + e;
@@ -32,9 +33,10 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
         return false;
 
     //plane for triangle 1
-    QVector3D n = QVector3D::crossProduct(v1 - v0, v2 - v0).normalized();
-    if(n.length() < 0.5)
+    QVector3D n = QVector3D::crossProduct(v1 - v0, v2 - v0);
+    if(n.length() < TOL_INEXACT)
         return false;
+    n.normalize();
     double d = - QVector3D::dotProduct(n, v0);
     double dist_w0 = QVector3D::dotProduct(w0, n) + d;
     double dist_w1 = QVector3D::dotProduct(w1, n) + d;
