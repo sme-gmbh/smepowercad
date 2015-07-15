@@ -17,6 +17,8 @@
 #define CAD_AIR_PRESSURERELIEFDAMPER_H
 
 #include "caditem.h"
+#include "items/cad_basic_duct.h"
+#include "items/cad_basic_box.h"
 
 class CAD_air_pressureReliefDamper : public CADitem
 {
@@ -31,6 +33,9 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
+
+    qreal a, b, l, fe, ff, s;
+    CAD_basic_duct * duct, * flange;
 };
 
 #endif // CAD_AIR_PRESSURERELIEFDAMPER_H

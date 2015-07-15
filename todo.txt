@@ -3,17 +3,8 @@ Interessant:
 QFramebufferObject::toImage()  holt von der GPU einen gerenderten Buffer
 Der Tesseletion Shader kennt ein Dreieck, und die daran angrenzenden Dreiecke. Das kann man sich für das Smooth-Shading merken.
 
-
-Test der Collision Detection ist oberflächlich abgeschlossen für:
-Air
-Architecture
-Cleanroom
-Electrical
-HeatCool
-
 Items ohne Geometrie
 Air:
-    Pressure Relief Damper
     Multileaf Damper
     Throttle Valve
 
