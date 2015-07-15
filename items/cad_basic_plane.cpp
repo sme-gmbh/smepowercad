@@ -149,30 +149,6 @@ void CAD_basic_plane::processWizardInput()
 
 }
 
-//void CAD_basic_plane::paint(GLWidget *glwidget)
-//{
-//    QColor color_pen_tmp = getColorPen();
-//    QColor color_brush_tmp = getColorBrush();
-
-//    if (glwidget->render_solid)
-//    {
-//        glwidget->setPaintingColor(color_brush_tmp);
-//        glwidget->glBegin(GL_QUADS);
-//        for(int k = 0; k < 4; k++)
-//            glwidget->glVertex3f((GLfloat)vertices[k].x(), (GLfloat)vertices[k].y(), (GLfloat)vertices[k].z());
-//        glwidget->glEnd();
-//    }
-//    if (glwidget->render_outline)
-//    {
-//        glwidget->setPaintingColor(color_pen_tmp);
-//        glwidget->glLineWidth(1.0);
-//        glwidget->glBegin(GL_LINE_LOOP);
-//        for(int k = 0; k < 4; k++)
-//            glwidget->glVertex3f((GLfloat)vertices[k].x(), (GLfloat)vertices[k].y(), (GLfloat)vertices[k].z());
-//        glwidget->glEnd();
-//    }
-//}
-
 void CAD_basic_plane::paint(GLWidget *glwidget)
 {
     glwidget->glEnable(GL_PRIMITIVE_RESTART);
@@ -198,7 +174,6 @@ void CAD_basic_plane::paint(GLWidget *glwidget)
     if (glwidget->render_outline)
     {
         glwidget->setPaintingColor(color_pen_tmp);
-        glwidget->glLineWidth(1.0);
 
         indexBufLines->bind();
         glwidget->glDrawElements(GL_LINES, indexBufLines->size(), GL_UNSIGNED_SHORT, 0);

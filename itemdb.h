@@ -62,6 +62,8 @@ public:
     bool moveLayer(QString layerName, QString newParentLayerName, quint32 position);
     bool renameLayer(QString layerName, QString newLayerName);
     bool renameLayer(Layer* layer, QString newLayerName);
+    void setLayerLineWidth(Layer* layer, int newLineWidth);
+    void setLayerLineType(Layer* layer, QString newLineType);
     bool deleteLayer(Layer* layer);
     Layer* getLayerByName(QString layerName);
     Layer* getTopLevelLayer();

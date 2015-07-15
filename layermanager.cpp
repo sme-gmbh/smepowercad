@@ -341,17 +341,23 @@ void LayerManager::on_treeWidget_layer_customContextMenuRequested(const QPoint &
 
 void LayerManager::slot_edit_layerName()
 {
-    // item db rename -> change layermap!
+    Layer* layer = layerMap.key(item_atContextMenuRequest);
+    QString layerName = QInputDialog::getText(this, tr("Rename Layer"), tr("Layer name"), QLineEdit::Normal, layer->name);
+    itemDB->renameLayer(layer, layerName);
 }
 
 void LayerManager::slot_edit_layerLineWidth()
 {
-
+    Layer* layer = layerMap.key(item_atContextMenuRequest);
+    int lineWidth = QInputDialog::getInt(this, tr("Edit line width"), tr("New width (pixel)"), layer->width, 1, 10);
+    itemDB->setLayerLineWidth(layer, lineWidth);
 }
 
 void LayerManager::slot_edit_layerLineType()
 {
-
+    Layer* layer = layerMap.key(item_atContextMenuRequest);
+    QString lineType = QInputDialog::getText(this, tr("Linetype of Layer"), tr("New Linetype"), QLineEdit::Normal, layer->lineType);
+    itemDB->setLayerLineType(layer, lineType);
 }
 
 void LayerManager::slot_appendNewLayer()

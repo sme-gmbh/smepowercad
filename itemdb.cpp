@@ -208,6 +208,26 @@ bool ItemDB::renameLayer(Layer *layer, QString newLayerName)
     return true;
 }
 
+void ItemDB::setLayerLineWidth(Layer *layer, int newLineWidth)
+{
+    if (layer == NULL)
+        return;
+
+    layer->width = newLineWidth;
+    emit signal_layerChanged(layer);
+    emit signal_repaintNeeded();
+}
+
+void ItemDB::setLayerLineType(Layer *layer, QString newLineType)
+{
+    if (layer == NULL)
+        return;
+
+    layer->lineType = newLineType;
+    emit signal_layerChanged(layer);
+    emit signal_repaintNeeded();
+}
+
 bool ItemDB::deleteLayer(Layer *layer)
 {
     Layer* parentLayer = layer->parentLayer;

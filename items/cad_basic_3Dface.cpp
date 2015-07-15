@@ -162,7 +162,6 @@ void CAD_basic_3Dface::paint(GLWidget *glwidget)
     if (glwidget->render_outline)
     {
         glwidget->setPaintingColor(color_pen_tmp);
-        glwidget->glLineWidth(1.0);
         glwidget->glBegin(GL_LINE_LOOP);
         foreach (CAD_basic_3Dface::Vertex vertex, vertices)
         {

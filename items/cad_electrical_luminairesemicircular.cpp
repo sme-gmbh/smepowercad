@@ -181,7 +181,6 @@ void CAD_Electrical_LuminaireSemicircular::processWizardInput()
 //    if (glwidget->render_outline)
 //    {
 //        glwidget->setPaintingColor(color_pen_tmp);
-//        glwidget->glLineWidth(1.0);
                                       
 //        indexBufLines->bind();
 //        glwidget->glDrawElements(GL_LINES, indexBufLines->size(), GL_UNSIGNED_SHORT, 0);

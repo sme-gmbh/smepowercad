@@ -1587,6 +1587,14 @@ void GLWidget::paintLayers(QList<Layer *> layers)
         if ((!layer->on) && (!layer->solo))
             continue;
 
+        // Set line width
+        if (render_outline)
+            glLineWidth(layer->width);
+        else
+            glLineWidth(1);
+
+        // tbd.: Set line type
+
         paintItems(layer->items, layer);
         paintLayers(layer->subLayers);
     }

@@ -333,7 +333,6 @@ QMatrix4x4 CAD_HeatCool_32WayValve::rotationOfFlange(quint8 num)
 //    if (glwidget->render_outline)
 //    {
 //        glwidget->setPaintingColor(color_pen_tmp);
-//        glwidget->glLineWidth(1.0);
 
 //        indexBufLines->bind();
 //        glwidget->glDrawElements(GL_LINES, indexBufLines->size(), GL_UNSIGNED_SHORT, 0);
