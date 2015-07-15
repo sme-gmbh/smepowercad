@@ -382,6 +382,7 @@
         <file>itemGraphic/cad_air_fan.png</file>
         <file>itemGraphic/cad_air_filter.png</file>
         <file>itemGraphic/cad_air_pressurereliefdamper.png</file>
+        <file>itemGraphic/cad_air_multileafdamper.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/check.svg</file>
