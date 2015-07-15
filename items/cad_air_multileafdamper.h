@@ -17,6 +17,8 @@
 #define CAD_AIR_MULTILEAFDAMPER_H
 
 #include "caditem.h"
+#include "items/cad_basic_box.h"
+#include "items/cad_basic_duct.h"
 
 class CAD_air_multiLeafDamper : public CADitem
 {
@@ -31,6 +33,12 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
+
+    qreal a, b, l, fe, ff, s;
+    quint8 n;
+
+    CAD_basic_duct *main_duct, *flange_duct_left, *flange_duct_right;
+    CAD_basic_box *function;
 };
 
 #endif // CAD_AIR_MULTILEAFDAMPER_H

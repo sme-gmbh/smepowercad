@@ -18,12 +18,25 @@
 
 CAD_air_throttleValve::CAD_air_throttleValve() : CADitem(CADitemTypes::Air_ThrottleValve)
 {
+    mainPipe = new CAD_basic_pipe();
+    function = new CAD_basic_box();
+    handle = new CAD_basic_box();
+    controller = new CAD_basic_pipe();
+    this->subItems.append(mainPipe);
+    this->subItems.append(function);
+    this->subItems.append(handle);
+    this->subItems.append(controller);
+
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
+
+    wizardParams.insert("l", 300.0);
+    wizardParams.insert("d", 300.0);
+    wizardParams.insert("s", 5.0);
 
     processWizardInput();
     calculate();
@@ -39,12 +52,13 @@ QList<CADitemTypes::ItemType> CAD_air_throttleValve::flangable_items(int flangeI
     Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Air_Pipe);
-    flangable_items.append(CADitemTypes::Air_PipeEndCap);
-    flangable_items.append(CADitemTypes::Air_PipeFireDamper);
-    flangable_items.append(CADitemTypes::Air_PipeReducer);
+    flangable_items.append(CADitemTypes::Air_PipeBranch);
     flangable_items.append(CADitemTypes::Air_PipeSilencer);
-    flangable_items.append(CADitemTypes::Air_PipeTurn);
     flangable_items.append(CADitemTypes::Air_PipeVolumetricFlowController);
+    flangable_items.append(CADitemTypes::Air_PipeFireDamper);
+    flangable_items.append(CADitemTypes::Air_PipeEndCap);
+    flangable_items.append(CADitemTypes::Air_PipeReducer);
+    flangable_items.append(CADitemTypes::Air_PipeTurn);
     return flangable_items;
 }
 
@@ -89,6 +103,71 @@ void CAD_air_throttleValve::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+
+    mainPipe->wizardParams.insert("Position x", position.x());
+    mainPipe->wizardParams.insert("Position y", position.y());
+    mainPipe->wizardParams.insert("Position z", position.z());
+    mainPipe->wizardParams.insert("Angle x", angle_x);
+    mainPipe->wizardParams.insert("Angle y", angle_y);
+    mainPipe->wizardParams.insert("Angle z", angle_z);
+    mainPipe->wizardParams.insert("l", l);
+    mainPipe->wizardParams.insert("d", d);
+    mainPipe->wizardParams.insert("s", s);
+    mainPipe->layer = this->layer;
+    mainPipe->processWizardInput();
+    mainPipe->calculate();
+
+    QVector3D position_func = matrix_rotation * QVector3D(l/2, d * 0.6, 0.0) + position;
+    function->wizardParams.insert("Position x", position_func.x());
+    function->wizardParams.insert("Position y", position_func.y());
+    function->wizardParams.insert("Position z", position_func.z());
+    function->wizardParams.insert("Angle x", angle_x);
+    function->wizardParams.insert("Angle y", angle_y);
+    function->wizardParams.insert("Angle z", angle_z);
+    function->wizardParams.insert("l", d * 0.1);
+    function->wizardParams.insert("b", d * 0.2);
+    function->wizardParams.insert("a", d * 0.1);
+    function->layer = this->layer;
+    function->processWizardInput();
+    function->rotateAroundAxis(45.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
+    function->calculate();
+
+    QVector3D position_hand = matrix_rotation * QVector3D(l/2 - cos(PI/4) * d * 0.2, d * 0.75, sin(PI/4) * d * 0.2) + position;
+    handle->wizardParams.insert("Position x", position_hand.x());
+    handle->wizardParams.insert("Position y", position_hand.y());
+    handle->wizardParams.insert("Position z", position_hand.z());
+    handle->wizardParams.insert("Angle x", angle_x);
+    handle->wizardParams.insert("Angle y", angle_y);
+    handle->wizardParams.insert("Angle z", angle_z);
+    handle->wizardParams.insert("l", 0.5 * d);
+    handle->wizardParams.insert("b", 0.1 * d);
+    handle->wizardParams.insert("a", 0.1 * d);
+    handle->layer = this->layer;
+    handle->processWizardInput();
+    handle->rotateAroundAxis(45.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
+    handle->calculate();
+
+    QVector3D position_cont = matrix_rotation * QVector3D(l/2, 0.0, 0.0) + position;
+    controller->wizardParams.insert("Position x", position_cont.x());
+    controller->wizardParams.insert("Position y", position_cont.y());
+    controller->wizardParams.insert("Position z", position_cont.z());
+    controller->wizardParams.insert("Angle x", angle_x);
+    controller->wizardParams.insert("Angle y", angle_y);
+    controller->wizardParams.insert("Angle z", angle_z);
+    controller->wizardParams.insert("l", 1.0);
+    controller->wizardParams.insert("d", d - s);
+    controller->wizardParams.insert("s", (d - s)/2);
+    controller->layer = this->layer;
+    controller->processWizardInput();
+    controller->rotateAroundAxis(-45.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
+    controller->calculate();
+
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
+
+    this->boundingBox.enterVertices(mainPipe->boundingBox.getVertices());
+    this->boundingBox.enterVertices(handle->boundingBox.getVertices());
+    this->boundingBox.enterVertices(function->boundingBox.getVertices());
 }
 
 void CAD_air_throttleValve::processWizardInput()
@@ -99,10 +178,25 @@ void CAD_air_throttleValve::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+    s = wizardParams.value("s").toDouble();
+    l = wizardParams.value("l").toDouble();
+    d = wizardParams.value("d").toDouble();
 
 }
 
 QMatrix4x4 CAD_air_throttleValve::rotationOfFlange(quint8 num)
 {
-    return matrix_rotation;
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        return matrix_rotation;
+    }
+    else
+        return matrix_rotation;
 }

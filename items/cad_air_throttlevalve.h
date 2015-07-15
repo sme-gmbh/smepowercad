@@ -17,6 +17,8 @@
 #define CAD_AIR_THROTTLEVALVE_H
 
 #include "caditem.h"
+#include "items/cad_basic_box.h"
+#include "items/cad_basic_pipe.h"
 
 class CAD_air_throttleValve : public CADitem
 {
@@ -31,6 +33,14 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
+
+    qreal l, s, d;
+    CAD_basic_pipe* mainPipe;
+    CAD_basic_pipe* flangePipe_left;
+    CAD_basic_pipe* flangePipe_right;
+    CAD_basic_box* function;
+    CAD_basic_box* handle;
+    CAD_basic_pipe* controller;
 };
 
 #endif // CAD_AIR_THROTTLEVALVE_H

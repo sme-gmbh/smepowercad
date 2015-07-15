@@ -117,30 +117,30 @@ void CAD_air_pipeVolumetricFlowController::calculate()
     mainPipe->processWizardInput();
     mainPipe->calculate();
 
-    QVector3D position_func = matrix_rotation * QVector3D(l/2, d/2 + 40.0, 0.0) + position;
+    QVector3D position_func = matrix_rotation * QVector3D(l/2, d * 0.55, 0.0) + position;
     function->wizardParams.insert("Position x", position_func.x());
     function->wizardParams.insert("Position y", position_func.y());
     function->wizardParams.insert("Position z", position_func.z());
     function->wizardParams.insert("Angle x", angle_x);
     function->wizardParams.insert("Angle y", angle_y);
     function->wizardParams.insert("Angle z", angle_z);
-    function->wizardParams.insert("l", 182.0);
-    function->wizardParams.insert("b", 60.0);
-    function->wizardParams.insert("a", 174.0);
+    function->wizardParams.insert("l", l / 2);
+    function->wizardParams.insert("b", d * 0.1);
+    function->wizardParams.insert("a", d / 2);
     function->layer = this->layer;
     function->processWizardInput();
     function->calculate();
 
-    QVector3D position_hand = matrix_rotation * QVector3D(l/2, d/2 + 95.0, 0.0) + position;
+    QVector3D position_hand = matrix_rotation * QVector3D(l/2, d * 0.7, 0.0) + position;
     handle->wizardParams.insert("Position x", position_hand.x());
     handle->wizardParams.insert("Position y", position_hand.y());
     handle->wizardParams.insert("Position z", position_hand.z());
     handle->wizardParams.insert("Angle x", angle_x);
     handle->wizardParams.insert("Angle y", angle_y);
     handle->wizardParams.insert("Angle z", angle_z);
-    handle->wizardParams.insert("l", 10.0);
-    handle->wizardParams.insert("b", 50.0);
-    handle->wizardParams.insert("a", 10.0);
+    handle->wizardParams.insert("l", 0.05 * d);
+    handle->wizardParams.insert("b", 0.2 * d);
+    handle->wizardParams.insert("a", 0.05 * d);
     handle->layer = this->layer;
     handle->processWizardInput();
     handle->calculate();
@@ -150,13 +150,14 @@ void CAD_air_pipeVolumetricFlowController::calculate()
     controller->wizardParams.insert("Position y", position_cont.y());
     controller->wizardParams.insert("Position z", position_cont.z());
     controller->wizardParams.insert("Angle x", angle_x);
-    controller->wizardParams.insert("Angle y", angle_y + 45.0);
+    controller->wizardParams.insert("Angle y", angle_y);
     controller->wizardParams.insert("Angle z", angle_z);
     controller->wizardParams.insert("l", 1.0);
     controller->wizardParams.insert("d", d - s);
     controller->wizardParams.insert("s", (d - s)/2);
     controller->layer = this->layer;
     controller->processWizardInput();
+    controller->rotateAroundAxis(-45.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
     controller->calculate();
 
     this->snap_flanges.append(position);
