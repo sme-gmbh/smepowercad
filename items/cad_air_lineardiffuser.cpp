@@ -37,22 +37,18 @@ CAD_air_lineardiffuser::~CAD_air_lineardiffuser()
 
 QList<CADitemTypes::ItemType> CAD_air_lineardiffuser::flangable_items(int flangeIndex)
 {
-    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
-    flangable_items.append(CADitemTypes::Air_Duct);
-    flangable_items.append(CADitemTypes::Air_DuctEndPlate);
-    flangable_items.append(CADitemTypes::Air_DuctFireDamper);
-    flangable_items.append(CADitemTypes::Air_DuctTeeConnector);
-    flangable_items.append(CADitemTypes::Air_DuctTransitionRectRect);
-    flangable_items.append(CADitemTypes::Air_DuctTransitionRectRound);
-    flangable_items.append(CADitemTypes::Air_DuctTurn);
-    flangable_items.append(CADitemTypes::Air_DuctVolumetricFlowController);
-    flangable_items.append(CADitemTypes::Air_DuctYpiece);
-    flangable_items.append(CADitemTypes::Air_Filter);
-    flangable_items.append(CADitemTypes::Air_HeatExchangerAirAir);
-    flangable_items.append(CADitemTypes::Air_HeatExchangerWaterAir);
-    flangable_items.append(CADitemTypes::Air_MultiLeafDamper);
-    flangable_items.append(CADitemTypes::Air_Pipe);
+    if(flangeIndex >= 2)
+    {
+        flangable_items.append(CADitemTypes::Air_Pipe);
+        flangable_items.append(CADitemTypes::Air_PipeBranch);
+        flangable_items.append(CADitemTypes::Air_PipeSilencer);
+        flangable_items.append(CADitemTypes::Air_PipeVolumetricFlowController);
+        flangable_items.append(CADitemTypes::Air_PipeFireDamper);
+        flangable_items.append(CADitemTypes::Air_PipeEndCap);
+        flangable_items.append(CADitemTypes::Air_PipeReducer);
+        flangable_items.append(CADitemTypes::Air_PipeTurn);
+    }
     return flangable_items;
 }
 
@@ -160,20 +156,19 @@ void CAD_air_lineardiffuser::calculate()
     for(int i = 0; i < n; i++)
     {
         QVector3D pos = position + matrix_rotation * QVector3D(i * dist - (n-1)* dist/2, -b/2, a1 + a/2);
-        CAD_basic_pipe* p = new CAD_basic_pipe();
+        CAD_basic_circle* p = new CAD_basic_circle();
         this->subItems.append(p);
-        p->wizardParams.insert("Position x", pos.x());
-        p->wizardParams.insert("Position y", pos.y());
-        p->wizardParams.insert("Position z", pos.z());
+        p->wizardParams.insert("Center x", pos.x());
+        p->wizardParams.insert("Center y", pos.y());
+        p->wizardParams.insert("Center z", pos.z());
         p->wizardParams.insert("Angle x", angle_x);
         p->wizardParams.insert("Angle y", angle_y);
-        p->wizardParams.insert("Angle z", angle_z-90);
+        p->wizardParams.insert("Angle z", angle_z);
 
-        p->wizardParams.insert("l", 0.0);
-        p->wizardParams.insert("d", d);
-        p->wizardParams.insert("s", 0.05*d);
+        p->wizardParams.insert("r", d / 2);
         p->layer = this->layer;
         p->processWizardInput();
+        p->rotateAroundAxis(90.0, QVector3D(1.0, 0.0, 0.0), angle_x, angle_y, angle_z);
         p->calculate();
         this->snap_flanges.append(pos);
     }

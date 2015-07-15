@@ -46,14 +46,18 @@ CAD_air_pipeFireDamper::~CAD_air_pipeFireDamper()
 
 QList<CADitemTypes::ItemType> CAD_air_pipeFireDamper::flangable_items(int flangeIndex)
 {
-    Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
-    flangable_items.append(CADitemTypes::Air_Pipe);
-    flangable_items.append(CADitemTypes::Air_PipeEndCap);
-    flangable_items.append(CADitemTypes::Air_PipeReducer);
-    flangable_items.append(CADitemTypes::Air_PipeSilencer);
-    flangable_items.append(CADitemTypes::Air_PipeTurn);
-    flangable_items.append(CADitemTypes::Air_PipeVolumetricFlowController);
+    if(flangeIndex >= 2)
+    {
+        flangable_items.append(CADitemTypes::Air_Pipe);
+        flangable_items.append(CADitemTypes::Air_PipeBranch);
+        flangable_items.append(CADitemTypes::Air_PipeSilencer);
+        flangable_items.append(CADitemTypes::Air_PipeVolumetricFlowController);
+        flangable_items.append(CADitemTypes::Air_PipeFireDamper);
+        flangable_items.append(CADitemTypes::Air_PipeEndCap);
+        flangable_items.append(CADitemTypes::Air_PipeReducer);
+        flangable_items.append(CADitemTypes::Air_PipeTurn);
+    }
     return flangable_items;
 }
 

@@ -54,6 +54,10 @@ QList<CADitemTypes::ItemType> CAD_air_pipeReducer::flangable_items(int flangeInd
     Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Air_Pipe);
+    flangable_items.append(CADitemTypes::Air_PipeBranch);
+    flangable_items.append(CADitemTypes::Air_PipeSilencer);
+    flangable_items.append(CADitemTypes::Air_PipeVolumetricFlowController);
+    flangable_items.append(CADitemTypes::Air_PipeFireDamper);
     flangable_items.append(CADitemTypes::Air_PipeEndCap);
     flangable_items.append(CADitemTypes::Air_PipeReducer);
     flangable_items.append(CADitemTypes::Air_PipeTurn);
