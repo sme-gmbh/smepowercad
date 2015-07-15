@@ -129,7 +129,7 @@ void CAD_air_pressureReliefDamper::calculate()
     {
         CAD_basic_box *box = new CAD_basic_box();
         this->subItems.append(box);
-        QVector3D position_box = position + matrix_rotation * QVector3D(l, 0.0, (a - 2*s) * (0.45 - i * 0.1));
+        QVector3D position_box = position + matrix_rotation * QVector3D(l + 0.025 * (a - 2*s), 0.0, (a - 2*s) * (0.45 - i * 0.1));
         box->wizardParams.insert("Position x", position_box.x());
         box->wizardParams.insert("Position y", position_box.y());
         box->wizardParams.insert("Position z", position_box.z());
