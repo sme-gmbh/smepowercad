@@ -59,6 +59,7 @@ QList<CADitemTypes::ItemType> CAD_air_canvasFlange::flangable_items(int flangeIn
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Air_CanvasFlange);
     flangable_items.append(CADitemTypes::Air_Duct);
+    flangable_items.append(CADitemTypes::Air_DuctEndPlate);
     flangable_items.append(CADitemTypes::Air_DuctBaffleSilencer);
     flangable_items.append(CADitemTypes::Air_DuctFireDamper);
     flangable_items.append(CADitemTypes::Air_DuctTeeConnector);
@@ -194,6 +195,7 @@ void CAD_air_canvasFlange::calculate()
 
     this->snap_flanges.append(position);
     this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0,0.0));
+
 
     boundingBox.enterVertices(flange_left->boundingBox.getVertices());
     boundingBox.enterVertices(flange_right->boundingBox.getVertices());

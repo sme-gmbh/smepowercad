@@ -429,7 +429,7 @@ void CAD_air_ductTeeConnector::processWizardInput()
     this->s = wizardParams.value("s").toDouble();
 
     if(fabs((u + r1 + b) - (e + b2 + m)) > 10E-8)
-        qDebug() << "This item can not be drawn! (u + r1 + b) != (e + d + m)";
+        qDebug() << "This item can not be drawn! (u + r1 + b) != (e + b2 + m)";
 
     if(fabs((n + b3 + r2 + u) - l) > 10E-8)
         qDebug() << "This item can not be drawn! (n + h + r2 + u) != l";

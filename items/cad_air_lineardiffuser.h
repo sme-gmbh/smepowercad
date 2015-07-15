@@ -4,7 +4,7 @@
 #include "caditem.h"
 #include "cad_basic_duct.h"
 #include "cad_basic_box.h"
-#include "cad_basic_pipe.h"
+#include "cad_basic_circle.h"
 
 class CAD_air_lineardiffuser : public CADitem
 {

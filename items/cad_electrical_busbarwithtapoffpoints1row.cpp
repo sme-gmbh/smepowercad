@@ -136,23 +136,24 @@ void CAD_electrical_busbarwithtapoffpoints1row::calculate()
     this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
     for(int i = 0; i < n; i++)
     {
-        QVector3D position_box = position + matrix_rotation * QVector3D(l3 + 0.5 * l2 + i * l1, b, 0.0);
-        this->snap_flanges.append(position_box);
-        CAD_basic_box * box = new CAD_basic_box();
-        box->wizardParams.insert("Position x", position_box.x());
-        box->wizardParams.insert("Position y", position_box.y());
-        box->wizardParams.insert("Position z", position_box.z());
-        box->wizardParams.insert("Angle x", angle_x);
-        box->wizardParams.insert("Angle y", angle_y);
-        box->wizardParams.insert("Angle z", angle_z);
+        QVector3D position_plane = position + matrix_rotation * QVector3D(l3 + l2 + i * l1, b, 0.0);
+        this->snap_flanges.append(position_plane);
+        position_plane = position + matrix_rotation * QVector3D(l3 + i * l1, b, 0.5 * a2);
+        CAD_basic_plane * plane = new CAD_basic_plane();
+        plane->wizardParams.insert("Position x", position_plane.x());
+        plane->wizardParams.insert("Position y", position_plane.y());
+        plane->wizardParams.insert("Position z", position_plane.z());
+        plane->wizardParams.insert("Angle x", angle_x);
+        plane->wizardParams.insert("Angle y", angle_y);
+        plane->wizardParams.insert("Angle z", angle_z);
 
-        box->wizardParams.insert("l", l2);
-        box->wizardParams.insert("b", 0.0);
-        box->wizardParams.insert("a", a2);
-        box->layer = this->layer;
-        box->processWizardInput();
-        box->calculate();
-        this->subItems.append(box);
+        plane->wizardParams.insert("b", a2);
+        plane->wizardParams.insert("a", l2);
+        plane->layer = this->layer;
+        plane->processWizardInput();
+        plane->rotateAroundAxis(-90.0, QVector3D(1.0, 0.0, 0.0), angle_x, angle_y, angle_z);
+        plane->calculate();
+        this->subItems.append(plane);
     }
     this->snap_center = busbar->snap_center;
     this->snap_vertices = busbar->snap_vertices;
