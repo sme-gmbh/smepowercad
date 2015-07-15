@@ -75,6 +75,17 @@ bool M3dBoundingBox::intersectsWith(M3dBoundingBox &box)
     return true;
 }
 
+bool M3dBoundingBox::isEmpty()
+{
+    bool empty = false;
+
+    if (x_min > x_max) empty = true;
+    if (y_min > y_max) empty = true;
+    if (z_min > z_max) empty = true;
+
+    return empty;
+}
+
 // returns a given point of the box
 QVector3D M3dBoundingBox::p(int num)
 {

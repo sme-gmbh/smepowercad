@@ -1972,6 +1972,8 @@ void GLWidget::zoom_pan_showAll_processItems(QList<CADitem *> items, M3dBounding
 {
     foreach (CADitem* item, items)
     {
+        if (item->boundingBox.isEmpty())
+            continue;
         boundingBox->enterVertices(item->boundingBox.getVertices());
     }
 }

@@ -33,6 +33,7 @@ public:
     void enterVertex(QVector3D vertex);
     void enterVertices(QList<QVector3D> vertices);
     bool intersectsWith(M3dBoundingBox &box);
+    bool isEmpty();
 
     QList<QVector3D> getVertices();
 
