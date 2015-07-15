@@ -6,6 +6,8 @@ Der Tesseletion Shader kennt ein Dreieck, und die daran angrenzenden Dreiecke. D
 
 Test der Collision Detection ist oberflächlich abgeschlossen für:
 Air
+Architecture
+Cleanroom
 Electrical
 HeatCool
 
