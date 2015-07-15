@@ -2,3 +2,111 @@ Interessant:
 
 QFramebufferObject::toImage()  holt von der GPU einen gerenderten Buffer
 Der Tesseletion Shader kennt ein Dreieck, und die daran angrenzenden Dreiecke. Das kann man sich für das Smooth-Shading merken.
+
+
+Test der Collision Detection ist oberflächlich abgeschlossen für:
+Air
+Electrical
+HeatCool
+
+Items ohne Geometrie
+Air:
+    Pressure Relief Damper
+    Multileaf Damper
+    Throttle Valve
+
+Architecture:
+    Foundation
+    Grating
+
+Cleanroom:
+    Wall Smoke Extract Flap
+    Wall Post
+    Wall Panel
+    Wall Overflow Gate
+    Wall Mounting Profile
+    Wall Stiffener Diagonal
+    Vacuum Cleaner Socket
+    Tag Fire Detector
+    Tag Smoke Detector
+    Tag Leakage Detector
+    Electrical Grounding
+    Floor Support
+    Floor Panel Perforated
+    Floor Panel with Tank
+    Floor Panel with Bushing
+    Floor Panel
+    Floor Grating
+    Floor Stiffener Horicontal
+    Floor Stiffener Diagonal
+    Door Swinging Single
+    Door Swinging Double
+    Door Sliding Single
+    Door Sliding Double
+    Door Frame
+    Control Switch
+    Control Radar Sensor
+    Control LED Touch Key
+    Control Emergency Switch
+    Control Button
+    Ceiling Suspension
+    Ceiling Smoke Extract Flap
+    Ceiling Maintenance Flap
+    Ceiling Frame
+    Ceiling Frame Feedthrough
+
+Electrial
+    Luminaire Rail Mounted
+    Busbar Tapoff Unit
+
+
+Gas
+    Activated Carbon Adsorber
+    Compressor
+    Dryer Desiccant
+    Dryer Refrigerant
+    Filter
+    Gauge Pressure
+    Hose
+    Liquid Separator
+    Oil Water Separation System
+    Pipe
+    Pipe Tee Connector
+    Pipe Turn
+    Pressure Regulator
+    Pump
+    Quicklock Coupling
+    Sensor Flowrate
+    Sensor Moisture
+    Tank
+    Valve Ball
+    Valve Diaphragm
+    Valve NonReturn
+
+HeatCool
+    WaterHeater
+    Storage Boiler
+    Sensor
+    Flowmeter
+    Cooling Tower
+    Control Valve
+    Chiller
+    Boiler
+    Ball Valve
+    Adjust Valve
+
+Sanitary
+    Lifting Unit
+    Emergency Shower
+    Emergency Eye Shower
+    Shower
+    Sink
+    Wash Basin
+    Electric Water Heater
+    Cleaning Piece
+
+Sprinkler
+    Zone Check
+    Wet Alarm Valve
+    Distribution
+    Compressed Air Water Container
