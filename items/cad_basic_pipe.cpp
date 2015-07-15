@@ -161,7 +161,7 @@ void CAD_basic_pipe::calculate()
     //ring on negative x-end
     for(int i = 0; i < 16; i++)
     {
-        indicesFaces[70+2*i] = 4*i+1;
+        indicesFaces[70+2*i] = 4*i + 1;
         indicesFaces[70+2*i+1] = 4*i;
     }
     indicesFaces[102] = 1;
