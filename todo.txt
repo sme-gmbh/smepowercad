@@ -4,10 +4,6 @@ QFramebufferObject::toImage()  holt von der GPU einen gerenderten Buffer
 Der Tesseletion Shader kennt ein Dreieck, und die daran angrenzenden Dreiecke. Das kann man sich für das Smooth-Shading merken.
 
 Items ohne Geometrie
-Air:
-    Multileaf Damper
-    Throttle Valve
-
 Architecture:
     Foundation
     Grating
