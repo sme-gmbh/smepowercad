@@ -453,7 +453,6 @@ void ItemGripModifier::showCopyMultiBox()
 
 void ItemGripModifier::showRotateAroundPointBox()
 {
-    qDebug() << "we are here!";
     deleteWdgs(ui->gridLayout);
     ui->label->setText(tr("Rotate around point"));
 

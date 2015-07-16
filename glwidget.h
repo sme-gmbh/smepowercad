@@ -79,6 +79,7 @@ public:
     void set_snap_mode(SnapMode mode);
     void set_snapPos(QVector3D snapPos_screen);
     void set_WorldRotation(float rot_x, float rot_y, float rot_z);
+    void snap_calculation(bool set_snapMode, bool set_snapPos, bool emit_snapFired);
     QMatrix4x4 getMatrix_all();
     QMatrix4x4 getMatrix_projection();
     QMatrix4x4 getMatrix_glSelect();

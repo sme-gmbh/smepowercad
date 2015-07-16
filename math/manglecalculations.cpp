@@ -16,12 +16,12 @@ QVector3D MAngleCalculations::anglesFromMatrix(QMatrix4x4 matrix_rotation)
     //compare to: http://staff.city.ac.uk/~sbbh653/publications/euler.pdf
 //    qDebug() << "original: " << matrix_rotation;
     qreal r11 = matrix_rotation.row(0).x();
-    qreal r21 = matrix_rotation.row(1).x();
-    qreal r22 = matrix_rotation.row(1).y();
-    qreal r31 = matrix_rotation.row(2).x();
     qreal r12 = matrix_rotation.row(0).y();
     qreal r13 = matrix_rotation.row(0).z();
+    qreal r21 = matrix_rotation.row(1).x();
+    qreal r22 = matrix_rotation.row(1).y();
     qreal r23 = matrix_rotation.row(1).z();
+    qreal r31 = matrix_rotation.row(2).x();
     qreal r33 = matrix_rotation.row(2).z();
 
     qreal phi, theta, psi;
@@ -150,6 +150,30 @@ QVector3D MAngleCalculations::anglesFromVector(QVector3D vector)
         i++;
     }
     return QVector3D(angle_x, angle_y, angle_z);
+}
+
+QMatrix4x4 MAngleCalculations::rotateAroundAxis(qreal angle, QVector3D axis)
+{
+    angle = angle / 180.0 * PI;
+    QMatrix4x4 m;
+    m.setToIdentity();
+    m.setRow(0, QVector4D(axis.x() * axis.x() * (1 - qCos(angle)) + qCos(angle),
+                          axis.x() * axis.y() * (1 - qCos(angle)) - axis.z() * qSin(angle),
+                          axis.x() * axis.z() * (1 - qCos(angle)) + axis.y() * qSin(angle),
+                          0.0));
+    m.setRow(1, QVector4D(axis.y() * axis.x() * (1 - qCos(angle)) + axis.z() * qSin(angle),
+                          axis.y() * axis.y() * (1 - qCos(angle)) + qCos(angle),
+                          axis.y() * axis.z() * (1 - qCos(angle)) - axis.x() * qSin(angle),
+                          0.0));
+    m.setRow(2, QVector4D(axis.z() * axis.x() * (1 - qCos(angle)) - axis.y() * qSin(angle),
+                          axis.z() * axis.y() * (1 - qCos(angle)) + axis.x() * qSin(angle),
+                          axis.z() * axis.z() * (1 - qCos(angle)) + qCos(angle),
+                          0.0));
+    m.setRow(3, QVector4D(0.0,
+                          0.0,
+                          0.0,
+                          1.0));
+    return m;
 }
 
 qreal MAngleCalculations::difference(QVector3D vec, qreal angle_x, qreal angle_y, qreal angle_z)

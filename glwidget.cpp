@@ -196,6 +196,85 @@ void GLWidget::set_WorldRotation(float rot_x, float rot_y, float rot_z)
     slot_repaint();
 }
 
+void GLWidget::snap_calculation(bool set_snapMode, bool set_snapPos, bool emit_snapFired)
+{
+    if (item_lastHighlight != NULL)
+    {
+        // Basepoint snap
+        QList<QVector3D> snap_basepoints;
+        if ((mapFromScene(item_lastHighlight->snap_basepoint) - mousePos).manhattanLength() < 50)
+            snap_basepoints.append(item_lastHighlight->snap_basepoint);
+
+        // Flange snap
+        QList<QVector3D> snap_flanges;
+        foreach(QVector3D snap_flange, item_lastHighlight->snap_flanges)
+        {
+            if ((mapFromScene(snap_flange) - mousePos).manhattanLength() < 10)
+                snap_flanges.append(snap_flange);
+        }
+
+        // Endpoint / Vertex snap
+        QList<QVector3D> snap_vertex_points;
+        foreach (QVector3D snap_vertex, item_lastHighlight->snap_vertices)
+        {
+            if ((mapFromScene(snap_vertex) - mousePos).manhattanLength() < 10)
+                snap_vertex_points.append(snap_vertex);
+        }
+
+        // Center Snap
+        QList<QVector3D> snap_center_points;
+        foreach (QVector3D snap_center, item_lastHighlight->snap_center)
+        {
+            if ((mapFromScene(snap_center) - mousePos).manhattanLength() < 10)
+                snap_center_points.append(snap_center);
+        }
+
+        if (!snap_flanges.isEmpty())
+        {
+            if (set_snapMode)
+                this->set_snap_mode(GLWidget::SnapFlange);
+            if (set_snapPos)
+                this->set_snapPos(snap_flanges.at(0));
+        }
+        else if (!snap_basepoints.isEmpty())
+        {
+            if (set_snapMode)
+                this->set_snap_mode(GLWidget::SnapBasepoint);
+            if (set_snapPos)
+                this->set_snapPos(snap_basepoints.at(0));
+        }
+        else if (!snap_vertex_points.isEmpty())
+        {
+            if (set_snapMode)
+                this->set_snap_mode(GLWidget::SnapEndpoint);
+            if (set_snapPos)
+                this->set_snapPos(snap_vertex_points.at(0));
+        }
+        else if (!snap_center_points.isEmpty())
+        {
+            if (set_snapMode)
+                this->set_snap_mode(GLWidget::SnapCenter);
+            if (set_snapPos)
+                this->set_snapPos(snap_center_points.at(0));
+        }
+        else
+        {
+            if (set_snapMode)
+                this->set_snap_mode(GLWidget::SnapNo);
+        }
+
+        if (emit_snapFired)
+            emit signal_snapFired(this->snapPos_scene, this->snapMode);
+    }
+    else
+    {
+        if (set_snapMode)
+            this->set_snap_mode(GLWidget::SnapNo);
+        if (emit_snapFired)
+            emit signal_snapFired(this->snapPos_scene, this->snapMode);
+    }
+}
+
 QMatrix4x4 GLWidget::getMatrix_all()
 {
     return this->matrix_all;
@@ -538,69 +617,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
         highlightItemAtPosition(mousePos);
 
         // Object Snap
-        if (item_lastHighlight != NULL)
-        {
-            // Basepoint snap
-            QList<QVector3D> snap_basepoints;
-            if ((mapFromScene(item_lastHighlight->snap_basepoint) - mousePos).manhattanLength() < 50)
-                snap_basepoints.append(item_lastHighlight->snap_basepoint);
-
-            // Flange snap
-            QList<QVector3D> snap_flanges;
-            foreach(QVector3D snap_flange, item_lastHighlight->snap_flanges)
-            {
-                if ((mapFromScene(snap_flange) - mousePos).manhattanLength() < 10)
-                    snap_flanges.append(snap_flange);
-            }
-
-            // Endpoint / Vertex snap
-            QList<QVector3D> snap_vertex_points;
-            foreach (QVector3D snap_vertex, item_lastHighlight->snap_vertices)
-            {
-                if ((mapFromScene(snap_vertex) - mousePos).manhattanLength() < 10)
-                    snap_vertex_points.append(snap_vertex);
-            }
-
-            // Center Snap
-            QList<QVector3D> snap_center_points;
-            foreach (QVector3D snap_center, item_lastHighlight->snap_center)
-            {
-                if ((mapFromScene(snap_center) - mousePos).manhattanLength() < 10)
-                    snap_center_points.append(snap_center);
-            }
-
-            if (!snap_flanges.isEmpty())
-            {
-                this->set_snap_mode(GLWidget::SnapFlange);
-                this->set_snapPos(snap_flanges.at(0));
-            }
-            else if (!snap_basepoints.isEmpty())
-            {
-                this->set_snap_mode(GLWidget::SnapBasepoint);
-                this->set_snapPos(snap_basepoints.at(0));
-            }
-            else if (!snap_vertex_points.isEmpty())
-            {
-                this->set_snap_mode(GLWidget::SnapEndpoint);
-                this->set_snapPos(snap_vertex_points.at(0));
-            }
-            else if (!snap_center_points.isEmpty())
-            {
-                this->set_snap_mode(GLWidget::SnapCenter);
-                this->set_snapPos(snap_center_points.at(0));
-            }
-            else
-            {
-                this->set_snap_mode(GLWidget::SnapNo);
-            }
-
-            emit signal_snapFired(this->snapPos_scene, this->snapMode);
-        }
-        else
-        {
-            this->set_snap_mode(GLWidget::SnapNo);
-            emit signal_snapFired(this->snapPos_scene, this->snapMode);
-        }
+        this->snap_calculation(true, true, true);
     }
     else
     {
@@ -614,6 +631,8 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     slot_repaint();
     event->accept();
 }
+
+
 
 QVector3D GLWidget::pointOnSphere(QPoint pointOnScreen)
 {
@@ -855,13 +874,18 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             }
         }
         break;
-    case Qt::Key_F:                         // Flange item
+    case Qt::Key_F:                         // Turn item around flange axis
         if (item_lastHighlight != NULL)
         {
             if (snapMode == SnapFlange)
             {
-                this->itemGripModifier->setItem(item_lastHighlight);
-                this->itemGripModifier->activateGrip(ItemGripModifier::Grip_Append, QCursor::pos(), snapPos_scene);
+                int flangeIndex = item_lastHighlight->snap_flanges.indexOf(snapPos_scene) + 1;
+                WizardParams newParams;
+                newParams = item_lastHighlight->rotateAroundFlange(snapPos_scene, flangeIndex, 45.0);
+                itemDB->setRestorePoint();
+                itemDB->modifyItem_withRestorePoint(item_lastHighlight, newParams);
+
+                slot_repaint();
             }
         }
         break;
@@ -919,11 +943,12 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     case Qt::Key_X:                         // Turn item around x axis
         if (item_lastHighlight != NULL)
         {
+            QVector3D angles;
             QMatrix4x4 matrix_old = item_lastHighlight->matrix_rotation;
             QMatrix4x4 m;
             m.setToIdentity();
             m.rotate(45.0, 1.0, 0.0, 0.0);
-            QVector3D angles = MAngleCalculations().anglesFromMatrix(m * matrix_old);
+            angles = MAngleCalculations().anglesFromMatrix(m * matrix_old);
             WizardParams newParams;
             newParams.insert("Angle x", (angles.x()));
             newParams.insert("Angle y", (angles.y()));
@@ -1371,6 +1396,7 @@ void GLWidget::paintGL()
 
 void GLWidget::slot_repaint()
 {
+    snap_calculation(false, true, false); // Recalculate snap positions to get correct index of flange next time (due to rounding errors)
     update();
 }
 
