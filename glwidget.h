@@ -219,6 +219,7 @@ public:
     void setTextureCoords(qreal x, qreal y, qreal z);
     void setUseTexture(bool on);
     void setMatrices(QMatrix4x4 matrix_projection, QMatrix4x4 matrix_glSelect, QMatrix4x4 matrix_modelview, QMatrix4x4 matrix_rotation);
+    void setMatrices(QMatrix4x4 matrix_modelview, QMatrix4x4 matrix_rotation);
     void setLookAt(QVector3D lookAt);
 
 private:

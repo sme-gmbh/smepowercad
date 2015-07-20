@@ -19,7 +19,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl svg xml network printsupport
+QT       += core gui opengl svg xml network printsupport multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 #greaterThan(QT_MAJOR_VERSION, 4): QT -= opengl
@@ -302,7 +302,8 @@ SOURCES += main.cpp\
     items/cad_gas_filter.cpp \
     items/cad_gas_dryerdesiccant.cpp \
     items/cad_gas_dryerrefrigerant.cpp \
-    items/cad_gas_compressor.cpp
+    items/cad_gas_compressor.cpp \
+    keyframeanimation.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -566,7 +567,8 @@ HEADERS  += mainwindow.h \
     items/cad_gas_filter.h \
     items/cad_gas_dryerdesiccant.h \
     items/cad_gas_dryerrefrigerant.h \
-    items/cad_gas_compressor.h
+    items/cad_gas_compressor.h \
+    keyframeanimation.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
@@ -577,7 +579,8 @@ FORMS    += mainwindow.ui \
     itemgripmodifier.ui \
     toolwidget.ui \
     printwidget.ui \
-    printpapertemplate.ui
+    printpapertemplate.ui \
+    keyframeanimation.ui
 
 RESOURCES += \
     icons.qrc

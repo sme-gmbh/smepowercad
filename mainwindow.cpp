@@ -116,6 +116,10 @@ MainWindow::MainWindow(QWidget *parent) :
     // **** Print Widget ****
     printwidget = new PrintWidget(this, itemDB);
 
+    // **** Keyframe Animation ****
+    this->keyframeAnimation = new KeyframeAnimation(this, itemDB);
+    this->keyframeAnimation->show();
+
     // **** Recent files ****
     QMenu *recentFilesMenu = new QMenu();
     for (int i = 0; i < MAX_RECENT_FILES; i++)

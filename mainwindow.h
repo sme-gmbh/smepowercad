@@ -50,6 +50,7 @@
 #include "itemwizard.h"
 #include "itemgripmodifier.h"
 #include "printwidget.h"
+#include "keyframeanimation.h"
 
 #include "network/server.h"
 
@@ -96,6 +97,7 @@ private:
     ItemGripModifier* itemGripModifier;
 
     PrintWidget* printwidget;
+    KeyframeAnimation* keyframeAnimation;
 
     QString project_filepath;
 
