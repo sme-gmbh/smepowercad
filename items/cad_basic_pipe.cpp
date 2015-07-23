@@ -19,13 +19,7 @@
 
 CAD_basic_pipe::CAD_basic_pipe() : CADitem(CADitemTypes::Basic_Pipe)
 {
-//    vertices_inner_bottom = QList<QVector3D>();
-//    vertices_outer_bottom = QList<QVector3D>();
-//    vertices_outer_top = QList<QVector3D>();
-//    vertices_inner_top = QList<QVector3D>();
-
     radius = 1.0;
-
     length = 20.0;
 
     wizardParams.insert("Position x", 0.0);
@@ -37,7 +31,6 @@ CAD_basic_pipe::CAD_basic_pipe() : CADitem(CADitemTypes::Basic_Pipe)
     wizardParams.insert("l", 20.0);
     wizardParams.insert("d", 10.0);
     wizardParams.insert("s",  1.0);
-
 
     arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices->create();

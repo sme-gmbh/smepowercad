@@ -29,7 +29,7 @@ CAD_Cleanroom_CeilingPanel::CAD_Cleanroom_CeilingPanel() : CADitem(CADitemTypes:
     wizardParams.insert("g", 600.0);
     wizardParams.insert("l", 600.0);
 
-    box = new CAD_basic_box;
+    box = new CAD_basic_box();
     this->subItems.append(box);
 
 

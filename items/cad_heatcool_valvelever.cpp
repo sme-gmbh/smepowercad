@@ -18,10 +18,6 @@
 
 CAD_HeatCool_ValveLever::CAD_HeatCool_ValveLever() : CADitem(CADitemTypes::HeatCool_ValveLever)
 {
-    box_1 = new CAD_basic_box;
-    box_2 = new CAD_basic_box;
-    this->subItems.append(box_1);
-    this->subItems.append(box_2);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -33,6 +29,11 @@ CAD_HeatCool_ValveLever::CAD_HeatCool_ValveLever() : CADitem(CADitemTypes::HeatC
     wizardParams.insert("a2", 60.0);
     wizardParams.insert("l1", 70.0);
     wizardParams.insert("l2", 20.0);
+
+    box_1 = new CAD_basic_box();
+    box_2 = new CAD_basic_box();
+    this->subItems.append(box_1);
+    this->subItems.append(box_2);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

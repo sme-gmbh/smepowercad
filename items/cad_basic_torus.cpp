@@ -102,7 +102,7 @@ void CAD_Basic_Torus::calculate()
     QVector3D vertices[110];
     for(int i = 0; i <= 10; i++)
     {
-        for(int j = 0; j <= 10; j++)
+        for(int j = 0; j < 10; j++)
         {
             qreal theta = i * PI * 0.2;
             qreal phi = j * PI * 0.2;

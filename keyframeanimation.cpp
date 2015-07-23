@@ -5,9 +5,9 @@ KeyframeAnimation::KeyframeAnimation(QWidget *parent, ItemDB *itemDB) :
     QDialog(parent),
     ui(new Ui::KeyframeAnimation)
 {
-    ui->setupUi(this);
     this->itemDB = itemDB;
     this->glWidget = new GLWidget(this, itemDB);
+    ui->setupUi(this);
     QVBoxLayout* layout = new QVBoxLayout(ui->graphicWidget);
     layout->addWidget(this->glWidget);
 

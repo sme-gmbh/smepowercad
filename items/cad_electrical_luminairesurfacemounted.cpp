@@ -18,8 +18,6 @@
 
 CAD_Electrical_LuminaireSurfaceMounted::CAD_Electrical_LuminaireSurfaceMounted() : CADitem(CADitemTypes::Electrical_LuminaireSurfaceMounted)
 {
-    luminaire = new CAD_basic_box();
-    this->subItems.append(luminaire);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -30,6 +28,9 @@ CAD_Electrical_LuminaireSurfaceMounted::CAD_Electrical_LuminaireSurfaceMounted()
     wizardParams.insert("a", 100.0);
     wizardParams.insert("b", 300.0);
     wizardParams.insert("l", 1000.0);
+
+    luminaire = new CAD_basic_box();
+    this->subItems.append(luminaire);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

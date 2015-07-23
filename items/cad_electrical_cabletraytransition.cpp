@@ -18,17 +18,6 @@
 
 CAD_Electrical_CabletrayTransition::CAD_Electrical_CabletrayTransition() : CADitem(CADitemTypes::Electrical_CabletrayTransition)
 {
-    end_lower = new CAD_electrical_cabletray();
-    end_upper = new CAD_electrical_cabletray();
-    floor = new CAD_basic_box();
-    left = new CAD_basic_box();
-    right = new CAD_basic_box();
-    this->subItems.append(end_lower);
-    this->subItems.append(end_upper);
-    this->subItems.append(floor);
-    this->subItems.append(left);
-    this->subItems.append(right);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -42,6 +31,17 @@ CAD_Electrical_CabletrayTransition::CAD_Electrical_CabletrayTransition() : CADit
     wizardParams.insert("l1", 100.0);       // Länge des ebenen Stücks
     wizardParams.insert("i", 100.0);        // Versatz in z-Richtung
     wizardParams.insert("s", 10.0);         // Wandstärke
+
+    end_lower = new CAD_electrical_cabletray();
+    end_upper = new CAD_electrical_cabletray();
+    floor = new CAD_basic_box();
+    left = new CAD_basic_box();
+    right = new CAD_basic_box();
+    this->subItems.append(end_lower);
+    this->subItems.append(end_upper);
+    this->subItems.append(floor);
+    this->subItems.append(left);
+    this->subItems.append(right);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

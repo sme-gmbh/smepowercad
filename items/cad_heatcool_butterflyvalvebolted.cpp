@@ -18,13 +18,6 @@
 
 CAD_HeatCool_ButterflyValveBolted::CAD_HeatCool_ButterflyValveBolted() : CADitem(CADitemTypes::HeatCool_ButterflyValveBolted)
 {
-    pipe = new CAD_basic_pipe;
-    ring = new CAD_basic_pipe;
-    upper = new CAD_basic_pipe;
-    this->subItems.append(pipe);
-    this->subItems.append(ring);
-    this->subItems.append(upper);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -38,6 +31,13 @@ CAD_HeatCool_ButterflyValveBolted::CAD_HeatCool_ButterflyValveBolted() : CADitem
     wizardParams.insert("h", 120.0);
     wizardParams.insert("t", 200.0);
     wizardParams.insert("s",  10.0);
+
+    pipe = new CAD_basic_pipe();
+    ring = new CAD_basic_pipe();
+    upper = new CAD_basic_pipe();
+    this->subItems.append(pipe);
+    this->subItems.append(ring);
+    this->subItems.append(upper);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

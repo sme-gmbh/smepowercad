@@ -3,10 +3,6 @@
 
 CAD_air_lineardiffuser::CAD_air_lineardiffuser() : CADitem(CADitemTypes::Air_LinearDiffuser)
 {
-    upper = new CAD_basic_box();
-    lower = new CAD_basic_duct();
-    this->subItems.append(lower);
-    this->subItems.append(upper);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -22,6 +18,11 @@ CAD_air_lineardiffuser::CAD_air_lineardiffuser() : CADitem(CADitemTypes::Air_Lin
     wizardParams.insert("d",     50.0);
     wizardParams.insert("dist", 100.0);
     wizardParams.insert("n",    2);
+
+    upper = new CAD_basic_box();
+    lower = new CAD_basic_duct();
+    this->subItems.append(lower);
+    this->subItems.append(upper);
 
     processWizardInput();
     calculate();

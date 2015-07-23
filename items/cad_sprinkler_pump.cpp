@@ -18,15 +18,6 @@
 
 CAD_sprinkler_pump::CAD_sprinkler_pump() : CADitem(CADitemTypes::Sprinkler_Pump)
 {
-    pipe_left = new CAD_basic_pipe();
-    pipe_upper = new CAD_basic_pipe();
-    housing = new CAD_basic_pipe();
-    axis = new CAD_basic_pipe();
-    this->subItems.append(pipe_left);
-    this->subItems.append(pipe_upper);
-    this->subItems.append(housing);
-    this->subItems.append(axis);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -43,6 +34,15 @@ CAD_sprinkler_pump::CAD_sprinkler_pump() : CADitem(CADitemTypes::Sprinkler_Pump)
     wizardParams.insert("l2", 100.0);
     wizardParams.insert("l3", 100.0);
     wizardParams.insert("s", 10.0);
+
+    pipe_left = new CAD_basic_pipe();
+    pipe_upper = new CAD_basic_pipe();
+    housing = new CAD_basic_pipe();
+    axis = new CAD_basic_pipe();
+    this->subItems.append(pipe_left);
+    this->subItems.append(pipe_upper);
+    this->subItems.append(housing);
+    this->subItems.append(axis);
 
     processWizardInput();
     calculate();

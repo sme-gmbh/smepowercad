@@ -18,9 +18,6 @@
 
 CAD_arch_blockOut::CAD_arch_blockOut() : CADitem(CADitemTypes::Arch_BlockOut)
 {
-    this->blockout = new CAD_basic_box();
-    this->subItems.append(blockout);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -31,6 +28,9 @@ CAD_arch_blockOut::CAD_arch_blockOut() : CADitem(CADitemTypes::Arch_BlockOut)
     wizardParams.insert("g", 30.0);
     wizardParams.insert("h", 20.0);
     wizardParams.insert("b",  5.0);
+
+    this->blockout = new CAD_basic_box();
+    this->subItems.append(blockout);
 
     processWizardInput();
     calculate();

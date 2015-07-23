@@ -18,13 +18,6 @@
 
 CAD_air_ductEndPlate::CAD_air_ductEndPlate() : CADitem(CADitemTypes::Air_DuctEndPlate)
 {
-    this->plate = new CAD_basic_box();
-    this->flange = new CAD_basic_duct();
-    this->duct = new CAD_basic_duct();
-    this->subItems.append(plate);
-    this->subItems.append(flange);
-    this->subItems.append(duct);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -37,7 +30,14 @@ CAD_air_ductEndPlate::CAD_air_ductEndPlate() : CADitem(CADitemTypes::Air_DuctEnd
     wizardParams.insert("l", 200.0);
     wizardParams.insert("fe", 10.0);
     wizardParams.insert("ff", 10.0);
-    wizardParams.insert("s",  10.0);
+    wizardParams.insert("s",   1.0);
+
+    this->plate = new CAD_basic_box();
+    this->flange = new CAD_basic_duct();
+    this->duct = new CAD_basic_duct();
+    this->subItems.append(plate);
+    this->subItems.append(flange);
+    this->subItems.append(duct);
 
     processWizardInput();
     calculate();

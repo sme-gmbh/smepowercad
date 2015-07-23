@@ -18,21 +18,6 @@
 
 CAD_HeatCool_HeatexchangerSoldered::CAD_HeatCool_HeatexchangerSoldered() : CADitem(CADitemTypes::HeatCool_HeatexchangerSoldered)
 {
-    body = new CAD_basic_box;
-    foot_1 = new CAD_basic_box;
-    foot_2 = new CAD_basic_box;
-    pipe_1 = new CAD_basic_pipe;
-    pipe_2 = new CAD_basic_pipe;
-    pipe_3 = new CAD_basic_pipe;
-    pipe_4 = new CAD_basic_pipe;
-    this->subItems.append(body);
-    this->subItems.append(foot_1);
-    this->subItems.append(foot_2);
-    this->subItems.append(pipe_1);
-    this->subItems.append(pipe_2);
-    this->subItems.append(pipe_3);
-    this->subItems.append(pipe_4);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -49,6 +34,21 @@ CAD_HeatCool_HeatexchangerSoldered::CAD_HeatCool_HeatexchangerSoldered() : CADit
     wizardParams.insert("l", 200.0);
     wizardParams.insert("l2", 50.0);
     wizardParams.insert("s",  10.0);
+
+    body = new CAD_basic_box();
+    foot_1 = new CAD_basic_box();
+    foot_2 = new CAD_basic_box();
+    pipe_1 = new CAD_basic_pipe();
+    pipe_2 = new CAD_basic_pipe();
+    pipe_3 = new CAD_basic_pipe();
+    pipe_4 = new CAD_basic_pipe();
+    this->subItems.append(body);
+    this->subItems.append(foot_1);
+    this->subItems.append(foot_2);
+    this->subItems.append(pipe_1);
+    this->subItems.append(pipe_2);
+    this->subItems.append(pipe_3);
+    this->subItems.append(pipe_4);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

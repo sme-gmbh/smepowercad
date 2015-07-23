@@ -18,13 +18,6 @@
 
 CAD_air_ductBaffleSilencer::CAD_air_ductBaffleSilencer() : CADitem(CADitemTypes::Air_DuctBaffleSilencer)
 {
-    main_duct = new CAD_basic_duct();
-    flange_duct_left = new CAD_basic_duct();
-    flange_duct_right = new CAD_basic_duct();
-    subItems.append(main_duct);
-    subItems.append(flange_duct_left);
-    subItems.append(flange_duct_right);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -40,7 +33,14 @@ CAD_air_ductBaffleSilencer::CAD_air_ductBaffleSilencer() : CADitem(CADitemTypes:
     wizardParams.insert("n",   3);
     wizardParams.insert("fe",  10.0);
     wizardParams.insert("ff",  10.0);
-    wizardParams.insert("s",   10.0);
+    wizardParams.insert("s",    1.0);
+
+    main_duct = new CAD_basic_duct();
+    flange_duct_left = new CAD_basic_duct();
+    flange_duct_right = new CAD_basic_duct();
+    subItems.append(main_duct);
+    subItems.append(flange_duct_left);
+    subItems.append(flange_duct_right);
 
     processWizardInput();
     calculate();

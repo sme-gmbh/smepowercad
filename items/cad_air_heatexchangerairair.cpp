@@ -19,12 +19,6 @@
 
 CAD_air_heatExchangerAirAir::CAD_air_heatExchangerAirAir() : CADitem(CADitemTypes::Air_HeatExchangerAirAir)
 {
-    this->duct = new CAD_air_duct();
-    this->subItems.append(duct);
-    this->seperator_1 = new CAD_basic_plane();
-    this->subItems.append(seperator_1);
-    this->seperator_2 = new CAD_basic_plane();
-    this->subItems.append(seperator_2);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -36,10 +30,16 @@ CAD_air_heatExchangerAirAir::CAD_air_heatExchangerAirAir() : CADitem(CADitemType
     wizardParams.insert("b",  300.0);
     wizardParams.insert("l", 1000.0);
     wizardParams.insert("i",  200.0);
-
     wizardParams.insert("fe",  10.0);
     wizardParams.insert("ff",  10.0);
-    wizardParams.insert("s",   10.0);
+    wizardParams.insert("s",    1.0);
+
+    this->duct = new CAD_air_duct();
+    this->subItems.append(duct);
+    this->seperator_1 = new CAD_basic_plane();
+    this->subItems.append(seperator_1);
+    this->seperator_2 = new CAD_basic_plane();
+    this->subItems.append(seperator_2);
 
     arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices->create();

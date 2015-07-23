@@ -18,19 +18,6 @@
 
 CAD_HeatCool_PumpNorm::CAD_HeatCool_PumpNorm() : CADitem(CADitemTypes::HeatCool_PumpNorm)
 {
-    flange_left = new CAD_basic_pipe();
-    pipe_left = new CAD_basic_pipe();
-    flange_upper = new CAD_basic_pipe();
-    pipe_upper = new CAD_basic_pipe();
-    housing = new CAD_basic_pipe();
-    axis = new CAD_basic_pipe();
-    this->subItems.append(flange_left);
-    this->subItems.append(pipe_left);
-    this->subItems.append(flange_upper);
-    this->subItems.append(pipe_upper);
-    this->subItems.append(housing);
-    this->subItems.append(axis);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -49,6 +36,19 @@ CAD_HeatCool_PumpNorm::CAD_HeatCool_PumpNorm() : CADitem(CADitemTypes::HeatCool_
     wizardParams.insert("l2", 100.0);
     wizardParams.insert("l3", 100.0);
     wizardParams.insert("s", 10.0);
+
+    flange_left = new CAD_basic_pipe();
+    pipe_left = new CAD_basic_pipe();
+    flange_upper = new CAD_basic_pipe();
+    pipe_upper = new CAD_basic_pipe();
+    housing = new CAD_basic_pipe();
+    axis = new CAD_basic_pipe();
+    this->subItems.append(flange_left);
+    this->subItems.append(pipe_left);
+    this->subItems.append(flange_upper);
+    this->subItems.append(pipe_upper);
+    this->subItems.append(housing);
+    this->subItems.append(axis);
 
     //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     //    arrayBufVertices->create();

@@ -18,13 +18,6 @@
 
 CAD_electrical_cabletray::CAD_electrical_cabletray() : CADitem(CADitemTypes::Electrical_Cabletray)
 {
-    floor = new CAD_basic_box();
-    left = new CAD_basic_box();
-    right = new CAD_basic_box();
-    this->subItems.append(floor);
-    this->subItems.append(left);
-    this->subItems.append(right);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -32,11 +25,17 @@ CAD_electrical_cabletray::CAD_electrical_cabletray() : CADitem(CADitemTypes::Ele
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-
     wizardParams.insert("a", 100.0);    // Höhe
     wizardParams.insert("b", 300.0);    // Breite
     wizardParams.insert("l", 1000.0);   // Länge
     wizardParams.insert("s", 10.0);     // Wandstärke
+
+    floor = new CAD_basic_box();
+    left = new CAD_basic_box();
+    right = new CAD_basic_box();
+    this->subItems.append(floor);
+    this->subItems.append(left);
+    this->subItems.append(right);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

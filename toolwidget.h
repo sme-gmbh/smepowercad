@@ -45,7 +45,6 @@ private:
     ItemDB* itemDB;
     QString domain;
     bool isOpen;
-    static int s_domainIndex;
 
     void displayItemButtons();
     void deleteWdgs(QLayout *layout);

@@ -18,8 +18,6 @@
 
 CAD_Electrical_EquipmentSwitchOrSocket::CAD_Electrical_EquipmentSwitchOrSocket() : CADitem(CADitemTypes::Electrical_EquipmentSwitchOrSocket)
 {
-    equipment = new CAD_basic_box();
-    this->subItems.append(equipment);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -29,6 +27,9 @@ CAD_Electrical_EquipmentSwitchOrSocket::CAD_Electrical_EquipmentSwitchOrSocket()
     wizardParams.insert("x", 50.0);
     wizardParams.insert("y", 10.0);
     wizardParams.insert("z", 50.0);
+
+    equipment = new CAD_basic_box();
+    this->subItems.append(equipment);
 
     //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     //    arrayBufVertices->create();

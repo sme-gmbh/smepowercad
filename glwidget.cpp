@@ -18,7 +18,7 @@
 GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, ItemGripModifier *itemGripModifier) :
     QOpenGLWidget(parent)
 {
-    //    qDebug() << "Created GLWidget";
+       qDebug() << "Created GLWidget";
     this->itemDB = itemDB;
     this->itemWizard = itemWizard;
     this->itemGripModifier = itemGripModifier;
@@ -36,7 +36,7 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, Item
     this->render_outline = true;
     this->render_maintenance_area = true;
     this->render_selection = false;
-    this->cameraPosition = QVector3D();
+    this->cameraPosition = QVector3D(0.0f, 0.0f, 0.0f);
     this->lookAtPosition = QVector3D(0.0f, 0.0f, 0.0f);
     this->matrix_modelview.setToIdentity();
     this->matrix_projection.setToIdentity();
@@ -1063,14 +1063,6 @@ void GLWidget::paintGL()
     matrix_modelview.scale(this->zoomFactor, this->zoomFactor, 1.0 / 100000.0);
     updateMatrixAll();
 
-//    shaderProgram = shaderProgram_lines;
-//    shaderProgram->bind();
-
-//    shaderProgram = shaderProgram_triangles;
-//    shaderProgram->bind();
-//    shaderProgram->setUniformValue(shader_matrixLocation, matrix_all);
-//    setUseTexture(false);
-
     glClearColor(_backgroundColor.redF(), _backgroundColor.greenF(), _backgroundColor.blueF(), _backgroundColor.alphaF());
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_MULTISAMPLE);
@@ -2029,15 +2021,21 @@ void GLWidget::initializeGL()
 {
     qDebug() << "initializeGL()";
 
-    initializeOpenGLFunctions();
     makeCurrent();
+    bool initializedOpenGLFunktions = initializeOpenGLFunctions();
+    if (!initializedOpenGLFunktions)
+    {
+        QMessageBox::critical(this, tr("Critical error in GLWidget::initializeGL()"), tr("initializeOpenGLFunctions() returned false.\n"
+                                                                                         "Running the correct Qt-version? Check env variable LD_LIBRARY_PATH!\n"
+                                                                                         "Check openGL Version against system requirements: \nglxinfo | grep version"));
+        return;
+    }
+//    makeCurrent();
 
     openGLTimerQuery = new QOpenGLTimerQuery(this);
     openGLTimerQuery->create();
 
     glEnable(GL_FRAMEBUFFER_SRGB);
-//    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE | GL_EMISSION);
-    //    glEnableClientState(GL_VERTEX_ARRAY);
 
     shader_1_vert = new QOpenGLShader(QOpenGLShader::Vertex);
     if (!shader_1_vert->compileSourceFile(":/shaders/shader_1.vert"))
@@ -2237,14 +2235,15 @@ void GLWidget::initializeGL()
     fbo_renderImage = new QOpenGLFramebufferObject(this->width(), this->height(), format);
 }
 
-    void GLWidget::resizeGL(int w, int h)
-    {
-        displayCenter = QPoint(w, h) / 2;
+void GLWidget::resizeGL(int w, int h)
+{
+    qDebug() << "resizeGL()";
+    displayCenter = QPoint(w, h) / 2;
 
-        matrix_projection.setToIdentity();
-        matrix_projection.scale(2.0 / (qreal)w, 2.0 / (qreal)h, 1.0);
-        matrix_projection.translate(-0.5, -0.5);
+    matrix_projection.setToIdentity();
+    matrix_projection.scale(2.0 / (qreal)w, 2.0 / (qreal)h, 1.0);
+    matrix_projection.translate(-0.5, -0.5);
 
-        updateMatrixAll();
-        slot_repaint();
-    }
+    updateMatrixAll();
+    slot_repaint();
+}

@@ -18,17 +18,6 @@
 
 CAD_HeatCool_RadiatorFlangeBent::CAD_HeatCool_RadiatorFlangeBent() : CADitem(CADitemTypes::HeatCool_RadiatorFlangeBent)
 {
-    connector = new CAD_basic_box;
-    pipe_l1 = new CAD_basic_pipe;
-    pipe_l2 = new CAD_basic_pipe;
-    pipe_o1 = new CAD_basic_pipe;
-    pipe_o2 = new CAD_basic_pipe;
-    this->subItems.append(connector);
-    this->subItems.append(pipe_l1);
-    this->subItems.append(pipe_l2);
-    this->subItems.append(pipe_o1);
-    this->subItems.append(pipe_o2);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -41,6 +30,17 @@ CAD_HeatCool_RadiatorFlangeBent::CAD_HeatCool_RadiatorFlangeBent() : CADitem(CAD
     wizardParams.insert("e", 50.0);
     wizardParams.insert("h", 40.0);
     wizardParams.insert("s",  5.0);
+
+    connector = new CAD_basic_box();
+    pipe_l1 = new CAD_basic_pipe();
+    pipe_l2 = new CAD_basic_pipe();
+    pipe_o1 = new CAD_basic_pipe();
+    pipe_o2 = new CAD_basic_pipe();
+    this->subItems.append(connector);
+    this->subItems.append(pipe_l1);
+    this->subItems.append(pipe_l2);
+    this->subItems.append(pipe_o1);
+    this->subItems.append(pipe_o2);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

@@ -18,11 +18,6 @@
 
 CAD_HeatCool_ValveHandwheelGear::CAD_HeatCool_ValveHandwheelGear() : CADitem(CADitemTypes::HeatCool_ValveHandwheelGear)
 {
-    gear = new CAD_basic_box;
-    wheel = new CAD_HeatCool_ValveHandwheel;
-    this->subItems.append(gear);
-    this->subItems.append(wheel);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -36,6 +31,11 @@ CAD_HeatCool_ValveHandwheelGear::CAD_HeatCool_ValveHandwheelGear() : CADitem(CAD
     wizardParams.insert("a",  70.0);
     wizardParams.insert("b1", 40.0);
     wizardParams.insert("b2", 20.0);
+
+    gear = new CAD_basic_box();
+    wheel = new CAD_HeatCool_ValveHandwheel();
+    this->subItems.append(gear);
+    this->subItems.append(wheel);
 
     //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     //    arrayBufVertices->create();

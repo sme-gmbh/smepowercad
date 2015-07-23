@@ -18,11 +18,6 @@
 
 CAD_heatcool_pipeTeeConnector::CAD_heatcool_pipeTeeConnector() : CADitem(CADitemTypes::HeatCool_PipeTeeConnector)
 {
-    pipe = new CAD_basic_pipe;
-    branch = new CAD_basic_pipe;
-    this->subItems.append(pipe);
-    this->subItems.append(branch);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -39,6 +34,11 @@ CAD_heatcool_pipeTeeConnector::CAD_heatcool_pipeTeeConnector() : CADitem(CADitem
     wizardParams.insert("iso3",10.0);
     wizardParams.insert("alpha",90.0);
     wizardParams.insert("s",10.0);
+
+    pipe = new CAD_basic_pipe();
+    branch = new CAD_basic_pipe();
+    this->subItems.append(pipe);
+    this->subItems.append(branch);
 
     processWizardInput();
     calculate();

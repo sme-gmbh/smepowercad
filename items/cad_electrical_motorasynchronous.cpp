@@ -18,16 +18,6 @@
 
 CAD_Electrical_MotorAsynchronous::CAD_Electrical_MotorAsynchronous() : CADitem(CADitemTypes::Electrical_MotorAsynchronous)
 {
-
-    leg_1 = new CAD_basic_box;
-    leg_2 = new CAD_basic_box;
-    motor = new CAD_basic_pipe;
-    axis = new CAD_basic_pipe;
-    this->subItems.append(leg_1);
-    this->subItems.append(leg_2);
-    this->subItems.append(motor);
-    this->subItems.append(axis);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -40,6 +30,15 @@ CAD_Electrical_MotorAsynchronous::CAD_Electrical_MotorAsynchronous() : CADitem(C
     wizardParams.insert("l1", 100.0);
     wizardParams.insert("l2", 700.0);
     wizardParams.insert("e", 500.0);
+
+    leg_1 = new CAD_basic_box();
+    leg_2 = new CAD_basic_box();
+    motor = new CAD_basic_pipe();
+    axis = new CAD_basic_pipe();
+    this->subItems.append(leg_1);
+    this->subItems.append(leg_2);
+    this->subItems.append(motor);
+    this->subItems.append(axis);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

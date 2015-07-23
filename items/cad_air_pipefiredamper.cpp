@@ -18,11 +18,6 @@
 
 CAD_air_pipeFireDamper::CAD_air_pipeFireDamper() : CADitem(CADitemTypes::Air_PipeFireDamper)
 {
-    this->main_pipe = new CAD_basic_pipe();
-    this->function = new CAD_basic_box();
-    this->subItems.append(main_pipe);
-    this->subItems.append(function);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -33,7 +28,12 @@ CAD_air_pipeFireDamper::CAD_air_pipeFireDamper() : CADitem(CADitemTypes::Air_Pip
     wizardParams.insert("l", 1000.0);
     wizardParams.insert("l2", 700.0);
     wizardParams.insert("d",  200.0);
-    wizardParams.insert("s",   10.0);
+    wizardParams.insert("s",    1.0);
+
+    this->main_pipe = new CAD_basic_pipe();
+    this->function = new CAD_basic_box();
+    this->subItems.append(main_pipe);
+    this->subItems.append(function);
 
     processWizardInput();
     calculate();

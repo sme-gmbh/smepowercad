@@ -21,7 +21,6 @@ CAD_air_multiLeafDamper::CAD_air_multiLeafDamper() : CADitem(CADitemTypes::Air_M
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
-
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
@@ -31,14 +30,14 @@ CAD_air_multiLeafDamper::CAD_air_multiLeafDamper() : CADitem(CADitemTypes::Air_M
     wizardParams.insert("l", 1000.0);
     wizardParams.insert("fe",  10.0);
     wizardParams.insert("ff",  10.0);
-    wizardParams.insert("s",   1.0);
+    wizardParams.insert("s",    1.0);
     wizardParams.insert("n",   10);
 
 
     main_duct = new CAD_basic_duct();
     flange_duct_left = new CAD_basic_duct();
     flange_duct_right = new CAD_basic_duct();
-    function = new CAD_basic_box;
+    function = new CAD_basic_box();
 
     subItems.append(main_duct);
     subItems.append(flange_duct_left);

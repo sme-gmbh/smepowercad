@@ -392,6 +392,9 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
    <property name="text">
     <string>Save</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
    </property>

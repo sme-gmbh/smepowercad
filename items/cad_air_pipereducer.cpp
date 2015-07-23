@@ -18,13 +18,6 @@
 
 CAD_air_pipeReducer::CAD_air_pipeReducer() : CADitem(CADitemTypes::Air_PipeReducer)
 {
-    left = new CAD_basic_pipe;
-    right = new CAD_basic_pipe;
-    reducer = new CAD_Basic_PipeReducer;
-    this->subItems.append(left);
-    this->subItems.append(right);
-    this->subItems.append(reducer);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -34,11 +27,18 @@ CAD_air_pipeReducer::CAD_air_pipeReducer() : CADitem(CADitemTypes::Air_PipeReduc
 
     wizardParams.insert("d1", 150.0);
     wizardParams.insert("d2", 200.0);
-    wizardParams.insert("l", 200.0);
-    wizardParams.insert("l1", 50.0);
-    wizardParams.insert("l2", 70.0);
-    wizardParams.insert("e", 10.0);
-    wizardParams.insert("s", 10.0);
+    wizardParams.insert("l",  200.0);
+    wizardParams.insert("l1",  50.0);
+    wizardParams.insert("l2",  70.0);
+    wizardParams.insert("e",   10.0);
+    wizardParams.insert("s",    1.0);
+
+    left = new CAD_basic_pipe();
+    right = new CAD_basic_pipe();
+    reducer = new CAD_Basic_PipeReducer();
+    this->subItems.append(left);
+    this->subItems.append(right);
+    this->subItems.append(reducer);
 
     processWizardInput();
     calculate();

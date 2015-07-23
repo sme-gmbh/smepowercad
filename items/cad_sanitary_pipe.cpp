@@ -18,8 +18,6 @@
 
 CAD_sanitary_pipe::CAD_sanitary_pipe() : CADitem(CADitemTypes::Sanitary_Pipe)
 {
-    pipe = new CAD_basic_pipe;
-    this->subItems.append(pipe);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -30,6 +28,9 @@ CAD_sanitary_pipe::CAD_sanitary_pipe() : CADitem(CADitemTypes::Sanitary_Pipe)
     wizardParams.insert("d", 150.0);
     wizardParams.insert("iso", 15.0);
     wizardParams.insert("s", 10.0);
+
+    pipe = new CAD_basic_pipe();
+    this->subItems.append(pipe);
 
     processWizardInput();
     calculate();

@@ -18,17 +18,6 @@
 
 CAD_HeatCool_PumpInline::CAD_HeatCool_PumpInline() : CADitem(CADitemTypes::HeatCool_PumpInline)
 {
-    pipe = new CAD_basic_pipe;
-    flange_left = new CAD_basic_pipe;
-    flange_right = new CAD_basic_pipe;
-    motor = new CAD_basic_pipe;
-    housing = new CAD_basic_pipe;
-    this->subItems.append(pipe);
-    this->subItems.append(flange_left);
-    this->subItems.append(flange_right);
-    this->subItems.append(motor);
-    this->subItems.append(housing);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -45,6 +34,17 @@ CAD_HeatCool_PumpInline::CAD_HeatCool_PumpInline() : CADitem(CADitemTypes::HeatC
     wizardParams.insert("l", 500.0);
     wizardParams.insert("l1", 400.0);
     wizardParams.insert("s", 10.0);
+
+    pipe = new CAD_basic_pipe();
+    flange_left = new CAD_basic_pipe();
+    flange_right = new CAD_basic_pipe();
+    motor = new CAD_basic_pipe();
+    housing = new CAD_basic_pipe();
+    this->subItems.append(pipe);
+    this->subItems.append(flange_left);
+    this->subItems.append(flange_right);
+    this->subItems.append(motor);
+    this->subItems.append(housing);
 
     processWizardInput();
     calculate();

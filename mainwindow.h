@@ -102,6 +102,7 @@ private:
     QString project_filepath;
 
     void createItemToolBar();
+    void setProjectFilepath(QString filepath);
 
 protected:
     void keyPressEvent(QKeyEvent *event);

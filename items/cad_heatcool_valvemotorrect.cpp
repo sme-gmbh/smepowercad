@@ -18,8 +18,6 @@
 
 CAD_HeatCool_ValveMotorRect::CAD_HeatCool_ValveMotorRect() : CADitem(CADitemTypes::HeatCool_ValveMotorRect)
 {
-    motor = new CAD_basic_box;
-    this->subItems.append(motor);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -30,6 +28,9 @@ CAD_HeatCool_ValveMotorRect::CAD_HeatCool_ValveMotorRect() : CADitem(CADitemType
     wizardParams.insert("e", 200.0);
     wizardParams.insert("f", 600.0);
     wizardParams.insert("h", 700.0);
+
+    motor = new CAD_basic_box();
+    this->subItems.append(motor);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

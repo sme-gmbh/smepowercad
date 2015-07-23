@@ -23,6 +23,7 @@ CAD_basic_sphere::CAD_basic_sphere() : CADitem(CADitemTypes::Basic_Sphere)
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
+
     wizardParams.insert("r", 100.0);
 
     arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);

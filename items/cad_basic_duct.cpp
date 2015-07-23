@@ -26,7 +26,6 @@ CAD_basic_duct::CAD_basic_duct() : CADitem(CADitemTypes::Basic_Duct)
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-
     wizardParams.insert("a",  100.0);
     wizardParams.insert("b",  100.0);
     wizardParams.insert("l", 1000.0);

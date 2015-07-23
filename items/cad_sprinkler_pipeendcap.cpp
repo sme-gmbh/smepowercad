@@ -18,10 +18,6 @@
 
 CAD_sprinkler_pipeEndCap::CAD_sprinkler_pipeEndCap() : CADitem(CADitemTypes::Sprinkler_PipeEndCap)
 {
-    endcap_outer = new CAD_Basic_TorisphericalHeadDIN28011;
-    endcap_inner = new CAD_Basic_TorisphericalHeadDIN28011;
-    this->subItems.append(endcap_outer);
-    this->subItems.append(endcap_inner);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -33,6 +29,11 @@ CAD_sprinkler_pipeEndCap::CAD_sprinkler_pipeEndCap() : CADitem(CADitemTypes::Spr
     wizardParams.insert("s",  10.0);
     wizardParams.insert("fe", 10.0);
     wizardParams.insert("ff", 10.0);
+
+    endcap_outer = new CAD_Basic_TorisphericalHeadDIN28011();
+    endcap_inner = new CAD_Basic_TorisphericalHeadDIN28011();
+    this->subItems.append(endcap_outer);
+    this->subItems.append(endcap_inner);
 
     arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices->create();

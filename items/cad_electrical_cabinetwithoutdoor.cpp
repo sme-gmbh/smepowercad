@@ -18,12 +18,6 @@
 
 CAD_Electrical_CabinetWithoutDoor::CAD_Electrical_CabinetWithoutDoor() : CADitem(CADitemTypes::Electrical_CabinetWithoutDoor)
 {
-    cabinet = new CAD_basic_duct;
-    back = new CAD_basic_box;
-    socket = new CAD_basic_box;
-    this->subItems.append(cabinet);
-    this->subItems.append(back);
-    this->subItems.append(socket);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -37,6 +31,13 @@ CAD_Electrical_CabinetWithoutDoor::CAD_Electrical_CabinetWithoutDoor() : CADitem
     wizardParams.insert("l", 500.0);        // Breite
     wizardParams.insert("i", 100.0);        // Überhang Schrank
     wizardParams.insert("s", 10.0);         // Wandstärke
+
+    cabinet = new CAD_basic_duct();
+    back = new CAD_basic_box();
+    socket = new CAD_basic_box();
+    this->subItems.append(cabinet);
+    this->subItems.append(back);
+    this->subItems.append(socket);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

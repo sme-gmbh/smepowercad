@@ -18,10 +18,6 @@
 
 CAD_Electrical_LuminaireSemicircular::CAD_Electrical_LuminaireSemicircular() : CADitem(CADitemTypes::Electrical_LuminaireSemicircular)
 {
-    mount = new CAD_basic_pipe;
-    hemi = new CAD_Basic_Hemisphere;
-    this->subItems.append(mount);
-    this->subItems.append(hemi);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -34,6 +30,10 @@ CAD_Electrical_LuminaireSemicircular::CAD_Electrical_LuminaireSemicircular() : C
     wizardParams.insert("d1", 200.0);       // Durchmesser des Sockels
     wizardParams.insert("d2", 250.0);       // Durchmesser der Rundung
 
+    mount = new CAD_basic_pipe();
+    hemi = new CAD_Basic_Hemisphere();
+    this->subItems.append(mount);
+    this->subItems.append(hemi);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

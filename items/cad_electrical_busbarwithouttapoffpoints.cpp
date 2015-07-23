@@ -18,8 +18,6 @@
 
 CAD_electrical_busbarwithouttapoffpoints::CAD_electrical_busbarwithouttapoffpoints() : CADitem(CADitemTypes::Electrical_BusbarWithoutTapoffPoints)
 {
-    busbar = new CAD_basic_box();
-    this->subItems.append(busbar);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -29,6 +27,9 @@ CAD_electrical_busbarwithouttapoffpoints::CAD_electrical_busbarwithouttapoffpoin
     wizardParams.insert("a", 100.0);
     wizardParams.insert("b", 20.0);
     wizardParams.insert("l", 1000.0);
+
+    busbar = new CAD_basic_box();
+    this->subItems.append(busbar);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

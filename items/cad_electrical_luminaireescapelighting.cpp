@@ -18,8 +18,6 @@
 
 CAD_Electrical_LuminaireEscapeLighting::CAD_Electrical_LuminaireEscapeLighting() : CADitem(CADitemTypes::Electrical_LuminaireEscapeLighting)
 {
-    lamp = new CAD_basic_box;
-    this->subItems.append(lamp);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -30,6 +28,9 @@ CAD_Electrical_LuminaireEscapeLighting::CAD_Electrical_LuminaireEscapeLighting()
     wizardParams.insert("a", 50.0);
     wizardParams.insert("b", 50.0);
     wizardParams.insert("l", 100.0);
+
+    lamp = new CAD_basic_box();
+    this->subItems.append(lamp);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

@@ -24,10 +24,10 @@ PrintWidget::PrintWidget(QWidget *parent, ItemDB *itemDB) :
     QDockWidget(parent),
     ui(new Ui::PrintWidget)
 {
-    ui->setupUi(this);
     this->printer = NULL;
     this->itemDB = itemDB;
     this->glWidget = new GLWidget(this, itemDB);
+    ui->setupUi(this);
     QVBoxLayout* layout = new QVBoxLayout(ui->graphicWidget);
     layout->addWidget(this->glWidget);
     this->printPaperTemplate = new PrintPaperTemplate(this, this->glWidget);

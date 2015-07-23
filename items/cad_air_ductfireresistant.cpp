@@ -18,8 +18,6 @@
 
 CAD_air_ductFireResistant::CAD_air_ductFireResistant() : CADitem(CADitemTypes::Air_DuctFireResistant)
 {
-    duct = new CAD_air_duct();
-    this->subItems.append(duct);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -32,6 +30,9 @@ CAD_air_ductFireResistant::CAD_air_ductFireResistant() : CADitem(CADitemTypes::A
     wizardParams.insert("fe",  40.0);
     wizardParams.insert("ff",  20.0);
     wizardParams.insert("s",   50.0);
+
+    duct = new CAD_air_duct();
+    this->subItems.append(duct);
 
     processWizardInput();
     calculate();

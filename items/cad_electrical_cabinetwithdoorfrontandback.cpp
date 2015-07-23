@@ -18,14 +18,6 @@
 
 CAD_Electrical_CabinetWithDoorFrontAndBack::CAD_Electrical_CabinetWithDoorFrontAndBack() : CADitem(CADitemTypes::Electrical_CabinetWithDoorFrontAndBack)
 {
-    cabinet = new CAD_basic_duct;
-    back = new CAD_basic_box;
-    door = new CAD_basic_box;
-    socket = new CAD_basic_box;
-    this->subItems.append(cabinet);
-    this->subItems.append(back);
-    this->subItems.append(door);
-    this->subItems.append(socket);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -42,9 +34,14 @@ CAD_Electrical_CabinetWithDoorFrontAndBack::CAD_Electrical_CabinetWithDoorFrontA
     wizardParams.insert("alpha front", -45.0);  // Öffnungswinkel vorne
     wizardParams.insert("alpha back", -45.0);   // Öffnungswinkel hinten
 
-
-    processWizardInput();
-    calculate();
+    cabinet = new CAD_basic_duct();
+    back = new CAD_basic_box();
+    door = new CAD_basic_box();
+    socket = new CAD_basic_box();
+    this->subItems.append(cabinet);
+    this->subItems.append(back);
+    this->subItems.append(door);
+    this->subItems.append(socket);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

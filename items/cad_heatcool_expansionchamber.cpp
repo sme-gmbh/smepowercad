@@ -18,19 +18,6 @@
 
 CAD_heatcool_expansionChamber::CAD_heatcool_expansionChamber() : CADitem(CADitemTypes::HeatCool_ExpansionChamber)
 {
-    upper = new CAD_Basic_TorisphericalHeadDIN28011;
-    lower = new CAD_Basic_TorisphericalHeadDIN28011;
-    pipe = new CAD_basic_pipe;
-    leg_1 = new CAD_basic_box;
-    leg_2 = new CAD_basic_box;
-    leg_3 = new CAD_basic_box;
-    this->subItems.append(upper);
-    this->subItems.append(lower);
-    this->subItems.append(pipe);
-    this->subItems.append(leg_1);
-    this->subItems.append(leg_2);
-    this->subItems.append(leg_3);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -44,6 +31,19 @@ CAD_heatcool_expansionChamber::CAD_heatcool_expansionChamber() : CADitem(CADitem
     wizardParams.insert("d",  150.0);
     wizardParams.insert("d2", 1000.0);
     wizardParams.insert("s",    10.0);
+
+    upper = new CAD_Basic_TorisphericalHeadDIN28011();
+    lower = new CAD_Basic_TorisphericalHeadDIN28011();
+    pipe = new CAD_basic_pipe();
+    leg_1 = new CAD_basic_box();
+    leg_2 = new CAD_basic_box();
+    leg_3 = new CAD_basic_box();
+    this->subItems.append(upper);
+    this->subItems.append(lower);
+    this->subItems.append(pipe);
+    this->subItems.append(leg_1);
+    this->subItems.append(leg_2);
+    this->subItems.append(leg_3);
 
     processWizardInput();
     calculate();

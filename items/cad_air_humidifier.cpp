@@ -28,10 +28,9 @@ CAD_air_humidifier::CAD_air_humidifier() : CADitem(CADitemTypes::Air_Humidifier)
     wizardParams.insert("a", 2000.0);
     wizardParams.insert("b", 2000.0);
     wizardParams.insert("l", 1500.0);
-    wizardParams.insert("s", 1.0);
+    wizardParams.insert("s",    1.0);
 
     duct = new CAD_basic_duct();
-
     subItems.append(duct);
 
     processWizardInput();

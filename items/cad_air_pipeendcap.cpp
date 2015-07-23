@@ -18,10 +18,6 @@
 
 CAD_air_pipeEndCap::CAD_air_pipeEndCap() : CADitem(CADitemTypes::Air_PipeEndCap)
 {
-    endcap_outer = new CAD_Basic_TorisphericalHeadDIN28011();
-    endcap_inner = new CAD_Basic_TorisphericalHeadDIN28011();
-    this->subItems.append(endcap_outer);
-    this->subItems.append(endcap_inner);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -30,9 +26,14 @@ CAD_air_pipeEndCap::CAD_air_pipeEndCap() : CADitem(CADitemTypes::Air_PipeEndCap)
     wizardParams.insert("Angle z", 0.0);
     wizardParams.insert("d", 150.0);
     wizardParams.insert("l", 100.0);
-    wizardParams.insert("s",  10.0);
+    wizardParams.insert("s",   1.0);
     wizardParams.insert("fe", 10.0);
     wizardParams.insert("ff", 10.0);
+
+    endcap_outer = new CAD_Basic_TorisphericalHeadDIN28011();
+    endcap_inner = new CAD_Basic_TorisphericalHeadDIN28011();
+    this->subItems.append(endcap_outer);
+    this->subItems.append(endcap_inner);
 
     arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices->create();

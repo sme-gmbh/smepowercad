@@ -18,17 +18,6 @@
 
 CAD_sprinkler_valve::CAD_sprinkler_valve() : CADitem(CADitemTypes::Sprinkler_Valve)
 {
-    pipe = new CAD_basic_pipe;
-    flange_left = new CAD_basic_pipe;
-    flange_right = new CAD_basic_pipe;
-    valve_1 = new CAD_basic_pipe;
-    valve_2 = new CAD_basic_pipe;
-    this->subItems.append(pipe);
-    this->subItems.append(flange_left);
-    this->subItems.append(flange_right);
-    this->subItems.append(valve_1);
-    this->subItems.append(valve_2);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -46,6 +35,20 @@ CAD_sprinkler_valve::CAD_sprinkler_valve() : CADitem(CADitemTypes::Sprinkler_Val
     wizardParams.insert("l2", 300.0);
     wizardParams.insert("l3", 200.0);
     wizardParams.insert("s",   10.0);
+
+    pipe = new CAD_basic_pipe();
+    flange_left = new CAD_basic_pipe();
+    flange_right = new CAD_basic_pipe();
+    valve_1 = new CAD_basic_pipe();
+    valve_2 = new CAD_basic_pipe();
+    this->subItems.append(pipe);
+    this->subItems.append(flange_left);
+    this->subItems.append(flange_right);
+    this->subItems.append(valve_1);
+    this->subItems.append(valve_2);
+
+    processWizardInput();
+    calculate();
 }
 
 CAD_sprinkler_valve::~CAD_sprinkler_valve()

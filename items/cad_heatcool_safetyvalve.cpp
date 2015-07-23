@@ -18,21 +18,6 @@
 
 CAD_heatcool_safetyValve::CAD_heatcool_safetyValve() : CADitem(CADitemTypes::HeatCool_SafetyValve)
 {
-    pipe_left = new CAD_basic_pipe;
-    pipe_lower = new CAD_basic_pipe;
-    flange_left = new CAD_basic_pipe;
-    flange_lower = new CAD_basic_pipe;
-    valve =new CAD_basic_pipe;
-    handle_1 = new CAD_basic_box;
-    handle_2 = new CAD_basic_box;
-    this->subItems.append(pipe_left);
-    this->subItems.append(pipe_lower);
-    this->subItems.append(flange_left);
-    this->subItems.append(flange_lower);
-    this->subItems.append(valve);
-    this->subItems.append(handle_1);
-    this->subItems.append(handle_2);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -50,6 +35,21 @@ CAD_heatcool_safetyValve::CAD_heatcool_safetyValve() : CADitem(CADitemTypes::Hea
     wizardParams.insert("l1", 200.0);
     wizardParams.insert("l2", 200.0);
     wizardParams.insert("s", 10.0);
+
+    pipe_left = new CAD_basic_pipe();
+    pipe_lower = new CAD_basic_pipe();
+    flange_left = new CAD_basic_pipe();
+    flange_lower = new CAD_basic_pipe();
+    valve =new CAD_basic_pipe();
+    handle_1 = new CAD_basic_box();
+    handle_2 = new CAD_basic_box();
+    this->subItems.append(pipe_left);
+    this->subItems.append(pipe_lower);
+    this->subItems.append(flange_left);
+    this->subItems.append(flange_lower);
+    this->subItems.append(valve);
+    this->subItems.append(handle_1);
+    this->subItems.append(handle_2);
 
     processWizardInput();
     calculate();

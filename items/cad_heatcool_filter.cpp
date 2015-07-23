@@ -18,16 +18,6 @@
 
 CAD_heatcool_filter::CAD_heatcool_filter() : CADitem(CADitemTypes::HeatCool_Filter)
 {
-    filter = new CAD_basic_pipe;
-    flange_left = new CAD_basic_pipe;
-    flange_right = new CAD_basic_pipe;
-    pipe_left = new CAD_basic_pipe;
-    pipe_right = new CAD_basic_pipe;
-    this->subItems.append(filter);
-    this->subItems.append(flange_left);
-    this->subItems.append(flange_right);
-    this->subItems.append(pipe_left);
-    this->subItems.append(pipe_right);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -44,6 +34,17 @@ CAD_heatcool_filter::CAD_heatcool_filter() : CADitem(CADitemTypes::HeatCool_Filt
     wizardParams.insert("l",  500.0);
     wizardParams.insert("d",  150.0);
     wizardParams.insert("s",   10.0);
+
+    filter = new CAD_basic_pipe();
+    flange_left = new CAD_basic_pipe();
+    flange_right = new CAD_basic_pipe();
+    pipe_left = new CAD_basic_pipe();
+    pipe_right = new CAD_basic_pipe();
+    this->subItems.append(filter);
+    this->subItems.append(flange_left);
+    this->subItems.append(flange_right);
+    this->subItems.append(pipe_left);
+    this->subItems.append(pipe_right);
 
     processWizardInput();
     calculate();

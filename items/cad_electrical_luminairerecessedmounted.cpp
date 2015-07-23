@@ -18,10 +18,6 @@
 
 CAD_Electrical_LuminaireRecessedMounted::CAD_Electrical_LuminaireRecessedMounted() : CADitem(CADitemTypes::Electrical_LuminaireRecessedMounted)
 {
-    recess = new CAD_basic_box;
-    lamp = new CAD_basic_box;
-    this->subItems.append(recess);
-    this->subItems.append(lamp);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -35,6 +31,11 @@ CAD_Electrical_LuminaireRecessedMounted::CAD_Electrical_LuminaireRecessedMounted
     wizardParams.insert("h", 50.0);
     wizardParams.insert("l", 1050.0);
     wizardParams.insert("l1", 1000.0);
+
+    recess = new CAD_basic_box();
+    lamp = new CAD_basic_box();
+    this->subItems.append(recess);
+    this->subItems.append(lamp);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

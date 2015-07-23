@@ -18,15 +18,6 @@
 
 CAD_air_pipeVolumetricFlowController::CAD_air_pipeVolumetricFlowController() : CADitem(CADitemTypes::Air_PipeVolumetricFlowController)
 {
-    mainPipe = new CAD_basic_pipe();
-    function = new CAD_basic_box();
-    handle = new CAD_basic_box();
-    controller = new CAD_basic_pipe();
-    this->subItems.append(mainPipe);
-    this->subItems.append(function);
-    this->subItems.append(handle);
-    this->subItems.append(controller);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -36,7 +27,16 @@ CAD_air_pipeVolumetricFlowController::CAD_air_pipeVolumetricFlowController() : C
 
     wizardParams.insert("l", 300.0);
     wizardParams.insert("d", 300.0);
-    wizardParams.insert("s", 5.0);
+    wizardParams.insert("s",   1.0);
+
+    mainPipe = new CAD_basic_pipe();
+    function = new CAD_basic_box();
+    handle = new CAD_basic_box();
+    controller = new CAD_basic_pipe();
+    this->subItems.append(mainPipe);
+    this->subItems.append(function);
+    this->subItems.append(handle);
+    this->subItems.append(controller);
 
     processWizardInput();
     calculate();

@@ -18,15 +18,6 @@
 
 CAD_HeatCool_NonReturnValve::CAD_HeatCool_NonReturnValve() : CADitem(CADitemTypes::HeatCool_NonReturnValve)
 {
-    flange_left = new CAD_basic_pipe;
-    flange_right = new CAD_basic_pipe;
-    pipe = new CAD_basic_pipe;
-    valve = new CAD_basic_pipe;
-    this->subItems.append(flange_left);
-    this->subItems.append(flange_right);
-    this->subItems.append(pipe);
-    this->subItems.append(valve);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -40,6 +31,15 @@ CAD_HeatCool_NonReturnValve::CAD_HeatCool_NonReturnValve() : CADitem(CADitemType
     wizardParams.insert("s", 10.0);
     wizardParams.insert("fe", 10.0);
     wizardParams.insert("ff", 10.0);
+
+    flange_left = new CAD_basic_pipe();
+    flange_right = new CAD_basic_pipe();
+    pipe = new CAD_basic_pipe();
+    valve = new CAD_basic_pipe();
+    this->subItems.append(flange_left);
+    this->subItems.append(flange_right);
+    this->subItems.append(pipe);
+    this->subItems.append(valve);
 
     //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     //    arrayBufVertices->create();

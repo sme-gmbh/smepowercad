@@ -35,7 +35,7 @@ CAD_air_ductTurn::CAD_air_ductTurn() : CADitem(CADitemTypes::Air_DuctTurn)
     wizardParams.insert("l1",     50.0);
     wizardParams.insert("fe",     10.0);
     wizardParams.insert("ff",     10.0);
-    wizardParams.insert("s",      10.0);
+    wizardParams.insert("s",       1.0);
 
     flange_left_duct = new CAD_basic_duct();
     flange_right_duct = new CAD_basic_duct();
@@ -54,11 +54,8 @@ CAD_air_ductTurn::CAD_air_ductTurn() : CADitem(CADitemTypes::Air_DuctTurn)
     indexBufLines->create();
     indexBufLines->setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-
     processWizardInput();
     calculate();
-
-
 }
 
 CAD_air_ductTurn::~CAD_air_ductTurn()

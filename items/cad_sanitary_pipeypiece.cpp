@@ -18,15 +18,6 @@
 
 CAD_Sanitary_PipeYPiece::CAD_Sanitary_PipeYPiece() : CADitem(CADitemTypes::Sanitary_PipeYPiece)
 {
-    pipe = new CAD_basic_pipe;
-    branch_1 = new CAD_basic_pipe;
-    branch_2 = new CAD_basic_pipe;
-    reducer = new CAD_Basic_PipeReducer;
-    this->subItems.append(pipe);
-    this->subItems.append(branch_1);
-    this->subItems.append(branch_2);
-    this->subItems.append(reducer);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -42,6 +33,15 @@ CAD_Sanitary_PipeYPiece::CAD_Sanitary_PipeYPiece() : CADitem(CADitemTypes::Sanit
     wizardParams.insert("l2",    150.0);
     wizardParams.insert("alpha",  30.0);
     wizardParams.insert("s",      10.0);
+
+    pipe = new CAD_basic_pipe();
+    branch_1 = new CAD_basic_pipe();
+    branch_2 = new CAD_basic_pipe();
+    reducer = new CAD_Basic_PipeReducer();
+    this->subItems.append(pipe);
+    this->subItems.append(branch_1);
+    this->subItems.append(branch_2);
+    this->subItems.append(reducer);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

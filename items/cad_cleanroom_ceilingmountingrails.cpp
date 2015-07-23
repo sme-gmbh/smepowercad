@@ -29,7 +29,7 @@ CAD_Cleanroom_CeilingMountingRails::CAD_Cleanroom_CeilingMountingRails() : CADit
     wizardParams.insert("b",  20.0);
     wizardParams.insert("l", 500.0);
 
-    box = new CAD_basic_box;
+    box = new CAD_basic_box();
     this->subItems.append(box);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);

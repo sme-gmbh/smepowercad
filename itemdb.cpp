@@ -56,8 +56,8 @@ void ItemDB::deriveDomainsAndItemTypes()
         }
         else
         {
-//            QString enumName = CADitemTypes().getEnumNameOfItemType((CADitemTypes::ItemType)type);
-//            qDebug() << "ItemDB::deriveDomainsAndItemTypes()" << enumName;
+            QString enumName = CADitemTypes().getEnumNameOfItemType((CADitemTypes::ItemType)type);
+            qDebug() << "ItemDB::deriveDomainsAndItemTypes()" << enumName;
         }
 
         itemTypesByDomain.insertMulti(item->domain(), (int)type);

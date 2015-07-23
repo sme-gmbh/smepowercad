@@ -30,7 +30,7 @@ CAD_air_ductVolumetricFlowController::CAD_air_ductVolumetricFlowController() : C
     wizardParams.insert("l", 1000.0);
     wizardParams.insert("fe",  10.0);
     wizardParams.insert("ff",  10.0);
-    wizardParams.insert("s",   10.0);
+    wizardParams.insert("s",    1.0);
 
     this->duct = new CAD_air_duct();
     this->flap = new CAD_basic_box();

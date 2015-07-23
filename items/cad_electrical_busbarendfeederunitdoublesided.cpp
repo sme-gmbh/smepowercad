@@ -18,12 +18,6 @@
 
 CAD_Electrical_BusbarEndFeederUnitDoubleSided::CAD_Electrical_BusbarEndFeederUnitDoubleSided() : CADitem(CADitemTypes::Electrical_BusbarEndFeederUnitDoubleSided)
 {
-    feeder = new CAD_basic_box;
-    plug_1 = new CAD_basic_box;
-    plug_2 = new CAD_basic_box;
-    this->subItems.append(feeder);
-    this->subItems.append(plug_1);
-    this->subItems.append(plug_2);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -38,6 +32,13 @@ CAD_Electrical_BusbarEndFeederUnitDoubleSided::CAD_Electrical_BusbarEndFeederUni
     wizardParams.insert("f", 100.0);    // Breite des Anschlusses in y-Richtung
     wizardParams.insert("u", 100.0);    // Abstand des Anschlusses in z-Richtung
     wizardParams.insert("v", 100.0);    // Abstand des Anschlusses in y-Richtung
+
+    feeder = new CAD_basic_box();
+    plug_1 = new CAD_basic_box();
+    plug_2 = new CAD_basic_box();
+    this->subItems.append(feeder);
+    this->subItems.append(plug_1);
+    this->subItems.append(plug_2);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

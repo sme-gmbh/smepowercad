@@ -19,19 +19,6 @@
 
 CAD_air_ductYpiece::CAD_air_ductYpiece() : CADitem(CADitemTypes::Air_DuctYpiece)
 {
-    endcap_1 = new CAD_basic_duct;
-    endcap_2 = new CAD_basic_duct;
-    endcap_3 = new CAD_basic_duct;
-    flange_1 = new CAD_basic_duct;
-    flange_2 = new CAD_basic_duct;
-    flange_3 = new CAD_basic_duct;
-    subItems.append(endcap_1);
-    subItems.append(endcap_2);
-    subItems.append(endcap_3);
-    subItems.append(flange_1);
-    subItems.append(flange_2);
-    subItems.append(flange_3);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -39,21 +26,32 @@ CAD_air_ductYpiece::CAD_air_ductYpiece() : CADitem(CADitemTypes::Air_DuctYpiece)
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-
     wizardParams.insert("a",  200.0);
     wizardParams.insert("a2", 300.0);
     wizardParams.insert("b",  300.0);
     wizardParams.insert("b2", 100.0);
     wizardParams.insert("b3", 100.0);
     wizardParams.insert("l", 1000.0);
-
     wizardParams.insert("e",    0.0);
     wizardParams.insert("f",    0.0);
     wizardParams.insert("m",  100.0);
     wizardParams.insert("u",   50.0);
     wizardParams.insert("fe",  10.0);
     wizardParams.insert("ff",  10.0);
-    wizardParams.insert("s",   10.0);
+    wizardParams.insert("s",    1.0);
+
+    endcap_1 = new CAD_basic_duct();
+    endcap_2 = new CAD_basic_duct();
+    endcap_3 = new CAD_basic_duct();
+    flange_1 = new CAD_basic_duct();
+    flange_2 = new CAD_basic_duct();
+    flange_3 = new CAD_basic_duct();
+    subItems.append(endcap_1);
+    subItems.append(endcap_2);
+    subItems.append(endcap_3);
+    subItems.append(flange_1);
+    subItems.append(flange_2);
+    subItems.append(flange_3);
 
     arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices->create();

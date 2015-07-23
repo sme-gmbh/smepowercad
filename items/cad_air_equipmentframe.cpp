@@ -31,7 +31,6 @@ CAD_air_equipmentFrame::CAD_air_equipmentFrame() : CADitem(CADitemTypes::Air_Equ
     wizardParams.insert("e", 100.0);
 
     duct = new CAD_basic_duct();
-
     subItems.append(duct);
 
     processWizardInput();

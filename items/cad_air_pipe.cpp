@@ -18,9 +18,6 @@
 
 CAD_air_pipe::CAD_air_pipe() : CADitem(CADitemTypes::Air_Pipe)
 {
-    pipe = new CAD_basic_pipe();
-    subItems.append(pipe);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -30,7 +27,10 @@ CAD_air_pipe::CAD_air_pipe() : CADitem(CADitemTypes::Air_Pipe)
 
     wizardParams.insert("l", 1000.0);
     wizardParams.insert("d",  200.0);
-    wizardParams.insert("s",   5.0);
+    wizardParams.insert("s",   1.0);
+
+    pipe = new CAD_basic_pipe();
+    subItems.append(pipe);
 
     processWizardInput();
     calculate();

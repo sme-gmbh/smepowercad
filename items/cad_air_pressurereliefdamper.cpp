@@ -30,10 +30,10 @@ CAD_air_pressureReliefDamper::CAD_air_pressureReliefDamper() : CADitem(CADitemTy
     wizardParams.insert("l",  200.0);
     wizardParams.insert("fe",   0.0);
     wizardParams.insert("ff",   0.0);
-    wizardParams.insert("s",   20.0);
+    wizardParams.insert("s",    1.0);
 
-    duct = new CAD_basic_duct;
-    flange = new CAD_basic_duct;
+    duct = new CAD_basic_duct();
+    flange = new CAD_basic_duct();
     this->subItems.append(duct);
     this->subItems.append(flange);
 

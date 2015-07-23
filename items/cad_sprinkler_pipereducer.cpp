@@ -18,13 +18,6 @@
 
 CAD_sprinkler_pipeReducer::CAD_sprinkler_pipeReducer() : CADitem(CADitemTypes::Sprinkler_PipeReducer)
 {
-    left = new CAD_basic_pipe;
-    right = new CAD_basic_pipe;
-    reducer = new CAD_Basic_PipeReducer;
-    this->subItems.append(left);
-    this->subItems.append(right);
-    this->subItems.append(reducer);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -39,6 +32,13 @@ CAD_sprinkler_pipeReducer::CAD_sprinkler_pipeReducer() : CADitem(CADitemTypes::S
     wizardParams.insert("l2", 70.0);
     wizardParams.insert("e", 10.0);
     wizardParams.insert("s", 10.0);
+
+    left = new CAD_basic_pipe();
+    right = new CAD_basic_pipe();
+    reducer = new CAD_Basic_PipeReducer();
+    this->subItems.append(left);
+    this->subItems.append(right);
+    this->subItems.append(reducer);
 
     processWizardInput();
     calculate();

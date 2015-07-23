@@ -18,8 +18,6 @@
 
 CAD_arch_levelSlab::CAD_arch_levelSlab() : CADitem(CADitemTypes::Arch_LevelSlab)
 {
-    slab = new CAD_basic_box();
-    subItems.append(slab);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -30,6 +28,9 @@ CAD_arch_levelSlab::CAD_arch_levelSlab() : CADitem(CADitemTypes::Arch_LevelSlab)
     wizardParams.insert("a",  500.0);
     wizardParams.insert("b", 4000.0);
     wizardParams.insert("l", 4000.0);
+
+    slab = new CAD_basic_box();
+    subItems.append(slab);
 
     processWizardInput();
     calculate();

@@ -18,13 +18,6 @@
 
 CAD_sprinkler_pipeTurn::CAD_sprinkler_pipeTurn() : CADitem(CADitemTypes::Sprinkler_PipeTurn)
 {
-    turn = new CAD_basic_turn;
-    left = new CAD_basic_pipe;
-    right = new CAD_basic_pipe;
-    this->subItems.append(turn);
-    this->subItems.append(left);
-    this->subItems.append(right);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -38,6 +31,13 @@ CAD_sprinkler_pipeTurn::CAD_sprinkler_pipeTurn() : CADitem(CADitemTypes::Sprinkl
     wizardParams.insert("s", 10.0);
     wizardParams.insert("l1", 100.0);
     wizardParams.insert("l2", 100.0);
+
+    turn = new CAD_basic_turn();
+    left = new CAD_basic_pipe();
+    right = new CAD_basic_pipe();
+    this->subItems.append(turn);
+    this->subItems.append(left);
+    this->subItems.append(right);
 
     processWizardInput();
     calculate();

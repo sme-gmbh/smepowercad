@@ -18,11 +18,6 @@
 
 CAD_sprinkler_head::CAD_sprinkler_head() : CADitem(CADitemTypes::Sprinkler_Head)
 {
-    head = new CAD_basic_circle;
-    endcap = new CAD_basic_pipe;
-    this->subItems.append(head);
-    this->subItems.append(endcap);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -33,6 +28,11 @@ CAD_sprinkler_head::CAD_sprinkler_head() : CADitem(CADitemTypes::Sprinkler_Head)
     wizardParams.insert("a", 50.0);
     wizardParams.insert("d", 20.0);
     wizardParams.insert("d2", 50.0);
+
+    head = new CAD_basic_circle();
+    endcap = new CAD_basic_pipe();
+    this->subItems.append(head);
+    this->subItems.append(endcap);
 
     processWizardInput();
     calculate();

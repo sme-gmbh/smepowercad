@@ -18,15 +18,6 @@
 
 CAD_air_heatExchangerWaterAir::CAD_air_heatExchangerWaterAir() : CADitem(CADitemTypes::Air_HeatExchangerWaterAir)
 {
-    this->duct = new CAD_air_duct();
-    this->pipe3 = new CAD_basic_pipe();
-    this->pipe4 = new CAD_basic_pipe();
-    this->exchanger = new CAD_basic_box();
-    this->subItems.append(duct);
-    this->subItems.append(pipe3);
-    this->subItems.append(pipe4);
-    this->subItems.append(exchanger);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -45,7 +36,16 @@ CAD_air_heatExchangerWaterAir::CAD_air_heatExchangerWaterAir() : CADitem(CADitem
     wizardParams.insert("m4", 400.0);
     wizardParams.insert("fe",  10.0);
     wizardParams.insert("ff",  10.0);
-    wizardParams.insert("s",   10.0);
+    wizardParams.insert("s",    1.0);
+
+    this->duct = new CAD_air_duct();
+    this->pipe3 = new CAD_basic_pipe();
+    this->pipe4 = new CAD_basic_pipe();
+    this->exchanger = new CAD_basic_box();
+    this->subItems.append(duct);
+    this->subItems.append(pipe3);
+    this->subItems.append(pipe4);
+    this->subItems.append(exchanger);
 
     processWizardInput();
     calculate();

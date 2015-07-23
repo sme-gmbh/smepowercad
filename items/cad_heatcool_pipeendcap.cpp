@@ -18,12 +18,6 @@
 
 CAD_heatcool_pipeEndCap::CAD_heatcool_pipeEndCap() : CADitem(CADitemTypes::HeatCool_PipeEndCap)
 {
-    flange = new CAD_basic_pipe;
-    endcap_outer = new CAD_Basic_TorisphericalHeadDIN28011;
-    endcap_inner = new CAD_Basic_TorisphericalHeadDIN28011;
-    this->subItems.append(endcap_outer);
-    this->subItems.append(endcap_inner);
-    this->subItems.append(flange);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -35,6 +29,13 @@ CAD_heatcool_pipeEndCap::CAD_heatcool_pipeEndCap() : CADitem(CADitemTypes::HeatC
     wizardParams.insert("s",  10.0);
     wizardParams.insert("fe", 10.0);
     wizardParams.insert("ff", 10.0);
+
+    flange = new CAD_basic_pipe();
+    endcap_outer = new CAD_Basic_TorisphericalHeadDIN28011();
+    endcap_inner = new CAD_Basic_TorisphericalHeadDIN28011();
+    this->subItems.append(endcap_outer);
+    this->subItems.append(endcap_inner);
+    this->subItems.append(flange);
 
     arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices->create();

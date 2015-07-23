@@ -18,17 +18,6 @@
 
 CAD_HeatCool_DirtArrester::CAD_HeatCool_DirtArrester() : CADitem(CADitemTypes::HeatCool_DirtArrester)
 {
-    pipe = new CAD_basic_pipe;
-    flange_left = new CAD_basic_pipe;
-    flange_right = new CAD_basic_pipe;
-    flap = new CAD_basic_pipe;
-    flap_outline = new CAD_basic_pipe;
-    this->subItems.append(pipe);
-    this->subItems.append(flange_left);
-    this->subItems.append(flange_right);
-    this->subItems.append(flap);
-    this->subItems.append(flap_outline);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -44,6 +33,17 @@ CAD_HeatCool_DirtArrester::CAD_HeatCool_DirtArrester() : CADitem(CADitemTypes::H
     wizardParams.insert("ff", 10.0);
     wizardParams.insert("s",  10.0);
     wizardParams.insert("m", 200.0);
+
+    pipe = new CAD_basic_pipe();
+    flange_left = new CAD_basic_pipe();
+    flange_right = new CAD_basic_pipe();
+    flap = new CAD_basic_pipe();
+    flap_outline = new CAD_basic_pipe();
+    this->subItems.append(pipe);
+    this->subItems.append(flange_left);
+    this->subItems.append(flange_right);
+    this->subItems.append(flap);
+    this->subItems.append(flap_outline);
 
     //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     //    arrayBufVertices->create();

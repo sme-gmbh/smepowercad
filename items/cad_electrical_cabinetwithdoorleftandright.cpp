@@ -18,16 +18,6 @@
 
 CAD_Electrical_CabinetWithDoorLeftAndRight::CAD_Electrical_CabinetWithDoorLeftAndRight() : CADitem(CADitemTypes::Electrical_CabinetWithDoorLeftAndRight)
 {
-    cabinet = new CAD_basic_duct;
-    back = new CAD_basic_box;
-    door_left = new CAD_basic_box;
-    door_right = new CAD_basic_box;
-    socket = new CAD_basic_box;
-    this->subItems.append(cabinet);
-    this->subItems.append(back);
-    this->subItems.append(door_left);
-    this->subItems.append(door_right);
-    this->subItems.append(socket);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -45,9 +35,16 @@ CAD_Electrical_CabinetWithDoorLeftAndRight::CAD_Electrical_CabinetWithDoorLeftAn
     wizardParams.insert("alpha left", 45.0);        // Öffnungswinkel links
     wizardParams.insert("alpha right", 45.0);       // Öffnungswinkel rechts
 
-
-    processWizardInput();
-    calculate();
+    cabinet = new CAD_basic_duct();
+    back = new CAD_basic_box();
+    door_left = new CAD_basic_box();
+    door_right = new CAD_basic_box();
+    socket = new CAD_basic_box();
+    this->subItems.append(cabinet);
+    this->subItems.append(back);
+    this->subItems.append(door_left);
+    this->subItems.append(door_right);
+    this->subItems.append(socket);
 
     //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     //    arrayBufVertices->create();

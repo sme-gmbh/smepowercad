@@ -18,12 +18,6 @@
 
 CAD_HeatCool_NonReturnFlap::CAD_HeatCool_NonReturnFlap() : CADitem(CADitemTypes::HeatCool_NonReturnFlap)
 {
-    flange_left = new CAD_basic_pipe;
-    flange_right = new CAD_basic_pipe;
-    valve = new CAD_heatcool_pipeReducer;
-    this->subItems.append(flange_left);
-    this->subItems.append(flange_right);
-    this->subItems.append(valve);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -37,6 +31,13 @@ CAD_HeatCool_NonReturnFlap::CAD_HeatCool_NonReturnFlap() : CADitem(CADitemTypes:
     wizardParams.insert("s", 10.0);
     wizardParams.insert("fe", 10.0);
     wizardParams.insert("ff", 10.0);
+
+    flange_left = new CAD_basic_pipe();
+    flange_right = new CAD_basic_pipe();
+    valve = new CAD_heatcool_pipeReducer();
+    this->subItems.append(flange_left);
+    this->subItems.append(flange_right);
+    this->subItems.append(valve);
 
     //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     //    arrayBufVertices->create();

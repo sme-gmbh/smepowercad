@@ -18,11 +18,6 @@
 
 CAD_Basic_Gauge::CAD_Basic_Gauge() : CADitem(CADitemTypes::Basic_Gauge)
 {
-    gauge = new CAD_basic_pipe;
-    probe = new CAD_basic_box;
-    this->subItems.append(gauge);
-    this->subItems.append(probe);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -33,6 +28,12 @@ CAD_Basic_Gauge::CAD_Basic_Gauge() : CADitem(CADitemTypes::Basic_Gauge)
     wizardParams.insert("l", 25.0);
     wizardParams.insert("d", 100.0);
     wizardParams.insert("h", 250.0);
+
+    gauge = new CAD_basic_pipe();
+    probe = new CAD_basic_box();
+    this->subItems.append(gauge);
+    this->subItems.append(probe);
+
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();
 //    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);

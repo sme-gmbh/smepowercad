@@ -18,15 +18,6 @@
 
 CAD_HeatCool_ButterflyValveClamped::CAD_HeatCool_ButterflyValveClamped() : CADitem(CADitemTypes::HeatCool_ButterflyValveClamped)
 {
-    pipe = new CAD_basic_pipe;
-    ring_upper = new CAD_Basic_Flume;
-    ring_lower = new CAD_Basic_Flume;
-    upper = new CAD_basic_pipe;
-    this->subItems.append(pipe);
-    this->subItems.append(ring_upper);
-    this->subItems.append(ring_lower);
-    this->subItems.append(upper);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -40,6 +31,30 @@ CAD_HeatCool_ButterflyValveClamped::CAD_HeatCool_ButterflyValveClamped() : CADit
     wizardParams.insert("h", 120.0);
     wizardParams.insert("t", 200.0);
     wizardParams.insert("s",  10.0);
+
+    pipe = new CAD_basic_pipe();
+    ring_upper = new CAD_Basic_Flume();
+    ring_lower = new CAD_Basic_Flume();
+    upper = new CAD_basic_pipe();
+    this->subItems.append(pipe);
+    this->subItems.append(ring_upper);
+    this->subItems.append(ring_lower);
+    this->subItems.append(upper);
+
+    //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    //    arrayBufVertices->create();
+    //    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+    //    indexBufFaces = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    //    indexBufFaces->create();
+    //    indexBufFaces->setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+    //    indexBufLines = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    //    indexBufLines->create();
+    //    indexBufLines->setUsagePattern(QOpenGLBuffer::StaticDraw);
+
+    processWizardInput();
+    calculate();
 }
 
 CAD_HeatCool_ButterflyValveClamped::~CAD_HeatCool_ButterflyValveClamped()

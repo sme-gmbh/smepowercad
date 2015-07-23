@@ -18,16 +18,6 @@
 
 CAD_Electrical_CabletrayCross::CAD_Electrical_CabletrayCross() : CADitem(CADitemTypes::Electrical_CabletrayCross)
 {
-    cross = new CAD_basic_box;
-    ct_1 = new CAD_electrical_cabletray;
-    ct_2 = new CAD_electrical_cabletray;
-    ct_3 = new CAD_electrical_cabletray;
-    ct_4 = new CAD_electrical_cabletray;
-    this->subItems.append(cross);
-    this->subItems.append(ct_1);
-    this->subItems.append(ct_2);
-    this->subItems.append(ct_3);
-    this->subItems.append(ct_4);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -41,6 +31,17 @@ CAD_Electrical_CabletrayCross::CAD_Electrical_CabletrayCross() : CADitem(CADitem
     wizardParams.insert("l", 300.0);        // Länge Kreuzung
     wizardParams.insert("l1", 100.0);       // Endstück in x-Richtung
     wizardParams.insert("s", 10.0);         // Wandstärke
+
+    cross = new CAD_basic_box();
+    ct_1 = new CAD_electrical_cabletray();
+    ct_2 = new CAD_electrical_cabletray();
+    ct_3 = new CAD_electrical_cabletray();
+    ct_4 = new CAD_electrical_cabletray();
+    this->subItems.append(cross);
+    this->subItems.append(ct_1);
+    this->subItems.append(ct_2);
+    this->subItems.append(ct_3);
+    this->subItems.append(ct_4);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

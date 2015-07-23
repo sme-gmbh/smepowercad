@@ -19,20 +19,6 @@
 
 CAD_air_ductTeeConnector::CAD_air_ductTeeConnector() : CADitem(CADitemTypes::Air_DuctTeeConnector)
 {
-    endcap_1 = new CAD_basic_duct();
-    endcap_2 = new CAD_basic_duct();
-    endcap_3 = new CAD_basic_duct();
-    flange_1 = new CAD_basic_duct();
-    flange_2 = new CAD_basic_duct();
-    flange_3 = new CAD_basic_duct();
-
-    this->subItems.append(endcap_1);
-    this->subItems.append(endcap_2);
-    this->subItems.append(endcap_3);
-    this->subItems.append(flange_1);
-    this->subItems.append(flange_2);
-    this->subItems.append(flange_3);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -56,7 +42,21 @@ CAD_air_ductTeeConnector::CAD_air_ductTeeConnector() : CADitem(CADitemTypes::Air
     wizardParams.insert("u",  500.0);
     wizardParams.insert("fe",  10.0);
     wizardParams.insert("ff",  10.0);
-    wizardParams.insert("s",   10.0);
+    wizardParams.insert("s",    1.0);
+
+    endcap_1 = new CAD_basic_duct();
+    endcap_2 = new CAD_basic_duct();
+    endcap_3 = new CAD_basic_duct();
+    flange_1 = new CAD_basic_duct();
+    flange_2 = new CAD_basic_duct();
+    flange_3 = new CAD_basic_duct();
+
+    this->subItems.append(endcap_1);
+    this->subItems.append(endcap_2);
+    this->subItems.append(endcap_3);
+    this->subItems.append(flange_1);
+    this->subItems.append(flange_2);
+    this->subItems.append(flange_3);
 
     arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices->create();

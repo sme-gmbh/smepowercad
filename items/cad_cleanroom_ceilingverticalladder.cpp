@@ -18,18 +18,6 @@
 
 CAD_Cleanroom_CeilingVerticalLadder::CAD_Cleanroom_CeilingVerticalLadder() : CADitem(CADitemTypes::Cleanroom_CeilingVerticalLadder)
 {
-    left = new CAD_basic_box;
-    right = new CAD_basic_box;
-    left_down = new CAD_basic_box;
-    right_down = new CAD_basic_box;
-    left_horizontal = new CAD_basic_box;
-    right_horizontal = new CAD_basic_box;
-    this->subItems.append(left);
-    this->subItems.append(right);
-    this->subItems.append(left_down);
-    this->subItems.append(right_down);
-    this->subItems.append(left_horizontal);
-    this->subItems.append(right_horizontal);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -47,6 +35,18 @@ CAD_Cleanroom_CeilingVerticalLadder::CAD_Cleanroom_CeilingVerticalLadder() : CAD
     wizardParams.insert("l4", 500.0);    // Überhang Handlauf (in z-Richtung)
     wizardParams.insert("n",    7);      // Anzahl der Sprossen
 
+    left = new CAD_basic_box();
+    right = new CAD_basic_box();
+    left_down = new CAD_basic_box();
+    right_down = new CAD_basic_box();
+    left_horizontal = new CAD_basic_box();
+    right_horizontal = new CAD_basic_box();
+    this->subItems.append(left);
+    this->subItems.append(right);
+    this->subItems.append(left_down);
+    this->subItems.append(right_down);
+    this->subItems.append(left_horizontal);
+    this->subItems.append(right_horizontal);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

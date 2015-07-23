@@ -18,17 +18,6 @@
 
 CAD_air_ductFireDamper::CAD_air_ductFireDamper() : CADitem(CADitemTypes::Air_DuctFireDamper)
 {
-    this->flange_duct_left = new CAD_basic_duct();
-    this->flange_duct_middle = new CAD_basic_box();
-    this->flange_duct_right = new CAD_basic_duct();
-    this->main_duct = new CAD_basic_duct();
-    this->function = new CAD_basic_box();
-    this->subItems.append(flange_duct_left);
-    this->subItems.append(flange_duct_middle);
-    this->subItems.append(flange_duct_right);
-    this->subItems.append(main_duct);
-    this->subItems.append(function);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -45,7 +34,18 @@ CAD_air_ductFireDamper::CAD_air_ductFireDamper() : CADitem(CADitemTypes::Air_Duc
     wizardParams.insert("h",  250.0);
     wizardParams.insert("fe",  10.0);
     wizardParams.insert("ff",  10.0);
-    wizardParams.insert("s",   10.0);
+    wizardParams.insert("s",    1.0);
+
+    this->flange_duct_left = new CAD_basic_duct();
+    this->flange_duct_middle = new CAD_basic_box();
+    this->flange_duct_right = new CAD_basic_duct();
+    this->main_duct = new CAD_basic_duct();
+    this->function = new CAD_basic_box();
+    this->subItems.append(flange_duct_left);
+    this->subItems.append(flange_duct_middle);
+    this->subItems.append(flange_duct_right);
+    this->subItems.append(main_duct);
+    this->subItems.append(function);
 
     processWizardInput();
     calculate();

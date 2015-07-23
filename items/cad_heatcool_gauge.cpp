@@ -18,9 +18,6 @@
 
 CAD_HeatCool_Gauge::CAD_HeatCool_Gauge() : CADitem(CADitemTypes::HeatCool_Gauge)
 {
-    gauge = new CAD_Basic_Gauge;
-    this->subItems.append(gauge);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -31,6 +28,9 @@ CAD_HeatCool_Gauge::CAD_HeatCool_Gauge() : CADitem(CADitemTypes::HeatCool_Gauge)
     wizardParams.insert("l", 25.0);
     wizardParams.insert("d", 100.0);
     wizardParams.insert("h", 250.0);
+
+    gauge = new CAD_Basic_Gauge();
+    this->subItems.append(gauge);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

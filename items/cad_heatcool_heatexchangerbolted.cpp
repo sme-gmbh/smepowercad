@@ -18,25 +18,6 @@
 
 CAD_HeatCool_HeatexchangerBolted::CAD_HeatCool_HeatexchangerBolted() : CADitem(CADitemTypes::HeatCool_HeatexchangerBolted)
 {
-    body = new CAD_basic_box;
-    plate_back = new CAD_basic_box;
-    plate_front = new CAD_basic_box;
-    mounting_bottom = new CAD_basic_box;
-    mounting_top = new CAD_basic_box;
-    pipe_1 = new CAD_basic_pipe;
-    pipe_2 = new CAD_basic_pipe;
-    pipe_3 = new CAD_basic_pipe;
-    pipe_4 = new CAD_basic_pipe;
-    this->subItems.append(body);
-    this->subItems.append(plate_back);
-    this->subItems.append(plate_front);
-    this->subItems.append(mounting_bottom);
-    this->subItems.append(mounting_top);
-    this->subItems.append(pipe_1);
-    this->subItems.append(pipe_2);
-    this->subItems.append(pipe_3);
-    this->subItems.append(pipe_4);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -54,6 +35,25 @@ CAD_HeatCool_HeatexchangerBolted::CAD_HeatCool_HeatexchangerBolted() : CADitem(C
     wizardParams.insert("l2", 50.0);
     wizardParams.insert("l3", 100.0);
     wizardParams.insert("s",  10.0);
+
+    body = new CAD_basic_box();
+    plate_back = new CAD_basic_box();
+    plate_front = new CAD_basic_box();
+    mounting_bottom = new CAD_basic_box();
+    mounting_top = new CAD_basic_box();
+    pipe_1 = new CAD_basic_pipe();
+    pipe_2 = new CAD_basic_pipe();
+    pipe_3 = new CAD_basic_pipe();
+    pipe_4 = new CAD_basic_pipe();
+    this->subItems.append(body);
+    this->subItems.append(plate_back);
+    this->subItems.append(plate_front);
+    this->subItems.append(mounting_bottom);
+    this->subItems.append(mounting_top);
+    this->subItems.append(pipe_1);
+    this->subItems.append(pipe_2);
+    this->subItems.append(pipe_3);
+    this->subItems.append(pipe_4);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

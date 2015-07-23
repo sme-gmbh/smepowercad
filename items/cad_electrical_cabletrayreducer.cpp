@@ -18,12 +18,6 @@
 
 CAD_electrical_cabletrayreducer::CAD_electrical_cabletrayreducer() : CADitem(CADitemTypes::Electrical_CabletrayReducer)
 {
-    floor = new CAD_basic_box();
-    left = new CAD_basic_box();
-    right = new CAD_basic_box();
-    this->subItems.append(floor);
-    this->subItems.append(left);
-    this->subItems.append(right);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -37,6 +31,13 @@ CAD_electrical_cabletrayreducer::CAD_electrical_cabletrayreducer() : CADitem(CAD
     wizardParams.insert("l", 300.0);        // Länge
     wizardParams.insert("s", 10.0);         // Wandstärke
     wizardParams.insert("i", 10.0);         // Versatz in y-Richtung
+
+    floor = new CAD_basic_box();
+    left = new CAD_basic_box();
+    right = new CAD_basic_box();
+    this->subItems.append(floor);
+    this->subItems.append(left);
+    this->subItems.append(right);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

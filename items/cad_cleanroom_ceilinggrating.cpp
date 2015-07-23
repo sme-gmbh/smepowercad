@@ -29,10 +29,8 @@ CAD_Cleanroom_CeilingGrating::CAD_Cleanroom_CeilingGrating() : CADitem(CADitemTy
     wizardParams.insert("g", 600.0);
     wizardParams.insert("l", 600.0);
 
-    box = new CAD_basic_box;
+    box = new CAD_basic_box();
     this->subItems.append(box);
-
-
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

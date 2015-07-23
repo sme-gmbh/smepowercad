@@ -18,15 +18,6 @@
 
 CAD_HeatCool_ValveHandwheel::CAD_HeatCool_ValveHandwheel() : CADitem(CADitemTypes::HeatCool_ValveHandwheel)
 {
-    wheel = new CAD_Basic_Torus;
-    cross_1 = new CAD_basic_pipe;
-    cross_2 = new CAD_basic_pipe;
-    bar = new CAD_basic_pipe;
-    this->subItems.append(wheel);
-    this->subItems.append(cross_1);
-    this->subItems.append(cross_2);
-    this->subItems.append(bar);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -37,6 +28,15 @@ CAD_HeatCool_ValveHandwheel::CAD_HeatCool_ValveHandwheel() : CADitem(CADitemType
     wizardParams.insert("g", 50.0);
     wizardParams.insert("e", 10.0);
     wizardParams.insert("f", 50.0);
+
+    wheel = new CAD_Basic_Torus();
+    cross_1 = new CAD_basic_pipe();
+    cross_2 = new CAD_basic_pipe();
+    bar = new CAD_basic_pipe();
+    this->subItems.append(wheel);
+    this->subItems.append(cross_1);
+    this->subItems.append(cross_2);
+    this->subItems.append(bar);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

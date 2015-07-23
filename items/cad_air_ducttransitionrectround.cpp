@@ -19,15 +19,6 @@
 
 CAD_air_ductTransitionRectRound::CAD_air_ductTransitionRectRound() : CADitem(CADitemTypes::Air_DuctTransitionRectRound)
 {
-    this->flange_rect = new CAD_basic_duct();
-    this->flange_round =new CAD_basic_pipe();
-    this->endcap_rect = new CAD_basic_duct();
-    this->endcap_round =new CAD_basic_pipe();
-    this->subItems.append(flange_rect);
-    this->subItems.append(flange_round);
-    this->subItems.append(endcap_rect);
-    this->subItems.append(endcap_round);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -39,12 +30,21 @@ CAD_air_ductTransitionRectRound::CAD_air_ductTransitionRectRound() : CADitem(CAD
     wizardParams.insert("a",  200.0);
     wizardParams.insert("l", 1000.0);
     wizardParams.insert("d",  200.0);
-    wizardParams.insert("e",   00.0);
-    wizardParams.insert("f",   00.0);
+    wizardParams.insert("e",    0.0);
+    wizardParams.insert("f",    0.0);
     wizardParams.insert("u",   50.0);
     wizardParams.insert("fe",  10.0);
     wizardParams.insert("ff",  10.0);
-    wizardParams.insert("s",   10.0);
+    wizardParams.insert("s",    1.0);
+
+    this->flange_rect = new CAD_basic_duct();
+    this->flange_round =new CAD_basic_pipe();
+    this->endcap_rect = new CAD_basic_duct();
+    this->endcap_round =new CAD_basic_pipe();
+    this->subItems.append(flange_rect);
+    this->subItems.append(flange_round);
+    this->subItems.append(endcap_rect);
+    this->subItems.append(endcap_round);
 
     arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices->create();
@@ -73,6 +73,7 @@ QList<CADitemTypes::ItemType> CAD_air_ductTransitionRectRound::flangable_items(i
     if (flangeIndex == 2)
     {
         flangable_items.append(CADitemTypes::Air_Pipe);
+        flangable_items.append(CADitemTypes::Air_PipeBranch);
         flangable_items.append(CADitemTypes::Air_PipeEndCap);
         flangable_items.append(CADitemTypes::Air_PipeFireDamper);
         flangable_items.append(CADitemTypes::Air_PipeReducer);
@@ -155,7 +156,7 @@ void CAD_air_ductTransitionRectRound::calculate()
             matrix_turn.setToIdentity();
             matrix_turn.rotate(step * 360, 1.0, 0.0, 0.0);
             vertices[16*j + k]= position + matrix_rotation * (matrix_turn * rad + QVector3D(l - u, b/2 + e - d/2, a/2 + f - d/2 ));
-            boundingBox.enterVertex(vertices[16*j + k]);
+//            boundingBox.enterVertex(vertices[16*j + k]);
             k++;
 
         }
@@ -167,10 +168,10 @@ void CAD_air_ductTransitionRectRound::calculate()
         vertices[32 + 4*j + 1] = position + matrix_rotation * QVector3D(u,  b/2 - j * s,  a/2 - j * s);
         vertices[32 + 4*j + 2] = position + matrix_rotation * QVector3D(u, -b/2 + j * s,  a/2 - j * s);
         vertices[32 + 4*j + 3] = position + matrix_rotation * QVector3D(u, -b/2 + j * s, -a/2 + j * s);
-        boundingBox.enterVertex(vertices[32 + 4*j]);
-        boundingBox.enterVertex(vertices[32 + 4*j + 1]);
-        boundingBox.enterVertex(vertices[32 + 4*j + 2]);
-        boundingBox.enterVertex(vertices[32 + 4*j + 3]);
+//        boundingBox.enterVertex(vertices[32 + 4*j]);
+//        boundingBox.enterVertex(vertices[32 + 4*j + 1]);
+//        boundingBox.enterVertex(vertices[32 + 4*j + 2]);
+//        boundingBox.enterVertex(vertices[32 + 4*j + 3]);
     }
     static GLushort indicesFaces[160];
 
@@ -348,6 +349,7 @@ void CAD_air_ductTransitionRectRound::calculate()
     flange_rect->layer = this->layer;
     flange_rect->processWizardInput();
     flange_rect->calculate();
+    boundingBox.enterVertices(flange_rect->boundingBox.getVertices());
 
     endcap_rect->wizardParams.insert("Position x", (position.x()));
     endcap_rect->wizardParams.insert("Position y", (position.y()));
@@ -377,6 +379,7 @@ void CAD_air_ductTransitionRectRound::calculate()
     flange_round->layer = this->layer;
     flange_round->processWizardInput();
     flange_round->calculate();
+    boundingBox.enterVertices(flange_round->boundingBox.getVertices());
 
     endcap_round->wizardParams.insert("Position x", (position_fr.x()));
     endcap_round->wizardParams.insert("Position y", (position_fr.y()));

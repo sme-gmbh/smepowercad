@@ -18,11 +18,6 @@
 
 CAD_Cleanroom_CeilingFilterFanUnit::CAD_Cleanroom_CeilingFilterFanUnit() : CADitem(CADitemTypes::Cleanroom_CeilingFilterFanUnit)
 {
-    lower = new CAD_basic_box;
-    upper = new CAD_basic_box;
-    this->subItems.append(lower);
-    this->subItems.append(upper);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -36,6 +31,11 @@ CAD_Cleanroom_CeilingFilterFanUnit::CAD_Cleanroom_CeilingFilterFanUnit() : CADit
     wizardParams.insert("b", 200.0);
     wizardParams.insert("a", 400.0);
     wizardParams.insert("h2", 100.0);
+
+    lower = new CAD_basic_box();
+    upper = new CAD_basic_box();
+    this->subItems.append(lower);
+    this->subItems.append(upper);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

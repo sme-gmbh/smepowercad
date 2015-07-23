@@ -18,11 +18,6 @@
 
 CAD_heatcool_flange::CAD_heatcool_flange() : CADitem(CADitemTypes::HeatCool_Flange)
 {
-    pipe = new CAD_basic_pipe;
-    flange = new CAD_basic_pipe;
-    this->subItems.append(pipe);
-    this->subItems.append(flange);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -35,6 +30,11 @@ CAD_heatcool_flange::CAD_heatcool_flange() : CADitem(CADitemTypes::HeatCool_Flan
     wizardParams.insert("ff",  40.0);
     wizardParams.insert("l",  100.0);
     wizardParams.insert("s",    5.0);
+
+    pipe = new CAD_basic_pipe();
+    flange = new CAD_basic_pipe();
+    this->subItems.append(pipe);
+    this->subItems.append(flange);
 
     processWizardInput();
     calculate();

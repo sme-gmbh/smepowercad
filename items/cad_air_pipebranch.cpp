@@ -31,7 +31,7 @@ CAD_air_pipeBranch::CAD_air_pipeBranch() : CADitem(CADitemTypes::Air_PipeBranch)
     wizardParams.insert("d",     200.0);
     wizardParams.insert("d3",    150.0);
     wizardParams.insert("alpha",  30.0);
-    wizardParams.insert("s",      10.0);
+    wizardParams.insert("s",       1.0);
 
     this->pipe = new CAD_basic_pipe();
     this->branch = new CAD_basic_pipe();

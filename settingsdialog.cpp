@@ -124,7 +124,7 @@ void SettingsDialog::ensureCategoryWidget(Category *category)
     if (category->tabWidget != 0)
         return;
 
-    QTabWidget *tabWidget = new QTabWidget;
+    QTabWidget *tabWidget = new QTabWidget();
     for (int j = 0; j < category->pages.size(); j++)
     {
         OptionsPage *page = category->pages.at(j);
@@ -246,7 +246,7 @@ void SettingsDialog::loadCategorys()
     for (int c = 0; c < root.childNodes().size(); c++)
     {
         QDomNode category = root.childNodes().at(c);
-        Category *cat = new Category;
+        Category *cat = new Category();
         cat->tabWidget = 0;
         cat->name = category.attributes().namedItem("name").nodeValue();
         cat->displayName = tr(cat->name.toStdString().c_str());
@@ -302,7 +302,7 @@ void SettingsDialog::loadCategorys()
 
 OptionsPage* OptionsPage::newPage(QString name, QList<Attribute> attributes)
 {
-    OptionsPage *page = new OptionsPage;
+    OptionsPage *page = new OptionsPage();
 
     page->displayName = tr(name.toStdString().c_str());
     page->name = name;
@@ -315,7 +315,7 @@ OptionsPage* OptionsPage::newPage(QString name, QList<Attribute> attributes)
         attrs.insert(attr.name, attr);
         if (attr.type == "int")
         {
-            QSpinBox *box = new QSpinBox;
+            QSpinBox *box = new QSpinBox();
             box->setObjectName(attr.name);
             box->setMinimum(attr.min.toInt());
             box->setMaximum(attr.max.toInt());
@@ -336,7 +336,7 @@ OptionsPage* OptionsPage::newPage(QString name, QList<Attribute> attributes)
         }
         else if (attr.type == "dropdown")
         {
-            QComboBox *box = new QComboBox;
+            QComboBox *box = new QComboBox();
             box->setObjectName(attr.name);
             box->setMaximumWidth(150);
             foreach (QString row, attr.displayValues)

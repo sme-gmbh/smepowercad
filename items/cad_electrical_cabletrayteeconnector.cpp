@@ -18,10 +18,6 @@
 
 CAD_electrical_CabletrayTeeconnector::CAD_electrical_CabletrayTeeconnector() : CADitem(CADitemTypes::Electrical_CabletrayTransition)
 {
-    floor = new CAD_basic_box();
-    side = new CAD_basic_box();
-    this->subItems.append(floor);
-    this->subItems.append(side);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -33,6 +29,11 @@ CAD_electrical_CabletrayTeeconnector::CAD_electrical_CabletrayTeeconnector() : C
     wizardParams.insert("b", 300.0);        // Breite
     wizardParams.insert("l", 300.0);        // Länge
     wizardParams.insert("s", 10.0);         // Wandstärke
+
+    floor = new CAD_basic_box();
+    side = new CAD_basic_box();
+    this->subItems.append(floor);
+    this->subItems.append(side);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

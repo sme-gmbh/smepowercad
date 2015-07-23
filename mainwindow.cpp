@@ -302,6 +302,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     //    emit signal_repaintNeeded();
+
 }
 
 MainWindow::~MainWindow()
@@ -358,6 +359,12 @@ void MainWindow::createItemToolBar()
         ui->toolBarItems->addWidget(toolWidget);
         connect(toolWidget, SIGNAL(signal_newItemRequested(CADitemTypes::ItemType)), this, SLOT(slot_createNewItem(CADitemTypes::ItemType)));
     }
+}
+
+void MainWindow::setProjectFilepath(QString filepath)
+{
+    this->project_filepath = filepath;
+    this->setWindowTitle(QCoreApplication::applicationName() + " [" + filepath + "]");
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -420,7 +427,7 @@ void MainWindow::slot_file_open_dxf(QString filename)
     delete creationInterface;
 
 
-    this->project_filepath = filename;
+    setProjectFilepath(filename);
     this->layerManager->slot_updateAllLayers();
     emit signal_repaintNeeded();
 }
@@ -443,16 +450,17 @@ void MainWindow::slot_file_open_xml(QString filename)
     bool ok = itemDB->file_loadDB(filename, &error, &matrix_projection, &matrix_glSelect, &matrix_modelview, &matrix_rotation);
 
     if (!ok)
+    {
         QMessageBox::critical(this, tr("Error while loading"), tr("Unable to open or parse file. Error:\n") + error);
+        return;
+    }
     else if (!error.isEmpty())
     {
         QMessageBox::information(this, tr("Information while loading"), error);
     }
-    else
-    {
-        this->project_filepath = filename;
-        this->geometryDisplays.at(0)->getWidget()->setMatrices(matrix_projection, matrix_glSelect, matrix_modelview, matrix_rotation);
-    }
+
+    setProjectFilepath(filename);
+    this->geometryDisplays.at(0)->getWidget()->setMatrices(matrix_projection, matrix_glSelect, matrix_modelview, matrix_rotation);
 }
 
 void MainWindow::slot_file_save_action()
@@ -477,7 +485,7 @@ void MainWindow::slot_file_save_action()
                                    this->geometryDisplays.first()->getWidget()->getMatrix_rotation());
 
     if (ok)
-        this->project_filepath = filename;
+        setProjectFilepath(filename);
     else
         QMessageBox::critical(this, tr("Error while saving"), tr("Unable to write file."));
 }
@@ -501,7 +509,7 @@ void MainWindow::slot_file_save_as_action()
                                    this->geometryDisplays.first()->getWidget()->getMatrix_rotation());
 
     if (ok)
-        this->project_filepath = filename;
+        setProjectFilepath(filename);
     else
         QMessageBox::critical(this, tr("Error while saving"), tr("Unable to write file."));
 }

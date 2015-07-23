@@ -18,9 +18,6 @@
 
 CAD_arch_beam::CAD_arch_beam() : CADitem(CADitemTypes::Arch_Beam)
 {
-    this->beam = new CAD_basic_box();
-    this->subItems.append(beam);
-
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -31,6 +28,9 @@ CAD_arch_beam::CAD_arch_beam() : CADitem(CADitemTypes::Arch_Beam)
     wizardParams.insert("a",  500.0);
     wizardParams.insert("b",  200.0);
     wizardParams.insert("l", 5000.0);
+
+    this->beam = new CAD_basic_box();
+    this->subItems.append(beam);
 
     processWizardInput();
     calculate();

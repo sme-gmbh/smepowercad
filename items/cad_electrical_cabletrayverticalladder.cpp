@@ -18,10 +18,6 @@
 
 CAD_Electrical_CabletrayVerticalLadder::CAD_Electrical_CabletrayVerticalLadder() : CADitem(CADitemTypes::Electrical_CabletrayVerticalLadder)
 {
-    left = new CAD_basic_box;
-    right = new CAD_basic_box;
-    this->subItems.append(left);
-    this->subItems.append(right);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -38,6 +34,11 @@ CAD_Electrical_CabletrayVerticalLadder::CAD_Electrical_CabletrayVerticalLadder()
     wizardParams.insert("l2", 150.0);   // Abstand der Sprossen (in z-Richtung)
     wizardParams.insert("l3", 10.0);    // Höhe der Sprossen (in z-Richtung
     wizardParams.insert("n", 5);        // Anzahl der Sprossen
+
+    left = new CAD_basic_box();
+    right = new CAD_basic_box();
+    this->subItems.append(left);
+    this->subItems.append(right);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();

@@ -31,7 +31,6 @@ CAD_air_emptyCabinet::CAD_air_emptyCabinet() : CADitem(CADitemTypes::Air_EmptyCa
     wizardParams.insert("s", 1.0);
 
     duct = new CAD_basic_duct();
-
     subItems.append(duct);
 
     processWizardInput();

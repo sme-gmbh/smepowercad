@@ -24,8 +24,8 @@ CAD_Basic_TorisphericalHeadDeepDishedDIN28013::CAD_Basic_TorisphericalHeadDeepDi
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
-    wizardParams.insert("d", 100.0);   // Durchmesser
-    wizardParams.insert("h", 10.0);     // Höhe
+    wizardParams.insert("d", 100.0);    // Diameter
+    wizardParams.insert("h", 10.0);     // Height
 
     arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     arrayBufVertices->create();

@@ -18,8 +18,6 @@
 
 CAD_HeatCool_RadiatorCompact::CAD_HeatCool_RadiatorCompact() : CADitem(CADitemTypes::HeatCool_RadiatorCompact)
 {
-    radiator = new CAD_basic_box;
-    this->subItems.append(radiator);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -32,6 +30,8 @@ CAD_HeatCool_RadiatorCompact::CAD_HeatCool_RadiatorCompact() : CADitem(CADitemTy
     wizardParams.insert("b",  150.0);
     wizardParams.insert("l", 1500.0);
 
+    radiator = new CAD_basic_box();
+    this->subItems.append(radiator);
 
     //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     //    arrayBufVertices->create();

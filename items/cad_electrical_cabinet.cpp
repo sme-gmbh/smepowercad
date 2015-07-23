@@ -18,14 +18,6 @@
 
 CAD_electrical_cabinet::CAD_electrical_cabinet() : CADitem(CADitemTypes::Electrical_Cabinet)
 {
-    cabinet = new CAD_basic_duct;
-    back = new CAD_basic_box;
-    door = new CAD_basic_box;
-    socket = new CAD_basic_box;
-    this->subItems.append(cabinet);
-    this->subItems.append(back);
-    this->subItems.append(door);
-    this->subItems.append(socket);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -41,6 +33,14 @@ CAD_electrical_cabinet::CAD_electrical_cabinet() : CADitem(CADitemTypes::Electri
     wizardParams.insert("s", 10.0);         //Wandstärke
     wizardParams.insert("alpha", -45.0);    //Öffnungswinkel Tür
 
+    cabinet = new CAD_basic_duct();
+    back = new CAD_basic_box();
+    door = new CAD_basic_box();
+    socket = new CAD_basic_box();
+    this->subItems.append(cabinet);
+    this->subItems.append(back);
+    this->subItems.append(door);
+    this->subItems.append(socket);
 
     processWizardInput();
     calculate();

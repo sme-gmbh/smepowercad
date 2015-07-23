@@ -18,16 +18,6 @@
 
 CAD_HeatCool_Valve90Degree::CAD_HeatCool_Valve90Degree() : CADitem(CADitemTypes::HeatCool_Valve90Degree)
 {
-    pipe_lower = new CAD_basic_pipe;
-    flange_lower = new CAD_basic_pipe;
-    pipe_right = new CAD_basic_pipe;
-    flange_right = new CAD_basic_pipe;
-    endcap = new CAD_basic_pipe;
-    this->subItems.append(pipe_lower);
-    this->subItems.append(flange_lower);
-    this->subItems.append(pipe_right);
-    this->subItems.append(flange_right);
-    this->subItems.append(endcap);
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
     wizardParams.insert("Position z", 0.0);
@@ -42,6 +32,17 @@ CAD_HeatCool_Valve90Degree::CAD_HeatCool_Valve90Degree() : CADitem(CADitemTypes:
     wizardParams.insert("ff", 10.0);
     wizardParams.insert("l", 100.0);
     wizardParams.insert("s", 10.0);
+
+    pipe_lower = new CAD_basic_pipe();
+    flange_lower = new CAD_basic_pipe();
+    pipe_right = new CAD_basic_pipe();
+    flange_right = new CAD_basic_pipe();
+    endcap = new CAD_basic_pipe();
+    this->subItems.append(pipe_lower);
+    this->subItems.append(flange_lower);
+    this->subItems.append(pipe_right);
+    this->subItems.append(flange_right);
+    this->subItems.append(endcap);
 
     //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     //    arrayBufVertices->create();

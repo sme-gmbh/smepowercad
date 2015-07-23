@@ -18,7 +18,7 @@
 
 CAD_Basic_Hemisphere::CAD_Basic_Hemisphere() : CADitem(CADitemTypes::Basic_Hemisphere)
 {
-    this->radius = 0.0;
+    this->radius = 0.0; // check why this is needed!
 
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);

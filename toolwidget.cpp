@@ -20,8 +20,6 @@
 #include "toolwidget.h"
 #include "ui_toolwidget.h"
 
-int ToolWidget::s_domainIndex = 0;
-
 ToolWidget::ToolWidget(ItemDB *itemDB, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ToolWidget)
@@ -31,9 +29,6 @@ ToolWidget::ToolWidget(ItemDB *itemDB, QWidget *parent) :
     this->setWindowFlags(windowFlags() | Qt::FramelessWindowHint);
     this->setMouseTracking(true);
     this->isOpen = false;
-
-    this->setBackgroundColor(QColor::fromHsv(50 * s_domainIndex, 100, 200));
-    s_domainIndex++;
 }
 
 ToolWidget::~ToolWidget()
