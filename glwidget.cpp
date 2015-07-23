@@ -894,7 +894,10 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             {
                 int flangeIndex = item_lastHighlight->snap_flanges.indexOf(snapPos_scene) + 1;
                 WizardParams newParams;
-                newParams = item_lastHighlight->rotateAroundFlange(snapPos_scene, flangeIndex, 45.0);
+                qreal angle = 45.0;
+                if (event->modifiers() & Qt::ShiftModifier)     // Hold shift to enter numerical value for angle
+                    angle = QInputDialog::getDouble(this, tr("Rotate flanged item around flange"), tr("Angle [degrees]"), 45.0, -360.0, 360.0, 3);
+                newParams = item_lastHighlight->rotateAroundFlange(snapPos_scene, flangeIndex, angle);
                 itemDB->setRestorePoint();
                 itemDB->modifyItem_withRestorePoint(item_lastHighlight, newParams);
 
@@ -960,7 +963,10 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             QMatrix4x4 matrix_old = item_lastHighlight->matrix_rotation;
             QMatrix4x4 m;
             m.setToIdentity();
-            m.rotate(45.0, 1.0, 0.0, 0.0);
+            if (event->modifiers() & Qt::ShiftModifier)
+                m.rotate(-45.0, 1.0, 0.0, 0.0);
+            else
+                m.rotate(45.0, 1.0, 0.0, 0.0);
             angles = MAngleCalculations().anglesFromMatrix(m * matrix_old);
             WizardParams newParams;
             newParams.insert("Angle x", (angles.x()));
@@ -972,7 +978,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         }
         break;
     case Qt::Key_Y:
-        if (event->modifiers() & Qt::ControlModifier)
+        if (event->modifiers() & Qt::ControlModifier)   // Ctrl + Y (Redo)
         {
             this->itemDB->restore_redo();
         }
@@ -981,7 +987,10 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             QMatrix4x4 matrix_old = item_lastHighlight->matrix_rotation;
             QMatrix4x4 m;
             m.setToIdentity();
-            m.rotate(45.0, 0.0, 1.0, 0.0);
+            if (event->modifiers() & Qt::ShiftModifier)
+                m.rotate(-45.0, 0.0, 1.0, 0.0);
+            else
+                m.rotate(45.0, 0.0, 1.0, 0.0);
             QVector3D angles = MAngleCalculations().anglesFromMatrix(m * matrix_old);
             WizardParams newParams;
             newParams.insert("Angle x", (angles.x()));
@@ -993,7 +1002,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         }
         break;
     case Qt::Key_Z:
-        if (event->modifiers() & Qt::ControlModifier)
+        if (event->modifiers() & Qt::ControlModifier)   // Ctrl + Z (Undo)
         {
             this->itemDB->restore_undo();
         }
@@ -1002,7 +1011,10 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             QMatrix4x4 matrix_old = item_lastHighlight->matrix_rotation;
             QMatrix4x4 m;
             m.setToIdentity();
-            m.rotate(45.0, 0.0, 0.0, 1.0);
+            if (event->modifiers() & Qt::ShiftModifier)
+                m.rotate(-45.0, 0.0, 0.0, 1.0);
+            else
+                m.rotate(45.0, 0.0, 0.0, 1.0);
             QVector3D angles = MAngleCalculations().anglesFromMatrix(m * matrix_old);
             WizardParams newParams;
             newParams.insert("Angle x", (angles.x()));

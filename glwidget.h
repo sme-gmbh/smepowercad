@@ -45,6 +45,7 @@
 #include <QPainter>
 #include <QFileDialog>
 #include <QDateTime>
+#include <QInputDialog>
 
 #include <qmath.h>
 
