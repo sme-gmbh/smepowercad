@@ -39,6 +39,8 @@ MainWindow::MainWindow(QWidget *parent) :
     // **** CAD Item Database *****
     itemDB = new ItemDB(this);
     Layer* topLevelLayer = itemDB->getTopLevelLayer();
+    connect(itemDB, SIGNAL(signal_DBstatusModified()), this, SLOT(slot_fileNeedsSaving()));
+    connect(itemDB, SIGNAL(signal_DBstatusSafe()), this, SLOT(slot_fileSaved()));
 
     // **** Settings Dialog ****
     settingsDialog = new SettingsDialog(this);
@@ -650,6 +652,28 @@ void MainWindow::slot_createNewItem(CADitemTypes::ItemType type)
     itemDB->setRestorePoint();
     CADitem* item = itemDB->drawItem_withRestorePoint(currentLayer, type, WizardParams());
     this->itemWizard->showWizard(item, itemDB);
+}
+
+void MainWindow::slot_fileNeedsSaving()
+{
+    QString windowTitle_shadow = this->windowTitle();
+
+    if (!windowTitle_shadow.endsWith('*'))
+    {
+        windowTitle_shadow.append('*');
+        this->setWindowTitle(windowTitle_shadow);
+    }
+}
+
+void MainWindow::slot_fileSaved()
+{
+    QString windowTitle_shadow = this->windowTitle();
+
+    if (windowTitle_shadow.endsWith('*'))
+    {
+        windowTitle_shadow.remove(windowTitle_shadow.length() - 1, 1);  // remove last char (*)
+        this->setWindowTitle(windowTitle_shadow);
+    }
 }
 
 void MainWindow::on_actionAbout_OpenGL_triggered()

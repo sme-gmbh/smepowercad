@@ -133,6 +133,7 @@ Layer* ItemDB::addLayer(QString layerName, QString parentLayerName)
     if (parentLayer == NULL)
         parentLayer = topLevelLayer;
 
+    emit signal_DBstatusModified();
     return addLayer(layerName, parentLayer);
 }
 
@@ -152,6 +153,7 @@ Layer *ItemDB::addLayer(QString layerName, Layer *parentLayer)
     parentLayer->subLayers.append(newLayer);
     layerMap.insert(layerName, newLayer);
     emit signal_layerAdded(newLayer, parentLayer);
+    emit signal_DBstatusModified();
     return newLayer;
 }
 
@@ -180,6 +182,7 @@ bool ItemDB::moveLayer(QString layerName, QString newParentLayerName, quint32 po
 
 
     emit signal_layerMoved(layer);
+    emit signal_DBstatusModified();
     return true;
 }
 
@@ -205,6 +208,7 @@ bool ItemDB::renameLayer(Layer *layer, QString newLayerName)
     layer->name = newLayerName;
     layerMap.insert(layer->name, layer);
     emit signal_layerChanged(layer);
+    emit signal_DBstatusModified();
     return true;
 }
 
@@ -216,6 +220,7 @@ void ItemDB::setLayerLineWidth(Layer *layer, int newLineWidth)
     layer->width = newLineWidth;
     emit signal_layerChanged(layer);
     emit signal_repaintNeeded();
+    emit signal_DBstatusModified();
 }
 
 void ItemDB::setLayerLineType(Layer *layer, QString newLineType)
@@ -226,6 +231,7 @@ void ItemDB::setLayerLineType(Layer *layer, QString newLineType)
     layer->lineType = newLineType;
     emit signal_layerChanged(layer);
     emit signal_repaintNeeded();
+    emit signal_DBstatusModified();
 }
 
 bool ItemDB::deleteLayer(Layer *layer)
@@ -242,6 +248,7 @@ bool ItemDB::deleteLayer(Layer *layer)
         layerMap.remove(layer->name);
         delete layer;
         emit signal_layerDeleted(layer);
+        emit signal_DBstatusModified();
         return true;
     }
     else
@@ -293,6 +300,7 @@ void ItemDB::addItem(CADitem *item, Layer *layer)
     currentItemId++;
     layer->items.append(item);
 //    emit signal_itemAdded(item, layer);
+    emit signal_DBstatusModified();
 }
 
 void ItemDB::deleteItem(CADitem *item)
@@ -309,6 +317,7 @@ void ItemDB::deleteItem(CADitem *item)
     }
 
     signal_itemDeleted(item);
+    emit signal_DBstatusModified();
     delete item;
 }
 
@@ -346,6 +355,7 @@ bool ItemDB::changeLayerOfItem(CADitem *item, Layer *newLayer)
     item->setLayer(newLayer);
     newLayer->items.append(item);
     emit signal_repaintNeeded();
+    emit signal_DBstatusModified();
     return true;
 }
 
@@ -1122,6 +1132,7 @@ bool ItemDB::modifyItem(quint64 &id, QString &key, QString &value)
 
     item->processWizardInput();
     item->calculate();
+    emit signal_DBstatusModified();
     return true;
 }
 
@@ -1165,6 +1176,7 @@ void ItemDB::modifyItem_withRestorePoint(CADitem *item, WizardParams newParams)
     item->processWizardInput();
     item->calculate();
     emit signal_itemModified(item);
+    emit signal_DBstatusModified();
 }
 
 void ItemDB::setRestorePoint()
@@ -1185,6 +1197,7 @@ void ItemDB::restore_clearRedo()
 void ItemDB::restore_undo()
 {
     RestorePoint* restorePoint;
+    emit signal_DBstatusModified();
 
     while (1)
     {
@@ -1225,7 +1238,7 @@ void ItemDB::restore_undo()
                 continue;
             item->wizardParams.insert(restorePoint->wizardParamsBefore);
             item->processWizardInput();
-            item->calculate();
+            item->calculate();         
         }
             break;
         case RestorePoint::Restore_Stoppoint:
@@ -1241,6 +1254,7 @@ void ItemDB::restore_undo()
 void ItemDB::restore_redo()
 {
     RestorePoint* restorePoint;
+    emit signal_DBstatusModified();
 
     while (1)
     {
@@ -1576,6 +1590,7 @@ bool ItemDB::file_storeDB(QString filename, QMatrix4x4 matrix_projection, QMatri
     QTextStream stream(&file);
     document.save(stream, 1);   // Indent = 1
     file.close();
+    emit signal_DBstatusSafe();
     return true;
 }
 
@@ -1730,6 +1745,7 @@ bool ItemDB::file_loadDB(QString filename, QString* error, QMatrix4x4 *matrix_pr
 
     file.close();
     emit signal_layerManagerUpdateNeeded();
+    emit signal_DBstatusSafe();
     return true;
 }
 

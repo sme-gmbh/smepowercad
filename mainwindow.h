@@ -129,6 +129,8 @@ public slots:
     void slot_selectionChanged(QList<CADitem*> selectedItems);
 
     void slot_createNewItem(CADitemTypes::ItemType type);
+    void slot_fileNeedsSaving();
+    void slot_fileSaved();
 
 private slots:
     void slot_openRecentFile();

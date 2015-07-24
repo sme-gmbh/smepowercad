@@ -140,6 +140,8 @@ signals:
     void signal_layerManagerUpdateNeeded();
     void signal_repaintNeeded();
     void signal_itemModified(CADitem* item);
+    void signal_DBstatusModified();     // This is emitted if database was in saved state before and has been modified, so it contains unsaved content now
+    void signal_DBstatusSafe();         // This is emitted if database content is in sync with the project file
 
 public slots:
 
