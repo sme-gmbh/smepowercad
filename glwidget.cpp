@@ -104,11 +104,16 @@ QPointF GLWidget::mapFromScene(QVector3D &scenePoint)
     qreal x;
     qreal y;
 
-    QVector4D row0 = matrix_all.row(0);
-    QVector4D row1 = matrix_all.row(1);
+//    QVector4D row0 = matrix_all.row(0);
+//    QVector4D row1 = matrix_all.row(1);
 
-    x = row0.x() * scenePoint.x() + row0.y() * scenePoint.y() + row0.z() * scenePoint.z() + row0.w();
-    y = row1.x() * scenePoint.x() + row1.y() * scenePoint.y() + row1.z() * scenePoint.z() + row1.w();
+//    x = row0.x() * scenePoint.x() + row0.y() * scenePoint.y() + row0.z() * scenePoint.z() + row0.w();
+//    y = row1.x() * scenePoint.x() + row1.y() * scenePoint.y() + row1.z() * scenePoint.z() + row1.w();
+
+    // This works, the version above doesn't work for perspective rendering... Why???
+    QVector4D out = this->matrix_all * scenePoint;
+    x = out.x();
+    y = out.y();
 
     return QPointF(x / 2.0 * this->width(), y / 2.0 * this->height());
 }
@@ -2010,7 +2015,8 @@ void GLWidget::zoom_pan_showAll()
     // Calculate new center after zooming
     matrix_modelview.setToIdentity();
     matrix_modelview.translate(translationOffset.x(), translationOffset.y(), 0.0);
-    matrix_modelview.scale(this->zoomFactor, this->zoomFactor, 1.0 / 100000.0);
+//    matrix_modelview.scale(this->zoomFactor, this->zoomFactor, 1.0 / 100000.0);
+    matrix_modelview.scale(this->zoomFactor, this->zoomFactor, 1.0);
     updateMatrixAll();
 
     boundingBox_screen.reset();
