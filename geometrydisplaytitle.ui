@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>899</width>
+    <width>999</width>
     <height>36</height>
    </rect>
   </property>
@@ -842,6 +842,50 @@ QComboBox QAbstractItemView {
      <property name="leftMargin">
       <number>0</number>
      </property>
+     <item>
+      <widget class="QPushButton" name="pushButtonPerspective">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>36</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="toolTip">
+        <string>Draw perspective</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="icons.qrc">
+         <normaloff>:/ui/3Dcontrols/icons/view_parallel.svg</normaloff>
+         <normalon>:/ui/3Dcontrols/icons/view_perspective.svg</normalon>
+         <activeoff>:/ui/3Dcontrols/icons/view_parallel.svg</activeoff>
+         <activeon>:/ui/3Dcontrols/icons/view_perspective.svg</activeon>:/ui/3Dcontrols/icons/view_parallel.svg</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
      <item>
       <widget class="QPushButton" name="pushButtonWireframe">
        <property name="sizePolicy">

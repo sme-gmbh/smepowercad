@@ -44,6 +44,7 @@ public slots:
 private slots:
     void on_pushButtonFloat_clicked();
     void on_pushButtonClose_clicked();
+    void on_pushButtonPerspective_clicked(bool checked);
     void on_pushButtonWireframe_clicked(bool checked);
     void on_pushButtonSolid_clicked(bool checked);
 
@@ -52,9 +53,11 @@ private slots:
     void on_spinBoxDepthOfView_valueChanged(const QString &arg1);
     void on_spinBoxHeightOfIntersection_valueChanged(const QString &arg1);
 
+
 signals:
     void signal_float();
     void signal_close();
+    void signal_perspective(bool on);
     void signal_wireframe(bool on);
     void signal_solid(bool on);
     void signal_cuttingplane_changed(QString directionOfView);

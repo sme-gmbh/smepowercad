@@ -194,6 +194,7 @@ public:
     int shader_is_Selection_location;
 
     qreal zoomFactor;
+    bool render_perspective;
     bool render_solid;
     bool render_outline;
     bool render_maintenance_area;
@@ -297,6 +298,7 @@ signals:
 
 public slots:
     void slot_repaint();
+    void slot_perspective(bool on);
     void slot_wireframe(bool on);
     void slot_solid(bool on);
     void slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c);

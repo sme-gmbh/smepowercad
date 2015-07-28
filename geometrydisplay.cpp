@@ -42,6 +42,7 @@ GeometryDisplay::GeometryDisplay(ItemDB *itemDB, ItemWizard *itemWizard, ItemGri
     this->setWidget(glwidget);
     connect(this, SIGNAL(signal_repaintNeeded()), glwidget, SLOT(slot_repaint()));
     connect(this, SIGNAL(signal_itemDeleted(CADitem*)), glwidget, SLOT(slot_itemDeleted(CADitem*)));
+    connect(titleWidget, SIGNAL(signal_perspective(bool)), glwidget, SLOT(slot_perspective(bool)));
     connect(titleWidget, SIGNAL(signal_wireframe(bool)), glwidget, SLOT(slot_wireframe(bool)));
     connect(titleWidget, SIGNAL(signal_solid(bool)), glwidget, SLOT(slot_solid(bool)));
     connect(glwidget, SIGNAL(signal_mouseMoved(QVector3D)), titleWidget, SLOT(slot_sceneCoordinatesChanged(QVector3D)));

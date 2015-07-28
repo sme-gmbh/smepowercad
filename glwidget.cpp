@@ -32,6 +32,7 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, Item
     this->cuttingplane = CuttingPlane_nZ;
     this->height_of_intersection = QVector3D(0.0, 0.0, 100000.0);
     this->depth_of_view = QVector3D(0.0, 0.0, 200000.0);
+    this->render_perspective = false;
     this->render_solid = true;
     this->render_outline = true;
     this->render_maintenance_area = true;
@@ -114,7 +115,17 @@ QPointF GLWidget::mapFromScene(QVector3D &scenePoint)
 
 void GLWidget::updateMatrixAll()
 {
-    matrix_all = matrix_projection * matrix_glSelect * matrix_modelview * matrix_rotation;
+    QMatrix4x4 perspective_projection;
+    if (this->render_perspective)
+    {
+        perspective_projection.perspective(90.0, 1.0, 0.9, 0.01);
+        perspective_projection.translate(0.0, 0.0, -0.5);   // Position of camera; tbd: make this adjustable by a menu
+        perspective_projection.scale(1.0, 1.0, 1.0 / 1000000.0);
+    }
+    else
+        perspective_projection.scale(1.0, 1.0, 1.0 / 200000.0);
+
+    matrix_all = matrix_projection * matrix_glSelect * matrix_modelview * perspective_projection * matrix_rotation;
 }
 
 void GLWidget::moveCursor(QPoint pos)
@@ -315,9 +326,9 @@ void GLWidget::setMatrices(QMatrix4x4 matrix_projection, QMatrix4x4 matrix_glSel
     this->translationOffset.setY(matrix_modelview.column(3).y());
     this->matrix_rotation = matrix_rotation;
 // Why is that needed?
-//    QSize sizeShadow = this->size();
-//    this->resize(500,500);
-//    this->resize(sizeShadow);
+    QSize sizeShadow = this->size();
+    this->resize(500,500);
+    this->resize(sizeShadow);
     this->updateMatrixAll();
     this->slot_repaint();
 }
@@ -1072,7 +1083,8 @@ void GLWidget::paintGL()
 
     matrix_modelview.setToIdentity();
     matrix_modelview.translate(translationOffset.x(), translationOffset.y(), 0.0);
-    matrix_modelview.scale(this->zoomFactor, this->zoomFactor, 1.0 / 100000.0);
+//    matrix_modelview.scale(this->zoomFactor, this->zoomFactor, 1.0 / 100000.0);
+    matrix_modelview.scale(this->zoomFactor, this->zoomFactor, 1.0);
     updateMatrixAll();
 
     glClearColor(_backgroundColor.redF(), _backgroundColor.greenF(), _backgroundColor.blueF(), _backgroundColor.alphaF());
@@ -1415,6 +1427,13 @@ void GLWidget::slot_repaint()
 {
     snap_calculation(false, true, false); // Recalculate snap positions to get correct index of flange next time (due to rounding errors)
     update();
+}
+
+void GLWidget::slot_perspective(bool on)
+{
+    this->render_perspective = on;
+    updateMatrixAll();
+    slot_repaint();
 }
 
 void GLWidget::slot_wireframe(bool on)
@@ -2254,7 +2273,7 @@ void GLWidget::resizeGL(int w, int h)
 
     matrix_projection.setToIdentity();
     matrix_projection.scale(2.0 / (qreal)w, 2.0 / (qreal)h, 1.0);
-    matrix_projection.translate(-0.5, -0.5);
+    matrix_projection.translate(0.5, 0.5, 0.0);    // Half of a pixel to hit pixels with cursor lines
 
     updateMatrixAll();
     slot_repaint();

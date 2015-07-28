@@ -65,6 +65,11 @@ void GeometryDisplayTitle::on_pushButtonClose_clicked()
     emit signal_close();
 }
 
+void GeometryDisplayTitle::on_pushButtonPerspective_clicked(bool checked)
+{
+    emit signal_perspective(checked);
+}
+
 void GeometryDisplayTitle::on_pushButtonWireframe_clicked(bool checked)
 {
     emit signal_wireframe(checked);
@@ -91,3 +96,4 @@ void GeometryDisplayTitle::on_spinBoxHeightOfIntersection_valueChanged(const QSt
 {
     emit signal_cuttingplane_values_changed(this->ui->spinBoxHeightOfIntersection->value(), this->ui->spinBoxDepthOfView->value());
 }
+

@@ -124,7 +124,7 @@ void SettingsDialog::ensureCategoryWidget(Category *category)
     if (category->tabWidget != 0)
         return;
 
-    QTabWidget *tabWidget = new QTabWidget();
+    QTabWidget *tabWidget = new QTabWidget(this);
     for (int j = 0; j < category->pages.size(); j++)
     {
         OptionsPage *page = category->pages.at(j);
@@ -348,6 +348,7 @@ OptionsPage* OptionsPage::newPage(QString name, QList<Attribute> attributes)
         }
     }
     QWidget *widget = new QWidget();
+    widget->setStyleSheet("background-color: rgb(49, 49, 41);");
     widget->setLayout(layout);
     page->widget = widget;
     page->attributes = attrs;

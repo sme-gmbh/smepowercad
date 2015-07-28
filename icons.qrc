@@ -403,6 +403,8 @@
         <file>icons/arrow_up.svg</file>
         <file>icons/solid.svg</file>
         <file>icons/wireframe.svg</file>
+        <file>icons/view_perspective.svg</file>
+        <file>icons/view_parallel.svg</file>
     </qresource>
     <qresource prefix="/settings">
         <file>settings.xml</file>
