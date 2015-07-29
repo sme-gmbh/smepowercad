@@ -449,6 +449,7 @@ void MainWindow::slot_file_open_xml(QString filename)
 {
     QString error;
     QMatrix4x4 matrix_projection, matrix_glSelect, matrix_modelview, matrix_rotation;
+    matrix_projection.setToIdentity();
     bool ok = itemDB->file_loadDB(filename, &error, &matrix_projection, &matrix_glSelect, &matrix_modelview, &matrix_rotation);
 
     if (!ok)
@@ -462,7 +463,8 @@ void MainWindow::slot_file_open_xml(QString filename)
     }
 
     setProjectFilepath(filename);
-    this->geometryDisplays.at(0)->getWidget()->setMatrices(matrix_projection, matrix_glSelect, matrix_modelview, matrix_rotation);
+    if (!matrix_projection.isIdentity())    // Do not do this if file did not store matrices; tbd. does not work... why???
+        this->geometryDisplays.at(0)->getWidget()->setMatrices(matrix_projection, matrix_glSelect, matrix_modelview, matrix_rotation);
 }
 
 void MainWindow::slot_file_save_action()

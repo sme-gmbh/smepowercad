@@ -55,6 +55,7 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, Item
     this->snapMode = SnapNo;
     this->item_lastHighlight = NULL;
     this->selectItemsByColor = false;
+    this->aspectRatio = -1.0;
 
     slot_update_settings();
 
@@ -120,15 +121,7 @@ QPointF GLWidget::mapFromScene(QVector3D &scenePoint)
 
 void GLWidget::updateMatrixAll()
 {
-    QMatrix4x4 perspective_projection;
-    if (this->render_perspective)
-    {
-        perspective_projection.perspective(90.0, 1.0, 0.9, 0.01);
-        perspective_projection.translate(0.0, 0.0, -0.5);   // Position of camera; tbd: make this adjustable by a menu
-        perspective_projection.scale(1.0, 1.0, 1.0 / 1000000.0);
-    }
-    else
-        perspective_projection.scale(1.0, 1.0, 1.0 / 200000.0);
+    QMatrix4x4 perspective_projection = getMatrix_perspective_projection();
 
     matrix_all = matrix_projection * matrix_glSelect * matrix_modelview * perspective_projection * matrix_rotation;
 }
@@ -316,6 +309,21 @@ QMatrix4x4 GLWidget::getMatrix_rotation()
     return this->matrix_rotation;
 }
 
+QMatrix4x4 GLWidget::getMatrix_perspective_projection()
+{
+    QMatrix4x4 perspective_projection;
+    if (this->render_perspective)
+    {
+        perspective_projection.perspective(90.0, 1.0, 0.9, 0.01);
+        perspective_projection.translate(0.0, 0.0, -0.5);   // Position of camera; tbd: make this adjustable by a menu
+        perspective_projection.scale(1.0, 1.0, 1.0 / 1000000.0);
+    }
+    else
+        perspective_projection.scale(1.0, 1.0, 1.0 / 200000.0);
+
+    return perspective_projection;
+}
+
 ItemGripModifier* GLWidget::getItemGripModifier()
 {
     return this->itemGripModifier;
@@ -398,7 +406,9 @@ void GLWidget::render_image(QPainter* painter, int x, int y, int size_x, int siz
             matrix_projection_tile.translate(+1.0, -1.0);
             matrix_projection_tile.scale(2.0 / (qreal)this->width(), 2.0 / (qreal)this->height(), 1.0);
 
-            this->matrix_all = matrix_projection_tile * matrix_tile * matrix_modelview * matrix_rotation;
+//            this->matrix_all = matrix_projection_tile * matrix_tile * matrix_modelview * matrix_rotation;
+            QMatrix4x4 perspective_projection = getMatrix_perspective_projection();
+            this->matrix_all = matrix_projection_tile * matrix_tile * matrix_modelview * perspective_projection * matrix_rotation;
 
             makeCurrent();
 
@@ -458,6 +468,11 @@ void GLWidget::render_image(QPainter* painter, int x, int y, int size_x, int siz
 
     // Change matrix back back to previous state
     this->updateMatrixAll();
+}
+
+void GLWidget::setAspectRatio(qreal ratio)
+{
+    this->aspectRatio = ratio;
 }
 
 QStringList GLWidget::getOpenGLinfo()
@@ -2275,6 +2290,26 @@ void GLWidget::initializeGL()
 void GLWidget::resizeGL(int w, int h)
 {
     qDebug() << "resizeGL()";
+
+    if (this->aspectRatio > 0.0)
+    {
+        QSize newSize = QSize(w, h);
+        if (fabs((qreal)newSize.width() / (qreal)newSize.height() - this->aspectRatio) > 0.01)
+        {
+            if ((qreal)newSize.width() / (qreal)newSize.height() < this->aspectRatio)
+            {
+                w = newSize.width();
+                h = (qreal)newSize.width() / this->aspectRatio;
+            }
+            else
+            {
+                w = (qreal)newSize.height() * this->aspectRatio;
+                h = newSize.height();
+            }
+            this->resize(w, h);
+        }
+    }
+
     displayCenter = QPoint(w, h) / 2;
 
     matrix_projection.setToIdentity();

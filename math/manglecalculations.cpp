@@ -1,3 +1,18 @@
+/**********************************************************************
+** smepowercad
+** Copyright (C) 2015 Smart Micro Engineering GmbH
+** This program is free software: you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as published by
+** the Free Software Foundation, either version 3 of the License, or
+** (at your option) any later version.
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+** GNU General Public License for more details.
+** You should have received a copy of the GNU General Public License
+** along with this program. If not, see <http://www.gnu.org/licenses/>.
+**********************************************************************/
+
 #include "manglecalculations.h"
 
 MAngleCalculations::MAngleCalculations()
@@ -174,6 +189,95 @@ QMatrix4x4 MAngleCalculations::rotateAroundAxis(qreal angle, QVector3D axis)
                           0.0,
                           1.0));
     return m;
+}
+
+// Method from http://fabiensanglard.net/doom3_documentation/37726-293748.pdf
+// Paper written by Written by J.M.P. van Waveren
+// We are not using the highly optimized routines written in assembly language
+QQuaternion MAngleCalculations::matrixToQuaternion(QMatrix4x4 mat)
+{
+    QQuaternion quat;
+    mat = mat.transposed();
+    float* m = mat.data();
+    int k0, k1, k2, k3;     // Storage order indices
+    float s0, s1, s2;       // Sign multipliers
+
+    if (m[0*4 + 0] + m[1*4 + 1] + m[2*4 + 2] > 0.0f)
+    {
+        k0 = 3;
+        k1 = 2;
+        k2 = 1;
+        k3 = 0;
+        s0 = 1.0f;
+        s1 = 1.0f;
+        s2 = 1.0f;
+    }
+    else if ((m[0*4 + 0] > m[1*4 + 1]) && (m[0*4 + 0] > m[2*4 + 2]))
+    {
+        k0 = 0;
+        k1 = 1;
+        k2 = 2;
+        k3 = 3;
+        s0 = 1.0f;
+        s1 = -1.0f;
+        s2 = -1.0f;
+    }
+    else if (m[1*4 + 1] > m[2*4 + 2])
+    {
+        k0 = 1;
+        k1 = 0;
+        k2 = 3;
+        k3 = 2;
+        s0 = -1.0f;
+        s1 = 1.0f;
+        s2 = -1.0f;
+    }
+    else
+    {
+        k0 = 2;
+        k1 = 3;
+        k2 = 0;
+        k3 = 1;
+        s0 = -1.0f;
+        s1 = -1.0f;
+        s2 = 1.0f;
+    }
+
+    float t = s0 * m[0*4 + 0] + s1 * m[1*4 + 1] + s2 * m[2*4 + 2] + 1.0f;
+    float s = sqrt(t) * 0.5f;
+
+    float q[4];
+
+    q[k0] = (s * t);
+    q[k1] = ((m[0*4 + 1] - s2 * m[1*4 + 0]) * s);
+    q[k2] = ((m[2*4 + 0] - s1 * m[0*4 + 2]) * s);
+    q[k3] = ((m[1*4 + 2] - s0 * m[2*4 + 1]) * s);
+
+    quat.setX(q[0]);
+    quat.setY(q[1]);
+    quat.setZ(q[2]);
+    quat.setScalar(q[3]);
+
+    return quat.normalized();
+}
+
+// Method from http://fabiensanglard.net/doom3_documentation/37726-293748.pdf
+// Paper written by Written by J.M.P. van Waveren
+// We are not using the highly optimized routines written in assembly language
+QMatrix4x4 MAngleCalculations::quaternionToMatrix(QQuaternion quat)
+{
+    QMatrix4x4 mat;
+    qreal x = quat.x();
+    qreal y = quat.y();
+    qreal z = quat.z();
+    qreal w = quat.scalar();
+
+    mat.setRow(0, QVector4D((1.0 - 2*y*y - 2*z*z), (2*x*y + 2*w*z),       (2*x*z - 2*w*y),       0.0));
+    mat.setRow(1, QVector4D((2*x*y - 2*w*z),       (1.0 - 2*x*x - 2*z*z), (2*y*z + 2*w*x),       0.0));
+    mat.setRow(2, QVector4D((2*x*z + 2*w*y),       (2*y*z - 2*w*x),       (1.0 - 2*x*x - 2*y*y), 0.0));
+    mat.setRow(3, QVector4D( 0.0,                   0.0,                   0.0,                  1.0));
+
+    return mat;
 }
 
 qreal MAngleCalculations::difference(QVector3D vec, qreal angle_x, qreal angle_y, qreal angle_z)

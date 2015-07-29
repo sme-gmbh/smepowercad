@@ -86,9 +86,10 @@ public:
     QMatrix4x4 getMatrix_glSelect();
     QMatrix4x4 getMatrix_modelview();
     QMatrix4x4 getMatrix_rotation();
+    QMatrix4x4 getMatrix_perspective_projection();
     ItemGripModifier *getItemGripModifier();
     void render_image(QPainter *painter, int x, int y, int size_x, int size_y, QMatrix4x4 matrix_modelview, QMatrix4x4 matrix_rotation, bool showTiles = false);
-
+    void setAspectRatio(qreal ratio);
 
     QStringList getOpenGLinfo();
 
@@ -114,6 +115,8 @@ private:
     QPoint arcballPosOld;
     QMatrix4x4 matrix_arcball;
     qreal arcballRadius;
+
+    qreal aspectRatio;
 
     QMap<GLuint, CADitem*> glNameMap;
     quint32 glName;

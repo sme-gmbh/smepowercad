@@ -1,3 +1,18 @@
+/**********************************************************************
+** smepowercad
+** Copyright (C) 2015 Smart Micro Engineering GmbH
+** This program is free software: you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as published by
+** the Free Software Foundation, either version 3 of the License, or
+** (at your option) any later version.
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+** GNU General Public License for more details.
+** You should have received a copy of the GNU General Public License
+** along with this program. If not, see <http://www.gnu.org/licenses/>.
+**********************************************************************/
+
 #include "keyframeanimation.h"
 #include "ui_keyframeanimation.h"
 
@@ -7,6 +22,8 @@ KeyframeAnimation::KeyframeAnimation(QWidget *parent, ItemDB *itemDB) :
 {
     this->itemDB = itemDB;
     this->glWidget = new GLWidget(this, itemDB);
+    this->glWidget->setAspectRatio(16.0/9.0);
+    this->glWidget->slot_perspective(true);
     ui->setupUi(this);
     QVBoxLayout* layout = new QVBoxLayout(ui->graphicWidget);
     layout->addWidget(this->glWidget);
@@ -77,14 +94,49 @@ void KeyframeAnimation::animate()
 
             // Do the animation interpolation between keyframes
             FrameControl newFramecontrol;
-            qreal weightOfFramecontrol = ((qreal)(currentKeyframe.frame_end - currentFrame) / (qreal)(currentKeyframe.frame_end - currentKeyframe.frame_start));
-            // tbd: this does not calculate in correct perspective ratio
-            newFramecontrol.matrix_modelview = currentKeyframe.framecontrol.matrix_modelview * (weightOfFramecontrol)
-                                                + nextKeyframe.framecontrol.matrix_modelview * (1.0 - weightOfFramecontrol);
-            newFramecontrol.matrix_rotation = currentKeyframe.framecontrol.matrix_rotation * (weightOfFramecontrol)
-                                               + nextKeyframe.framecontrol.matrix_rotation * (1.0 - weightOfFramecontrol);
+            qreal weightOfFramecontrol = ((qreal)(currentFrame - currentKeyframe.frame_start) / (qreal)(currentKeyframe.frame_end - currentKeyframe.frame_start));
+            // Raised cosine interpolation speed control
+            weightOfFramecontrol = ((1.0 - cos(weightOfFramecontrol * PI)) / 2.0) * 0.7 + weightOfFramecontrol * 0.3;
+
+            qreal currentZoomfactor = currentKeyframe.framecontrol.matrix_modelview.data()[0];
+            qreal nextZoomfactor = nextKeyframe.framecontrol.matrix_modelview.data()[0];
+            qreal interpolatedZoomfactor = 1.0 / ( 1.0 / currentZoomfactor * (1.0 - weightOfFramecontrol)
+                                                  +1.0 / nextZoomfactor * weightOfFramecontrol);
+
+            QVector4D currentTranslation = currentKeyframe.framecontrol.matrix_modelview.column(3);
+            QVector4D nextTranslation = nextKeyframe.framecontrol.matrix_modelview.column(3);
+            // tbd: this interpolation should not be done linearily, due to nonlinearity of zoom interpolation
+            QVector4D interpolatedTranslation = currentTranslation * (1.0 - weightOfFramecontrol)
+                                                 + nextTranslation * weightOfFramecontrol;
+
+            newFramecontrol.matrix_modelview.scale(interpolatedZoomfactor);
+            newFramecontrol.matrix_modelview.setColumn(3, interpolatedTranslation);
+
+            // Convert matrices to quaternions
+            QQuaternion currentQuaternion = MAngleCalculations().matrixToQuaternion(currentKeyframe.framecontrol.matrix_rotation);
+            QQuaternion nextQuaternion    = MAngleCalculations().matrixToQuaternion(nextKeyframe.framecontrol.matrix_rotation);
+
+            QQuaternion interpolatedQuaternion = QQuaternion::slerp(currentQuaternion, nextQuaternion, weightOfFramecontrol);
+            QMatrix4x4 internpolatedRotationMatrix = MAngleCalculations().quaternionToMatrix(interpolatedQuaternion);
+
+            // Interpolate rotation
+            newFramecontrol.matrix_rotation = internpolatedRotationMatrix;
+
+            // Interpolate rotation based translation component
+            QVector4D currentRotTranslation = currentKeyframe.framecontrol.matrix_rotation.column(3);
+            QVector4D nextRotTranslation = nextKeyframe.framecontrol.matrix_rotation.column(3);
+            QVector4D interpolatedRotTranslation = currentRotTranslation * (1.0 - weightOfFramecontrol)
+                                                    + nextRotTranslation * weightOfFramecontrol;
+            newFramecontrol.matrix_rotation.setColumn(3, interpolatedRotTranslation);
+
 
             this->framecontrols.append(newFramecontrol);
+
+            qDebug() << "weight" << weightOfFramecontrol;
+            qDebug() << "quaternion" << interpolatedQuaternion;
+            qDebug() << "rotMatrixCurrent" << currentKeyframe.framecontrol.matrix_rotation;
+            qDebug() << "rotMatrixNext" << nextKeyframe.framecontrol.matrix_rotation;
+            qDebug() << "rotMatrixInt" << newFramecontrol.matrix_rotation;
 
             currentFrame++;
         } while(currentFrame < currentKeyframe.frame_end);
@@ -97,7 +149,7 @@ void KeyframeAnimation::animate()
 void KeyframeAnimation::playAnimation()
 {
     this->animationPlayback_currentFrame = 0;
-    timer.start(30);   // tbd: Change this later to the correct framerate
+    timer.start(25);
 }
 
 void KeyframeAnimation::slot_timer_fired()
@@ -157,6 +209,9 @@ void KeyframeAnimation::render(QString filename)
         // Live render to see progress
         this->glWidget->setMatrices(this->framecontrols.at(this->animationPlayback_currentFrame).matrix_modelview,
                                     this->framecontrols.at(this->animationPlayback_currentFrame).matrix_rotation);
+
+        qApp->processEvents();
+
         // Render to image
         this->glWidget->render_image(&painter, 0, 0, 1920, 1080,
                                      this->framecontrols.at(this->animationPlayback_currentFrame).matrix_modelview,
@@ -165,7 +220,7 @@ void KeyframeAnimation::render(QString filename)
         painter.end();
 
         // Save image
-        image.save(tempPath + QString().sprintf("%06i.png", this->animationPlayback_currentFrame), "PNG", 100);
+        image.save(tempPath + QString().sprintf("%06i.png", this->animationPlayback_currentFrame), "PNG", -1);
 
         this->animationPlayback_currentFrame++;
     }
