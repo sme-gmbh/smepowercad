@@ -166,10 +166,6 @@ void CAD_air_pipeVolumetricFlowController::calculate()
     this->boundingBox.enterVertices(mainPipe->boundingBox.getVertices());
     this->boundingBox.enterVertices(handle->boundingBox.getVertices());
     this->boundingBox.enterVertices(function->boundingBox.getVertices());
-
-
-
-
 }
 
 void CAD_air_pipeVolumetricFlowController::processWizardInput()

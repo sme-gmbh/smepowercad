@@ -113,7 +113,6 @@ void CAD_air_pipeSilencer::calculate()
     pipe->calculate();
 
     this->snap_flanges.append(pipe->snap_flanges);
-    this->snap_vertices.append(pipe->snap_vertices);
 
     this->boundingBox = pipe->boundingBox;
 }

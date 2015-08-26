@@ -196,6 +196,8 @@ void CAD_air_heatExchangerAirAir::calculate()
     this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, -a));
     this->snap_flanges.append(position + matrix_rotation * QVector3D(0.0, 0.0, -a));
 
+    this->snap_vertices.append(this->duct->snap_vertices);
+
     this->boundingBox = duct->boundingBox;
 
 }

@@ -168,11 +168,11 @@ void CAD_air_heatExchangerWaterAir::calculate()
     this->snap_flanges.append(pipe3->snap_flanges.at(1));
     this->snap_flanges.append(pipe4->snap_flanges.at(1));
 
+    this->snap_vertices.append(duct->snap_vertices);
+
     this->boundingBox = duct->boundingBox;
     this->boundingBox.enterVertex(pipe3->snap_flanges.at(0));
     this->boundingBox.enterVertex(pipe4->snap_flanges.at(0));
-
-
 }
 
 void CAD_air_heatExchangerWaterAir::processWizardInput()

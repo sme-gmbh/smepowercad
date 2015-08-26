@@ -148,6 +148,8 @@ void CAD_air_pressureReliefDamper::calculate()
         this->boundingBox.enterVertices(box->boundingBox.getVertices());
     }
 
+    this->snap_vertices = this->duct->snap_vertices;
+
     this->boundingBox.enterVertices(duct->boundingBox.getVertices());
     this->boundingBox.enterVertices(flange->boundingBox.getVertices());
 }
@@ -177,5 +179,9 @@ void CAD_air_pressureReliefDamper::processWizardInput()
 
 QMatrix4x4 CAD_air_pressureReliefDamper::rotationOfFlange(quint8 num)
 {
-    return matrix_rotation;
+    Q_UNUSED(num);
+    QMatrix4x4 m;
+    m.setToIdentity();
+    m.rotate(180.0, 0.0, 0.0, 1.0);
+    return matrix_rotation * m;
 }
