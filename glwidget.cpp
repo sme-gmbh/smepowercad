@@ -211,14 +211,14 @@ void GLWidget::snap_calculation(bool set_snapMode, bool set_snapPos, bool emit_s
     {
         // Basepoint snap
         QList<QVector3D> snap_basepoints;
-        if ((mapFromScene(item_lastHighlight->snap_basepoint) - mousePos).manhattanLength() < 50)
+        if ((mapFromScene(item_lastHighlight->snap_basepoint) - mousePos).manhattanLength() < (_snapIndicatorSize * 2))
             snap_basepoints.append(item_lastHighlight->snap_basepoint);
 
         // Flange snap
         QList<QVector3D> snap_flanges;
         foreach(QVector3D snap_flange, item_lastHighlight->snap_flanges)
         {
-            if ((mapFromScene(snap_flange) - mousePos).manhattanLength() < 10)
+            if ((mapFromScene(snap_flange) - mousePos).manhattanLength() < _snapIndicatorSize)
                 snap_flanges.append(snap_flange);
         }
 
@@ -226,7 +226,7 @@ void GLWidget::snap_calculation(bool set_snapMode, bool set_snapPos, bool emit_s
         QList<QVector3D> snap_vertex_points;
         foreach (QVector3D snap_vertex, item_lastHighlight->snap_vertices)
         {
-            if ((mapFromScene(snap_vertex) - mousePos).manhattanLength() < 10)
+            if ((mapFromScene(snap_vertex) - mousePos).manhattanLength() < _snapIndicatorSize)
                 snap_vertex_points.append(snap_vertex);
         }
 
@@ -234,7 +234,7 @@ void GLWidget::snap_calculation(bool set_snapMode, bool set_snapPos, bool emit_s
         QList<QVector3D> snap_center_points;
         foreach (QVector3D snap_center, item_lastHighlight->snap_center)
         {
-            if ((mapFromScene(snap_center) - mousePos).manhattanLength() < 10)
+            if ((mapFromScene(snap_center) - mousePos).manhattanLength() < _snapIndicatorSize)
                 snap_center_points.append(snap_center);
         }
 
@@ -1869,98 +1869,169 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundin
 
 void GLWidget::paintSnapIndicator(QRect focusRect, GLWidget::SnapMode snapMode, bool active)
 {
-    switch (snapMode)
-    {
-    case SnapBasepoint:
-    {
-        if (active)
-        {
-            glLineWidth(2);
-            setPaintingColor(QColor(0, 0, 200));
-        }
-        else
-        {
-            glLineWidth(1);
-            setPaintingColor(Qt::blue);
-        }
+    if (!active)
+        focusRect.adjust(focusRect.width() / 4, focusRect.height() / 4, -focusRect.width() / 4, -focusRect.height() / 4);
 
-        glBegin(GL_LINE_LOOP);
-        glVertex2i(focusRect.bottomLeft().x(), focusRect.bottomLeft().y());
-        glVertex2i(focusRect.bottomRight().x(), focusRect.bottomRight().y());
-        glVertex2i(focusRect.topLeft().x(), focusRect.topLeft().y());
-        glVertex2i(focusRect.topRight().x(), focusRect.topRight().y());
-        glEnd();
-        break;
-    }
-    case SnapFlange:
+    // Double render pass for glow effect
+    for (int i = 0; i < 2; i++)
     {
-        if (active)
+        switch (snapMode)
         {
-            glLineWidth(2);
-            setPaintingColor(QColor(0, 200, 0));
-        }
-        else
+        case SnapBasepoint:
         {
-            glLineWidth(1);
-            setPaintingColor(Qt::green);
-        }
+            if (active)
+            {
+                if (i == 0)
+                {
+                    glLineWidth(3);
+                    setPaintingColor(QColor(170, 170, 255, 100));
+                }
+                else
+                {
+                    glLineWidth(1);
+                    setPaintingColor(QColor(0, 0, 170));
+                }
+            }
+            else
+            {
+                if (i == 0)
+                {
+                    glLineWidth(3);
+                    setPaintingColor(QColor(170, 170, 255, 40));
+                }
+                else
+                {
+                    glLineWidth(1);
+                    setPaintingColor(QColor(100, 100, 255));
+                }
+            }
 
-        glBegin(GL_LINES);
-        glVertex2i(focusRect.left(), focusRect.top());
-        glVertex2i(focusRect.left(), focusRect.bottom());
-        glVertex2i(focusRect.left(), (focusRect.center().y() + focusRect.top()) / 2);
-        glVertex2i(focusRect.right(), (focusRect.center().y() + focusRect.top()) / 2);
-        glVertex2i(focusRect.left(), (focusRect.center().y() + focusRect.bottom()) / 2);
-        glVertex2i(focusRect.right(), (focusRect.center().y() + focusRect.bottom()) / 2);
-        glEnd();
-        break;
-    }
-    case SnapEndpoint:
-    {
-        if (active)
-        {
-            glLineWidth(2);
-            setPaintingColor(QColor(200, 200, 0));
+            glBegin(GL_LINE_LOOP);
+            glVertex2i(focusRect.bottomLeft().x(), focusRect.bottomLeft().y());
+            glVertex2i(focusRect.bottomRight().x(), focusRect.bottomRight().y());
+            glVertex2i(focusRect.topLeft().x(), focusRect.topLeft().y());
+            glVertex2i(focusRect.topRight().x(), focusRect.topRight().y());
+            glEnd();
+            break;
         }
-        else
+        case SnapFlange:
         {
-            glLineWidth(1);
-            setPaintingColor(Qt::yellow);
-        }
+            if (active)
+            {
+                if (i == 0)
+                {
+                    glLineWidth(3);
+                    setPaintingColor(QColor(0, 170, 0, 100));
+                }
+                else
+                {
+                    glLineWidth(1);
+                    setPaintingColor(QColor(170, 255, 170));
+                }
+            }
+            else
+            {
+                if (i == 0)
+                {
+                    glLineWidth(3);
+                    setPaintingColor(QColor(170, 255, 170, 40));
+                }
+                else
+                {
+                    glLineWidth(1);
+                    setPaintingColor(QColor(100, 255, 100));
+                }
+            }
 
-        glBegin(GL_LINE_LOOP);
-        glVertex2i(focusRect.bottomLeft().x(), focusRect.bottomLeft().y());
-        glVertex2i(focusRect.bottomRight().x(), focusRect.bottomRight().y());
-        glVertex2i(focusRect.topRight().x(), focusRect.topRight().y());
-        glVertex2i(focusRect.topLeft().x(), focusRect.topLeft().y());
-        glEnd();
-        break;
-    }
-    case SnapCenter:
-    {
-        if (active)
-        {
-            glLineWidth(2);
-            setPaintingColor(QColor(0, 200, 200));
+            glBegin(GL_LINES);
+            glVertex2i(focusRect.left(), focusRect.top());
+            glVertex2i(focusRect.left(), focusRect.bottom());
+            glVertex2i(focusRect.left(), (focusRect.center().y() + focusRect.top()) / 2);
+            glVertex2i(focusRect.right(), (focusRect.center().y() + focusRect.top()) / 2);
+            glVertex2i(focusRect.left(), (focusRect.center().y() + focusRect.bottom()) / 2);
+            glVertex2i(focusRect.right(), (focusRect.center().y() + focusRect.bottom()) / 2);
+            glEnd();
+            break;
         }
-        else
+        case SnapEndpoint:
         {
-            glLineWidth(1);
-            setPaintingColor(QColor(0, 255, 255));
-        }
+            if (active)
+            {
+                if (i == 0)
+                {
+                    glLineWidth(3);
+                    setPaintingColor(QColor(255, 255, 100, 180));
+                }
+                else
+                {
+                    glLineWidth(1);
+                    setPaintingColor(QColor(255, 255, 255));
+                }
+            }
+            else
+            {
+                if (i == 0)
+                {
+                    glLineWidth(3);
+                    setPaintingColor(QColor(255, 255, 170, 40));
+                }
+                else
+                {
+                    glLineWidth(1);
+                    setPaintingColor(QColor(255, 255, 100));
+                }
+            }
 
-        glBegin(GL_LINES);
-        glVertex2i(focusRect.left(), focusRect.top());
-        glVertex2i(focusRect.right(), focusRect.bottom());
-        glVertex2i(this->snapPos_screen.x() - 5, this->snapPos_screen.y() + 5);
-        glVertex2i(this->snapPos_screen.x() + 5, this->snapPos_screen.y() - 5);
-        glEnd();
-        break;
-    }
-    case SnapNo:
-    {
-        break;
-    }
+            glBegin(GL_LINE_LOOP);
+            glVertex2i(focusRect.bottomLeft().x(), focusRect.bottomLeft().y());
+            glVertex2i(focusRect.bottomRight().x(), focusRect.bottomRight().y());
+            glVertex2i(focusRect.topRight().x(), focusRect.topRight().y());
+            glVertex2i(focusRect.topLeft().x(), focusRect.topLeft().y());
+            glEnd();
+            break;
+        }
+        case SnapCenter:
+        {
+            if (active)
+            {
+                if (i == 0)
+                {
+                    glLineWidth(3);
+                    setPaintingColor(QColor(170, 255, 255, 100));
+                }
+                else
+                {
+                    glLineWidth(1);
+                    setPaintingColor(QColor(0, 170, 170));
+                }
+            }
+            else
+            {
+                if (i == 0)
+                {
+                    glLineWidth(3);
+                    setPaintingColor(QColor(170, 255, 255, 40));
+                }
+                else
+                {
+                    glLineWidth(1);
+                    setPaintingColor(QColor(100, 255, 255));
+                }
+            }
+
+            glBegin(GL_LINES);
+            glVertex2i(focusRect.left(), focusRect.top());
+            glVertex2i(focusRect.right(), focusRect.bottom());
+            glVertex2i(this->snapPos_screen.x() - 5, this->snapPos_screen.y() + 5);
+            glVertex2i(this->snapPos_screen.x() + 5, this->snapPos_screen.y() - 5);
+            glEnd();
+            break;
+        }
+        case SnapNo:
+        {
+            break;
+        }
+        }
     }
 
     glLineWidth(1);
