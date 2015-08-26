@@ -231,6 +231,7 @@ private:
     void paintContent(QList<Layer*> layers);
     void paintLayers(QList<Layer*> layers);
     void paintItems(QList<CADitem *> items, Layer *layer, bool checkBoundingBox = true, bool isSubItem = false);
+    void paintSnapIndicator(QRect focusRect, SnapMode snapMode, bool active);
 
     void updateArcball(int steps);
     QVector3D getArcBallVector(int x, int y);
