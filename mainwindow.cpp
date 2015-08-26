@@ -651,6 +651,21 @@ void MainWindow::slot_createNewItem(CADitemTypes::ItemType type)
         QMessageBox::critical(this, tr("Item creation"), tr("No layer is selected."));
         return;
     }
+
+    if (!currentLayer->writable)
+    {
+        QMessageBox::critical(this, tr("Item creation"), tr("The current layer is not writable."));
+        return;
+    }
+
+    if (!currentLayer->on)
+    {
+        if (QMessageBox::question(this, tr("Item creation"), tr("The current layer is not on.\nDo you really want to insert an item?"),
+                                  tr("Abort"), tr("Proceed"), "", 1, 0)
+                == 0)
+            return;
+    }
+
     itemDB->setRestorePoint();
     CADitem* item = itemDB->drawItem_withRestorePoint(currentLayer, type, WizardParams());
     this->itemWizard->showWizard(item, itemDB);

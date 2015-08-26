@@ -48,6 +48,8 @@ void ItemWizard::showWizard(CADitem *item, ItemDB* itemDB)
         return;
     }
 
+    deleteWdgs();
+
     currentItem = item;
 
     int i = 0;
@@ -90,6 +92,7 @@ void ItemWizard::showWizard(CADitem *item, ItemDB* itemDB)
     ui->label_itemGraphic->setPixmap(QPixmap::fromImage(this->wizardImage(item)));
 
     this->show();
+    this->activateWindow();
 }
 
 void ItemWizard::on_buttonBox_accepted()
@@ -164,6 +167,17 @@ void ItemWizard::deleteWdgs()
     delete ui->formLayout;
     ui->formLayout = new QFormLayout();
     ((QVBoxLayout*)this->layout())->insertLayout(1, ui->formLayout);
+}
+
+void ItemWizard::enterEvent(QEvent *event)
+{
+    this->activateWindow();
+    event->accept();
+}
+
+void ItemWizard::leaveEvent(QEvent *event)
+{
+    event->accept();
 }
 
 QImage ItemWizard::wizardImage(CADitem *item)

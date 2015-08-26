@@ -703,9 +703,9 @@ QVector3D GLWidget::pointOnSphere(QPoint pointOnScreen)
 void GLWidget::enterEvent(QEvent *event)
 {
     this->setFocus();
+    this->activateWindow();
     this->setCursor(Qt::BlankCursor);
     this->cursorShown = true;
-
     event->accept();
 }
 
@@ -848,6 +848,109 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         return;
     }
 
+    // Failure tests first
+
+    quint64 itemsOff = 0;
+    quint64 itemsLocked = 0;
+
+    foreach (CADitem* item, this->selection_itemList)
+    {
+        if (!item->layer->on)
+            itemsOff++;
+        if (!item->layer->writable)
+            itemsLocked++;
+    }
+
+    switch (event->key())
+    {
+    case Qt::Key_Escape:
+        break;
+    case Qt::Key_A:
+        break;
+    case Qt::Key_C:
+        if ((itemsOff > 0))
+        {
+            QMessageBox::critical(this, tr("Copy items"), tr("There are %1 item(s) to be copied from an inactive layer.\nCopy aborted.").arg(itemsOff));
+            event->accept();
+            return;
+        }
+        if (itemsLocked > 0)
+        {
+            QMessageBox::critical(this, tr("Copy items"), tr("There are %1 item(s) to be copied from a locked layer.\nCopy aborted.").arg(itemsLocked));
+            event->accept();
+            return;
+        }
+        break;
+    case Qt::Key_E:
+        break;
+    case Qt::Key_F:
+        break;
+    case Qt::Key_L:
+        break;
+    case Qt::Key_M:
+        if ((itemsOff > 0))
+        {
+            QMessageBox::critical(this, tr("Moving items"), tr("There are %1 item(s) to be moved on an inactive layer.\nMovement aborted.").arg(itemsOff));
+            event->accept();
+            return;
+        }
+        if (itemsLocked > 0)
+        {
+            QMessageBox::critical(this, tr("Moving items"), tr("There are %1 item(s) to be moved on a locked layer.\nMovement aborted.").arg(itemsLocked));
+            event->accept();
+            return;
+        }
+        break;
+    case Qt::Key_R:
+        if ((itemsOff > 0))
+        {
+            QMessageBox::critical(this, tr("Rotating items"), tr("There are %1 item(s) to be rotated on an inactive layer.\nRotation aborted.").arg(itemsOff));
+            event->accept();
+            return;
+        }
+        if (itemsLocked > 0)
+        {
+            QMessageBox::critical(this, tr("Rotating items"), tr("There are %1 item(s) to be rotated on a locked layer.\nRotation aborted.").arg(itemsLocked));
+            event->accept();
+            return;
+        }
+        break;
+    case Qt::Key_X:
+    case Qt::Key_Y:
+    case Qt::Key_Z:
+        if (!(event->modifiers() & Qt::ControlModifier))
+        {
+            if (!item_lastHighlight->layer->on)
+            {
+                QMessageBox::critical(this, tr("Rotating item"), tr("The item to be rotated is on an inactive layer.\nRotation aborted."));
+                event->accept();
+                return;
+            }
+            if (!item_lastHighlight->layer->writable)
+            {
+                QMessageBox::critical(this, tr("Rotating item"), tr("The item to be rotated is on a locked layer.\nRotation aborted."));
+                event->accept();
+                return;
+            }
+        }
+        break;
+    case Qt::Key_Delete:
+        if ((itemsOff > 0))
+        {
+            QMessageBox::critical(this, tr("Deleting items"), tr("There are %1 item(s) to be deleted on an inactive layer.\nDeletion aborted.").arg(itemsOff));
+            event->accept();
+            return;
+        }
+        if (itemsLocked > 0)
+        {
+            QMessageBox::critical(this, tr("Deleting items"), tr("There are %1 item(s) to be deleted on a locked layer.\nDeletion aborted.").arg(itemsLocked));
+            event->accept();
+            return;
+        }
+        break;
+    }
+
+    // Actions
     switch (event->key())
     {
     case Qt::Key_Escape:
@@ -987,8 +1090,12 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             }
         }
         break;
-    case Qt::Key_X:                         // Turn item around x axis
-        if (item_lastHighlight != NULL)
+    case Qt::Key_X:
+        if (event->modifiers() & Qt::ControlModifier)   // Ctrl + X (Reserved command)
+        {
+            ;
+        }
+        else if (item_lastHighlight != NULL)  // Turn item around x axis
         {
             QVector3D angles;
             QMatrix4x4 matrix_old = item_lastHighlight->matrix_rotation;
@@ -1060,6 +1167,30 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         if (this->selection_itemList.count() > 0)
         {
             QList<CADitem*> itemsToDelete = this->selection_itemList;
+
+//            quint64 itemsOff = 0;
+//            quint64 itemsLocked = 0;
+
+//            foreach (CADitem* item, itemsToDelete)
+//            {
+//                if (!item->layer->on)
+//                    itemsOff++;
+//                if (!item->layer->writable)
+//                    itemsLocked++;
+//            }
+
+//            if ((itemsOff > 0))
+//            {
+//                QMessageBox::critical(this, tr("Deleting items"), tr("There are %1 items to be deleted on an inactive layer.\nDeletion aborted.").arg(itemsOff));
+//                event->accept();
+//                return;
+//            }
+//            if (itemsLocked > 0)
+//            {
+//                QMessageBox::critical(this, tr("Deleting items"), tr("There are %1 items to be deleted on an locked layer.\nDeletion aborted.").arg(itemsLocked));
+//                event->accept();
+//                return;
+//            }
 
             if (QMessageBox::question(this, tr("Deleting items"), tr("You are going to delete %1 item(s).").arg(itemsToDelete.count()),
                                       tr("Abort"), tr("Proceed"), "", 1, 0)

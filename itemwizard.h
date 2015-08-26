@@ -26,6 +26,7 @@
 #include <QSpinBox>
 #include <QDoubleSpinBox>
 #include <QKeyEvent>
+#include <QEvent>
 
 namespace Ui {
 class ItemWizard;
@@ -55,6 +56,10 @@ private:
     ItemDB* itemDB;
     void save();
     void deleteWdgs();
+
+protected:
+    virtual void enterEvent(QEvent *event);
+    virtual void leaveEvent(QEvent *event);
 
 signals:
     void signal_sceneRepaintNeeded();
