@@ -126,18 +126,6 @@ void CAD_Basic_Torus::calculate()
         indicesFaces[41 * i + 39] = 10 * i + 0;
         indicesFaces[41 * i + 40] = 0xABCD;
     }
-    //    for(int i = 0; j < 9; i++)
-    //    {
-    //        indicesFaces[4*j] = j;
-    //        indicesFaces[4*j + 1] = j + 10;
-    //        indicesFaces[4*j + 2] = j + 1;
-    //        indicesFaces[4*j + 3] = j + 11;
-    //    }
-    //    indicesFaces[36] = 9;
-    //    indicesFaces[37] = 19;
-    //    indicesFaces[38] = 0;
-    //    indicesFaces[39] = 10;
-    //    indicesFaces[40] = 0xABCD;
 
     static GLushort indicesLines[400];
     for(int i = 0; i < 10; i++)

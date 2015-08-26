@@ -112,14 +112,14 @@ void CAD_basic_sphere::calculate()
     static GLushort indicesFaces[230];
     for(int j = 0; j < 10; j++)
     {
-    for(int i = 0; i < 10; i++)
-    {
-        indicesFaces[23 * j + 2 * i] = 10 * j + i;
-        indicesFaces[23 * j + 2 * i + 1] = 10 * j + i + 10;
-    }
-    indicesFaces[23 * j + 20] = 10 * j + 0;
-    indicesFaces[23 * j + 21] = 10 * j + 10;
-    indicesFaces[23 * j + 22] = 0xABCD;
+        for(int i = 0; i < 10; i++)
+        {
+            indicesFaces[23 * j + 2 * i] = 10 * j + i;
+            indicesFaces[23 * j + 2 * i + 1] = 10 * j + i + 10;
+        }
+        indicesFaces[23 * j + 20] = 10 * j + 0;
+        indicesFaces[23 * j + 21] = 10 * j + 10;
+        indicesFaces[23 * j + 22] = 0xABCD;
     }
 
     GLushort indicesLines[400];

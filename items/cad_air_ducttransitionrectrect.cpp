@@ -130,11 +130,11 @@ void CAD_air_ductTransitionRectRect::calculate()
     // Left end duct
     QVector3D position_led = position + QVector3D(0.0, 0.0, 0.0);
     // Right end duct
-    QVector3D position_red = position + matrix_rotation * QVector3D(l, (b - b2) / 2 + e, (a - a2) / 2 + f);
+    QVector3D position_red = position + matrix_rotation * QVector3D(l - endcap, (b - b2) / 2 + e, (a - a2) / 2 + f);
     // Left flange duct
     QVector3D position_lfd = position + QVector3D(0, 0.0, 0.0);
     // Right flange duct
-    QVector3D position_rfd = position + matrix_rotation * QVector3D(l, (b - b2) / 2 + e, (a - a2) / 2 + f);
+    QVector3D position_rfd = position + matrix_rotation * QVector3D(l - fe, (b - b2) / 2 + e, (a - a2) / 2 + f);
 
 
 
@@ -158,7 +158,7 @@ void CAD_air_ductTransitionRectRect::calculate()
     endcap_right_duct->wizardParams.insert("Position z", (position_red.z()));//position.z()+(a-c)/2+f));
     endcap_right_duct->wizardParams.insert("Angle x", (angle_x));
     endcap_right_duct->wizardParams.insert("Angle y", (angle_y));
-    endcap_right_duct->wizardParams.insert("Angle z", (angle_z+180));
+    endcap_right_duct->wizardParams.insert("Angle z", (angle_z));
     endcap_right_duct->wizardParams.insert("l", (endcap));
     endcap_right_duct->wizardParams.insert("b", (b2));
     endcap_right_duct->wizardParams.insert("a", (a2));
@@ -184,7 +184,7 @@ void CAD_air_ductTransitionRectRect::calculate()
     flange_right_duct->wizardParams.insert("Position z", (position_rfd.z()));//position.z()+(a-c)/2+f));
     flange_right_duct->wizardParams.insert("Angle x", (angle_x));
     flange_right_duct->wizardParams.insert("Angle y", (angle_y));
-    flange_right_duct->wizardParams.insert("Angle z", (angle_z+180));
+    flange_right_duct->wizardParams.insert("Angle z", (angle_z));
     flange_right_duct->wizardParams.insert("l", (fe));
     flange_right_duct->wizardParams.insert("b", (b2+2*ff));
     flange_right_duct->wizardParams.insert("a", (a2+2*ff));
@@ -208,24 +208,31 @@ void CAD_air_ductTransitionRectRect::calculate()
 
     QVector3D vertices[] = {
         //set Outer Points
-        endcap_left_duct->pos_bot_1,
-        endcap_right_duct->pos_bot_4,
+//        endcap_left_duct->pos_bot_1,
+//        endcap_right_duct->pos_bot_4,
+//        endcap_right_duct->pos_bot_1,
+//        endcap_left_duct->pos_bot_4,
+//        endcap_left_duct->pos_top_1,
+//        endcap_right_duct->pos_top_4,
+//        endcap_right_duct->pos_top_1,
+//        endcap_left_duct->pos_top_4,
         endcap_right_duct->pos_bot_1,
+        endcap_left_duct->pos_bot_1,
         endcap_left_duct->pos_bot_4,
-        endcap_left_duct->pos_top_1,
-        endcap_right_duct->pos_top_4,
+        endcap_right_duct->pos_bot_4,
         endcap_right_duct->pos_top_1,
+        endcap_left_duct->pos_top_1,
         endcap_left_duct->pos_top_4,
+        endcap_right_duct->pos_top_4,
         //set inner Points
-        endcap_right_duct->inner_pos_bot_4,
+        endcap_right_duct->inner_pos_bot_1,
         endcap_left_duct->inner_pos_bot_1,
         endcap_left_duct->inner_pos_bot_4,
-        endcap_right_duct->inner_pos_bot_1,
-        endcap_right_duct->inner_pos_top_4,
+        endcap_right_duct->inner_pos_bot_4,
+        endcap_right_duct->inner_pos_top_1,
         endcap_left_duct->inner_pos_top_1,
         endcap_left_duct->inner_pos_top_4,
-        endcap_right_duct->inner_pos_top_1,
-        endcap_left_duct->inner_pos_top_4
+        endcap_right_duct->inner_pos_top_4
     };
 //    //set Outer Points
 //    transition_duct->pos_bot_1 = endcap_left_duct->pos_bot_1;

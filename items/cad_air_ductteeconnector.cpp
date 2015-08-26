@@ -167,13 +167,13 @@ void CAD_air_ductTeeConnector::calculate()
     flange_1->processWizardInput();
     flange_1->calculate();
 
-    QVector3D position_e2 = position + matrix_rotation * QVector3D(l, b/2 - e - b2/2, 0);
+    QVector3D position_e2 = position + matrix_rotation * QVector3D(l - u, b/2 - e - b2/2, 0);
     endcap_2->wizardParams.insert("Position x", position_e2.x());
     endcap_2->wizardParams.insert("Position y", position_e2.y());
     endcap_2->wizardParams.insert("Position z", position_e2.z());
     endcap_2->wizardParams.insert("Angle x", angle_x);
     endcap_2->wizardParams.insert("Angle y", angle_y);
-    endcap_2->wizardParams.insert("Angle z", angle_z+180);
+    endcap_2->wizardParams.insert("Angle z", angle_z);
     endcap_2->wizardParams.insert("l", u);
     endcap_2->wizardParams.insert("b", b2);
     endcap_2->wizardParams.insert("a", a);
@@ -181,12 +181,13 @@ void CAD_air_ductTeeConnector::calculate()
     endcap_2->processWizardInput();
     endcap_2->calculate();
 
-    flange_2->wizardParams.insert("Position x", position_e2.x());
-    flange_2->wizardParams.insert("Position y", position_e2.y());
-    flange_2->wizardParams.insert("Position z", position_e2.z());
+    QVector3D position_f2 = position + matrix_rotation * QVector3D(l - fe, b/2 - e - b2/2, 0);
+    flange_2->wizardParams.insert("Position x", position_f2.x());
+    flange_2->wizardParams.insert("Position y", position_f2.y());
+    flange_2->wizardParams.insert("Position z", position_f2.z());
     flange_2->wizardParams.insert("Angle x", angle_x);
     flange_2->wizardParams.insert("Angle y", angle_y);
-    flange_2->wizardParams.insert("Angle z", angle_z+180);
+    flange_2->wizardParams.insert("Angle z", angle_z);
     flange_2->wizardParams.insert("l", fe);
     flange_2->wizardParams.insert("b", b2 + 2 * ff);
     flange_2->wizardParams.insert("a", a + 2 * ff);
@@ -194,13 +195,13 @@ void CAD_air_ductTeeConnector::calculate()
     flange_2->processWizardInput();
     flange_2->calculate();
 
-    QVector3D position_e3 = position + matrix_rotation * QVector3D(n + b3/2, b/2 -e - b2 - m, 0);
+    QVector3D position_e3 = position + matrix_rotation * QVector3D(n + b3/2, b/2 -e - b2 - m + u, 0.0);
     endcap_3->wizardParams.insert("Position x", position_e3.x());
     endcap_3->wizardParams.insert("Position y", position_e3.y());
     endcap_3->wizardParams.insert("Position z", position_e3.z());
     endcap_3->wizardParams.insert("Angle x", angle_x);
     endcap_3->wizardParams.insert("Angle y", angle_y);
-    endcap_3->wizardParams.insert("Angle z", angle_z+90);
+    endcap_3->wizardParams.insert("Angle z", angle_z-90.0);
     endcap_3->wizardParams.insert("l", u);
     endcap_3->wizardParams.insert("b", b3);
     endcap_3->wizardParams.insert("a", a);
@@ -208,12 +209,13 @@ void CAD_air_ductTeeConnector::calculate()
     endcap_3->processWizardInput();
     endcap_3->calculate();
 
-    flange_3->wizardParams.insert("Position x", position_e3.x());
-    flange_3->wizardParams.insert("Position y", position_e3.y());
-    flange_3->wizardParams.insert("Position z", position_e3.z());
+    QVector3D position_f3 = position + matrix_rotation * QVector3D(n + b3/2, b/2 -e - b2 - m + fe, 0.0);
+    flange_3->wizardParams.insert("Position x", position_f3.x());
+    flange_3->wizardParams.insert("Position y", position_f3.y());
+    flange_3->wizardParams.insert("Position z", position_f3.z());
     flange_3->wizardParams.insert("Angle x", angle_x);
     flange_3->wizardParams.insert("Angle y", angle_y);
-    flange_3->wizardParams.insert("Angle z", angle_z+90);
+    flange_3->wizardParams.insert("Angle z", angle_z-90.0);
     flange_3->wizardParams.insert("l", fe);
     flange_3->wizardParams.insert("b", b3 + 2 * ff);
     flange_3->wizardParams.insert("a", a + 2 * ff);
@@ -222,8 +224,8 @@ void CAD_air_ductTeeConnector::calculate()
     flange_3->calculate();
 
     snap_flanges.append(position);
-    snap_flanges.append(position_e2);
-    snap_flanges.append(position_e3);
+    snap_flanges.append(position + matrix_rotation * QVector3D(l, b/2 - e - b2/2, 0));
+    snap_flanges.append(position + matrix_rotation * QVector3D(n + b3/2, b/2 -e - b2 - m, 0.0));
 
 
     QVector3D vertices[104];
@@ -427,6 +429,11 @@ void CAD_air_ductTeeConnector::processWizardInput()
     this->ff = wizardParams.value("ff").toDouble();
     this->fe = wizardParams.value("fe").toDouble();
     this->s = wizardParams.value("s").toDouble();
+
+    //solve overdetermination
+    this->r1 = e + b2 + m - u - b;
+    this->r2 = l - u - b3 - n;
+
 
     if(fabs((u + r1 + b) - (e + b2 + m)) > 10E-8)
         qDebug() << "This item can not be drawn! (u + r1 + b) != (e + b2 + m)";

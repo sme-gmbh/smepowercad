@@ -254,7 +254,7 @@ void CAD_air_ductTurn::calculate()
                     vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->s, this->a/2 - this->s)
                                                          +QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)) + position;
                     index++;
-                    vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->s, -this->a/2 - this->s)
+                    vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->s, -this->a/2 + this->s)
                                                          +QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)) + position;
                     index++;
                 }
@@ -354,7 +354,7 @@ void CAD_air_ductTurn::calculate()
                                                      + offset) + position;
                  QVector3D lp2 = vertices[index];
                 index++;
-                vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->s, -this->a/2 - this->s)
+                vertices[index] = matrix_rotation * (matrix_angle * QVector3D(0.0, this->r + this->s, -this->a/2 + this->s)
                                                      +QVector3D(this->l1 + 0.0, -this->r - this->b/2, 0.0)
                                                      + offset) + position;
                 index++;
@@ -457,7 +457,8 @@ void CAD_air_ductTurn::calculate()
     //front and back faces;
     GLushort frontAndBack[] =  {
         100, 48, 101, 49, 102, 50, 103, 51, 100, 48, 0xABCD,
-        52, 0, 53, 1, 54, 2, 55, 3, 52, 0, 0xABCD,
+        0, 52, 1, 53, 2, 54, 3, 55, 0, 52, 0xABCD
+//        52, 0, 53, 1, 54, 2, 55, 3, 52, 0, 0xABCD
     };
     for(int i = 0; i < 22; i++)
         indicesFaces[216 + i] = frontAndBack[i];

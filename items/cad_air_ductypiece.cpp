@@ -137,8 +137,10 @@ void CAD_air_ductYpiece::calculate()
 
     QVector3D position_e1 = position + matrix_rotation * QVector3D(0.0, 0.0, 0.0);
     QVector3D position_f1 = position + matrix_rotation * QVector3D(0.0, 0.0, 0.0);
-    QVector3D position_e2 = position + matrix_rotation * QVector3D(l, b/2 + e - b2/2, a/2 + f - a2/2);
-    QVector3D position_e3 = position + matrix_rotation * QVector3D(l, b/2 + e - b2 - m - b3/2, a/2 + f - a2/2);
+    QVector3D position_f2 = position + matrix_rotation * QVector3D(l - fe, b/2 + e - b2/2, a/2 + f - a2/2);
+    QVector3D position_f3 = position + matrix_rotation * QVector3D(l - fe, b/2 + e - b2 - m - b3/2, a/2 + f - a2/2);
+    QVector3D position_e2 = position + matrix_rotation * QVector3D(l - u, b/2 + e - b2/2, a/2 + f - a2/2);
+    QVector3D position_e3 = position + matrix_rotation * QVector3D(l - u, b/2 + e - b2 - m - b3/2, a/2 + f - a2/2);
 
     endcap_1->wizardParams.insert("Position x", (position_e1.x()));
     endcap_1->wizardParams.insert("Position y", (position_e1.y()));
@@ -171,7 +173,7 @@ void CAD_air_ductYpiece::calculate()
     endcap_2->wizardParams.insert("Position z", (position_e2.z()));
     endcap_2->wizardParams.insert("Angle x", (angle_x));
     endcap_2->wizardParams.insert("Angle y", (angle_y));
-    endcap_2->wizardParams.insert("Angle z", (angle_z+180));
+    endcap_2->wizardParams.insert("Angle z", (angle_z));
     endcap_2->wizardParams.insert("l", (u));
     endcap_2->wizardParams.insert("b", (b2));
     endcap_2->wizardParams.insert("a", (a2));
@@ -179,12 +181,12 @@ void CAD_air_ductYpiece::calculate()
     endcap_2->processWizardInput();
     endcap_2->calculate();
 
-    flange_2->wizardParams.insert("Position x", (position_e2.x()));
-    flange_2->wizardParams.insert("Position y", (position_e2.y()));
-    flange_2->wizardParams.insert("Position z", (position_e2.z()));
+    flange_2->wizardParams.insert("Position x", (position_f2.x()));
+    flange_2->wizardParams.insert("Position y", (position_f2.y()));
+    flange_2->wizardParams.insert("Position z", (position_f2.z()));
     flange_2->wizardParams.insert("Angle x", (angle_x));
     flange_2->wizardParams.insert("Angle y", (angle_y));
-    flange_2->wizardParams.insert("Angle z", (angle_z + 180));
+    flange_2->wizardParams.insert("Angle z", (angle_z));
     flange_2->wizardParams.insert("l", (fe));
     flange_2->wizardParams.insert("b", (b2 + 2 * ff));
     flange_2->wizardParams.insert("a", (a2 + 2 * ff));
@@ -197,7 +199,7 @@ void CAD_air_ductYpiece::calculate()
     endcap_3->wizardParams.insert("Position z", (position_e3.z()));
     endcap_3->wizardParams.insert("Angle x", (angle_x));
     endcap_3->wizardParams.insert("Angle y", (angle_y));
-    endcap_3->wizardParams.insert("Angle z", (angle_z+180));
+    endcap_3->wizardParams.insert("Angle z", (angle_z));
     endcap_3->wizardParams.insert("l", (u));
     endcap_3->wizardParams.insert("b", (b3));
     endcap_3->wizardParams.insert("a", (a2));
@@ -205,12 +207,12 @@ void CAD_air_ductYpiece::calculate()
     endcap_3->processWizardInput();
     endcap_3->calculate();
 
-    flange_3->wizardParams.insert("Position x", (position_e3.x()));
-    flange_3->wizardParams.insert("Position y", (position_e3.y()));
-    flange_3->wizardParams.insert("Position z", (position_e3.z()));
+    flange_3->wizardParams.insert("Position x", (position_f3.x()));
+    flange_3->wizardParams.insert("Position y", (position_f3.y()));
+    flange_3->wizardParams.insert("Position z", (position_f3.z()));
     flange_3->wizardParams.insert("Angle x", (angle_x));
     flange_3->wizardParams.insert("Angle y", (angle_y));
-    flange_3->wizardParams.insert("Angle z", (angle_z + 180));
+    flange_3->wizardParams.insert("Angle z", (angle_z));
     flange_3->wizardParams.insert("l", (fe));
     flange_3->wizardParams.insert("b", (b3 + 2 * ff));
     flange_3->wizardParams.insert("a", (a2 + 2 * ff));
@@ -219,8 +221,8 @@ void CAD_air_ductYpiece::calculate()
     flange_3->calculate();
 
     this->snap_flanges.append(position);
-    this->snap_flanges.append(position_e2);
-    this->snap_flanges.append(position_e3);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, b/2 + e - b2/2, a/2 + f - a2/2));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, b/2 + e - b2 - m - b3/2, a/2 + f - a2/2));
 
     splitPoint[0] = position + matrix_rotation * QVector3D(l/2, (b/2 + e - b2 - m/2)/2, (f - a2) / 2);
     splitPoint[1] = position + matrix_rotation * QVector3D(l/2, (b/2 + e - b2 - m/2)/2, (a + f) / 2);
@@ -271,12 +273,12 @@ void CAD_air_ductYpiece::calculate()
     QVector3D vertices[] = {
         splitPoint[0], splitPoint[1],
         endcap_1->pos_bot_1, endcap_1->pos_top_1, endcap_1->pos_bot_4, endcap_1->pos_top_4,
-        endcap_2->pos_bot_1, endcap_2->pos_top_1, endcap_2->pos_bot_4, endcap_2->pos_top_4,
-        endcap_3->pos_bot_1, endcap_3->pos_top_1, endcap_3->pos_bot_4, endcap_3->pos_top_4,
+        endcap_2->pos_bot_3, endcap_2->pos_top_3, endcap_2->pos_bot_2, endcap_2->pos_top_2,
+        endcap_3->pos_bot_3, endcap_3->pos_top_3, endcap_3->pos_bot_2, endcap_3->pos_top_2,
         splitPoint[2], splitPoint[3],
         endcap_1->inner_pos_bot_1, endcap_1->inner_pos_top_1, endcap_1->inner_pos_bot_4, endcap_1->inner_pos_top_4,
-        endcap_2->inner_pos_bot_1, endcap_2->inner_pos_top_1, endcap_2->inner_pos_bot_4, endcap_2->inner_pos_top_4,
-        endcap_3->inner_pos_bot_1, endcap_3->inner_pos_top_1, endcap_3->inner_pos_bot_4, endcap_3->inner_pos_top_4,
+        endcap_2->inner_pos_bot_3, endcap_2->inner_pos_top_3, endcap_2->inner_pos_bot_2, endcap_2->inner_pos_top_2,
+        endcap_3->inner_pos_bot_3, endcap_3->inner_pos_top_3, endcap_3->inner_pos_bot_2, endcap_3->inner_pos_top_2,
     };
 
     static GLushort indicesFaces[] = {

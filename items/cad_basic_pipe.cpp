@@ -132,7 +132,7 @@ void CAD_basic_pipe::calculate()
         index++;
     }
 
-    static GLushort indicesFaces[139];
+    static GLushort indicesFaces[140];
     //outer faces
     for(int i = 0; i < 32; i++)
         indicesFaces[i] = 2*i;
@@ -164,12 +164,13 @@ void CAD_basic_pipe::calculate()
     //ring on positive x-end
     for(int i = 0; i < 16; i++)
     {
-        indicesFaces[105+2*i] = 4*i+3;
-        indicesFaces[105+2*i+1] = 4*i+2;
+        indicesFaces[105+2*i] = 4*i+2;
+        indicesFaces[105+2*i+1] = 4*i+3;
     }
 
-    indicesFaces[137] = 3;
-    indicesFaces[138] = 2;
+    indicesFaces[137] = 2;
+    indicesFaces[138] = 3;
+    indicesFaces[139] = 0xABCD;
 
 
     static GLushort indicesLines[192];
@@ -203,6 +204,7 @@ void CAD_basic_pipe::calculate()
         indicesLines[130 + 4*i] = 1 + 4*i;
         indicesLines[131 + 4*i] = 3 + 4*i;
     }
+    indicesFaces[139] = 0xABCD;
 
     arrayBufVertices->bind();
     arrayBufVertices->allocate(vertices, sizeof(vertices));

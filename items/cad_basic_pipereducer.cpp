@@ -132,7 +132,7 @@ void CAD_Basic_PipeReducer::calculate()
         index++;
     }
 
-    static GLushort indicesFaces[139];
+    static GLushort indicesFaces[140];
     //outer faces
     for(int i = 0; i < 32; i++)
         indicesFaces[i] = 2*i;
@@ -170,6 +170,7 @@ void CAD_Basic_PipeReducer::calculate()
 
     indicesFaces[137] = 2;
     indicesFaces[138] = 3;
+    indicesFaces[139] = 0xABCD;
 
 
     static GLushort indicesLines[192];

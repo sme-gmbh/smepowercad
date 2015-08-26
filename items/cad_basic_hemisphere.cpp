@@ -121,11 +121,11 @@ void CAD_Basic_Hemisphere::calculate()
     {
         for(int i = 0; i < 10; i++)
         {
-            indicesFaces[23 * j + 2 * i] = 10 * j + i;
-            indicesFaces[23 * j + 2 * i + 1] = 10 * j + i + 10;
+            indicesFaces[23 * j + 2 * i] = 10 * j + i + 10;
+            indicesFaces[23 * j + 2 * i + 1] = 10 * j + i;
         }
-        indicesFaces[23 * j + 20] = 10 * j + 0;
-        indicesFaces[23 * j + 21] = 10 * j + 10;
+        indicesFaces[23 * j + 20] = 10 * j + 10;
+        indicesFaces[23 * j + 21] = 10 * j;
         indicesFaces[23 * j + 22] = 0xABCD;
     }
 

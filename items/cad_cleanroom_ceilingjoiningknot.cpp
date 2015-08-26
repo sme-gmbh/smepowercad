@@ -158,12 +158,12 @@ void CAD_Cleanroom_CeilingJoiningKnot::calculate()
     GLushort indicesFaces[] =
     {
         0, 11, 5, 6, 0xABCD,
-        1, 2, 4, 3, 0xABCD,
+        2, 1, 3, 4, 0xABCD,
         10, 9, 7, 8, 0xABCD,
 
-        12, 23, 17, 18, 0xABCD,
+        23, 12, 18, 17, 0xABCD,
         13, 14, 16, 15, 0xABCD,
-        22, 21, 19, 20, 0xABCD,
+        21, 22, 20, 19, 0xABCD,
 
         12, 0, 13, 1, 14, 2, 15, 3, 16, 4, 17, 5, 18, 6, 19, 7, 20, 8, 21, 9, 22, 10, 23, 11, 12, 0, 0xABCD
     };

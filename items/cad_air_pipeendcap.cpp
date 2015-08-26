@@ -125,13 +125,30 @@ void CAD_air_pipeEndCap::calculate()
     endcap_inner->wizardParams.insert("Angle y", angle_y);
     endcap_inner->wizardParams.insert("Angle z", angle_z);
     endcap_inner->wizardParams.insert("d", d - 2 * s);   // Durchmesser
-    h = l - 0.1937742252 * (d - 2*s); // h - (1-sqrt(0.65)) * d
+    h = l - 0.2 * (d - 2*s); // h - (1-sqrt(0.65)) * d
     endcap_inner->wizardParams.insert("h", h);     // Höhe
     endcap_inner->layer = this->layer;
     endcap_inner->processWizardInput();
     endcap_inner->rotateAroundAxis(90.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
     endcap_inner->calculate();
 
+    //swap normal direction for inner torispherical head
+    static GLushort indicesFacesTH[350];
+    for(int i = 0; i < 10; i++)
+    {
+        for(int j = 0; j < 16; j++)
+        {
+            indicesFacesTH[35 * i + 2 * j] = 16 * i + j + 16;
+            indicesFacesTH[35 * i + 2 * j + 1] = 16 * i + j;
+        }
+        indicesFacesTH[35 * i + 32] = 16 * i + 16;
+        indicesFacesTH[35 * i + 33] = 16 * i;
+        indicesFacesTH[35 * i + 34] = 0xABCD;
+    }
+    endcap_inner->indexBufFaces->bind();
+    endcap_inner->indexBufFaces->allocate(indicesFacesTH, sizeof(indicesFacesTH));
+
+    //
     QVector3D vertices[32];
     for(int k = 0; k < 16; k++)
         vertices[k] = position + matrix_rotation * QVector3D(0.0, sin(k * PI * 0.125) * d/2, cos(k * PI *0.125) * d/2);
