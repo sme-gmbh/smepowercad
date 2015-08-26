@@ -291,7 +291,7 @@ void CAD_air_ductTransitionRectRect::calculate()
     this->snap_basepoint = position;
 
     this->snap_flanges.append(position);
-    this->snap_flanges.append(flange_right_duct->snap_flanges.at(0));
+    this->snap_flanges.append(flange_right_duct->snap_flanges.at(1));
 
 }
 
