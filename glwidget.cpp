@@ -1828,7 +1828,10 @@ CADitem *GLWidget::itemsAtPosition_processLayers(QList<Layer *> layers, GLuint g
 {
     foreach (Layer* layer, layers)
     {
-        if (!layer->on)
+        if ((!layer->on) && (!layer->solo))
+            continue;
+
+        if (!layer->writable)
             continue;
 
         CADitem* item = itemsAtPosition_processItems(layer->items, glName);

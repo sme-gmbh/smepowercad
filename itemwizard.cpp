@@ -105,7 +105,7 @@ void ItemWizard::on_buttonBox_rejected()
 
 void ItemWizard::slot_rejected()
 {
-    this->deleteWdgs(ui->formLayout);
+    this->deleteWdgs();
 }
 
 void ItemWizard::slot_accepted()
@@ -140,7 +140,7 @@ void ItemWizard::save()
         params.insert(wdg->objectName(), val);
     }
 
-    this->deleteWdgs(ui->formLayout);
+    this->deleteWdgs();
 
     this->itemDB->modifyItem_withRestorePoint(currentItem, params);
 //    currentItem->wizardParams = params;
@@ -149,23 +149,20 @@ void ItemWizard::save()
     emit signal_sceneRepaintNeeded();
 }
 
-void ItemWizard::deleteWdgs(QLayout *layout)
+void ItemWizard::deleteWdgs()
 {
     QLayoutItem *item;
-    while ((item = layout->takeAt(0)))
+    while (ui->formLayout->count() > 0)
     {
-        if (item->layout()) {
-            deleteWdgs(item->layout());
-            delete item->layout();
-        }
+        item = ui->formLayout->takeAt(0);
         if (item->widget()) {
             delete item->widget();
         }
         delete item;
     }
     this->layout()->removeItem(ui->formLayout);
-    ui->formLayout->deleteLater();
-    ui->formLayout = new QFormLayout;
+    delete ui->formLayout;
+    ui->formLayout = new QFormLayout();
     ((QVBoxLayout*)this->layout())->insertLayout(1, ui->formLayout);
 }
 

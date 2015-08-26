@@ -54,7 +54,7 @@ private:
     CADitem *currentItem;
     ItemDB* itemDB;
     void save();
-    void deleteWdgs(QLayout *layout);
+    void deleteWdgs();
 
 signals:
     void signal_sceneRepaintNeeded();

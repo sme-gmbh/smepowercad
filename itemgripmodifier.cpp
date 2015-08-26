@@ -189,7 +189,7 @@ void ItemGripModifier::finishGrip()
     this->item = NULL;
     this->activeGrip = Grip_None;
     hide();
-    deleteWdgs(ui->gridLayout);
+    deleteWdgs();
 }
 
 ItemGripModifier::ItemGripType ItemGripModifier::getActiveGrip()
@@ -202,7 +202,7 @@ void ItemGripModifier::slot_rejected()
     this->items.clear();
     this->item = NULL;
     this->hide();
-    deleteWdgs(ui->gridLayout);
+    deleteWdgs();
 }
 
 void ItemGripModifier::slot_button_clicked()
@@ -325,16 +325,12 @@ void ItemGripModifier::slot_button_rotateAroundPoint()
     emit signal_sceneRepaintNeeded();
 }
 
-void ItemGripModifier::deleteWdgs(QLayout *layout)
+void ItemGripModifier::deleteWdgs()
 {
     QLayoutItem *item;
-    while ((item = layout->takeAt(0)))
+    while (ui->gridLayout->count() > 0)
     {
-        if (item->layout())
-        {
-            deleteWdgs(item->layout());
-            delete item->layout();
-        }
+        item = ui->gridLayout->takeAt(0);
         if (item->widget())
         {
             delete item->widget();
@@ -343,8 +339,8 @@ void ItemGripModifier::deleteWdgs(QLayout *layout)
     }
 
     this->layout()->removeItem(ui->gridLayout);
-    ui->gridLayout->deleteLater();
-    ui->gridLayout = new QGridLayout(this);
+    delete ui->gridLayout;
+    ui->gridLayout = new QGridLayout();
     ((QVBoxLayout*)this->layout())->insertLayout(1, ui->gridLayout);
 }
 
@@ -353,7 +349,7 @@ void ItemGripModifier::showAppendBox()
     int flangeIndex = this->item->snap_flanges.indexOf(this->scenePos) + 1;
     QList<CADitemTypes::ItemType> flangable_items = item->flangable_items(flangeIndex);
 
-    deleteWdgs(ui->gridLayout);
+    deleteWdgs();
     ui->label->setText(tr("Choose new item"));
 
     int buttonCount = flangable_items.count();
@@ -392,7 +388,7 @@ void ItemGripModifier::showAppendBox()
 
 void ItemGripModifier::showCopyMultiBox()
 {
-    deleteWdgs(ui->gridLayout);
+    deleteWdgs();
     ui->label->setText(tr("Multi Copy"));
 
     copyMulti_spinBox_countX = new QSpinBox(this);
@@ -453,7 +449,7 @@ void ItemGripModifier::showCopyMultiBox()
 
 void ItemGripModifier::showRotateAroundPointBox()
 {
-    deleteWdgs(ui->gridLayout);
+    deleteWdgs();
     ui->label->setText(tr("Rotate around point"));
 
     rotate_doubleSpinBox_centerX = new QDoubleSpinBox(this);

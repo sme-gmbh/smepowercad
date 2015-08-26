@@ -99,7 +99,7 @@ private:
     QDoubleSpinBox* rotate_doubleSpinBox_angleZ;
 
 
-    void deleteWdgs(QLayout *layout);
+    void deleteWdgs();
     void showAppendBox();
     void showCopyMultiBox();
     void showRotateAroundPointBox();
