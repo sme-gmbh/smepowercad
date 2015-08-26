@@ -216,23 +216,23 @@ void CAD_air_ductTransitionRectRect::calculate()
 //        endcap_right_duct->pos_top_4,
 //        endcap_right_duct->pos_top_1,
 //        endcap_left_duct->pos_top_4,
-        endcap_right_duct->pos_bot_1,
+        endcap_right_duct->pos_bot_2,
         endcap_left_duct->pos_bot_1,
         endcap_left_duct->pos_bot_4,
-        endcap_right_duct->pos_bot_4,
-        endcap_right_duct->pos_top_1,
+        endcap_right_duct->pos_bot_3,
+        endcap_right_duct->pos_top_2,
         endcap_left_duct->pos_top_1,
         endcap_left_duct->pos_top_4,
-        endcap_right_duct->pos_top_4,
+        endcap_right_duct->pos_top_3,
         //set inner Points
-        endcap_right_duct->inner_pos_bot_1,
+        endcap_right_duct->inner_pos_bot_2,
         endcap_left_duct->inner_pos_bot_1,
         endcap_left_duct->inner_pos_bot_4,
-        endcap_right_duct->inner_pos_bot_4,
-        endcap_right_duct->inner_pos_top_1,
+        endcap_right_duct->inner_pos_bot_3,
+        endcap_right_duct->inner_pos_top_2,
         endcap_left_duct->inner_pos_top_1,
         endcap_left_duct->inner_pos_top_4,
-        endcap_right_duct->inner_pos_top_4
+        endcap_right_duct->inner_pos_top_3
     };
 //    //set Outer Points
 //    transition_duct->pos_bot_1 = endcap_left_duct->pos_bot_1;
