@@ -397,7 +397,10 @@ void CAD_air_ductTurn::calculate()
     boundingBox.enterVertex(flange_right_duct->pos_top_3);
     boundingBox.enterVertex(flange_right_duct->pos_top_4);
 
+    for(int i = 0; i < 104; i++)
+        boundingBox.enterVertex(vertices[i]);
 
+    //238
     GLushort indicesFaces[238];
     for(int i = 0; i < 238; i++)
         indicesFaces[i] = 0xABCD;
@@ -453,8 +456,8 @@ void CAD_air_ductTurn::calculate()
     indicesFaces[215] = 0xABCD;
     //front and back faces;
     GLushort frontAndBack[] =  {
-        48, 100, 49, 101, 50, 102, 51, 103, 48, 100, 0xABCD,
-        0,52,1,53,2,54,3,55,0, 52, 0xABCD,
+        100, 48, 101, 49, 102, 50, 103, 51, 100, 48, 0xABCD,
+        52, 0, 53, 1, 54, 2, 55, 3, 52, 0, 0xABCD,
     };
     for(int i = 0; i < 22; i++)
         indicesFaces[216 + i] = frontAndBack[i];
