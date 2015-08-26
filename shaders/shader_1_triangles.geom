@@ -15,7 +15,7 @@
 **********************************************************************/
 
 layout ( triangles ) in;
-layout ( triangle_strip, max_vertices = 6 ) out;
+layout ( triangle_strip, max_vertices = 3 ) out;
 layout ( location = 0) uniform mat4x4 Matrix;
 layout ( location = 48) uniform bool is_Selection;
 
@@ -81,26 +81,26 @@ void main()
     EmitVertex();
     EndPrimitive();
 
-    if (!is_Selection)
-    {
-        vec3 vbase = (v0 + v1 + v2) / 3.0;
-        vec3 vtip = vbase + normal;
+//    if (!is_Selection)
+//    {
+//        vec3 vbase = (v0 + v1 + v2) / 3.0;
+//        vec3 vtip = vbase + normal;
 
-        gVertexPosition = vec4(vbase, 1.0);
-        gColor = vec4(1.0, 0.0, 0.0, 1.0);
-        gTexCoord = vTexCoord[0];
-        gl_Position = Matrix * vec4(vbase, 1.0);
-        EmitVertex();
-        gVertexPosition = vec4(vtip, 1.0);
-        gColor = vec4(1.0, 0.0, 0.0, 1.0);;
-        gTexCoord = vTexCoord[1];
-        gl_Position = Matrix * vec4(vtip, 1.0);
-        EmitVertex();
-        gVertexPosition = vVertexPosition[2];
-        gColor = vec4(1.0, 0.0, 0.0, 1.0);;
-        gTexCoord = vTexCoord[2];
-        gl_Position = gl_in[2].gl_Position;
-        EmitVertex();
-        EndPrimitive();
-    }
+//        gVertexPosition = vec4(vbase, 1.0);
+//        gColor = vec4(1.0, 0.0, 0.0, 1.0);
+//        gTexCoord = vTexCoord[0];
+//        gl_Position = Matrix * vec4(vbase, 1.0);
+//        EmitVertex();
+//        gVertexPosition = vec4(vtip, 1.0);
+//        gColor = vec4(1.0, 0.0, 0.0, 1.0);;
+//        gTexCoord = vTexCoord[1];
+//        gl_Position = Matrix * vec4(vtip, 1.0);
+//        EmitVertex();
+//        gVertexPosition = vVertexPosition[2];
+//        gColor = vec4(1.0, 0.0, 0.0, 1.0);;
+//        gTexCoord = vTexCoord[2];
+//        gl_Position = gl_in[2].gl_Position;
+//        EmitVertex();
+//        EndPrimitive();
+//    }
 }
