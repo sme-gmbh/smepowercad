@@ -226,14 +226,14 @@ void CAD_Electrical_CabletrayTransition::calculate()
     right->calculate();
 
     QVector3D vertices_rgt[] = {
-        position + matrix_rotation * QVector3D(l1, -b/2 + s, s),
         position + matrix_rotation * QVector3D(l1 + l, -b/2 + s, s + i),
-        position + matrix_rotation * QVector3D(l1 + l, -b/2, s + i),
+        position + matrix_rotation * QVector3D(l1, -b/2 + s, s),
         position + matrix_rotation * QVector3D(l1, -b/2, s),
-        position + matrix_rotation * QVector3D(l1, -b/2 + s, a),
+        position + matrix_rotation * QVector3D(l1 + l, -b/2, s + i),
         position + matrix_rotation * QVector3D(l1 + l, -b/2 + s, a + i),
+        position + matrix_rotation * QVector3D(l1, -b/2 + s, a),
+        position + matrix_rotation * QVector3D(l1, -b/2, a),
         position + matrix_rotation * QVector3D(l1 + l, -b/2, a + i),
-        position + matrix_rotation * QVector3D(l1, -b/2, a)
     };
     right->arrayBufVertices->bind();
     right->arrayBufVertices->allocate(vertices_rgt, sizeof(vertices_rgt));

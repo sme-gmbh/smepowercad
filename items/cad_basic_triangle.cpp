@@ -113,7 +113,7 @@ void CAD_Basic_Triangle::calculate()
     };
 
     static GLushort indicesFaces[] = {
-        0,1,2
+        0,1,2, 0xABCD
     };
 
     static GLushort indicesLines[] = {

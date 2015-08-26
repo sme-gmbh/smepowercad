@@ -196,11 +196,11 @@ void CAD_basic_duct::calculate()
         1, 9,
         0xABCD,
         //front faces positive x end
-        0, 8,
-        3, 11,
-        7, 15,
-        4, 12,
-        0, 8,
+        8, 0,
+        11, 3,
+        15, 7,
+        12, 4,
+        8, 0,
         0xABCD
     };
 
@@ -305,5 +305,17 @@ void CAD_basic_duct::paint(GLWidget *glwidget)
 
 QMatrix4x4 CAD_basic_duct::rotationOfFlange(quint8 num)
 {
-    return matrix_rotation;
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        return matrix_rotation;
+    }
+    else
+        return matrix_rotation;
 }

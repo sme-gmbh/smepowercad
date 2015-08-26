@@ -66,9 +66,9 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
     {
         //*****triangles are coplanar*****
 
-        if(QVector3D::dotProduct(n, m) / (n.length() * m.length()) < -1 + TOL_INEXACT)
+        if(QVector3D::dotProduct(n, m) < 0.0)
             return false;
-
+        qDebug() << n << m << QVector3D::dotProduct(n, m);
 
         QVector2D v0_2D, v1_2D, v2_2D, w0_2D, w1_2D, w2_2D;
 

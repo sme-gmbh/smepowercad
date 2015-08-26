@@ -146,10 +146,10 @@ void CAD_Cleanroom_CeilingTeeJoiningPiece::calculate()
     GLushort indicesFaces[] =
     {
         0, 7, 5, 6, 0xABCD,
-        1, 2, 4, 3, 0xABCD,
+        2, 1, 3, 4, 0xABCD,
 
         15, 8, 14, 13, 0xABCD,
-        10, 9, 11, 12, 0xABCD,
+        9, 10, 12, 11, 0xABCD,
 
         8, 0 ,9, 1, 10, 2, 11, 3, 12, 4, 13, 5, 14, 6, 15, 7, 8, 0, 0xABCD
     };

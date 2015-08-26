@@ -394,16 +394,10 @@ void CAD_air_ductTransitionRectRound::calculate()
     endcap_round->processWizardInput();
     endcap_round->calculate();
 
-    this->snap_vertices.append(rectside[0][0][0]);
-    this->snap_vertices.append(rectside[0][0][1]);
-    this->snap_vertices.append(rectside[0][0][2]);
-    this->snap_vertices.append(rectside[0][0][3]);
-
-
-    this->snap_vertices.append(roundside[0][0][0]);
-    this->snap_vertices.append(roundside[0][0][7]);
-    this->snap_vertices.append(roundside[0][0][15]);
-    this->snap_vertices.append(roundside[0][0][23]);
+    this->snap_vertices.append(endcap_rect->snap_vertices.at(1));
+    this->snap_vertices.append(endcap_rect->snap_vertices.at(2));
+    this->snap_vertices.append(endcap_rect->snap_vertices.at(5));
+    this->snap_vertices.append(endcap_rect->snap_vertices.at(6));
 }
 
 void CAD_air_ductTransitionRectRound::processWizardInput()

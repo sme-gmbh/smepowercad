@@ -141,7 +141,7 @@ void CAD_Cleanroom_CeilingCornerPiece::calculate()
     {
         3, 2, 4, 1, 5, 0, 0xABCD,
 
-        6, 0, 11, 5, 10, 4, 9, 3, 8, 2, 7, 1, 6, 0, 0xABCD,
+        0, 6, 5, 11, 4, 10, 3, 9, 2, 8, 1, 7, 0, 6, 0xABCD,
 
         11, 6, 10, 7, 9, 8, 0xABCD
     };

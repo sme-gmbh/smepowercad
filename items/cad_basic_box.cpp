@@ -170,7 +170,7 @@ void CAD_basic_box::calculate()
     };
 
     static GLushort indicesFaces[] = {
-        5, 6, 7, 3, 4, 0, 1, 3, 2, 6, 1, 5, 4, 7
+        5, 6, 7, 3, 4, 0, 1, 3, 2, 6, 1, 5, 4, 7, 0xABCD
     };
 
     static GLushort indicesLines[] = {
