@@ -272,19 +272,22 @@ QList<MTriangle> CADitem::triangleListFromIndexedBuffers()
         arrayBufVertices->release();
 
         //fill list
+        bool need_invert = false;
         for(int i = 2; i < numberOfIndices; i++)
         {
             if(dataFaces[i] == 0xABCD)  //0xABCD = primitive restart index
             {
                 i += 2;
+                need_invert = false;
                 continue;
             }
             MTriangle triangle;
-            if(i % 2 == 0)
+            if(!need_invert)
                  triangle = MTriangle(dataVertices[dataFaces[i-2]], dataVertices[dataFaces[i-1]], dataVertices[dataFaces[i]]);
             else
                 triangle = MTriangle(dataVertices[dataFaces[i-1]], dataVertices[dataFaces[i-2]], dataVertices[dataFaces[i]]);
             list.append(triangle);
+            need_invert = !need_invert;
         }
         delete dataRawVertices;
         delete dataRawFaces;
