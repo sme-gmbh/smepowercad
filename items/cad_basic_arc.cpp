@@ -110,9 +110,7 @@ void CAD_basic_arc::calculate()
     {
         qreal angle = this->alpha/180.0f * PI * i / 20;
         QVector3D linePos;
-        linePos = this->position;
-
-        linePos += matrix_rotation * (QVector3D(sin(angle) * this->r, cos(angle) * this->r, 0.0));
+        linePos = this->position + matrix_rotation * (QVector3D(sin(angle) * this->r, cos(angle) * this->r, 0.0));
         boundingBox.enterVertex(linePos);
         vertices[i] = linePos;
     }
@@ -150,9 +148,9 @@ void CAD_basic_arc::calculate()
 
 void CAD_basic_arc::processWizardInput()
 {
-    this->position.setX(wizardParams.value("Center x").toDouble());
-    this->position.setY(wizardParams.value("Center y").toDouble());
-    this->position.setZ(wizardParams.value("Center z").toDouble());
+    this->position.setX(wizardParams.value("Position x").toDouble());
+    this->position.setY(wizardParams.value("Position y").toDouble());
+    this->position.setZ(wizardParams.value("Position z").toDouble());
     //this->center = QVector3D(position.x()+r*qCos(alpha/360.0f*PI), position.y()+r*qSin(alpha/360.0f*PI), position.z());
 
     this->r = wizardParams.value("r").toDouble();
