@@ -303,7 +303,8 @@ SOURCES += main.cpp\
     items/cad_gas_dryerdesiccant.cpp \
     items/cad_gas_dryerrefrigerant.cpp \
     items/cad_gas_compressor.cpp \
-    keyframeanimation.cpp
+    keyframeanimation.cpp \
+    items/cad_arch_stairs.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -568,7 +569,8 @@ HEADERS  += mainwindow.h \
     items/cad_gas_dryerdesiccant.h \
     items/cad_gas_dryerrefrigerant.h \
     items/cad_gas_compressor.h \
-    keyframeanimation.h
+    keyframeanimation.h \
+    items/cad_arch_stairs.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

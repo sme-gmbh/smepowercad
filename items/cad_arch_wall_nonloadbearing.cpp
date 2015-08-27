@@ -47,6 +47,8 @@ QList<CADitemTypes::ItemType> CAD_arch_wall_nonLoadBearing::flangable_items(int 
     QList<CADitemTypes::ItemType> flangable_items;
     flangable_items.append(CADitemTypes::Arch_Wall_loadBearing);
     flangable_items.append(CADitemTypes::Arch_Wall_nonLoadBearing);
+    flangable_items.append(CADitemTypes::Arch_Door);
+    flangable_items.append(CADitemTypes::Arch_Window);
     return flangable_items;
 }
 
@@ -92,7 +94,7 @@ void CAD_arch_wall_nonLoadBearing::calculate()
 
     this->snap_basepoint = (position);
 
-    QVector3D center = (matrix_rotation * QVector3D(l, b, a) / 2.0) + position;
+    QVector3D center = (matrix_rotation * QVector3D(l/2.0, 0.0, a/2.0)) + position;
     basic_box->wizardParams.insert("Position x", (center.x()));
     basic_box->wizardParams.insert("Position y", (center.y()));
     basic_box->wizardParams.insert("Position z", (center.z()));
@@ -107,11 +109,12 @@ void CAD_arch_wall_nonLoadBearing::calculate()
 
     this->snap_vertices.append(basic_box->snap_vertices);
     this->snap_center.append(basic_box->snap_center);
-    this->snap_flanges.append(basic_box->pos_bot_1);
-    this->snap_flanges.append(basic_box->pos_bot_2);
-    this->snap_flanges.append(basic_box->pos_bot_3);
-    this->snap_flanges.append(basic_box->pos_bot_4);
-
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(b/2, -b/2, 0.0));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l - b/2, -b/2, 0.0));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l - b/2, b/2, 0.0));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(b/2, b/2, 0.0));
 
     boundingBox = basic_box->boundingBox;
 }
@@ -137,26 +140,26 @@ QMatrix4x4 CAD_arch_wall_nonLoadBearing::rotationOfFlange(quint8 num)
     {
         QMatrix4x4 m;
         m.setToIdentity();
-        m.rotate(90.0, 0.0, 0.0, 1.0);
+        m.rotate(180.0, 0.0, 0.0, 1.0);
         return matrix_rotation * m;
     }
-    else if (num == 2)
-    {
-        return matrix_rotation;
-    }
-    else if (num == 3)
+    else if (num == 2  || num == 3)
     {
         QMatrix4x4 m;
         m.setToIdentity();
-        m.rotate(270.0, 0.0, 0.0, 1.0);
+        m.rotate(-90.0, 0.0, 0.0, 1.0);
         return matrix_rotation * m;
     }
     else if (num == 4)
     {
+        return matrix_rotation;
+    }
+    else if (num == 5 || num == 6)
+    {
         QMatrix4x4 m;
         m.setToIdentity();
-        m.rotate(180.0, 0.0, 0.0, 1.0);
+        m.rotate(90.0, 0.0, 0.0, 1.0);
         return matrix_rotation * m;
     }
-    return matrix_rotation;
+
 }

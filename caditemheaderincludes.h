@@ -58,6 +58,7 @@
 #include "items/cad_arch_grating.h"
 #include "items/cad_arch_levelslab.h"
 #include "items/cad_arch_support.h"
+#include "items/cad_arch_stairs.h"
 #include "items/cad_arch_wall_loadbearing.h"
 #include "items/cad_arch_wall_nonloadbearing.h"
 #include "items/cad_arch_window.h"

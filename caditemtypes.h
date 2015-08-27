@@ -38,7 +38,7 @@ public:
         Air_PipeTurn,                           // Rohrbogen
         Air_PipeReducer,                        // Rohrreduzierung
         Air_DuctTeeConnector,                   // Kanal-T-Stück
-        Air_DuctTransitionRectRect,                     // Kanalübergang (eckig)
+        Air_DuctTransitionRectRect,             // Kanalübergang (eckig)
         Air_DuctTransitionRectRound,            // Kanalübergang eckig/rund
         Air_DuctYpiece,                         // Kanal-Hosenstück
         Air_DuctEndPlate,                       // Kanalenddeckel (Boden)
@@ -63,16 +63,17 @@ public:
         Air_EquipmentFrame,                     // Geräterahmen
         Air_LinearDiffuser,                     // Linearauslass
 
-        Arch_Foundation,                        // Fundament
+        Arch_Beam,                              // Unterzug
+        Arch_BlockOut,
         Arch_BoredPile,                         // Bohrpfahl
+        Arch_Door,                              // Tür
+        Arch_Foundation,                        // Fundament
         Arch_LevelSlab,                         // Decke
+        Arch_Grating,                           // Gitterrost
+        Arch_Support,                           // Stütze
+        Arch_Stairs,                            // Treppe
         Arch_Wall_loadBearing,                  // Tragende Wand
         Arch_Wall_nonLoadBearing,               // Nicht tragende Wand
-        Arch_Grating,                           // Gitterrost
-        Arch_BlockOut,
-        Arch_Support,                           // Stütze
-        Arch_Beam,                              // Unterzug
-        Arch_Door,
         Arch_Window,
 
         Basic_Arc,                              // Basisgeometrie: Bogen

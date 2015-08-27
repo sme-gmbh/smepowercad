@@ -13,17 +13,16 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#ifndef CAD_ARCH_WINDOW_H
-#define CAD_ARCH_WINDOW_H
+#ifndef CAD_ARCH_STAIRS_H
+#define CAD_ARCH_STAIRS_H
 
 #include "caditem.h"
 #include "items/cad_basic_box.h"
-
-class CAD_arch_window : public CADitem
+class CAD_Arch_Stairs : public CADitem
 {
 public:
-    CAD_arch_window();
-    virtual ~CAD_arch_window();
+    CAD_Arch_Stairs();
+    virtual ~CAD_Arch_Stairs();
     virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
@@ -32,9 +31,14 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
+//    virtual void paint(GLWidget* glwidget);
 
-    qreal a, b, l, s1, s2;
-    CAD_basic_box *box_left, *box_up, *box_right, *box_low;
+//    QOpenGLBuffer arrayBufVertices;
+//    QOpenGLBuffer indexBufFaces;
+//    QOpenGLBuffer indexBufLines;
+
+    qreal a, b, l;
+    quint8 n;
 };
 
-#endif // CAD_ARCH_WINDOW_H
+#endif // CAD_ARCH_STAIRS_H

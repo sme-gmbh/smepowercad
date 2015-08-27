@@ -17,6 +17,8 @@
 #define CAD_ARCH_DOOR_H
 
 #include "caditem.h"
+#include "items/cad_basic_box.h"
+#include "items/cad_basic_arc.h"
 
 class CAD_arch_door : public CADitem
 {
@@ -31,6 +33,10 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
+
+    qreal a, b, l, alpha, s1, s2;
+    CAD_basic_box *box_left, *box_up, *box_right, *door;
+    CAD_basic_arc *arc;
 };
 
 #endif // CAD_ARCH_DOOR_H

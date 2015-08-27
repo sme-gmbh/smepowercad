@@ -25,6 +25,22 @@ CAD_arch_window::CAD_arch_window() : CADitem(CADitemTypes::Arch_Window)
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
+    wizardParams.insert("a", 1000.0);       //Höhe Rahmen
+    wizardParams.insert("b",  300.0);       //Tiefe Ramen
+    wizardParams.insert("l", 1000.0);       //Breite Rahmen
+    wizardParams.insert("s1",   50.0);       //Rahmenstärke oben
+    wizardParams.insert("s2",   50.0);       //Rahmenstärke seitlich
+
+    box_left = new CAD_basic_box();
+    box_right = new CAD_basic_box();
+    box_low = new CAD_basic_box();
+    box_up = new CAD_basic_box();
+
+    this->subItems.append(box_left);
+    this->subItems.append(box_up);
+    this->subItems.append(box_right);
+    this->subItems.append(box_low);
+
     processWizardInput();
     calculate();
 }
@@ -38,7 +54,10 @@ QList<CADitemTypes::ItemType> CAD_arch_window::flangable_items(int flangeIndex)
 {
     Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
-
+    flangable_items.append(CADitemTypes::Arch_Wall_loadBearing);
+    flangable_items.append(CADitemTypes::Arch_Wall_nonLoadBearing);
+    flangable_items.append(CADitemTypes::Arch_Door);
+    flangable_items.append(CADitemTypes::Arch_Window);
     return flangable_items;
 }
 
@@ -71,11 +90,6 @@ QString CAD_arch_window::description()
 
 void CAD_arch_window::calculate()
 {
-    matrix_rotation.setToIdentity();
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-
     boundingBox.reset();
 
     this->snap_flanges.clear();
@@ -83,6 +97,81 @@ void CAD_arch_window::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+
+    QVector3D pos_left = (matrix_rotation * QVector3D(s2/2.0, 0.0, a/2.0)) + position;
+    box_left->wizardParams.insert("Position x", (pos_left.x()));
+    box_left->wizardParams.insert("Position y", (pos_left.y()));
+    box_left->wizardParams.insert("Position z", (pos_left.z()));
+    box_left->wizardParams.insert("Angle x", (angle_x));
+    box_left->wizardParams.insert("Angle y", (angle_y));
+    box_left->wizardParams.insert("Angle z", (angle_z));
+    box_left->wizardParams.insert("l", (s2));
+    box_left->wizardParams.insert("b", (b));
+    box_left->wizardParams.insert("a", (a));
+    box_left->layer = this->layer;
+    box_left->processWizardInput();
+    box_left->calculate();
+
+    QVector3D pos_right = (matrix_rotation * QVector3D(l - s2/2.0, 0.0, a/2.0)) + position;
+    box_right->wizardParams.insert("Position x", (pos_right.x()));
+    box_right->wizardParams.insert("Position y", (pos_right.y()));
+    box_right->wizardParams.insert("Position z", (pos_right.z()));
+    box_right->wizardParams.insert("Angle x", (angle_x));
+    box_right->wizardParams.insert("Angle y", (angle_y));
+    box_right->wizardParams.insert("Angle z", (angle_z));
+    box_right->wizardParams.insert("l", (s2));
+    box_right->wizardParams.insert("b", (b));
+    box_right->wizardParams.insert("a", (a));
+    box_right->processWizardInput();
+    box_right->layer = this->layer;
+    box_right->calculate();
+
+    QVector3D pos_up = (matrix_rotation * QVector3D(l/2.0, 0.0, a - s1/2.0)) + position;
+    box_up->wizardParams.insert("Position x", (pos_up.x()));
+    box_up->wizardParams.insert("Position y", (pos_up.y()));
+    box_up->wizardParams.insert("Position z", (pos_up.z()));
+    box_up->wizardParams.insert("Angle x", (angle_x));
+    box_up->wizardParams.insert("Angle y", (angle_y));
+    box_up->wizardParams.insert("Angle z", (angle_z));
+    box_up->wizardParams.insert("l", (l - 2 * s2));
+    box_up->wizardParams.insert("b", (b));
+    box_up->wizardParams.insert("a", (s1));
+    box_up->layer = this->layer;
+    box_up->processWizardInput();
+    box_up->calculate();
+
+    QVector3D pos_low = (matrix_rotation * QVector3D(l/2.0, 0.0, s1/2.0)) + position;
+    box_low->wizardParams.insert("Position x", (pos_low.x()));
+    box_low->wizardParams.insert("Position y", (pos_low.y()));
+    box_low->wizardParams.insert("Position z", (pos_low.z()));
+    box_low->wizardParams.insert("Angle x", (angle_x));
+    box_low->wizardParams.insert("Angle y", (angle_y));
+    box_low->wizardParams.insert("Angle z", (angle_z));
+    box_low->wizardParams.insert("l", (l - 2 * s2));
+    box_low->wizardParams.insert("b", (b));
+    box_low->wizardParams.insert("a", (s1));
+    box_low->layer = this->layer;
+    box_low->processWizardInput();
+    box_low->calculate();
+
+    this->boundingBox.enterVertices(box_left->boundingBox.getVertices());
+    this->boundingBox.enterVertices(box_right->boundingBox.getVertices());
+    this->boundingBox.enterVertices(box_up->boundingBox.getVertices());
+    this->boundingBox.enterVertices(box_low->boundingBox.getVertices());
+
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, a));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(0.0, 0.0, a));
+
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0, -b/2, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l  , -b/2, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l  ,  b/2, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,  b/2, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0, -b/2, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l  , -b/2, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l  ,  b/2, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,  b/2, a));
 }
 
 void CAD_arch_window::processWizardInput()
@@ -94,9 +183,31 @@ void CAD_arch_window::processWizardInput()
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
 
+    a = wizardParams.value("a").toDouble();
+    b = wizardParams.value("b").toDouble();
+    l = wizardParams.value("l").toDouble();
+    s1 = wizardParams.value("s1").toDouble();
+    s2 = wizardParams.value("s2").toDouble();
+
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
+
 }
 
 QMatrix4x4 CAD_arch_window::rotationOfFlange(quint8 num)
 {
-    return matrix_rotation;
+    if (num == 1 || num == 3)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+
+    else if (num == 2 || num == 4)
+    {
+        return matrix_rotation;
+    }
 }

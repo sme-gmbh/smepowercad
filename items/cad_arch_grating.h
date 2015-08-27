@@ -17,7 +17,7 @@
 #define CAD_ARCH_GRATING_H
 
 #include "caditem.h"
-
+#include "items/cad_basic_box.h"
 class CAD_arch_grating : public CADitem
 {
 public:
@@ -31,6 +31,9 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
+
+    qreal a,b,l;
+    CAD_basic_box *grating;
 };
 
 #endif // CAD_ARCH_GRATING_H
