@@ -2054,8 +2054,8 @@ void GLWidget::paintSnapIndicator(QRect focusRect, GLWidget::SnapMode snapMode, 
             glBegin(GL_LINES);
             glVertex2i(focusRect.left(), focusRect.top());
             glVertex2i(focusRect.right(), focusRect.bottom());
-            glVertex2i(this->snapPos_screen.x() - 5, this->snapPos_screen.y() + 5);
-            glVertex2i(this->snapPos_screen.x() + 5, this->snapPos_screen.y() - 5);
+            glVertex2i(focusRect.center().x() - 5, focusRect.center().y() + 5);
+            glVertex2i(focusRect.center().x() + 5, focusRect.center().y() - 5);
             glEnd();
             break;
         }
