@@ -492,6 +492,9 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Arch_Support:
         newItem = new CAD_arch_support();
         break;
+    case CADitemTypes::Arch_Stairs:
+        newItem = new CAD_Arch_Stairs();
+        break;
     case CADitemTypes::Arch_Wall_loadBearing:
         newItem = new CAD_arch_wall_loadBearing();
         break;

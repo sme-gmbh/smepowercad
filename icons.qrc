@@ -384,6 +384,8 @@
         <file>itemGraphic/cad_air_pressurereliefdamper.png</file>
         <file>itemGraphic/cad_air_multileafdamper.png</file>
         <file>itemGraphic/cad_air_throttlevalve.png</file>
+        <file>itemGraphic/cad_air_canvasflange.dxf</file>
+        <file>itemGraphic/cad_arch_stairs.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/check.svg</file>
