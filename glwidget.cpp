@@ -1430,15 +1430,44 @@ void GLWidget::paintGL()
         // draw Arcball
         if(arcballShown)
         {
+            QRect screenRect = QRect(0, 0, this->width(), this->height());
+            screenRect.moveCenter(QPoint(0, 0));
             QPointF lookAtScreenCoords = mapFromScene(lookAtPosition);
             setPaintingColor(QColor(255, 200, 0));
             glLineWidth(3.0);
-            glBegin(GL_LINES);
-            glVertex3f(lookAtScreenCoords.x() - 15, lookAtScreenCoords.y()     , 0);
-            glVertex3f(lookAtScreenCoords.x() + 15, lookAtScreenCoords.y()     , 0);
-            glVertex3f(lookAtScreenCoords.x()     , lookAtScreenCoords.y() - 15, 0);
-            glVertex3f(lookAtScreenCoords.x()     , lookAtScreenCoords.y() + 15, 0);
-            glEnd();
+
+            if (screenRect.contains(lookAtScreenCoords.toPoint()))    // Screen contains lookAtScreenCoords
+            {
+                glBegin(GL_LINES);
+                glVertex3f(lookAtScreenCoords.x() - 15, lookAtScreenCoords.y()     , 0);
+                glVertex3f(lookAtScreenCoords.x() + 15, lookAtScreenCoords.y()     , 0);
+                glVertex3f(lookAtScreenCoords.x()     , lookAtScreenCoords.y() - 15, 0);
+                glVertex3f(lookAtScreenCoords.x()     , lookAtScreenCoords.y() + 15, 0);
+                glEnd();
+            }
+            else                                                        // lookAtScreenCoords is outside of screen, so show arrow to it
+            {
+                QVector3D center = QVector3D(0.0, 0.0, 0.0);
+                QVector3D lookAt = QVector3D(lookAtScreenCoords);
+                QVector3D direction = (lookAt - center).normalized() * 100.0;
+                QVector3D tip = center + direction;
+                QMatrix4x4 m;
+                m.rotate(30.0, 0.0, 0.0, 1.0);
+                QVector3D arrow1 = m * direction * 0.3;
+                m.setToIdentity();
+                m.rotate(-30.0, 0.0, 0.0, 1.0);
+                QVector3D arrow2 = m * direction * 0.3;
+
+
+                glBegin(GL_LINES);
+                glVertex3f(center.x(), center.y(), 0.0);
+                glVertex3f(tip.x(), tip.y(), 0.0);
+                glVertex3f(tip.x(), tip.y(), 0.0);
+                glVertex3f(tip.x() - arrow1.x(), tip.y() - arrow1.y(), 0.0);
+                glVertex3f(tip.x(), tip.y(), 0.0);
+                glVertex3f(tip.x() - arrow2.x(), tip.y() - arrow2.y(), 0.0);
+                glEnd();
+            }
 
             glLineWidth(2.0);
             glBegin(GL_LINE_LOOP);
