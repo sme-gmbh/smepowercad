@@ -577,12 +577,12 @@ FORMS    += mainwindow.ui \
     geometrydisplaytitle.ui \
     modaldialog.ui \
     settingsdialog.ui \
-    itemwizard.ui \
     itemgripmodifier.ui \
     toolwidget.ui \
     printwidget.ui \
     printpapertemplate.ui \
-    keyframeanimation.ui
+    keyframeanimation.ui \
+    itemwizard.ui
 
 RESOURCES += \
     icons.qrc

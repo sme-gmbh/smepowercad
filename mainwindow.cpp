@@ -47,7 +47,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // **** Item Wizard ****
     itemWizard = new ItemWizard(this);
+    this->addDockWidget(Qt::LeftDockWidgetArea, this->itemWizard);
+    this->itemWizard->hide();
     connect(itemWizard, SIGNAL(signal_sceneRepaintNeeded()), this, SIGNAL(signal_repaintNeeded()));
+    connect(itemDB, SIGNAL(signal_itemDeleted(CADitem*)),itemWizard, SLOT(slot_itemDeleted(CADitem*)));
 
     // **** Item Grip Modifier ****
     itemGripModifier = new ItemGripModifier(itemDB, itemWizard, this);

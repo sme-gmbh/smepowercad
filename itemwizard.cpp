@@ -18,12 +18,13 @@
 #include "wizardparams.h"
 
 ItemWizard::ItemWizard(QWidget *parent) :
-    QDialog(parent),
+    QDockWidget(parent),
     ui(new Ui::ItemWizard)
 {
     ui->setupUi(this);
-    connect(this, SIGNAL(rejected()), this, SLOT(slot_rejected()));
-    connect(this, SIGNAL(accepted()), this, SLOT(slot_accepted()));
+    this->widgetLastFocus = NULL;
+//    connect(this, SIGNAL(rejected()), this, SLOT(slot_rejected()));
+//    connect(this, SIGNAL(accepted()), this, SLOT(slot_accepted()));
 }
 
 ItemWizard::~ItemWizard()
@@ -86,34 +87,30 @@ void ItemWizard::showWizard(CADitem *item, ItemDB* itemDB)
         i++;
     }
 
+    this->widgetLastFocus = qApp->focusWidget();
     this->setWindowTitle(tr("Item Wizard: %1").arg(item->description()));
 
     // Show item graphic description
     ui->label_itemGraphic->setPixmap(QPixmap::fromImage(this->wizardImage(item)));
 
     this->show();
-    this->activateWindow();
-}
-
-void ItemWizard::on_buttonBox_accepted()
-{
-    this->accept();
-}
-
-void ItemWizard::on_buttonBox_rejected()
-{
-    currentItem->calculate();
-    this->reject();
+    this->setFocus();
+//    this->activateWindow();
 }
 
 void ItemWizard::slot_rejected()
 {
     this->deleteWdgs();
+    this->hide();
+    this->giveFocusBack();
 }
 
 void ItemWizard::slot_accepted()
 {
     this->save();
+    this->deleteWdgs();
+    this->hide();
+    this->giveFocusBack();
 }
 
 void ItemWizard::save()
@@ -143,8 +140,6 @@ void ItemWizard::save()
         params.insert(wdg->objectName(), val);
     }
 
-    this->deleteWdgs();
-
     this->itemDB->modifyItem_withRestorePoint(currentItem, params);
 //    currentItem->wizardParams = params;
 //    currentItem->processWizardInput();
@@ -163,15 +158,27 @@ void ItemWizard::deleteWdgs()
         }
         delete item;
     }
-    this->layout()->removeItem(ui->formLayout);
+    ui->gridLayout->removeItem(ui->formLayout);
     delete ui->formLayout;
     ui->formLayout = new QFormLayout();
-    ((QVBoxLayout*)this->layout())->insertLayout(1, ui->formLayout);
+    ui->gridLayout->addLayout(ui->formLayout, 1, 0, 1, 4);
+
+    // Remove itemGraphic
+    ui->label_itemGraphic->clear();
+}
+
+void ItemWizard::giveFocusBack()
+{
+    if (this->widgetLastFocus != NULL)
+        this->widgetLastFocus->setFocus();
 }
 
 void ItemWizard::enterEvent(QEvent *event)
 {
-    this->activateWindow();
+    if (this->isFloating())
+        this->activateWindow();
+    else
+        this->setFocus();
     event->accept();
 }
 
@@ -180,7 +187,52 @@ void ItemWizard::leaveEvent(QEvent *event)
     event->accept();
 }
 
+void ItemWizard::keyPressEvent(QKeyEvent *event)
+{
+    switch (event->key())
+    {
+    case Qt::Key_Return:
+    case Qt::Key_Enter:
+        this->slot_accepted();
+        break;
+    case Qt::Key_Escape:
+        this->slot_rejected();
+        break;
+    default:
+        break;
+    }
+    event->accept();
+}
+
+void ItemWizard::mousePressEvent(QMouseEvent *event)
+{
+    if (event->buttons() & Qt::RightButton)
+        this->slot_accepted();
+    event->accept();
+}
+
 QImage ItemWizard::wizardImage(CADitem *item)
 {
     return item->wizardImage().scaledToWidth(400, Qt::SmoothTransformation);
+}
+
+void ItemWizard::on_pushButton_ok_clicked()
+{
+    this->slot_accepted();
+}
+
+void ItemWizard::on_pushButton_apply_clicked()
+{
+    this->save();
+}
+
+void ItemWizard::on_pushButton_cancel_clicked()
+{
+    this->slot_rejected();
+}
+
+void ItemWizard::slot_itemDeleted(CADitem *item)
+{
+    if (currentItem == item)
+        this->slot_rejected();
 }

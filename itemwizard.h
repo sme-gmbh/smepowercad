@@ -16,7 +16,7 @@
 #ifndef ITEMWIZARD_H
 #define ITEMWIZARD_H
 
-#include <QDialog>
+#include <QDockWidget>
 #include <QDebug>
 #include <QMap>
 #include "caditem.h"
@@ -27,12 +27,13 @@
 #include <QDoubleSpinBox>
 #include <QKeyEvent>
 #include <QEvent>
+#include <QWidget>
 
 namespace Ui {
 class ItemWizard;
 }
 
-class ItemWizard : public QDialog
+class ItemWizard : public QDockWidget
 {
     Q_OBJECT
 
@@ -44,22 +45,33 @@ public:
     static QImage wizardImage(CADitem *item);
 
 private slots:
-    void on_buttonBox_accepted();
-    void on_buttonBox_rejected();
     void slot_rejected();
     void slot_accepted();
+
+    void on_pushButton_ok_clicked();
+
+    void on_pushButton_apply_clicked();
+
+    void on_pushButton_cancel_clicked();
+
+public slots:
+    void slot_itemDeleted(CADitem* item);
 
 private:
     Ui::ItemWizard *ui;
 
     CADitem *currentItem;
     ItemDB* itemDB;
+    QWidget* widgetLastFocus;   // The widget that had the focus before ItemWizard got focus
     void save();
     void deleteWdgs();
+    void giveFocusBack();
 
 protected:
     virtual void enterEvent(QEvent *event);
     virtual void leaveEvent(QEvent *event);
+    virtual void keyPressEvent(QKeyEvent *event);
+    virtual void mousePressEvent(QMouseEvent *event);
 
 signals:
     void signal_sceneRepaintNeeded();
