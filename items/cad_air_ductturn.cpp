@@ -397,6 +397,17 @@ void CAD_air_ductTurn::calculate()
     boundingBox.enterVertex(flange_right_duct->pos_top_3);
     boundingBox.enterVertex(flange_right_duct->pos_top_4);
 
+    this->snap_vertices.append(flange_left_duct->inner_pos_bot_2);
+    this->snap_vertices.append(flange_left_duct->inner_pos_bot_3);
+    this->snap_vertices.append(flange_left_duct->inner_pos_top_2);
+    this->snap_vertices.append(flange_left_duct->inner_pos_top_3);
+
+    this->snap_vertices.append(flange_right_duct->inner_pos_bot_1);
+    this->snap_vertices.append(flange_right_duct->inner_pos_bot_4);
+    this->snap_vertices.append(flange_right_duct->inner_pos_top_1);
+    this->snap_vertices.append(flange_right_duct->inner_pos_top_4);
+
+
     for(int i = 0; i < 104; i++)
         boundingBox.enterVertex(vertices[i]);
 

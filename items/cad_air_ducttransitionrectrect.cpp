@@ -283,10 +283,10 @@ void CAD_air_ductTransitionRectRect::calculate()
     this->snap_vertices.append(endcap_left_duct->pos_top_2);
     this->snap_vertices.append(endcap_left_duct->pos_top_3);
 
-    this->snap_vertices.append(endcap_right_duct->pos_bot_2);
-    this->snap_vertices.append(endcap_right_duct->pos_bot_3);
-    this->snap_vertices.append(endcap_right_duct->pos_top_2);
-    this->snap_vertices.append(endcap_right_duct->pos_top_3);
+    this->snap_vertices.append(endcap_right_duct->pos_bot_1);
+    this->snap_vertices.append(endcap_right_duct->pos_bot_4);
+    this->snap_vertices.append(endcap_right_duct->pos_top_1);
+    this->snap_vertices.append(endcap_right_duct->pos_top_4);
 
     this->snap_basepoint = position;
 

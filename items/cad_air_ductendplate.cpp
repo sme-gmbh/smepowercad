@@ -34,10 +34,8 @@ CAD_air_ductEndPlate::CAD_air_ductEndPlate() : CADitem(CADitemTypes::Air_DuctEnd
 
     this->plate = new CAD_basic_box();
     this->flange = new CAD_basic_duct();
-    this->duct = new CAD_basic_duct();
     this->subItems.append(plate);
     this->subItems.append(flange);
-    this->subItems.append(duct);
 
     processWizardInput();
     calculate();
@@ -96,19 +94,6 @@ void CAD_air_ductEndPlate::calculate()
     this->snap_basepoint = (position);
     this->snap_flanges.append(position);
 
-    duct->wizardParams.insert("Position x", (position.x()));
-    duct->wizardParams.insert("Position y", (position.y()));
-    duct->wizardParams.insert("Position z", (position.z()));
-    duct->wizardParams.insert("Angle x", (angle_x));
-    duct->wizardParams.insert("Angle y", (angle_y));
-    duct->wizardParams.insert("Angle z", (angle_z));
-    duct->wizardParams.insert("l", (l/2));
-    duct->wizardParams.insert("b", (b));
-    duct->wizardParams.insert("a", (a));
-    duct->wizardParams.insert("s", (s));
-    duct->processWizardInput();
-    duct->calculate();
-
     flange->wizardParams.insert("Position x", (position.x()));
     flange->wizardParams.insert("Position y", (position.y()));
     flange->wizardParams.insert("Position z", (position.z()));
@@ -122,14 +107,14 @@ void CAD_air_ductEndPlate::calculate()
     flange->processWizardInput();
     flange->calculate();
 
-    QVector3D position_p = position + matrix_rotation * QVector3D(3 * l / 4,0.0, 0.0);
+    QVector3D position_p = position + matrix_rotation * QVector3D(l/2,0.0, 0.0);
     plate->wizardParams.insert("Position x", (position_p.x()));
     plate->wizardParams.insert("Position y", (position_p.y()));
     plate->wizardParams.insert("Position z", (position_p.z()));
     plate->wizardParams.insert("Angle x", (angle_x));
     plate->wizardParams.insert("Angle y", (angle_y));
     plate->wizardParams.insert("Angle z", (angle_z));
-    plate->wizardParams.insert("l", (l/2));
+    plate->wizardParams.insert("l", (l));
     plate->wizardParams.insert("b", (b));
     plate->wizardParams.insert("a", (a));
     plate->processWizardInput();
@@ -153,14 +138,14 @@ void CAD_air_ductEndPlate::calculate()
     boundingBox.enterVertex(plate->pos_top_3);
     boundingBox.enterVertex(plate->pos_top_4);
 
-    snap_vertices.append(duct->pos_bot_2);
-    snap_vertices.append(duct->pos_bot_3);
-    snap_vertices.append(duct->pos_top_2);
-    snap_vertices.append(duct->pos_top_3);
+    snap_vertices.append(plate->pos_top_1);
     snap_vertices.append(plate->pos_top_2);
     snap_vertices.append(plate->pos_top_3);
+    snap_vertices.append(plate->pos_top_4);
+    snap_vertices.append(plate->pos_bot_1);
     snap_vertices.append(plate->pos_bot_2);
     snap_vertices.append(plate->pos_bot_3);
+    snap_vertices.append(plate->pos_bot_4);
 }
 
 

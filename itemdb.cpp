@@ -1227,6 +1227,7 @@ void ItemDB::restore_undo()
             newItem->wizardParams = restorePoint->wizardParamsBefore;
             newItem->processWizardInput();
             newItem->calculate();
+            emit signal_itemModified(newItem);
         }
             break;
         case RestorePoint::Restore_ItemLayerChange:
@@ -1238,7 +1239,8 @@ void ItemDB::restore_undo()
                 continue;
             item->wizardParams.insert(restorePoint->wizardParamsBefore);
             item->processWizardInput();
-            item->calculate();         
+            item->calculate();
+            emit signal_itemModified(item);
         }
             break;
         case RestorePoint::Restore_Stoppoint:

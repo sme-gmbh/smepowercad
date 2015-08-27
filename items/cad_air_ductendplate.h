@@ -40,7 +40,6 @@ public:
     qreal ff, fe;
     qreal s;
 
-    CAD_basic_duct *duct;
     CAD_basic_duct *flange;
     CAD_basic_box *plate;
 

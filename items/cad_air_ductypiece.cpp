@@ -257,18 +257,18 @@ void CAD_air_ductYpiece::calculate()
     boundingBox.enterVertex(flange_3->pos_top_3);
     boundingBox.enterVertex(flange_3->pos_top_4);
 
-    this->snap_vertices.append(endcap_1->pos_bot_1);
-    this->snap_vertices.append(endcap_1->pos_bot_4);
-    this->snap_vertices.append(endcap_1->pos_top_1);
-    this->snap_vertices.append(endcap_1->pos_top_4);
-    this->snap_vertices.append(endcap_2->pos_bot_2);
-    this->snap_vertices.append(endcap_2->pos_bot_3);
-    this->snap_vertices.append(endcap_2->pos_top_2);
-    this->snap_vertices.append(endcap_2->pos_top_3);
-    this->snap_vertices.append(endcap_3->pos_bot_2);
-    this->snap_vertices.append(endcap_3->pos_bot_3);
-    this->snap_vertices.append(endcap_3->pos_top_2);
-    this->snap_vertices.append(endcap_3->pos_top_3);
+    this->snap_vertices.append(endcap_1->pos_bot_2);
+    this->snap_vertices.append(endcap_1->pos_bot_3);
+    this->snap_vertices.append(endcap_1->pos_top_2);
+    this->snap_vertices.append(endcap_1->pos_top_3);
+    this->snap_vertices.append(endcap_2->pos_bot_1);
+    this->snap_vertices.append(endcap_2->pos_bot_4);
+    this->snap_vertices.append(endcap_2->pos_top_1);
+    this->snap_vertices.append(endcap_2->pos_top_4);
+    this->snap_vertices.append(endcap_3->pos_bot_1);
+    this->snap_vertices.append(endcap_3->pos_bot_4);
+    this->snap_vertices.append(endcap_3->pos_top_1);
+    this->snap_vertices.append(endcap_3->pos_top_4);
 
     QVector3D vertices[] = {
         splitPoint[0], splitPoint[1],

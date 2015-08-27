@@ -920,17 +920,20 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Z:
         if (!(event->modifiers() & Qt::ControlModifier))
         {
-            if (!item_lastHighlight->layer->on)
+            if (!item_lastHighlight == NULL)
             {
-                QMessageBox::critical(this, tr("Rotating item"), tr("The item to be rotated is on an inactive layer.\nRotation aborted."));
-                event->accept();
-                return;
-            }
-            if (!item_lastHighlight->layer->writable)
-            {
-                QMessageBox::critical(this, tr("Rotating item"), tr("The item to be rotated is on a locked layer.\nRotation aborted."));
-                event->accept();
-                return;
+                if (!item_lastHighlight->layer->on)
+                {
+                    QMessageBox::critical(this, tr("Rotating item"), tr("The item to be rotated is on an inactive layer.\nRotation aborted."));
+                    event->accept();
+                    return;
+                }
+                if (!item_lastHighlight->layer->writable)
+                {
+                    QMessageBox::critical(this, tr("Rotating item"), tr("The item to be rotated is on a locked layer.\nRotation aborted."));
+                    event->accept();
+                    return;
+                }
             }
         }
         break;
