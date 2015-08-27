@@ -25,6 +25,13 @@ CAD_arch_grating::CAD_arch_grating() : CADitem(CADitemTypes::Arch_Grating)
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
+    wizardParams.insert("a",  500.0);
+    wizardParams.insert("b", 4000.0);
+    wizardParams.insert("l", 4000.0);
+
+    grating = new CAD_basic_box();
+    subItems.append(grating);
+
     processWizardInput();
     calculate();
 }
@@ -83,6 +90,27 @@ void CAD_arch_grating::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+    QVector3D position_sl = position + matrix_rotation * (QVector3D(l/2, b/2, a/2));
+    grating->wizardParams.insert("Position x", (position_sl.x()));
+    grating->wizardParams.insert("Position y", (position_sl.y()));
+    grating->wizardParams.insert("Position z", (position_sl.z()));
+    grating->wizardParams.insert("Angle x", (angle_x));
+    grating->wizardParams.insert("Angle y", (angle_y));
+    grating->wizardParams.insert("Angle z", (angle_z));
+    grating->wizardParams.insert("l", (l));
+    grating->wizardParams.insert("b", (b));
+    grating->wizardParams.insert("a", (a));
+    grating->processWizardInput();
+    grating->calculate();
+
+    this->snap_flanges.append(grating->snap_vertices[4]);
+    this->snap_flanges.append(grating->snap_vertices[5]);
+    this->snap_flanges.append(grating->snap_vertices[6]);
+    this->snap_flanges.append(grating->snap_vertices[7]);
+    this->snap_vertices = grating->snap_vertices;
+    this->snap_center = grating->snap_center;
+
+    this->boundingBox = grating->boundingBox;
 }
 
 void CAD_arch_grating::processWizardInput()
@@ -94,9 +122,13 @@ void CAD_arch_grating::processWizardInput()
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
 
+    a = wizardParams.value("a").toDouble();
+    b = wizardParams.value("b").toDouble();
+    l = wizardParams.value("l").toDouble();
 }
 
 QMatrix4x4 CAD_arch_grating::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num);
     return matrix_rotation;
 }

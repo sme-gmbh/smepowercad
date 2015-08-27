@@ -17,6 +17,8 @@
 #define CAD_CLEANROOM_CEILINGSMOKEEXTRACTFLAP_H
 
 #include "caditem.h"
+#include "items/cad_basic_duct.h"
+#include "items/cad_basic_box.h"
 
 class CAD_Cleanroom_CeilingSmokeExtractFlap : public CADitem
 {
@@ -36,6 +38,10 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
+
+    qreal g, g2, l, l2, h;
+    CAD_basic_duct* panel;
+    CAD_basic_box* flap;
 };
 
 #endif // CAD_CLEANROOM_CEILINGSMOKEEXTRACTFLAP_H

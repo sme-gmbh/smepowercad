@@ -24,6 +24,16 @@ CAD_Cleanroom_CeilingSmokeExtractFlap::CAD_Cleanroom_CeilingSmokeExtractFlap() :
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
+    wizardParams.insert("h",   20.0);
+    wizardParams.insert("g", 600.0);
+    wizardParams.insert("l", 600.0);
+    wizardParams.insert("g2", 400.0);
+    wizardParams.insert("l2", 400.0);
+
+    panel = new CAD_basic_duct;
+    flap = new CAD_basic_box;
+    this->subItems.append(panel);
+    this->subItems.append(flap);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();
@@ -100,6 +110,45 @@ void CAD_Cleanroom_CeilingSmokeExtractFlap::calculate()
     this->snap_vertices.clear();
                                 
     this->snap_basepoint = (position);
+
+    QMatrix4x4 matrix_flap;
+    matrix_flap.setToIdentity();
+    matrix_flap.rotate(-30.0, 0.0, 1.0, 0.0);
+    QVector3D position_flap = position + matrix_rotation * (QVector3D((l - l2)/2, g/2, h) + matrix_flap * QVector3D(l2/2, 0.0, 0.0));
+    flap->wizardParams.insert("Position x", position_flap.x());
+    flap->wizardParams.insert("Position y", position_flap.y());
+    flap->wizardParams.insert("Position z", position_flap.z());
+    flap->wizardParams.insert("Angle x", angle_x);
+    flap->wizardParams.insert("Angle y", angle_y);
+    flap->wizardParams.insert("Angle z", angle_z);
+
+    flap->wizardParams.insert("l", l2);
+    flap->wizardParams.insert("b", g2);
+    flap->wizardParams.insert("a", h);
+    flap->layer = this->layer;
+    flap->processWizardInput();
+    flap->rotateAroundAxis(-30.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
+    flap->calculate();
+
+    QVector3D position_panel = position + matrix_rotation * QVector3D(l/2, g/2, 0.0);
+    panel->wizardParams.insert("Position x", position_panel.x());
+    panel->wizardParams.insert("Position y", position_panel.y());
+    panel->wizardParams.insert("Position z", position_panel.z());
+    panel->wizardParams.insert("Angle x", angle_x);
+    panel->wizardParams.insert("Angle y", angle_y);
+    panel->wizardParams.insert("Angle z", angle_z);
+    panel->wizardParams.insert("a",  g);
+    panel->wizardParams.insert("b",  l);
+    panel->wizardParams.insert("l",  h);
+    panel->wizardParams.insert("s",  (g - g2)/2);
+    panel->layer = this->layer;
+    panel->processWizardInput();
+    panel->rotateAroundAxis(-90.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
+    panel->calculate();
+
+    this->boundingBox.enterVertices(panel->boundingBox.getVertices());
+    this->boundingBox.enterVertices(flap->boundingBox.getVertices());
+    this->snap_vertices = panel->snap_vertices;
 }
 
 void CAD_Cleanroom_CeilingSmokeExtractFlap::processWizardInput()
@@ -110,6 +159,20 @@ void CAD_Cleanroom_CeilingSmokeExtractFlap::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    position.setX(wizardParams.value("Position x").toDouble());
+    position.setY(wizardParams.value("Position y").toDouble());
+    position.setZ(wizardParams.value("Position z").toDouble());
+    angle_x = wizardParams.value("Angle x").toDouble();
+    angle_y = wizardParams.value("Angle y").toDouble();
+    angle_z = wizardParams.value("Angle z").toDouble();
+
+    h = wizardParams.value("h").toDouble();
+    g = wizardParams.value("g").toDouble();
+    l = wizardParams.value("l").toDouble();
+    g2 = wizardParams.value("g2").toDouble();
+    l2 = wizardParams.value("l2").toDouble();
+
 }
 
 //void CAD_cleanroom_CeilingSmokeExtractFlap::paint(GLWidget *glwidget)
