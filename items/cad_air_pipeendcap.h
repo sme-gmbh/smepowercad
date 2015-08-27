@@ -17,7 +17,7 @@
 #define CAD_AIR_PIPEENDCAP_H
 
 #include "caditem.h"
-#include "items/cad_basic_torisphericalheaddin28011.h"
+#include "items/cad_basic_pipe.h"
 
 class CAD_air_pipeEndCap : public CADitem
 {
@@ -31,11 +31,11 @@ public:
     virtual QString description();
     virtual void calculate();
     virtual void processWizardInput();
-    virtual void paint(GLWidget* glwidget);
+//    virtual void paint(GLWidget* glwidget);
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
 
     qreal d, l, s;
-    CAD_Basic_TorisphericalHeadDIN28011 *endcap_outer, *endcap_inner;
+    CAD_basic_pipe *pipe;
 };
 
 #endif // CAD_AIR_PIPEENDCAP_H
