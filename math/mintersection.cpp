@@ -66,7 +66,7 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
     {
         //*****triangles are coplanar*****
 
-        if(QVector3D::dotProduct(n, m) < 0.0)
+        if(QVector3D::dotProduct(n, m) <= 0.0)
             return false;
         qDebug() << n << m << QVector3D::dotProduct(n, m);
 
@@ -453,6 +453,8 @@ bool MIntersection::pointOnLineSegment(QVector2D p, QVector2D v0, QVector2D v1)
 bool MIntersection::vertexInTriangle(QVector2D v0, QVector2D w0, QVector2D w1, QVector2D w2)
 {
     if(((v0 - w0).length() < TOL_INEXACT) || ((v0 - w1).length() < TOL_INEXACT) || ((v0 - w2).length() < TOL_INEXACT))
+        return false;
+    if(pointOnLineSegment(v0, w0, w1) || pointOnLineSegment(v0, w0, w2) || pointOnLineSegment(v0, w1, w2))
         return false;
     if (verticesOnSameSide(v0, w0, w1, w2) && verticesOnSameSide(v0, w1, w0, w2) && verticesOnSameSide(v0, w2, w0, w1))
         return true;
