@@ -16,7 +16,7 @@
 #ifndef KEYFRAMEANIMATION_H
 #define KEYFRAMEANIMATION_H
 
-#include <QDialog>
+#include <QDockWidget>
 #include <QMatrix4x4>
 #include <QQuaternion>
 #include <QList>
@@ -41,7 +41,7 @@ namespace Ui {
 class KeyframeAnimation;
 }
 
-class KeyframeAnimation : public QDialog
+class KeyframeAnimation : public QDockWidget
 {
     Q_OBJECT
 

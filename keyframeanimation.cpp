@@ -17,7 +17,7 @@
 #include "ui_keyframeanimation.h"
 
 KeyframeAnimation::KeyframeAnimation(QWidget *parent, ItemDB *itemDB) :
-    QDialog(parent),
+    QDockWidget(parent),
     ui(new Ui::KeyframeAnimation)
 {
     this->itemDB = itemDB;
@@ -48,9 +48,8 @@ void KeyframeAnimation::on_pushButton_render_clicked()
     if (filename.isEmpty())
         return;
     QString renderScript = ui->plainTextEdit_renderControlScript->toPlainText();
+    // tbd: parse renderScript and do useful things with it...
 
-
-    // tbd: Change this to render to file later
     this->animate();
     this->render(filename);
 }

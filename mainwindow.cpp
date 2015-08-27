@@ -120,7 +120,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // **** Keyframe Animation ****
     this->keyframeAnimation = new KeyframeAnimation(this, itemDB);
-    this->keyframeAnimation->show();
+    QAction* action_keyframeAnimation = this->keyframeAnimation->toggleViewAction();
+    action_keyframeAnimation->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_A));
+//    action_keyframeAnimation->setChecked(false);
+    this->addDockWidget(Qt::LeftDockWidgetArea, this->keyframeAnimation);
+    ui->menuFenster->addAction(action_keyframeAnimation);
+    this->keyframeAnimation->setFocusPolicy(Qt::StrongFocus);
+    this->keyframeAnimation->hide();
 
     // **** Recent files ****
     QMenu *recentFilesMenu = new QMenu();
