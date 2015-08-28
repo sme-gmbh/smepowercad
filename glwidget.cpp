@@ -985,7 +985,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     case Qt::Key_C:                         // Copy item
         if ((this->selection_itemList.count() > 0) && (item_lastHighlight != NULL))   // more than one item
         {
-            if ((snapMode == SnapBasepoint) || (snapMode == SnapFlange) || (snapMode == SnapEndpoint))
+            if (snapMode != SnapNo)
             {
                 QList<CADitem*> itemsToDo = this->selection_itemList;
                 if (QMessageBox::question(this, tr("Copy items"), tr("You are going to copy %1 item(s).").arg(itemsToDo.count()),
@@ -1003,7 +1003,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         }
         else if (item_lastHighlight != NULL)        // only one item
         {
-            if ((snapMode == SnapBasepoint) || (snapMode == SnapFlange) || (snapMode == SnapEndpoint))
+            if (snapMode != SnapNo)
             {
                 this->itemGripModifier->setItem(item_lastHighlight);
                 if (event->modifiers() & Qt::ShiftModifier)
@@ -1052,7 +1052,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     case Qt::Key_M:                         // Move item
         if ((this->selection_itemList.count() > 0) && (item_lastHighlight != NULL))   // more than one item
         {
-            if ((snapMode == SnapBasepoint) || (snapMode == SnapFlange) || (snapMode == SnapEndpoint))
+            if (snapMode != SnapNo)
             {
                 QList<CADitem*> itemsToDo = this->selection_itemList;
                 if (QMessageBox::question(this, tr("Moving items"), tr("You are going to move %1 item(s).").arg(itemsToDo.count()),
@@ -1067,7 +1067,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         }
         else if (item_lastHighlight != NULL)        // only one item
         {
-            if ((snapMode == SnapBasepoint) || (snapMode == SnapFlange) || (snapMode == SnapEndpoint))
+            if (snapMode != SnapNo)
             {
                 this->itemGripModifier->setItem(item_lastHighlight);
                 this->itemGripModifier->activateGrip(ItemGripModifier::Grip_Move, QCursor::pos(), snapPos_scene);
