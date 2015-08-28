@@ -25,6 +25,7 @@
 #include <QLineEdit>
 #include <QSpinBox>
 #include <QDoubleSpinBox>
+#include <QComboBox>
 #include <QKeyEvent>
 #include <QEvent>
 #include <QWidget>

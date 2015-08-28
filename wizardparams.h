@@ -17,6 +17,7 @@
 #define WIZARDPARAMS_H
 
 #include <QString>
+#include <QStringList>
 #include <QVariant>
 
 class WizardParams
@@ -30,6 +31,9 @@ public:
     void insert(QString key, double value);
     void insert(QString key, int value);
     void insert(QString key, QString value);
+    void insert(QString key, QStringList value);    // This is used for QComboBox in ItemWizard
+                                                    // StringList = {String1*String2*...*Stringn}{activeString}
+    void insertComboBox(QString key, QStringList texts_available, QString currentText);
     void insert(WizardParams newParams);
     QVariant value(QString key);
     QVariant value(int index);
@@ -39,20 +43,14 @@ public:
 
 
 private:
-//    static QList<QString> globalKeys;
-//    QList<quint16> keys_indices_double;
     QList<QString> keys_double;
     QList<double> values_double;
-//    QList<quint16> keys_indices_int;
     QList<QString> keys_int;
     QList<int> values_int;
-//    QList<quint16> keys_indices_string;
     QList<QString> keys_string;
     QList<QString> values_string;
-
-//    quint16 indexOfGlobalKey(QString key);
-
-
+    QList<QString> keys_stringlist;
+    QList<QStringList> values_stringlist;
 };
 
 #endif // WIZARDPARAMS_H

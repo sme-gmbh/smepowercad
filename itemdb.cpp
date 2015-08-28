@@ -1624,7 +1624,21 @@ void ItemDB::file_storeDB_processItems(QDomDocument document, QDomElement parent
 
         foreach (QString key, item->wizardParams.keys())
         {
-            element.setAttribute(key.replace(' ', '_'), item->wizardParams.value(key).toString());
+            QVariant value = item->wizardParams.value(key);
+            QMetaType::Type type = (QMetaType::Type)value.type();
+            if (type == QMetaType::Float)
+                type = QMetaType::Double;
+            switch (type)
+            {
+            case QVariant::String:
+            case QVariant::Int:
+            case QVariant::Double:
+                element.setAttribute(key.replace(' ', '_'), value.toString());
+                break;
+            case QVariant::StringList:
+                element.setAttribute(key.replace(' ', '_'), value.toStringList().join('#'));
+                break;
+            }
         }
 
         // Do not store subitems as they are recovered automatically when loading the parent item
@@ -1797,6 +1811,13 @@ void ItemDB::file_loadDB_parseDomElement(QDomElement element, Layer *currentLaye
             case QVariant::Double:
                 item->wizardParams.insert(key, QString(element.attribute(elementKey)).toDouble());
                 break;
+            case QVariant::StringList:
+            {
+                QString value = QString(element.attribute(elementKey));
+                QStringList stringList = value.split('#');
+                item->wizardParams.insert(key, stringList);
+                break;
+            }
             default:
                 qDebug() << "ItemDB::file_loadDB_parseDomElement() Unhandled value type:" << item->wizardParams.value(key).type();
                 break;

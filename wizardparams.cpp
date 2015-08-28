@@ -28,12 +28,12 @@ WizardParams::WizardParams(const WizardParams &params)
     this->keys_double = params.keys_double;
     this->keys_int = params.keys_int;
     this->keys_string = params.keys_string;
-//    this->keys_indices_double = params.keys_indices_double;
-//    this->keys_indices_int = params.keys_indices_int;
-//    this->keys_indices_string = params.keys_indices_string;
+    this->keys_stringlist = params.keys_stringlist;
+
     this->values_double = params.values_double;
     this->values_int = params.values_int;
     this->values_string = params.values_string;
+    this->values_stringlist = params.values_stringlist;
 }
 
 WizardParams::~WizardParams()
@@ -53,18 +53,19 @@ void WizardParams::insert(QString key, QVariant value)
         {
         case QVariant::String:
             keys_string.append(key);
-//            keys_indices_string.append(indexOfGlobalKey(key));
             values_string.append(value.toString());
             break;
         case QVariant::Int:
             keys_int.append(key);
-//            keys_indices_int.append(indexOfGlobalKey(key));
             values_int.append(value.toInt());
             break;
         case QVariant::Double:
             keys_double.append(key);
-//            keys_indices_double.append(indexOfGlobalKey(key));
             values_double.append(value.toDouble());
+            break;
+        case QVariant::StringList:
+            keys_stringlist.append(key);
+            values_stringlist.append(value.toStringList());
             break;
         default:
             qDebug() << "WizardParams::insert() Unhandled value type:" << value.type();
@@ -81,24 +82,27 @@ void WizardParams::insert(QString key, QVariant value)
         {
         case QVariant::String:
             index = keys_string.indexOf(key);
-//            index = keys_indices_string.indexOf(indexOfGlobalKey(key));
             if (index < 0)
                 qDebug() << "WizardParams::insert() wrong replacement data type";
             values_string.replace(index, value.toString());
             break;
         case QVariant::Int:
             index = keys_int.indexOf(key);
-//            index = keys_indices_int.indexOf(indexOfGlobalKey(key));
             if (index < 0)
                 qDebug() << "WizardParams::insert() wrong replacement data type";
             values_int.replace(index, value.toInt());
             break;
         case QVariant::Double:
             index = keys_double.indexOf(key);
-//            index = keys_indices_double.indexOf(indexOfGlobalKey(key));
             if (index < 0)
                 qDebug() << "WizardParams::insert() wrong replacement data type";
             values_double.replace(index, value.toDouble());
+            break;
+        case QVariant::StringList:
+            index = keys_stringlist.indexOf(key);
+            if (index < 0)
+                qDebug() << "WizardParams::insert() wrong replacement data type";
+            values_stringlist.replace(index, value.toStringList());
             break;
         default:
             qDebug() << "WizardParams::insert() Unhandled value type:" << value.type();
@@ -110,11 +114,9 @@ void WizardParams::insert(QString key, QVariant value)
 void WizardParams::insert(QString key, double value)
 {
     int index = keys_double.indexOf(key);
-//    int index = keys_indices_double.indexOf(indexOfGlobalKey(key));
     if (index < 0)
     {
         keys_double.append(key);
-//        keys_indices_double.append(indexOfGlobalKey(key));
         values_double.append(value);
     }
     else
@@ -124,11 +126,9 @@ void WizardParams::insert(QString key, double value)
 void WizardParams::insert(QString key, int value)
 {
     int index = keys_int.indexOf(key);
-//    int index = keys_indices_int.indexOf(indexOfGlobalKey(key));
     if (index < 0)
     {
         keys_int.append(key);
-//        keys_indices_int.append(indexOfGlobalKey(key));
         values_int.append(value);
     }
     else
@@ -138,15 +138,35 @@ void WizardParams::insert(QString key, int value)
 void WizardParams::insert(QString key, QString value)
 {
     int index = keys_string.indexOf(key);
-//    int index = keys_indices_string.indexOf(indexOfGlobalKey(key));
     if (index < 0)
     {
         keys_string.append(key);
-//        keys_indices_string.append(indexOfGlobalKey(key));
         values_string.append(value);
     }
     else
         values_string.replace(index, value);
+}
+
+void WizardParams::insert(QString key, QStringList value)
+{
+    int index = keys_stringlist.indexOf(key);
+    if (index < 0)
+    {
+        keys_stringlist.append(key);
+        values_stringlist.append(value);
+    }
+    else
+        values_stringlist.replace(index, value);
+}
+
+void WizardParams::insertComboBox(QString key, QStringList texts_available, QString currentText)
+{
+    QStringList stringList;
+
+    stringList << texts_available.join('*');
+    stringList << currentText;
+
+    insert(key, stringList);
 }
 
 void WizardParams::insert(WizardParams newParams)
@@ -161,16 +181,15 @@ void WizardParams::insert(WizardParams newParams)
 QVariant WizardParams::value(QString key)
 {
 //    qDebug() << "WizardParams::value() key =" << key;
-    int index_double = keys_double.indexOf(key);
-    int index_int    = keys_int.indexOf(key);
-    int index_string = keys_string.indexOf(key);
-//    int index_double = keys_indices_double.indexOf(indexOfGlobalKey(key));
-//    int index_int    = keys_indices_int.indexOf(indexOfGlobalKey(key));
-//    int index_string = keys_indices_string.indexOf(indexOfGlobalKey(key));
+    int index_double     = keys_double.indexOf(key);
+    int index_int        = keys_int.indexOf(key);
+    int index_string     = keys_string.indexOf(key);
+    int index_stringlist = keys_stringlist.indexOf(key);
 
 //    qDebug() << "index_double" << index_double;
 //    qDebug() << "index_int" << index_int;
 //    qDebug() << "index_string" << index_string;
+//    qDebug() << "index_stringlist" << index_stringlist;
 
     if (index_double >= 0)
         return QVariant(values_double.at(index_double));
@@ -178,6 +197,8 @@ QVariant WizardParams::value(QString key)
         return QVariant(values_int.at(index_int));
     if (index_string >= 0)
         return QVariant(values_string.at(index_string));
+    if (index_stringlist >= 0)
+        return QVariant(values_stringlist.at(index_stringlist));
     return QVariant();
 }
 
@@ -190,6 +211,8 @@ QVariant WizardParams::value(int index)
         return QVariant(values_int.at(index - values_double.count()));
     if (index < (values_double.count() + values_int.count() + values_string.count()))
         return QVariant(values_string.at(index - values_double.count() - values_int.count()));
+    if (index < (values_double.count() + values_int.count() + values_string.count() + values_stringlist.count()))
+        return QVariant(values_stringlist.at(index - values_double.count() - values_int.count() - values_string.count()));
 
     return QVariant();
 }
@@ -202,21 +225,7 @@ QList<QString> WizardParams::keys()
     keys.append(keys_double);
     keys.append(keys_int);
     keys.append(keys_string);
-
-//    foreach (int index, keys_indices_double)
-//    {
-//        keys.append(globalKeys.at(index));
-//    }
-
-//    foreach (int index, keys_indices_int)
-//    {
-//        keys.append(globalKeys.at(index));
-//    }
-
-//    foreach (int index, keys_indices_string)
-//    {
-//        keys.append(globalKeys.at(index));
-//    }
+    keys.append(keys_stringlist);
 
     return keys;
 }
@@ -232,6 +241,8 @@ QList<QVariant> WizardParams::values()
         values.append(QVariant(val));
     foreach(QString val, values_string)
         values.append(QVariant(val));
+    foreach(QStringList val, values_stringlist)
+        values.append(QVariant(val));
 
     return values;
 }
@@ -239,25 +250,15 @@ QList<QVariant> WizardParams::values()
 bool WizardParams::isEmpty()
 {
 //    qDebug() << "WizardParams::isEmpty()";
-    bool empty = true;
 
-    if (values_double.isEmpty())
-        empty = false;
-    if (values_int.isEmpty())
-        empty = false;
-    if (values_string.isEmpty())
-        empty = false;
+    if (!values_double.isEmpty())
+        return false;
+    if (!values_int.isEmpty())
+        return false;
+    if (!values_string.isEmpty())
+        return false;
+    if (!values_stringlist.isEmpty())
+        return false;
 
-    return empty;
+    return true;
 }
-
-//quint16 WizardParams::indexOfGlobalKey(QString key)
-//{
-//    int index = globalKeys.indexOf(key);
-
-//    if (index >= 0)
-//        return index;
-
-//    globalKeys.append(key);
-//    return (quint16)(globalKeys.size() - 1);
-//}

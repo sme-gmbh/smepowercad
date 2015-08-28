@@ -154,7 +154,6 @@ QDoubleSpinBox::up-arrow:disabled, QDoubleSpinBox::up-arrow:off, QDoubleSpinBox:
 
 QComboBox {
 	color: white;
-	border: 0;
 	border: 1px solid rgb(200, 200, 200);
 	background-color: rgb(59, 59, 51);
 	padding: 0 10px 0 5px;
@@ -183,6 +182,11 @@ QComboBox::down-arrow {
 	width: 17px;
 	height: 17px;
 	border: 0;
+}
+
+QComboBox QAbstractItemView {
+    border: 1px solid rgb(200, 200, 200);
+	background-color: rgb(59, 59, 51);
 }
 
 QLineEdit{

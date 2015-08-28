@@ -120,43 +120,11 @@ QDoubleSpinBox::down-arrow:disabled, QDoubleSpinBox::down-arrow:off {
 }
 
 QComboBox {
-	color: white;
 	border: 0;
 	border-left: 1px solid rgb(200, 200, 200);
 	border-right: 1px solid rgb(200, 200, 200);
-	background-color: rgb(59, 59, 51);
-	padding: 0 10px 0 5px;
-	selection-background-color: rgb(150, 150, 130);
 }
 
-QComboBox::drop-down {
-	subcontrol-origin: padding;
-    subcontrol-position: top right;
-    width: 25px;
-	border: 0;
-	border-left: 1px solid rgb(110, 110, 110);
-}
-QComboBox::drop-down:hover {
-	background-color: rgb(110, 110, 95);
-}
-QComboBox::drop-down:pressed {
-	background-color: rgb(150, 150, 130);
-}
-QComboBox::drop-down:on {
-	background-color: rgb(150, 150, 130);
-}
-
-QComboBox::down-arrow {
-	image: url(:/ui/3Dcontrols/icons/arrow_down.svg);
-	width: 17px;
-	height: 17px;
-	border: 0;
-}
-
-QComboBox QAbstractItemView {
-    border: 1px solid rgb(200, 200, 200);
-	background-color: rgb(59, 59, 51);
-}
 </string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">

@@ -146,6 +146,10 @@ void CADitem::serialOut(QByteArray* out)
         QVariant value = wizardParams.value(key);
         if (value.type() == QVariant::Double)
             *out += value.toString();
+        if (value.type() == QVariant::String)
+            *out += value.toString();
+        if (value.type() == QVariant::StringList)
+            *out += value.toStringList().join('#');
         *out += ";";
     }
 

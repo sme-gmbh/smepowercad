@@ -25,6 +25,8 @@ CAD_arch_window::CAD_arch_window() : CADitem(CADitemTypes::Arch_Window)
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
+    wizardParams.insertComboBox("Opening Type", QStringList() << "None" << "Tilt only" << "Turn only" << "Tilt and Turn", "Turn only");
+
     wizardParams.insert("a", 1000.0);       //Höhe Rahmen
     wizardParams.insert("b",  300.0);       //Tiefe Ramen
     wizardParams.insert("l", 1000.0);       //Breite Rahmen

@@ -76,6 +76,16 @@ void ItemWizard::showWizard(CADitem *item, ItemDB* itemDB)
             ((QDoubleSpinBox*)wdg)->setMinimum(-10e+20);
             ((QDoubleSpinBox*)wdg)->setValue(value.toDouble());
             break;
+        case QVariant::StringList:
+            wdg = new QComboBox(this);
+            if (value.toStringList().size() == 2)
+            {
+                ((QComboBox*)wdg)->addItems(value.toStringList().at(0).split('*'));
+                ((QComboBox*)wdg)->setCurrentText(value.toStringList().at(1));
+            }
+            else
+                qDebug() << "ItemWizard::showWizard() StringList has invalid size:" << value.toStringList().size() << ";Key:" << key;
+            break;
         default:
             qDebug() << "ItemWizard::showWizard() Unhandled value type:" << value.type();
             break;
@@ -133,6 +143,15 @@ void ItemWizard::save()
         case QVariant::Double:
             val = ((double)((QDoubleSpinBox*)wdg)->value());
             break;
+        case QVariant::StringList:
+        {
+            QComboBox* box = (QComboBox*)wdg;
+            QStringList stringList;
+            stringList.append(this->currentItem->wizardParams.value(r).toStringList().at(0));   // Insert available texts of ComboBox
+            stringList.append(box->currentText());                                              // Insert current text of ComboBox
+            val = stringList;
+            break;
+        }
         default:
             break;
         }
