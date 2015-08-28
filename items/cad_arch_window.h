@@ -18,6 +18,7 @@
 
 #include "caditem.h"
 #include "items/cad_basic_box.h"
+#include "items/cad_basic_arc.h"
 
 class CAD_arch_window : public CADitem
 {
@@ -33,8 +34,9 @@ public:
     virtual void processWizardInput();
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
 
-    qreal a, b, l, s1, s2;
-    CAD_basic_box *box_left, *box_up, *box_right, *box_low;
+    qreal a, b, l, s1, s2, alpha;
+    CAD_basic_box *box_left, *box_up, *box_right, *box_low, *window;
+    CAD_basic_arc *arc;
 };
 
 #endif // CAD_ARCH_WINDOW_H

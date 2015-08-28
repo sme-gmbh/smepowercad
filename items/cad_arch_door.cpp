@@ -151,7 +151,7 @@ void CAD_arch_door::calculate()
         matrix_door.setToIdentity();
         matrix_door.rotate(alpha, 0.0, 0.0, 1.0);
         position_door = position + matrix_rotation * (QVector3D(s2, -b/2 , 0.0) + matrix_door * QVector3D(l/2 - s2, 0.0, (a-s1)/2));
-        position_arc = position + matrix_rotation * QVector3D(s2, -b/2, 0.0);
+        position_arc = position + matrix_rotation * QVector3D(s2, -b/2, 0.02 * a);
     }
     else
     {
@@ -159,7 +159,7 @@ void CAD_arch_door::calculate()
         matrix_door.setToIdentity();
         matrix_door.rotate(alpha, 0.0, 0.0, 1.0);
         position_door = position + matrix_rotation * (QVector3D(l - s2, -b/2, 0.0) + matrix_door * QVector3D(-l/2 + s2, 0.0, (a-s1)/2));
-        position_arc = position + matrix_rotation * QVector3D(l - s2, -b/2, 0.0);
+        position_arc = position + matrix_rotation * QVector3D(l - s2, -b/2, 0.02 * a);
     }
     door->wizardParams.insert("Position x", position_door.x());
     door->wizardParams.insert("Position y", position_door.y());
