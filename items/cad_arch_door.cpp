@@ -29,19 +29,23 @@ CAD_arch_door::CAD_arch_door() : CADitem(CADitemTypes::Arch_Door)
     wizardParams.insert("l", 1000.0);       //Breite Rahmen
     wizardParams.insert("s1",   50.0);       //Rahmenstärke oben
     wizardParams.insert("s2",   50.0);       //Rahmenstärke seitlich
-    wizardParams.insert("alpha", -45.0);    //Öffnungswinkel Tür
+    wizardParams.insert("alpha", -90.0);    //Öffnungswinkel Tür
 
     box_left = new CAD_basic_box();
     box_right = new CAD_basic_box();
     door = new CAD_basic_box();
     box_up = new CAD_basic_box();
     arc = new CAD_basic_arc();
+    arrow_1 = new CAD_basic_line();
+    arrow_2 = new CAD_basic_line();
 
     this->subItems.append(box_left);
     this->subItems.append(box_up);
     this->subItems.append(box_right);
     this->subItems.append(door);
     this->subItems.append(arc);
+    this->subItems.append(arrow_1);
+    this->subItems.append(arrow_2);
 
     processWizardInput();
     calculate();
@@ -152,6 +156,32 @@ void CAD_arch_door::calculate()
         matrix_door.rotate(alpha, 0.0, 0.0, 1.0);
         position_door = position + matrix_rotation * (QVector3D(s2, -b/2 , 0.0) + matrix_door * QVector3D(l/2 - s2, 0.0, (a-s1)/2));
         position_arc = position + matrix_rotation * QVector3D(s2, -b/2, 0.02 * a);
+
+        //paint arrow tips
+        QVector3D pos_start_1 = position + matrix_rotation * QVector3D(s2, 0.0, a - s1);
+        QVector3D pos_end_1 = position + matrix_rotation * QVector3D(l - s2, 0.0,  0.5 * (a - s1));
+        arrow_1->wizardParams.insert("Position x1", pos_start_1.x());
+        arrow_1->wizardParams.insert("Position y1", pos_start_1.y());
+        arrow_1->wizardParams.insert("Position z1", pos_start_1.z());
+        arrow_1->wizardParams.insert("Position x2", pos_end_1.x());
+        arrow_1->wizardParams.insert("Position y2", pos_end_1.y());
+        arrow_1->wizardParams.insert("Position z2", pos_end_1.z());
+        arrow_1->wizardParams.insert("Width", 1.0);
+        arrow_1->processWizardInput();
+        arrow_1->calculate();
+        arrow_1->layer = this->layer;
+
+        QVector3D pos_start_2 = position + matrix_rotation * QVector3D(s2, 0.0, 0.0);
+        arrow_2->wizardParams.insert("Position x1", pos_start_2.x());
+        arrow_2->wizardParams.insert("Position y1", pos_start_2.y());
+        arrow_2->wizardParams.insert("Position z1", pos_start_2.z());
+        arrow_2->wizardParams.insert("Position x2", pos_end_1.x());
+        arrow_2->wizardParams.insert("Position y2", pos_end_1.y());
+        arrow_2->wizardParams.insert("Position z2", pos_end_1.z());
+        arrow_2->wizardParams.insert("Width", 1.0);
+        arrow_2->processWizardInput();
+        arrow_2->calculate();
+        arrow_2->layer = this->layer;
     }
     else
     {
@@ -160,6 +190,32 @@ void CAD_arch_door::calculate()
         matrix_door.rotate(alpha, 0.0, 0.0, 1.0);
         position_door = position + matrix_rotation * (QVector3D(l - s2, -b/2, 0.0) + matrix_door * QVector3D(-l/2 + s2, 0.0, (a-s1)/2));
         position_arc = position + matrix_rotation * QVector3D(l - s2, -b/2, 0.02 * a);
+
+        //paint arrow tips
+        QVector3D pos_start_1 = position + matrix_rotation * QVector3D(l - s2, 0.0, a - s1);
+        QVector3D pos_end_1 = position + matrix_rotation * QVector3D(s2, 0.0,  0.5 * (a - s1));
+        arrow_1->wizardParams.insert("Position x1", pos_start_1.x());
+        arrow_1->wizardParams.insert("Position y1", pos_start_1.y());
+        arrow_1->wizardParams.insert("Position z1", pos_start_1.z());
+        arrow_1->wizardParams.insert("Position x2", pos_end_1.x());
+        arrow_1->wizardParams.insert("Position y2", pos_end_1.y());
+        arrow_1->wizardParams.insert("Position z2", pos_end_1.z());
+        arrow_1->wizardParams.insert("Width", 1.0);
+        arrow_1->processWizardInput();
+        arrow_1->calculate();
+        arrow_1->layer = this->layer;
+
+        QVector3D pos_start_2 = position + matrix_rotation * QVector3D(l - s2, 0.0, 0.0);
+        arrow_2->wizardParams.insert("Position x1", pos_start_2.x());
+        arrow_2->wizardParams.insert("Position y1", pos_start_2.y());
+        arrow_2->wizardParams.insert("Position z1", pos_start_2.z());
+        arrow_2->wizardParams.insert("Position x2", pos_end_1.x());
+        arrow_2->wizardParams.insert("Position y2", pos_end_1.y());
+        arrow_2->wizardParams.insert("Position z2", pos_end_1.z());
+        arrow_2->wizardParams.insert("Width", 1.0);
+        arrow_2->processWizardInput();
+        arrow_2->calculate();
+        arrow_2->layer = this->layer;
     }
     door->wizardParams.insert("Position x", position_door.x());
     door->wizardParams.insert("Position y", position_door.y());

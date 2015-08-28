@@ -19,6 +19,7 @@
 #include "caditem.h"
 #include "items/cad_basic_box.h"
 #include "items/cad_basic_arc.h"
+#include "items/cad_basic_line.h"
 
 class CAD_arch_window : public CADitem
 {
@@ -37,6 +38,8 @@ public:
     qreal a, b, l, s1, s2, alpha;
     CAD_basic_box *box_left, *box_up, *box_right, *box_low, *window;
     CAD_basic_arc *arc;
+    CAD_basic_line *tilt_arrow_1, *tilt_arrow_2;
+    CAD_basic_line *swing_arrow_1, *swing_arrow_2;
 };
 
 #endif // CAD_ARCH_WINDOW_H

@@ -18,6 +18,9 @@
 
 #include "caditem.h"
 #include "items/cad_basic_box.h"
+#include "items/cad_basic_line.h"
+#include "items/cad_basic_circle.h"
+
 class CAD_Arch_Stairs : public CADitem
 {
 public:
@@ -39,6 +42,8 @@ public:
 
     qreal a, b, l;
     quint8 n;
+    CAD_basic_circle *circle;
+    CAD_basic_line *line, *arrow_1, *arrow_2;
 };
 
 #endif // CAD_ARCH_STAIRS_H
