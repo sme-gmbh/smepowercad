@@ -60,15 +60,18 @@ QList<CADitemTypes::ItemType> CAD_Cleanroom_CeilingTeeJoiningPiece::flangable_it
     QList<CADitemTypes::ItemType> flangable_items;
     if(flangeIndex <= 3)
     {
-    flangable_items.append(CADitemTypes::Cleanroom_CeilingCornerPiece);
-    flangable_items.append(CADitemTypes::Cleanroom_CeilingJoiningKnot);
-    flangable_items.append(CADitemTypes::Cleanroom_CeilingMountingRails);
-    flangable_items.append(CADitemTypes::Cleanroom_CeilingTeeJoiningPiece);
+        flangable_items.append(CADitemTypes::Cleanroom_CeilingCornerPiece);
+        flangable_items.append(CADitemTypes::Cleanroom_CeilingJoiningKnot);
+        flangable_items.append(CADitemTypes::Cleanroom_CeilingMountingRails);
+        flangable_items.append(CADitemTypes::Cleanroom_CeilingTeeJoiningPiece);
     }
     else
     {
         flangable_items.append(CADitemTypes::Cleanroom_CeilingGrating);
         flangable_items.append(CADitemTypes::Cleanroom_CeilingPanel);
+        flangable_items.append(CADitemTypes::Cleanroom_CeilingFilterFanUnit);
+        flangable_items.append(CADitemTypes::Cleanroom_CeilingMaintenanceFlap);
+        flangable_items.append(CADitemTypes::Cleanroom_CeilingSmokeExtractFlap);
     }
     return flangable_items;
 }
