@@ -378,6 +378,19 @@ void MainWindow::setProjectFilepath(QString filepath)
     this->setWindowTitle(QCoreApplication::applicationName() + " [" + filepath + "]");
 }
 
+void MainWindow::addToRecentFiles(QString filepath)
+{
+    QSettings settings;
+    QStringList files = settings.value("recentFileList").toStringList();
+    files.removeAll(filepath);
+    files.prepend(filepath);
+    while (files.size() > MAX_RECENT_FILES)
+        files.removeLast();
+
+    settings.setValue("recentFileList", files);
+    updateRecentFileActions();
+}
+
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     // keyPressEvent does not work because it is forwarded to children
@@ -407,15 +420,7 @@ void MainWindow::slot_file_open_action()
     if (filename.isEmpty())
         return;
 
-    QSettings settings;
-    QStringList files = settings.value("recentFileList").toStringList();
-    files.removeAll(filename);
-    files.prepend(filename);
-    while (files.size() > MAX_RECENT_FILES)
-        files.removeLast();
-
-    settings.setValue("recentFileList", files);
-    updateRecentFileActions();
+    addToRecentFiles(filename);
 
     if (filename.endsWith(".dxf", Qt::CaseInsensitive))
         slot_file_open_dxf_with_libdxfrw(filename);
@@ -498,7 +503,10 @@ void MainWindow::slot_file_save_action()
                                    this->geometryDisplays.first()->getWidget()->getMatrix_rotation());
 
     if (ok)
+    {
         setProjectFilepath(filename);
+        addToRecentFiles(filename);
+    }
     else
         QMessageBox::critical(this, tr("Error while saving"), tr("Unable to write file."));
 }
@@ -522,7 +530,10 @@ void MainWindow::slot_file_save_as_action()
                                    this->geometryDisplays.first()->getWidget()->getMatrix_rotation());
 
     if (ok)
+    {
         setProjectFilepath(filename);
+        addToRecentFiles(filename);
+    }
     else
         QMessageBox::critical(this, tr("Error while saving"), tr("Unable to write file."));
 }

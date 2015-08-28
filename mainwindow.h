@@ -103,6 +103,7 @@ private:
 
     void createItemToolBar();
     void setProjectFilepath(QString filepath);
+    void addToRecentFiles(QString filepath);
 
 protected:
     void keyPressEvent(QKeyEvent *event);
