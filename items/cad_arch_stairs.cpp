@@ -112,7 +112,7 @@ void CAD_Arch_Stairs::calculate()
 
     for(int i = 1; i < n; i++)
     {
-        CAD_basic_box *step = new CAD_basic_box;
+        CAD_basic_box *step = new CAD_basic_box();
         this->subItems.append(step);
         QVector3D pos = (matrix_rotation * QVector3D(l/2 + i * l, 0.0, i * a)) + position;
         step->wizardParams.insert("Position x", (pos.x()));
@@ -132,6 +132,7 @@ void CAD_Arch_Stairs::calculate()
         {
             this->snap_vertices.append(step->snap_vertices.at(5));
             this->snap_vertices.append(step->snap_vertices.at(6));
+            this->snap_center.append(step->snap_center.at(5));
         }
     }
 }
