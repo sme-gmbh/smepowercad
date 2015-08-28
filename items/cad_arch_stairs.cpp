@@ -103,7 +103,7 @@ void CAD_Arch_Stairs::calculate()
     this->snap_basepoint = (position);
 
 
-    QVector3D pos_circle = (matrix_rotation * QVector3D(l/4, 0.0, a)) + position;
+    QVector3D pos_circle = (matrix_rotation * QVector3D(l/4, 0.0, a + 0.1)) + position;
     circle->wizardParams.insert("Center x", (pos_circle.x()));
     circle->wizardParams.insert("Center y", (pos_circle.y()));
     circle->wizardParams.insert("Center z", (pos_circle.z()));
@@ -111,6 +111,7 @@ void CAD_Arch_Stairs::calculate()
     circle->wizardParams.insert("Angle y", (angle_y));
     circle->wizardParams.insert("Angle z", (angle_z));
     circle->wizardParams.insert("r", (0.25 * l));
+    circle->color_brush = Qt::black;
     circle->processWizardInput();
     circle->calculate();
     circle->layer = this->layer;

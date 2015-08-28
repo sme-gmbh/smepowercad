@@ -21,11 +21,13 @@
 #include <QMap>
 #include "caditem.h"
 #include "itemdb.h"
+#include "itemwizard_doublespinbox.h"
 
 #include <QLineEdit>
 #include <QSpinBox>
 #include <QDoubleSpinBox>
 #include <QComboBox>
+#include <QInputDialog>
 #include <QKeyEvent>
 #include <QEvent>
 #include <QWidget>

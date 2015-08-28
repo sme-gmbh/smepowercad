@@ -71,10 +71,14 @@ void ItemWizard::showWizard(CADitem *item, ItemDB* itemDB)
             ((QSpinBox*)wdg)->setValue(value.toInt());
             break;
         case QVariant::Double:
-            wdg = new QDoubleSpinBox(this);
-            ((QDoubleSpinBox*)wdg)->setMaximum(10e+20);
-            ((QDoubleSpinBox*)wdg)->setMinimum(-10e+20);
-            ((QDoubleSpinBox*)wdg)->setValue(value.toDouble());
+            wdg = new ItemWizard_DoubleSpinBox(this);
+//            ((ItemWizard_DoubleSpinBox*)wdg)->setMaximum(10e+20);
+//            ((ItemWizard_DoubleSpinBox*)wdg)->setMinimum(-10e+20);
+            ((ItemWizard_DoubleSpinBox*)wdg)->setValue(value.toDouble());
+//            wdg = new QDoubleSpinBox(this);
+//            ((QDoubleSpinBox*)wdg)->setMaximum(10e+20);
+//            ((QDoubleSpinBox*)wdg)->setMinimum(-10e+20);
+//            ((QDoubleSpinBox*)wdg)->setValue(value.toDouble());
             break;
         case QVariant::StringList:
             wdg = new QComboBox(this);
@@ -141,7 +145,8 @@ void ItemWizard::save()
             val = ((int)((QSpinBox*)wdg)->value());
             break;
         case QVariant::Double:
-            val = ((double)((QDoubleSpinBox*)wdg)->value());
+            val = ((double)((ItemWizard_DoubleSpinBox*)wdg)->value());
+//            val = ((double)((QDoubleSpinBox*)wdg)->value());
             break;
         case QVariant::StringList:
         {

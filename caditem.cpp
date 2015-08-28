@@ -71,8 +71,8 @@ QColor CADitem::getColorBrush()
     {
         color_brush_tmp = layer->brush.color();
     }
-    else if (color_brush_tmp.value() < 50)
-        color_brush_tmp = Qt::white;
+//    else if (color_brush_tmp.value() < 50)
+//        color_brush_tmp = Qt::white;
 
     if (highlight || selected)
     {

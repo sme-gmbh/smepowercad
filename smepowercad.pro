@@ -304,7 +304,8 @@ SOURCES += main.cpp\
     items/cad_gas_dryerrefrigerant.cpp \
     items/cad_gas_compressor.cpp \
     keyframeanimation.cpp \
-    items/cad_arch_stairs.cpp
+    items/cad_arch_stairs.cpp \
+    itemwizard_doublespinbox.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -570,7 +571,8 @@ HEADERS  += mainwindow.h \
     items/cad_gas_dryerrefrigerant.h \
     items/cad_gas_compressor.h \
     keyframeanimation.h \
-    items/cad_arch_stairs.h
+    items/cad_arch_stairs.h \
+    itemwizard_doublespinbox.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

@@ -17,7 +17,7 @@
 #define CAD_CLEANROOM_FLOORPANELWITHBUSHING_H
 
 #include "caditem.h"
-#include "items/cad_basic_duct.h";
+#include "items/cad_basic_duct.h"
 
 class CAD_Cleanroom_FloorPanelWithBushing : public CADitem
 {
