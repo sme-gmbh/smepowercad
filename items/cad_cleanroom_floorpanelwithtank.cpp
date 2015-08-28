@@ -25,6 +25,19 @@ CAD_Cleanroom_FloorPanelWithTank::CAD_Cleanroom_FloorPanelWithTank() : CADitem(C
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
+    wizardParams.insert("h",   20.0);
+    wizardParams.insert("h2",  50.0);
+    wizardParams.insert("g", 600.0);
+    wizardParams.insert("l", 600.0);
+    wizardParams.insert("s", 200.0);
+
+    box = new CAD_basic_box();
+    tank = new CAD_basic_box();
+    opening = new CAD_basic_plane();
+    this->subItems.append(box);
+    this->subItems.append(tank);
+    this->subItems.append(opening);
+
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();
 //    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
@@ -92,14 +105,64 @@ void CAD_Cleanroom_FloorPanelWithTank::calculate()
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
     matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-                
+
     boundingBox.reset();
-                    
+
     this->snap_flanges.clear();
     this->snap_center.clear();
     this->snap_vertices.clear();
-                                
+
     this->snap_basepoint = (position);
+
+    QVector3D position_box = position + matrix_rotation * QVector3D(l/2, g/2, h/2);
+    box->wizardParams.insert("Position x", position_box.x());
+    box->wizardParams.insert("Position y", position_box.y());
+    box->wizardParams.insert("Position z", position_box.z());
+    box->wizardParams.insert("Angle x", angle_x);
+    box->wizardParams.insert("Angle y", angle_y);
+    box->wizardParams.insert("Angle z", angle_z);
+    box->wizardParams.insert("l", l);
+    box->wizardParams.insert("b", g);
+    box->wizardParams.insert("a", h);
+    box->layer = this->layer;
+    box->processWizardInput();
+    box->calculate();
+    this->boundingBox = box->boundingBox;
+
+    QVector3D position_tank = position + matrix_rotation * QVector3D(l/2, g/2, -h2/2);
+    tank->wizardParams.insert("Position x", position_tank.x());
+    tank->wizardParams.insert("Position y", position_tank.y());
+    tank->wizardParams.insert("Position z", position_tank.z());
+    tank->wizardParams.insert("Angle x", angle_x);
+    tank->wizardParams.insert("Angle y", angle_y);
+    tank->wizardParams.insert("Angle z", angle_z);
+    tank->wizardParams.insert("l", l - 2*s);
+    tank->wizardParams.insert("b", g - 2*s);
+    tank->wizardParams.insert("a", h2);
+    tank->layer = this->layer;
+    tank->processWizardInput();
+    tank->calculate();
+
+    QVector3D position_plane = position + matrix_rotation * QVector3D(s, s, h);
+    opening->wizardParams.insert("Position x", position_plane.x());
+    opening->wizardParams.insert("Position y", position_plane.y());
+    opening->wizardParams.insert("Position z", position_plane.z());
+    opening->wizardParams.insert("Angle x", angle_x);
+    opening->wizardParams.insert("Angle y", angle_y);
+    opening->wizardParams.insert("Angle z", angle_z);
+    opening->wizardParams.insert("b", g - 2*s);
+    opening->wizardParams.insert("a", l - 2*s);
+    opening->layer = this->layer;
+    opening->processWizardInput();
+    opening->calculate();
+
+    this->boundingBox.enterVertices(tank->boundingBox.getVertices());
+    this->snap_vertices = box->snap_vertices;
+
+    this->snap_vertices.append(tank->snap_vertices.at(0));
+    this->snap_vertices.append(tank->snap_vertices.at(1));
+    this->snap_vertices.append(tank->snap_vertices.at(2));
+    this->snap_vertices.append(tank->snap_vertices.at(3));
 }
 
 void CAD_Cleanroom_FloorPanelWithTank::processWizardInput()
@@ -110,6 +173,12 @@ void CAD_Cleanroom_FloorPanelWithTank::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    h = wizardParams.value("h").toDouble();
+    g = wizardParams.value("g").toDouble();
+    l = wizardParams.value("l").toDouble();
+    s = wizardParams.value("s").toDouble();
+    h2 = wizardParams.value("h2").toDouble();
 }
 
 //void CAD_cleanroom_FloorPanelWithTank::paint(GLWidget *glwidget)

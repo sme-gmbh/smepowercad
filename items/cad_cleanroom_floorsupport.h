@@ -17,6 +17,7 @@
 #define CAD_CLEANROOM_FLOORSUPPORT_H
 
 #include "caditem.h"
+#include "items/cad_basic_box.h"
 
 class CAD_Cleanroom_FloorSupport : public CADitem
 {
@@ -36,6 +37,9 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
+
+    qreal a, b, d;
+    CAD_basic_box *bottom, *top, *support;
 };
 
 #endif // CAD_CLEANROOM_FLOORSUPPORT_H

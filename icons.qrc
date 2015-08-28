@@ -390,6 +390,14 @@
         <file>itemGraphic/cad_cleanroom_ceilingsuspension.png</file>
         <file>itemGraphic/cad_cleanroom_ceilingmaintenanceflap.png</file>
         <file>icons/cad_arch/cad_arch_stairs.svg</file>
+        <file>itemGraphic/cad_cleanroom_floorgrating.png</file>
+        <file>itemGraphic/cad_cleanroom_floorpanel.png</file>
+        <file>itemGraphic/cad_cleanroom_floorpanelperforated.png</file>
+        <file>itemGraphic/cad_cleanroom_floorpanelwithbushing.png</file>
+        <file>itemGraphic/cad_cleanroom_floorpanelwithtank.png</file>
+        <file>itemGraphic/cad_cleanroom_floorstiffenerdiagonal.png</file>
+        <file>itemGraphic/cad_cleanroom_floorstiffenerhorizontal.png</file>
+        <file>itemGraphic/cad_cleanroom_floorsupport.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/check.svg</file>

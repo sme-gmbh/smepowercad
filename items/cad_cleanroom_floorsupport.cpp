@@ -25,6 +25,17 @@ CAD_Cleanroom_FloorSupport::CAD_Cleanroom_FloorSupport() : CADitem(CADitemTypes:
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
+    wizardParams.insert("a", 1000.0);
+    wizardParams.insert("b",  100.0);
+    wizardParams.insert("d",   50.0);
+
+    bottom = new CAD_basic_box();
+    top = new CAD_basic_box();
+    support = new CAD_basic_box();
+    this->subItems.append(bottom);
+    this->subItems.append(top);
+    this->subItems.append(support);
+
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();
 //    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
@@ -55,7 +66,10 @@ QList<CADitemTypes::ItemType> CAD_Cleanroom_FloorSupport::flangable_items(int fl
 {
     Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
-    
+    if (flangeIndex == 2)
+        flangable_items.append(CADitemTypes::Cleanroom_FloorStiffenerDiagonal);
+    if (flangeIndex == 1)
+        flangable_items.append(CADitemTypes::Cleanroom_FloorStiffenerHorizontal);
     return flangable_items;
 }
 
@@ -100,6 +114,53 @@ void CAD_Cleanroom_FloorSupport::calculate()
     this->snap_vertices.clear();
                                 
     this->snap_basepoint = (position);
+
+    QVector3D position_bottom = position + matrix_rotation * QVector3D(0.0, 0.0, 5.0);
+    bottom->wizardParams.insert("Position x", position_bottom.x());
+    bottom->wizardParams.insert("Position y", position_bottom.y());
+    bottom->wizardParams.insert("Position z", position_bottom.z());
+    bottom->wizardParams.insert("Angle x", angle_x);
+    bottom->wizardParams.insert("Angle y", angle_y);
+    bottom->wizardParams.insert("Angle z", angle_z);
+    bottom->wizardParams.insert("l", b);
+    bottom->wizardParams.insert("b", b);
+    bottom->wizardParams.insert("a", 10.0);
+    bottom->layer = this->layer;
+    bottom->processWizardInput();
+    bottom->calculate();
+
+    QVector3D position_top = position + matrix_rotation * QVector3D(0.0, 0.0, a - 5.0);
+    top->wizardParams.insert("Position x", position_top.x());
+    top->wizardParams.insert("Position y", position_top.y());
+    top->wizardParams.insert("Position z", position_top.z());
+    top->wizardParams.insert("Angle x", angle_x);
+    top->wizardParams.insert("Angle y", angle_y);
+    top->wizardParams.insert("Angle z", angle_z);
+    top->wizardParams.insert("l", b);
+    top->wizardParams.insert("b", b);
+    top->wizardParams.insert("a", 10.0);
+    top->layer = this->layer;
+    top->processWizardInput();
+    top->calculate();
+
+    QVector3D position_support = position + matrix_rotation * QVector3D(0.0, 0.0, a * 0.5);
+    support->wizardParams.insert("Position x", position_support.x());
+    support->wizardParams.insert("Position y", position_support.y());
+    support->wizardParams.insert("Position z", position_support.z());
+    support->wizardParams.insert("Angle x", angle_x);
+    support->wizardParams.insert("Angle y", angle_y);
+    support->wizardParams.insert("Angle z", angle_z);
+    support->wizardParams.insert("l", d);
+    support->wizardParams.insert("b", d);
+    support->wizardParams.insert("a", a - 20.0);
+    support->layer = this->layer;
+    support->processWizardInput();
+    support->calculate();
+
+    this->boundingBox = top->boundingBox;
+    this->boundingBox.enterVertices(bottom->boundingBox.getVertices());
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(0.0, 0.0, a));
 }
 
 void CAD_Cleanroom_FloorSupport::processWizardInput()
@@ -110,6 +171,9 @@ void CAD_Cleanroom_FloorSupport::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+    a = wizardParams.value("a").toDouble();
+    b = wizardParams.value("b").toDouble();
+    d = wizardParams.value("d").toDouble();
 }
 
 //void CAD_cleanroom_FloorSupport::paint(GLWidget *glwidget)

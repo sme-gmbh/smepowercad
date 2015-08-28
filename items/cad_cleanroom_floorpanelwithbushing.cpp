@@ -25,6 +25,14 @@ CAD_Cleanroom_FloorPanelWithBushing::CAD_Cleanroom_FloorPanelWithBushing() : CAD
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
+    wizardParams.insert("h",   20.0);
+    wizardParams.insert("g", 600.0);
+    wizardParams.insert("l", 600.0);
+    wizardParams.insert("s", 200.0);
+
+    panel = new CAD_basic_duct();
+    this->subItems.append(panel);
+
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();
 //    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
@@ -100,6 +108,25 @@ void CAD_Cleanroom_FloorPanelWithBushing::calculate()
     this->snap_vertices.clear();
                                 
     this->snap_basepoint = (position);
+
+    QVector3D position_panel = position + matrix_rotation * QVector3D(l/2, g/2, 0.0);
+    panel->wizardParams.insert("Position x", position_panel.x());
+    panel->wizardParams.insert("Position y", position_panel.y());
+    panel->wizardParams.insert("Position z", position_panel.z());
+    panel->wizardParams.insert("Angle x", angle_x);
+    panel->wizardParams.insert("Angle y", angle_y);
+    panel->wizardParams.insert("Angle z", angle_z);
+    panel->wizardParams.insert("a",  g);
+    panel->wizardParams.insert("b",  l);
+    panel->wizardParams.insert("l",  h);
+    panel->wizardParams.insert("s",  s);
+    panel->layer = this->layer;
+    panel->processWizardInput();
+    panel->rotateAroundAxis(-90.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
+    panel->calculate();
+
+    this->snap_vertices = panel->snap_vertices;
+    this->boundingBox = panel->boundingBox;
 }
 
 void CAD_Cleanroom_FloorPanelWithBushing::processWizardInput()
@@ -110,6 +137,11 @@ void CAD_Cleanroom_FloorPanelWithBushing::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    h = wizardParams.value("h").toDouble();
+    g = wizardParams.value("g").toDouble();
+    l = wizardParams.value("l").toDouble();
+    s = wizardParams.value("s").toDouble();
 }
 
 //void CAD_cleanroom_FloorPanelWithBushing::paint(GLWidget *glwidget)

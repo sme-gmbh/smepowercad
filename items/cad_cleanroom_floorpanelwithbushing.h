@@ -17,6 +17,7 @@
 #define CAD_CLEANROOM_FLOORPANELWITHBUSHING_H
 
 #include "caditem.h"
+#include "items/cad_basic_duct.h";
 
 class CAD_Cleanroom_FloorPanelWithBushing : public CADitem
 {
@@ -36,6 +37,8 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
+    qreal h, g, l, s;
+    CAD_basic_duct *panel;
 };
 
 #endif // CAD_CLEANROOM_FLOORPANELWITHBUSHING_H

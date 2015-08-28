@@ -17,6 +17,7 @@
 #define CAD_CLEANROOM_FLOORSTIFFENERDIAGONAL_H
 
 #include "caditem.h"
+#include "items/cad_basic_box.h"
 
 class CAD_Cleanroom_FloorStiffenerDiagonal : public CADitem
 {
@@ -36,6 +37,9 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
+
+    qreal a, l, f;
+    CAD_basic_box *stiffener;
 };
 
 #endif // CAD_CLEANROOM_FLOORSTIFFENERDIAGONAL_H
