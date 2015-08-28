@@ -389,6 +389,7 @@
         <file>itemGraphic/cad_cleanroom_ceilingsmokeextractflap.png</file>
         <file>itemGraphic/cad_cleanroom_ceilingsuspension.png</file>
         <file>itemGraphic/cad_cleanroom_ceilingmaintenanceflap.png</file>
+        <file>icons/cad_arch/cad_arch_stairs.svg</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/check.svg</file>
