@@ -387,6 +387,8 @@
         <file>itemGraphic/cad_air_canvasflange.dxf</file>
         <file>itemGraphic/cad_arch_stairs.png</file>
         <file>itemGraphic/cad_cleanroom_ceilingsmokeextractflap.png</file>
+        <file>itemGraphic/cad_cleanroom_ceilingsuspension.png</file>
+        <file>itemGraphic/cad_cleanroom_ceilingmaintenanceflap.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/check.svg</file>

@@ -25,6 +25,13 @@ CAD_Cleanroom_CeilingSuspension::CAD_Cleanroom_CeilingSuspension() : CADitem(CAD
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
+    wizardParams.insert("a", 1000.0);
+    wizardParams.insert("b",   50.0);
+    wizardParams.insert("l",   50.0);
+
+    suspension = new CAD_basic_box();
+    this->subItems.append(suspension);
+
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();
 //    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
@@ -100,6 +107,24 @@ void CAD_Cleanroom_CeilingSuspension::calculate()
     this->snap_vertices.clear();
                                 
     this->snap_basepoint = (position);
+
+    QVector3D position_susp = position + matrix_rotation * QVector3D(0.0, 0.0, a/2);
+    suspension->wizardParams.insert("Position x", position_susp.x());
+    suspension->wizardParams.insert("Position y", position_susp.y());
+    suspension->wizardParams.insert("Position z", position_susp.z());
+    suspension->wizardParams.insert("Angle x", angle_x);
+    suspension->wizardParams.insert("Angle y", angle_y);
+    suspension->wizardParams.insert("Angle z", angle_z);
+
+    suspension->wizardParams.insert("l", l);
+    suspension->wizardParams.insert("b", b);
+    suspension->wizardParams.insert("a", a);
+    suspension->layer = this->layer;
+    suspension->processWizardInput();
+    suspension->calculate();
+
+    this->snap_vertices = suspension->snap_vertices;
+    this->boundingBox = suspension->boundingBox;
 }
 
 void CAD_Cleanroom_CeilingSuspension::processWizardInput()
@@ -110,6 +135,11 @@ void CAD_Cleanroom_CeilingSuspension::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    a = wizardParams.value("a").toDouble();
+    b = wizardParams.value("b").toDouble();
+    l = wizardParams.value("l").toDouble();
+
 }
 
 //void CAD_cleanroom_CeilingSuspension::paint(GLWidget *glwidget)
