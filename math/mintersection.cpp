@@ -11,7 +11,7 @@ MIntersection::~MIntersection()
 
 }
 
-bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2, QVector3D w0, QVector3D w1, QVector3D w2, QVector3D* line_1, QVector3D* line_2)
+bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2, QVector3D w0, QVector3D w1, QVector3D w2)
 {
     //compare to: http://web.stanford.edu/class/cs277/resources/papers/Moller1997b.pdf
     //thanks to Tomas Möller
@@ -133,70 +133,70 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
         //test all edges against all edges
         if (edgeAgainstEdge(v0_2D, v1_2D, w0_2D, w1_2D))
         {
-            qDebug() << "edge vs. edge";
-            qDebug() << v0_2D << v1_2D << w0_2D << w1_2D;
+//            qDebug() << "edge vs. edge";
+//            qDebug() << v0_2D << v1_2D << w0_2D << w1_2D;
             return true;
         }
         if (edgeAgainstEdge(v0_2D, v1_2D, w1_2D, w2_2D))
         {
-            qDebug() << "edge vs. edge";
-            qDebug() << v0_2D << v1_2D << w1_2D << w2_2D;
+//            qDebug() << "edge vs. edge";
+//            qDebug() << v0_2D << v1_2D << w1_2D << w2_2D;
             return true;
         }
         if (edgeAgainstEdge(v0_2D, v1_2D, w0_2D, w2_2D))
         {
-            qDebug() << "edge vs. edge";
-            qDebug() << v0_2D << v1_2D << w0_2D << w2_2D;
+//            qDebug() << "edge vs. edge";
+//            qDebug() << v0_2D << v1_2D << w0_2D << w2_2D;
             return true;
         }
         if (edgeAgainstEdge(v1_2D, v2_2D, w0_2D, w1_2D))
         {
-            qDebug() << "edge vs. edge";
-            qDebug() << v1_2D << v2_2D << w0_2D << w1_2D;
+//            qDebug() << "edge vs. edge";
+//            qDebug() << v1_2D << v2_2D << w0_2D << w1_2D;
             return true;
         }
         if (edgeAgainstEdge(v1_2D, v2_2D, w1_2D, w2_2D))
         {
-            qDebug() << "edge vs. edge";
-            qDebug() << v1_2D << v2_2D << w1_2D << w2_2D;
+//            qDebug() << "edge vs. edge";
+//            qDebug() << v1_2D << v2_2D << w1_2D << w2_2D;
             return true;
         }
         if (edgeAgainstEdge(v1_2D, v2_2D, w0_2D, w2_2D))
         {
-            qDebug() << "edge vs. edge";
-            qDebug() << v1_2D << v2_2D << w0_2D << w2_2D;
+//            qDebug() << "edge vs. edge";
+//            qDebug() << v1_2D << v2_2D << w0_2D << w2_2D;
             return true;
         }
         if (edgeAgainstEdge(v0_2D, v2_2D, w0_2D, w1_2D))
         {
-            qDebug() << "edge vs. edge";
-            qDebug() << v0_2D << v2_2D << w0_2D << w1_2D;
+//            qDebug() << "edge vs. edge";
+//            qDebug() << v0_2D << v2_2D << w0_2D << w1_2D;
             return true;
         }
         if (edgeAgainstEdge(v0_2D, v2_2D, w1_2D, w2_2D))
         {
-            qDebug() << "edge vs. edge";
-            qDebug() << v0_2D << v2_2D << w1_2D << w2_2D;
+//            qDebug() << "edge vs. edge";
+//            qDebug() << v0_2D << v2_2D << w1_2D << w2_2D;
             return true;
         }
         if (edgeAgainstEdge(v0_2D, v2_2D, w0_2D, w2_2D))
         {
-            qDebug() << "edge vs. edge";
-            qDebug() << v0_2D << v2_2D << w0_2D << w2_2D;
+//            qDebug() << "edge vs. edge";
+//            qDebug() << v0_2D << v2_2D << w0_2D << w2_2D;
             return true;
         }
 
         //test if one triangle lies within another
         if (vertexInTriangle(v0_2D, w0_2D, w1_2D, w2_2D))
         {
-            qDebug() << "vertex in triangle";
-            qDebug() << v0_2D << w0_2D << w1_2D << w2_2D;
+//            qDebug() << "vertex in triangle";
+//            qDebug() << v0_2D << w0_2D << w1_2D << w2_2D;
             return true;
         }
         if (vertexInTriangle(w0_2D, v0_2D, v1_2D, v2_2D))
         {
-            qDebug() << "vertex in triangle";
-            qDebug() << w0_2D << v0_2D << v1_2D << v2_2D;
+//            qDebug() << "vertex in triangle";
+//            qDebug() << w0_2D << v0_2D << v1_2D << v2_2D;
             return true;
         }
 
@@ -341,11 +341,11 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
             return false;
 
         //some debug output, generates XML, that can be loaded into PowerCAD
-        float norm_n_squared = QVector3D::dotProduct(n, n);
-        float norm_m_squared = QVector3D::dotProduct(m, m);
-        float n_dot_m = QVector3D::dotProduct(n, m);
-        QVector3D aufpunkt = (-d * norm_m_squared + e * n_dot_m) / (norm_n_squared * norm_m_squared - n_dot_m * n_dot_m) * n +
-                (-e * norm_n_squared + d * n_dot_m) / (norm_n_squared * norm_m_squared - n_dot_m * n_dot_m) * m;
+//        float norm_n_squared = QVector3D::dotProduct(n, n);
+//        float norm_m_squared = QVector3D::dotProduct(m, m);
+//        float n_dot_m = QVector3D::dotProduct(n, m);
+//        QVector3D aufpunkt = (-d * norm_m_squared + e * n_dot_m) / (norm_n_squared * norm_m_squared - n_dot_m * n_dot_m) * n +
+//                (-e * norm_n_squared + d * n_dot_m) / (norm_n_squared * norm_m_squared - n_dot_m * n_dot_m) * m;
 
 //        qDebug() << "<I54 "
 //                 << "Position_x1=" << '"' << (aufpunkt - 10000*direction).x()<< '"'
@@ -382,25 +382,25 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
 //                 << "r=" << '"' << 10 << '"'
 //                 << "/>" ;
 
-        qDebug() << "face vs. face";
-        qDebug() << s1 << s2;
-        qDebug() << p_v0 << p_v1 << p_v2 << dist_v0 << dist_v1 << dist_v2;
-        qDebug() << t1 << t2;
-        qDebug() << p_w0 << p_w1 << p_w2 << dist_w0 << dist_w1 << dist_w2;
-        qDebug() << QVector3D::dotProduct(n, m) / (n.length() * m.length());
+//        qDebug() << "face vs. face";
+//        qDebug() << s1 << s2;
+//        qDebug() << p_v0 << p_v1 << p_v2 << dist_v0 << dist_v1 << dist_v2;
+//        qDebug() << t1 << t2;
+//        qDebug() << p_w0 << p_w1 << p_w2 << dist_w0 << dist_w1 << dist_w2;
+//        qDebug() << QVector3D::dotProduct(n, m) / (n.length() * m.length());
 
 
-        *line_1 = aufpunkt + 10000*direction;
-        *line_2 = aufpunkt - 10000*direction;
+//        *line_1 = aufpunkt + 10000*direction;
+//        *line_2 = aufpunkt - 10000*direction;
         return true;
     }
 
 }
 
 
-bool MIntersection::trianglesIntersect(MTriangle t1, MTriangle t2, QVector3D *line_1, QVector3D *line_2)
+bool MIntersection::trianglesIntersect(MTriangle t1, MTriangle t2)
 {
-    return trianglesIntersect(t1.getV0(), t1.getV1(), t1.getV2(), t2.getV0(), t2.getV1(), t2.getV2(), line_1, line_2);
+    return trianglesIntersect(t1.getV0(), t1.getV1(), t1.getV2(), t2.getV0(), t2.getV1(), t2.getV2());
 }
 
 bool MIntersection::edgeAgainstEdge(QVector2D v0, QVector2D v1, QVector2D w0, QVector2D w1)
