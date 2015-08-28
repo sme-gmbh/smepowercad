@@ -91,11 +91,30 @@ void CAD_Arch_Stairs::calculate()
                                 
     this->snap_basepoint = (position);
 
-    for(int i = 0; i < n; i++)
+    CAD_basic_box *step = new CAD_basic_box;
+    this->subItems.append(step);
+    QVector3D pos = (matrix_rotation * QVector3D(l/2l, 0.0, a/2)) + position;
+    step->wizardParams.insert("Position x", (pos.x()));
+    step->wizardParams.insert("Position y", (pos.y()));
+    step->wizardParams.insert("Position z", (pos.z()));
+    step->wizardParams.insert("Angle x", (angle_x));
+    step->wizardParams.insert("Angle y", (angle_y));
+    step->wizardParams.insert("Angle z", (angle_z));
+    step->wizardParams.insert("l", (l));
+    step->wizardParams.insert("b", (b));
+    step->wizardParams.insert("a", (a));
+    step->processWizardInput();
+    step->calculate();
+    step->layer = this->layer;
+    this->boundingBox.enterVertices(step->boundingBox.getVertices());
+    this->snap_vertices.append(step->snap_vertices.at(0));
+    this->snap_vertices.append(step->snap_vertices.at(3));
+
+    for(int i = 1; i < n; i++)
     {
         CAD_basic_box *step = new CAD_basic_box;
         this->subItems.append(step);
-        QVector3D pos = (matrix_rotation * QVector3D(l/2 + i * l, 0.0, a/2 + i * a)) + position;
+        QVector3D pos = (matrix_rotation * QVector3D(l/2 + i * l, 0.0, i * a)) + position;
         step->wizardParams.insert("Position x", (pos.x()));
         step->wizardParams.insert("Position y", (pos.y()));
         step->wizardParams.insert("Position z", (pos.z()));
@@ -104,12 +123,16 @@ void CAD_Arch_Stairs::calculate()
         step->wizardParams.insert("Angle z", (angle_z));
         step->wizardParams.insert("l", (l));
         step->wizardParams.insert("b", (b));
-        step->wizardParams.insert("a", (a));
+        step->wizardParams.insert("a", (2*a));
         step->processWizardInput();
         step->calculate();
         step->layer = this->layer;
         this->boundingBox.enterVertices(step->boundingBox.getVertices());
-        this->snap_vertices.append(step->snap_vertices);
+        if(i == n-1)
+        {
+            this->snap_vertices.append(step->snap_vertices.at(5));
+            this->snap_vertices.append(step->snap_vertices.at(6));
+        }
     }
 }
 
