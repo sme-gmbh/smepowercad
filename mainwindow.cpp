@@ -108,7 +108,7 @@ MainWindow::MainWindow(QWidget *parent) :
     offscreensurface->moveToThread(collisionDetection);
     connect(itemDB, SIGNAL(signal_itemDeleted(CADitem*)), collisionDetection, SLOT(slot_itemDeleted(CADitem*)));
     connect(itemDB, SIGNAL(signal_itemModified(CADitem*)), collisionDetection, SLOT(slot_testModifiedItem(CADitem*)));
-    connect(collisionDetection, SIGNAL(signal_itemsDoCollide(CADitem*,CADitem*, QVector3D, QVector3D)), this, SLOT(slot_collision_detected(CADitem*,CADitem*, QVector3D, QVector3D)));
+    connect(collisionDetection, SIGNAL(signal_itemsDoCollide(CADitem*,CADitem*)), this, SLOT(slot_collision_detected(CADitem*,CADitem*)));
     connect(collisionDetection, SIGNAL(signal_itemsDoNotCollide(CADitem*)), this, SLOT(slot_no_collision_detected(CADitem*)));
 
 
@@ -737,7 +737,7 @@ void MainWindow::on_actionServer_triggered(bool checked)
 
 }
 
-void MainWindow::slot_collision_detected(CADitem *item_1, CADitem *item_2, QVector3D line_1, QVector3D line_2)
+void MainWindow::slot_collision_detected(CADitem *item_1, CADitem *item_2)
 {
 //    CAD_basic_line* line = new CAD_basic_line;
 //    line->wizardParams.insert("Position x1", line_1.x());

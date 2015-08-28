@@ -113,8 +113,8 @@ void CAD_Cleanroom_CeilingMaintenanceFlap::calculate()
 
     QMatrix4x4 matrix_flap;
     matrix_flap.setToIdentity();
-    matrix_flap.rotate(-30.0, 0.0, 1.0, 0.0);
-    QVector3D position_flap = position + matrix_rotation * (QVector3D((l - l2)/2, g/2, h) + matrix_flap * QVector3D(l2/2, 0.0, 0.0));
+    matrix_flap.rotate(30.0, 0.0, 1.0, 0.0);
+    QVector3D position_flap = position + matrix_rotation * (QVector3D((l - l2)/2, g/2, 0.0) + matrix_flap * QVector3D(l2/2, 0.0, 0.0));
     flap->wizardParams.insert("Position x", position_flap.x());
     flap->wizardParams.insert("Position y", position_flap.y());
     flap->wizardParams.insert("Position z", position_flap.z());
@@ -127,7 +127,7 @@ void CAD_Cleanroom_CeilingMaintenanceFlap::calculate()
     flap->wizardParams.insert("a", h);
     flap->layer = this->layer;
     flap->processWizardInput();
-    flap->rotateAroundAxis(-30.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
+    flap->rotateAroundAxis(30.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
     flap->calculate();
 
     QVector3D position_panel = position + matrix_rotation * QVector3D(l/2, g/2, 0.0);

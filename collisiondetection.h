@@ -56,7 +56,7 @@ private slots:
     void slot_checkNextItem();
 
 signals:
-    void signal_itemsDoCollide(CADitem* item_1, CADitem* item_2, QVector3D line_1, QVector3D line_2);
+    void signal_itemsDoCollide(CADitem* item_1, CADitem* item_2);
     void signal_itemsDoNotCollide(CADitem* item_1);
 
 public slots:

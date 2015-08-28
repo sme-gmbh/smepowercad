@@ -69,6 +69,9 @@ QList<CADitemTypes::ItemType> CAD_Cleanroom_CeilingJoiningKnot::flangable_items(
     {
         flangable_items.append(CADitemTypes::Cleanroom_CeilingGrating);
         flangable_items.append(CADitemTypes::Cleanroom_CeilingPanel);
+        flangable_items.append(CADitemTypes::Cleanroom_CeilingFilterFanUnit);
+        flangable_items.append(CADitemTypes::Cleanroom_CeilingMaintenanceFlap);
+        flangable_items.append(CADitemTypes::Cleanroom_CeilingSmokeExtractFlap);
     }
     return flangable_items;
 }
