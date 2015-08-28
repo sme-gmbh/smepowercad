@@ -17,6 +17,8 @@
 #define CAD_CLEANROOM_FLOORPANELWITHTANK_H
 
 #include "caditem.h"
+#include "items/cad_basic_box.h"
+#include "items/cad_basic_plane.h"
 
 class CAD_Cleanroom_FloorPanelWithTank : public CADitem
 {
@@ -36,6 +38,11 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
+    qreal h, g, l, s, h2;
+    CAD_basic_box *box;
+    CAD_basic_box *tank;
+    CAD_basic_plane *opening;
+
 };
 
 #endif // CAD_CLEANROOM_FLOORPANELWITHTANK_H

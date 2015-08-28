@@ -25,6 +25,13 @@ CAD_Cleanroom_FloorGrating::CAD_Cleanroom_FloorGrating() : CADitem(CADitemTypes:
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
+    wizardParams.insert("h",   20.0);
+    wizardParams.insert("g", 600.0);
+    wizardParams.insert("l", 600.0);
+
+    box = new CAD_basic_box();
+    this->subItems.append(box);
+
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();
 //    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
@@ -92,14 +99,32 @@ void CAD_Cleanroom_FloorGrating::calculate()
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
     matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-                
+
     boundingBox.reset();
-                    
+
     this->snap_flanges.clear();
     this->snap_center.clear();
     this->snap_vertices.clear();
-                                
+
     this->snap_basepoint = (position);
+
+    QVector3D position_box = position + matrix_rotation * QVector3D(l/2, g/2, h/2);
+    box->wizardParams.insert("Position x", position_box.x());
+    box->wizardParams.insert("Position y", position_box.y());
+    box->wizardParams.insert("Position z", position_box.z());
+    box->wizardParams.insert("Angle x", angle_x);
+    box->wizardParams.insert("Angle y", angle_y);
+    box->wizardParams.insert("Angle z", angle_z);
+
+    box->wizardParams.insert("l", l);
+    box->wizardParams.insert("b", g);
+    box->wizardParams.insert("a", h);
+    box->layer = this->layer;
+    box->processWizardInput();
+    box->calculate();
+
+    this->boundingBox = box->boundingBox;
+    this->snap_vertices = box->snap_vertices;
 }
 
 void CAD_Cleanroom_FloorGrating::processWizardInput()
@@ -110,6 +135,10 @@ void CAD_Cleanroom_FloorGrating::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    h = wizardParams.value("h").toDouble();
+    g = wizardParams.value("g").toDouble();
+    l = wizardParams.value("l").toDouble();
 }
 
 //void CAD_cleanroom_FloorGrating::paint(GLWidget *glwidget)
