@@ -164,6 +164,19 @@ void CAD_Electrical_CabinetWithoutDoor::calculate()
     this->boundingBox.enterVertices(cabinet->boundingBox.getVertices());
     this->boundingBox.enterVertices(socket->boundingBox.getVertices());
     this->boundingBox.enterVertices(back->boundingBox.getVertices());
+
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0, -0.5*b, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l,   -0.5*b, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l,    0.5*b, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,  0.5*b, 0.0));
+
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0, -0.5*b - i, a + a1));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l,   -0.5*b - i, a + a1));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l,    0.5*b, a + a1));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,  0.5*b, a + a1));
+
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l,    -0.5*b - i, a1));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,  -0.5*b - i, a1));
 }
 
 void CAD_Electrical_CabinetWithoutDoor::processWizardInput()

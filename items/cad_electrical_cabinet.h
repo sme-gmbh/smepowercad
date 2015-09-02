@@ -19,6 +19,8 @@
 #include "caditem.h"
 #include "items/cad_basic_duct.h"
 #include "items/cad_basic_box.h"
+#include "items/cad_basic_line.h"
+#include "items/cad_basic_arc.h"
 
 class CAD_electrical_cabinet : public CADitem
 {
@@ -37,6 +39,8 @@ public:
     qreal a, a1, b, l, i, alpha, s;
     CAD_basic_duct *cabinet;
     CAD_basic_box *back, *door, *socket;
+    CAD_basic_line *arrow_1, *arrow_2;
+    CAD_basic_arc *arc;
 };
 
 #endif // CAD_ELECTRICAL_CABINET_H
