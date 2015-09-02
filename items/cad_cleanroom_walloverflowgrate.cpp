@@ -25,6 +25,13 @@ CAD_Cleanroom_WallOverflowGrate::CAD_Cleanroom_WallOverflowGrate() : CADitem(CAD
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
+    wizardParams.insert("a", 2500.0);
+    wizardParams.insert("b",  100.0);
+    wizardParams.insert("l", 2500.0);
+
+    box = new CAD_basic_box();
+    this->subItems.append(box);
+
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();
 //    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
@@ -55,7 +62,9 @@ QList<CADitemTypes::ItemType> CAD_Cleanroom_WallOverflowGrate::flangable_items(i
 {
     Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
-    
+    flangable_items.append(CADitemTypes::Cleanroom_WallOverflowGrate);
+    flangable_items.append(CADitemTypes::Cleanroom_WallPanel);
+    flangable_items.append(CADitemTypes::Cleanroom_WallSmokeExtractFlap);
     return flangable_items;
 }
 
@@ -100,6 +109,26 @@ void CAD_Cleanroom_WallOverflowGrate::calculate()
     this->snap_vertices.clear();
                                 
     this->snap_basepoint = (position);
+
+    QVector3D position_box = position + matrix_rotation * QVector3D(0.5 * l, 0.0, 0.5 * a);
+    box->wizardParams.insert("Position x", position_box.x());
+    box->wizardParams.insert("Position y", position_box.y());
+    box->wizardParams.insert("Position z", position_box.z());
+    box->wizardParams.insert("Angle x", angle_x);
+    box->wizardParams.insert("Angle y", angle_y);
+    box->wizardParams.insert("Angle z", angle_z);
+    box->wizardParams.insert("l", l);
+    box->wizardParams.insert("b", b);
+    box->wizardParams.insert("a", a);
+    box->layer = this->layer;
+    box->processWizardInput();
+    box->calculate();
+
+    this->boundingBox = box->boundingBox;
+
+    this->snap_vertices = box->snap_vertices;
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
 }
 
 void CAD_Cleanroom_WallOverflowGrate::processWizardInput()
@@ -110,6 +139,10 @@ void CAD_Cleanroom_WallOverflowGrate::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    a = wizardParams.value("a").toDouble();
+    b = wizardParams.value("b").toDouble();
+    l = wizardParams.value("l").toDouble();
 }
 
 //void CAD_cleanroom_WallOverflowGrate::paint(GLWidget *glwidget)
@@ -145,5 +178,13 @@ void CAD_Cleanroom_WallOverflowGrate::processWizardInput()
 
 QMatrix4x4 CAD_Cleanroom_WallOverflowGrate::rotationOfFlange(quint8 num)
 {
-    return matrix_rotation;
+    if (num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else
+        return matrix_rotation;
 }
