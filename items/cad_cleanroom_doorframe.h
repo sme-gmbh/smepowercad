@@ -17,6 +17,7 @@
 #define CAD_CLEANROOM_DOORFRAME_H
 
 #include "caditem.h"
+#include "items/cad_basic_box.h"
 
 class CAD_Cleanroom_DoorFrame : public CADitem
 {
@@ -36,6 +37,9 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
+
+    qreal a, h, b, l, g;
+    CAD_basic_box *box_up, *box_left, *box_right;
 };
 
 #endif // CAD_CLEANROOM_DOORFRAME_H

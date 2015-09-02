@@ -398,6 +398,11 @@
         <file>itemGraphic/cad_cleanroom_floorstiffenerdiagonal.png</file>
         <file>itemGraphic/cad_cleanroom_floorstiffenerhorizontal.png</file>
         <file>itemGraphic/cad_cleanroom_floorsupport.png</file>
+        <file>itemGraphic/cad_cleanroom_doorframe.png</file>
+        <file>itemGraphic/cad_cleanroom_doorslidingdouble.png</file>
+        <file>itemGraphic/cad_cleanroom_doorslidingsingle.png</file>
+        <file>itemGraphic/cad_cleanroom_doorswingingdouble.png</file>
+        <file>itemGraphic/cad_cleanroom_doorswingingsingle.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/check.svg</file>
