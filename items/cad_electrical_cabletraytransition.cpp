@@ -139,7 +139,7 @@ void CAD_Electrical_CabletrayTransition::calculate()
     end_lower->processWizardInput();
     end_lower->calculate();
 
-    QVector3D position_up = position + matrix_rotation * QVector3D(l1 + l, 0.0, i);
+    QVector3D position_up = position + matrix_rotation * QVector3D(l - l1, 0.0, i);
     end_upper->wizardParams.insert("Position x", position_up.x());
     end_upper->wizardParams.insert("Position y", position_up.y());
     end_upper->wizardParams.insert("Position z", position_up.z());
@@ -154,104 +154,102 @@ void CAD_Electrical_CabletrayTransition::calculate()
     end_upper->processWizardInput();
     end_upper->calculate();
 
-    QVector3D position_flr = position + matrix_rotation * QVector3D(l1 + l/2, 0.0, i/2 + s/2);
-    floor->wizardParams.insert("Position x", position_flr.x());
-    floor->wizardParams.insert("Position y", position_flr.y());
-    floor->wizardParams.insert("Position z", position_flr.z());
-    floor->wizardParams.insert("Angle x", angle_x);
-    floor->wizardParams.insert("Angle y", angle_y);
-    floor->wizardParams.insert("Angle z", angle_z);
+//    QVector3D position_flr = position + matrix_rotation * QVector3D(l1 + l/2, 0.0, i/2 + s/2);
+//    floor->wizardParams.insert("Position x", position_flr.x());
+//    floor->wizardParams.insert("Position y", position_flr.y());
+//    floor->wizardParams.insert("Position z", position_flr.z());
+//    floor->wizardParams.insert("Angle x", angle_x);
+//    floor->wizardParams.insert("Angle y", angle_y);
+//    floor->wizardParams.insert("Angle z", angle_z);
 
-    floor->wizardParams.insert("l", l);
-    floor->wizardParams.insert("b", b);
-    floor->wizardParams.insert("a", s);
-    floor->layer = this->layer;
-    floor->processWizardInput();
-    floor->calculate();
+//    floor->wizardParams.insert("l", l);
+//    floor->wizardParams.insert("b", b);
+//    floor->wizardParams.insert("a", s);
+//    floor->layer = this->layer;
+//    floor->processWizardInput();
+//    floor->calculate();
 
     QVector3D vertices_flr[] = {
         position + matrix_rotation * QVector3D(l1, -b/2, 0.0),
-        position + matrix_rotation * QVector3D(l + l1, -b/2, i),
-        position + matrix_rotation * QVector3D(l +l1, b/2, i),
+        position + matrix_rotation * QVector3D(l - l1, -b/2, i),
+        position + matrix_rotation * QVector3D(l - l1, b/2, i),
         position + matrix_rotation * QVector3D(l1, b/2, 0.0),
         position + matrix_rotation * QVector3D(l1, -b/2, s),
-        position + matrix_rotation * QVector3D(l + l1, -b/2, i + s),
-        position + matrix_rotation * QVector3D(l + l1, b/2, i + s),
+        position + matrix_rotation * QVector3D(l - l1, -b/2, i + s),
+        position + matrix_rotation * QVector3D(l - l1, b/2, i + s),
         position + matrix_rotation * QVector3D(l1, b/2, s)
     };
     floor->arrayBufVertices->bind();
     floor->arrayBufVertices->allocate(vertices_flr, sizeof(vertices_flr));
 
-    QVector3D position_lft = position + matrix_rotation * QVector3D(l/2, -b/2 + s/2, (a+s)/2);
-    left->wizardParams.insert("Position x", position_lft.x());
-    left->wizardParams.insert("Position y", position_lft.y());
-    left->wizardParams.insert("Position z", position_lft.z());
-    left->wizardParams.insert("Angle x", angle_x);
-    left->wizardParams.insert("Angle y", angle_y);
-    left->wizardParams.insert("Angle z", angle_z);
+//    QVector3D position_lft = position + matrix_rotation * QVector3D(l/2, -b/2 + s/2, (a+s)/2);
+//    left->wizardParams.insert("Position x", position_lft.x());
+//    left->wizardParams.insert("Position y", position_lft.y());
+//    left->wizardParams.insert("Position z", position_lft.z());
+//    left->wizardParams.insert("Angle x", angle_x);
+//    left->wizardParams.insert("Angle y", angle_y);
+//    left->wizardParams.insert("Angle z", angle_z);
 
-    left->wizardParams.insert("l", l);
-    left->wizardParams.insert("b", s);
-    left->wizardParams.insert("a", a-s);
-    left->layer = this->layer;
-    left->processWizardInput();
-    left->calculate();
+//    left->wizardParams.insert("l", l);
+//    left->wizardParams.insert("b", s);
+//    left->wizardParams.insert("a", a-s);
+//    left->layer = this->layer;
+//    left->processWizardInput();
+//    left->calculate();
 
     QVector3D vertices_lft[] = {
         position + matrix_rotation * QVector3D(l1, b/2 - s, s),
-        position + matrix_rotation * QVector3D(l1 + l, b/2 - s, s + i),
-        position + matrix_rotation * QVector3D(l1 + l, b/2, s + i),
+        position + matrix_rotation * QVector3D(l - l1, b/2 - s, s + i),
+        position + matrix_rotation * QVector3D(l - l1, b/2, s + i),
         position + matrix_rotation * QVector3D(l1, b/2, s),
         position + matrix_rotation * QVector3D(l1, b/2 - s, a),
-        position + matrix_rotation * QVector3D(l1 + l, b/2 - s, a + i),
-        position + matrix_rotation * QVector3D(l1 + l, b/2, a + i),
+        position + matrix_rotation * QVector3D(l - l1, b/2 - s, a + i),
+        position + matrix_rotation * QVector3D(l - l1, b/2, a + i),
         position + matrix_rotation * QVector3D(l1, b/2, a)
     };
     left->arrayBufVertices->bind();
     left->arrayBufVertices->allocate(vertices_lft, sizeof(vertices_lft));
 
-    QVector3D position_rgt = position + matrix_rotation * QVector3D(l/2, +b/2 - s/2, (a+s)/2);
-    right->wizardParams.insert("Position x", position_rgt.x());
-    right->wizardParams.insert("Position y", position_rgt.y());
-    right->wizardParams.insert("Position z", position_rgt.z());
-    right->wizardParams.insert("Angle x", angle_x);
-    right->wizardParams.insert("Angle y", angle_y);
-    right->wizardParams.insert("Angle z", angle_z);
+//    QVector3D position_rgt = position + matrix_rotation * QVector3D(l/2, +b/2 - s/2, (a+s)/2);
+//    right->wizardParams.insert("Position x", position_rgt.x());
+//    right->wizardParams.insert("Position y", position_rgt.y());
+//    right->wizardParams.insert("Position z", position_rgt.z());
+//    right->wizardParams.insert("Angle x", angle_x);
+//    right->wizardParams.insert("Angle y", angle_y);
+//    right->wizardParams.insert("Angle z", angle_z);
 
-    right->wizardParams.insert("l", l);
-    right->wizardParams.insert("b", s);
-    right->wizardParams.insert("a", a-s);
-    right->layer = this->layer;
-    right->processWizardInput();
-    right->calculate();
+//    right->wizardParams.insert("l", l);
+//    right->wizardParams.insert("b", s);
+//    right->wizardParams.insert("a", a-s);
+//    right->layer = this->layer;
+//    right->processWizardInput();
+//    right->calculate();
 
     QVector3D vertices_rgt[] = {
-        position + matrix_rotation * QVector3D(l1 + l, -b/2 + s, s + i),
+        position + matrix_rotation * QVector3D(l - l1, -b/2 + s, s + i),
         position + matrix_rotation * QVector3D(l1, -b/2 + s, s),
         position + matrix_rotation * QVector3D(l1, -b/2, s),
-        position + matrix_rotation * QVector3D(l1 + l, -b/2, s + i),
-        position + matrix_rotation * QVector3D(l1 + l, -b/2 + s, a + i),
+        position + matrix_rotation * QVector3D(l - l1, -b/2, s + i),
+        position + matrix_rotation * QVector3D(l - l1, -b/2 + s, a + i),
         position + matrix_rotation * QVector3D(l1, -b/2 + s, a),
         position + matrix_rotation * QVector3D(l1, -b/2, a),
-        position + matrix_rotation * QVector3D(l1 + l, -b/2, a + i),
+        position + matrix_rotation * QVector3D(l - l1, -b/2, a + i),
     };
     right->arrayBufVertices->bind();
     right->arrayBufVertices->allocate(vertices_rgt, sizeof(vertices_rgt));
 
     this->snap_flanges.append(position);
-    this->snap_flanges.append(position + matrix_rotation * QVector3D(l + 2 * l1, 0.0, i));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, i));
 
-    this->snap_center.append(floor->snap_center);
-    this->snap_center.append(left->snap_center);
-    this->snap_center.append(right->snap_center);
-    this->snap_center.append(end_lower->snap_center);
-    this->snap_center.append(end_upper->snap_center);
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0, 0.5 * b, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0, 0.5 * b, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,-0.5 * b, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,-0.5 * b, 0.0));
 
-    this->snap_vertices.append(floor->snap_vertices);
-    this->snap_vertices.append(left->snap_vertices);
-    this->snap_vertices.append(right->snap_vertices);
-    this->snap_vertices.append(end_lower->snap_vertices);
-    this->snap_vertices.append(end_upper->snap_vertices);
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l, 0.5 * b, i));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l, 0.5 * b, a + i));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l,-0.5 * b, a + i));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l,-0.5 * b, i));
 
     this->boundingBox.enterVertices(floor->boundingBox.getVertices());
     this->boundingBox.enterVertices(left->boundingBox.getVertices());

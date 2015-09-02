@@ -167,13 +167,15 @@ void CAD_Electrical_CabletrayTurn::calculate()
     this->snap_flanges.append(position);
     this->snap_flanges.append(position + matrix_rotation * QVector3D(l/2, b/2, 0.0));
 
-    this->snap_center.append(floor->snap_center);
-    this->snap_center.append(side_1->snap_center);
-    this->snap_center.append(side_2->snap_center);
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0, 0.5 * b, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l,   0.5 * b, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l,  -0.5 * b, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,-0.5 * b, 0.0));
 
-    this->snap_vertices.append(floor->snap_vertices);
-    this->snap_vertices.append(side_1->snap_vertices);
-    this->snap_vertices.append(side_2->snap_vertices);
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0, 0.5 * b, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l,   0.5 * b, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l,  -0.5 * b, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,-0.5 * b, a));
 
     this->boundingBox.enterVertices(floor->boundingBox.getVertices());
     this->boundingBox.enterVertices(side_1->boundingBox.getVertices());

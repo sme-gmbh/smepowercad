@@ -149,11 +149,14 @@ void CAD_electrical_CabletrayTeeconnector::calculate()
     this->snap_flanges.append(position + matrix_rotation * QVector3D(l/2, b/2, 0.0));
     this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
 
-    this->snap_center.append(floor->snap_center);
-    this->snap_center.append(side->snap_center);
-
-    this->snap_vertices.append(floor->snap_vertices);
-    this->snap_vertices.append(side->snap_vertices);
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0, 0.5 * b, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l,   0.5 * b, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l,  -0.5 * b, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,-0.5 * b, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0, 0.5 * b, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l,   0.5 * b, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l,  -0.5 * b, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,-0.5 * b, a));
 
     this->boundingBox.enterVertices(floor->boundingBox.getVertices());
     this->boundingBox.enterVertices(side->boundingBox.getVertices());

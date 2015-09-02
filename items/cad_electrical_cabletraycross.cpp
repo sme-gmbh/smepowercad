@@ -205,9 +205,35 @@ void CAD_Electrical_CabletrayCross::calculate()
     this->boundingBox.enterVertices(ct_4->boundingBox.getVertices());
 
     this->snap_flanges.append(position);
-    this->snap_flanges.append(position_ct_2);
-    this->snap_flanges.append(position_ct_3);
     this->snap_flanges.append(position_ct_4);
+    this->snap_flanges.append(position_ct_3);
+    this->snap_flanges.append(position_ct_2);
+
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0, -0.5 * b, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,  0.5 * b, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l1, -0.5 * b, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l1,  0.5 * b, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l1, -0.5 * b - b1, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l1,  0.5 * b + b1, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l1 + l, -0.5 * b - b1, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l1 + l,  0.5 * b + b1, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l1 + l, -0.5 * b, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l1 + l,  0.5 * b, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(2*l1 + l, -0.5 * b, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(2*l1 + l,  0.5 * b, 0.0));
+
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0, -0.5 * b, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,  0.5 * b, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l1, -0.5 * b, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l1,  0.5 * b, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l1, -0.5 * b - b1, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l1,  0.5 * b + b1, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l1 + l, -0.5 * b - b1, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l1 + l,  0.5 * b + b1, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l1 + l, -0.5 * b, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l1 + l,  0.5 * b, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(2*l1 + l, -0.5 * b, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(2*l1 + l,  0.5 * b, a));
 }
 
 void CAD_Electrical_CabletrayCross::processWizardInput()
@@ -266,7 +292,7 @@ QMatrix4x4 CAD_Electrical_CabletrayCross::rotationOfFlange(quint8 num)
         m.rotate(180.0, 0.0, 0.0, 1.0);
         return matrix_rotation * m;
     }
-    else if(num == 2)
+    else if(num == 4)
     {
         QMatrix4x4 m;
         m.setToIdentity();
@@ -277,7 +303,7 @@ QMatrix4x4 CAD_Electrical_CabletrayCross::rotationOfFlange(quint8 num)
     {
         return matrix_rotation;
     }
-    else if(num == 4)
+    else if(num == 2)
     {
         QMatrix4x4 m;
         m.setToIdentity();
