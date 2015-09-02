@@ -167,6 +167,15 @@ void CAD_Cleanroom_DoorFrame::calculate()
 
     this->snap_flanges.append(position + matrix_rotation * QVector3D((l - g) * 0.5, 0.0, 0.0));
     this->snap_flanges.append(position + matrix_rotation * QVector3D((l + g) * 0.5, 0.0, 0.0));
+
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0, -0.5 * b, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l  , -0.5 * b, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l  ,  0.5 * b, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,  0.5 * b, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0, -0.5 * b, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l  , -0.5 * b, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l  ,  0.5 * b, a));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,  0.5 * b, a));
 }
 
 void CAD_Cleanroom_DoorFrame::processWizardInput()

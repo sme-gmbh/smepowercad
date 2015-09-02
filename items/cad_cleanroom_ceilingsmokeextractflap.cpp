@@ -146,6 +146,32 @@ void CAD_Cleanroom_CeilingSmokeExtractFlap::calculate()
     panel->rotateAroundAxis(-90.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
     panel->calculate();
 
+    QVector3D vertices[] = {
+        //set Outer Points
+        position + matrix_rotation * QVector3D(0.0,  0.0, 0.0),
+        position + matrix_rotation * QVector3D(0.0,  0.0, h),
+        position + matrix_rotation * QVector3D(0.0,  g,   h),
+        position + matrix_rotation * QVector3D(0.0,  g,   0.0),
+
+        position + matrix_rotation * QVector3D(l,  0.0, 0.0),
+        position + matrix_rotation * QVector3D(l,  0.0, h),
+        position + matrix_rotation * QVector3D(l,  g,   h),
+        position + matrix_rotation * QVector3D(l,  g,   0.0),
+        //set inner Points
+        position + matrix_rotation * QVector3D(0.5 * (l - l2),  0.5 * (g - g2), 0.0),
+        position + matrix_rotation * QVector3D(0.5 * (l - l2),  0.5 * (g - g2), h),
+        position + matrix_rotation * QVector3D(0.5 * (l - l2),  0.5 * (g + g2), h),
+        position + matrix_rotation * QVector3D(0.5 * (l - l2),  0.5 * (g + g2), 0.0),
+
+        position + matrix_rotation * QVector3D(0.5 * (l + l2),  0.5 * (g - g2), 0.0),
+        position + matrix_rotation * QVector3D(0.5 * (l + l2),  0.5 * (g - g2), h),
+        position + matrix_rotation * QVector3D(0.5 * (l + l2),  0.5 * (g + g2), h),
+        position + matrix_rotation * QVector3D(0.5 * (l + l2),  0.5 * (g + g2), 0.0),
+    };
+
+    panel->arrayBufVertices->bind();
+    panel->arrayBufVertices->allocate(vertices, sizeof(vertices));
+
     this->boundingBox.enterVertices(panel->boundingBox.getVertices());
     this->boundingBox.enterVertices(flap->boundingBox.getVertices());
     this->snap_vertices = panel->snap_vertices;
