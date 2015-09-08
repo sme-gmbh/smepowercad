@@ -32,7 +32,6 @@ Cleanroom
 Electrical
     Busbar Tapoff Unit
     Andere Stromschienenitems müssen überprüft werden
-    Luminaire Rail Mounted
 
 Gas
     Activated Carbon Adsober
@@ -80,5 +79,4 @@ Sanitary
 Sprinkler
     Zone Check
     Wet Alarm Valve
-    Distribution
     Compressed Air Water Container

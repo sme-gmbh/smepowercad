@@ -151,6 +151,7 @@
 #include "items/cad_electrical_equipmentswitchorsocket.h"
 #include "items/cad_electrical_luminaireescapelighting.h"
 #include "items/cad_electrical_luminairerailmounted.h"
+#include "items/cad_electrical_luminairerail.h"
 #include "items/cad_electrical_luminairerecessedmounted.h"
 #include "items/cad_electrical_luminairesemicircular.h"
 #include "items/cad_electrical_luminairesurfacemounted.h"

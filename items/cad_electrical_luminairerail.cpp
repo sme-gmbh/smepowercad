@@ -13,10 +13,10 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#include "cad_electrical_luminairesurfacemounted.h"
+#include "cad_electrical_luminairerail.h"
 #include "glwidget.h"
 
-CAD_Electrical_LuminaireSurfaceMounted::CAD_Electrical_LuminaireSurfaceMounted() : CADitem(CADitemTypes::Electrical_LuminaireSurfaceMounted)
+CAD_Electrical_LuminaireRail::CAD_Electrical_LuminaireRail() : CADitem(CADitemTypes::Electrical_LuminaireRail)
 {
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
@@ -25,12 +25,12 @@ CAD_Electrical_LuminaireSurfaceMounted::CAD_Electrical_LuminaireSurfaceMounted()
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-    wizardParams.insert("a", 100.0);
-    wizardParams.insert("b", 300.0);
     wizardParams.insert("l", 1000.0);
+    wizardParams.insert("g",   50.0);
+    wizardParams.insert("h",   50.0);
 
-    luminaire = new CAD_basic_box();
-    this->subItems.append(luminaire);
+    rail = new CAD_basic_box();
+    this->subItems.append(rail);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();
@@ -48,7 +48,7 @@ CAD_Electrical_LuminaireSurfaceMounted::CAD_Electrical_LuminaireSurfaceMounted()
     calculate();
 }
 
-CAD_Electrical_LuminaireSurfaceMounted::~CAD_Electrical_LuminaireSurfaceMounted()
+CAD_Electrical_LuminaireRail::~CAD_Electrical_LuminaireRail()
 {
 //    arrayBufVertices->destroy();
 //    indexBufFaces->destroy();
@@ -58,80 +58,82 @@ CAD_Electrical_LuminaireSurfaceMounted::~CAD_Electrical_LuminaireSurfaceMounted(
 //    delete indexBufLines;
 }
 
-QList<CADitemTypes::ItemType> CAD_Electrical_LuminaireSurfaceMounted::flangable_items(int flangeIndex)
+QList<CADitemTypes::ItemType> CAD_Electrical_LuminaireRail::flangable_items(int flangeIndex)
 {
     Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
-    
+    flangable_items.append(CADitemTypes::Electrical_LuminaireRail);
+    flangable_items.append(CADitemTypes::Electrical_LuminaireRailMounted);
     return flangable_items;
 }
 
-QImage CAD_Electrical_LuminaireSurfaceMounted::wizardImage()
+QImage CAD_Electrical_LuminaireRail::wizardImage()
 {
     QImage image;
     QFileInfo fileinfo(__FILE__);
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
-    imageFileName.append(".png");    
+    imageFileName.append(".png");
     image.load(imageFileName, "PNG");
                        
     return image;
 }
 
-QString CAD_Electrical_LuminaireSurfaceMounted::iconPath()
+QString CAD_Electrical_LuminaireRail::iconPath()
 {
-    return ":/icons/cad_electrical/cad_electrical_luminairesurfacemounted.svg";
+    return ":/icons/cad_electrical/cad_electrical_luminairerail.svg";
 }
 
-QString CAD_Electrical_LuminaireSurfaceMounted::domain()
+QString CAD_Electrical_LuminaireRail::domain()
 {
     return "Electrical";
 }
 
-QString CAD_Electrical_LuminaireSurfaceMounted::description()
+QString CAD_Electrical_LuminaireRail::description()
 {
-    return "Electrical|Luminaire Surface Mounted";
+    return "Electrical|Luminaire Rail";
 }
 
-void CAD_Electrical_LuminaireSurfaceMounted::calculate()
-{
+void CAD_Electrical_LuminaireRail::calculate()
+{                
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
     matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-                
+
     boundingBox.reset();
-                    
+
     this->snap_flanges.clear();
     this->snap_center.clear();
     this->snap_vertices.clear();
-                                
+
     this->snap_basepoint = (position);
 
-    QVector3D position_lum = position + matrix_rotation * QVector3D(l/2, 0.0, -a/2);
-    luminaire->wizardParams.insert("Position x", position_lum.x());
-    luminaire->wizardParams.insert("Position y", position_lum.y());
-    luminaire->wizardParams.insert("Position z", position_lum.z());
-    luminaire->wizardParams.insert("Angle x", angle_x);
-    luminaire->wizardParams.insert("Angle y", angle_y);
-    luminaire->wizardParams.insert("Angle z", angle_z);
+    QVector3D position_rail = position + matrix_rotation * QVector3D(l/2, 0.0, h/2);
+    rail->wizardParams.insert("Position x", position_rail.x());
+    rail->wizardParams.insert("Position y", position_rail.y());
+    rail->wizardParams.insert("Position z", position_rail.z());
+    rail->wizardParams.insert("Angle x", angle_x);
+    rail->wizardParams.insert("Angle y", angle_y);
+    rail->wizardParams.insert("Angle z", angle_z);
+    rail->wizardParams.insert("l", l);
+    rail->wizardParams.insert("b", g);
+    rail->wizardParams.insert("a", h);
+    rail->layer = this->layer;
+    rail->processWizardInput();
+    rail->calculate();
 
-    luminaire->wizardParams.insert("l", l);
-    luminaire->wizardParams.insert("b", b);
-    luminaire->wizardParams.insert("a", a);
-    luminaire->layer = this->layer;
-    luminaire->processWizardInput();
-    luminaire->calculate();
+    this->boundingBox.enterVertices(rail->boundingBox.getVertices());
 
-    this->snap_vertices.append(position);
-    this->snap_vertices.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
-    this->snap_vertices.append(luminaire->snap_vertices);
-    this->snap_center.append(luminaire->snap_center);
-
-    this->boundingBox = luminaire->boundingBox;
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
+    this->snap_vertices.append(rail->snap_vertices.at(4));
+    this->snap_vertices.append(rail->snap_vertices.at(5));
+    this->snap_vertices.append(rail->snap_vertices.at(6));
+    this->snap_vertices.append(rail->snap_vertices.at(7));
 }
 
-void CAD_Electrical_LuminaireSurfaceMounted::processWizardInput()
+void CAD_Electrical_LuminaireRail::processWizardInput()
 {
     position.setX(wizardParams.value("Position x").toDouble());
     position.setY(wizardParams.value("Position y").toDouble());
@@ -140,12 +142,29 @@ void CAD_Electrical_LuminaireSurfaceMounted::processWizardInput()
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
 
-    a = wizardParams.value("a").toDouble();
-    b = wizardParams.value("b").toDouble();
+    g = wizardParams.value("g").toDouble();
+    h = wizardParams.value("h").toDouble();
     l = wizardParams.value("l").toDouble();
 }
 
-//void CAD_Electrical_LuminaireSurfaceMounted::paint(GLWidget *glwidget)
+QMatrix4x4 CAD_Electrical_LuminaireRail::rotationOfFlange(quint8 num)
+{
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        return matrix_rotation;
+    }
+    else
+        return matrix_rotation;
+}
+
+//void CAD_Electrical_LuminaireRail::paint(GLWidget *glwidget)
 //{
 //    QColor color_pen_tmp = getColorPen();
 //    QColor color_brush_tmp = getColorBrush();
@@ -167,7 +186,7 @@ void CAD_Electrical_LuminaireSurfaceMounted::processWizardInput()
 //    if (glwidget->render_outline)
 //    {
 //        glwidget->setPaintingColor(color_pen_tmp);
-
+                                      
 //        indexBufLines->bind();
 //        glwidget->glDrawElements(GL_LINES, indexBufLines->size(), GL_UNSIGNED_SHORT, 0);
 //        indexBufLines->release();
@@ -175,8 +194,3 @@ void CAD_Electrical_LuminaireSurfaceMounted::processWizardInput()
                                                                                            
 //     arrayBufVertices->release();
 //}
-
-QMatrix4x4 CAD_Electrical_LuminaireSurfaceMounted::rotationOfFlange(quint8 num)
-{
-    return matrix_rotation;
-}

@@ -410,6 +410,9 @@
         <file>itemGraphic/cad_sanitary_flange.png</file>
         <file>itemGraphic/cad_sprinkler_compressedairwatercontainer.png</file>
         <file>itemGraphic/cad_sprinkler_distribution.png</file>
+        <file>icons/cad_electrical/cad_electrical_luminairerail.svg</file>
+        <file>itemGraphic/cad_electrical_luminairerail.png</file>
+        <file>itemGraphic/cad_electrical_luminairerailmounted.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/check.svg</file>

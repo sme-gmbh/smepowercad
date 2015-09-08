@@ -13,17 +13,17 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#ifndef CAD_ELECTRICAL_LUMINAIRERAILMOUNTED_H
-#define CAD_ELECTRICAL_LUMINAIRERAILMOUNTED_H
+#ifndef CAD_ELECTRICAL_LUMINAIRERAIL_H
+#define CAD_ELECTRICAL_LUMINAIRERAIL_H
 
 #include "caditem.h"
 #include "items/cad_basic_box.h"
 
-class CAD_Electrical_LuminaireRailMounted : public CADitem
+class CAD_Electrical_LuminaireRail : public CADitem
 {
 public:
-    CAD_Electrical_LuminaireRailMounted();
-    virtual ~CAD_Electrical_LuminaireRailMounted();
+    CAD_Electrical_LuminaireRail();
+    virtual ~CAD_Electrical_LuminaireRail();
     virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
@@ -37,10 +37,8 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
-    CAD_basic_box *lamp;
+    qreal l, g, h;
     CAD_basic_box *rail;
-
-    qreal a, b, l, g, h;
 };
 
-#endif // CAD_ELECTRICAL_LUMINAIRERAILMOUNTED_H
+#endif // CAD_ELECTRICAL_LUMINAIRERAIL_H
