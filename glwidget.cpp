@@ -121,7 +121,7 @@ QPointF GLWidget::mapFromScene(QVector3D &scenePoint)
 
 QPoint GLWidget::mapGLscreenCoordToPainterScreenCoord(QPoint pos)
 {
-    pos.setX(pos.x() + this->width() / 2);
+    pos.setX(pos.x() + this->width() / 2 + 1);
     pos.setY(-pos.y() + this->height() / 2 - 1);
 
     return pos;
@@ -928,7 +928,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Z:
         if (!(event->modifiers() & Qt::ControlModifier))
         {
-            if (!item_lastHighlight == NULL)
+            if (!(item_lastHighlight == NULL))
             {
                 if (!item_lastHighlight->layer->on)
                 {
@@ -1245,7 +1245,6 @@ void GLWidget::paintGL()
 
     matrix_modelview.setToIdentity();
     matrix_modelview.translate(translationOffset.x(), translationOffset.y(), 0.0);
-//    matrix_modelview.scale(this->zoomFactor, this->zoomFactor, 1.0 / 100000.0);
     matrix_modelview.scale(this->zoomFactor, this->zoomFactor, 1.0);
     updateMatrixAll();
 
@@ -1379,12 +1378,17 @@ void GLWidget::paintGL()
     setUseTexture(false);
     glDisable(GL_DEPTH_TEST);
 
+    QPainter painter(this);
+    QPen pen;
+    QBrush brush;
+
     // Set a matrix to the shader that does not rotate or scale, just transform to screen coordinate system
     shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection);
 
     if (this->cursorShown)
     {
         // Cursor lines
+/*
         glLineWidth((GLfloat)_cursorWidth);
         setPaintingColor(Qt::white);
         glBegin(GL_LINES);
@@ -1393,8 +1397,19 @@ void GLWidget::paintGL()
         glVertex3i(mousePos.x(), mousePos.y() - _cursorSize, 0);
         glVertex3i(mousePos.x(), mousePos.y() + _cursorSize, 0);
         glEnd();
+*/
+        pen.setWidth(_cursorWidth);
+        pen.setColor(Qt::white);
+        painter.setPen(pen);
+        painter.drawLine(mapGLscreenCoordToPainterScreenCoord(QPoint(mousePos.x() - _cursorSize, mousePos.y())),
+                         mapGLscreenCoordToPainterScreenCoord(QPoint(mousePos.x() + _cursorSize, mousePos.y())));
+        painter.drawLine(mapGLscreenCoordToPainterScreenCoord(QPoint(mousePos.x(), mousePos.y() - _cursorSize)),
+                         mapGLscreenCoordToPainterScreenCoord(QPoint(mousePos.x(), mousePos.y() + _cursorSize)));
+
+
 
         // Cursor Pickbox
+/*
         glLineWidth(_cursorPickboxLineWidth);
         setPaintingColor(_cursorPickboxColor);
         QRect pickRect = QRect(0, 0, _cursorPickboxSize, _cursorPickboxSize);
@@ -1405,9 +1420,23 @@ void GLWidget::paintGL()
         glVertex3i(pickRect.topRight().x(), pickRect.topRight().y(), 0);
         glVertex3i(pickRect.topLeft().x(), pickRect.topLeft().y(), 0);
         glEnd();
+*/
+
+        pen.setWidth(_cursorPickboxLineWidth);
+        pen.setColor(_cursorPickboxColor);
+        painter.setPen(pen);
+        QRect pickRect = QRect(0, 0, _cursorPickboxSize, _cursorPickboxSize);
+        QPoint pickRectPos = mapGLscreenCoordToPainterScreenCoord(mousePos);
+        pickRect.moveCenter(pickRectPos);
+        painter.drawLine(pickRect.topLeft().x(), pickRect.topLeft().y(), pickRect.topRight().x(), pickRect.topRight().y());
+        painter.drawLine(pickRect.bottomLeft().x(), pickRect.bottomLeft().y(), pickRect.bottomRight().x(), pickRect.bottomRight().y());
+        painter.drawLine(pickRect.topLeft().x(), pickRect.topLeft().y(), pickRect.bottomLeft().x(), pickRect.bottomLeft().y());
+        painter.drawLine(pickRect.topRight().x(), pickRect.topRight().y(), pickRect.bottomRight().x(), pickRect.bottomRight().y());
+
 
         if (this->pickActive)
         {
+/*
             if (this->pickStartPos.x() < this->mousePos.x())
                 setPaintingColor(_pickboxFillColorLeft);
             else
@@ -1433,7 +1462,36 @@ void GLWidget::paintGL()
             glVertex3i(rect.topRight().x(), rect.topRight().y(), 0);
             glVertex3i(rect.topLeft().x(), rect.topLeft().y(), 0);
             glEnd();
+*/
+
+            if (this->pickStartPos.x() < this->mousePos.x())
+            {
+                pen.setColor(_pickboxOutlineColorLeft);
+                brush.setColor(_pickboxFillColorLeft);
+                brush.setStyle(Qt::SolidPattern);
+            }
+            else
+            {
+                pen.setColor(_pickboxOutlineColorRight);
+                brush.setColor(_pickboxFillColorRight);
+                brush.setStyle(Qt::SolidPattern);
+            }
+
+            pen.setWidth(_pickboxOutlineWidth);
+            painter.setPen(pen);
+            painter.setBrush(brush);
+
+            QRect rect = this->selection();
+            rect.setTopLeft(mapGLscreenCoordToPainterScreenCoord(rect.topLeft()));
+            rect.setBottomRight(mapGLscreenCoordToPainterScreenCoord(rect.bottomRight()));
+            painter.drawRect(rect.adjusted(0, 0, -1, -1));
         }
+
+        painter.end();
+
+        shaderProgram = shaderProgram_overlay;
+        shaderProgram->bind();
+        shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection);
 
         // draw Arcball
         if(arcballShown)
