@@ -407,6 +407,7 @@
         <file>itemGraphic/cad_cleanroom_wallpanel.png</file>
         <file>itemGraphic/cad_cleanroom_wallpost.png</file>
         <file>itemGraphic/cad_cleanroom_wallsmokeextractflap.png</file>
+        <file>itemGraphic/cad_sanitary_flange.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/check.svg</file>
