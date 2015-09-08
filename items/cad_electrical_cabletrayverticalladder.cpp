@@ -179,8 +179,19 @@ void CAD_Electrical_CabletrayVerticalLadder::calculate()
     this->boundingBox.enterVertices(left->boundingBox.getVertices());
     this->boundingBox.enterVertices(right->boundingBox.getVertices());
 
-    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(0.0, a, 0.0));
     this->snap_flanges.append(position + matrix_rotation * QVector3D(0.0, 0.0, l));
+
+    this->snap_vertices.append(position + matrix_rotation * QVector3D( 0.5 * b, 0.0, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D( 0.5 * b, a,   0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(-0.5 * b, a,   0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(-0.5 * b, 0.0, 0.0));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D( 0.5 * b, 0.0, l));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D( 0.5 * b, a,   l));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(-0.5 * b, a,   l));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(-0.5 * b, 0.0, l));
+
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0, a,   l));
 
 }
 

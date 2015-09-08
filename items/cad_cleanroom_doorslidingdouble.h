@@ -17,6 +17,8 @@
 #define CAD_CLEANROOM_DOORSLIDINGDOUBLE_H
 
 #include "caditem.h"
+#include "items/cad_basic_box.h"
+#include "items/cad_basic_line.h"
 
 class CAD_Cleanroom_DoorSlidingDouble : public CADitem
 {
@@ -36,6 +38,15 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
+
+    qreal h, b, g;
+    CAD_basic_box *door_left, *door_right;
+    CAD_basic_line *arrow_front_11, *arrow_front_12, *arrow_front_13, *arrow_front_14;
+    CAD_basic_line *arrow_back_11, *arrow_back_12, *arrow_back_13, *arrow_back_14;
+    CAD_basic_line *arrow_top_11, *arrow_top_12, *arrow_top_13, *arrow_top_14;
+    CAD_basic_line *arrow_front_21, *arrow_front_22, *arrow_front_23, *arrow_front_24;
+    CAD_basic_line *arrow_back_21, *arrow_back_22, *arrow_back_23, *arrow_back_24;
+    CAD_basic_line *arrow_top_21, *arrow_top_22, *arrow_top_23, *arrow_top_24;
 };
 
 #endif // CAD_CLEANROOM_DOORSLIDINGDOUBLE_H

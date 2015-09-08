@@ -17,6 +17,9 @@
 #define CAD_CLEANROOM_DOORSWINGINGSINGLE_H
 
 #include "caditem.h"
+#include "items/cad_basic_box.h"
+#include "items/cad_basic_line.h"
+#include "items/cad_basic_arc.h"
 
 class CAD_Cleanroom_DoorSwingingSingle : public CADitem
 {
@@ -36,6 +39,12 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
+
+    qreal h, b, g, alpha;
+    bool opensToLeft;
+    CAD_basic_box *door;
+    CAD_basic_line *arrow_1, *arrow_2;
+    CAD_basic_arc *arc;
 };
 
 #endif // CAD_CLEANROOM_DOORSWINGINGSINGLE_H

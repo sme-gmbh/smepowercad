@@ -38,7 +38,7 @@ public:
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
 
-    qreal a, b, b1, l, s, i;
+    qreal a, b1, b2, l, s, i;
     CAD_basic_box *floor, *left, *right;
 };
 

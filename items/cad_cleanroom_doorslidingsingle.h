@@ -17,6 +17,8 @@
 #define CAD_CLEANROOM_DOORSLIDINGSINGLE_H
 
 #include "caditem.h"
+#include "items/cad_basic_box.h"
+#include "items/cad_basic_line.h"
 
 class CAD_Cleanroom_DoorSlidingSingle : public CADitem
 {
@@ -36,6 +38,14 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
+
+    qreal h, b, g;
+    bool opensToLeft;
+    CAD_basic_box *door;
+    CAD_basic_line *arrow_front_1, *arrow_front_2, *arrow_front_3, *arrow_front_4;
+    CAD_basic_line *arrow_back_1, *arrow_back_2, *arrow_back_3, *arrow_back_4;
+    CAD_basic_line *arrow_top_1, *arrow_top_2, *arrow_top_3, *arrow_top_4;
+
 };
 
 #endif // CAD_CLEANROOM_DOORSLIDINGSINGLE_H
