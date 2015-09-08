@@ -581,11 +581,8 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Cleanroom_CeilingFilterFanUnit:
         newItem = new CAD_Cleanroom_CeilingFilterFanUnit();
         break;
-    case CADitemTypes::Cleanroom_CeilingFrameFeedThrough:
-        newItem = new CAD_Cleanroom_CeilingFrameFeedThrough();
-        break;
-    case CADitemTypes::Cleanroom_CeilingFrame:
-        newItem = new CAD_Cleanroom_CeilingFrame();
+    case CADitemTypes::Cleanroom_CeilingGridFeedThrough:
+        newItem = new CAD_Cleanroom_CeilingGridFeedThrough();
         break;
     case CADitemTypes::Cleanroom_CeilingGrating:
         newItem = new CAD_Cleanroom_CeilingGrating();
@@ -596,8 +593,8 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Cleanroom_CeilingMaintenanceFlap:
         newItem = new CAD_Cleanroom_CeilingMaintenanceFlap();
         break;
-    case CADitemTypes::Cleanroom_CeilingMountingRails:
-        newItem = new CAD_Cleanroom_CeilingMountingRails();
+    case CADitemTypes::Cleanroom_CeilingGrid:
+        newItem = new CAD_Cleanroom_CeilingGrid();
         break;
     case CADitemTypes::Cleanroom_CeilingPanel:
         newItem = new CAD_Cleanroom_CeilingPanel();
@@ -653,8 +650,11 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Cleanroom_FloorPanelPerforated:
         newItem = new CAD_Cleanroom_FloorPanelPerforated();
         break;
-    case CADitemTypes::Cleanroom_FloorPanelWithBushing:
-        newItem = new CAD_Cleanroom_FloorPanelWithBushing();
+    case CADitemTypes::Cleanroom_FloorPanelWithBushingRect:
+        newItem = new CAD_Cleanroom_FloorPanelWithBushingRect();
+        break;
+    case CADitemTypes::Cleanroom_FloorPanelWithBushingRound:
+        newItem = new CAD_Cleanroom_FloorPanelWithBushingRound();
         break;
     case CADitemTypes::Cleanroom_FloorPanelWithTank:
         newItem = new CAD_Cleanroom_FloorPanelWithTank();
@@ -682,9 +682,6 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
         break;
     case CADitemTypes::Cleanroom_VacuumCleanerSocket:
         newItem = new CAD_Cleanroom_VacuumCleanerSocket();
-        break;
-    case CADitemTypes::Cleanroom_WallMountingProfile:
-        newItem = new CAD_Cleanroom_WallMountingProfile();
         break;
     case CADitemTypes::Cleanroom_WallOverflowGrate:
         newItem = new CAD_Cleanroom_WallOverflowGrate();

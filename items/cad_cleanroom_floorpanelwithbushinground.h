@@ -13,16 +13,19 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#ifndef CAD_CLEANROOM_CEILINGFRAMEFEEDTHROUGH_H
-#define CAD_CLEANROOM_CEILINGFRAMEFEEDTHROUGH_H
+#ifndef CAD_CLEANROOM_FLOORPANELWITHBUSHINGROUND_H
+#define CAD_CLEANROOM_FLOORPANELWITHBUSHINGROUND_H
 
 #include "caditem.h"
+#include "items/cad_basic_box.h"
+#include "items/cad_basic_circle.h"
+#include "items/cad_basic_arc.h"
 
-class CAD_Cleanroom_CeilingFrameFeedThrough : public CADitem
+class CAD_Cleanroom_FloorPanelWithBushingRound : public CADitem
 {
 public:
-    CAD_Cleanroom_CeilingFrameFeedThrough();
-    virtual ~CAD_Cleanroom_CeilingFrameFeedThrough();
+    CAD_Cleanroom_FloorPanelWithBushingRound();
+    virtual ~CAD_Cleanroom_FloorPanelWithBushingRound();
     virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
@@ -36,6 +39,10 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
+    qreal h, g, l, d, e, f;
+    CAD_basic_box *panel;
+    CAD_basic_circle *bush_up;
+    CAD_basic_arc *arc;
 };
 
-#endif // CAD_CLEANROOM_CEILINGFRAMEFEEDTHROUGH_H
+#endif // CAD_CLEANROOM_FLOORPANELWITHBUSHINGROUND_H

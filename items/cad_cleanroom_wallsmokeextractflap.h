@@ -39,7 +39,7 @@ public:
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
 
-    qreal a, s, b, l, t;
+    qreal a, s, b, l, t, alpha;
     CAD_basic_duct *panel;
     CAD_basic_box *flap;
 };

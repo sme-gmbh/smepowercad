@@ -13,10 +13,10 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#include "cad_cleanroom_wallmountingprofile.h"
+#include "cad_cleanroom_ceilinggrid.h"
 #include "glwidget.h"
 
-CAD_Cleanroom_WallMountingProfile::CAD_Cleanroom_WallMountingProfile() : CADitem(CADitemTypes::Cleanroom_WallMountingProfile)
+CAD_Cleanroom_CeilingGrid::CAD_Cleanroom_CeilingGrid() : CADitem(CADitemTypes::Cleanroom_CeilingGrid)
 {
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
@@ -24,6 +24,13 @@ CAD_Cleanroom_WallMountingProfile::CAD_Cleanroom_WallMountingProfile() : CADitem
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
+
+    wizardParams.insert("a",  50.0);
+    wizardParams.insert("b",  20.0);
+    wizardParams.insert("l", 500.0);
+
+    box = new CAD_basic_box();
+    this->subItems.append(box);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();
@@ -41,7 +48,7 @@ CAD_Cleanroom_WallMountingProfile::CAD_Cleanroom_WallMountingProfile() : CADitem
     calculate();
 }
 
-CAD_Cleanroom_WallMountingProfile::~CAD_Cleanroom_WallMountingProfile()
+CAD_Cleanroom_CeilingGrid::~CAD_Cleanroom_CeilingGrid()
 {
 //    arrayBufVertices->destroy();
 //    indexBufFaces->destroy();
@@ -51,58 +58,82 @@ CAD_Cleanroom_WallMountingProfile::~CAD_Cleanroom_WallMountingProfile()
 //    delete indexBufLines;
 }
 
-QList<CADitemTypes::ItemType> CAD_Cleanroom_WallMountingProfile::flangable_items(int flangeIndex)
+QList<CADitemTypes::ItemType> CAD_Cleanroom_CeilingGrid::flangable_items(int flangeIndex)
 {
     Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
+    flangable_items.append(CADitemTypes::Cleanroom_CeilingCornerPiece);
+    flangable_items.append(CADitemTypes::Cleanroom_CeilingJoiningKnot);
+    flangable_items.append(CADitemTypes::Cleanroom_CeilingGrid);
+    flangable_items.append(CADitemTypes::Cleanroom_CeilingGridFeedThrough);
+    flangable_items.append(CADitemTypes::Cleanroom_CeilingTeeJoiningPiece);
     
     return flangable_items;
 }
 
-QImage CAD_Cleanroom_WallMountingProfile::wizardImage()
+QImage CAD_Cleanroom_CeilingGrid::wizardImage()
 {
     QImage image;
     QFileInfo fileinfo(__FILE__);
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
-    imageFileName.append(".png");        
+    imageFileName.append(".png");  
     image.load(imageFileName, "PNG");
                        
     return image;
 }
 
-QString CAD_Cleanroom_WallMountingProfile::iconPath()
+QString CAD_Cleanroom_CeilingGrid::iconPath()
 {
-    return ":/icons/cad_cleanroom/cad_cleanroom_wallmountingprofile.svg";
+    return ":/icons/cad_cleanroom/cad_cleanroom_ceilinggrid.svg";
 }
 
-QString CAD_Cleanroom_WallMountingProfile::domain()
+QString CAD_Cleanroom_CeilingGrid::domain()
 {
     return "Cleanroom";
 }
 
-QString CAD_Cleanroom_WallMountingProfile::description()
+QString CAD_Cleanroom_CeilingGrid::description()
 {
-    return "Cleanroom|Wall Mounting Profile";
+    return "Cleanroom|Ceiling Grid";
 }
 
-void CAD_Cleanroom_WallMountingProfile::calculate()
+void CAD_Cleanroom_CeilingGrid::calculate()
 {
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
     matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-                
+
     boundingBox.reset();
-                    
+
     this->snap_flanges.clear();
     this->snap_center.clear();
     this->snap_vertices.clear();
-                                
+
     this->snap_basepoint = (position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
+    this->snap_flanges.append(position);
+
+    QVector3D position_box = position + matrix_rotation * QVector3D(l/2, 0.0, a/2);
+    box->wizardParams.insert("Position x", position_box.x());
+    box->wizardParams.insert("Position y", position_box.y());
+    box->wizardParams.insert("Position z", position_box.z());
+    box->wizardParams.insert("Angle x", angle_x);
+    box->wizardParams.insert("Angle y", angle_y);
+    box->wizardParams.insert("Angle z", angle_z);
+
+    box->wizardParams.insert("l", l);
+    box->wizardParams.insert("b", b);
+    box->wizardParams.insert("a", a);
+    box->layer = this->layer;
+    box->processWizardInput();
+    box->calculate();
+
+    this->boundingBox = box->boundingBox;
 }
 
-void CAD_Cleanroom_WallMountingProfile::processWizardInput()
+void CAD_Cleanroom_CeilingGrid::processWizardInput()
 {
     position.setX(wizardParams.value("Position x").toDouble());
     position.setY(wizardParams.value("Position y").toDouble());
@@ -110,9 +141,13 @@ void CAD_Cleanroom_WallMountingProfile::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    a = wizardParams.value("a").toDouble();
+    b = wizardParams.value("b").toDouble();
+    l = wizardParams.value("l").toDouble();
 }
 
-//void CAD_cleanroom_WallMountingProfile::paint(GLWidget *glwidget)
+//void CAD_Cleanroom_CeilingGrid::paint(GLWidget *glwidget)
 //{
 //    QColor color_pen_tmp = getColorPen();
 //    QColor color_brush_tmp = getColorBrush();
@@ -143,7 +178,15 @@ void CAD_Cleanroom_WallMountingProfile::processWizardInput()
 //     arrayBufVertices->release();
 //}
 
-QMatrix4x4 CAD_Cleanroom_WallMountingProfile::rotationOfFlange(quint8 num)
+QMatrix4x4 CAD_Cleanroom_CeilingGrid::rotationOfFlange(quint8 num)
 {
-    return matrix_rotation;
+    if(num == 2)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else
+        return matrix_rotation;
 }

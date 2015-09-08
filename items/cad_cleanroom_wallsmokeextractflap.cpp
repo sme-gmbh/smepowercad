@@ -30,6 +30,7 @@ CAD_Cleanroom_WallSmokeExtractFlap::CAD_Cleanroom_WallSmokeExtractFlap() : CADit
     wizardParams.insert("l", 2500.0);
     wizardParams.insert("s", 400.0);
     wizardParams.insert("t", 400.0);
+    wizardParams.insert("alpha", -30.0);
 
     panel = new CAD_basic_duct;
     flap = new CAD_basic_box;
@@ -114,10 +115,21 @@ void CAD_Cleanroom_WallSmokeExtractFlap::calculate()
 
     this->snap_basepoint = (position);
 
-    QMatrix4x4 matrix_flap;
-    matrix_flap.setToIdentity();
-    matrix_flap.rotate(30.0, 1.0, 0.0, 0.0);
-    QVector3D position_flap = position + matrix_rotation * (QVector3D(0.5 * l, 0.5 * b, 0.5 * (a + s)) + matrix_flap * QVector3D(0.0, 0.0, -0.5 * s));
+    QVector3D position_flap;
+    if(alpha > 0.0)
+    {
+        QMatrix4x4 matrix_flap;
+        matrix_flap.setToIdentity();
+        matrix_flap.rotate(alpha, 1.0, 0.0, 0.0);
+        position_flap = position + matrix_rotation * (QVector3D(0.5 * l, 0.5 * b, 0.5 * (a + s)) + matrix_flap * QVector3D(0.0, 0.0, -0.5 * s));
+    }
+    else
+    {
+        QMatrix4x4 matrix_flap;
+        matrix_flap.setToIdentity();
+        matrix_flap.rotate(alpha, 1.0, 0.0, 0.0);
+        position_flap = position + matrix_rotation * (QVector3D(0.5 * l, 0.5 * b, 0.5 * (a - s)) + matrix_flap * QVector3D(0.0, 0.0, 0.5 * s));
+    }
     flap->wizardParams.insert("Position x", position_flap.x());
     flap->wizardParams.insert("Position y", position_flap.y());
     flap->wizardParams.insert("Position z", position_flap.z());
@@ -129,7 +141,7 @@ void CAD_Cleanroom_WallSmokeExtractFlap::calculate()
     flap->wizardParams.insert("a", s);
     flap->layer = this->layer;
     flap->processWizardInput();
-    flap->rotateAroundAxis(30.0, QVector3D(1.0, 0.0, 0.0), angle_x, angle_y, angle_z);
+    flap->rotateAroundAxis(alpha, QVector3D(1.0, 0.0, 0.0), angle_x, angle_y, angle_z);
     flap->calculate();
 
     QVector3D position_panel = position + matrix_rotation * QVector3D(0.5 * l, -0.5 * b, 0.5 * a);
@@ -195,6 +207,7 @@ void CAD_Cleanroom_WallSmokeExtractFlap::processWizardInput()
     l = wizardParams.value("l").toDouble();
     s = wizardParams.value("s").toDouble();
     t = wizardParams.value("t").toDouble();
+    alpha = wizardParams.value("alpha").toDouble();
 }
 
 //void CAD_cleanroom_WallSmokeExtractFlap::paint(GLWidget *glwidget)

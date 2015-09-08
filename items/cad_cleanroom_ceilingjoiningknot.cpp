@@ -62,7 +62,8 @@ QList<CADitemTypes::ItemType> CAD_Cleanroom_CeilingJoiningKnot::flangable_items(
     {
     flangable_items.append(CADitemTypes::Cleanroom_CeilingCornerPiece);
     flangable_items.append(CADitemTypes::Cleanroom_CeilingJoiningKnot);
-    flangable_items.append(CADitemTypes::Cleanroom_CeilingMountingRails);
+    flangable_items.append(CADitemTypes::Cleanroom_CeilingGrid);
+    flangable_items.append(CADitemTypes::Cleanroom_CeilingGridFeedThrough);
     flangable_items.append(CADitemTypes::Cleanroom_CeilingTeeJoiningPiece);
     }
     else

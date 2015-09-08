@@ -13,17 +13,18 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#ifndef CAD_CLEANROOM_FLOORPANELWITHBUSHING_H
-#define CAD_CLEANROOM_FLOORPANELWITHBUSHING_H
+#ifndef CAD_CLEANROOM_CEILINGGRIDFEEDTHROUGH_H
+#define CAD_CLEANROOM_CEILINGGRIDFEEDTHROUGH_H
 
 #include "caditem.h"
-#include "items/cad_basic_duct.h"
+#include "items/cad_basic_box.h"
+#include "items/cad_basic_circle.h"
 
-class CAD_Cleanroom_FloorPanelWithBushing : public CADitem
+class CAD_Cleanroom_CeilingGridFeedThrough : public CADitem
 {
 public:
-    CAD_Cleanroom_FloorPanelWithBushing();
-    virtual ~CAD_Cleanroom_FloorPanelWithBushing();
+    CAD_Cleanroom_CeilingGridFeedThrough();
+    virtual ~CAD_Cleanroom_CeilingGridFeedThrough();
     virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
@@ -37,8 +38,10 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
-    qreal h, g, l, s;
-    CAD_basic_duct *panel;
+
+    qreal a, b, l, d;
+    CAD_basic_box *grid;
+    CAD_basic_circle *circle_up, *circle_low;
 };
 
-#endif // CAD_CLEANROOM_FLOORPANELWITHBUSHING_H
+#endif // CAD_CLEANROOM_CEILINGGRIDFEEDTHROUGH_H
