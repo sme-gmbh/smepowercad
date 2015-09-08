@@ -119,6 +119,14 @@ QPointF GLWidget::mapFromScene(QVector3D &scenePoint)
     return QPointF(x / 2.0 * this->width(), y / 2.0 * this->height());
 }
 
+QPoint GLWidget::mapGLscreenCoordToPainterScreenCoord(QPoint pos)
+{
+    pos.setX(pos.x() + this->width() / 2);
+    pos.setY(-pos.y() + this->height() / 2 - 1);
+
+    return pos;
+}
+
 void GLWidget::updateMatrixAll()
 {
     QMatrix4x4 perspective_projection = getMatrix_perspective_projection();
@@ -1593,6 +1601,11 @@ void GLWidget::paintGL()
             textAnchorPos = focusRect.bottomRight();
             textAnchorType = bottomLeft;
         }
+        else
+        {
+            textAnchorPos = focusRect.bottomRight();
+            textAnchorType = bottomLeft;
+        }
 
         paintTextInfoBox(textAnchorPos, infoText, textAnchorType);
     }
@@ -1693,7 +1706,7 @@ void GLWidget::paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFon
     boundingRect.setHeight(textHeight);
     boundingRect.adjust(-5, -5, 5, 5);
     boundingRect.moveTopLeft(QPoint(0, 0));
-
+/*
     // Text as texture
     QImage textImage(boundingRect.width(), boundingRect.height(), QImage::Format_ARGB32);
     textImage.fill(colorBackground);
@@ -1751,6 +1764,34 @@ void GLWidget::paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFon
     glVertex2i(boundingRect.topRight().x(), boundingRect.topRight().y());
     glVertex2i(boundingRect.topLeft().x(), boundingRect.topLeft().y());
     glEnd();
+*/
+
+    pos = this->mapGLscreenCoordToPainterScreenCoord(pos);
+
+    switch(anchor)
+    {
+    case topLeft:
+        boundingRect.moveTopLeft(pos);
+        break;
+    case topRight:
+        boundingRect.moveTopRight(pos);
+        break;
+    case bottomLeft:
+        boundingRect.moveBottomLeft(pos);
+        break;
+    case bottomRight:
+        boundingRect.moveBottomRight(pos);
+        break;
+    }
+
+    QPainter pt(this);
+    pt.setPen(colorOutline);
+    pt.setBrush(colorBackground);
+    pt.drawRect(boundingRect);
+    pt.setPen(colorText);
+    pt.setFont(font);
+    pt.drawText(boundingRect, Qt::AlignCenter, text);
+    pt.end();
 }
 
 void GLWidget::paintContent(QList<Layer*> layers)

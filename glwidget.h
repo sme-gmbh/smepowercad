@@ -65,6 +65,7 @@ public:
     ~GLWidget();
 
     QPointF mapFromScene(QVector3D &scenePoint);
+    QPoint mapGLscreenCoordToPainterScreenCoord(QPoint pos);
 
     // Overlay
     void moveCursor(QPoint pos);
