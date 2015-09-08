@@ -17,6 +17,7 @@
 #define CAD_SPRINKLER_DISTRIBUTION_H
 
 #include "caditem.h"
+#include "items/cad_basic_pipe.h"
 
 class CAD_sprinkler_distribution : public CADitem
 {
@@ -31,6 +32,10 @@ public:
     virtual void calculate();
     virtual void processWizardInput();
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
+
+    qreal l, d, d2, s, a;
+    quint8 n;
+    CAD_basic_pipe *main_pipe;
 };
 
 #endif // CAD_SPRINKLER_DISTRIBUTION_H
