@@ -123,7 +123,7 @@ void CAD_Cleanroom_DoorSwingingSingle::calculate()
         matrix_door.setToIdentity();
         matrix_door.rotate(alpha, 0.0, 0.0, 1.0);
         position_arc = position + matrix_rotation * QVector3D(0.0, -b/2, 0.02 * h);
-        position_door = position + matrix_rotation * (QVector3D(0.0, -b/2 , 0.0) + matrix_door * QVector3D(g/2, - b * 0.05, h / 2));
+        position_door = position + matrix_rotation * (QVector3D(0.0, -b/2 , 0.0) + matrix_door * QVector3D(g/2, 0.0, h / 2));
 
         //paint arrow tips
         QVector3D pos_start_1 = position + matrix_rotation * QVector3D(0.0, 0.0, h);
@@ -156,7 +156,7 @@ void CAD_Cleanroom_DoorSwingingSingle::calculate()
         matrix_door.setToIdentity();
         matrix_door.rotate(alpha, 0.0, 0.0, 1.0);
         position_arc = position + matrix_rotation * QVector3D(g, -b/2, 0.02 * h);
-        position_door = position + matrix_rotation * (QVector3D(g, -b/2, 0.0) + matrix_door * QVector3D(-g/2 , -b * 0.05, h / 2));
+        position_door = position + matrix_rotation * (QVector3D(g, -b/2, 0.0) + matrix_door * QVector3D(-g/2 , -0.0, h / 2));
 
         //paint arrow tips
         QVector3D pos_start_1 = position + matrix_rotation * QVector3D(g, 0.0, h);

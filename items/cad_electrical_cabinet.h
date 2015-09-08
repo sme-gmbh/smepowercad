@@ -36,7 +36,7 @@ public:
     virtual void processWizardInput();
     virtual QMatrix4x4 rotationOfFlange(quint8 num);
 
-    qreal a, a1, b, l, i, alpha, s;
+    qreal a, a2, b, l, i, alpha, s;
     CAD_basic_duct *cabinet;
     CAD_basic_box *back, *door, *socket;
     CAD_basic_line *arrow_1, *arrow_2;

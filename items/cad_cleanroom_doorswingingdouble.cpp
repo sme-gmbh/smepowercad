@@ -130,7 +130,7 @@ void CAD_Cleanroom_DoorSwingingDouble::calculate()
     QMatrix4x4 matrix_door_left;
     matrix_door_left.setToIdentity();
     matrix_door_left.rotate(-alpha1, 0.0, 0.0, 1.0);
-    QVector3D position_door_left = position + matrix_rotation * (QVector3D(0.0, - b * 0.5, 0.0) + matrix_door_left * QVector3D(g1/2, - 0.05 * b, h/2));
+    QVector3D position_door_left = position + matrix_rotation * (QVector3D(0.0, - b * 0.5, 0.0) + matrix_door_left * QVector3D(g1/2, 0.0, h/2));
 
     door_left->wizardParams.insert("Position x", position_door_left.x());
     door_left->wizardParams.insert("Position y", position_door_left.y());
@@ -149,7 +149,7 @@ void CAD_Cleanroom_DoorSwingingDouble::calculate()
     QMatrix4x4 matrix_door_right;
     matrix_door_right.setToIdentity();
     matrix_door_right.rotate(alpha2, 0.0, 0.0, 1.0);
-    QVector3D position_door_right = position + matrix_rotation * (QVector3D(g, - b * 0.5, 0.0) + matrix_door_right * QVector3D(-(g - g1) * 0.5, -0.05 * b, h/2));
+    QVector3D position_door_right = position + matrix_rotation * (QVector3D(g, - b * 0.5, 0.0) + matrix_door_right * QVector3D(-(g - g1) * 0.5, 0.0, h/2));
 
     door_right->wizardParams.insert("Position x", position_door_right.x());
     door_right->wizardParams.insert("Position y", position_door_right.y());

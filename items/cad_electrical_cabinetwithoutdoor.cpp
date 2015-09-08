@@ -26,7 +26,7 @@ CAD_Electrical_CabinetWithoutDoor::CAD_Electrical_CabinetWithoutDoor() : CADitem
     wizardParams.insert("Angle z", 0.0);
 
     wizardParams.insert("a", 1500.0);       // Höhe Schrank
-    wizardParams.insert("a1", 200.0);       // Höhe Sockel
+    wizardParams.insert("a2", 200.0);       // Höhe Sockel
     wizardParams.insert("b", 500.0);        // Tiefe Sockel
     wizardParams.insert("l", 500.0);        // Breite
     wizardParams.insert("i", 100.0);        // Überhang Schrank
@@ -115,7 +115,7 @@ void CAD_Electrical_CabinetWithoutDoor::calculate()
                                 
     this->snap_basepoint = (position);
 
-    QVector3D position_cab = position + matrix_rotation * QVector3D(l/2, b/2, a1 + a/2);
+    QVector3D position_cab = position + matrix_rotation * QVector3D(l/2, b/2, a2 + a/2);
     cabinet->wizardParams.insert("Position x", position_cab.x());
     cabinet->wizardParams.insert("Position y", position_cab.y());
     cabinet->wizardParams.insert("Position z", position_cab.z());
@@ -131,7 +131,7 @@ void CAD_Electrical_CabinetWithoutDoor::calculate()
     cabinet->processWizardInput();
     cabinet->calculate();
 
-    QVector3D position_sock = position + matrix_rotation * QVector3D(l/2, 0.0, a1/2);
+    QVector3D position_sock = position + matrix_rotation * QVector3D(l/2, 0.0, a2/2);
     socket->wizardParams.insert("Position x", position_sock.x());
     socket->wizardParams.insert("Position y", position_sock.y());
     socket->wizardParams.insert("Position z", position_sock.z());
@@ -141,12 +141,12 @@ void CAD_Electrical_CabinetWithoutDoor::calculate()
 
     socket->wizardParams.insert("l", l);
     socket->wizardParams.insert("b", b);
-    socket->wizardParams.insert("a", a1);
+    socket->wizardParams.insert("a", a2);
     socket->layer = this->layer;
     socket->processWizardInput();
     socket->calculate();
 
-    QVector3D position_back = position + matrix_rotation * QVector3D(l/2, b/2 - s/2, a1 + a/2);
+    QVector3D position_back = position + matrix_rotation * QVector3D(l/2, b/2 - s/2, a2 + a/2);
     back->wizardParams.insert("Position x", position_back.x());
     back->wizardParams.insert("Position y", position_back.y());
     back->wizardParams.insert("Position z", position_back.z());
@@ -170,13 +170,13 @@ void CAD_Electrical_CabinetWithoutDoor::calculate()
     this->snap_vertices.append(position + matrix_rotation * QVector3D(l,    0.5*b, 0.0));
     this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,  0.5*b, 0.0));
 
-    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0, -0.5*b - i, a + a1));
-    this->snap_vertices.append(position + matrix_rotation * QVector3D(l,   -0.5*b - i, a + a1));
-    this->snap_vertices.append(position + matrix_rotation * QVector3D(l,    0.5*b, a + a1));
-    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,  0.5*b, a + a1));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0, -0.5*b - i, a + a2));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l,   -0.5*b - i, a + a2));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l,    0.5*b, a + a2));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,  0.5*b, a + a2));
 
-    this->snap_vertices.append(position + matrix_rotation * QVector3D(l,    -0.5*b - i, a1));
-    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,  -0.5*b - i, a1));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(l,    -0.5*b - i, a2));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0,  -0.5*b - i, a2));
 }
 
 void CAD_Electrical_CabinetWithoutDoor::processWizardInput()
@@ -189,7 +189,7 @@ void CAD_Electrical_CabinetWithoutDoor::processWizardInput()
     angle_z = wizardParams.value("Angle z").toDouble();
 
     a = wizardParams.value("a").toDouble();
-    a1 = wizardParams.value("a1").toDouble();
+    a2 = wizardParams.value("a2").toDouble();
     b = wizardParams.value("b").toDouble();
     l = wizardParams.value("l").toDouble();
     i = wizardParams.value("i").toDouble();

@@ -19,6 +19,8 @@
 #include "caditem.h"
 #include "items/cad_basic_duct.h"
 #include "items/cad_basic_box.h"
+#include "items/cad_basic_line.h"
+#include "items/cad_basic_arc.h"
 
 class CAD_Electrical_CabinetWithDoorFrontAndBack : public CADitem
 {
@@ -39,9 +41,12 @@ public:
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
 
-    qreal a, a1, b, l, i, alpha_front, alpha_back, s;
+    qreal a, a2, b, l, i, alpha_front, alpha_back, s;
     CAD_basic_duct *cabinet;
     CAD_basic_box *back, *door, *socket;
+
+    CAD_basic_line *arrow_front_1, *arrow_front_2, *arrow_back_1, *arrow_back_2;
+    CAD_basic_arc *arc_front, *arc_back;
 };
 
 #endif // CAD_ELECTRICAL_CABINETWITHDOORFRONTANDBACK_H
