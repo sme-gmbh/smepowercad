@@ -14,7 +14,6 @@ Basic
     3D Face
 
 Cleanroom
-    Wall Mounting Profile
     Wall Stiffener
     Vacuum Cleaner Socket
     Tag Fire Detector
@@ -26,8 +25,6 @@ Cleanroom
     Control LED Touch Key
     Control Emergency Switch
     Control Button
-    Ceiling Frame
-    Ceiling Feed Through
 
 Electrical
     Busbar Tapoff Unit

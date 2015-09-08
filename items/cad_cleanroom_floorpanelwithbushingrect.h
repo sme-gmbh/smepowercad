@@ -13,16 +13,19 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#ifndef CAD_CLEANROOM_WALLMOUNTINGPROFILE_H
-#define CAD_CLEANROOM_WALLMOUNTINGPROFILE_H
+#ifndef CAD_CLEANROOM_FLOORPANELWITHBUSHINGRECT_H
+#define CAD_CLEANROOM_FLOORPANELWITHBUSHINGRECT_H
 
 #include "caditem.h"
+#include "items/cad_basic_box.h"
+#include "items/cad_basic_plane.h"
+#include "items/cad_basic_line.h"
 
-class CAD_Cleanroom_WallMountingProfile : public CADitem
+class CAD_Cleanroom_FloorPanelWithBushingRect : public CADitem
 {
 public:
-    CAD_Cleanroom_WallMountingProfile();
-    virtual ~CAD_Cleanroom_WallMountingProfile();
+    CAD_Cleanroom_FloorPanelWithBushingRect();
+    virtual ~CAD_Cleanroom_FloorPanelWithBushingRect();
     virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
@@ -36,6 +39,10 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
+    qreal h, g, l, s, t, e, f;
+    CAD_basic_box *panel;
+    CAD_basic_plane *bush_up;
+    CAD_basic_line *line_1, *line_2;
 };
 
-#endif // CAD_CLEANROOM_WALLMOUNTINGPROFILE_H
+#endif // CAD_CLEANROOM_FLOORPANELWITHBUSHINGRECT_H

@@ -13,10 +13,10 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#include "cad_cleanroom_floorpanelwithbushing.h"
+#include "cad_cleanroom_floorpanelwithbushingrect.h"
 #include "glwidget.h"
 
-CAD_Cleanroom_FloorPanelWithBushing::CAD_Cleanroom_FloorPanelWithBushing() : CADitem(CADitemTypes::Cleanroom_FloorPanelWithBushing)
+CAD_Cleanroom_FloorPanelWithBushingRect::CAD_Cleanroom_FloorPanelWithBushingRect() : CADitem(CADitemTypes::Cleanroom_FloorPanelWithBushingRect)
 {
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
@@ -28,10 +28,19 @@ CAD_Cleanroom_FloorPanelWithBushing::CAD_Cleanroom_FloorPanelWithBushing() : CAD
     wizardParams.insert("h",   20.0);
     wizardParams.insert("g", 600.0);
     wizardParams.insert("l", 600.0);
+    wizardParams.insert("e", 100.0);
+    wizardParams.insert("f", 100.0);
     wizardParams.insert("s", 200.0);
+    wizardParams.insert("t", 200.0);
 
-    panel = new CAD_basic_duct();
+    panel = new CAD_basic_box();
+    bush_up = new CAD_basic_plane();
+    line_1 = new CAD_basic_line();
+    line_2 = new CAD_basic_line();
     this->subItems.append(panel);
+    this->subItems.append(bush_up);
+    this->subItems.append(line_1);
+    this->subItems.append(line_2);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();
@@ -49,7 +58,7 @@ CAD_Cleanroom_FloorPanelWithBushing::CAD_Cleanroom_FloorPanelWithBushing() : CAD
     calculate();
 }
 
-CAD_Cleanroom_FloorPanelWithBushing::~CAD_Cleanroom_FloorPanelWithBushing()
+CAD_Cleanroom_FloorPanelWithBushingRect::~CAD_Cleanroom_FloorPanelWithBushingRect()
 {
 //    arrayBufVertices->destroy();
 //    indexBufFaces->destroy();
@@ -59,7 +68,7 @@ CAD_Cleanroom_FloorPanelWithBushing::~CAD_Cleanroom_FloorPanelWithBushing()
 //    delete indexBufLines;
 }
 
-QList<CADitemTypes::ItemType> CAD_Cleanroom_FloorPanelWithBushing::flangable_items(int flangeIndex)
+QList<CADitemTypes::ItemType> CAD_Cleanroom_FloorPanelWithBushingRect::flangable_items(int flangeIndex)
 {
     Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
@@ -67,7 +76,7 @@ QList<CADitemTypes::ItemType> CAD_Cleanroom_FloorPanelWithBushing::flangable_ite
     return flangable_items;
 }
 
-QImage CAD_Cleanroom_FloorPanelWithBushing::wizardImage()
+QImage CAD_Cleanroom_FloorPanelWithBushingRect::wizardImage()
 {
     QImage image;
     QFileInfo fileinfo(__FILE__);
@@ -79,22 +88,22 @@ QImage CAD_Cleanroom_FloorPanelWithBushing::wizardImage()
     return image;
 }
 
-QString CAD_Cleanroom_FloorPanelWithBushing::iconPath()
+QString CAD_Cleanroom_FloorPanelWithBushingRect::iconPath()
 {
-    return ":/icons/cad_cleanroom/cad_cleanroom_floorpanelwithbushing.svg";
+    return ":/icons/cad_cleanroom/cad_cleanroom_floorpanelwithbushingrect.svg";
 }
 
-QString CAD_Cleanroom_FloorPanelWithBushing::domain()
+QString CAD_Cleanroom_FloorPanelWithBushingRect::domain()
 {
     return "Cleanroom";
 }
 
-QString CAD_Cleanroom_FloorPanelWithBushing::description()
+QString CAD_Cleanroom_FloorPanelWithBushingRect::description()
 {
-    return "Cleanroom|Floor Panel With Bushing";
+    return "Cleanroom|Floor Panel With Bushing Rect";
 }
 
-void CAD_Cleanroom_FloorPanelWithBushing::calculate()
+void CAD_Cleanroom_FloorPanelWithBushingRect::calculate()
 {
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
@@ -109,27 +118,65 @@ void CAD_Cleanroom_FloorPanelWithBushing::calculate()
                                 
     this->snap_basepoint = (position);
 
-    QVector3D position_panel = position + matrix_rotation * QVector3D(l/2, g/2, 0.0);
+    QVector3D position_panel = position + matrix_rotation * QVector3D(0.5 * l, 0.5 * g, 0.5 * h);
     panel->wizardParams.insert("Position x", position_panel.x());
     panel->wizardParams.insert("Position y", position_panel.y());
     panel->wizardParams.insert("Position z", position_panel.z());
     panel->wizardParams.insert("Angle x", angle_x);
     panel->wizardParams.insert("Angle y", angle_y);
     panel->wizardParams.insert("Angle z", angle_z);
-    panel->wizardParams.insert("a",  g);
-    panel->wizardParams.insert("b",  l);
-    panel->wizardParams.insert("l",  h);
-    panel->wizardParams.insert("s",  s);
+    panel->wizardParams.insert("a",  h);
+    panel->wizardParams.insert("b",  g);
+    panel->wizardParams.insert("l",  l);
     panel->layer = this->layer;
     panel->processWizardInput();
-    panel->rotateAroundAxis(-90.0, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
     panel->calculate();
 
+    QVector3D position_bush_up = position + matrix_rotation * QVector3D(e, f, h + 0.1);
+    bush_up->wizardParams.insert("Position x", position_bush_up.x());
+    bush_up->wizardParams.insert("Position y", position_bush_up.y());
+    bush_up->wizardParams.insert("Position z", position_bush_up.z());
+    bush_up->wizardParams.insert("Angle x", angle_x);
+    bush_up->wizardParams.insert("Angle y", angle_y);
+    bush_up->wizardParams.insert("Angle z", angle_z);
+    bush_up->wizardParams.insert("a",  s);
+    bush_up->wizardParams.insert("b",  t);
+    bush_up->layer = this->layer;
+    bush_up->processWizardInput();
+    bush_up->calculate();
+
+    QVector3D position_line_1 = position + matrix_rotation * QVector3D(e + s, f + t, h + 0.2);
+    QVector3D position_line_2 = position + matrix_rotation * QVector3D(e + 0.3*s, f + 0.7*t, h + 0.2);
+    QVector3D position_line_3 = position + matrix_rotation * QVector3D(e, f, h + 0.2);
+
+    line_1->wizardParams.insert("Position x1", position_line_1.x());
+    line_1->wizardParams.insert("Position y1", position_line_1.y());
+    line_1->wizardParams.insert("Position z1", position_line_1.z());
+    line_1->wizardParams.insert("Position x2", position_line_2.x());
+    line_1->wizardParams.insert("Position y2", position_line_2.y());
+    line_1->wizardParams.insert("Position z2", position_line_2.z());
+    line_1->wizardParams.insert("Width", 1.0);
+    line_1->processWizardInput();
+    line_1->calculate();
+    line_1->layer = this->layer;
+
+    line_2->wizardParams.insert("Position x1", position_line_3.x());
+    line_2->wizardParams.insert("Position y1", position_line_3.y());
+    line_2->wizardParams.insert("Position z1", position_line_3.z());
+    line_2->wizardParams.insert("Position x2", position_line_2.x());
+    line_2->wizardParams.insert("Position y2", position_line_2.y());
+    line_2->wizardParams.insert("Position z2", position_line_2.z());
+    line_2->wizardParams.insert("Width", 1.0);
+    line_2->processWizardInput();
+    line_2->calculate();
+    line_2->layer = this->layer;
+
     this->snap_vertices = panel->snap_vertices;
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(e + 0.5 * s, f + 0.5 * t, h));
     this->boundingBox = panel->boundingBox;
 }
 
-void CAD_Cleanroom_FloorPanelWithBushing::processWizardInput()
+void CAD_Cleanroom_FloorPanelWithBushingRect::processWizardInput()
 {
     position.setX(wizardParams.value("Position x").toDouble());
     position.setY(wizardParams.value("Position y").toDouble());
@@ -141,10 +188,13 @@ void CAD_Cleanroom_FloorPanelWithBushing::processWizardInput()
     h = wizardParams.value("h").toDouble();
     g = wizardParams.value("g").toDouble();
     l = wizardParams.value("l").toDouble();
+    e = wizardParams.value("e").toDouble();
+    f = wizardParams.value("f").toDouble();
     s = wizardParams.value("s").toDouble();
+    t = wizardParams.value("t").toDouble();
 }
 
-//void CAD_cleanroom_FloorPanelWithBushing::paint(GLWidget *glwidget)
+//void CAD_Cleanroom_FloorPanelWithBushingRect::paint(GLWidget *glwidget)
 //{
 //    QColor color_pen_tmp = getColorPen();
 //    QColor color_brush_tmp = getColorBrush();
@@ -175,7 +225,7 @@ void CAD_Cleanroom_FloorPanelWithBushing::processWizardInput()
 //     arrayBufVertices->release();
 //}
 
-QMatrix4x4 CAD_Cleanroom_FloorPanelWithBushing::rotationOfFlange(quint8 num)
+QMatrix4x4 CAD_Cleanroom_FloorPanelWithBushingRect::rotationOfFlange(quint8 num)
 {
     return matrix_rotation;
 }

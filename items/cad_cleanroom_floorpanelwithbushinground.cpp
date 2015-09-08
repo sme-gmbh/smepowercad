@@ -13,10 +13,10 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#include "cad_cleanroom_ceilingframe.h"
+#include "cad_cleanroom_floorpanelwithbushinground.h"
 #include "glwidget.h"
 
-CAD_Cleanroom_CeilingFrame::CAD_Cleanroom_CeilingFrame() : CADitem(CADitemTypes::Cleanroom_CeilingFrame)
+CAD_Cleanroom_FloorPanelWithBushingRound::CAD_Cleanroom_FloorPanelWithBushingRound() : CADitem(CADitemTypes::Cleanroom_FloorPanelWithBushingRound)
 {
     wizardParams.insert("Position x", 0.0);
     wizardParams.insert("Position y", 0.0);
@@ -24,6 +24,20 @@ CAD_Cleanroom_CeilingFrame::CAD_Cleanroom_CeilingFrame() : CADitem(CADitemTypes:
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
+
+    wizardParams.insert("h",   20.0);
+    wizardParams.insert("g", 600.0);
+    wizardParams.insert("l", 600.0);
+    wizardParams.insert("e", 100.0);
+    wizardParams.insert("d", 200.0);
+    wizardParams.insert("f", 100.0);
+
+    panel = new CAD_basic_box();
+    bush_up = new CAD_basic_circle();
+    arc = new CAD_basic_arc();
+    this->subItems.append(panel);
+    this->subItems.append(bush_up);
+    this->subItems.append(arc);
 
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();
@@ -41,7 +55,7 @@ CAD_Cleanroom_CeilingFrame::CAD_Cleanroom_CeilingFrame() : CADitem(CADitemTypes:
     calculate();
 }
 
-CAD_Cleanroom_CeilingFrame::~CAD_Cleanroom_CeilingFrame()
+CAD_Cleanroom_FloorPanelWithBushingRound::~CAD_Cleanroom_FloorPanelWithBushingRound()
 {
 //    arrayBufVertices->destroy();
 //    indexBufFaces->destroy();
@@ -51,7 +65,7 @@ CAD_Cleanroom_CeilingFrame::~CAD_Cleanroom_CeilingFrame()
 //    delete indexBufLines;
 }
 
-QList<CADitemTypes::ItemType> CAD_Cleanroom_CeilingFrame::flangable_items(int flangeIndex)
+QList<CADitemTypes::ItemType> CAD_Cleanroom_FloorPanelWithBushingRound::flangable_items(int flangeIndex)
 {
     Q_UNUSED(flangeIndex);
     QList<CADitemTypes::ItemType> flangable_items;
@@ -59,34 +73,34 @@ QList<CADitemTypes::ItemType> CAD_Cleanroom_CeilingFrame::flangable_items(int fl
     return flangable_items;
 }
 
-QImage CAD_Cleanroom_CeilingFrame::wizardImage()
+QImage CAD_Cleanroom_FloorPanelWithBushingRound::wizardImage()
 {
     QImage image;
     QFileInfo fileinfo(__FILE__);
     QString imageFileName = fileinfo.baseName();
     imageFileName.prepend(":/itemGraphic/");
-    imageFileName.append(".png");     
+    imageFileName.append(".png");   
     image.load(imageFileName, "PNG");
                        
     return image;
 }
 
-QString CAD_Cleanroom_CeilingFrame::iconPath()
+QString CAD_Cleanroom_FloorPanelWithBushingRound::iconPath()
 {
-    return ":/icons/cad_cleanroom/cad_cleanroom_ceilingframe.svg";
+    return ":/icons/cad_cleanroom/cad_cleanroom_floorpanelwithbushinground.svg";
 }
 
-QString CAD_Cleanroom_CeilingFrame::domain()
+QString CAD_Cleanroom_FloorPanelWithBushingRound::domain()
 {
     return "Cleanroom";
 }
 
-QString CAD_Cleanroom_CeilingFrame::description()
+QString CAD_Cleanroom_FloorPanelWithBushingRound::description()
 {
-    return "Cleanroom|Ceiling Frame";
+    return "Cleanroom|Floor Panel With Bushing Round";
 }
 
-void CAD_Cleanroom_CeilingFrame::calculate()
+void CAD_Cleanroom_FloorPanelWithBushingRound::calculate()
 {
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
@@ -100,9 +114,53 @@ void CAD_Cleanroom_CeilingFrame::calculate()
     this->snap_vertices.clear();
                                 
     this->snap_basepoint = (position);
+
+    QVector3D position_panel = position + matrix_rotation * QVector3D(0.5 * l, 0.5 * g, 0.5 * h);
+    panel->wizardParams.insert("Position x", position_panel.x());
+    panel->wizardParams.insert("Position y", position_panel.y());
+    panel->wizardParams.insert("Position z", position_panel.z());
+    panel->wizardParams.insert("Angle x", angle_x);
+    panel->wizardParams.insert("Angle y", angle_y);
+    panel->wizardParams.insert("Angle z", angle_z);
+    panel->wizardParams.insert("a",  h);
+    panel->wizardParams.insert("b",  g);
+    panel->wizardParams.insert("l",  l);
+    panel->layer = this->layer;
+    panel->processWizardInput();
+    panel->calculate();
+
+    QVector3D position_bush_up = position + matrix_rotation * QVector3D(e + 0.5 * d, f + 0.5 * d, h + 0.1);
+    bush_up->wizardParams.insert("Center x", (position_bush_up.x()));
+    bush_up->wizardParams.insert("Center y", (position_bush_up.y()));
+    bush_up->wizardParams.insert("Center z", (position_bush_up.z()));
+    bush_up->wizardParams.insert("Angle x", (angle_x));
+    bush_up->wizardParams.insert("Angle y", (angle_y));
+    bush_up->wizardParams.insert("Angle z", (angle_z));
+    bush_up->wizardParams.insert("r", (0.5 * d));
+    bush_up->processWizardInput();
+    bush_up->calculate();
+    bush_up->layer = this->layer;
+
+    QVector3D position_arc = position + matrix_rotation * QVector3D(e + 0.6 * d, f + 0.5 * d, h + 0.1);
+    arc->wizardParams.insert("Position x", position_arc.x());
+    arc->wizardParams.insert("Position y", position_arc.y());
+    arc->wizardParams.insert("Position z", position_arc.z());
+    arc->wizardParams.insert("Angle x", angle_x);
+    arc->wizardParams.insert("Angle y", angle_y);
+    arc->wizardParams.insert("Angle z", angle_z);
+    arc->wizardParams.insert("r", 0.5 * d);
+    arc->wizardParams.insert("alpha", 163.23);// 174.268032=2*arccos(0.05)
+    arc->layer = this->layer;
+    arc->processWizardInput();
+    arc->rotateAroundAxis(-188.42, QVector3D(0.0, 0.0, 1.0), angle_x, angle_y, angle_z); //2.865983983
+    arc->calculate();
+
+
+    this->snap_vertices = panel->snap_vertices;
+    this->boundingBox = panel->boundingBox;
 }
 
-void CAD_Cleanroom_CeilingFrame::processWizardInput()
+void CAD_Cleanroom_FloorPanelWithBushingRound::processWizardInput()
 {
     position.setX(wizardParams.value("Position x").toDouble());
     position.setY(wizardParams.value("Position y").toDouble());
@@ -110,9 +168,16 @@ void CAD_Cleanroom_CeilingFrame::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    h = wizardParams.value("h").toDouble();
+    g = wizardParams.value("g").toDouble();
+    l = wizardParams.value("l").toDouble();
+    e = wizardParams.value("e").toDouble();
+    f = wizardParams.value("f").toDouble();
+    d = wizardParams.value("d").toDouble();
 }
 
-//void CAD_cleanroom_CeilingFrame::paint(GLWidget *glwidget)
+//void CAD_Cleanroom_FloorPanelWithBushingRound::paint(GLWidget *glwidget)
 //{
 //    QColor color_pen_tmp = getColorPen();
 //    QColor color_brush_tmp = getColorBrush();
@@ -143,7 +208,7 @@ void CAD_Cleanroom_CeilingFrame::processWizardInput()
 //     arrayBufVertices->release();
 //}
 
-QMatrix4x4 CAD_Cleanroom_CeilingFrame::rotationOfFlange(quint8 num)
+QMatrix4x4 CAD_Cleanroom_FloorPanelWithBushingRound::rotationOfFlange(quint8 num)
 {
     return matrix_rotation;
 }

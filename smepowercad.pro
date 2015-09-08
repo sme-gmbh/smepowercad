@@ -184,7 +184,6 @@ SOURCES += main.cpp\
     items/cad_cleanroom_wallpost.cpp \
     items/cad_cleanroom_wallpanel.cpp \
     items/cad_cleanroom_walloverflowgrate.cpp \
-    items/cad_cleanroom_wallmountingprofile.cpp \
     items/cad_cleanroom_wallstiffenerdiagonal.cpp \
     items/cad_cleanroom_vacuumcleanersocket.cpp \
     items/cad_cleanroom_tagsmokedetector.cpp \
@@ -192,7 +191,6 @@ SOURCES += main.cpp\
     items/cad_cleanroom_floorsupport.cpp \
     items/cad_cleanroom_floorpanelperforated.cpp \
     items/cad_cleanroom_floorpanelwithtank.cpp \
-    items/cad_cleanroom_floorpanelwithbushing.cpp \
     items/cad_cleanroom_floorpanel.cpp \
     items/cad_cleanroom_floorgrating.cpp \
     items/cad_cleanroom_floorstiffenerhorizontal.cpp \
@@ -209,12 +207,9 @@ SOURCES += main.cpp\
     items/cad_cleanroom_ceilingsuspension.cpp \
     items/cad_cleanroom_ceilingsmokeextractflap.cpp \
     items/cad_cleanroom_ceilingpanel.cpp \
-    items/cad_cleanroom_ceilingmountingrails.cpp \
     items/cad_cleanroom_ceilingmaintenanceflap.cpp \
     items/cad_cleanroom_ceilingjoiningknot.cpp \
     items/cad_cleanroom_ceilinggrating.cpp \
-    items/cad_cleanroom_ceilingframe.cpp \
-    items/cad_cleanroom_ceilingframefeedthrough.cpp \
     items/cad_cleanroom_ceilingfilterfanunit.cpp \
     items/cad_cleanroom_ceilingcornerpiece.cpp \
     items/cad_cleanroom_doorslidingsingle.cpp \
@@ -306,7 +301,11 @@ SOURCES += main.cpp\
     keyframeanimation.cpp \
     items/cad_arch_stairs.cpp \
     itemwizard_doublespinbox.cpp \
-    items/cad_electrical_luminairerail.cpp
+    items/cad_electrical_luminairerail.cpp \
+    items/cad_cleanroom_ceilinggrid.cpp \
+    items/cad_cleanroom_ceilinggridfeedthrough.cpp \
+    items/cad_cleanroom_floorpanelwithbushingrect.cpp \
+    items/cad_cleanroom_floorpanelwithbushinground.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -452,7 +451,6 @@ HEADERS  += mainwindow.h \
     items/cad_cleanroom_wallpost.h \
     items/cad_cleanroom_wallpanel.h \
     items/cad_cleanroom_walloverflowgrate.h \
-    items/cad_cleanroom_wallmountingprofile.h \
     items/cad_cleanroom_wallstiffenerdiagonal.h \
     items/cad_cleanroom_vacuumcleanersocket.h \
     items/cad_cleanroom_tagsmokedetector.h \
@@ -460,7 +458,6 @@ HEADERS  += mainwindow.h \
     items/cad_cleanroom_floorsupport.h \
     items/cad_cleanroom_floorpanelperforated.h \
     items/cad_cleanroom_floorpanelwithtank.h \
-    items/cad_cleanroom_floorpanelwithbushing.h \
     items/cad_cleanroom_floorpanel.h \
     items/cad_cleanroom_floorgrating.h \
     items/cad_cleanroom_floorstiffenerhorizontal.h \
@@ -477,7 +474,6 @@ HEADERS  += mainwindow.h \
     items/cad_cleanroom_ceilingsuspension.h \
     items/cad_cleanroom_ceilingsmokeextractflap.h \
     items/cad_cleanroom_ceilingpanel.h \
-    items/cad_cleanroom_ceilingmountingrails.h \
     items/cad_cleanroom_ceilingmaintenanceflap.h \
     items/cad_cleanroom_ceilingjoiningknot.h \
     items/cad_cleanroom_ceilinggrating.h \
@@ -574,7 +570,11 @@ HEADERS  += mainwindow.h \
     keyframeanimation.h \
     items/cad_arch_stairs.h \
     itemwizard_doublespinbox.h \
-    items/cad_electrical_luminairerail.h
+    items/cad_electrical_luminairerail.h \
+    items/cad_cleanroom_ceilinggrid.h \
+    items/cad_cleanroom_ceilinggridfeedthrough.h \
+    items/cad_cleanroom_floorpanelwithbushingrect.h \
+    items/cad_cleanroom_floorpanelwithbushinground.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
@@ -606,4 +606,6 @@ OTHER_FILES += \
 
 DISTFILES += \
     shaders/shader_1.frag \
-    itemGraphic/cad_sprinkler_flange.dxf
+    itemGraphic/cad_sprinkler_flange.dxf \
+    itemGraphic/cad_cleanroom_floorpanelwithbushingrect.png \
+    itemGraphic/cad_cleanroom_floorpanelwithbushingrect.dxf

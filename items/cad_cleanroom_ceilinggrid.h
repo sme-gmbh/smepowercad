@@ -13,17 +13,17 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#ifndef CAD_CLEANROOM_CEILINGMOUNTINGRAILS_H
-#define CAD_CLEANROOM_CEILINGMOUNTINGRAILS_H
+#ifndef CAD_CLEANROOM_CEILINGGRID_H
+#define CAD_CLEANROOM_CEILINGGRID_H
 
 #include "caditem.h"
 #include "items/cad_basic_box.h"
 
-class CAD_Cleanroom_CeilingMountingRails : public CADitem
+class CAD_Cleanroom_CeilingGrid : public CADitem
 {
 public:
-    CAD_Cleanroom_CeilingMountingRails();
-    virtual ~CAD_Cleanroom_CeilingMountingRails();
+    CAD_Cleanroom_CeilingGrid();
+    virtual ~CAD_Cleanroom_CeilingGrid();
     virtual QList<CADitemTypes::ItemType> flangable_items(int flangeIndex);
     virtual QImage wizardImage();
     virtual QString iconPath();
@@ -43,4 +43,4 @@ public:
     CAD_basic_box *box;
 };
 
-#endif // CAD_CLEANROOM_CEILINGMOUNTINGRAILS_H
+#endif // CAD_CLEANROOM_CEILINGGRID_H
