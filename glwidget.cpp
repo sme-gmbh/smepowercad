@@ -119,14 +119,6 @@ QPointF GLWidget::mapFromScene(QVector3D &scenePoint)
     return QPointF(x / 2.0 * this->width(), y / 2.0 * this->height());
 }
 
-QPoint GLWidget::mapGLscreenCoordToPainterScreenCoord(QPoint pos)
-{
-    pos.setX(pos.x() + this->width() / 2 + 1);
-    pos.setY(-pos.y() + this->height() / 2 - 1);
-
-    return pos;
-}
-
 void GLWidget::updateMatrixAll()
 {
     QMatrix4x4 perspective_projection = getMatrix_perspective_projection();
@@ -1382,6 +1374,11 @@ void GLWidget::paintGL()
     QPen pen;
     QBrush brush;
 
+    // Transform QPainter Coordinate System to work with openGL coordinates, which have 0,0 at the center of the screen and non inverted y-axis.
+    painter.setTransform(QTransform());
+    painter.setWorldTransform(QTransform());
+    painter.setWindow(-this->width() / 2 - 1, this->height() / 2 - 1, this->width(), -this->height());
+
     // Set a matrix to the shader that does not rotate or scale, just transform to screen coordinate system
     shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection);
 
@@ -1401,10 +1398,10 @@ void GLWidget::paintGL()
         pen.setWidth(_cursorWidth);
         pen.setColor(Qt::white);
         painter.setPen(pen);
-        painter.drawLine(mapGLscreenCoordToPainterScreenCoord(QPoint(mousePos.x() - _cursorSize, mousePos.y())),
-                         mapGLscreenCoordToPainterScreenCoord(QPoint(mousePos.x() + _cursorSize, mousePos.y())));
-        painter.drawLine(mapGLscreenCoordToPainterScreenCoord(QPoint(mousePos.x(), mousePos.y() - _cursorSize)),
-                         mapGLscreenCoordToPainterScreenCoord(QPoint(mousePos.x(), mousePos.y() + _cursorSize)));
+        painter.drawLine(mousePos.x() - _cursorSize, mousePos.y(),
+                         mousePos.x() + _cursorSize, mousePos.y());
+        painter.drawLine(mousePos.x(), mousePos.y() - _cursorSize,
+                         mousePos.x(), mousePos.y() + _cursorSize);
 
 
 
@@ -1426,8 +1423,7 @@ void GLWidget::paintGL()
         pen.setColor(_cursorPickboxColor);
         painter.setPen(pen);
         QRect pickRect = QRect(0, 0, _cursorPickboxSize, _cursorPickboxSize);
-        QPoint pickRectPos = mapGLscreenCoordToPainterScreenCoord(mousePos);
-        pickRect.moveCenter(pickRectPos);
+        pickRect.moveCenter(mousePos);
         painter.drawLine(pickRect.topLeft().x(), pickRect.topLeft().y(), pickRect.topRight().x(), pickRect.topRight().y());
         painter.drawLine(pickRect.bottomLeft().x(), pickRect.bottomLeft().y(), pickRect.bottomRight().x(), pickRect.bottomRight().y());
         painter.drawLine(pickRect.topLeft().x(), pickRect.topLeft().y(), pickRect.bottomLeft().x(), pickRect.bottomLeft().y());
@@ -1482,16 +1478,10 @@ void GLWidget::paintGL()
             painter.setBrush(brush);
 
             QRect rect = this->selection();
-            rect.setTopLeft(mapGLscreenCoordToPainterScreenCoord(rect.topLeft()));
-            rect.setBottomRight(mapGLscreenCoordToPainterScreenCoord(rect.bottomRight()));
             painter.drawRect(rect.adjusted(0, 0, -1, -1));
         }
 
-        painter.end();
 
-        shaderProgram = shaderProgram_overlay;
-        shaderProgram->bind();
-        shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection);
 
         // draw Arcball
         if(arcballShown)
@@ -1499,6 +1489,7 @@ void GLWidget::paintGL()
             QRect screenRect = QRect(0, 0, this->width(), this->height());
             screenRect.moveCenter(QPoint(0, 0));
             QPointF lookAtScreenCoords = mapFromScene(lookAtPosition);
+/*
             setPaintingColor(QColor(255, 200, 0));
             glLineWidth(3.0);
 
@@ -1542,8 +1533,44 @@ void GLWidget::paintGL()
                 glVertex3f(arcballRadius * qSin(i * PI / 30.0) + lookAtScreenCoords.x(), arcballRadius * qCos(i * PI / 30.0) + lookAtScreenCoords.y(), 0.0);
             }
             glEnd();
+*/
+            pen.setColor(QColor(255, 200, 0));
+            pen.setWidth(3);
+            painter.setPen(pen);
+            painter.setBrush(Qt::NoBrush);
+
+            if (screenRect.contains(lookAtScreenCoords.toPoint()))    // Screen contains lookAtScreenCoords
+            {
+                painter.drawLine(lookAtScreenCoords.x() - 15, lookAtScreenCoords.y(), lookAtScreenCoords.x() + 15, lookAtScreenCoords.y());
+                painter.drawLine(lookAtScreenCoords.x()     , lookAtScreenCoords.y() - 15, lookAtScreenCoords.x()     , lookAtScreenCoords.y() + 15);
+            }
+            else                                                      // lookAtScreenCoords is outside of screen, so show arrow to it
+            {
+                QVector3D center = QVector3D(0.0, 0.0, 0.0);
+                QVector3D lookAt = QVector3D(lookAtScreenCoords);
+                QVector3D direction = (lookAt - center).normalized() * 100.0;
+                QVector3D tip = center + direction;
+                QMatrix4x4 m;
+                m.rotate(30.0, 0.0, 0.0, 1.0);
+                QVector3D arrow1 = m * direction * 0.3;
+                m.setToIdentity();
+                m.rotate(-30.0, 0.0, 0.0, 1.0);
+                QVector3D arrow2 = m * direction * 0.3;
+
+                painter.drawLine(center.toPoint(), tip.toPoint());
+                painter.drawLine(tip.toPoint(),    tip.toPoint() - arrow1.toPoint());
+                painter.drawLine(tip.toPoint(),    tip.toPoint() - arrow2.toPoint());
+            }
+
+            painter.drawEllipse(lookAtScreenCoords, arcballRadius, arcballRadius);
+
         }
     }
+
+
+//    shaderProgram = shaderProgram_overlay;
+//    shaderProgram->bind();
+//    shaderProgram->setUniformValue(shader_matrixLocation, matrix_projection);
 
     // Render snap indicators
     QString infoText;
@@ -1575,27 +1602,27 @@ void GLWidget::paintGL()
     {
         focusRect.setRect(0, 0, _cursorPickboxSize, _cursorPickboxSize);
         focusRect.moveCenter(mapFromScene(item_lastHighlight->snap_basepoint).toPoint());
-        paintSnapIndicator(focusRect, SnapBasepoint, false);
+        paintSnapIndicator(&painter, focusRect, SnapBasepoint, false);
 
         QList<QVector3D> snap_center = item_lastHighlight->snap_center;
         foreach (QVector3D snap, snap_center)
         {
             focusRect.moveCenter(mapFromScene(snap).toPoint());
-            paintSnapIndicator(focusRect, SnapCenter, false);
+            paintSnapIndicator(&painter, focusRect, SnapCenter, false);
         }
 
         QList<QVector3D> snap_flanges = item_lastHighlight->snap_flanges;
         foreach (QVector3D snap, snap_flanges)
         {
             focusRect.moveCenter(mapFromScene(snap).toPoint());
-            paintSnapIndicator(focusRect, SnapFlange, false);
+            paintSnapIndicator(&painter, focusRect, SnapFlange, false);
         }
 
         QList<QVector3D> snap_vertices = item_lastHighlight->snap_vertices;
         foreach (QVector3D snap, snap_vertices)
         {
             focusRect.moveCenter(mapFromScene(snap).toPoint());
-            paintSnapIndicator(focusRect, SnapEndpoint, false);
+            paintSnapIndicator(&painter, focusRect, SnapEndpoint, false);
         }
         focusRect.setRect(0, 0, _snapIndicatorSize, _snapIndicatorSize);
         focusRect.moveCenter(this->mousePos);
@@ -1606,7 +1633,7 @@ void GLWidget::paintGL()
     {
         focusRect.moveCenter(this->snapPos_screen);
 
-        paintSnapIndicator(focusRect, snapMode, true);
+        paintSnapIndicator(&painter, focusRect, snapMode, true);
 
         switch (snapMode)
         {
@@ -1665,9 +1692,10 @@ void GLWidget::paintGL()
             textAnchorType = bottomLeft;
         }
 
-        paintTextInfoBox(textAnchorPos, infoText, textAnchorType);
+        paintTextInfoBox(&painter, textAnchorPos, infoText, textAnchorType);
     }
 
+    painter.end();
     openGLTimerQuery->end();
 }
 
@@ -1746,7 +1774,7 @@ void GLWidget::setUseTexture(bool on)
     shaderProgram->setUniformValue(shader_useTextureLocation, use);
 }
 
-void GLWidget::paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFont font, QColor colorText, QColor colorBackground, QColor colorOutline)
+void GLWidget::paintTextInfoBox(QPainter* painter, QPoint pos, QString text, BoxVertex anchor, QFont font, QColor colorText, QColor colorBackground, QColor colorOutline)
 {
     // Calculate text box size
     QFontMetrics fm(font);
@@ -1763,8 +1791,8 @@ void GLWidget::paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFon
     boundingRect.setWidth(textWidth);
     boundingRect.setHeight(textHeight);
     boundingRect.adjust(-5, -5, 5, 5);
-    boundingRect.moveTopLeft(QPoint(0, 0));
 /*
+    boundingRect.moveTopLeft(QPoint(0, 0));
     // Text as texture
     QImage textImage(boundingRect.width(), boundingRect.height(), QImage::Format_ARGB32);
     textImage.fill(colorBackground);
@@ -1824,8 +1852,6 @@ void GLWidget::paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFon
     glEnd();
 */
 
-    pos = this->mapGLscreenCoordToPainterScreenCoord(pos);
-
     switch(anchor)
     {
     case topLeft:
@@ -1842,14 +1868,18 @@ void GLWidget::paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFon
         break;
     }
 
-    QPainter pt(this);
-    pt.setPen(colorOutline);
-    pt.setBrush(colorBackground);
-    pt.drawRect(boundingRect);
-    pt.setPen(colorText);
-    pt.setFont(font);
-    pt.drawText(boundingRect, Qt::AlignCenter, text);
-    pt.end();
+    QTransform trafo;
+    trafo.scale(1.0, -1.0);
+    trafo.translate(0.0, 2.0 * -pos.y());
+    painter->save();
+    painter->setTransform(trafo, true);
+    painter->setPen(colorOutline);
+    painter->setBrush(colorBackground);
+    painter->drawRect(boundingRect);
+    painter->setPen(colorText);
+    painter->setFont(font);
+    painter->drawText(boundingRect, Qt::AlignCenter, text);
+    painter->restore();
 }
 
 void GLWidget::paintContent(QList<Layer*> layers)
@@ -1998,8 +2028,11 @@ void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundin
     }
 }
 
-void GLWidget::paintSnapIndicator(QRect focusRect, GLWidget::SnapMode snapMode, bool active)
+void GLWidget::paintSnapIndicator(QPainter* painter, QRect focusRect, GLWidget::SnapMode snapMode, bool active)
 {
+    QPen pen;
+    painter->setBrush(Qt::NoBrush);
+
     if (!active)
         focusRect.adjust(focusRect.width() / 4, focusRect.height() / 4, -focusRect.width() / 4, -focusRect.height() / 4);
 
@@ -2014,35 +2047,54 @@ void GLWidget::paintSnapIndicator(QRect focusRect, GLWidget::SnapMode snapMode, 
             {
                 if (i == 0)
                 {
-                    glLineWidth(3);
-                    setPaintingColor(QColor(170, 170, 255, 100));
+//                    glLineWidth(3);
+//                    setPaintingColor(QColor(170, 170, 255, 100));
+                    pen.setWidth(3);
+                    pen.setColor(QColor(170, 170, 255, 100));
                 }
                 else
                 {
-                    glLineWidth(1);
-                    setPaintingColor(QColor(0, 0, 170));
+//                    glLineWidth(1);
+//                    setPaintingColor(QColor(0, 0, 170));
+                    pen.setWidth(1);
+                    pen.setColor(QColor(0, 0, 170));
                 }
             }
             else
             {
                 if (i == 0)
                 {
-                    glLineWidth(3);
-                    setPaintingColor(QColor(170, 170, 255, 40));
+//                    glLineWidth(3);
+//                    setPaintingColor(QColor(170, 170, 255, 40));
+                    pen.setWidth(3);
+                    pen.setColor(QColor(170, 170, 255, 40));
                 }
                 else
                 {
-                    glLineWidth(1);
-                    setPaintingColor(QColor(100, 100, 255));
+//                    glLineWidth(1);
+//                    setPaintingColor(QColor(100, 100, 255));
+                    pen.setWidth(1);
+                    pen.setColor(QColor(100, 100, 255));
                 }
             }
 
-            glBegin(GL_LINE_LOOP);
-            glVertex2i(focusRect.bottomLeft().x(), focusRect.bottomLeft().y());
-            glVertex2i(focusRect.bottomRight().x(), focusRect.bottomRight().y());
-            glVertex2i(focusRect.topLeft().x(), focusRect.topLeft().y());
-            glVertex2i(focusRect.topRight().x(), focusRect.topRight().y());
-            glEnd();
+//            glBegin(GL_LINE_LOOP);
+//            glVertex2i(focusRect.bottomLeft().x(), focusRect.bottomLeft().y());
+//            glVertex2i(focusRect.bottomRight().x(), focusRect.bottomRight().y());
+//            glVertex2i(focusRect.topLeft().x(), focusRect.topLeft().y());
+//            glVertex2i(focusRect.topRight().x(), focusRect.topRight().y());
+//            glEnd();
+
+            QPolygon poly;
+            poly.append(focusRect.bottomLeft());
+            poly.append(focusRect.bottomRight());
+            poly.append(focusRect.topLeft());
+            poly.append(focusRect.topRight());
+            poly.append(focusRect.bottomLeft());
+
+            painter->setPen(pen);
+            painter->drawPolyline(poly);
+
             break;
         }
         case SnapFlange:
@@ -2051,37 +2103,53 @@ void GLWidget::paintSnapIndicator(QRect focusRect, GLWidget::SnapMode snapMode, 
             {
                 if (i == 0)
                 {
-                    glLineWidth(3);
-                    setPaintingColor(QColor(0, 170, 0, 100));
+//                    glLineWidth(3);
+//                    setPaintingColor(QColor(0, 170, 0, 100));
+                    pen.setWidth(3);
+                    pen.setColor(QColor(0, 170, 0, 100));
                 }
                 else
                 {
-                    glLineWidth(1);
-                    setPaintingColor(QColor(170, 255, 170));
+//                    glLineWidth(1);
+//                    setPaintingColor(QColor(170, 255, 170));
+                    pen.setWidth(1);
+                    pen.setColor(QColor(170, 255, 170));
                 }
             }
             else
             {
                 if (i == 0)
                 {
-                    glLineWidth(3);
-                    setPaintingColor(QColor(170, 255, 170, 40));
+//                    glLineWidth(3);
+//                    setPaintingColor(QColor(170, 255, 170, 40));
+                    pen.setWidth(3);
+                    pen.setColor(QColor(170, 255, 170, 40));
                 }
                 else
                 {
-                    glLineWidth(1);
-                    setPaintingColor(QColor(100, 255, 100));
+//                    glLineWidth(1);
+//                    setPaintingColor(QColor(100, 255, 100));
+                    pen.setWidth(1);
+                    pen.setColor(QColor(100, 255, 100));
                 }
             }
 
-            glBegin(GL_LINES);
-            glVertex2i(focusRect.left(), focusRect.top());
-            glVertex2i(focusRect.left(), focusRect.bottom());
-            glVertex2i(focusRect.left(), (focusRect.center().y() + focusRect.top()) / 2);
-            glVertex2i(focusRect.right(), (focusRect.center().y() + focusRect.top()) / 2);
-            glVertex2i(focusRect.left(), (focusRect.center().y() + focusRect.bottom()) / 2);
-            glVertex2i(focusRect.right(), (focusRect.center().y() + focusRect.bottom()) / 2);
-            glEnd();
+//            glBegin(GL_LINES);
+//            glVertex2i(focusRect.left(), focusRect.top());
+//            glVertex2i(focusRect.left(), focusRect.bottom());
+//            glVertex2i(focusRect.left(), (focusRect.center().y() + focusRect.top()) / 2);
+//            glVertex2i(focusRect.right(), (focusRect.center().y() + focusRect.top()) / 2);
+//            glVertex2i(focusRect.left(), (focusRect.center().y() + focusRect.bottom()) / 2);
+//            glVertex2i(focusRect.right(), (focusRect.center().y() + focusRect.bottom()) / 2);
+//            glEnd();
+
+            painter->setPen(pen);
+            painter->drawLine(focusRect.topLeft(), focusRect.bottomLeft());
+            painter->drawLine(focusRect.left(), (focusRect.center().y() + focusRect.top()) / 2,
+                              focusRect.right(), (focusRect.center().y() + focusRect.top()) / 2);
+            painter->drawLine(focusRect.left(), (focusRect.center().y() + focusRect.bottom()) / 2,
+                              focusRect.right(), (focusRect.center().y() + focusRect.bottom()) / 2);
+
             break;
         }
         case SnapEndpoint:
@@ -2090,35 +2158,47 @@ void GLWidget::paintSnapIndicator(QRect focusRect, GLWidget::SnapMode snapMode, 
             {
                 if (i == 0)
                 {
-                    glLineWidth(3);
-                    setPaintingColor(QColor(255, 255, 100, 180));
+//                    glLineWidth(3);
+//                    setPaintingColor(QColor(255, 255, 100, 180));
+                    pen.setWidth(3);
+                    pen.setColor(QColor(255, 255, 100, 180));
                 }
                 else
                 {
-                    glLineWidth(1);
-                    setPaintingColor(QColor(255, 255, 255));
+//                    glLineWidth(1);
+//                    setPaintingColor(QColor(255, 255, 255));
+                    pen.setWidth(1);
+                    pen.setColor(QColor(255, 255, 255));
                 }
             }
             else
             {
                 if (i == 0)
                 {
-                    glLineWidth(3);
-                    setPaintingColor(QColor(255, 255, 170, 40));
+//                    glLineWidth(3);
+//                    setPaintingColor(QColor(255, 255, 170, 40));
+                    pen.setWidth(3);
+                    pen.setColor(QColor(255, 255, 170, 40));
                 }
                 else
                 {
-                    glLineWidth(1);
-                    setPaintingColor(QColor(255, 255, 100));
+//                    glLineWidth(1);
+//                    setPaintingColor(QColor(255, 255, 100));
+                    pen.setWidth(1);
+                    pen.setColor(QColor(255, 255, 100));
                 }
             }
 
-            glBegin(GL_LINE_LOOP);
-            glVertex2i(focusRect.bottomLeft().x(), focusRect.bottomLeft().y());
-            glVertex2i(focusRect.bottomRight().x(), focusRect.bottomRight().y());
-            glVertex2i(focusRect.topRight().x(), focusRect.topRight().y());
-            glVertex2i(focusRect.topLeft().x(), focusRect.topLeft().y());
-            glEnd();
+//            glBegin(GL_LINE_LOOP);
+//            glVertex2i(focusRect.bottomLeft().x(), focusRect.bottomLeft().y());
+//            glVertex2i(focusRect.bottomRight().x(), focusRect.bottomRight().y());
+//            glVertex2i(focusRect.topRight().x(), focusRect.topRight().y());
+//            glVertex2i(focusRect.topLeft().x(), focusRect.topLeft().y());
+//            glEnd();
+
+            painter->setPen(pen);
+            painter->drawRect(focusRect.adjusted(0, 0, -1, -1));
+
             break;
         }
         case SnapCenter:
@@ -2127,35 +2207,49 @@ void GLWidget::paintSnapIndicator(QRect focusRect, GLWidget::SnapMode snapMode, 
             {
                 if (i == 0)
                 {
-                    glLineWidth(3);
-                    setPaintingColor(QColor(170, 255, 255, 100));
+//                    glLineWidth(3);
+//                    setPaintingColor(QColor(170, 255, 255, 100));
+                    pen.setWidth(3);
+                    pen.setColor(QColor(170, 255, 255, 100));
                 }
                 else
                 {
-                    glLineWidth(1);
-                    setPaintingColor(QColor(0, 170, 170));
+//                    glLineWidth(1);
+//                    setPaintingColor(QColor(0, 170, 170));
+                    pen.setWidth(1);
+                    pen.setColor(QColor(0, 170, 170));
                 }
             }
             else
             {
                 if (i == 0)
                 {
-                    glLineWidth(3);
-                    setPaintingColor(QColor(170, 255, 255, 40));
+//                    glLineWidth(3);
+//                    setPaintingColor(QColor(170, 255, 255, 40));
+                    pen.setWidth(3);
+                    pen.setColor(QColor(170, 255, 255, 40));
                 }
                 else
                 {
-                    glLineWidth(1);
-                    setPaintingColor(QColor(100, 255, 255));
+//                    glLineWidth(1);
+//                    setPaintingColor(QColor(100, 255, 255));
+                    pen.setWidth(1);
+                    pen.setColor(QColor(100, 255, 255));
                 }
             }
 
-            glBegin(GL_LINES);
-            glVertex2i(focusRect.left(), focusRect.top());
-            glVertex2i(focusRect.right(), focusRect.bottom());
-            glVertex2i(focusRect.center().x() - 5, focusRect.center().y() + 5);
-            glVertex2i(focusRect.center().x() + 5, focusRect.center().y() - 5);
-            glEnd();
+//            glBegin(GL_LINES);
+//            glVertex2i(focusRect.left(), focusRect.top());
+//            glVertex2i(focusRect.right(), focusRect.bottom());
+//            glVertex2i(focusRect.center().x() - 5, focusRect.center().y() + 5);
+//            glVertex2i(focusRect.center().x() + 5, focusRect.center().y() - 5);
+//            glEnd();
+
+            painter->setPen(pen);
+            painter->drawLine(focusRect.topLeft(), focusRect.bottomRight());
+            painter->drawLine(focusRect.center().x() - 5, focusRect.center().y() + 5,
+                              focusRect.center().x() + 5, focusRect.center().y() - 5);
+
             break;
         }
         case SnapNo:

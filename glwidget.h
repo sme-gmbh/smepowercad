@@ -65,7 +65,6 @@ public:
     ~GLWidget();
 
     QPointF mapFromScene(QVector3D &scenePoint);
-    QPoint mapGLscreenCoordToPainterScreenCoord(QPoint pos);
 
     // Overlay
     void moveCursor(QPoint pos);
@@ -232,7 +231,7 @@ private:
     void paintContent(QList<Layer*> layers);
     void paintLayers(QList<Layer*> layers);
     void paintItems(QList<CADitem *> items, Layer *layer, bool checkBoundingBox = true, bool isSubItem = false);
-    void paintSnapIndicator(QRect focusRect, SnapMode snapMode, bool active);
+    void paintSnapIndicator(QPainter *painter, QRect focusRect, SnapMode snapMode, bool active);
 
     void updateArcball(int steps);
     QVector3D getArcBallVector(int x, int y);
@@ -250,7 +249,7 @@ private:
     } BoxVertex;
 
 
-    void paintTextInfoBox(QPoint pos, QString text, BoxVertex anchor, QFont font = QFont(), QColor colorText = QColor(255, 255, 30, 255), QColor colorBackground = QColor(0, 0, 0, 230), QColor colorOutline = QColor(200, 200, 200, 150));
+    void paintTextInfoBox(QPainter *painter, QPoint pos, QString text, BoxVertex anchor, QFont font = QFont(), QColor colorText = QColor(255, 255, 30, 255), QColor colorBackground = QColor(0, 0, 0, 230), QColor colorOutline = QColor(200, 200, 200, 150));
 
     QOpenGLFramebufferObject* fbo_select;
     QOpenGLFramebufferObject* fbo_renderImage;
