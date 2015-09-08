@@ -763,6 +763,9 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Electrical_LuminaireRailMounted:
         newItem = new CAD_Electrical_LuminaireRailMounted();
         break;
+    case CADitemTypes::Electrical_LuminaireRail:
+        newItem = new CAD_Electrical_LuminaireRail();
+        break;
     case CADitemTypes::Electrical_LuminaireRecessedMounted:
         newItem = new CAD_Electrical_LuminaireRecessedMounted();
         break;

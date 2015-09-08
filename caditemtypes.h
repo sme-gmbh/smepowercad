@@ -162,6 +162,7 @@ public:
         Electrical_EquipmentSwitchOrSocket,     // Schalter oder Steckdose
         Electrical_LuminaireEscapeLighting,     // Notausgangsleuchte
         Electrical_LuminaireRailMounted,
+        Electrical_LuminaireRail,
         Electrical_LuminaireRecessedMounted,    // Leuchte ecking, Unterputz
         Electrical_LuminaireSemicircular,       // Leutche rund, Aufputz
         Electrical_LuminaireSurfaceMounted,     // Leuchte eckig, Aufputz

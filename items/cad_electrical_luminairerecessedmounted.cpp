@@ -146,9 +146,11 @@ void CAD_Electrical_LuminaireRecessedMounted::calculate()
 
     this->snap_vertices.append(position);
     this->snap_vertices.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
-    this->snap_vertices.append(recess->snap_vertices);
+    this->snap_vertices.append(recess->snap_vertices.at(4));
+    this->snap_vertices.append(recess->snap_vertices.at(5));
+    this->snap_vertices.append(recess->snap_vertices.at(6));
+    this->snap_vertices.append(recess->snap_vertices.at(7));
     this->snap_vertices.append(lamp->snap_vertices);
-    this->snap_center.append(recess->snap_center);
     this->snap_center.append(lamp->snap_center);
 }
 

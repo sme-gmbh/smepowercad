@@ -141,7 +141,7 @@ void CAD_Electrical_LuminaireSemicircular::calculate()
 
     this->boundingBox.enterVertices(mount->boundingBox.getVertices());
     this->boundingBox.enterVertices(hemi->boundingBox.getVertices());
-    this->snap_vertices.append(position + matrix_rotation * QVector3D(0.0, 0.0, - a1 - a2));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(a1 + a2, 0.0, 0.0));
 }
 
 void CAD_Electrical_LuminaireSemicircular::processWizardInput()

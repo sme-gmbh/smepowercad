@@ -25,18 +25,21 @@ CAD_Gas_PipeTeeConnector::CAD_Gas_PipeTeeConnector() : CADitem(CADitemTypes::Gas
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
-//    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
-//    arrayBufVertices->create();
-//    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
+    wizardParams.insert("l",500.0);
+    wizardParams.insert("l2",200.0);
+    wizardParams.insert("l3",200.0);
+    wizardParams.insert("d",150.0);
+    wizardParams.insert("iso",10.0);
+    wizardParams.insert("d3",100.0);
+    wizardParams.insert("iso3",10.0);
+    wizardParams.insert("alpha",50.0);
+    wizardParams.insert("s",10.0);
 
-//    indexBufFaces = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-//    indexBufFaces->create();
-//    indexBufFaces->setUsagePattern(QOpenGLBuffer::StaticDraw);
+    pipe = new CAD_basic_pipe();
+    branch = new CAD_basic_pipe();
+    this->subItems.append(pipe);
+    this->subItems.append(branch);
 
-//    indexBufLines = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-//    indexBufLines->create();
-//    indexBufLines->setUsagePattern(QOpenGLBuffer::StaticDraw);
-   
     processWizardInput();
     calculate();
 }
@@ -88,13 +91,52 @@ QString CAD_Gas_PipeTeeConnector::description()
 
 void CAD_Gas_PipeTeeConnector::calculate()
 {                
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
+
     boundingBox.reset();
-                    
+
     this->snap_flanges.clear();
     this->snap_center.clear();
     this->snap_vertices.clear();
-                                
+
     this->snap_basepoint = (position);
+
+    pipe->wizardParams.insert("Position x", position.x());
+    pipe->wizardParams.insert("Position y", position.y());
+    pipe->wizardParams.insert("Position z", position.z());
+    pipe->wizardParams.insert("Angle x", angle_x);
+    pipe->wizardParams.insert("Angle y", angle_y);
+    pipe->wizardParams.insert("Angle z", angle_z);
+    pipe->wizardParams.insert("l", l);
+    pipe->wizardParams.insert("d", d + 2*iso);
+    pipe->wizardParams.insert("s",  s+iso);
+    pipe->layer = this->layer;
+    pipe->processWizardInput();
+    pipe->calculate();
+
+    QVector3D position_branch = position + matrix_rotation * QVector3D(l2, 0.0, 0.0);
+    QVector3D angles_branch = MAngleCalculations().anglesFromVector(matrix_rotation * QVector3D(cos(alpha / 180 * PI), 0.0, sin(alpha / 180 * PI)));
+    branch->wizardParams.insert("Position x", position_branch.x());
+    branch->wizardParams.insert("Position y", position_branch.y());
+    branch->wizardParams.insert("Position z", position_branch.z());
+    branch->wizardParams.insert("Angle x", angles_branch.x());
+    branch->wizardParams.insert("Angle y", angles_branch.y());
+    branch->wizardParams.insert("Angle z", angles_branch.z());
+    branch->wizardParams.insert("l", l3);
+    branch->wizardParams.insert("d", d3 + 2*iso3);
+    branch->wizardParams.insert("s",  s+iso3);
+    branch->layer = this->layer;
+    branch->processWizardInput();
+    branch->calculate();
+
+    this->boundingBox = pipe->boundingBox;
+    this->boundingBox.enterVertices(branch->boundingBox.getVertices());
+    this->snap_flanges.append(position);
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l, 0.0, 0.0));
+    this->snap_flanges.append(position + matrix_rotation * QVector3D(l2 + cos(alpha / 180 * PI) * l3, 0.0, sin(alpha / 180 * PI) * l3));
 }
 
 void CAD_Gas_PipeTeeConnector::processWizardInput()
@@ -106,17 +148,39 @@ void CAD_Gas_PipeTeeConnector::processWizardInput()
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
 
-
-
-    matrix_rotation.setToIdentity();
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
+    l = wizardParams.value("l").toDouble();
+    l2 = wizardParams.value("l2").toDouble();
+    l3 = wizardParams.value("l3").toDouble();
+    d = wizardParams.value("d").toDouble();
+    d3 = wizardParams.value("d3").toDouble();
+    iso = wizardParams.value("iso").toDouble();
+    iso3 = wizardParams.value("iso3").toDouble();
+    alpha = wizardParams.value("alpha").toDouble();
+    s = wizardParams.value("s").toDouble();
 }
 
 QMatrix4x4 CAD_Gas_PipeTeeConnector::rotationOfFlange(quint8 num)
 {
-    return matrix_rotation;
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        return matrix_rotation;
+    }
+    else if(num == 3)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(-alpha, 0.0, 1.0, 0.0);
+        return matrix_rotation * m;
+    }
+    else
+        return matrix_rotation;
 }
 
 //void CAD_Gas_PipeTeeConnector::paint(GLWidget *glwidget)

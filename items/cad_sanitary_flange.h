@@ -17,6 +17,7 @@
 #define CAD_SANITARY_FLANGE_H
 
 #include "caditem.h"
+#include "items/cad_basic_pipe.h"
 
 class CAD_Sanitary_Flange : public CADitem
 {
@@ -36,6 +37,9 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
+
+    qreal d,ff, l, fe, s;
+    CAD_basic_pipe *pipe, *flange;
 };
 
 #endif // CAD_SANITARY_FLANGE_H

@@ -24,19 +24,14 @@ CAD_Gas_Pipe::CAD_Gas_Pipe() : CADitem(CADitemTypes::Gas_Pipe)
     wizardParams.insert("Angle x", 0.0);
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
+    wizardParams.insert("l", 1000.0);
+    wizardParams.insert("d", 150.0);
+    wizardParams.insert("iso", 15.0);
+    wizardParams.insert("s", 10.0);
 
-//    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
-//    arrayBufVertices->create();
-//    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
+    pipe = new CAD_basic_pipe();
+    this->subItems.append(pipe);
 
-//    indexBufFaces = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-//    indexBufFaces->create();
-//    indexBufFaces->setUsagePattern(QOpenGLBuffer::StaticDraw);
-
-//    indexBufLines = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-//    indexBufLines->create();
-//    indexBufLines->setUsagePattern(QOpenGLBuffer::StaticDraw);
-   
     processWizardInput();
     calculate();
 }
@@ -88,13 +83,36 @@ QString CAD_Gas_Pipe::description()
 
 void CAD_Gas_Pipe::calculate()
 {                
+    matrix_rotation.setToIdentity();
+    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
+    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
+    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
+
     boundingBox.reset();
-                    
+
     this->snap_flanges.clear();
     this->snap_center.clear();
     this->snap_vertices.clear();
-                                
+
     this->snap_basepoint = (position);
+
+    pipe->wizardParams.insert("Position x", position.x());
+    pipe->wizardParams.insert("Position y", position.y());
+    pipe->wizardParams.insert("Position z", position.z());
+    pipe->wizardParams.insert("Angle x", angle_x);
+    pipe->wizardParams.insert("Angle y", angle_y);
+    pipe->wizardParams.insert("Angle z", angle_z);
+    pipe->wizardParams.insert("l", l);
+    pipe->wizardParams.insert("d", d+2*s+2*iso);
+    pipe->wizardParams.insert("s",  s+iso);
+    pipe->layer = this->layer;
+    pipe->processWizardInput();
+    pipe->calculate();
+
+    this->boundingBox = pipe->boundingBox;
+    this->snap_center = pipe->snap_center;
+    this->snap_flanges = pipe->snap_flanges;
+    this->snap_vertices = pipe->snap_vertices;
 }
 
 void CAD_Gas_Pipe::processWizardInput()
@@ -106,17 +124,27 @@ void CAD_Gas_Pipe::processWizardInput()
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
 
-
-
-    matrix_rotation.setToIdentity();
-    matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
-    matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
-    matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
+    l = wizardParams.value("l").toDouble();
+    d = wizardParams.value("d").toDouble();
+    iso = wizardParams.value("iso").toDouble();
+    s = wizardParams.value("s").toDouble();
 }
 
 QMatrix4x4 CAD_Gas_Pipe::rotationOfFlange(quint8 num)
 {
-    return matrix_rotation;
+    if(num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 0.0, 1.0);
+        return matrix_rotation * m;
+    }
+    else if(num == 2)
+    {
+        return matrix_rotation;
+    }
+    else
+        return matrix_rotation;
 }
 
 //void CAD_Gas_Pipe::paint(GLWidget *glwidget)

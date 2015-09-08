@@ -17,6 +17,7 @@
 #define CAD_ELECTRICAL_LUMINAIRERAILMOUNTED_H
 
 #include "caditem.h"
+#include "items/cad_basic_box.h"
 
 class CAD_Electrical_LuminaireRailMounted : public CADitem
 {
@@ -36,6 +37,10 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
+    CAD_basic_box *lamp;
+    CAD_basic_box *rail;
+
+    qreal a, b, l, g, h;
 };
 
 #endif // CAD_ELECTRICAL_LUMINAIRERAILMOUNTED_H

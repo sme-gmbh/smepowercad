@@ -175,5 +175,27 @@ void CAD_Electrical_EquipmentSwitchOrSocket::processWizardInput()
 
 QMatrix4x4 CAD_Electrical_EquipmentSwitchOrSocket::rotationOfFlange(quint8 num)
 {
-    return matrix_rotation;
+    if (num == 1)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(180.0, 0.0, 1.0, 0.0);
+        return matrix_rotation * m;
+    }
+    else if (num == 2)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(-90.0, 0.0, 1.0, 0.0);
+        return matrix_rotation * m;
+    }
+    else if (num == 4)
+    {
+        QMatrix4x4 m;
+        m.setToIdentity();
+        m.rotate(90.0, 0.0, 1.0, 0.0);
+        return matrix_rotation * m;
+    }
+    else
+        return matrix_rotation;
 }
