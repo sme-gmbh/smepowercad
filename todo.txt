@@ -31,11 +31,28 @@ Cleanroom
 
 Electrical
     Busbar Tapoff Unit
-    Andere Busbars müssen überprüft werden
+    Andere Stromschienenitems müssen überprüft werden
     Luminaire Rail Mounted
 
 Gas
-    Alles
+    Activated Carbon Adsober
+    Compressor
+    Dryer Desiccant
+    Dryer Refrigerant
+    Filter
+    Gauge Pressure
+    Hose
+    Liquid Separator
+    Oil Water Seperation System
+    Pressure Regulator
+    Pump
+    Quicklock Coupling
+    Sensor Flow Rate
+    Sensor Moisture
+    Tank
+    Valve Ball
+    Valve Diaphragm
+    Valve Non Return
 
 HeatCool
     Water Heater

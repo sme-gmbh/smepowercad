@@ -17,6 +17,7 @@
 #define CAD_GAS_PIPETEECONNECTOR_H
 
 #include "caditem.h"
+#include "items/cad_basic_pipe.h"
 
 class CAD_Gas_PipeTeeConnector : public CADitem
 {
@@ -36,6 +37,8 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
+    qreal l, l2, l3,  d, d3, iso, iso3, alpha, s;
+    CAD_basic_pipe *pipe, *branch;
 };
 
 #endif // CAD_GAS_PIPETEECONNECTOR_H

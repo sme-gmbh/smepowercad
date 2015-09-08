@@ -17,6 +17,7 @@
 #define CAD_GAS_PIPE_H
 
 #include "caditem.h"
+#include "items/cad_basic_pipe.h"
 
 class CAD_Gas_Pipe : public CADitem
 {
@@ -36,6 +37,9 @@ public:
 //    QOpenGLBuffer arrayBufVertices;
 //    QOpenGLBuffer indexBufFaces;
 //    QOpenGLBuffer indexBufLines;
+
+    qreal l, d, iso, s;
+    CAD_basic_pipe *pipe;
 };
 
 #endif // CAD_GAS_PIPE_H
