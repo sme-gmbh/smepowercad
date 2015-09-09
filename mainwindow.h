@@ -51,6 +51,7 @@
 #include "itemgripmodifier.h"
 #include "printwidget.h"
 #include "keyframeanimation.h"
+#include "itemcatalog.h"
 
 #include "network/server.h"
 
@@ -75,6 +76,7 @@ private:
     QMagellanThread *magellanThread;
 #endif
     ItemDB* itemDB;
+    ItemCatalog* itemCatalog;
     LayerManager* layerManager;
     CollisionDetection* collisionDetection;
 

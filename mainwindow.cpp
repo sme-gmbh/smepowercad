@@ -38,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // **** CAD Item Database *****
     itemDB = new ItemDB(this);
+    itemDB->deriveDomainsAndItemTypes();
     Layer* topLevelLayer = itemDB->getTopLevelLayer();
     connect(itemDB, SIGNAL(signal_DBstatusModified()), this, SLOT(slot_fileNeedsSaving()));
     connect(itemDB, SIGNAL(signal_DBstatusSafe()), this, SLOT(slot_fileSaved()));
@@ -51,6 +52,11 @@ MainWindow::MainWindow(QWidget *parent) :
     this->itemWizard->hide();
     connect(itemWizard, SIGNAL(signal_sceneRepaintNeeded()), this, SIGNAL(signal_repaintNeeded()));
     connect(itemDB, SIGNAL(signal_itemDeleted(CADitem*)),itemWizard, SLOT(slot_itemDeleted(CADitem*)));
+
+    // **** Item Catalog ****
+    itemCatalog = new ItemCatalog(itemDB, itemWizard, this);
+    this->addDockWidget(Qt::LeftDockWidgetArea, this->itemCatalog);
+//    this->itemCatalog->hide();
 
     // **** Item Grip Modifier ****
     itemGripModifier = new ItemGripModifier(itemDB, itemWizard, this);
@@ -114,7 +120,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // **** Toolbar toggles ****
-    this->itemDB->deriveDomainsAndItemTypes();
     this->createItemToolBar();
     ui->menuWerkzeugleisten->addAction(ui->toolBarItems->toggleViewAction());
 

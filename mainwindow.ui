@@ -58,7 +58,7 @@ QLabel {
 	color: rgb(240, 250, 240);
 }
 
-QPushButton {
+QPushButton, QToolButton {
 	color: rgb(240, 250, 240);
 	background-color: rgb(59, 59, 51);
 	border: 0;
@@ -67,24 +67,25 @@ QPushButton {
 	padding-left: 3px;
 	padding-right: 3px;
 	/*border-right: 1px solid rgb(200, 200, 200);*/
+	height: 16px;
 }
 /*QPushButton#pushButtonSolid {
 	border-right: 1px solid rgb(200, 200, 200);
 }*/
-QPushButton:hover {
+QPushButton:hover, QToolButton:hover {
 	background-color: rgb(110, 110, 95);
 }
-QPushButton:pressed {
+QPushButton:pressed, QToolButton:pressed {
 	background-color: rgb(150, 150, 130);
 }
-QPushButton:checked {
+QPushButton:checked, QToolButton:checked {
 	background-color: rgb(19, 156, 39);
 }
-QPushButton:focus {
+QPushButton:focus, QToolButton:focus {
 	background-color: rgb(5, 90, 11);
 	outline: none;
 }
-QPushButton:focus:hover {
+QPushButton:focus:hover, QToolButton:focus:hover {
 	background-color: rgb(9, 177, 21);
 	outline: none;
 }
@@ -158,6 +159,7 @@ QComboBox {
 	background-color: rgb(59, 59, 51);
 	padding: 0 10px 0 5px;
 	selection-background-color: rgb(150, 150, 130);
+	height: 20px;
 }
 
 QComboBox::drop-down {
@@ -194,18 +196,12 @@ QLineEdit{
 	color: rgb(255, 255, 255);
 	background-color: rgb(80, 80, 80);
 	width: 400px;
+	height: 20px;
 }
 
 QPlainTextEdit, QListWidget {
 	background-color: rgb(70, 70, 70);
 	color: rgb(60, 255, 60);
-}
-
-QTabWidget {
-	background-color: rgb(90, 90, 90);
-	color: rgb(230, 80, 80);
-	border: 1px solid gray;
-	padding-left: 5px;
 }
 
 QGroupBox {
@@ -237,13 +233,13 @@ QDialog::title {
     padding-left: 5px;
 }
 
-
 QDockWidget::close-button, QDockWidget::float-button {
 	border: 0;
 	/*border-left: 1px solid white;*/
 	padding: 0px;
 	icon-size: 30px; /* maximum icon size */
 }
+
 QDockWidget::close-button {
 	subcontrol-position: top right;
     subcontrol-origin: margin;
@@ -268,6 +264,81 @@ QDockWidget::close-button:hover, QDockWidget::float-button:hover {
 
 QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
      background-color: rgb(150, 150, 130);
+}
+
+QTabWidget {
+	color: white;
+	background-color: rgb(49, 49, 41);
+	border: 0;
+	padding-left: 5px;
+}
+
+QTabWidget::pane {
+	border: 0;
+	margin: 0;
+	border-left: 2px solid white;
+	border-top: 2px solid white;
+	margin-left: -2px;
+}
+
+QTabBar {
+	background: rgb(49, 49, 41);
+}
+
+QTabBar::focus {
+	outline: none;
+}
+
+QTabBar::tab:top {
+	color: white;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	border: 0;
+	border-bottom: 2px solid white;
+}
+
+QTabBar::tab:!top {
+	color: white;
+	padding-left: 3px;
+	padding-right: 3px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border: 0;
+	border-right: 2px solid white;
+}
+
+QTabBar::tab:selected:top {
+	background-color: rgb(19, 156, 39);
+	color: white;
+	border-bottom: 0;
+	border-top: 2px solid white;
+	border-left: 2px solid white;
+	border-right: 2px solid white;
+	border-top-right-radius: 8px;
+}
+
+QTabBar::tab:selected:!top {
+	background-color: rgb(19, 156, 39);
+	color: white;
+	border-right: 0;
+	border-top: 2px solid white;
+	border-left: 2px solid white;
+	border-bottom: 2px solid white;
+	border-top-left-radius: 8px;
+}
+
+QTabBar::tab:hover:!selected:top {
+	background-color: rgb(110, 110, 95);
+	color: white;
+	border-top-right-radius: 8px;
+}
+
+QTabBar::tab:hover:!selected:!top {
+	background-color: rgb(110, 110, 95);
+	color: white;
+	border-top-left-radius: 8px;
 }
 </string>
   </property>

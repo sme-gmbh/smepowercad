@@ -305,7 +305,8 @@ SOURCES += main.cpp\
     items/cad_cleanroom_ceilinggrid.cpp \
     items/cad_cleanroom_ceilinggridfeedthrough.cpp \
     items/cad_cleanroom_floorpanelwithbushingrect.cpp \
-    items/cad_cleanroom_floorpanelwithbushinground.cpp
+    items/cad_cleanroom_floorpanelwithbushinground.cpp \
+    itemcatalog.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -477,8 +478,6 @@ HEADERS  += mainwindow.h \
     items/cad_cleanroom_ceilingmaintenanceflap.h \
     items/cad_cleanroom_ceilingjoiningknot.h \
     items/cad_cleanroom_ceilinggrating.h \
-    items/cad_cleanroom_ceilingframe.h \
-    items/cad_cleanroom_ceilingframefeedthrough.h \
     items/cad_cleanroom_ceilingfilterfanunit.h \
     items/cad_cleanroom_ceilingcornerpiece.h \
     items/cad_cleanroom_doorslidingsingle.h \
@@ -574,7 +573,8 @@ HEADERS  += mainwindow.h \
     items/cad_cleanroom_ceilinggrid.h \
     items/cad_cleanroom_ceilinggridfeedthrough.h \
     items/cad_cleanroom_floorpanelwithbushingrect.h \
-    items/cad_cleanroom_floorpanelwithbushinground.h
+    items/cad_cleanroom_floorpanelwithbushinground.h \
+    itemcatalog.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \
@@ -586,7 +586,8 @@ FORMS    += mainwindow.ui \
     printwidget.ui \
     printpapertemplate.ui \
     keyframeanimation.ui \
-    itemwizard.ui
+    itemwizard.ui \
+    itemcatalog.ui
 
 RESOURCES += \
     icons.qrc
