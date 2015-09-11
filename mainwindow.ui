@@ -20,17 +20,7 @@
    <string>SME PowerCAD</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">/*QLineEdit#prompt_input {
-	background-color: rgb(92, 221, 206);
-}
-
-QPlainTextEdit {
-	background-color: rgb(40, 40, 40);
-	color: rgb(80, 255, 80);
-	border:none;
-}*/
-
-QMainWindow {
+   <string notr="true">QMainWindow {
 	background-color: rgb(49, 49, 41);
 }
 
@@ -38,6 +28,72 @@ QMainWindow::separator {
 	background-color: rgb(110, 110, 95);
 	width: 2px;
 	height: 2px;
+}
+
+QToolBar {
+	background: black;
+	border: 0;
+	spacing: 2px;
+}
+
+QToolBar::handle {
+	background-color: grey;
+}
+
+QMenuBar {
+	background-color: black;
+}
+
+QMenuBar::item {
+	spacing: 0px;
+	padding: 0px;
+	padding-left: 10px;
+	padding-right: 10px;
+	background: transparent;
+	color: white;
+}
+
+QMenuBar::item:selected {	/* this is also active if item is hovered */
+	background-color: rgb(110, 110, 95);
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+}
+
+QMenuBar::item:pressed {		/* this is active iv menu is open */
+/*	background-color: rgb(19, 156, 39); */
+	background: transparent;
+	border: 2px solid rgb(100, 255, 100);
+	border-bottom: 0;
+}
+
+QMenu {
+	background-color: black;
+	color: white;
+	border-left: 3px solid rgb(100, 255, 100);
+	border-bottom: 3px solid rgb(100, 255, 100);
+	border-right: 0px;
+	border-top: 0px;
+	margin: -1px;
+}
+
+QMenu::separator {
+	height: 2px;
+	background: rgb(100, 255, 100);
+	margin-right: 15px;
+}
+
+QMenu::item {
+	padding: 2px 15px 2px 28px;
+	border: 0;
+}
+
+QMenu::item:selected {
+	background-color: rgb(19, 156, 39);
+}
+
+QMenu::icon {
+	margin-left: 7px;
+	margin-right: 5px;
 }
 
 QDockWidget {
@@ -199,7 +255,7 @@ QLineEdit{
 	height: 20px;
 }
 
-QPlainTextEdit, QListWidget {
+QTextEdit, QPlainTextEdit, QListWidget {
 	background-color: rgb(70, 70, 70);
 	color: rgb(60, 255, 60);
 }
@@ -380,7 +436,7 @@ QTabBar::tab:hover:!selected:!top {
      <x>0</x>
      <y>0</y>
      <width>1061</width>
-     <height>27</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="nativeMenuBar">
@@ -450,9 +506,6 @@ QTabBar::tab:hover:!selected:!top {
    <property name="autoFillBackground">
     <bool>false</bool>
    </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
    <property name="toolButtonStyle">
     <enum>Qt::ToolButtonIconOnly</enum>
    </property>
@@ -460,7 +513,7 @@ QTabBar::tab:hover:!selected:!top {
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>false</bool>
+    <bool>true</bool>
    </attribute>
   </widget>
   <action name="actionLoad">

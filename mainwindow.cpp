@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->setWindowFlags(Qt::FramelessWindowHint);
 
     // **** Global Variables ****
     current_cadline = NULL;
@@ -137,7 +138,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->keyframeAnimation->hide();
 
     // **** Recent files ****
-    QMenu *recentFilesMenu = new QMenu();
+    QMenu *recentFilesMenu = new QMenu(ui->menuDatei);
     for (int i = 0; i < MAX_RECENT_FILES; i++)
     {
         QAction *action = new QAction(this);

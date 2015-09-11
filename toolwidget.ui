@@ -29,47 +29,56 @@
    <string>ToolWidget</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QLabel{
+   <string notr="true">QWidget {
+	background-color: black;
+}
+
+QLabel{
 	border: 1px solid gray;
-	background-color: rgb(240, 240, 240);
-	color: rgb(40,40, 40);
+	background-color: rgb(40, 40, 40);
+	color: rgb(240,240, 240);
 }
 
 QLabel:hover{
-	border: 2px solid black;
-	background-color: rgb(255, 255, 0);
-}
-
-QLabel:pressed{
-	border: 2px solid rgb(150, 150, 255); 
-	background-color: rgb(255, 255, 0);
+	border: 2px solid white;
+	background-color: rgb(19, 156, 39);
 }
 
 QToolButton{
-	border: 1px solid gray; 
+	border: 1px solid grey; 
 	background-color: rgb(240, 240, 240);
 }
 
 QToolButton:hover{
-	border: 2px solid black; 
+	border: 2px solid white; 
 	background-color: rgb(255, 255, 0);
 }
 
 QToolButton:pressed{
-	border: 2px solid rgb(150, 150, 255); 
+	border: 2px solid rgb(19, 156, 39);
 	background-color: rgb(255, 255, 0);
 }
 
 QToolTip{ 
 	border: 1px solid gray; 
-	background-color: gray; color: white;
+	background-color: gray; 
+	color: white;
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="sizeConstraint">
     <enum>QLayout::SetMinAndMaxSize</enum>
    </property>
-   <property name="margin">
+   <property name="leftMargin">
+    <number>3</number>
+   </property>
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>3</number>
+   </property>
+   <property name="bottomMargin">
     <number>3</number>
    </property>
    <item>
