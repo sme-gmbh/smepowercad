@@ -173,6 +173,7 @@ void CAD_Cleanroom_FloorPanelWithBushingRect::calculate()
 
     this->snap_vertices = panel->snap_vertices;
     this->snap_vertices.append(position + matrix_rotation * QVector3D(e + 0.5 * s, f + 0.5 * t, h));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(e + 0.5 * s, f + 0.5 * t, 0.0));
     this->boundingBox = panel->boundingBox;
 }
 

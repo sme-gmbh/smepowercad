@@ -29,8 +29,8 @@ CAD_Cleanroom_FloorPanelWithBushingRound::CAD_Cleanroom_FloorPanelWithBushingRou
     wizardParams.insert("g", 600.0);
     wizardParams.insert("l", 600.0);
     wizardParams.insert("e", 100.0);
-    wizardParams.insert("d", 200.0);
     wizardParams.insert("f", 100.0);
+    wizardParams.insert("d", 200.0);
 
     panel = new CAD_basic_box();
     bush_up = new CAD_basic_circle();
@@ -157,6 +157,8 @@ void CAD_Cleanroom_FloorPanelWithBushingRound::calculate()
 
 
     this->snap_vertices = panel->snap_vertices;
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(e + 0.5 * d, f + 0.5 * d, h));
+    this->snap_vertices.append(position + matrix_rotation * QVector3D(e + 0.5 * d, f + 0.5 * d, 0.0));
     this->boundingBox = panel->boundingBox;
 }
 

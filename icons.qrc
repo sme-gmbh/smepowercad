@@ -414,6 +414,7 @@
         <file>itemGraphic/cad_cleanroom_floorpanelwithbushingrect.png</file>
         <file>icons/cad_cleanroom/cad_cleanroom_floorpanelwithbushinground.svg</file>
         <file>itemGraphic/cad_cleanroom_floorpanelwithbushinground.png</file>
+        <file>itemGraphic/cad_cleanroom_wallstiffenerdiagonal.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/check.svg</file>

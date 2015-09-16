@@ -25,6 +25,13 @@ CAD_Cleanroom_WallStiffenerDiagonal::CAD_Cleanroom_WallStiffenerDiagonal() : CAD
     wizardParams.insert("Angle y", 0.0);
     wizardParams.insert("Angle z", 0.0);
 
+    wizardParams.insert("a", 800.0);
+    wizardParams.insert("f",  10.0);
+    wizardParams.insert("l", 800.0);
+
+    stiffener = new CAD_basic_box();
+    this->subItems.append(stiffener);
+
 //    arrayBufVertices = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 //    arrayBufVertices->create();
 //    arrayBufVertices->setUsagePattern(QOpenGLBuffer::StaticDraw);
@@ -92,14 +99,32 @@ void CAD_Cleanroom_WallStiffenerDiagonal::calculate()
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
     matrix_rotation.rotate(angle_y, 0.0, 1.0, 0.0);
     matrix_rotation.rotate(angle_z, 0.0, 0.0, 1.0);
-                
+
     boundingBox.reset();
-                    
+
     this->snap_flanges.clear();
     this->snap_center.clear();
     this->snap_vertices.clear();
-                                
+
     this->snap_basepoint = (position);
+
+    QVector3D pos = position + matrix_rotation * QVector3D(l/2, 0.0, -a/2);
+    stiffener->wizardParams.insert("Position x", pos.x());
+    stiffener->wizardParams.insert("Position y", pos.y());
+    stiffener->wizardParams.insert("Position z", pos.z());
+    stiffener->wizardParams.insert("Angle x", angle_x);
+    stiffener->wizardParams.insert("Angle y", angle_y);
+    stiffener->wizardParams.insert("Angle z", angle_z);
+    stiffener->wizardParams.insert("l", sqrt(a*a + l*l) * 0.85);
+    stiffener->wizardParams.insert("b", f);
+    stiffener->wizardParams.insert("a", f);
+    stiffener->layer = this->layer;
+    stiffener->processWizardInput();
+    qreal angle = atan(a / l) / PI * 180.0;
+    stiffener->rotateAroundAxis(angle, QVector3D(0.0, 1.0, 0.0), angle_x, angle_y, angle_z);
+    stiffener->calculate();
+
+    this->boundingBox = stiffener->boundingBox;
 }
 
 void CAD_Cleanroom_WallStiffenerDiagonal::processWizardInput()
@@ -110,6 +135,10 @@ void CAD_Cleanroom_WallStiffenerDiagonal::processWizardInput()
     angle_x = wizardParams.value("Angle x").toDouble();
     angle_y = wizardParams.value("Angle y").toDouble();
     angle_z = wizardParams.value("Angle z").toDouble();
+
+    a = wizardParams.value("a").toDouble();
+    f = wizardParams.value("f").toDouble();
+    l = wizardParams.value("l").toDouble();
 }
 
 //void CAD_cleanroom_WallStiffenerDiagonal::paint(GLWidget *glwidget)
