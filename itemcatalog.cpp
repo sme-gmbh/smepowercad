@@ -119,6 +119,9 @@ void ItemCatalog::getGitConfig()
 
         else if (key == "user.name")
             ui->lineEdit_db_gitUserName->setText(value);
+
+        else if (key == "remote.origin.url")
+            ui->lineEdit_db_gitRemote->setText(value);
     }
 
     this->git_Output.clear();
@@ -132,7 +135,7 @@ void ItemCatalog::slot_processGit_started()
     ui->pushButton_db_gitPull->setEnabled(false);
     ui->pushButton_db_gitPush->setEnabled(false);
     ui->pushButton_db_gitStatus->setEnabled(false);
-//    ui->textEdit_terminalOutput->append(tr("Git started."));
+    ui->textEdit_terminalOutput->append("$ " + process_git.program() + " " + process_git.arguments().join(" "));
 }
 
 void ItemCatalog::slot_processGit_finished(int exitCode, QProcess::ExitStatus exitStatus)
@@ -263,9 +266,18 @@ void ItemCatalog::on_toolButton_removeModel_clicked()
 
 void ItemCatalog::on_pushButton_db_gitClone_clicked()
 {
+    QString remote = ui->lineEdit_db_gitRemote->text();
+    if (remote.isEmpty())
+    {
+        QMessageBox::critical(this, tr("Git Clone"), tr("You cannot clone without remote origin!"));
+        return;
+    }
+
     this->git_Output.clear();
     QStringList args;
     args << "clone";
+    args << remote;
+    args << ".";
     process_git.setArguments(args);
     process_git.start();
     process_git.waitForStarted(1000);
@@ -275,7 +287,7 @@ void ItemCatalog::on_pushButton_db_gitStatus_clicked()
 {
     this->git_Output.clear();
     QStringList args;
-    args << "push";
+    args << "status";
     process_git.setArguments(args);
     process_git.start();
     process_git.waitForStarted(1000);
@@ -334,17 +346,33 @@ void ItemCatalog::on_pushButton_db_gitCommit_clicked()
 
 void ItemCatalog::on_pushButton_db_gitPush_clicked()
 {
-    QString remote = ui->lineEdit_db_gitRemote->text();
-    if (remote.isEmpty())
-    {
-        QMessageBox::critical(this, tr("Git Clone"), tr("You cannot clone without remote origin!"));
-        return;
-    }
-
     this->git_Output.clear();
     QStringList args;
-    args << "clone";
-    args << remote;
+    args << "push";
+    process_git.setArguments(args);
+    process_git.start();
+    process_git.waitForStarted(1000);
+}
+
+void ItemCatalog::on_lineEdit_db_gitUserName_editingFinished()
+{
+    this->git_Output.clear();
+    QStringList args;
+    args << "config";
+    args << "user.name";
+    args << ui->lineEdit_db_gitUserName->text();
+    process_git.setArguments(args);
+    process_git.start();
+    process_git.waitForStarted(1000);
+}
+
+void ItemCatalog::on_lineEdit_db_gitUserEmail_editingFinished()
+{
+    this->git_Output.clear();
+    QStringList args;
+    args << "config";
+    args << "user.email";
+    args << ui->lineEdit_db_gitUserEmail->text();
     process_git.setArguments(args);
     process_git.start();
     process_git.waitForStarted(1000);

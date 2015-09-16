@@ -25,6 +25,7 @@
 #include <QProcess>
 #include <QRegExp>
 #include <QString>
+#include <QStringList>
 
 #include "itemdb.h"
 #include "itemwizard.h"
@@ -71,6 +72,10 @@ private slots:
     void on_pushButton_db_gitCommit_clicked();
 
     void on_pushButton_db_gitPush_clicked();
+
+    void on_lineEdit_db_gitUserName_editingFinished();
+
+    void on_lineEdit_db_gitUserEmail_editingFinished();
 
 private:
     Ui::ItemCatalog *ui;
