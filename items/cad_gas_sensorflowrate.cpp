@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_gas_sensorflowrate.h"
-#include "glwidget.h"
 
 CAD_Gas_SensorFlowrate::CAD_Gas_SensorFlowrate() : CADitem(CADitemTypes::Gas_SensorFlowrate)
 {

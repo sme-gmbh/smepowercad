@@ -14,6 +14,7 @@
 **********************************************************************/
 
 #include "cad_cleanroom_ceilingjoiningknot.h"
+
 #include "glwidget.h"
 
 CAD_Cleanroom_CeilingJoiningKnot::CAD_Cleanroom_CeilingJoiningKnot() : CADitem(CADitemTypes::Cleanroom_CeilingJoiningKnot)

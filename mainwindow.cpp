@@ -13,19 +13,16 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#include <QDebug>
-#include <QFileDialog>
-#include <QToolBar>
-#include <QPrinter>
-#include <libdxfrw0/drw_interface.h>
-#include <libdxfrw0/libdxfrw.h>
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
+#include "creationinterface.h"
 #include "dxflib/src/dl_dxf.h"
 #include "dxflib/src/dl_creationadapter.h"
-#include "creationinterface.h"
-#include "toolwidget.h"
 #include "dxfreaderinterface.h"
+#include "logging.h"
+#include "toolwidget.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -276,10 +273,10 @@ MainWindow::MainWindow(QWidget *parent) :
 //        item->calculate();
 //    }
 
-//    qDebug() << "Start test anglesFromMatrix()";
+//    qCDebug(powercad) << "Start test anglesFromMatrix()";
 //    for(int x = 0; x < 360; x++)
 //    {
-//        qDebug() << x << " / 360";
+//        qCDebug(powercad) << x << " / 360";
 //        for(int y = 0; y < 360; y++)
 //        {
 //            for(int z = 0; z < 360; z++)
@@ -304,13 +301,13 @@ MainWindow::MainWindow(QWidget *parent) :
 //                w.rotate(angles.z(), 0.0, 0.0, 1.0);
 //                if(MAngleCalculations().matrixNorm(m-w) > 10E-6)
 //                {
-//                    qDebug() << m;
-//                    qDebug() << w;
+//                    qCDebug(powercad) << m;
+//                    qCDebug(powercad) << w;
 //                }
 //            }
 //        }
 //    }
-//    qDebug() << "Finished test anglesFromMatrix()";
+//    qCDebug(powercad) << "Finished test anglesFromMatrix()";
 
     itemDB->addLayer("Collision");
     itemDB->getLayerByName("Collision")->pen.setColor(QColor(255,0,0));
@@ -400,7 +397,7 @@ void MainWindow::addToRecentFiles(QString filepath)
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     // keyPressEvent does not work because it is forwarded to children
-//    qDebug() << "MainWindow::keyPressEvent";
+//    qCDebug(powercad) << "MainWindow::keyPressEvent";
 //    switch (event->key())
 //    {
 //    case Qt::Key_F11:
@@ -441,7 +438,7 @@ void MainWindow::slot_file_open_dxf(QString filename)
     DL_Dxf* dxf = new DL_Dxf();
     if (!dxf->in(filename.toStdString(), creationInterface))
     {
-        qDebug() << "unable to open file";
+        qCDebug(powercad) << "unable to open file";
         return;
     }
 
@@ -519,7 +516,7 @@ void MainWindow::slot_file_save_action()
 
 void MainWindow::slot_file_save_as_action()
 {
-    qDebug() << "slot_file_save_as_action()";
+    qCDebug(powercad) << "slot_file_save_as_action()";
 
     QString filename;
     filename = QFileDialog::getSaveFileName(this, tr("Save project as file"), this->project_filepath, "XML File (*.xml)");
@@ -546,7 +543,7 @@ void MainWindow::slot_file_save_as_action()
 
 void MainWindow::slot_file_print_action()
 {
-    qDebug() << "slot_file_print_action()";
+    qCDebug(powercad) << "slot_file_print_action()";
 
     printwidget->show();
     printwidget->raise();
@@ -554,7 +551,7 @@ void MainWindow::slot_file_print_action()
 
 void MainWindow::slot_file_pdf_export_action()
 {
-    qDebug() << "slot_file_pdf_export_action()";
+    qCDebug(powercad) << "slot_file_pdf_export_action()";
 
     printwidget->show();
     printwidget->raise();
@@ -579,7 +576,7 @@ void MainWindow::slot_file_pdf_export_action()
 
 void MainWindow::slot_file_close_action()
 {
-    qDebug() << "slot_file_close_action()";
+    qCDebug(powercad) << "slot_file_close_action()";
 }
 
 void MainWindow::slot_openRecentFile()

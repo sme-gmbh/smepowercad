@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sanitary_flange.h"
-#include "glwidget.h"
 
 CAD_Sanitary_Flange::CAD_Sanitary_Flange() : CADitem(CADitemTypes::Sanitary_Flange)
 {

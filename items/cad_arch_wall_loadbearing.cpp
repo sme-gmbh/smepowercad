@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_arch_wall_loadbearing.h"
-#include "itemdb.h"
 
 CAD_arch_wall_loadBearing::CAD_arch_wall_loadBearing() : CADitem(CADitemTypes::Arch_Wall_loadBearing)
 {

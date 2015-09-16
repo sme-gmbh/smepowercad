@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_air_pipeendcap.h"
-#include "glwidget.h"
 
 CAD_air_pipeEndCap::CAD_air_pipeEndCap() : CADitem(CADitemTypes::Air_PipeEndCap)
 {

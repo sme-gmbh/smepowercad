@@ -16,8 +16,12 @@
 #ifndef TOOLWIDGET_H
 #define TOOLWIDGET_H
 
-#include <QWidget>
+#include <QCursor>
+#include <QLabel>
 #include <QMouseEvent>
+#include <QToolButton>
+#include <QWidget>
+
 #include "itemdb.h"
 
 namespace Ui {

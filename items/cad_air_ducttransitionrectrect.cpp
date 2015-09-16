@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_air_ducttransitionrectrect.h"
-//#include "itemdb.h"
 
 CAD_air_ductTransitionRectRect::CAD_air_ductTransitionRectRect() : CADitem(CADitemTypes::Air_DuctTransitionRectRect)
 {

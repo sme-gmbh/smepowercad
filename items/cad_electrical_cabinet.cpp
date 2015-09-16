@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_cabinet.h"
-#include "itemdb.h"
 
 CAD_electrical_cabinet::CAD_electrical_cabinet() : CADitem(CADitemTypes::Electrical_Cabinet)
 {

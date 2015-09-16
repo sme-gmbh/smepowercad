@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_busbarwithtapoffpoints2row.h"
-#include "glwidget.h"
 
 CAD_electrical_busbarwithtapoffpoints2row::CAD_electrical_busbarwithtapoffpoints2row() : CADitem(CADitemTypes::Electrical_BusbarWithTapoffPoints2Row)
 {

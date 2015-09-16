@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_controlbutton.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_ControlButton::CAD_Cleanroom_ControlButton() : CADitem(CADitemTypes::Cleanroom_ControlButton)
 {

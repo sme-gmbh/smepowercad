@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_cabletrayverticalladder.h"
-#include "glwidget.h"
 
 CAD_Electrical_CabletrayVerticalLadder::CAD_Electrical_CabletrayVerticalLadder() : CADitem(CADitemTypes::Electrical_CabletrayVerticalLadder)
 {

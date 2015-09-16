@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_heatexchangersoldered.h"
-#include "glwidget.h"
 
 CAD_HeatCool_HeatexchangerSoldered::CAD_HeatCool_HeatexchangerSoldered() : CADitem(CADitemTypes::HeatCool_HeatexchangerSoldered)
 {

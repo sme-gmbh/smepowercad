@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_gas_gaugepressure.h"
-#include "glwidget.h"
 
 CAD_Gas_GaugePressure::CAD_Gas_GaugePressure() : CADitem(CADitemTypes::Gas_GaugePressure)
 {

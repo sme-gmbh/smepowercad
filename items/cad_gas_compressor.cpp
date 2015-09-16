@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_gas_compressor.h"
-#include "glwidget.h"
 
 CAD_Gas_Compressor::CAD_Gas_Compressor() : CADitem(CADitemTypes::Gas_Compressor)
 {

@@ -19,7 +19,6 @@
 #include "caditem.h"
 #include "cad_basic_pipe.h"
 #include "cad_basic_hemisphere.h"
-#include <QDebug>
 
 class CAD_Electrical_LuminaireSemicircular : public CADitem
 {

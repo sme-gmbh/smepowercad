@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_gas_dryerrefrigerant.h"
-#include "glwidget.h"
 
 CAD_Gas_DryerRefrigerant::CAD_Gas_DryerRefrigerant() : CADitem(CADitemTypes::Gas_DryerRefrigerant)
 {

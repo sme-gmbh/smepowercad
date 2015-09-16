@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_wallpost.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_WallPost::CAD_Cleanroom_WallPost() : CADitem(CADitemTypes::Cleanroom_WallPost)
 {

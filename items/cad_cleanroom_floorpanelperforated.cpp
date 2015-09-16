@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_floorpanelperforated.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_FloorPanelPerforated::CAD_Cleanroom_FloorPanelPerforated() : CADitem(CADitemTypes::Cleanroom_FloorPanelPerforated)
 {

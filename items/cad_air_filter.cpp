@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_air_filter.h"
-#include "itemdb.h"
 
 CAD_air_filter::CAD_air_filter() : CADitem(CADitemTypes::Air_Filter)
 {

@@ -16,6 +16,8 @@
 #include "layermanager.h"
 #include "ui_layermanager.h"
 
+#include "logging.h"
+
 LayerManager::LayerManager(QWidget *parent, Layer* topLevelLayer, ItemDB* itemDB) :
     QDockWidget(parent),
     ui(new Ui::LayerManager)
@@ -321,7 +323,7 @@ void LayerManager::on_treeWidget_layer_currentItemChanged(QTreeWidgetItem *curre
     }
     else
     {
-        qDebug() << "LayerManager::on_treeWidget_layer_currentItemChanged(): newCurrentLayer is NULL.";
+        qCDebug(powercad) << "LayerManager::on_treeWidget_layer_currentItemChanged(): newCurrentLayer is NULL.";
     }
 }
 

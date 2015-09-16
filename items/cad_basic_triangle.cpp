@@ -14,6 +14,7 @@
 **********************************************************************/
 
 #include "cad_basic_triangle.h"
+
 #include "glwidget.h"
 
 CAD_Basic_Triangle::CAD_Basic_Triangle() : CADitem(CADitemTypes::Basic_Triangle)

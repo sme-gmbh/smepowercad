@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sprinkler_wetalarmvalve.h"
-#include "itemdb.h"
 
 CAD_sprinkler_wetAlarmValve::CAD_sprinkler_wetAlarmValve() : CADitem(CADitemTypes::Sprinkler_WetAlarmValve)
 {

@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_air_ductendplate.h"
-//#include "itemdb.h"
 
 CAD_air_ductEndPlate::CAD_air_ductEndPlate() : CADitem(CADitemTypes::Air_DuctEndPlate)
 {

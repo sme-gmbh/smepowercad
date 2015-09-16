@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_doorframe.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_DoorFrame::CAD_Cleanroom_DoorFrame() : CADitem(CADitemTypes::Cleanroom_DoorFrame)
 {

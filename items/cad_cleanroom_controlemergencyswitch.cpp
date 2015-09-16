@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_controlemergencyswitch.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_ControlEmergencySwitch::CAD_Cleanroom_ControlEmergencySwitch() : CADitem(CADitemTypes::Cleanroom_ControlEmergencySwitch)
 {

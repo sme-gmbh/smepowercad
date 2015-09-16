@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_controlswitch.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_ControlSwitch::CAD_Cleanroom_ControlSwitch() : CADitem(CADitemTypes::Cleanroom_ControlSwitch)
 {

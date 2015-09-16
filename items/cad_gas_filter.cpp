@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_gas_filter.h"
-#include "glwidget.h"
 
 CAD_Gas_Filter::CAD_Gas_Filter() : CADitem(CADitemTypes::Gas_Filter)
 {

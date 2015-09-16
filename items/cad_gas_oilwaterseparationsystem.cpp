@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_gas_oilwaterseparationsystem.h"
-#include "glwidget.h"
 
 CAD_Gas_OilWaterSeparationSystem::CAD_Gas_OilWaterSeparationSystem() : CADitem(CADitemTypes::Gas_OilWaterSeparationSystem)
 {

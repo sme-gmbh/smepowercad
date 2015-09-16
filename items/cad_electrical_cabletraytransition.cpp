@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_cabletraytransition.h"
-#include "glwidget.h"
 
 CAD_Electrical_CabletrayTransition::CAD_Electrical_CabletrayTransition() : CADitem(CADitemTypes::Electrical_CabletrayTransition)
 {

@@ -16,14 +16,21 @@
 #ifndef PRINTPAPERTEMPLATE_H
 #define PRINTPAPERTEMPLATE_H
 
-#include <QDialog>
-#include <QSizeF>
-#include <QPainter>
-#include <QMap>
-#include <QPen>
 #include <QBrush>
+#include <QColor>
+#include <QDialog>
 #include <QFont>
+#include <QImage>
+#include <QMap>
 #include <QMatrix>
+#include <QPainter>
+#include <QPen>
+#include <QPixmap>
+#include <QRectF>
+#include <QRegExp>
+#include <QSizeF>
+#include <QTextStream>
+#include <qmath.h>
 
 #include "glwidget.h"
 

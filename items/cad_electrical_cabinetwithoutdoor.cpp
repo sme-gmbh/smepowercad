@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_cabinetwithoutdoor.h"
-#include "glwidget.h"
 
 CAD_Electrical_CabinetWithoutDoor::CAD_Electrical_CabinetWithoutDoor() : CADitem(CADitemTypes::Electrical_CabinetWithoutDoor)
 {

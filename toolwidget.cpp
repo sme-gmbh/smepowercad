@@ -13,10 +13,6 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#include <QCursor>
-#include <QDebug>
-#include <QToolButton>
-#include <QLabel>
 #include "toolwidget.h"
 #include "ui_toolwidget.h"
 

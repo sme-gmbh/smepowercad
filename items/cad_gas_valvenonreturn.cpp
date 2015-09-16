@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_gas_valvenonreturn.h"
-#include "glwidget.h"
 
 CAD_Gas_ValveNonReturn::CAD_Gas_ValveNonReturn() : CADitem(CADitemTypes::Gas_ValveNonReturn)
 {

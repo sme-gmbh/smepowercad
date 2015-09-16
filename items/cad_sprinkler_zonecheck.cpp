@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sprinkler_zonecheck.h"
-#include "itemdb.h"
 
 CAD_sprinkler_zoneCheck::CAD_sprinkler_zoneCheck() : CADitem(CADitemTypes::Sprinkler_ZoneCheck)
 {

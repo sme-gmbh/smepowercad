@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_sensor.h"
-#include "itemdb.h"
 
 CAD_heatcool_sensor::CAD_heatcool_sensor() : CADitem(CADitemTypes::HeatCool_Sensor)
 {

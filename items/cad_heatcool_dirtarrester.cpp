@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_dirtarrester.h"
-#include "glwidget.h"
 
 CAD_HeatCool_DirtArrester::CAD_HeatCool_DirtArrester() : CADitem(CADitemTypes::HeatCool_DirtArrester)
 {

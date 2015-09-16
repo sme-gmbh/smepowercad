@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_nonreturnflap.h"
-#include "glwidget.h"
 
 CAD_HeatCool_NonReturnFlap::CAD_HeatCool_NonReturnFlap() : CADitem(CADitemTypes::HeatCool_NonReturnFlap)
 {

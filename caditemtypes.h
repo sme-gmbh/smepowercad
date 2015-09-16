@@ -16,8 +16,8 @@
 #ifndef CADITEMTYPES_H
 #define CADITEMTYPES_H
 
-#include <QObject>
 #include <QMetaEnum>
+#include <QObject>
 
 class CADitemTypes : public QObject
 {
@@ -101,7 +101,6 @@ public:
 
         Cleanroom_CeilingCornerPiece,
         Cleanroom_CeilingFilterFanUnit,
-        Cleanroom_CeilingFrame,
         Cleanroom_CeilingGrating,
         Cleanroom_CeilingGrid,
         Cleanroom_CeilingGridFeedThrough,

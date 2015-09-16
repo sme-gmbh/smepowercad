@@ -13,12 +13,14 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-#include "mainwindow.h"
 #include <QApplication>
-#include <QTranslator>
-#include <QDebug>
 #include <QSettings>
 #include <QSurfaceFormat>
+#include <QTranslator>
+
+#include "mainwindow.h"
+#include "logging.h"
+Q_LOGGING_CATEGORY(powercad, "powercad")
 
 int main(int argc, char *argv[])
 {
@@ -29,6 +31,10 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
     QApplication a(argc, argv);
+
+    QLoggingCategory::setFilterRules("*.debug=true\n"
+                                     "qt.qpa.input*.debug=false\n"
+                                     "qt.widgets.gestures*.debug=false\n");
 
     // Qt 5 specific opengl settings
     QSurfaceFormat format;
@@ -42,7 +48,7 @@ int main(int argc, char *argv[])
     // End of Qt 5 specific opengl settings
 
     QString locale = QLocale::system().name();
-    qDebug("Locale: " + locale.toUtf8()); // de_DE , en_US, ru_RU
+    qCDebug(powercad) << "Locale: " + locale.toUtf8(); // de_DE , en_US, ru_RU
 
     QSettings settings;
     QString lang = settings.value("environment_general_language", "de_DE").toString();

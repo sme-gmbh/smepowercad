@@ -14,6 +14,7 @@
 **********************************************************************/
 
 #include "cad_cleanroom_ceilingcornerpiece.h"
+
 #include "glwidget.h"
 
 CAD_Cleanroom_CeilingCornerPiece::CAD_Cleanroom_CeilingCornerPiece() : CADitem(CADitemTypes::Cleanroom_CeilingCornerPiece)

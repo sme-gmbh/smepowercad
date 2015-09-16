@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_gas_sensormoisture.h"
-#include "glwidget.h"
 
 CAD_Gas_SensorMoisture::CAD_Gas_SensorMoisture() : CADitem(CADitemTypes::Gas_SensorMoisture)
 {

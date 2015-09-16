@@ -14,9 +14,9 @@
 **********************************************************************/
 
 #include "collisiondetection.h"
-#include "caditemheaderincludes.h"
 
-#include <QDebug>
+#include "caditemheaderincludes.h"
+#include "logging.h"
 
 CollisionDetection::CollisionDetection(ItemDB *itemDB, GeometryDisplay* geometrydisplay, QOffscreenSurface *offscreensurface, QObject *parent) :
     QThread(parent)
@@ -74,7 +74,7 @@ void CollisionDetection::testItems(CADitem* item)
     if (!currentItem_boundingBox.intersectsWith(item->boundingBox))
         return;
 
-//    qDebug() << "Bounding Boxes intersect, start Triangle vs Triangle test";
+//    qCDebug(powercad) << "Bounding Boxes intersect, start Triangle vs Triangle test";
 
     // Triangle vs. triangle intersection test
     QList<MTriangle> item_triangleList = item->getTriangles();
@@ -85,7 +85,7 @@ void CollisionDetection::testItems(CADitem* item)
         {
             if(intersectionTester.trianglesIntersect(item_triangle, currentItem_triangle))
             {
-//                qDebug() << "<I65 "
+//                qCDebug(powercad) << "<I65 "
 //                         << "Position_x=" << '"' << currentItem_triangle.getV0().x() << '"'
 //                         << "Position_y=" << '"' << currentItem_triangle.getV0().y() << '"'
 //                         << "Position_z=" << '"' << currentItem_triangle.getV0().z() << '"'
@@ -96,7 +96,7 @@ void CollisionDetection::testItems(CADitem* item)
 //                         << "Position_y2=" << '"' << currentItem_triangle.getV2().y() << '"'
 //                         << "Position_z2=" << '"' << currentItem_triangle.getV2().z() << '"'
 //                         << "/>" ;
-//                qDebug() << "<I65 "
+//                qCDebug(powercad) << "<I65 "
 //                         << "Position_x=" << '"' << item_triangle.getV0().x() << '"'
 //                         << "Position_y=" << '"' << item_triangle.getV0().y() << '"'
 //                         << "Position_z=" << '"' << item_triangle.getV0().z() << '"'
@@ -107,7 +107,7 @@ void CollisionDetection::testItems(CADitem* item)
 //                         << "Position_y2=" << '"' << item_triangle.getV2().y() << '"'
 //                         << "Position_z2=" << '"' << item_triangle.getV2().z() << '"'
 //                         << "/>" ;
-                qDebug() << "Collision!";
+                qCDebug(powercad) << "Collision!";
                 emit signal_itemsDoCollide(currentItem, item);
                 this->context->doneCurrent();
                 return;

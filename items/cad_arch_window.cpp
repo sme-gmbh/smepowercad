@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_arch_window.h"
-#include "itemdb.h"
 
 CAD_arch_window::CAD_arch_window() : CADitem(CADitemTypes::Arch_Window)
 {

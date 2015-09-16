@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_air_ductvolumetricflowcontroller.h"
-#include "itemdb.h"
 
 CAD_air_ductVolumetricFlowController::CAD_air_ductVolumetricFlowController() : CADitem(CADitemTypes::Air_DuctVolumetricFlowController)
 {

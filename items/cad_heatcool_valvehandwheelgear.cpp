@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_valvehandwheelgear.h"
-#include "glwidget.h"
 
 CAD_HeatCool_ValveHandwheelGear::CAD_HeatCool_ValveHandwheelGear() : CADitem(CADitemTypes::HeatCool_ValveHandwheelGear)
 {

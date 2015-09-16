@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sanitary_sink.h"
-#include "glwidget.h"
 
 CAD_Sanitary_Sink::CAD_Sanitary_Sink() : CADitem(CADitemTypes::Sanitary_Sink)
 {

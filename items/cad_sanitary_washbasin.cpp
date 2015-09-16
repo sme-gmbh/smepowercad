@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sanitary_washbasin.h"
-#include "glwidget.h"
 
 CAD_Sanitary_WashBasin::CAD_Sanitary_WashBasin() : CADitem(CADitemTypes::Sanitary_WashBasin)
 {

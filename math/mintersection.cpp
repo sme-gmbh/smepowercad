@@ -14,7 +14,7 @@
 **********************************************************************/
 
 #include "mintersection.h"
-#include <QDebug>
+#include "logging.h"
 
 MIntersection::MIntersection()
 {
@@ -148,70 +148,70 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
         //test all edges against all edges
         if (edgeAgainstEdge(v0_2D, v1_2D, w0_2D, w1_2D))
         {
-//            qDebug() << "edge vs. edge";
-//            qDebug() << v0_2D << v1_2D << w0_2D << w1_2D;
+//            qCDebug(powercad) << "edge vs. edge";
+//            qCDebug(powercad) << v0_2D << v1_2D << w0_2D << w1_2D;
             return true;
         }
         if (edgeAgainstEdge(v0_2D, v1_2D, w1_2D, w2_2D))
         {
-//            qDebug() << "edge vs. edge";
-//            qDebug() << v0_2D << v1_2D << w1_2D << w2_2D;
+//            qCDebug(powercad) << "edge vs. edge";
+//            qCDebug(powercad) << v0_2D << v1_2D << w1_2D << w2_2D;
             return true;
         }
         if (edgeAgainstEdge(v0_2D, v1_2D, w0_2D, w2_2D))
         {
-//            qDebug() << "edge vs. edge";
-//            qDebug() << v0_2D << v1_2D << w0_2D << w2_2D;
+//            qCDebug(powercad) << "edge vs. edge";
+//            qCDebug(powercad) << v0_2D << v1_2D << w0_2D << w2_2D;
             return true;
         }
         if (edgeAgainstEdge(v1_2D, v2_2D, w0_2D, w1_2D))
         {
-//            qDebug() << "edge vs. edge";
-//            qDebug() << v1_2D << v2_2D << w0_2D << w1_2D;
+//            qCDebug(powercad) << "edge vs. edge";
+//            qCDebug(powercad) << v1_2D << v2_2D << w0_2D << w1_2D;
             return true;
         }
         if (edgeAgainstEdge(v1_2D, v2_2D, w1_2D, w2_2D))
         {
-//            qDebug() << "edge vs. edge";
-//            qDebug() << v1_2D << v2_2D << w1_2D << w2_2D;
+//            qCDebug(powercad) << "edge vs. edge";
+//            qCDebug(powercad) << v1_2D << v2_2D << w1_2D << w2_2D;
             return true;
         }
         if (edgeAgainstEdge(v1_2D, v2_2D, w0_2D, w2_2D))
         {
-//            qDebug() << "edge vs. edge";
-//            qDebug() << v1_2D << v2_2D << w0_2D << w2_2D;
+//            qCDebug(powercad) << "edge vs. edge";
+//            qCDebug(powercad) << v1_2D << v2_2D << w0_2D << w2_2D;
             return true;
         }
         if (edgeAgainstEdge(v0_2D, v2_2D, w0_2D, w1_2D))
         {
-//            qDebug() << "edge vs. edge";
-//            qDebug() << v0_2D << v2_2D << w0_2D << w1_2D;
+//            qCDebug(powercad) << "edge vs. edge";
+//            qCDebug(powercad) << v0_2D << v2_2D << w0_2D << w1_2D;
             return true;
         }
         if (edgeAgainstEdge(v0_2D, v2_2D, w1_2D, w2_2D))
         {
-//            qDebug() << "edge vs. edge";
-//            qDebug() << v0_2D << v2_2D << w1_2D << w2_2D;
+//            qCDebug(powercad) << "edge vs. edge";
+//            qCDebug(powercad) << v0_2D << v2_2D << w1_2D << w2_2D;
             return true;
         }
         if (edgeAgainstEdge(v0_2D, v2_2D, w0_2D, w2_2D))
         {
-//            qDebug() << "edge vs. edge";
-//            qDebug() << v0_2D << v2_2D << w0_2D << w2_2D;
+//            qCDebug(powercad) << "edge vs. edge";
+//            qCDebug(powercad) << v0_2D << v2_2D << w0_2D << w2_2D;
             return true;
         }
 
         //test if one triangle lies within another
         if (vertexInTriangle(v0_2D, w0_2D, w1_2D, w2_2D))
         {
-//            qDebug() << "vertex in triangle";
-//            qDebug() << v0_2D << w0_2D << w1_2D << w2_2D;
+//            qCDebug(powercad) << "vertex in triangle";
+//            qCDebug(powercad) << v0_2D << w0_2D << w1_2D << w2_2D;
             return true;
         }
         if (vertexInTriangle(w0_2D, v0_2D, v1_2D, v2_2D))
         {
-//            qDebug() << "vertex in triangle";
-//            qDebug() << w0_2D << v0_2D << v1_2D << v2_2D;
+//            qCDebug(powercad) << "vertex in triangle";
+//            qCDebug(powercad) << w0_2D << v0_2D << v1_2D << v2_2D;
             return true;
         }
 
@@ -362,7 +362,7 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
 //        QVector3D aufpunkt = (-d * norm_m_squared + e * n_dot_m) / (norm_n_squared * norm_m_squared - n_dot_m * n_dot_m) * n +
 //                (-e * norm_n_squared + d * n_dot_m) / (norm_n_squared * norm_m_squared - n_dot_m * n_dot_m) * m;
 
-//        qDebug() << "<I54 "
+//        qCDebug(powercad) << "<I54 "
 //                 << "Position_x1=" << '"' << (aufpunkt - 10000*direction).x()<< '"'
 //                 << "Position_y1=" << '"' << (aufpunkt - 10000*direction).y()<< '"'
 //                 << "Position_z1=" << '"' << (aufpunkt - 10000*direction).z()<< '"'
@@ -372,37 +372,37 @@ bool MIntersection::trianglesIntersect(QVector3D v0, QVector3D v1, QVector3D v2,
 //                 << "Width=" << '"' << 1 << '"'
 //                 << "/>" ;
 
-//        qDebug() << "<I60 "
+//        qCDebug(powercad) << "<I60 "
 //                 << "Position_x=" << '"' << (aufpunkt + s1*direction).x()<< '"'
 //                 << "Position_y=" << '"' << (aufpunkt + s1*direction).y()<< '"'
 //                 << "Position_z=" << '"' << (aufpunkt + s1*direction).z()<< '"'
 //                 << "r=" << '"' << 10 << '"'
 //                 << "/>" ;
-//        qDebug() << "<I60 "
+//        qCDebug(powercad) << "<I60 "
 //                 << "Position_x=" << '"' << (aufpunkt + s2*direction).x()<< '"'
 //                 << "Position_y=" << '"' << (aufpunkt + s2*direction).y()<< '"'
 //                 << "Position_z=" << '"' << (aufpunkt + s2*direction).z()<< '"'
 //                 << "r=" << '"' << 10 << '"'
 //                 << "/>" ;
-//        qDebug() << "<I60 "
+//        qCDebug(powercad) << "<I60 "
 //                 << "Position_x=" << '"' << (aufpunkt + t1*direction).x()<< '"'
 //                 << "Position_y=" << '"' << (aufpunkt + t1*direction).y()<< '"'
 //                 << "Position_z=" << '"' << (aufpunkt + t1*direction).z()<< '"'
 //                 << "r=" << '"' << 10 << '"'
 //                 << "/>" ;
-//        qDebug() << "<I60 "
+//        qCDebug(powercad) << "<I60 "
 //                 << "Position_x=" << '"' << (aufpunkt + t2*direction).x()<< '"'
 //                 << "Position_y=" << '"' << (aufpunkt + t2*direction).y()<< '"'
 //                 << "Position_z=" << '"' << (aufpunkt + t2*direction).z()<< '"'
 //                 << "r=" << '"' << 10 << '"'
 //                 << "/>" ;
 
-//        qDebug() << "face vs. face";
-//        qDebug() << s1 << s2;
-//        qDebug() << p_v0 << p_v1 << p_v2 << dist_v0 << dist_v1 << dist_v2;
-//        qDebug() << t1 << t2;
-//        qDebug() << p_w0 << p_w1 << p_w2 << dist_w0 << dist_w1 << dist_w2;
-//        qDebug() << QVector3D::dotProduct(n, m) / (n.length() * m.length());
+//        qCDebug(powercad) << "face vs. face";
+//        qCDebug(powercad) << s1 << s2;
+//        qCDebug(powercad) << p_v0 << p_v1 << p_v2 << dist_v0 << dist_v1 << dist_v2;
+//        qCDebug(powercad) << t1 << t2;
+//        qCDebug(powercad) << p_w0 << p_w1 << p_w2 << dist_w0 << dist_w1 << dist_w2;
+//        qCDebug(powercad) << QVector3D::dotProduct(n, m) / (n.length() * m.length());
 
 
 //        *line_1 = aufpunkt + 10000*direction;

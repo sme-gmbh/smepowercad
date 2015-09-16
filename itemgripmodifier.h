@@ -16,14 +16,14 @@
 #ifndef ITEMGRIPMODIFIER_H
 #define ITEMGRIPMODIFIER_H
 
-#include <QDialog>
-#include <QLabel>
 #include <QAction>
-#include <QToolButton>
-#include <QSpinBox>
+#include <QDialog>
 #include <QDoubleSpinBox>
+#include <QLabel>
 #include <QLayout>
 #include <QList>
+#include <QSpinBox>
+#include <QToolButton>
 
 #include "caditem.h"
 #include "itemdb.h"
@@ -53,7 +53,8 @@ public:
         Grip_Rotate_X,
         Grip_Rotate_Y,
         Grip_Rotate_Z,
-        Grip_Rotate_aroundPoint
+        Grip_Rotate_aroundPoint,
+        Grip_MoveWithMouse
     };
 
     void setItem(CADitem* item);

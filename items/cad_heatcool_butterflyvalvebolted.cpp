@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_butterflyvalvebolted.h"
-#include "glwidget.h"
 
 CAD_HeatCool_ButterflyValveBolted::CAD_HeatCool_ButterflyValveBolted() : CADitem(CADitemTypes::HeatCool_ButterflyValveBolted)
 {

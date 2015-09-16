@@ -16,8 +16,6 @@
 #include "itemgripmodifier.h"
 #include "ui_itemgripmodifier.h"
 
-#include <QToolButton>
-
 ItemGripModifier::ItemGripModifier(ItemDB *itemDB, ItemWizard *itemWizard, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ItemGripModifier)

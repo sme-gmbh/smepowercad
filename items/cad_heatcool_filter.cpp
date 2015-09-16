@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_filter.h"
-#include "itemdb.h"
 
 CAD_heatcool_filter::CAD_heatcool_filter() : CADitem(CADitemTypes::HeatCool_Filter)
 {

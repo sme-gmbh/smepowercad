@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sprinkler_pipeturn.h"
-#include "itemdb.h"
 
 CAD_sprinkler_pipeTurn::CAD_sprinkler_pipeTurn() : CADitem(CADitemTypes::Sprinkler_PipeTurn)
 {

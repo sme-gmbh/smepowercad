@@ -14,6 +14,7 @@
 **********************************************************************/
 
 #include "cad_basic_torus.h"
+
 #include "glwidget.h"
 
 CAD_Basic_Torus::CAD_Basic_Torus() : CADitem(CADitemTypes::Basic_Torus)

@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_arch_beam.h"
-#include "itemdb.h"
 
 CAD_arch_beam::CAD_arch_beam() : CADitem(CADitemTypes::Arch_Beam)
 {

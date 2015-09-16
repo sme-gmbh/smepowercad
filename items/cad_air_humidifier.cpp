@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_air_humidifier.h"
-#include "itemdb.h"
 
 CAD_air_humidifier::CAD_air_humidifier() : CADitem(CADitemTypes::Air_Humidifier)
 {

@@ -16,8 +16,8 @@
 #ifndef GEOMETRYDISPLAYTITLE_H
 #define GEOMETRYDISPLAYTITLE_H
 
-#include <QWidget>
 #include <QVector3D>
+#include <QWidget>
 
 namespace Ui {
 class GeometryDisplayTitle;

@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_nonreturnvalve.h"
-#include "glwidget.h"
 
 CAD_HeatCool_NonReturnValve::CAD_HeatCool_NonReturnValve() : CADitem(CADitemTypes::HeatCool_NonReturnValve)
 {

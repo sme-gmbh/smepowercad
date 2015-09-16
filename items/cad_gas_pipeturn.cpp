@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_gas_pipeturn.h"
-#include "glwidget.h"
 
 CAD_Gas_PipeTurn::CAD_Gas_PipeTurn() : CADitem(CADitemTypes::Gas_PipeTurn)
 {

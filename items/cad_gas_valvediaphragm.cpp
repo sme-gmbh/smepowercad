@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_gas_valvediaphragm.h"
-#include "glwidget.h"
 
 CAD_Gas_ValveDiaphragm::CAD_Gas_ValveDiaphragm() : CADitem(CADitemTypes::Gas_ValveDiaphragm)
 {

@@ -14,6 +14,7 @@
 **********************************************************************/
 
 #include "cad_basic_hemisphere.h"
+
 #include "glwidget.h"
 
 CAD_Basic_Hemisphere::CAD_Basic_Hemisphere() : CADitem(CADitemTypes::Basic_Hemisphere)

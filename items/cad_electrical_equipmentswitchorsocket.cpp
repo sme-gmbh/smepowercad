@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_equipmentswitchorsocket.h"
-#include "glwidget.h"
 
 CAD_Electrical_EquipmentSwitchOrSocket::CAD_Electrical_EquipmentSwitchOrSocket() : CADitem(CADitemTypes::Electrical_EquipmentSwitchOrSocket)
 {

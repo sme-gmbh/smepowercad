@@ -14,7 +14,7 @@
 **********************************************************************/
 
 #include "cad_basic_plane.h"
-#include "itemdb.h"
+
 #include "glwidget.h"
 
 CAD_basic_plane::CAD_basic_plane() : CADitem(CADitemTypes::Basic_Plane)

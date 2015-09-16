@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_gauge90degree.h"
-#include "glwidget.h"
 
 CAD_HeatCool_Gauge90Degree::CAD_HeatCool_Gauge90Degree() : CADitem(CADitemTypes::HeatCool_Gauge90Degree)
 {

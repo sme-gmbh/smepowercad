@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_floorpanel.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_FloorPanel::CAD_Cleanroom_FloorPanel() : CADitem(CADitemTypes::Cleanroom_FloorPanel)
 {

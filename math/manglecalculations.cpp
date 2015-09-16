@@ -14,6 +14,7 @@
 **********************************************************************/
 
 #include "manglecalculations.h"
+#include "logging.h"
 
 MAngleCalculations::MAngleCalculations()
 {
@@ -29,7 +30,7 @@ MAngleCalculations::~MAngleCalculations()
 QVector3D MAngleCalculations::anglesFromMatrix(QMatrix4x4 matrix_rotation)
 {
     //compare to: http://staff.city.ac.uk/~sbbh653/publications/euler.pdf
-//    qDebug() << "original: " << matrix_rotation;
+//    qCDebug(powercad) << "original: " << matrix_rotation;
     qreal r11 = matrix_rotation.row(0).x();
     qreal r12 = matrix_rotation.row(0).y();
     qreal r13 = matrix_rotation.row(0).z();
@@ -45,7 +46,7 @@ QVector3D MAngleCalculations::anglesFromMatrix(QMatrix4x4 matrix_rotation)
     {
         if(qAbs(r13 + 1) < EPS)
         {
-//            qDebug() << "anglesFromMatrix case 1";
+//            qCDebug(powercad) << "anglesFromMatrix case 1";
             phi = 0.0;
             qreal delta = atan2(r21, r31);
             theta = -PI / 2.0;
@@ -55,12 +56,12 @@ QVector3D MAngleCalculations::anglesFromMatrix(QMatrix4x4 matrix_rotation)
             m1.rotate(psi / PI * 180.0,   1.0, 0.0, 0.0);
             m1.rotate(theta / PI * 180.0, 0.0, 1.0, 0.0);
             m1.rotate(phi / PI * 180.0,   0.0, 0.0, 1.0);
-//            qDebug() << "m1: " << m1;
+//            qCDebug(powercad) << "m1: " << m1;
         }
         if(qAbs(r13 - 1) < EPS)
         {
-//            qDebug() << "anglesFromMatrix case 2";
-//            qDebug() << "Theta = 90 oder Theta = -270";
+//            qCDebug(powercad) << "anglesFromMatrix case 2";
+//            qCDebug(powercad) << "Theta = 90 oder Theta = -270";
             phi = 0.0;
             qreal theta2 = PI / 2.0;
             qreal psi2 = atan2(r21 , r22);
@@ -69,14 +70,14 @@ QVector3D MAngleCalculations::anglesFromMatrix(QMatrix4x4 matrix_rotation)
             m2.rotate(psi2 / PI * 180.0,   1.0, 0.0, 0.0);
             m2.rotate(theta2 / PI * 180.0, 0.0, 1.0, 0.0);
             m2.rotate(phi / PI * 180.0,   0.0, 0.0, 1.0);
-//            qDebug() << "m2: " << m2;
+//            qCDebug(powercad) << "m2: " << m2;
             theta = theta2;
             psi = psi2;
         }
     }
     else
     {
-//        qDebug() << "anglesFromMatrix case 3";
+//        qCDebug(powercad) << "anglesFromMatrix case 3";
 
         qreal theta1 = asin(r13);
         qreal theta2 = PI - theta1;
@@ -94,8 +95,8 @@ QVector3D MAngleCalculations::anglesFromMatrix(QMatrix4x4 matrix_rotation)
         m2.rotate(psi2 / PI * 180.0,   1.0, 0.0, 0.0);
         m2.rotate(theta2 / PI * 180.0, 0.0, 1.0, 0.0);
         m2.rotate(phi2 / PI * 180.0,   0.0, 0.0, 1.0);
-//        qDebug() << "m1: " << m1;
-//        qDebug() << "m2: " << m2;
+//        qCDebug(powercad) << "m1: " << m1;
+//        qCDebug(powercad) << "m2: " << m2;
         if(matrixNorm(matrix_rotation - m1) < matrixNorm(matrix_rotation - m2))
         {
             psi = psi1;

@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_pipereducer.h"
-#include "itemdb.h"
 
 CAD_heatcool_pipeReducer::CAD_heatcool_pipeReducer() : CADitem(CADitemTypes::HeatCool_PipeReducer)
 {

@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_cabletrayturn.h"
-#include "glwidget.h"
 
 CAD_Electrical_CabletrayTurn::CAD_Electrical_CabletrayTurn() : CADitem(CADitemTypes::Electrical_CabletrayTurn)
 {

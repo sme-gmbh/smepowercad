@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sanitary_electricwaterheater.h"
-#include "glwidget.h"
 
 CAD_Sanitary_ElectricWaterHeater::CAD_Sanitary_ElectricWaterHeater() : CADitem(CADitemTypes::Sanitary_ElectricWaterHeater)
 {

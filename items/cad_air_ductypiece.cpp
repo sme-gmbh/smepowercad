@@ -14,7 +14,7 @@
 **********************************************************************/
 
 #include "cad_air_ductypiece.h"
-#include "itemdb.h"
+
 #include "glwidget.h"
 
 CAD_air_ductYpiece::CAD_air_ductYpiece() : CADitem(CADitemTypes::Air_DuctYpiece)

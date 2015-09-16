@@ -16,6 +16,8 @@
 #include "keyframeanimation.h"
 #include "ui_keyframeanimation.h"
 
+#include "logging.h"
+
 KeyframeAnimation::KeyframeAnimation(QWidget *parent, ItemDB *itemDB) :
     QDockWidget(parent),
     ui(new Ui::KeyframeAnimation)
@@ -131,11 +133,11 @@ void KeyframeAnimation::animate()
 
             this->framecontrols.append(newFramecontrol);
 
-            qDebug() << "weight" << weightOfFramecontrol;
-            qDebug() << "quaternion" << interpolatedQuaternion;
-            qDebug() << "rotMatrixCurrent" << currentKeyframe.framecontrol.matrix_rotation;
-            qDebug() << "rotMatrixNext" << nextKeyframe.framecontrol.matrix_rotation;
-            qDebug() << "rotMatrixInt" << newFramecontrol.matrix_rotation;
+            qCDebug(powercad) << "weight" << weightOfFramecontrol;
+            qCDebug(powercad) << "quaternion" << interpolatedQuaternion;
+            qCDebug(powercad) << "rotMatrixCurrent" << currentKeyframe.framecontrol.matrix_rotation;
+            qCDebug(powercad) << "rotMatrixNext" << nextKeyframe.framecontrol.matrix_rotation;
+            qCDebug(powercad) << "rotMatrixInt" << newFramecontrol.matrix_rotation;
 
             currentFrame++;
         } while(currentFrame < currentKeyframe.frame_end);

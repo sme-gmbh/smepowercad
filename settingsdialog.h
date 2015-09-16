@@ -16,22 +16,20 @@
 #ifndef SETTINGSDIALOG_H
 #define SETTINGSDIALOG_H
 
-#include <QDialog>
-#include <QStackedLayout>
-#include <QPushButton>
+#include <QColorDialog>
 #include <QComboBox>
-#include <QSettings>
-#include <QTabWidget>
-#include <QListWidgetItem>
+#include <QDialog>
 #include <QDomDocument>
 #include <QFile>
 #include <QFormLayout>
-#include <QSpinBox>
-#include <QDebug>
-#include <QColorDialog>
-#include <QSettings>
-#include <QObject>
+#include <QListWidgetItem>
 #include <QMessageBox>
+#include <QObject>
+#include <QPushButton>
+#include <QSettings>
+#include <QSpinBox>
+#include <QStackedLayout>
+#include <QTabWidget>
 
 namespace Ui {
 class SettingsDialog;

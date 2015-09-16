@@ -14,7 +14,7 @@
 **********************************************************************/
 
 #include "cad_air_ducttransitionrectround.h"
-#include "itemdb.h"
+
 #include "glwidget.h"
 
 CAD_air_ductTransitionRectRound::CAD_air_ductTransitionRectRound() : CADitem(CADitemTypes::Air_DuctTransitionRectRound)

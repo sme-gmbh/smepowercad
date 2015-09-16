@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_floorpanelwithtank.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_FloorPanelWithTank::CAD_Cleanroom_FloorPanelWithTank() : CADitem(CADitemTypes::Cleanroom_FloorPanelWithTank)
 {

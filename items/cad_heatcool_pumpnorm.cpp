@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_pumpnorm.h"
-#include "glwidget.h"
 
 CAD_HeatCool_PumpNorm::CAD_HeatCool_PumpNorm() : CADitem(CADitemTypes::HeatCool_PumpNorm)
 {

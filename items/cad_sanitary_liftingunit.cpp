@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sanitary_liftingunit.h"
-#include "glwidget.h"
 
 CAD_Sanitary_LiftingUnit::CAD_Sanitary_LiftingUnit() : CADitem(CADitemTypes::Sanitary_LiftingUnit)
 {

@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_busbarwithtapoffpoints1row.h"
-#include "glwidget.h"
 
 CAD_electrical_busbarwithtapoffpoints1row::CAD_electrical_busbarwithtapoffpoints1row() : CADitem(CADitemTypes::Electrical_BusbarWithTapoffPoints1Row)
 {
@@ -140,7 +139,7 @@ void CAD_electrical_busbarwithtapoffpoints1row::calculate()
         QVector3D position_plane = position + matrix_rotation * QVector3D(l3 + l2 + i * l1, b, 0.0);
         this->snap_flanges.append(position_plane);
         position_plane = position + matrix_rotation * QVector3D(l3 + i * l1, b, 0.5 * a2);
-        CAD_basic_plane * plane = new CAD_basic_plane();
+        CAD_basic_plane *plane = new CAD_basic_plane();
         plane->wizardParams.insert("Position x", position_plane.x());
         plane->wizardParams.insert("Position y", position_plane.y());
         plane->wizardParams.insert("Position z", position_plane.z());

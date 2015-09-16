@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_pipeteeconnector.h"
-#include "itemdb.h"
 
 CAD_heatcool_pipeTeeConnector::CAD_heatcool_pipeTeeConnector() : CADitem(CADitemTypes::HeatCool_PipeTeeConnector)
 {

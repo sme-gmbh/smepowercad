@@ -14,6 +14,7 @@
 **********************************************************************/
 
 #include "cad_basic_flume.h"
+
 #include "glwidget.h"
 
 CAD_Basic_Flume::CAD_Basic_Flume() : CADitem(CADitemTypes::Basic_Flume)

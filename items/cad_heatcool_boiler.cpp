@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_boiler.h"
-#include "itemdb.h"
 
 CAD_heatcool_boiler::CAD_heatcool_boiler() : CADitem(CADitemTypes::HeatCool_Boiler)
 {

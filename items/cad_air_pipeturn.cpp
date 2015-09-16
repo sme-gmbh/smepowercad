@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_air_pipeturn.h"
-#include "itemdb.h"
 
 CAD_air_pipeTurn::CAD_air_pipeTurn() : CADitem(CADitemTypes::Air_PipeTurn)
 {

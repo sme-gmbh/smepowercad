@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_ceilingsmokeextractflap.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_CeilingSmokeExtractFlap::CAD_Cleanroom_CeilingSmokeExtractFlap() : CADitem(CADitemTypes::Cleanroom_CeilingSmokeExtractFlap)
 {

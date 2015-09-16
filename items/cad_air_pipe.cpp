@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_air_pipe.h"
-#include "itemdb.h"
 
 CAD_air_pipe::CAD_air_pipe() : CADitem(CADitemTypes::Air_Pipe)
 {

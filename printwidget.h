@@ -17,11 +17,12 @@
 #define PRINTWIDGET_H
 
 #include <QDockWidget>
+#include <QLayout>
+#include <QMessageBox>
+#include <QOpenGLContext>
+#include <QPainter>
 #include <QPrintDialog>
 #include <QPrinter>
-#include <QDebug>
-#include <QLayout>
-#include <QOpenGLContext>
 
 #include "printpapertemplate.h"
 #include "itemdb.h"

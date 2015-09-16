@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_gas_dryerdesiccant.h"
-#include "glwidget.h"
 
 CAD_Gas_DryerDesiccant::CAD_Gas_DryerDesiccant() : CADitem(CADitemTypes::Gas_DryerDesiccant)
 {

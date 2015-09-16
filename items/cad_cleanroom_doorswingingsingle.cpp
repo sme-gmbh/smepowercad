@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_doorswingingsingle.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_DoorSwingingSingle::CAD_Cleanroom_DoorSwingingSingle() : CADitem(CADitemTypes::Cleanroom_DoorSwingingSingle)
 {

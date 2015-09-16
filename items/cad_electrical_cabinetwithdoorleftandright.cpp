@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_cabinetwithdoorleftandright.h"
-#include "glwidget.h"
 
 CAD_Electrical_CabinetWithDoorLeftAndRight::CAD_Electrical_CabinetWithDoorLeftAndRight() : CADitem(CADitemTypes::Electrical_CabinetWithDoorLeftAndRight)
 {

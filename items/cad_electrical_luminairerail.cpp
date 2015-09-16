@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_luminairerail.h"
-#include "glwidget.h"
 
 CAD_Electrical_LuminaireRail::CAD_Electrical_LuminaireRail() : CADitem(CADitemTypes::Electrical_LuminaireRail)
 {

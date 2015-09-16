@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sprinkler_pipeteeconnector.h"
-#include "itemdb.h"
 
 CAD_sprinkler_pipeTeeConnector::CAD_sprinkler_pipeTeeConnector() : CADitem(CADitemTypes::Sprinkler_PipeTeeConnector)
 {

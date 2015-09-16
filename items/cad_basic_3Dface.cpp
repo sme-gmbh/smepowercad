@@ -14,9 +14,8 @@
 **********************************************************************/
 
 #include "cad_basic_3Dface.h"
-#include "itemdb.h"
+
 #include "glwidget.h"
-#include <QDebug>
 #include <QPen>
 
 CAD_basic_3Dface::CAD_basic_3Dface() : CADitem(CADitemTypes::Basic_Face)

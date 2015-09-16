@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_arch_stairs.h"
-#include "glwidget.h"
 
 CAD_Arch_Stairs::CAD_Arch_Stairs() : CADitem(CADitemTypes::Arch_Stairs)
 {

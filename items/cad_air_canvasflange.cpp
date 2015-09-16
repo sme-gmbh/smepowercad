@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_air_canvasflange.h"
-//#include "itemdb.h"
 
 CAD_air_canvasFlange::CAD_air_canvasFlange() : CADitem(CADitemTypes::Air_CanvasFlange)
 {

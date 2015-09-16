@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_luminaireescapelighting.h"
-#include "glwidget.h"
 
 CAD_Electrical_LuminaireEscapeLighting::CAD_Electrical_LuminaireEscapeLighting() : CADitem(CADitemTypes::Electrical_LuminaireEscapeLighting)
 {

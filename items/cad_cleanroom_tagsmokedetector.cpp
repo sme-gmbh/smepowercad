@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_tagsmokedetector.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_TagSmokeDetector::CAD_Cleanroom_TagSmokeDetector() : CADitem(CADitemTypes::Cleanroom_TagSmokeDetector)
 {

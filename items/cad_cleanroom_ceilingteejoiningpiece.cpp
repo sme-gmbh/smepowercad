@@ -14,6 +14,7 @@
 **********************************************************************/
 
 #include "cad_cleanroom_ceilingteejoiningpiece.h"
+
 #include "glwidget.h"
 
 CAD_Cleanroom_CeilingTeeJoiningPiece::CAD_Cleanroom_CeilingTeeJoiningPiece() : CADitem(CADitemTypes::Cleanroom_CeilingTeeJoiningPiece)

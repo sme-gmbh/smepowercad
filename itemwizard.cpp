@@ -15,6 +15,8 @@
 
 #include "itemwizard.h"
 #include "ui_itemwizard.h"
+
+#include "logging.h"
 #include "wizardparams.h"
 
 ItemWizard::ItemWizard(QWidget *parent) :
@@ -36,7 +38,7 @@ void ItemWizard::showWizard(CADitem *item, ItemDB* itemDB)
 {
     if (item == NULL)
     {
-        qDebug("CADitem is NULL");
+        qCDebug(powercad) << "CADitem is NULL";
         return;
     }
     this->itemDB = itemDB;
@@ -88,10 +90,10 @@ void ItemWizard::showWizard(CADitem *item, ItemDB* itemDB)
                 ((QComboBox*)wdg)->setCurrentText(value.toStringList().at(1));
             }
             else
-                qDebug() << "ItemWizard::showWizard() StringList has invalid size:" << value.toStringList().size() << ";Key:" << key;
+                qCDebug(powercad) << "ItemWizard::showWizard() StringList has invalid size:" << value.toStringList().size() << ";Key:" << key;
             break;
         default:
-            qDebug() << "ItemWizard::showWizard() Unhandled value type:" << value.type();
+            qCDebug(powercad) << "ItemWizard::showWizard() Unhandled value type:" << value.type();
             break;
         }
         wdg->setObjectName(key);

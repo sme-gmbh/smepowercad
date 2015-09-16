@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sprinkler_distribution.h"
-#include "itemdb.h"
 
 CAD_sprinkler_distribution::CAD_sprinkler_distribution() : CADitem(CADitemTypes::Sprinkler_Distribution)
 {

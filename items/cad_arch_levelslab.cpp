@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_arch_levelslab.h"
-#include "itemdb.h"
 
 CAD_arch_levelSlab::CAD_arch_levelSlab() : CADitem(CADitemTypes::Arch_LevelSlab)
 {

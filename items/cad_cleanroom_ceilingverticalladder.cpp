@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_ceilingverticalladder.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_CeilingVerticalLadder::CAD_Cleanroom_CeilingVerticalLadder() : CADitem(CADitemTypes::Cleanroom_CeilingVerticalLadder)
 {

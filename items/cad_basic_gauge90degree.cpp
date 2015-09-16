@@ -14,6 +14,7 @@
 **********************************************************************/
 
 #include "cad_basic_gauge90degree.h"
+
 #include "glwidget.h"
 
 CAD_Basic_Gauge90Degree::CAD_Basic_Gauge90Degree() : CADitem(CADitemTypes::Basic_Gauge90Degree)

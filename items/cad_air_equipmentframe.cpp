@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_air_equipmentframe.h"
-#include "itemdb.h"
 
 CAD_air_equipmentFrame::CAD_air_equipmentFrame() : CADitem(CADitemTypes::Air_EquipmentFrame)
 {

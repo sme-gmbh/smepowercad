@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_cabletray.h"
-#include "glwidget.h"
 
 CAD_electrical_cabletray::CAD_electrical_cabletray() : CADitem(CADitemTypes::Electrical_Cabletray)
 {

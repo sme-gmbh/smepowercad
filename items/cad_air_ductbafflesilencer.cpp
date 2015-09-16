@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_air_ductbafflesilencer.h"
-#include "itemdb.h"
 
 CAD_air_ductBaffleSilencer::CAD_air_ductBaffleSilencer() : CADitem(CADitemTypes::Air_DuctBaffleSilencer)
 {

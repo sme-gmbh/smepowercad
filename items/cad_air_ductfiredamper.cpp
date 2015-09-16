@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_air_ductfiredamper.h"
-#include "itemdb.h"
 
 CAD_air_ductFireDamper::CAD_air_ductFireDamper() : CADitem(CADitemTypes::Air_DuctFireDamper)
 {

@@ -14,8 +14,9 @@
 **********************************************************************/
 
 #include "cad_air_ductturn.h"
-#include "itemdb.h"
+
 #include "glwidget.h"
+#include "logging.h"
 
 CAD_air_ductTurn::CAD_air_ductTurn() : CADitem(CADitemTypes::Air_DuctTurn)
 {
@@ -549,7 +550,7 @@ void CAD_air_ductTurn::processWizardInput()
     //    b2 = b;
 
     if(abs(alpha - 90) > 10E-8 && abs(b - b2) > 10E-8)
-        qDebug() << "Different width for input and output is only acceptable if angle = 90°";
+        qCDebug(powercad) << "Different width for input and output is only acceptable if angle = 90°";
 
 }
 

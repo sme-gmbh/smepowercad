@@ -16,10 +16,10 @@
 #ifndef COLLISIONDETECTION_H
 #define COLLISIONDETECTION_H
 
-#include <QThread>
 #include <QList>
-#include <QOpenGLContext>
 #include <QOffscreenSurface>
+#include <QOpenGLContext>
+#include <QThread>
 
 #include "geometrydisplay.h"
 #include "itemdb.h"

@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sanitary_shower.h"
-#include "glwidget.h"
 
 CAD_Sanitary_Shower::CAD_Sanitary_Shower() : CADitem(CADitemTypes::Sanitary_Shower)
 {

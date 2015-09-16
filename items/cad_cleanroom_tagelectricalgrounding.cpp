@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_tagelectricalgrounding.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_TagElectricalGrounding::CAD_Cleanroom_TagElectricalGrounding() : CADitem(CADitemTypes::Cleanroom_TagElectricalGrounding)
 {

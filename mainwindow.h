@@ -16,21 +16,28 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
+#include <QAction>
+#include <QEvent>
+#include <QFileDialog>
+#include <QFont>
+#include <QGraphicsItem>
 #include <QGraphicsView>
 #include <QGraphicsScene>
-#include <QGraphicsItem>
-#include <QFont>
-#include <QList>
-#include <QAction>
-#include <QPointF>
-#include <QEvent>
 #include <QKeyEvent>
+#include <QList>
+#include <QMainWindow>
 #include <QMouseEvent>
-#include <QSettings>
-#include <QOpenGLContext>
 #include <QOffscreenSurface>
+#include <QOpenGLContext>
+#include <QPointF>
+#include <QPrinter>
+#include <QSettings>
 #include <QSurfaceFormat>
+#include <QToolBar>
+
+#include <libdxfrw0/drw_interface.h>
+#include <libdxfrw0/libdxfrw.h>
+
 
 #ifdef USE_3D_MOUSE
 #include "3Dmouse/qmagellan.h"

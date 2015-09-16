@@ -16,16 +16,16 @@
 #ifndef LAYERMANAGER_H
 #define LAYERMANAGER_H
 
-#include <QDockWidget>
-#include <QTreeWidget>
-#include <QTreeWidgetItem>
-#include <QDesktopWidget>
 #include <QColorDialog>
-#include <QMap>
+#include <QDesktopWidget>
+#include <QDockWidget>
+#include <QInputDialog>
 #include <QLabel>
+#include <QMap>
 #include <QMenu>
 #include <QMessageBox>
-#include <QInputDialog>
+#include <QTreeWidget>
+#include <QTreeWidgetItem>
 
 #include "layer.h"
 #include "itemdb.h"

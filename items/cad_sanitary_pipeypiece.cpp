@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sanitary_pipeypiece.h"
-#include "glwidget.h"
 
 CAD_Sanitary_PipeYPiece::CAD_Sanitary_PipeYPiece() : CADitem(CADitemTypes::Sanitary_PipeYPiece)
 {

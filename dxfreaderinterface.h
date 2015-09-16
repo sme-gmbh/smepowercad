@@ -18,8 +18,10 @@
 #ifndef DXFREADERINTERFACE_H
 #define DXFREADERINTERFACE_H
 
-#include <libdxfrw0/libdxfrw.h>
+#include <QMap>
 #include <libdxfrw0/drw_interface.h>
+#include <libdxfrw0/libdxfrw.h>
+
 #include "itemdb.h"
 
 

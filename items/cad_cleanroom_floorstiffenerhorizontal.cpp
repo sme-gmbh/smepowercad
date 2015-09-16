@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_floorstiffenerhorizontal.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_FloorStiffenerHorizontal::CAD_Cleanroom_FloorStiffenerHorizontal() : CADitem(CADitemTypes::Cleanroom_FloorStiffenerHorizontal)
 {

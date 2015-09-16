@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_arch_grating.h"
-#include "itemdb.h"
 
 CAD_arch_grating::CAD_arch_grating() : CADitem(CADitemTypes::Arch_Grating)
 {

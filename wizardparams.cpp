@@ -15,7 +15,8 @@
 
 #include "wizardparams.h"
 
-#include <QDebug>
+#include "logging.h"
+
 
 //QList<QString> WizardParams::globalKeys;
 
@@ -43,7 +44,7 @@ WizardParams::~WizardParams()
 
 void WizardParams::insert(QString key, QVariant value)
 {
-//    qDebug() << "WizardParams::insert()";
+//    qCDebug(powercad) << "WizardParams::insert()";
     if (!this->keys().contains(key))
     {
         QMetaType::Type type = (QMetaType::Type)value.type();
@@ -68,7 +69,7 @@ void WizardParams::insert(QString key, QVariant value)
             values_stringlist.append(value.toStringList());
             break;
         default:
-            qDebug() << "WizardParams::insert() Unhandled value type:" << value.type();
+            qCDebug(powercad) << "WizardParams::insert() Unhandled value type:" << value.type();
             break;
         }
     }
@@ -83,29 +84,29 @@ void WizardParams::insert(QString key, QVariant value)
         case QVariant::String:
             index = keys_string.indexOf(key);
             if (index < 0)
-                qDebug() << "WizardParams::insert() wrong replacement data type";
+                qCDebug(powercad) << "WizardParams::insert() wrong replacement data type";
             values_string.replace(index, value.toString());
             break;
         case QVariant::Int:
             index = keys_int.indexOf(key);
             if (index < 0)
-                qDebug() << "WizardParams::insert() wrong replacement data type";
+                qCDebug(powercad) << "WizardParams::insert() wrong replacement data type";
             values_int.replace(index, value.toInt());
             break;
         case QVariant::Double:
             index = keys_double.indexOf(key);
             if (index < 0)
-                qDebug() << "WizardParams::insert() wrong replacement data type";
+                qCDebug(powercad) << "WizardParams::insert() wrong replacement data type";
             values_double.replace(index, value.toDouble());
             break;
         case QVariant::StringList:
             index = keys_stringlist.indexOf(key);
             if (index < 0)
-                qDebug() << "WizardParams::insert() wrong replacement data type";
+                qCDebug(powercad) << "WizardParams::insert() wrong replacement data type";
             values_stringlist.replace(index, value.toStringList());
             break;
         default:
-            qDebug() << "WizardParams::insert() Unhandled value type:" << value.type();
+            qCDebug(powercad) << "WizardParams::insert() Unhandled value type:" << value.type();
             break;
         }
     }
@@ -180,16 +181,16 @@ void WizardParams::insert(WizardParams newParams)
 
 QVariant WizardParams::value(QString key)
 {
-//    qDebug() << "WizardParams::value() key =" << key;
+//    qCDebug(powercad) << "WizardParams::value() key =" << key;
     int index_double     = keys_double.indexOf(key);
     int index_int        = keys_int.indexOf(key);
     int index_string     = keys_string.indexOf(key);
     int index_stringlist = keys_stringlist.indexOf(key);
 
-//    qDebug() << "index_double" << index_double;
-//    qDebug() << "index_int" << index_int;
-//    qDebug() << "index_string" << index_string;
-//    qDebug() << "index_stringlist" << index_stringlist;
+//    qCDebug(powercad) << "index_double" << index_double;
+//    qCDebug(powercad) << "index_int" << index_int;
+//    qCDebug(powercad) << "index_string" << index_string;
+//    qCDebug(powercad) << "index_stringlist" << index_stringlist;
 
     if (index_double >= 0)
         return QVariant(values_double.at(index_double));
@@ -204,7 +205,7 @@ QVariant WizardParams::value(QString key)
 
 QVariant WizardParams::value(int index)
 {
-//    qDebug() << "WizardParams::value(int)";
+//    qCDebug(powercad) << "WizardParams::value(int)";
     if (index < values_double.count())
         return QVariant(values_double.at(index));
     if (index < (values_double.count() + values_int.count()))
@@ -219,7 +220,7 @@ QVariant WizardParams::value(int index)
 
 QList<QString> WizardParams::keys()
 {
-//    qDebug() << "WizardParams::keys()";
+//    qCDebug(powercad) << "WizardParams::keys()";
     QList<QString> keys;
 
     keys.append(keys_double);
@@ -232,7 +233,7 @@ QList<QString> WizardParams::keys()
 
 QList<QVariant> WizardParams::values()
 {
-//    qDebug() << "WizardParams::values()";
+//    qCDebug(powercad) << "WizardParams::values()";
     QList<QVariant> values;
 
     foreach(double val, values_double)
@@ -249,7 +250,7 @@ QList<QVariant> WizardParams::values()
 
 bool WizardParams::isEmpty()
 {
-//    qDebug() << "WizardParams::isEmpty()";
+//    qCDebug(powercad) << "WizardParams::isEmpty()";
 
     if (!values_double.isEmpty())
         return false;

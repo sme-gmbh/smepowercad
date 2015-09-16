@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_tagleakagedetector.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_TagLeakageDetector::CAD_Cleanroom_TagLeakageDetector() : CADitem(CADitemTypes::Cleanroom_TagLeakageDetector)
 {

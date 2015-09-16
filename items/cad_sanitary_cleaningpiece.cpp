@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sanitary_cleaningpiece.h"
-#include "glwidget.h"
 
 CAD_Sanitary_CleaningPiece::CAD_Sanitary_CleaningPiece() : CADitem(CADitemTypes::Sanitary_CleaningPiece)
 {

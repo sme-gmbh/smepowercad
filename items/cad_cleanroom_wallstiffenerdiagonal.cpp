@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_wallstiffenerdiagonal.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_WallStiffenerDiagonal::CAD_Cleanroom_WallStiffenerDiagonal() : CADitem(CADitemTypes::Cleanroom_WallStiffenerDiagonal)
 {

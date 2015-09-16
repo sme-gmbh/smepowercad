@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_basic_point.h"
-#include "itemdb.h"
 
 CAD_basic_point::CAD_basic_point() : CADitem(CADitemTypes::Basic_Point)
 {

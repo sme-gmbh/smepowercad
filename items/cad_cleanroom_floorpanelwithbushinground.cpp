@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_floorpanelwithbushinground.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_FloorPanelWithBushingRound::CAD_Cleanroom_FloorPanelWithBushingRound() : CADitem(CADitemTypes::Cleanroom_FloorPanelWithBushingRound)
 {

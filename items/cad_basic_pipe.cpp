@@ -14,7 +14,7 @@
 **********************************************************************/
 
 #include "cad_basic_pipe.h"
-#include "itemdb.h"
+
 #include "glwidget.h"
 
 CAD_basic_pipe::CAD_basic_pipe() : CADitem(CADitemTypes::Basic_Pipe)

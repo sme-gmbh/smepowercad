@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_air_pipesilencer.h"
-#include "itemdb.h"
 
 CAD_air_pipeSilencer::CAD_air_pipeSilencer() : CADitem(CADitemTypes::Air_PipeSilencer)
 {

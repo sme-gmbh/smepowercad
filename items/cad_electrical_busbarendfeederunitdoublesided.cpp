@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_busbarendfeederunitdoublesided.h"
-#include "glwidget.h"
 
 CAD_Electrical_BusbarEndFeederUnitDoubleSided::CAD_Electrical_BusbarEndFeederUnitDoubleSided() : CADitem(CADitemTypes::Electrical_BusbarEndFeederUnitDoubleSided)
 {

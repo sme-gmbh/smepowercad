@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_radiatorflange.h"
-#include "glwidget.h"
 
 CAD_HeatCool_RadiatorFlange::CAD_HeatCool_RadiatorFlange() : CADitem(CADitemTypes::HeatCool_RadiatorFlange)
 {

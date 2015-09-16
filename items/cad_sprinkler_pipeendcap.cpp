@@ -14,6 +14,7 @@
 **********************************************************************/
 
 #include "cad_sprinkler_pipeendcap.h"
+
 #include "glwidget.h"
 
 CAD_sprinkler_pipeEndCap::CAD_sprinkler_pipeEndCap() : CADitem(CADitemTypes::Sprinkler_PipeEndCap)

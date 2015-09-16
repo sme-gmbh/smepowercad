@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_air_pipebranch.h"
-#include "itemdb.h"
 
 CAD_air_pipeBranch::CAD_air_pipeBranch() : CADitem(CADitemTypes::Air_PipeBranch)
 {

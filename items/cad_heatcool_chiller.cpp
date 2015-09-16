@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_chiller.h"
-#include "itemdb.h"
 
 CAD_heatcool_chiller::CAD_heatcool_chiller() : CADitem(CADitemTypes::HeatCool_Chiller)
 {

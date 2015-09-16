@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sprinkler_valve.h"
-#include "glwidget.h"
 
 CAD_sprinkler_valve::CAD_sprinkler_valve() : CADitem(CADitemTypes::Sprinkler_Valve)
 {

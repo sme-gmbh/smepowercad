@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_air_multileafdamper.h"
-#include "itemdb.h"
 
 CAD_air_multiLeafDamper::CAD_air_multiLeafDamper() : CADitem(CADitemTypes::Air_MultiLeafDamper)
 {

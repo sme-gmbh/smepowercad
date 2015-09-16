@@ -17,9 +17,8 @@
 #define ITEMWIZARD_DOUBLESPINBOX_H
 
 #include <QLineEdit>
-#include <QStringList>
 #include <QRegExpValidator>
-#include <QDebug>
+#include <QStringList>
 
 class ItemWizard_DoubleSpinBox : public QLineEdit
 {

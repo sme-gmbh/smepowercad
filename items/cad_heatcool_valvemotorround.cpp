@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_valvemotorround.h"
-#include "glwidget.h"
 
 CAD_HeatCool_ValveMotorRound::CAD_HeatCool_ValveMotorRound() : CADitem(CADitemTypes::HeatCool_ValveMotorRound)
 {

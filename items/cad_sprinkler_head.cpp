@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sprinkler_head.h"
-#include "itemdb.h"
 
 CAD_sprinkler_head::CAD_sprinkler_head() : CADitem(CADitemTypes::Sprinkler_Head)
 {

@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_gauge.h"
-#include "glwidget.h"
 
 CAD_HeatCool_Gauge::CAD_HeatCool_Gauge() : CADitem(CADitemTypes::HeatCool_Gauge)
 {

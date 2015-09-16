@@ -14,9 +14,8 @@
 **********************************************************************/
 
 #include "cad_basic_sphere.h"
-//#include "itemdb.h"
+
 #include "glwidget.h"
-//#include <GL/glu.h>
 
 CAD_basic_sphere::CAD_basic_sphere() : CADitem(CADitemTypes::Basic_Sphere)
 {

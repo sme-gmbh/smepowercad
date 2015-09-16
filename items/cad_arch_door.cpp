@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_arch_door.h"
-#include "itemdb.h"
 
 CAD_arch_door::CAD_arch_door() : CADitem(CADitemTypes::Arch_Door)
 {

@@ -14,6 +14,7 @@
 **********************************************************************/
 
 #include "cad_heatcool_pipeendcap.h"
+
 #include "glwidget.h"
 
 CAD_heatcool_pipeEndCap::CAD_heatcool_pipeEndCap() : CADitem(CADitemTypes::HeatCool_PipeEndCap)

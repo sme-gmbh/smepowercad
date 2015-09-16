@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_walloverflowgrate.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_WallOverflowGrate::CAD_Cleanroom_WallOverflowGrate() : CADitem(CADitemTypes::Cleanroom_WallOverflowGrate)
 {

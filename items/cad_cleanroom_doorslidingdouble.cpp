@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_doorslidingdouble.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_DoorSlidingDouble::CAD_Cleanroom_DoorSlidingDouble() : CADitem(CADitemTypes::Cleanroom_DoorSlidingDouble)
 {

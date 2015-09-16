@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_adjustvalve.h"
-#include "itemdb.h"
 
 CAD_heatcool_adjustvalve::CAD_heatcool_adjustvalve() : CADitem(CADitemTypes::HeatCool_Adjustvalve)
 {

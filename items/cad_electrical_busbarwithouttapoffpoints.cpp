@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_busbarwithouttapoffpoints.h"
-#include "glwidget.h"
 
 CAD_electrical_busbarwithouttapoffpoints::CAD_electrical_busbarwithouttapoffpoints() : CADitem(CADitemTypes::Electrical_BusbarWithoutTapoffPoints)
 {

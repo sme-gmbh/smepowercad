@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sprinkler_compressedairwatercontainer.h"
-#include "itemdb.h"
 
 CAD_sprinkler_compressedAirWaterContainer::CAD_sprinkler_compressedAirWaterContainer() : CADitem(CADitemTypes::Sprinkler_CompressedAirWaterContainer)
 {

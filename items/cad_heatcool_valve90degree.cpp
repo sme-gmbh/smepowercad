@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_valve90degree.h"
-#include "glwidget.h"
 
 CAD_HeatCool_Valve90Degree::CAD_HeatCool_Valve90Degree() : CADitem(CADitemTypes::HeatCool_Valve90Degree)
 {

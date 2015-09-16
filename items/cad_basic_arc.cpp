@@ -14,10 +14,8 @@
 **********************************************************************/
 
 #include "cad_basic_arc.h"
-#include "itemdb.h"
-#include "glwidget.h"
 
-#define PI 3.1415926535897
+#include "glwidget.h"
 
 CAD_basic_arc::CAD_basic_arc() : CADitem(CADitemTypes::Basic_Arc)
 {

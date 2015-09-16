@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_busbartapoffunit.h"
-#include "glwidget.h"
 
 CAD_Electrical_BusbarTapOffUnit::CAD_Electrical_BusbarTapOffUnit() : CADitem(CADitemTypes::Electrical_BusbarTapOffUnit)
 {

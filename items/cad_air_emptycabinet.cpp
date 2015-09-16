@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_air_emptycabinet.h"
-#include "itemdb.h"
 
 CAD_air_emptyCabinet::CAD_air_emptyCabinet() : CADitem(CADitemTypes::Air_EmptyCabinet)
 {

@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_ceilingsuspension.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_CeilingSuspension::CAD_Cleanroom_CeilingSuspension() : CADitem(CADitemTypes::Cleanroom_CeilingSuspension)
 {

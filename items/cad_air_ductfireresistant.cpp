@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_air_ductfireresistant.h"
-//#include "itemdb.h"
 
 CAD_air_ductFireResistant::CAD_air_ductFireResistant() : CADitem(CADitemTypes::Air_DuctFireResistant)
 {

@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_cabinetwithdoorfrontandback.h"
-#include "glwidget.h"
 
 CAD_Electrical_CabinetWithDoorFrontAndBack::CAD_Electrical_CabinetWithDoorFrontAndBack() : CADitem(CADitemTypes::Electrical_CabinetWithDoorFrontAndBack)
 {

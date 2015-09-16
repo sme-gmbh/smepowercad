@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_radiatorcompact.h"
-#include "glwidget.h"
 
 CAD_HeatCool_RadiatorCompact::CAD_HeatCool_RadiatorCompact() : CADitem(CADitemTypes::HeatCool_RadiatorCompact)
 {

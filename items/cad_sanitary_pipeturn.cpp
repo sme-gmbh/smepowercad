@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sanitary_pipeturn.h"
-#include "itemdb.h"
 
 CAD_sanitary_pipeTurn::CAD_sanitary_pipeTurn() : CADitem(CADitemTypes::Sanitary_PipeTurn)
 {

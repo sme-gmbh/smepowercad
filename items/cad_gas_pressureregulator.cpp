@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_gas_pressureregulator.h"
-#include "glwidget.h"
 
 CAD_Gas_PressureRegulator::CAD_Gas_PressureRegulator() : CADitem(CADitemTypes::Gas_PressureRegulator)
 {

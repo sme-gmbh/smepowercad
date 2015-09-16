@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_luminairerecessedmounted.h"
-#include "glwidget.h"
 
 CAD_Electrical_LuminaireRecessedMounted::CAD_Electrical_LuminaireRecessedMounted() : CADitem(CADitemTypes::Electrical_LuminaireRecessedMounted)
 {

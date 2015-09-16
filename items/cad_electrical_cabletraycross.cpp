@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_cabletraycross.h"
-#include "glwidget.h"
 
 CAD_Electrical_CabletrayCross::CAD_Electrical_CabletrayCross() : CADitem(CADitemTypes::Electrical_CabletrayCross)
 {

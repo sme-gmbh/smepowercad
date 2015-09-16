@@ -14,6 +14,7 @@
 **********************************************************************/
 
 #include "cad_basic_box.h"
+
 #include "glwidget.h"
 
 CAD_basic_box::CAD_basic_box() : CADitem(CADitemTypes::Basic_Box)

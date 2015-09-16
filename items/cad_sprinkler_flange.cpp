@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sprinkler_flange.h"
-#include "glwidget.h"
 
 CAD_Sprinkler_Flange::CAD_Sprinkler_Flange() : CADitem(CADitemTypes::Sprinkler_Flange)
 {

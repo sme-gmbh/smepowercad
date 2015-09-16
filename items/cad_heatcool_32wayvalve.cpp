@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_32wayvalve.h"
-#include "glwidget.h"
 
 CAD_HeatCool_32WayValve::CAD_HeatCool_32WayValve() : CADitem(CADitemTypes::HeatCool_32WayValve)
 {

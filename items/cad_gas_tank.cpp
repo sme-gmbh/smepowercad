@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_gas_tank.h"
-#include "glwidget.h"
 
 CAD_Gas_Tank::CAD_Gas_Tank() : CADitem(CADitemTypes::Gas_Tank)
 {

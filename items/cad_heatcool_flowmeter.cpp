@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_flowmeter.h"
-#include "itemdb.h"
 
 CAD_heatcool_flowmeter::CAD_heatcool_flowmeter() : CADitem(CADitemTypes::HeatCool_Flowmeter)
 {

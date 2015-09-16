@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sprinkler_pipereducer.h"
-#include "itemdb.h"
 
 CAD_sprinkler_pipeReducer::CAD_sprinkler_pipeReducer() : CADitem(CADitemTypes::Sprinkler_PipeReducer)
 {

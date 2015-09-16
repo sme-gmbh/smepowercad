@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_flange.h"
-#include "itemdb.h"
 
 CAD_heatcool_flange::CAD_heatcool_flange() : CADitem(CADitemTypes::HeatCool_Flange)
 {

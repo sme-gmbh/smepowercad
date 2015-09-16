@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_arch_boredPile.h"
-#include "itemdb.h"
 
 CAD_arch_boredPile::CAD_arch_boredPile() : CADitem(CADitemTypes::Arch_BoredPile)
 {

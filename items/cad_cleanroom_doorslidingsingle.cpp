@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_doorslidingsingle.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_DoorSlidingSingle::CAD_Cleanroom_DoorSlidingSingle() : CADitem(CADitemTypes::Cleanroom_DoorSlidingSingle)
 {
@@ -349,7 +348,6 @@ void CAD_Cleanroom_DoorSlidingSingle::processWizardInput()
     g = wizardParams.value("g").toDouble();
 
     opensToLeft = (wizardParams.value("Opening direction").toStringList().at(1) == "Left");
-    qDebug() << opensToLeft;
 }
 
 //void CAD_cleanroom_DoorSlidingSingle::paint(GLWidget *glwidget)

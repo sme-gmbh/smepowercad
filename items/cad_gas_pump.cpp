@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_gas_pump.h"
-#include "glwidget.h"
 
 CAD_Gas_Pump::CAD_Gas_Pump() : CADitem(CADitemTypes::Gas_Pump)
 {

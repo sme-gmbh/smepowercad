@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_luminairesurfacemounted.h"
-#include "glwidget.h"
 
 CAD_Electrical_LuminaireSurfaceMounted::CAD_Electrical_LuminaireSurfaceMounted() : CADitem(CADitemTypes::Electrical_LuminaireSurfaceMounted)
 {

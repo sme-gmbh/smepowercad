@@ -17,9 +17,7 @@
 
 #include <iostream>
 #include <stdio.h>
-#include <QDebug>
-
-#include "items/cad_basic_line.h"
+#include "logging.h"
 
 CreationInterface::CreationInterface(ItemDB *itemDB)
 {
@@ -359,7 +357,7 @@ void CreationInterface::addKnot(const DL_KnotData& data)
 void CreationInterface::addInsert(const DL_InsertData& data)
 {
     //printf("INSERT    tbd.");
-    //qDebug() << data.angle << data.cols << data.colSp << data.ipx << data.ipy << data.ipz << QString(data.name.c_str()) << data.rows << data.rowSp << data.sx << data.sy << data.sz;
+    //qCDebug(powercad) << data.angle << data.cols << data.colSp << data.ipx << data.ipy << data.ipz << QString(data.name.c_str()) << data.rows << data.rowSp << data.sx << data.sy << data.sz;
     printAttributes();
     // readout complete
 
@@ -539,7 +537,7 @@ void CreationInterface::addLeader(const DL_LeaderData& data)
 void CreationInterface::addLeaderVertex(const DL_LeaderVertexData& data)
 {
     if (activeCommand != CMD_LEADER)
-        qDebug() << "addLeaderVertex without addLeader!";
+        qCDebug(powercad) << "addLeaderVertex without addLeader!";
     //printf("LEADERVERTEX (%6.3f, %6.3f, %6.3f\n)", data.x, data.y, data.z);
     // readout complete
 }

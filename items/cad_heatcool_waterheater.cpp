@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_waterheater.h"
-#include "itemdb.h"
 
 CAD_heatcool_waterHeater::CAD_heatcool_waterHeater() : CADitem(CADitemTypes::HeatCool_WaterHeater)
 {

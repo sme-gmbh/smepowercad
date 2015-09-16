@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_pipeturn.h"
-#include "itemdb.h"
 
 CAD_heatcool_pipeTurn::CAD_heatcool_pipeTurn() : CADitem(CADitemTypes::HeatCool_PipeTurn)
 {

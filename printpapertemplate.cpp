@@ -16,15 +16,6 @@
 #include "printpapertemplate.h"
 #include "ui_printpapertemplate.h"
 
-#include <QTextStream>
-#include <QRectF>
-#include <QColor>
-#include <QRegExp>
-#include <QImage>
-#include <QPixmap>
-#include <qmath.h>
-#include <QDebug>
-
 PrintPaperTemplate::PrintPaperTemplate(QWidget *parent, GLWidget *glWidget) :
     QDialog(parent),
     ui(new Ui::printPaperTemplate)

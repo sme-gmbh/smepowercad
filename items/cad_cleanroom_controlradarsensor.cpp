@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_controlradarsensor.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_ControlRadarSensor::CAD_Cleanroom_ControlRadarSensor() : CADitem(CADitemTypes::Cleanroom_ControlRadarSensor)
 {

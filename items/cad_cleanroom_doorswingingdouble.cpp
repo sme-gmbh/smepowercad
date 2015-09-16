@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_doorswingingdouble.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_DoorSwingingDouble::CAD_Cleanroom_DoorSwingingDouble() : CADitem(CADitemTypes::Cleanroom_DoorSwingingDouble)
 {

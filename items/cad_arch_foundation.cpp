@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_arch_foundation.h"
-#include "itemdb.h"
 
 CAD_arch_foundation::CAD_arch_foundation() : CADitem(CADitemTypes::Arch_Foundation)
 {

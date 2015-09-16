@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_gas_activatedcarbonadsorber.h"
-#include "glwidget.h"
 
 CAD_Gas_ActivatedCarbonAdsorber::CAD_Gas_ActivatedCarbonAdsorber() : CADitem(CADitemTypes::Gas_ActivatedCarbonAdsorber)
 {

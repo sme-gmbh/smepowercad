@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_cabletrayteeconnector.h"
-#include "glwidget.h"
 
 CAD_electrical_CabletrayTeeconnector::CAD_electrical_CabletrayTeeconnector() : CADitem(CADitemTypes::Electrical_CabletrayTransition)
 {

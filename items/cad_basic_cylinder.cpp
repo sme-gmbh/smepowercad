@@ -14,7 +14,7 @@
 **********************************************************************/
 
 #include "cad_basic_cylinder.h"
-#include "itemdb.h"
+
 #include "glwidget.h"
 
 CAD_basic_cylinder::CAD_basic_cylinder() : CADitem(CADitemTypes::Basic_Cylinder)

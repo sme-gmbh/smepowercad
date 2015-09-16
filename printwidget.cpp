@@ -16,10 +16,6 @@
 #include "printwidget.h"
 #include "ui_printwidget.h"
 
-
-#include <QMessageBox>
-#include <QPainter>
-
 PrintWidget::PrintWidget(QWidget *parent, ItemDB *itemDB) :
     QDockWidget(parent),
     ui(new Ui::PrintWidget)

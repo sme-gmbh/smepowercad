@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sanitary_pipe.h"
-#include "itemdb.h"
 
 CAD_sanitary_pipe::CAD_sanitary_pipe() : CADitem(CADitemTypes::Sanitary_Pipe)
 {

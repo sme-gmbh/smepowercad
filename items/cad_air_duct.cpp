@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_air_duct.h"
-//#include "itemdb.h"
 
 CAD_air_duct::CAD_air_duct() : CADitem(CADitemTypes::Air_Duct)
 {

@@ -14,7 +14,9 @@
 **********************************************************************/
 
 #include "caditem.h"
+
 #include "layer.h"
+#include "logging.h"
 
 CADitem::CADitem(CADitemTypes::ItemType type)
 {
@@ -202,30 +204,30 @@ WizardParams CADitem::rotateAroundPoint(QVector3D center, qreal rot_x, qreal rot
 
 WizardParams CADitem::rotateAroundFlange(QVector3D center, int flangeIndex, qreal angle)
 {
-    qDebug() << "Center:" << center;
-    qDebug() << "flangeIndex:" << flangeIndex;
-    qDebug() << "angle:" << angle;
+    qCDebug(powercad) << "Center:" << center;
+    qCDebug(powercad) << "flangeIndex:" << flangeIndex;
+    qCDebug(powercad) << "angle:" << angle;
 
     QVector3D normalOfFlange = this->rotationOfFlange(flangeIndex) * QVector3D(1.0, 0.0, 0.0);
-    qDebug() << "normalOfFlange:" << normalOfFlange;
+    qCDebug(powercad) << "normalOfFlange:" << normalOfFlange;
     //calculate new position of object
     QVector3D vec = this->position - center;
     QMatrix4x4 m, m2;
     m2 = MAngleCalculations().rotateAroundAxis(angle, normalOfFlange);
     m.setToIdentity();
     m.rotate(angle, normalOfFlange);
-    qDebug() << "m" << QMatrix4x4(m);
-    qDebug() << "m2" << m2;
+    qCDebug(powercad) << "m" << QMatrix4x4(m);
+    qCDebug(powercad) << "m2" << m2;
 
-    qDebug() << "m - m2" << m - m2;
+    qCDebug(powercad) << "m - m2" << m - m2;
 
     WizardParams newParams;
     matrix_rotation = m2 * matrix_rotation;  // There is an upstream bug in the matrix multiplication!
     // it is assumed to be a 2D rotation sometimes, which produces totaly wrong results.
     // At the moment using m2 fixes the problem.
     // see https://code.qt.io/cgit/qt/qtbase.git/tree/src/gui/math3d?id=e3983c87280ade48b243d9c60bed639713851be9
-    qDebug() << "m * matrix_rotation" << matrix_rotation;
-    qDebug() << "m2 * matrix_rotation" << m2 * matrix_rotation;
+    qCDebug(powercad) << "m * matrix_rotation" << matrix_rotation;
+    qCDebug(powercad) << "m2 * matrix_rotation" << m2 * matrix_rotation;
 
     QVector3D angles = MAngleCalculations().anglesFromMatrix(matrix_rotation);
     newParams.insert("Angle x", (angles.x()));

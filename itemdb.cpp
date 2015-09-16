@@ -15,6 +15,8 @@
 
 #include "itemdb.h"
 
+#include "logging.h"
+
 ItemDB::ItemDB(QObject *parent) :
     QObject(parent)
 {
@@ -50,14 +52,14 @@ void ItemDB::deriveDomainsAndItemTypes()
         if (item == NULL)
         {
             QString enumName = CADitemTypes().getEnumNameOfItemType((CADitemTypes::ItemType)type);
-            qDebug() << "itemDB: createItem returned NULL; itemtype:" << type << enumName << "not implemented";
+            qCDebug(powercad) << "itemDB: createItem returned NULL; itemtype:" << type << enumName << "not implemented";
             type++;
             continue;
         }
         else
         {
             QString enumName = CADitemTypes().getEnumNameOfItemType((CADitemTypes::ItemType)type);
-            qDebug() << "ItemDB::deriveDomainsAndItemTypes()" << enumName;
+            qCDebug(powercad) << "ItemDB::deriveDomainsAndItemTypes()" << enumName;
         }
 
         itemTypesByDomain.insertMulti(item->domain(), (int)type);
@@ -70,7 +72,7 @@ void ItemDB::deriveDomainsAndItemTypes()
 
     this->domains = itemTypesByDomain.uniqueKeys();
 
-    qDebug() << "Item Type Count:" << itemTypesByDomain.count();
+    qCDebug(powercad) << "Item Type Count:" << itemTypesByDomain.count();
 }
 
 int ItemDB::getNumberOfItemTypes()
@@ -289,7 +291,7 @@ void ItemDB::addItem(CADitem *item, Layer *layer)
 {
     if (layer == NULL)
     {
-        qDebug() << "ItemDB::addItem(): layer is NULL.";
+        qCDebug(powercad) << "ItemDB::addItem(): layer is NULL.";
         return;
     }
 
@@ -1064,7 +1066,7 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
 
     default:
     {
-        qDebug() << "ItemDB::drawItem(): unknown item type.";
+        qCDebug(powercad) << "ItemDB::drawItem(): unknown item type.";
         return NULL;
     }
         break;
@@ -1077,13 +1079,13 @@ CADitem* ItemDB::drawItem(Layer* layer, CADitemTypes::ItemType type)
 {
     if (layer == NULL)
     {
-        qDebug() << "ItemDB::drawItem(): layer is NULL.";
+        qCDebug(powercad) << "ItemDB::drawItem(): layer is NULL.";
         return NULL;
     }
 
     if (type == CADitemTypes::None)
     {
-        qDebug() << "ItemDB::drawItem(): Tried to create a CADitemTypes::None.";
+        qCDebug(powercad) << "ItemDB::drawItem(): Tried to create a CADitemTypes::None.";
         return NULL;
     }
 
@@ -1819,7 +1821,7 @@ void ItemDB::file_loadDB_parseDomElement(QDomElement element, Layer *currentLaye
                 break;
             }
             default:
-                qDebug() << "ItemDB::file_loadDB_parseDomElement() Unhandled value type:" << item->wizardParams.value(key).type();
+                qCDebug(powercad) << "ItemDB::file_loadDB_parseDomElement() Unhandled value type:" << item->wizardParams.value(key).type();
                 break;
             }
         }

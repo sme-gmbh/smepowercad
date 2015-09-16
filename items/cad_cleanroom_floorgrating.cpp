@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_floorgrating.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_FloorGrating::CAD_Cleanroom_FloorGrating() : CADitem(CADitemTypes::Cleanroom_FloorGrating)
 {

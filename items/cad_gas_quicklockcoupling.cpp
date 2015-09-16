@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_gas_quicklockcoupling.h"
-#include "glwidget.h"
 
 CAD_Gas_QuicklockCoupling::CAD_Gas_QuicklockCoupling() : CADitem(CADitemTypes::Gas_QuicklockCoupling)
 {

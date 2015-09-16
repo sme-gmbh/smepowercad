@@ -16,18 +16,17 @@
 #ifndef ITEMDB_H
 #define ITEMDB_H
 
-#include <QObject>
+#include <QByteArray>
+#include <QDomDocument>
+#include <QDataStream>
+#include <QFile>
+#include <QIODevice>
 #include <QList>
 #include <QMap>
-#include <QByteArray>
-#include <QDataStream>
-#include <QSvgRenderer>
+#include <QObject>
 #include <QPainter>
-#include <QIODevice>
-#include <QFile>
-#include <QDomDocument>
+#include <QSvgRenderer>
 #include <QTextStream>
-#include <QDebug>
 
 #include "layer.h"
 

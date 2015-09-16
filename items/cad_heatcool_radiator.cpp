@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_radiator.h"
-#include "itemdb.h"
 
 CAD_heatcool_radiator::CAD_heatcool_radiator() : CADitem(CADitemTypes::HeatCool_Radiator)
 {

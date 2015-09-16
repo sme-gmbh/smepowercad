@@ -16,27 +16,28 @@
 #ifndef GEOMETRYDISPLAY_H
 #define GEOMETRYDISPLAY_H
 
-#include <QDockWidget>
-#include <QCursor>
-#include <QBitmap>
-#include <QImage>
-#include <QPainter>
 #include <QApplication>
-#include <QMouseEvent>
-#include <QRectF>
-#include <QTimer>
-#include <QLayout>
-#include <QVector3D>
+#include <QBitmap>
+#include <QColor>
+#include <QCursor>
+#include <QDockWidget>
 #include <QGenericMatrix>
+#include <QImage>
+#include <QKeyEvent>
+#include <QLabel>
+#include <QLayout>
 #include <QMatrix3x3>
 #include <QMatrix4x4>
-#include <QSizePolicy>
-#include <QToolButton>
-#include <QColor>
-#include <QImage>
-#include <QLabel>
+#include <QMouseEvent>
 #include <QOpenGLContext>
-
+#include <QPainter>
+#include <QRectF>
+#include <QSizePolicy>
+#include <QTimer>
+#include <QToolButton>
+#include <QVector3D>
+#include <QWheelEvent>
+#include <qmath.h>
 
 #include "itemdb.h"
 #include "glwidget.h"

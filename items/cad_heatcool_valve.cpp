@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_valve.h"
-#include "glwidget.h"
 
 CAD_HeatCool_Valve::CAD_HeatCool_Valve() : CADitem(CADitemTypes::HeatCool_Valve)
 {

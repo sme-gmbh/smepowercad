@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_vacuumcleanersocket.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_VacuumCleanerSocket::CAD_Cleanroom_VacuumCleanerSocket() : CADitem(CADitemTypes::Cleanroom_VacuumCleanerSocket)
 {

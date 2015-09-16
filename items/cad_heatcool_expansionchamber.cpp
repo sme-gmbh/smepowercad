@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_expansionchamber.h"
-#include "itemdb.h"
 
 CAD_heatcool_expansionChamber::CAD_heatcool_expansionChamber() : CADitem(CADitemTypes::HeatCool_ExpansionChamber)
 {

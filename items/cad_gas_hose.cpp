@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_gas_hose.h"
-#include "glwidget.h"
 
 CAD_Gas_Hose::CAD_Gas_Hose() : CADitem(CADitemTypes::Gas_Hose)
 {

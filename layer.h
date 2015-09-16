@@ -16,11 +16,11 @@
 #ifndef LAYER_H
 #define LAYER_H
 
+#include <QBrush>
+#include <QColor>
+#include <QPen>
 #include <QObject>
 #include <QString>
-#include <QColor>
-#include <QBrush>
-#include <QPen>
 
 #include "caditem.h"
 

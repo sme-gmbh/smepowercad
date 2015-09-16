@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sanitary_pipeteeconnector.h"
-#include "itemdb.h"
 
 CAD_sanitary_pipeTeeConnector::CAD_sanitary_pipeTeeConnector() : CADitem(CADitemTypes::Sanitary_PipeTeeConnector)
 {

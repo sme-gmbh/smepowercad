@@ -14,7 +14,7 @@
 **********************************************************************/
 
 #include "cad_basic_turn.h"
-#include "itemdb.h"
+
 #include "glwidget.h"
 
 CAD_basic_turn::CAD_basic_turn() : CADitem(CADitemTypes::Basic_Turn)

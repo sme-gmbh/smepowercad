@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_ceilingmaintenanceflap.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_CeilingMaintenanceFlap::CAD_Cleanroom_CeilingMaintenanceFlap() : CADitem(CADitemTypes::Cleanroom_CeilingMaintenanceFlap)
 {

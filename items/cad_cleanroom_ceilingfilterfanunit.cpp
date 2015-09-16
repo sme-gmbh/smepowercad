@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_ceilingfilterfanunit.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_CeilingFilterFanUnit::CAD_Cleanroom_CeilingFilterFanUnit() : CADitem(CADitemTypes::Cleanroom_CeilingFilterFanUnit)
 {

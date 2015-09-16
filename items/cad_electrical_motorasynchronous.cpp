@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_motorasynchronous.h"
-#include "glwidget.h"
 
 CAD_Electrical_MotorAsynchronous::CAD_Electrical_MotorAsynchronous() : CADitem(CADitemTypes::Electrical_MotorAsynchronous)
 {

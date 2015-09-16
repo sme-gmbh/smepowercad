@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_safetyvalve.h"
-#include "itemdb.h"
 
 CAD_heatcool_safetyValve::CAD_heatcool_safetyValve() : CADitem(CADitemTypes::HeatCool_SafetyValve)
 {

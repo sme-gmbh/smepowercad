@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_wallsmokeextractflap.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_WallSmokeExtractFlap::CAD_Cleanroom_WallSmokeExtractFlap() : CADitem(CADitemTypes::Cleanroom_WallSmokeExtractFlap)
 {

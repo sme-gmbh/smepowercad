@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_arch_blockout.h"
-#include "itemdb.h"
 
 CAD_arch_blockOut::CAD_arch_blockOut() : CADitem(CADitemTypes::Arch_BlockOut)
 {

@@ -14,7 +14,7 @@
 **********************************************************************/
 
 #include "cad_air_heatexchangerairair.h"
-#include "itemdb.h"
+
 #include "glwidget.h"
 
 CAD_air_heatExchangerAirAir::CAD_air_heatExchangerAirAir() : CADitem(CADitemTypes::Air_HeatExchangerAirAir)

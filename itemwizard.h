@@ -16,20 +16,19 @@
 #ifndef ITEMWIZARD_H
 #define ITEMWIZARD_H
 
+#include <QComboBox>
 #include <QDockWidget>
-#include <QDebug>
+#include <QDoubleSpinBox>
+#include <QEvent>
+#include <QKeyEvent>
+#include <QLineEdit>
 #include <QMap>
+#include <QSpinBox>
+#include <QWidget>
+
 #include "caditem.h"
 #include "itemdb.h"
 #include "itemwizard_doublespinbox.h"
-
-#include <QLineEdit>
-#include <QSpinBox>
-#include <QDoubleSpinBox>
-#include <QComboBox>
-#include <QKeyEvent>
-#include <QEvent>
-#include <QWidget>
 
 namespace Ui {
 class ItemWizard;

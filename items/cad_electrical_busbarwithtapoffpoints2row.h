@@ -17,7 +17,9 @@
 #define CAD_ELECTRICAL_BUSBARWITHTAPOFFPOINTS2ROW_H
 
 #include "caditem.h"
-#include "cad_basic_box.h"
+#include "items/cad_basic_box.h"
+#include "items/cad_basic_plane.h"
+
 
 class CAD_electrical_busbarwithtapoffpoints2row : public CADitem
 {

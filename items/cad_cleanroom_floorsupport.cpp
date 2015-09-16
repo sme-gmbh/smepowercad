@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_floorsupport.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_FloorSupport::CAD_Cleanroom_FloorSupport() : CADitem(CADitemTypes::Cleanroom_FloorSupport)
 {

@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sanitary_emergencyeyeshower.h"
-#include "glwidget.h"
 
 CAD_Sanitary_EmergencyEyeShower::CAD_Sanitary_EmergencyEyeShower() : CADitem(CADitemTypes::Sanitary_EmergencyEyeShower)
 {

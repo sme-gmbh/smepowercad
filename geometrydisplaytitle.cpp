@@ -16,8 +16,6 @@
 #include "geometrydisplaytitle.h"
 #include "ui_geometrydisplaytitle.h"
 
-#include <QDebug>
-
 GeometryDisplayTitle::GeometryDisplayTitle(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::GeometryDisplayTitle)

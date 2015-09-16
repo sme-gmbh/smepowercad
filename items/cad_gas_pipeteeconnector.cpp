@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_gas_pipeteeconnector.h"
-#include "glwidget.h"
 
 CAD_Gas_PipeTeeConnector::CAD_Gas_PipeTeeConnector() : CADitem(CADitemTypes::Gas_PipeTeeConnector)
 {

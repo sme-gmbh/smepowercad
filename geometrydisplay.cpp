@@ -15,12 +15,7 @@
 
 #include "geometrydisplay.h"
 
-#include <QDebug>
-
-#include <QMouseEvent>
-#include <QWheelEvent>
-#include <QKeyEvent>
-#include <qmath.h>
+#include "logging.h"
 
 GeometryDisplay::GeometryDisplay(ItemDB *itemDB, ItemWizard *itemWizard, ItemGripModifier *itemGripModifier, QWidget *parent) :
     QDockWidget(parent)
@@ -71,7 +66,7 @@ GeometryDisplay::~GeometryDisplay()
 {
     //delete this->glwidget;
 
-//    qDebug() << "GeometryDisplay destroyed";
+//    qCDebug(powercad) << "GeometryDisplay destroyed";
 }
 
 void GeometryDisplay::hideButtons()

@@ -14,7 +14,7 @@
 **********************************************************************/
 
 #include "cad_basic_circle.h"
-#include "itemdb.h"
+
 #include "glwidget.h"
 
 CAD_basic_circle::CAD_basic_circle() : CADitem(CADitemTypes::Basic_Circle)

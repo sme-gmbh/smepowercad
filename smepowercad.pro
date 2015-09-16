@@ -574,7 +574,8 @@ HEADERS  += mainwindow.h \
     items/cad_cleanroom_ceilinggridfeedthrough.h \
     items/cad_cleanroom_floorpanelwithbushingrect.h \
     items/cad_cleanroom_floorpanelwithbushinground.h \
-    itemcatalog.h
+    itemcatalog.h \
+    logging.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

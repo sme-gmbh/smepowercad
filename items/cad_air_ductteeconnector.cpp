@@ -14,8 +14,9 @@
 **********************************************************************/
 
 #include "cad_air_ductteeconnector.h"
-#include "itemdb.h"
+
 #include "glwidget.h"
+#include "logging.h"
 
 CAD_air_ductTeeConnector::CAD_air_ductTeeConnector() : CADitem(CADitemTypes::Air_DuctTeeConnector)
 {
@@ -436,10 +437,10 @@ void CAD_air_ductTeeConnector::processWizardInput()
 
 
     if(fabs((u + r1 + b) - (e + b2 + m)) > 10E-8)
-        qDebug() << "This item can not be drawn! (u + r1 + b) != (e + b2 + m)";
+        qCDebug(powercad) << "This item can not be drawn! (u + r1 + b) != (e + b2 + m)";
 
     if(fabs((n + b3 + r2 + u) - l) > 10E-8)
-        qDebug() << "This item can not be drawn! (n + h + r2 + u) != l";
+        qCDebug(powercad) << "This item can not be drawn! (n + h + r2 + u) != l";
 
 }
 

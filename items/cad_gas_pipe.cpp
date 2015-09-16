@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_gas_pipe.h"
-#include "glwidget.h"
 
 CAD_Gas_Pipe::CAD_Gas_Pipe() : CADitem(CADitemTypes::Gas_Pipe)
 {

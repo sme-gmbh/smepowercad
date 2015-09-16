@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_air_fan.h"
-#include "itemdb.h"
 
 CAD_air_fan::CAD_air_fan() : CADitem(CADitemTypes::Air_Fan)
 {

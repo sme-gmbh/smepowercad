@@ -14,9 +14,8 @@
 **********************************************************************/
 
 #include "cad_basic_polyline.h"
-#include "itemdb.h"
+
 #include "glwidget.h"
-#include <QDebug>
 #include <QPen>
 
 CAD_basic_polyline::CAD_basic_polyline() : CADitem(CADitemTypes::Basic_Polyline)

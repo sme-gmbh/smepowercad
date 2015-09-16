@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_air_heatexchangerwaterair.h"
-#include "itemdb.h"
 
 CAD_air_heatExchangerWaterAir::CAD_air_heatExchangerWaterAir() : CADitem(CADitemTypes::Air_HeatExchangerWaterAir)
 {

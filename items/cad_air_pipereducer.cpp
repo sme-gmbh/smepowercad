@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_air_pipereducer.h"
-#include "itemdb.h"
 
 CAD_air_pipeReducer::CAD_air_pipeReducer() : CADitem(CADitemTypes::Air_PipeReducer)
 {

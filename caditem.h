@@ -16,27 +16,27 @@
 #ifndef CADITEM_H
 #define CADITEM_H
 
-#include <QString>
-#include <QObject>
 #include <QColor>
+#include <QDataStream>
+#include <QFile>
+#include <QFileInfo>
+#include <QImage>
 #include <QList>
 #include <QMap>
 #include <QMatrix4x4>
-#include <QVector3D>
-#include <QVariant>
-#include <QImage>
-#include <QFile>
-#include <QFileInfo>
-#include <QDataStream>
-#include <QDebug>
+#include <QObject>
+#include <QOffscreenSurface>
 #include <QOpenGLBuffer>
 #include <QOpenGLContext>
-#include <QOffscreenSurface>
+#include <QString>
+#include <QVariant>
+#include <QVector3D>
+
+#include "caditemtypes.h"
 #include <math.h>
 #include "math/m3dboundingbox.h"
 #include "math/manglecalculations.h"
 #include "math/mtriangle.h"
-#include "caditemtypes.h"
 #include "wizardparams.h"
 
 #define PI 3.1415926535897

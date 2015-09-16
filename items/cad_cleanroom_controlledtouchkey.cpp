@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_controlledtouchkey.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_ControlLedTouchKey::CAD_Cleanroom_ControlLedTouchKey() : CADitem(CADitemTypes::Cleanroom_ControlLedTouchKey)
 {

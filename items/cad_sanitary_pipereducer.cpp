@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_sanitary_pipereducer.h"
-#include "itemdb.h"
 
 CAD_sanitary_pipeReducer::CAD_sanitary_pipeReducer() : CADitem(CADitemTypes::Sanitary_PipeReducer)
 {

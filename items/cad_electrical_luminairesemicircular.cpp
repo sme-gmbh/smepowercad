@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_luminairesemicircular.h"
-#include "glwidget.h"
 
 CAD_Electrical_LuminaireSemicircular::CAD_Electrical_LuminaireSemicircular() : CADitem(CADitemTypes::Electrical_LuminaireSemicircular)
 {

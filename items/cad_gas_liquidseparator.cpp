@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_gas_liquidseparator.h"
-#include "glwidget.h"
 
 CAD_Gas_LiquidSeparator::CAD_Gas_LiquidSeparator() : CADitem(CADitemTypes::Gas_LiquidSeparator)
 {

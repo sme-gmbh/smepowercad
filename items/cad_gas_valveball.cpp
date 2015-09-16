@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_gas_valveball.h"
-#include "glwidget.h"
 
 CAD_Gas_ValveBall::CAD_Gas_ValveBall() : CADitem(CADitemTypes::Gas_ValveBall)
 {

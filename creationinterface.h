@@ -18,6 +18,7 @@
 
 #include <QColor>
 #include <dxflib/src/dl_creationadapter.h>
+
 #include "itemdb.h"
 
 class CreationInterface : public DL_CreationAdapter

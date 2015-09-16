@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_electrical_cabletrayreducer.h"
-#include "glwidget.h"
 
 CAD_electrical_cabletrayreducer::CAD_electrical_cabletrayreducer() : CADitem(CADitemTypes::Electrical_CabletrayReducer)
 {

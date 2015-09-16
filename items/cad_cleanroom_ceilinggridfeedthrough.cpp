@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_cleanroom_ceilinggridfeedthrough.h"
-#include "glwidget.h"
 
 CAD_Cleanroom_CeilingGridFeedThrough::CAD_Cleanroom_CeilingGridFeedThrough() : CADitem(CADitemTypes::Cleanroom_CeilingGridFeedThrough)
 {

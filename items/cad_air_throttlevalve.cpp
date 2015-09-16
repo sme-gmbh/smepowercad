@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_air_throttlevalve.h"
-#include "itemdb.h"
 
 CAD_air_throttleValve::CAD_air_throttleValve() : CADitem(CADitemTypes::Air_ThrottleValve)
 {

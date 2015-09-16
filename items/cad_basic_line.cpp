@@ -14,9 +14,8 @@
 **********************************************************************/
 
 #include "cad_basic_line.h"
-#include "itemdb.h"
+
 #include "glwidget.h"
-#include <QDebug>
 #include <QPen>
 
 CAD_basic_line::CAD_basic_line() : CADitem(CADitemTypes::Basic_Line)

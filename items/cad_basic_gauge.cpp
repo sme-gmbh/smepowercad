@@ -14,6 +14,7 @@
 **********************************************************************/
 
 #include "cad_basic_gauge.h"
+
 #include "glwidget.h"
 
 CAD_Basic_Gauge::CAD_Basic_Gauge() : CADitem(CADitemTypes::Basic_Gauge)

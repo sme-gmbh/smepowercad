@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_heatcool_pumpinline.h"
-#include "itemdb.h"
 
 CAD_HeatCool_PumpInline::CAD_HeatCool_PumpInline() : CADitem(CADitemTypes::HeatCool_PumpInline)
 {

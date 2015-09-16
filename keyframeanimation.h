@@ -16,23 +16,23 @@
 #ifndef KEYFRAMEANIMATION_H
 #define KEYFRAMEANIMATION_H
 
+#include <QCamera>
+#include <QDir>
 #include <QDockWidget>
-#include <QMatrix4x4>
-#include <QQuaternion>
-#include <QList>
-#include <QTimer>
-#include <QInputDialog>
 #include <QFileDialog>
-#include <QVideoEncoderSettings>
+#include <QImage>
+#include <QInputDialog>
+#include <QList>
+#include <QMatrix4x4>
 #include <QMediaRecorder>
 #include <QMediaObject>
-#include <QCamera>
-#include <QUrl>
-#include <QDir>
 #include <QPainter>
-#include <QImage>
 #include <QProcess>
+#include <QQuaternion>
 #include <QResizeEvent>
+#include <QUrl>
+#include <QVideoEncoderSettings>
+#include <QTimer>
 
 #include "itemdb.h"
 #include "glwidget.h"

@@ -14,6 +14,7 @@
 **********************************************************************/
 
 #include "cad_basic_pipereducer.h"
+
 #include "glwidget.h"
 
 CAD_Basic_PipeReducer::CAD_Basic_PipeReducer() : CADitem(CADitemTypes::Basic_PipeReducer)

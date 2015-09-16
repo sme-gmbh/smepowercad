@@ -14,7 +14,6 @@
 **********************************************************************/
 
 #include "cad_arch_support.h"
-#include "itemdb.h"
 
 CAD_arch_support::CAD_arch_support() : CADitem(CADitemTypes::Arch_Support)
 {

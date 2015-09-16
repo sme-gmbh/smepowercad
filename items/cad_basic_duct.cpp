@@ -14,7 +14,7 @@
 **********************************************************************/
 
 #include "cad_basic_duct.h"
-#include "itemdb.h"
+
 #include "glwidget.h"
 
 CAD_basic_duct::CAD_basic_duct() : CADitem(CADitemTypes::Basic_Duct)

@@ -15,6 +15,8 @@
 
 #include "itemwizard_doublespinbox.h"
 
+#include "logging.h"
+
 ItemWizard_DoubleSpinBox::ItemWizard_DoubleSpinBox(QWidget *parent) :
     QLineEdit(parent)
 {
@@ -52,22 +54,22 @@ double ItemWizard_DoubleSpinBox::value()
 
     if (rawText.contains(QRegExp("\\+")))
     {
-//        qDebug() << splitText << "+";
+//        qCDebug(powercad) << splitText << "+";
         return (val_1 + val_2);
     }
     else if (rawText.contains(QRegExp("\\-")))
     {
-//        qDebug() << splitText << "-";
+//        qCDebug(powercad) << splitText << "-";
         return (val_1 - val_2);
     }
     else if (rawText.contains(QRegExp("\\*")))
     {
-//        qDebug() << splitText << "*";
+//        qCDebug(powercad) << splitText << "*";
         return (val_1 * val_2);
     }
     else if (rawText.contains(QRegExp("\\/")))
     {
-//        qDebug() << splitText << "/";
+//        qCDebug(powercad) << splitText << "/";
         return (val_1 / val_2);
     }
     else
