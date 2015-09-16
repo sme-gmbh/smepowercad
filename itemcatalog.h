@@ -65,10 +65,12 @@ private:
     ItemWizard* itemWizard;
     QDir catalogDir;
     QProcess process_git;
+    QString git_Output;
 
     void initialize();
     bool setupLocalDirectory();
     bool setupGitProcess();
+    void getGitConfig();
 };
 
 #endif // ITEMCATALOG_H

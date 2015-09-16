@@ -11,6 +11,7 @@ ItemCatalog::ItemCatalog(ItemDB* itemDB,  ItemWizard* itemWizard, QWidget *paren
     if (!setupLocalDirectory())
         return;
     setupGitProcess();
+    getGitConfig();
     initialize();
 }
 
@@ -73,8 +74,40 @@ bool ItemCatalog::setupGitProcess()
     connect(&process_git, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slot_processGit_finished(int,QProcess::ExitStatus)));
     process_git.start();
     process_git.waitForStarted(1000);
+    process_git.waitForFinished(30000);
 }
 
+void ItemCatalog::getGitConfig()
+{
+    this->git_Output.clear();
+    QStringList args;
+    args << "config";
+    args << "--list";
+    process_git.setArguments(args);
+    process_git.start();
+    process_git.waitForStarted(1000);
+    process_git.waitForFinished(30000);
+
+    QTextStream stream(&this->git_Output, QIODevice::ReadOnly);
+    while(!stream.atEnd())
+    {
+        QString line = stream.readLine();
+        QStringList keyValuePair = line.split('=');
+        if (keyValuePair.size() != 2)
+            continue;
+
+        QString key = keyValuePair.at(0);
+        QString value = keyValuePair.at(1);
+
+        if (key == "user.email")
+            ui->lineEdit_db_gitUserEmail->setText(value);
+
+        else if (key == "user.name")
+            ui->lineEdit_db_gitUserName->setText(value);
+    }
+
+    this->git_Output.clear();
+}
 
 void ItemCatalog::slot_processGit_started()
 {
@@ -113,6 +146,7 @@ void ItemCatalog::slot_processGit_finished(int exitCode, QProcess::ExitStatus ex
 void ItemCatalog::slot_processGit_readyRead()
 {
     QByteArray output = process_git.readAll();
+    this->git_Output.append(QString::fromUtf8(output));
     ui->textEdit_terminalOutput->append(QString::fromUtf8(output));
 }
 
@@ -214,6 +248,7 @@ void ItemCatalog::on_toolButton_removeModel_clicked()
 
 void ItemCatalog::on_pushButton_db_gitClone_clicked()
 {
+    this->git_Output.clear();
     QStringList args;
     args << "clone";
     process_git.setArguments(args);
@@ -223,6 +258,7 @@ void ItemCatalog::on_pushButton_db_gitClone_clicked()
 
 void ItemCatalog::on_pushButton_db_gitStatus_clicked()
 {
+    this->git_Output.clear();
     QStringList args;
     args << "push";
     process_git.setArguments(args);
@@ -232,6 +268,7 @@ void ItemCatalog::on_pushButton_db_gitStatus_clicked()
 
 void ItemCatalog::on_pushButton_db_gitLog_clicked()
 {
+    this->git_Output.clear();
     QStringList args;
     args << "log";
     process_git.setArguments(args);
@@ -241,6 +278,7 @@ void ItemCatalog::on_pushButton_db_gitLog_clicked()
 
 void ItemCatalog::on_pushButton_db_gitPull_clicked()
 {
+    this->git_Output.clear();
     QStringList args;
     args << "pull";
     process_git.setArguments(args);
@@ -260,6 +298,7 @@ void ItemCatalog::on_pushButton_db_gitCommit_clicked()
         return;
     }
 
+    this->git_Output.clear();
     QStringList args;
     args << "add";
     args << ".";
@@ -268,6 +307,7 @@ void ItemCatalog::on_pushButton_db_gitCommit_clicked()
     process_git.waitForStarted(1000);
     process_git.waitForFinished(30000);
 
+    this->git_Output.clear();
     args.clear();
     args << "commit";
     args << "-m";
@@ -286,6 +326,7 @@ void ItemCatalog::on_pushButton_db_gitPush_clicked()
         return;
     }
 
+    this->git_Output.clear();
     QStringList args;
     args << "clone";
     args << remote;
