@@ -15,10 +15,12 @@
 
 #include "glwidget.h"
 
+#include "logging.h"
+
 GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, ItemGripModifier *itemGripModifier) :
     QOpenGLWidget(parent)
 {
-       qDebug() << "Created GLWidget";
+    qCDebug(powercad) << "Created GLWidget";
     this->itemDB = itemDB;
     this->itemWizard = itemWizard;
     this->itemGripModifier = itemGripModifier;
@@ -69,7 +71,7 @@ GLWidget::GLWidget(QWidget *parent, ItemDB *itemDB, ItemWizard *itemWizard, Item
 
 GLWidget::~GLWidget()
 {
-//    qDebug() << "GLWidget destroyed";
+//    qCDebug(powercad) << "GLWidget destroyed";
     makeCurrent();
     openGLTimerQuery->destroy();
     shaderProgram->release();
@@ -614,7 +616,7 @@ void GLWidget::wheelEvent(QWheelEvent* event)
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    //qDebug() << "mouseMove";
+    //qCDebug(powercad) << "mouseMove";
 
     mousePos = event->pos();
     mousePos.setY((this->height() - 1) - mousePos.y());
@@ -1213,7 +1215,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
 
 void GLWidget::slot_set_cuttingplane_values_changed(qreal height, qreal depth)
 {
-    qDebug() << "GLWidget::slot_set_cuttingplane_values_changed";
+    qCDebug(powercad) << "GLWidget::slot_set_cuttingplane_values_changed";
     this->height_of_intersection.setZ(height);
     this->depth_of_view.setZ(depth);
 
@@ -1228,10 +1230,10 @@ void GLWidget::paintGL()
     if (openGLTimerQuery->isResultAvailable())
     {
         rendertime_ns_per_frame = (quint64)openGLTimerQuery->waitForResult();
-//        qDebug() << "rendertime [ns]:" << rendertime_ns_per_frame << "FPS:" << 1e9 / rendertime_ns_per_frame << "@" << QCursor::pos();
+//        qCDebug(powercad) << "rendertime [ns]:" << rendertime_ns_per_frame << "FPS:" << 1e9 / rendertime_ns_per_frame << "@" << QCursor::pos();
     }
     else
-//        qDebug() << "render without time" << "@" << QCursor::pos();
+//        qCDebug(powercad) << "render without time" << "@" << QCursor::pos();
 
         openGLTimerQuery->begin();
 
@@ -2268,7 +2270,7 @@ QList<CADitem*> GLWidget::itemsAtPosition_v2(QPoint pos, int size_x, int size_y)
 
     if (fbo_select->size() != QSize(size_x, size_y))
     {
-//        qDebug() << "fbo resize" << QSize(size_x, size_y);
+//        qCDebug(powercad) << "fbo resize" << QSize(size_x, size_y);
         QOpenGLFramebufferObjectFormat format = fbo_select->format();
         delete fbo_select;
         fbo_select = new QOpenGLFramebufferObject(size_x, size_y, format);
@@ -2594,7 +2596,7 @@ void GLWidget::zoom_pan_showAll_processItems(QList<CADitem *> items, M3dBounding
 
 void GLWidget::initializeGL()
 {
-    qDebug() << "initializeGL()";
+    qCDebug(powercad) << "initializeGL()";
 
     makeCurrent();
     bool initializedOpenGLFunktions = initializeOpenGLFunctions();
@@ -2715,16 +2717,16 @@ void GLWidget::initializeGL()
     if (shader_Height_of_intersection_location < 0)
         QMessageBox::information(this, "Height of Intersection Location invalid", QString().setNum(shader_Height_of_intersection_location));
 
-//    qDebug() << "vertex location" << shader_vertexLocation;
-//    qDebug() << "matrix location" << shader_matrixLocation;
-//    qDebug() << "color location" << shader_colorLocation;
-//    qDebug() << "texture coord location" << shader_textureCoordLocation;
-//    qDebug() << "use texture location" << shader_useTextureLocation;
-//    qDebug() << "use clippingX location" << shader_useClippingXLocation;
-//    qDebug() << "use clippingY location" << shader_useClippingYLocation;
-//    qDebug() << "use clippingZ location" << shader_useClippingZLocation;
-//    qDebug() << "depth of view location" << shader_Depth_of_view_location;
-//    qDebug() << "height of intersection location" << shader_Height_of_intersection_location;
+//    qCDebug(powercad) << "vertex location" << shader_vertexLocation;
+//    qCDebug(powercad) << "matrix location" << shader_matrixLocation;
+//    qCDebug(powercad) << "color location" << shader_colorLocation;
+//    qCDebug(powercad) << "texture coord location" << shader_textureCoordLocation;
+//    qCDebug(powercad) << "use texture location" << shader_useTextureLocation;
+//    qCDebug(powercad) << "use clippingX location" << shader_useClippingXLocation;
+//    qCDebug(powercad) << "use clippingY location" << shader_useClippingYLocation;
+//    qCDebug(powercad) << "use clippingZ location" << shader_useClippingZLocation;
+//    qCDebug(powercad) << "depth of view location" << shader_Depth_of_view_location;
+//    qCDebug(powercad) << "height of intersection location" << shader_Height_of_intersection_location;
 
     texture_cube1 = new QOpenGLTexture(QOpenGLTexture::Target2D);
     texture_cube1->setMinMagFilters(QOpenGLTexture::Linear, QOpenGLTexture::Linear);
@@ -2812,7 +2814,7 @@ void GLWidget::initializeGL()
 
 void GLWidget::resizeGL(int w, int h)
 {
-    qDebug() << "resizeGL()";
+    qCDebug(powercad) << "resizeGL()";
 
     if (this->aspectRatio > 0.0)
     {

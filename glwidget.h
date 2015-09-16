@@ -16,42 +16,42 @@
 #ifndef GLWIDGET_H
 #define GLWIDGET_H
 
-#include <QOpenGLWidget>
+#include <QColor>
+#include <QDateTime>
+#include <QEvent>
+#include <QFont>
+#include <QFontMetrics>
+#include <QFileDialog>
+#include <QImage>
+#include <QInputDialog>
+#include <QMatrix3x3>
+#include <QMatrix4x4>
+#include <QMessageBox>
+#include <QOpenGLBuffer>
 #include <QOpenGLContext>
 #include <QOpenGLFramebufferObject>
 #include <QOpenGLFunctions_4_3_Compatibility>
 #include <QOpenGLPaintDevice>
-
-#include <QOpenGLVertexArrayObject>
-#include <QOpenGLBuffer>
 #include <QOpenGLShader>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
 #include <QOpenGLTimerQuery>
-
-#include <QDebug>
-#include <QEvent>
+#include <QOpenGLVertexArrayObject>
+#include <QOpenGLWidget>
+#include <QPainter>
 #include <QPaintEvent>
-#include <QMatrix3x3>
-#include <QMatrix4x4>
-#include <QMessageBox>
-#include <QFont>
-#include <QFontMetrics>
+#include <QRgb>
 #include <QSettings>
 #include <QTimer>
-#include <QColor>
-#include <QRgb>
-#include <QImage>
-#include <QPainter>
-#include <QFileDialog>
-#include <QDateTime>
-#include <QInputDialog>
+
+#include <QLoggingCategory>
+Q_DECLARE_LOGGING_CATEGORY(fcIo)
 
 #include <qmath.h>
 
 #include "itemdb.h"
-#include "itemwizard.h"
 #include "itemgripmodifier.h"
+#include "itemwizard.h"
 
 
 class GLWidget : public QOpenGLWidget, public QOpenGLFunctions_4_3_Compatibility
