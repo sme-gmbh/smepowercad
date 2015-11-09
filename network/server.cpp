@@ -22,8 +22,8 @@ Server::Server(ItemDB *itemDB, QObject *parent) :
 {
     this->itemDB = itemDB;
 
-    connect(&tcpServer, SIGNAL(newConnection()),  this, SLOT(slot_new_connection()));
-    tcpServer.listen(QHostAddress::Any, 16001);
+//    connect(&tcpServer, SIGNAL(newConnection()),  this, SLOT(slot_new_connection()));
+//    tcpServer.listen(QHostAddress::Any, 16001);
 }
 
 Server::~Server()
@@ -34,7 +34,7 @@ Server::~Server()
 void Server::incomingConnection(qintptr descriptor)
 {
     qCDebug(server) << this << "incoming connection:" << descriptor;
-    TcpConnection *connection = new TcpConnection();
+    SPCPConnection *connection = new SPCPConnection();
 
     accept(descriptor, connection);
 }
@@ -53,13 +53,8 @@ void Server::slot_new_connection()
 
 void Server::slot_broadcast(QTcpSocket *fromClient, QByteArray data)
 {
-    foreach (TcpConnection *connection, m_connections) {
-//        connection->
-    }
-
-    foreach(QTcpSocket* socket, this->socket_list)
-    {
-        if (fromClient != socket)
+    foreach (QTcpSocket *socket, m_connections->getConnections().keys()) {
+        if (socket != fromClient)
             socket->write(data);
     }
 }

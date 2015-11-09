@@ -39,6 +39,11 @@ int TcpConnections::count()
     return value;
 }
 
+QMap<QTcpSocket *, TcpConnection *> TcpConnections::getConnections()
+{
+    return m_connections;
+}
+
 void TcpConnections::removeSocket(QTcpSocket *socket)
 {
     if (!socket) return;

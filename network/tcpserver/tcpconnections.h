@@ -34,6 +34,7 @@ public:
     ~TcpConnections();
 
     virtual int count();
+    virtual QMap<QTcpSocket*, TcpConnection*> getConnections();
 
 protected:
     QMap<QTcpSocket*, TcpConnection*> m_connections;

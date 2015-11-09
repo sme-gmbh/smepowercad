@@ -25,6 +25,7 @@
 #include <iostream>
 #include "clienthandler.h"
 #include "../itemdb.h"
+#include "spcpconnection.h"
 #include "tcpserver.h"
 
 Q_DECLARE_LOGGING_CATEGORY(server)
