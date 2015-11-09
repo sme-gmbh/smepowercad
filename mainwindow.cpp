@@ -54,6 +54,10 @@ MainWindow::MainWindow(QWidget *parent) :
     // **** Item Catalog ****
     itemCatalog = new ItemCatalog(itemDB, itemWizard, this);
     this->addDockWidget(Qt::LeftDockWidgetArea, this->itemCatalog);
+    ui->menuFenster->addSeparator();
+    QAction *action_itemCatalog = itemCatalog->toggleViewAction();
+    ui->menuFenster->addAction(action_itemCatalog);
+    ui->menuFenster->addSeparator();
 //    this->itemCatalog->hide();
 
     // **** Item Grip Modifier ****
@@ -453,13 +457,13 @@ void MainWindow::slot_file_open_dxf(QString filename)
 
 void MainWindow::slot_file_open_dxf_with_libdxfrw(QString filename)
 {
-    QByteArray filename_array = filename.toUtf8();
-    char* filename_data = filename_array.data();
-    dxfRW reader(filename_data);
-    DxfReaderInterface* dxfReaderInterface = new DxfReaderInterface(this->itemDB);
-    reader.read(dxfReaderInterface, true);
+//    QByteArray filename_array = filename.toUtf8();
+//    char* filename_data = filename_array.data();
+//    dxfRW reader(filename_data);
+//    DxfReaderInterface* dxfReaderInterface = new DxfReaderInterface(this->itemDB);
+//    reader.read(dxfReaderInterface, true);
 
-    delete dxfReaderInterface;
+//    delete dxfReaderInterface;
 }
 
 void MainWindow::slot_file_open_xml(QString filename)
