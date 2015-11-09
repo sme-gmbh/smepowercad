@@ -155,7 +155,12 @@ MainWindow::MainWindow(QWidget *parent) :
     updateRecentFileActions();
 
     // **** Network server ****
-    this->server = new Server(itemDB, this);
+    server = new Server(itemDB, this);
+    if (server->listen(QHostAddress::Any, 2000)) {
+        qCDebug(powercad) << "server started";
+    } else {
+        qCWarning(powercad) << server->errorString();
+    }
 
     // **** 3D mouse ****
 #ifdef USE_3D_MOUSE
