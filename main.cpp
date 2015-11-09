@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
     QLoggingCategory::setFilterRules("*.debug=true\n"
                                      "qt.qpa.input*.debug=false\n"
                                      "qt.widgets.gestures*.debug=false\n");
+    qSetMessagePattern("[%{time yyyyMMdd h:mm:ss.zzz}] %{if-debug}D%{endif}%{if-info}I%{endif}%{if-warning}W%{endif}%{if-critical}C%{endif}%{if-fatal}F%{endif} %{file}:%{line} - %{message}");
 
     // Qt 5 specific opengl settings
     QSurfaceFormat format;
