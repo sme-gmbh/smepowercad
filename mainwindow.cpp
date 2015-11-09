@@ -156,8 +156,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // **** Network server ****
     server = new Server(itemDB, this);
-    if (server->listen(QHostAddress::Any, 2000)) {
-        qCDebug(powercad) << "server started";
+    if (server->listen(QHostAddress::Any, 16001)) {
+        qCDebug(powercad) << "server listening on 0.0.0.0 port=" << 16001;
     } else {
         qCWarning(powercad) << server->errorString();
     }
