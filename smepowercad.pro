@@ -34,6 +34,10 @@ RCC_DIR = .rcc/
 
 LIBS += -lGLU -lX11 -ldxfrw
 
+# Include subprojects
+include($$PWD/network/network.pri)
+
+
 TRANSLATIONS =  lang/powercad-de_DE.ts \
                 lang/powercad-ru_RU.ts
 
@@ -160,8 +164,6 @@ SOURCES += main.cpp\
     items/cad_basic_pipe.cpp \
     items/cad_basic_turn.cpp \
     math/m3dboundingbox.cpp \
-    network/server.cpp \
-    network/clienthandler.cpp \
     items/cad_basic_duct.cpp \
     items/cad_arch_boredPile.cpp \
     items/cad_arch_grating.cpp \
@@ -306,10 +308,7 @@ SOURCES += main.cpp\
     items/cad_cleanroom_ceilinggridfeedthrough.cpp \
     items/cad_cleanroom_floorpanelwithbushingrect.cpp \
     items/cad_cleanroom_floorpanelwithbushinground.cpp \
-    itemcatalog.cpp \
-    network/tcpserver.cpp \
-    network/tcpconnection.cpp \
-    network/tcpconnections.cpp
+    itemcatalog.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -430,8 +429,6 @@ HEADERS  += mainwindow.h \
     items/cad_basic_pipe.h \
     items/cad_basic_turn.h \
     math/m3dboundingbox.h \
-    network/server.h \
-    network/clienthandler.h \
     items/cad_basic_duct.h \
     items/cad_arch_boredPile.h \
     items/cad_arch_grating.h \
@@ -578,10 +575,7 @@ HEADERS  += mainwindow.h \
     items/cad_cleanroom_floorpanelwithbushingrect.h \
     items/cad_cleanroom_floorpanelwithbushinground.h \
     itemcatalog.h \
-    logging.h \
-    network/tcpserver.h \
-    network/tcpconnection.h \
-    network/tcpconnections.h
+    logging.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

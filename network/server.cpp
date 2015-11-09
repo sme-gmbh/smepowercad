@@ -53,6 +53,10 @@ void Server::slot_new_connection()
 
 void Server::slot_broadcast(QTcpSocket *fromClient, QByteArray data)
 {
+    foreach (TcpConnection *connection, m_connections) {
+//        connection->
+    }
+
     foreach(QTcpSocket* socket, this->socket_list)
     {
         if (fromClient != socket)
