@@ -16,6 +16,7 @@
 #ifndef ITEMDB_H
 #define ITEMDB_H
 
+#include <QLoggingCategory>
 #include <QByteArray>
 #include <QDomDocument>
 #include <QDataStream>
@@ -33,6 +34,8 @@
 #include "caditemheaderincludes.h"
 #include "caditemtypes.h"
 #include "restorepoint.h"
+
+Q_DECLARE_LOGGING_CATEGORY(itemdb)
 
 class ItemDB : public QObject
 {

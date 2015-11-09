@@ -1,5 +1,5 @@
 /**********************************************************************
-** smepowercad
+** smeitemdb
 ** Copyright (C) 2015 Smart Micro Engineering GmbH
 ** This program is free software: you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 
 #include "itemdb.h"
 
-#include "logging.h"
+Q_LOGGING_CATEGORY(itemdb, "powercad.itemdb")
 
 ItemDB::ItemDB(QObject *parent) :
     QObject(parent)
@@ -52,14 +52,14 @@ void ItemDB::deriveDomainsAndItemTypes()
         if (item == NULL)
         {
             QString enumName = CADitemTypes().getEnumNameOfItemType((CADitemTypes::ItemType)type);
-            qCDebug(powercad) << "itemDB: createItem returned NULL; itemtype:" << type << enumName << "not implemented";
+            qCDebug(itemdb) << "createItem returned NULL; itemtype:" << type << enumName << "not implemented";
             type++;
             continue;
         }
         else
         {
             QString enumName = CADitemTypes().getEnumNameOfItemType((CADitemTypes::ItemType)type);
-            qCDebug(powercad) << "ItemDB::deriveDomainsAndItemTypes()" << enumName;
+            qCDebug(itemdb) << "ItemDB::deriveDomainsAndItemTypes()" << enumName;
         }
 
         itemTypesByDomain.insertMulti(item->domain(), (int)type);
@@ -72,7 +72,7 @@ void ItemDB::deriveDomainsAndItemTypes()
 
     this->domains = itemTypesByDomain.uniqueKeys();
 
-    qCDebug(powercad) << "Item Type Count:" << itemTypesByDomain.count();
+    qCDebug(itemdb) << "Item Type Count:" << itemTypesByDomain.count();
 }
 
 int ItemDB::getNumberOfItemTypes()
@@ -291,7 +291,7 @@ void ItemDB::addItem(CADitem *item, Layer *layer)
 {
     if (layer == NULL)
     {
-        qCDebug(powercad) << "ItemDB::addItem(): layer is NULL.";
+        qCDebug(itemdb) << "ItemDB::addItem(): layer is NULL.";
         return;
     }
 
@@ -1066,7 +1066,7 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
 
     default:
     {
-        qCDebug(powercad) << "ItemDB::drawItem(): unknown item type.";
+        qCDebug(itemdb) << "ItemDB::drawItem(): unknown item type.";
         return NULL;
     }
         break;
@@ -1079,13 +1079,13 @@ CADitem* ItemDB::drawItem(Layer* layer, CADitemTypes::ItemType type)
 {
     if (layer == NULL)
     {
-        qCDebug(powercad) << "ItemDB::drawItem(): layer is NULL.";
+        qCDebug(itemdb) << "ItemDB::drawItem(): layer is NULL.";
         return NULL;
     }
 
     if (type == CADitemTypes::None)
     {
-        qCDebug(powercad) << "ItemDB::drawItem(): Tried to create a CADitemTypes::None.";
+        qCDebug(itemdb) << "ItemDB::drawItem(): Tried to create a CADitemTypes::None.";
         return NULL;
     }
 
@@ -1515,7 +1515,7 @@ QByteArray ItemDB::network_deleteItem(quint64 id)
 bool ItemDB::file_storeDB(QString filename, QMatrix4x4 matrix_projection, QMatrix4x4 matrix_glSelect, QMatrix4x4 matrix_modelview, QMatrix4x4 matrix_rotation)
 {
     QDomDocument document;
-    QDomElement root = document.createElement("SmePowerCadProject");
+    QDomElement root = document.createElement("SmeitemdbProject");
     document.appendChild(root);
     root.setAttribute("Version", QString("Build ") + QString(__DATE__) + " " + QString(__TIME__));
 
@@ -1673,7 +1673,7 @@ bool ItemDB::file_loadDB(QString filename, QString* error, QMatrix4x4 *matrix_pr
     QString currentVersion = QString("Build ") + QString(__DATE__) + " " + QString(__TIME__);
 
     QDomElement root = document.documentElement();
-    if (root.tagName() != "SmePowerCadProject")
+    if (root.tagName() != "SmeitemdbProject")
     {
         file.close();
         *error = tr("Root-Node has wrong tagName: ") + root.tagName();
@@ -1821,7 +1821,7 @@ void ItemDB::file_loadDB_parseDomElement(QDomElement element, Layer *currentLaye
                 break;
             }
             default:
-                qCDebug(powercad) << "ItemDB::file_loadDB_parseDomElement() Unhandled value type:" << item->wizardParams.value(key).type();
+                qCDebug(itemdb) << "ItemDB::file_loadDB_parseDomElement() Unhandled value type:" << item->wizardParams.value(key).type();
                 break;
             }
         }
