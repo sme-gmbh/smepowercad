@@ -306,7 +306,10 @@ SOURCES += main.cpp\
     items/cad_cleanroom_ceilinggridfeedthrough.cpp \
     items/cad_cleanroom_floorpanelwithbushingrect.cpp \
     items/cad_cleanroom_floorpanelwithbushinground.cpp \
-    itemcatalog.cpp
+    itemcatalog.cpp \
+    network/tcpserver.cpp \
+    network/tcpconnection.cpp \
+    network/tcpconnections.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -575,7 +578,10 @@ HEADERS  += mainwindow.h \
     items/cad_cleanroom_floorpanelwithbushingrect.h \
     items/cad_cleanroom_floorpanelwithbushinground.h \
     itemcatalog.h \
-    logging.h
+    logging.h \
+    network/tcpserver.h \
+    network/tcpconnection.h \
+    network/tcpconnections.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

@@ -16,6 +16,7 @@
 #ifndef SERVER_H
 #define SERVER_H
 
+#include <QLoggingCategory>
 #include <QObject>
 #include <QtNetwork>
 #include <QTcpServer>
@@ -24,13 +25,19 @@
 #include <iostream>
 #include "clienthandler.h"
 #include "../itemdb.h"
+#include "tcpserver.h"
 
+Q_DECLARE_LOGGING_CATEGORY(server)
 
-class Server : public QObject
+class Server : public TcpServer
 {
     Q_OBJECT
 public:
     explicit Server(ItemDB* itemDB, QObject *parent = 0);
+    ~Server();
+
+protected:
+    virtual void incomingConnection(qintptr descriptor);
 
 private:
     QTcpServer tcpServer;

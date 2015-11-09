@@ -15,13 +15,28 @@
 
 #include "server.h"
 
+Q_LOGGING_CATEGORY(server, "powercad.network.server")
+
 Server::Server(ItemDB *itemDB, QObject *parent) :
-    QObject(parent)
+    TcpServer(parent)
 {
     this->itemDB = itemDB;
 
     connect(&tcpServer, SIGNAL(newConnection()),  this, SLOT(slot_new_connection()));
     tcpServer.listen(QHostAddress::Any, 16001);
+}
+
+Server::~Server()
+{
+
+}
+
+void Server::incomingConnection(qintptr descriptor)
+{
+    qCDebug(server) << this << "incoming connection:" << descriptor;
+    TcpConnection *connection = new TcpConnection();
+
+    accept(descriptor, connection);
 }
 
 void Server::slot_new_connection()
