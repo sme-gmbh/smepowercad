@@ -38,11 +38,7 @@ ItemCatalog::~ItemCatalog()
 void ItemCatalog::initialize()
 {
     QList<QString> domains = this->itemDB->getDomains();
-
-    foreach(QString domain, domains)
-    {
-        ui->comboBox_domain->addItem(domain);
-    }
+    ui->comboBox_domain->addItems(domains);
 
     if (domains.size() > 0)
     {
