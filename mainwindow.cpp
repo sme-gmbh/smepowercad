@@ -760,6 +760,7 @@ void MainWindow::on_actionSettings_triggered()
 
 void MainWindow::on_actionServer_triggered(bool checked)
 {
+    Q_UNUSED(checked)
     // Switch Server function on or off
 
 }
