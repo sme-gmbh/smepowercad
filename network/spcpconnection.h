@@ -17,7 +17,9 @@
 #define SPCPCONNECTION_H
 
 #include <QLoggingCategory>
+#include <QStringList>
 #include "tcpconnection.h"
+#include "itemdb.h"
 
 Q_DECLARE_LOGGING_CATEGORY(spcpconnection)
 
@@ -25,10 +27,14 @@ class SPCPConnection : public TcpConnection
 {
     Q_OBJECT
 public:
-    explicit SPCPConnection(QObject *parent = 0);
+    explicit SPCPConnection(ItemDB *itemdb, QObject *parent = 0);
     ~SPCPConnection();
 
+private:
+    ItemDB *m_itemdb;
+
 signals:
+    void broadcast(QTcpSocket *fromClient, QByteArray data);
 
 public slots:
     virtual void connected();
