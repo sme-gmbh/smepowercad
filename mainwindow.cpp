@@ -334,6 +334,10 @@ MainWindow::~MainWindow()
     magellanThread->terminate();
     delete magellanThread;
 #endif
+    collisionDetection->terminate();
+    delete collisionDetection;
+    server->close();
+    delete server;
     //    delete layerManager;
     //    delete itemDB;
     //    delete settingsDialog;
