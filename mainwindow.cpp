@@ -179,25 +179,25 @@ MainWindow::MainWindow(QWidget *parent) :
 //    Layer* layer = itemDB->addLayer("Testlayer");
 //    layer->pen.setColor(Qt::gray);
 //    layer->brush.setColor(Qt::white);
-//    layer->lineType = "Continuos";
+//    layer->lineType = "Continuous";
 //    layer->width = 1;
 
     Layer* layerX = itemDB->addLayer("X");
     layerX->pen.setColor(Qt::gray);
     layerX->brush.setColor(QColor(0xff, 0xff, 0xff));
-    layerX->lineType = "Continuos";
+    layerX->lineType = "Continuous";
     layerX->width = 1;
 
 //    Layer* layerY = itemDB->addLayer("Y");
 //    layerY->pen.setColor(Qt::gray);
 //    layerY->brush.setColor(Qt::green);
-//    layerY->lineType = "Continuos";
+//    layerY->lineType = "Continuous";
 //    layerY->width = 1;
 
 //    Layer* layerZ = itemDB->addLayer("Z");
 //    layerZ->pen.setColor(Qt::gray);
 //    layerZ->brush.setColor(Qt::blue);
-//    layerZ->lineType = "Continuos";
+//    layerZ->lineType = "Continuous";
 //    layerZ->width = 1;
 
 
