@@ -73,15 +73,6 @@ GLWidget::~GLWidget()
 {
 //    qCDebug(powercad) << "GLWidget destroyed";
     makeCurrent();
-    openGLTimerQuery->destroy();
-    shaderProgram->release();
-    shaderProgram->removeAllShaders();
-    texture_cube1->destroy();
-    texture_cube2->destroy();
-    texture_cube3->destroy();
-    texture_cube4->destroy();
-    texture_cube5->destroy();
-    texture_cube6->destroy();
     delete fbo_select;
     delete fbo_renderImage;
     delete openGLTimerQuery;
