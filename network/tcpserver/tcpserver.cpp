@@ -24,6 +24,9 @@ TcpServer::TcpServer(QObject *parent) : QTcpServer(parent)
 
 TcpServer::~TcpServer()
 {
+    m_thread->quit();
+    m_thread->wait();
+    delete m_thread;
     qCDebug(tcpconnection) << this << "destroyed";
 }
 
