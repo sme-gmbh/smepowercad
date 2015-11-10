@@ -45,7 +45,6 @@
 #include <QTimer>
 
 #include <QLoggingCategory>
-Q_DECLARE_LOGGING_CATEGORY(fcIo)
 
 #include <qmath.h>
 
@@ -53,6 +52,7 @@ Q_DECLARE_LOGGING_CATEGORY(fcIo)
 #include "itemgripmodifier.h"
 #include "itemwizard.h"
 
+Q_DECLARE_LOGGING_CATEGORY(glwidget)
 
 class GLWidget : public QOpenGLWidget, public QOpenGLFunctions_4_3_Compatibility
 {
