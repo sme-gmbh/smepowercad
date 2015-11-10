@@ -185,7 +185,7 @@ MainWindow::MainWindow(QWidget *parent) :
     Layer* layerX = itemDB->addLayer("X");
     layerX->pen.setColor(Qt::gray);
     layerX->brush.setColor(QColor(0xff, 0xff, 0xff));
-    layerX->lineType = "Continuous";
+    layerX->lineType = Layer::Continuous;
     layerX->width = 1;
 
 //    Layer* layerY = itemDB->addLayer("Y");

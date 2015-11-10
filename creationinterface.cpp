@@ -66,7 +66,8 @@ void CreationInterface::addLayer(const DL_LayerData& data) {
     Layer* layer = itemDB->addLayer(QString(data.name.c_str()));
     layer->pen.setColor(getColorFromDXFcolorNumber(attributes.getColor()));
     layer->brush.setColor(getColorFromDXFcolorNumber(attributes.getColor()));
-    layer->lineType = QString(attributes.getLineType().c_str());
+    layer->lineType = (Layer::LineType)layer->metaEnum_lineType.keysToValue(attributes.getLineType().data());
+//    layer->lineType = QString(attributes.getLineType().c_str());
     layer->width = attributes.getWidth();
 
     // TODO: handle flags and all attributes

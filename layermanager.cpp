@@ -207,7 +207,7 @@ void LayerManager::updateLayer(Layer *layer)
     colorPixmap.fill(layer->pen.color());
     item->setIcon(5, QIcon(colorPixmap));
     item->setText(6, QString().sprintf("%i", layer->width));
-    item->setText(7, layer->lineType);
+    item->setText(7, layer->metaEnum_lineType.valueToKey(layer->lineType));
 }
 
 Layer *LayerManager::getCurrentLayer()
@@ -358,7 +358,12 @@ void LayerManager::slot_edit_layerLineWidth()
 void LayerManager::slot_edit_layerLineType()
 {
     Layer* layer = layerMap.key(item_atContextMenuRequest);
-    QString lineType = QInputDialog::getText(this, tr("Linetype of Layer"), tr("New Linetype"), QLineEdit::Normal, layer->lineType);
+    QStringList items = QStringList();
+    for (int i = 0; i < layer->metaEnum_lineType.keyCount(); i++) {
+        items.append(layer->metaEnum_lineType.key(i));
+    }
+    Layer::LineType lineType = (Layer::LineType)items.indexOf(QInputDialog::getItem(this, tr("Linetype of Layer"), tr("New Linetype"), items, layer->lineType, false));
+//    QString lineType = QInputDialog::getText(this, tr("Linetype of Layer"), tr("New Linetype"), QLineEdit::Normal, layer->lineType);
     itemDB->setLayerLineType(layer, lineType);
 }
 

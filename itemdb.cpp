@@ -225,7 +225,7 @@ void ItemDB::setLayerLineWidth(Layer *layer, int newLineWidth)
     emit signal_DBstatusModified();
 }
 
-void ItemDB::setLayerLineType(Layer *layer, QString newLineType)
+void ItemDB::setLayerLineType(Layer *layer, Layer::LineType newLineType)
 {
     if (layer == NULL)
         return;
@@ -1376,7 +1376,7 @@ QByteArray ItemDB::network_modifyLayer(QMap<QString, QString> data)
     }
     if (data.contains("lineType"))
     {
-        layer->lineType = data.value("lineType");
+        layer->lineType = (Layer::LineType)data.value("lineType").toInt();
         repaintNeeded = true;
     }
     if (data.contains("name"))
@@ -1777,7 +1777,7 @@ void ItemDB::file_loadDB_parseDomElement(QDomElement element, Layer *currentLaye
         newLayer->brush.setColor(QColor(element.attribute("FillColor")));
         newLayer->pen.setColor(QColor(element.attribute("OutlineColor")));
         newLayer->width = element.attribute("LineWidth").toDouble();
-        newLayer->lineType = element.attribute("LineType");
+        newLayer->lineType = (Layer::LineType)element.attribute("LineType").toInt();
         currentLayer = newLayer;
     }
     else if (tagName.startsWith('I'))

@@ -22,10 +22,13 @@ Layer::Layer(QObject *parent) :
     solo = false;
     writable = true;
     width = 0;
-    lineType.clear();
+    lineType = Undefined;
     parentLayer = NULL;
 //    pen = Qt::transparent
 //    brush = QBrush(QColor(255, 255, 255));
+
+    const QMetaObject *mo = metaObject();
+    metaEnum_lineType = mo->enumerator(mo->indexOfEnumerator("LineType"));
 }
 
 bool Layer::isEmpty()
@@ -38,7 +41,7 @@ bool Layer::isEmpty()
 
 void Layer::serialOut(QByteArray *out)
 {
-    *out += "Layer;" + name.toUtf8() + ";" + pen.color().name().toUtf8() + ";" + brush.color().name().toUtf8() + ";" + QByteArray().setNum(width) + ";" + lineType.toUtf8();
+    *out += "Layer;" + name.toUtf8() + ";" + pen.color().name().toUtf8() + ";" + brush.color().name().toUtf8() + ";" + QByteArray().setNum(width) + ";" + metaEnum_lineType.valueToKey(lineType);
     if (parentLayer)
         *out += ";" + parentLayer->name.toUtf8();
     *out += "\n";

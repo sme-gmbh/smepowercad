@@ -65,7 +65,7 @@ public:
     bool renameLayer(QString layerName, QString newLayerName);
     bool renameLayer(Layer* layer, QString newLayerName);
     void setLayerLineWidth(Layer* layer, int newLineWidth);
-    void setLayerLineType(Layer* layer, QString newLineType);
+    void setLayerLineType(Layer* layer, Layer::LineType newLineType);
     bool deleteLayer(Layer* layer);
     Layer* getLayerByName(QString layerName);
     Layer* getTopLevelLayer();

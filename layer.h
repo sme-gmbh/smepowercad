@@ -21,6 +21,7 @@
 #include <QPen>
 #include <QObject>
 #include <QString>
+#include <QMetaEnum>
 
 #include "caditem.h"
 
@@ -28,6 +29,9 @@ class Layer : public QObject
 {
     Q_OBJECT
 public:
+    enum LineType { Undefined, Continuous, Dashed, Dotted };
+    Q_ENUMS(LineType)
+
     explicit Layer(QObject *parent = 0);
     bool isEmpty();
 
@@ -38,10 +42,12 @@ public:
     bool solo;
     bool writable;
     int width;
-    QString lineType;
+//    QString lineType;
+    LineType lineType;
     QList<CADitem*> items;
     QList<Layer*> subLayers;
     Layer* parentLayer;
+    QMetaEnum metaEnum_lineType;
 
     void serialOut(QByteArray *out);
     void serialIn(QByteArray *in);
