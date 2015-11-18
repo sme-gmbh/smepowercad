@@ -1,5 +1,4 @@
-lang/*.qm
 *.pro.user*
 *.pro.user
+*.qm
 *~
-
