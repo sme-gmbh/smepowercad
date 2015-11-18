@@ -57,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QAction *action_itemCatalog = itemCatalog->toggleViewAction();
     ui->menuFenster->addAction(action_itemCatalog);
     ui->menuFenster->addSeparator();
-//    this->itemCatalog->hide();
+    this->itemCatalog->hide();
 
     // **** Item Grip Modifier ****
     itemGripModifier = new ItemGripModifier(m_itemDB, itemWizard, this);
