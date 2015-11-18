@@ -1574,9 +1574,9 @@ void GLWidget::paintGL()
         QString itemDescription = "[" + this->itemGripModifier->getItemDescription() + "]";
         QVector3D pos = this->itemGripModifier->getScenePosSource();
         QString itemPosition_from = QString().sprintf(" @{%.3lf|%.3lf|%.3lf}", pos.x(), pos.y(), pos.z());
-        infoText = "Move " + itemDescription + itemPosition_from;
+        infoText = tr("Move %1%2").arg(itemDescription).arg(itemPosition_from);
         if (snapMode != SnapNo)
-            infoText += " to\n";
+            infoText += " " + tr("to") + "\n";
         focusRect.moveCenter(this->mousePos);
     }
     if ((this->itemGripModifier != NULL) && (this->itemGripModifier->getActiveGrip() == ItemGripModifier::Grip_Copy))
@@ -1584,9 +1584,9 @@ void GLWidget::paintGL()
         QString itemDescription = "[" + this->itemGripModifier->getItemDescription() + "]";
         QVector3D pos = this->itemGripModifier->getScenePosSource();
         QString itemPosition_from = QString().sprintf(" @{%.3lf|%.3lf|%.3lf}", pos.x(), pos.y(), pos.z());
-        infoText = "Copy " + itemDescription + itemPosition_from;
+        infoText = tr("Copy %1%2").arg(itemDescription).arg(itemPosition_from);
         if (snapMode != SnapNo)
-            infoText += " to\n";
+            infoText += " " + tr("to") + "\n";
         focusRect.moveCenter(this->mousePos);
     }
 
@@ -1635,16 +1635,16 @@ void GLWidget::paintGL()
             break;
         case SnapFlange:
         {
-            infoText.append("Flange ");
+            infoText.append(tr("Flange") + " ");
             int flangeIndex = item_lastHighlight->snap_flanges.indexOf(snapPos_scene) + 1;
             infoText.append(QString().setNum(flangeIndex));
             break;
         }
         case SnapEndpoint:
-            infoText.append("Endpoint/Vertex");
+            infoText.append(tr("Endpoint/Vertex"));
             break;
         case SnapCenter:
-            infoText.append("Center");
+            infoText.append(tr("Center"));
             break;
         case SnapNo:
             break;
@@ -1652,7 +1652,7 @@ void GLWidget::paintGL()
 
         QString itemDescription = "[" + item_lastHighlight->description() + "]";
         QString itemPosition = QString().sprintf(" @{%.3lf|%.3lf|%.3lf}", this->snapPos_scene.x(), this->snapPos_scene.y(), this->snapPos_scene.z());
-        infoText += " of " + itemDescription + itemPosition;
+        infoText += " " + tr("of") + " " + itemDescription + itemPosition;
     }
 
     if (!infoText.isEmpty())

@@ -154,8 +154,44 @@ Deletion aborted.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../glwidget.cpp" line="1577"/>
+        <source>Move %1%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../glwidget.cpp" line="1579"/>
+        <location filename="../glwidget.cpp" line="1589"/>
+        <source>to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../glwidget.cpp" line="1587"/>
+        <source>Copy %1%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../glwidget.cpp" line="1634"/>
         <source>Basepoint</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../glwidget.cpp" line="1638"/>
+        <source>Flange</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../glwidget.cpp" line="1644"/>
+        <source>Endpoint/Vertex</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../glwidget.cpp" line="1647"/>
+        <source>Center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../glwidget.cpp" line="1655"/>
+        <source>of</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
