@@ -424,7 +424,7 @@ void GLWidget::render_image(QPainter* painter, int x, int y, int size_x, int siz
             glClearColor(1.0, 1.0, 1.0, 1.0);   // white background
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            paintContent(itemDB->layers);
+            paintContent(itemDB->getLayerList());
             QImage image_tile = fbo_renderImage->toImage(true);
 
             painter->drawImage(x + tile_pos_x, y + tile_pos_y, image_tile);
@@ -848,9 +848,9 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
 
     foreach (CADitem* item, this->selection_itemList)
     {
-        if (!item->layer->on)
+        if (!item->layer->isOn)
             itemsOff++;
-        if (!item->layer->writable)
+        if (!item->layer->isWriteable)
             itemsLocked++;
     }
 
@@ -915,13 +915,13 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         {
             if (!(item_lastHighlight == NULL))
             {
-                if (!item_lastHighlight->layer->on)
+                if (!item_lastHighlight->layer->isOn)
                 {
                     QMessageBox::critical(this, tr("Rotating item"), tr("The item to be rotated is on an inactive layer.\nRotation aborted."));
                     event->accept();
                     return;
                 }
-                if (!item_lastHighlight->layer->writable)
+                if (!item_lastHighlight->layer->isWriteable)
                 {
                     QMessageBox::critical(this, tr("Rotating item"), tr("The item to be rotated is on a locked layer.\nRotation aborted."));
                     event->accept();
@@ -1244,7 +1244,7 @@ void GLWidget::paintGL()
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_ALPHA_TEST);
 
-    paintContent(itemDB->layers);   // After this: TRIANGLE SHADER IS ACTIVE!
+    paintContent(itemDB->getLayerList());   // After this: TRIANGLE SHADER IS ACTIVE!
     // Overlay
     shaderProgram = shaderProgram_overlay;
     shaderProgram->bind();
@@ -1875,7 +1875,7 @@ void GLWidget::paintTextInfoBox(QPainter* painter, QPoint pos, QString text, Box
     painter->restore();
 }
 
-void GLWidget::paintContent(QList<Layer*> layers)
+void GLWidget::paintContent(LayerList layers)
 {
     bool render_outline_shadow = render_outline;
     bool render_solid_shadow = render_solid;
@@ -1938,26 +1938,26 @@ void GLWidget::paintContent(QList<Layer*> layers)
     shaderProgram->setUniformValue(shader_useClippingZLocation, (GLint)0);   // Enable Z-Clipping Plane
 }
 
-void GLWidget::paintLayers(QList<Layer *> layers)
+void GLWidget::paintLayers(LayerList layers)
 {
     foreach (Layer* layer, layers)
     {
         if ((itemDB->layerSoloActive) && (!layer->solo))
             continue;
 
-        if ((!layer->on) && (!layer->solo))
+        if ((!layer->isOn) && (!layer->solo))
             continue;
 
         // Set line width
         if (render_outline)
-            glLineWidth(layer->width);
+            glLineWidth(layer->lineWidth);
         else
             glLineWidth(1);
 
         // tbd.: Set line type
 
-        paintItems(layer->items, layer);
-        paintLayers(layer->subLayers);
+        paintItems(layer->getItems(), layer);
+        paintLayers(layer->getChildLayers());
     }
 }
 
@@ -2288,7 +2288,7 @@ QList<CADitem*> GLWidget::itemsAtPosition_v2(QPoint pos, int size_x, int size_y)
         render_outline = false;
     render_selection = true;
     selectItemsByColor = true;
-    paintContent(itemDB->layers);
+    paintContent(itemDB->getLayerList());
     selectItemsByColor = false;
     render_selection = false;
     this->render_outline = render_outline_shadow;
@@ -2328,7 +2328,7 @@ QList<CADitem*> GLWidget::itemsAtPosition_v2(QPoint pos, int size_x, int size_y)
     {
         if (!processedNames.contains(itemName))
         {
-            CADitem* item = itemsAtPosition_processLayers(itemDB->layers, itemName);
+            CADitem* item = itemsAtPosition_processLayers(itemDB->getLayerList(), itemName);
             foundItems.append(item);
             processedNames.append(itemName);
         }
@@ -2337,22 +2337,22 @@ QList<CADitem*> GLWidget::itemsAtPosition_v2(QPoint pos, int size_x, int size_y)
     return foundItems;
 }
 
-CADitem *GLWidget::itemsAtPosition_processLayers(QList<Layer *> layers, GLuint glName)
+CADitem *GLWidget::itemsAtPosition_processLayers(LayerList layers, GLuint glName)
 {
     foreach (Layer* layer, layers)
     {
-        if ((!layer->on) && (!layer->solo))
+        if ((!layer->isOn) && (!layer->solo))
             continue;
 
-        if (!layer->writable)
+        if (!layer->isWriteable)
             continue;
 
-        CADitem* item = itemsAtPosition_processItems(layer->items, glName);
+        CADitem* item = itemsAtPosition_processItems(layer->getItems(), glName);
         if (item)
             return item;
 
 
-        item = itemsAtPosition_processLayers(layer->subLayers, glName);
+        item = itemsAtPosition_processLayers(layer->getChildLayers(), glName);
         if (item)
             return item;
     }
@@ -2410,15 +2410,15 @@ void GLWidget::highlightItems(QList<CADitem *> items)
 void GLWidget::highlightClear()
 {
     this->item_lastHighlight = NULL;
-    highlightClear_processLayers(itemDB->layers);
+    highlightClear_processLayers(itemDB->getLayerList());
 }
 
-void GLWidget::highlightClear_processLayers(QList<Layer *> layers)
+void GLWidget::highlightClear_processLayers(LayerList layers)
 {
     foreach (Layer* layer, layers)
     {
-        highlightClear_processItems(layer->items);
-        highlightClear_processLayers(layer->subLayers);
+        highlightClear_processItems(layer->getItems());
+        highlightClear_processLayers(layer->getChildLayers());
     }
 }
 
@@ -2491,17 +2491,17 @@ void GLWidget::selectionRemoveSubItems(QList<CADitem *> items)
 
 void GLWidget::selectionClear()
 {
-    selectionClear_processLayers(itemDB->layers);
+    selectionClear_processLayers(itemDB->getLayerList());
     this->selection_itemList.clear();
     emit signal_selectionChanged(this->selection_itemList);
 }
 
-void GLWidget::selectionClear_processLayers(QList<Layer *> layers)
+void GLWidget::selectionClear_processLayers(LayerList layers)
 {
     foreach (Layer* layer, layers)
     {
-        selectionClear_processItems(layer->items);
-        selectionClear_processLayers(layer->subLayers);
+        selectionClear_processItems(layer->getItems());
+        selectionClear_processLayers(layer->getChildLayers());
     }
 }
 
@@ -2518,7 +2518,7 @@ void GLWidget::zoom_pan_showAll()
 {
     M3dBoundingBox boundingBox_scene;
     boundingBox_scene.reset();
-    zoom_pan_showAll_processLayers(itemDB->layers, &boundingBox_scene);
+    zoom_pan_showAll_processLayers(itemDB->getLayerList(), &boundingBox_scene);
 
     QList<QVector3D> vertices = boundingBox_scene.getVertices();
 
@@ -2566,12 +2566,12 @@ void GLWidget::zoom_pan_showAll()
 
 }
 
-void GLWidget::zoom_pan_showAll_processLayers(QList<Layer *> layers, M3dBoundingBox* boundingBox)
+void GLWidget::zoom_pan_showAll_processLayers(LayerList layers, M3dBoundingBox* boundingBox)
 {
     foreach (Layer* layer, layers)
     {
-        zoom_pan_showAll_processItems(layer->items, boundingBox);
-        zoom_pan_showAll_processLayers(layer->subLayers, boundingBox);
+        zoom_pan_showAll_processItems(layer->getItems(), boundingBox);
+        zoom_pan_showAll_processLayers(layer->getChildLayers(), boundingBox);
     }
 }
 

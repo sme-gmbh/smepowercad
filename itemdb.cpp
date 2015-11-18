@@ -1,5 +1,5 @@
 /**********************************************************************
-** smeitemdb
+** smepowercad
 ** Copyright (C) 2015 Smart Micro Engineering GmbH
 ** This program is free software: you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -17,183 +17,254 @@
 
 Q_LOGGING_CATEGORY(itemdb, "powercad.itemdb")
 
-ItemDB::ItemDB(QObject *parent) :
-    QObject(parent)
+ItemDB::ItemDB(QObject *parent)
+    : QAbstractItemModel(parent)
 {
-    currentItemId = 0;
-    topLevelLayer = new Layer(this);
-    topLevelLayer->name = "$$ToplevelLayer";
-    topLevelLayer->solo = true;
-    layers.append(topLevelLayer);
+    m_rootLayer = new Layer();
+    m_rootLayer->name = "$$ToplevelLayer";
+    m_rootLayer->solo = true;
     layerSoloActive = false;
 
-    this->activeDrawCommand = CADitemTypes::None;
-
-//    this->deriveDomainsAndItemTypes();
+    m_iconLayerOn = QPixmap(":/ui/layermanager/icons/check.svg").scaledToWidth(20, Qt::SmoothTransformation);
+    m_iconLayerOff = QPixmap(":/ui/layermanager/icons/hide_layer.svg").scaledToWidth(20, Qt::SmoothTransformation);
+    m_iconPencilOn = QPixmap(":/ui/layermanager/icons/pencil.svg").scaledToWidth(20, Qt::SmoothTransformation);
+    m_iconPencilOff = QPixmap(":/ui/layermanager/icons/pencil_off.svg").scaledToWidth(20, Qt::SmoothTransformation);
+    m_layerManagerColorIconBG = QPixmap(18, 18);
+    m_layerManagerColorIconBG.fill(Qt::white);
+    m_currentItemId = 0;
+    m_activeDrawCommandType = CADitemTypes::None;
 }
 
 ItemDB::~ItemDB()
 {
-    // TODO delete all layers incl. sublayers
+    delete m_rootLayer;
 }
 
-void ItemDB::deriveDomainsAndItemTypes()
+QVariant ItemDB::data(const QModelIndex &index, int role) const
 {
-    CADitem* item;
+    if (!index.isValid())
+        return QVariant();
 
-    int type = (int)CADitemTypes::None + 1;
+    Layer *layer = static_cast<Layer*>(index.internalPointer());
+    int col = index.column();
 
-    for (;;)
-    {
-        if (type == CADitemTypes::LastItem)
-            break;
+    if (role == Qt::DisplayRole) {
+        return layer->data(col);
+    } else if (role == Qt::DecorationRole) {
+        bool on = layer->data(col).toBool();
 
-        item = createItem((CADitemTypes::ItemType)type);
-        if (item == NULL)
-        {
-            QString enumName = CADitemTypes().getEnumNameOfItemType((CADitemTypes::ItemType)type);
-            qCDebug(itemdb) << "createItem returned NULL; itemtype:" << type << enumName << "not implemented";
-            type++;
-            continue;
+        if (col == 1) return (on ? m_iconLayerOn : m_iconLayerOff);
+        else if (col == 2) return (on ? m_iconPencilOn : m_iconPencilOff);
+        else if (col == 3) return (on ? m_iconLayerOn : m_iconLayerOff);
+        else if (col == 4) {
+            QPixmap pm = m_layerManagerColorIconBG.copy();
+            QPainter p(&pm);
+            p.setBrush(QBrush(layer->brush.color()));
+            p.drawRect(1, 1, 15, 15);
+            p.end();
+            return pm;
+        } else if (col == 5) {
+            QPixmap pm = m_layerManagerColorIconBG.copy();
+            QPainter p(&pm);
+            p.setBrush(QBrush(layer->pen.color()));
+            p.drawRect(1, 1, 15, 15);
+            p.end();
+            return pm;
         }
-        else
-        {
-            QString enumName = CADitemTypes().getEnumNameOfItemType((CADitemTypes::ItemType)type);
-            qCDebug(itemdb) << "ItemDB::deriveDomainsAndItemTypes()" << enumName;
-        }
+    } else if (role == Qt::BackgroundColorRole) {
+        bool on = layer->data(col).toBool();
 
-        itemTypesByDomain.insertMulti(item->domain(), (int)type);
-        iconPathByItemType.insert(type, item->iconPath());
-        itemDescriptionByItemType.insert(type, item->description());
-        itemTypeByItemDescription.insert(item->description(), type);
-        delete item;
-        type++;
+        if (col == 1) return (on ? QColor(0, 105, 0) : QColor(49, 49, 41));
+        else if (col == 2) return (on ? QColor(0, 105, 0) : QColor(49, 49, 41));
+        else if (col == 3) return (on ? QColor(200, 200, 0) : QColor(49, 49, 41));
+    } else if (role == Qt::UserRole +0) {
+        return layer->data(0);
+    }
+    return QVariant();
+}
+
+Qt::ItemFlags ItemDB::flags(const QModelIndex &index) const
+{
+    if (!index.isValid())
+        return 0;
+
+    return QAbstractItemModel::flags(index);
+}
+
+QVariant ItemDB::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
+        if (section == 0) {
+            return tr("Layer");
+        } else if (section == 3) {
+            return tr("S");
+        } else if (section == 4) {
+            return tr("Fill color");
+        } else if (section == 5) {
+            return tr("Outline color");
+        } else if (section == 6) {
+            return tr("Line width");
+        } else if (section == 7) {
+            return tr("Line type");
+        }
+    } else if (orientation == Qt::Horizontal && role == Qt::DecorationRole) {
+        if (section == 1) {
+            return QIcon(":/ui/layermanager/icons/layerOnHeader.svg");
+        } else if (section == 2) {
+            return QIcon(":/ui/layermanager/icons/layerLockHeader.svg");
+        }
     }
 
-    this->domains = itemTypesByDomain.uniqueKeys();
-
-    qCDebug(itemdb) << "Item Type Count:" << itemTypesByDomain.count();
+    return QVariant();
 }
 
-int ItemDB::getNumberOfItemTypes()
+QModelIndex ItemDB::index(int row, int column, const QModelIndex &parent) const
 {
-    return itemTypesByDomain.count();
-}
+    if (!hasIndex(row, column, parent))
+        return QModelIndex();
 
-QList<QString> ItemDB::getDomains()
-{
-    return domains;
-}
+    Layer *parentLayer;
 
-QList<int> ItemDB::getItemTypesByDomain(QString domain)
-{
-    return itemTypesByDomain.values(domain);
-}
-
-QString ItemDB::getItemDescriptionByItemType(CADitemTypes::ItemType type)
-{
-    return itemDescriptionByItemType.value((int)type);
-}
-
-CADitemTypes::ItemType ItemDB::getItemTypeByItemDescription(QString description)
-{
-    return (CADitemTypes::ItemType) itemTypeByItemDescription.value(description, CADitemTypes::None);
-}
-
-QString ItemDB::getIconPathByItemType(CADitemTypes::ItemType type)
-{
-    return iconPathByItemType.value((int)type);
-}
-
-QPixmap ItemDB::getIconByItemType(CADitemTypes::ItemType type, QSize size)
-{
-    QString filename = getIconPathByItemType(type);
-    if (QFile(filename).exists())
-    {
-        QSvgRenderer svgRenderer(filename);
-        QPixmap pixmap(size);
-        QPainter painter(&pixmap);
-        svgRenderer.render(&painter);
-        return pixmap;
-    }
+    if (!parent.isValid())
+        parentLayer = m_rootLayer;
     else
-    {
-        QPixmap pixmap(size);
-        pixmap.fill(Qt::yellow);
-        return pixmap;
-    }
+        parentLayer = static_cast<Layer*>(parent.internalPointer());
+
+    Layer *childLayer = parentLayer->child(row);
+    if (childLayer)
+        return createIndex(row, column, childLayer);
+
+    return QModelIndex();
 }
 
-Layer* ItemDB::addLayer(QString layerName, QString parentLayerName)
+QModelIndex ItemDB::parent(const QModelIndex &child) const
 {
-    // First: check if layer already exists
-    if (layerMap.contains(layerName))
-        return layerMap.value(layerName);
+    if (!child.isValid())
+        return QModelIndex();
 
-    // Second: Find parent layer
-    Layer* parentLayer = getLayerByName(parentLayerName);
-    if (parentLayer == NULL)
-        parentLayer = topLevelLayer;
+    Layer *childLayer = static_cast<Layer*>(child.internalPointer());
+    Layer *parentLayer = childLayer->parentLayer();
 
-    emit signal_DBstatusModified();
-    return addLayer(layerName, parentLayer);
+    if (parentLayer == m_rootLayer)
+        return QModelIndex();
+
+    return createIndex(parentLayer->row(), 0, parentLayer);
 }
 
-Layer *ItemDB::addLayer(QString layerName, Layer *parentLayer)
+int ItemDB::rowCount(const QModelIndex &parent) const
 {
-    if (parentLayer == NULL)
-        return NULL;
+    Layer *parentLayer;
+    if (parent.column() > 0)
+        return 0;
 
-    // First: check if layer already exists
-    if (layerMap.contains(layerName))
-        return layerMap.value(layerName);
+    if (!parent.isValid())
+        parentLayer = m_rootLayer;
+    else
+        parentLayer = static_cast<Layer*>(parent.internalPointer());
 
-    // Insert Layer in quickfind-map
-    Layer* newLayer = new Layer(this);
-    newLayer->name = layerName;
-    newLayer->parentLayer = parentLayer;
-    parentLayer->subLayers.append(newLayer);
-    layerMap.insert(layerName, newLayer);
+    return parentLayer->childCount();
+}
+
+int ItemDB::columnCount(const QModelIndex &parent) const
+{
+    if (parent.isValid())
+        return static_cast<Layer*>(parent.internalPointer())->columnCount();
+
+    return m_rootLayer->columnCount();
+}
+
+LayerList ItemDB::getLayerList()
+{
+    return m_rootLayer->getAllLayers();
+}
+
+Layer* ItemDB::addLayer(QString name, QString parentLayerName)
+{
+    Layer *parentLayer = m_rootLayer->findByName(parentLayerName);
+    if (!parentLayer)
+        parentLayer = m_rootLayer;
+
+    // emit dbstatus modified signal
+    return addLayer(name, parentLayer);
+}
+
+Layer* ItemDB::addLayer(QString name, Layer *parentLayer)
+{
+    if (!parentLayer) return NULL;
+
+    // First check if layer already exists
+    Layer *layer = m_rootLayer->findByName(name);
+    if (layer)
+        return layer;
+
+    QModelIndex parentIndex;
+    QModelIndexList indexList = this->match(index(0, 0, QModelIndex()), Qt::DisplayRole, parentLayer->name, 1, Qt::MatchRecursive);
+    if (indexList.count() >= 1)
+        parentIndex = indexList.first();
+    else
+        parentIndex = index(0, 0, QModelIndex());
+
+    beginInsertRows(QModelIndex(), parentLayer->childCount(), parentLayer->childCount());
+    Layer *newLayer = new Layer(parentLayer);
+    endInsertRows();
+    newLayer->name = name;
+
     emit signal_layerAdded(newLayer, parentLayer);
-    emit signal_DBstatusModified();
+    emit signal_dbStatusModified();
+    this->resetInternalData();
+    return newLayer;
+}
+
+Layer* ItemDB::insertLayer(QString name, const QModelIndex &parent, int at)
+{
+    Layer *parentLayer = static_cast<Layer*>(parent.internalPointer());
+
+    Layer *newLayer;
+    beginInsertRows(parent, at, 1);
+
+    if (!parent.isValid())
+        newLayer = addLayer(name);
+    else
+        newLayer = addLayer(name, parentLayer);
+
+    endInsertRows();
+
     return newLayer;
 }
 
 bool ItemDB::moveLayer(QString layerName, QString newParentLayerName, quint32 position)
 {
-    Layer* layer = getLayerByName(layerName);
-    if (layer == NULL)
-        return false;
-    if (layer == topLevelLayer)
+    Layer *layer = findLayerByName(layerName);
+    if (!layer)
         return false;
 
-    Layer* oldParentLayer = layer->parentLayer;
-    if (oldParentLayer == NULL)
+    if (layer == m_rootLayer)
         return false;
 
-    Layer* newParentLayer = getLayerByName(newParentLayerName);
-    if (newParentLayer == NULL)
+    Layer *oldParentLayer = layer->parentLayer();
+    if (!oldParentLayer)
         return false;
 
+    Layer *newParentLayer = findLayerByName(newParentLayerName);
+    if (!newParentLayer)
+        return false;
 
-
-
-    oldParentLayer->subLayers.removeOne(layer);
-    newParentLayer->subLayers.insert(position, layer);
-
-
+    oldParentLayer->removeChild(layer);
+    newParentLayer->insertChild(position, layer);
 
     emit signal_layerMoved(layer);
-    emit signal_DBstatusModified();
+    emit signal_dbStatusModified();
+
     return true;
 }
 
 bool ItemDB::renameLayer(QString layerName, QString newLayerName)
 {
-    Layer* layer = getLayerByName(layerName);
-    if (layer == NULL)
+    Layer *layer = findLayerByName(layerName);
+    if (!layer)
         return false;
-    if (layer == topLevelLayer)
+
+    if (layer == m_rootLayer)
         return false;
 
     return renameLayer(layer, newLayerName);
@@ -201,176 +272,214 @@ bool ItemDB::renameLayer(QString layerName, QString newLayerName)
 
 bool ItemDB::renameLayer(Layer *layer, QString newLayerName)
 {
-    if (layer == NULL)
+    if (!layer)
         return false;
+
     if (newLayerName.isEmpty())
         return false;
 
-    layerMap.remove(layer->name);
     layer->name = newLayerName;
-    layerMap.insert(layer->name, layer);
+
     emit signal_layerChanged(layer);
-    emit signal_DBstatusModified();
+    emit signal_dbStatusModified();
+
     return true;
-}
-
-void ItemDB::setLayerLineWidth(Layer *layer, int newLineWidth)
-{
-    if (layer == NULL)
-        return;
-
-    layer->width = newLineWidth;
-    emit signal_layerChanged(layer);
-    emit signal_repaintNeeded();
-    emit signal_DBstatusModified();
-}
-
-void ItemDB::setLayerLineType(Layer *layer, Layer::LineType newLineType)
-{
-    if (layer == NULL)
-        return;
-
-    layer->lineType = newLineType;
-    emit signal_layerChanged(layer);
-    emit signal_repaintNeeded();
-    emit signal_DBstatusModified();
 }
 
 bool ItemDB::deleteLayer(Layer *layer)
 {
-    Layer* parentLayer = layer->parentLayer;
-    if (parentLayer == NULL)
+    Layer *parentLayer = layer->parentLayer();
+    if (!parentLayer)
         return false;
 
     if (!layer->isEmpty())
         return false;
 
-    if (parentLayer->subLayers.removeOne(layer))
-    {
-        layerMap.remove(layer->name);
+    if (parentLayer->removeChild(layer)) {
         delete layer;
+
         emit signal_layerDeleted(layer);
-        emit signal_DBstatusModified();
+        emit signal_dbStatusModified();
+
         return true;
     }
-    else
+
+    return false;
+}
+
+bool ItemDB::deleteLayerAt(const QModelIndex &parent, const QModelIndex &index)
+{
+    qCDebug(itemdb) << parent << index;
+    if (!index.isValid())
         return false;
-}
 
-Layer* ItemDB::getLayerByName(QString layerName)
-{
-    if (layerName.isEmpty())
-        return topLevelLayer;
-    else
-        return layerMap.value(layerName, NULL);
-}
+    Layer *layer = static_cast<Layer*>(index.internalPointer());
+    Layer *parentLayer = layer->parentLayer();
+    if (!parentLayer)
+        return false;
 
-Layer* ItemDB::getTopLevelLayer()
-{
-    return topLevelLayer;
-}
+    if (!layer->isEmpty())
+        return false;
 
-bool ItemDB::isLayerValid(Layer *layer)
-{
-    if (layerMap.values().contains(layer))
+    beginRemoveRows(parent, index.row(), index.row());
+    if (parentLayer->removeChild(layer)) {
+        delete layer;
+        emit signal_layerDeleted(layer);
+        emit signal_dbStatusModified();
+        endRemoveRows();
         return true;
-    else
-        return false;
+    }
+    endRemoveRows();
+
+    return false;
 }
 
-void ItemDB::addItem(CADitem* item, QString LayerName)
+QString ItemDB::getIconPathByItemType(CADitemTypes::ItemType type)
 {
-    Layer* layer = getLayerByName(LayerName);
-    if (layer == NULL)
-        layer = topLevelLayer;
+    return m_iconPathByItemType.value((int)type);
+}
 
-    this->addItem(item, layer);
+QIcon ItemDB::getIconByItemType(CADitemTypes::ItemType type, QSize size)
+{
+    QString filename = getIconPathByItemType(type);
+    if (QFile(filename).exists()) {
+        QSvgRenderer svgRenderer(filename);
+        QPixmap pixmap(size);
+        QPainter painter(&pixmap);
+        svgRenderer.render(&painter);
+        return pixmap;
+    } else {
+        QPixmap pixmap(size);
+        pixmap.fill(Qt::yellow);
+        return pixmap;
+    }
+}
+
+QString ItemDB::getItemDescriptionByItemType(CADitemTypes::ItemType type)
+{
+    return m_itemDescriptionByItemType.value((int)type);
+}
+
+QList<int> ItemDB::getItemTypesByDomain(QString domain)
+{
+    qCDebug(itemdb) << m_itemTypesByDomain.count();
+    return m_itemTypesByDomain.values(domain);
+}
+
+QStringList ItemDB::getDomains()
+{
+    return m_domains;
+}
+
+Layer *ItemDB::findLayerByName(QString name)
+{
+    return m_rootLayer->findByName(name);
 }
 
 void ItemDB::addItem(CADitem *item, Layer *layer)
 {
-    if (layer == NULL)
-    {
-        qCDebug(itemdb) << "ItemDB::addItem(): layer is NULL.";
+    if (!layer) {
+        qCWarning(itemdb) << "addItem(): layer is NULL";
         return;
     }
 
-    //    item->layerName = layer->name;
     item->setLayer(layer);
-    item->setID(currentItemId);
-    itemMap.insert(item->id, item);
-    currentItemId++;
-    layer->items.append(item);
-//    emit signal_itemAdded(item, layer);
-    emit signal_DBstatusModified();
+    item->setID(m_currentItemId);
+    m_itemMap.insert(item->id, item);
+    m_currentItemId++;
+    layer->addItem(item);
+    emit signal_itemAdded(item, layer);
+    emit signal_dbStatusModified();
+}
+
+void ItemDB::addItem(CADitem *item, QString layerName)
+{
+    Layer *layer = findLayerByName(layerName);
+    if (!layer)
+        layer = m_rootLayer;
+
+    addItem(item, layer);
 }
 
 void ItemDB::deleteItem(CADitem *item)
 {
-    //    Layer* layer = getLayerByName(item->layerName);
-    Layer* layer = item->layer;
+    Layer *layer = item->layer;
+    layer->removeItem(item);
+    m_itemMap.remove(item->id);
 
-    layer->items.removeOne(item);
-    itemMap.remove(item->id);
-
-    foreach (CADitem* subItem, item->subItems)
-    {
+    foreach (CADitem *subItem, item->subItems) {
         deleteItem(subItem);
     }
 
-    signal_itemDeleted(item);
-    emit signal_DBstatusModified();
+    emit signal_itemDeleted(item);
+    emit signal_dbStatusModified();
+
     delete item;
 }
 
 bool ItemDB::deleteItem(quint64 id)
 {
-    CADitem* item = getItemById(id);
+    CADitem *item = getItemById(id);
 
-    if (item == NULL)
+    if (!item)
         return false;
 
     deleteItem(item);
+
     return true;
 }
 
 void ItemDB::deleteItems(QList<CADitem *> items)
 {
-    foreach (CADitem* item, items)
+    foreach (CADitem *item, items)
         deleteItem(item);
+}
+
+void ItemDB::deleteItems_withRestorePoint(QList<CADitem *> items)
+{
+    foreach (CADitem *item, items) {
+        restorePoints_undo.append(new RestorePoint(RestorePoint::Restore_ItemDeletion,
+                                                   item->layer,
+                                                   item->id,
+                                                   item->getType(),
+                                                   item->wizardParams, item->wizardParams));
+        deleteItem(item);
+    }
 }
 
 bool ItemDB::changeLayerOfItem(CADitem *item, Layer *newLayer)
 {
-    if (item == NULL)
-        return false;
-    if (newLayer == NULL)
+    if (!item)
         return false;
 
-    //    Layer* oldLayer = getLayerByName(item->layerName);
-    Layer* oldLayer = item->layer;
-    if (oldLayer == NULL)
+    if (!newLayer)
         return false;
 
-    oldLayer->items.removeOne(item);
-    //    item->layerName = newLayer->name;
+    Layer *oldLayer = item->layer;
+    if (!oldLayer)
+        return false;
+
+    oldLayer->removeItem(item);
     item->setLayer(newLayer);
-    newLayer->items.append(item);
+    newLayer->addItem(item);
+
     emit signal_repaintNeeded();
-    emit signal_DBstatusModified();
+    emit signal_dbStatusModified();
+
     return true;
 }
 
 bool ItemDB::changeLayerOfItem(quint64 id, QString newLayerName)
 {
-    CADitem* item = getItemById(id);
-    Layer* newLayer = getLayerByName(newLayerName);
+    CADitem *item = getItemById(id);
+    Layer *newLayer = findLayerByName(newLayerName);
+
     return changeLayerOfItem(item, newLayer);
 }
 
 CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
 {
-    CADitem* newItem = NULL;
+    CADitem *newItem = NULL;
 
     switch (type)
     {
@@ -1065,56 +1174,67 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
         break;
 
     default:
-    {
-        qCDebug(itemdb) << "ItemDB::drawItem(): unknown item type.";
+        qCWarning(itemdb) << "createItem(): unknown item type.";
         return NULL;
-    }
-        break;
     }
 
     return newItem;
+
 }
 
-CADitem* ItemDB::drawItem(Layer* layer, CADitemTypes::ItemType type)
+CADitem *ItemDB::drawItem(Layer *layer, CADitemTypes::ItemType type)
 {
-    if (layer == NULL)
-    {
-        qCDebug(itemdb) << "ItemDB::drawItem(): layer is NULL.";
+    if (!layer) {
+        qCWarning(itemdb) << "drawItem(): layer is NULL";
         return NULL;
     }
 
-    if (type == CADitemTypes::None)
-    {
-        qCDebug(itemdb) << "ItemDB::drawItem(): Tried to create a CADitemTypes::None.";
+    if (type == CADitemTypes::None) {
+        qCWarning(itemdb) << "drawItem(): Tried to create a CADitemTypes::None";
         return NULL;
     }
 
-    this->activeDrawCommand = type;
+    m_activeDrawCommandType = type;
 
-    CADitem* newItem = this->createItem(type);
-
-    this->addItem(newItem, layer);
+    CADitem *newItem = createItem(type);
+    addItem(newItem, layer);
 
     return newItem;
 }
 
 CADitem *ItemDB::drawItem(QString layerName, CADitemTypes::ItemType type)
 {
-    Layer* layer = getLayerByName(layerName);
-    if (layer == NULL)
-        layer = topLevelLayer;
-    return this->drawItem(layer, type);
+    Layer *layer = findLayerByName(layerName);
+    if (!layer)
+        layer = m_rootLayer;
+
+    drawItem(layer, type);
 }
 
-CADitem *ItemDB::getItemById(quint64 id)
+CADitem *ItemDB::drawItem_withRestorePoint(Layer *layer, CADitemTypes::ItemType type, WizardParams wizardParams)
 {
-    return itemMap.value(id, NULL);
+    CADitem *item = drawItem(layer, type);
+    if (!item)
+        return NULL;
+
+    item->wizardParams.insert(wizardParams);
+    restorePoints_undo.append(new RestorePoint(RestorePoint::Restore_ItemCreation,
+                                               item->layer,
+                                               item->id,
+                                               item->getType(),
+                                               wizardParams, wizardParams));
+
+    item->processWizardInput();
+    item->calculate();
+    emit signal_dbStatusModified();
+
+    return item;
 }
 
-bool ItemDB::modifyItem(quint64 &id, QString &key, QString &value)
+bool ItemDB::modifyItem(quint64 &id, QString key, QString value)
 {
-    CADitem* item = getItemById(id);
-    if (item == NULL)
+    CADitem *item = getItemById(id);
+    if (!item)
         return false;
 
     QVariant oldValue = item->wizardParams.value(key);
@@ -1122,8 +1242,7 @@ bool ItemDB::modifyItem(quint64 &id, QString &key, QString &value)
     if (!oldValue.isValid())
         return false;
 
-    switch (oldValue.type())
-    {
+    switch (oldValue.type()) {
     case QVariant::Double:
         item->wizardParams.insert(key, QVariant(value.toDouble()));
         break;
@@ -1132,122 +1251,94 @@ bool ItemDB::modifyItem(quint64 &id, QString &key, QString &value)
         break;
     default:
         return false;
-        break;
     }
 
     item->processWizardInput();
     item->calculate();
-    emit signal_DBstatusModified();
+    emit signal_itemModified(item);
+    emit signal_dbStatusModified();
+
     return true;
-}
-
-CADitem *ItemDB::drawItem_withRestorePoint(Layer *layer, CADitemTypes::ItemType type, WizardParams wizardParams)
-{
-    CADitem* item = this->drawItem(layer, type);
-
-    if (item == NULL)   // tbd. handle error...
-        return NULL;
-
-    item->wizardParams.insert(wizardParams);
-    restorePoints_undo.append(new RestorePoint(RestorePoint::Restore_ItemCreation, item->layer, item->id, item->getType(), wizardParams, wizardParams));
-
-    item->processWizardInput();
-    item->calculate();
-
-//    emit signal_itemModified(item);
-    return item;
-}
-
-void ItemDB::deleteItems_withRestorePoint(QList<CADitem *> items)
-{
-    foreach (CADitem* item, items)
-    {
-        restorePoints_undo.append(new RestorePoint(RestorePoint::Restore_ItemDeletion, item->layer, item->id, item->getType(), item->wizardParams, item->wizardParams));
-        deleteItem(item);
-    }
 }
 
 void ItemDB::modifyItem_withRestorePoint(CADitem *item, WizardParams newParams)
 {
-    if (item == NULL)
+    if (!item)
         return;
 
     WizardParams paramsBefore = item->wizardParams;
     item->wizardParams.insert(newParams);
     WizardParams paramsAfter = item->wizardParams;
 
-    restorePoints_undo.append(new RestorePoint(RestorePoint::Restore_WizardParams, item->layer, item->id, item->getType(), paramsBefore, paramsAfter));
+    restorePoints_undo.append(new RestorePoint(RestorePoint::Restore_WizardParams,
+                                               item->layer,
+                                               item->id,
+                                               item->getType(),
+                                               paramsBefore, paramsAfter));
 
     item->processWizardInput();
     item->calculate();
     emit signal_itemModified(item);
-    emit signal_DBstatusModified();
+    emit signal_dbStatusModified();
 }
 
 void ItemDB::setRestorePoint()
 {
     restorePoints_undo.append(new RestorePoint(RestorePoint::Restore_Stoppoint));
-    this->restore_clearRedo();
+    restore_clearRedo();
 }
 
 void ItemDB::restore_clearRedo()
 {
-    while(!this->restorePoints_redo.isEmpty())
-    {
-        RestorePoint* restorePoint = this->restorePoints_redo.takeLast();
-        delete restorePoint;
-    }
+    qDeleteAll(restorePoints_redo);
+    restorePoints_redo.clear();
 }
 
 void ItemDB::restore_undo()
 {
-    RestorePoint* restorePoint;
-    emit signal_DBstatusModified();
+    RestorePoint *restorePoint;
+    emit signal_dbStatusModified();
 
-    while (1)
-    {
-        if (this->restorePoints_undo.isEmpty())
-        {
+    forever {
+        if (restorePoints_undo.isEmpty()) {
             emit signal_repaintNeeded();
             return;
         }
 
-        restorePoint = this->restorePoints_undo.takeLast();
-        this->restorePoints_redo.prepend(restorePoint);
+        restorePoint = restorePoints_undo.takeLast();
+        restorePoints_redo.prepend(restorePoint);
 
-        switch (restorePoint->getType())
-        {
-        case RestorePoint::Restore_ItemCreation:
-        {
-            this->deleteItem(restorePoint->itemID);
+        switch (restorePoint->getType()) {
+        case RestorePoint::Restore_ItemCreation: {
+            deleteItem(restorePoint->itemID);
         }
             break;
-        case RestorePoint::Restore_ItemDeletion:
-        {
-            quint64 currentItemId_shadow = this->currentItemId;
-            this->currentItemId = restorePoint->itemID;
-            CADitem* newItem = this->drawItem(restorePoint->layer, restorePoint->itemType);
-            this->currentItemId = currentItemId_shadow;
+
+        case RestorePoint::Restore_ItemDeletion: {
+            quint64 currentItemId_shadow = m_currentItemId;
+            m_currentItemId = restorePoint->itemID;
+            CADitem *newItem = drawItem(restorePoint->layer, restorePoint->itemType);
+            m_currentItemId = currentItemId_shadow;
 
             newItem->wizardParams = restorePoint->wizardParamsBefore;
             newItem->processWizardInput();
             newItem->calculate();
         }
             break;
+
         case RestorePoint::Restore_ItemLayerChange:
             break;
-        case RestorePoint::Restore_WizardParams:
-        {
-            CADitem* item = this->getItemById(restorePoint->itemID);
-            if (item == NULL)
-                continue;
+
+        case RestorePoint::Restore_WizardParams: {
+            CADitem *item = getItemById(restorePoint->itemID);
+            if (!item) continue;
             item->wizardParams.insert(restorePoint->wizardParamsBefore);
             item->processWizardInput();
             item->calculate();
         }
             break;
-        case RestorePoint::Restore_Stoppoint:
-        {
+
+        case RestorePoint::Restore_Stoppoint: {
             emit signal_repaintNeeded();
             return;
         }
@@ -1258,135 +1349,109 @@ void ItemDB::restore_undo()
 
 void ItemDB::restore_redo()
 {
-    RestorePoint* restorePoint;
-    emit signal_DBstatusModified();
+    RestorePoint *restorePoint;
+    emit signal_dbStatusModified();
 
-    while (1)
-    {
-        if (this->restorePoints_redo.isEmpty())
-        {
+    forever {
+        if (restorePoints_redo.isEmpty()) {
             emit signal_repaintNeeded();
             return;
         }
 
-        restorePoint = this->restorePoints_redo.takeFirst();
-        this->restorePoints_undo.append(restorePoint);
+        restorePoint = restorePoints_redo.takeFirst();
+        restorePoints_undo.append(restorePoint);
 
-        switch (restorePoint->getType())
-        {
-        case RestorePoint::Restore_ItemCreation:
-        {
-            quint64 currentItemId_shadow = this->currentItemId;
-            this->currentItemId = restorePoint->itemID;
-            CADitem* newItem = this->drawItem(restorePoint->layer, restorePoint->itemType);
-            this->currentItemId = currentItemId_shadow;
+        switch (restorePoint->getType()) {
+        case RestorePoint::Restore_ItemCreation: {
+            quint64 currentItemId_shadow = m_currentItemId;
+            m_currentItemId = restorePoint->itemID;
+            CADitem *newItem = drawItem(restorePoint->layer, restorePoint->itemType);
+            m_currentItemId = currentItemId_shadow;
 
             newItem->wizardParams = restorePoint->wizardParamsBefore;
             newItem->processWizardInput();
             newItem->calculate();
         }
             break;
-        case RestorePoint::Restore_ItemDeletion:
-        {
-            this->deleteItem(restorePoint->itemID);
+
+        case RestorePoint::Restore_ItemDeletion: {
+            deleteItem(restorePoint->itemID);
         }
             break;
+
         case RestorePoint::Restore_ItemLayerChange:
             break;
-        case RestorePoint::Restore_WizardParams:
-        {
-            CADitem* item = this->getItemById(restorePoint->itemID);
-            if (item == NULL)
-                continue;
-            item->wizardParams.insert(restorePoint->wizardParamsAfter);
+
+        case RestorePoint::Restore_WizardParams: {
+            CADitem *item = getItemById(restorePoint->itemID);
+            if (!item) continue;
+            item->wizardParams.insert(restorePoint->wizardParamsBefore);
             item->processWizardInput();
             item->calculate();
         }
             break;
-        case RestorePoint::Restore_Stoppoint:
-        {
+
+        case RestorePoint::Restore_Stoppoint: {
         }
             break;
         }
 
-        if ((this->restorePoints_redo.length() >= 1) && (this->restorePoints_redo.at(0)->getType() == RestorePoint::Restore_Stoppoint))
-        {
+        if (restorePoints_redo.length() >= 1 && restorePoints_redo.at(0)->getType() == RestorePoint::Restore_Stoppoint) {
             emit signal_repaintNeeded();
             return;
         }
     }
 }
 
-void ItemDB::itemAdded(CADitem *item)
-{
-
-}
-
-void ItemDB::itemModified(CADitem *item)
-{
-
-}
-
-void ItemDB::itemDeleted(CADitem *item)
-{
-
-}
-
 QByteArray ItemDB::network_newLayer(QMap<QString, QString> data)
 {
     QString newLayerName = data.value("newLayer");
-    if (getLayerByName(newLayerName) != NULL)
+    if (findLayerByName(newLayerName))
         return "Error: Layer already exists.\n";
 
     QString parentLayerName = data.value("parentLayer");
 
-    Layer* newLayer = addLayer(newLayerName, parentLayerName);
-    // tbd: set layer properties
-    return "Ok\n";  // tbd: Broadcast response
+    Layer *layer = addLayer(newLayerName, parentLayerName);
+    // TODO: set layer properties
+
+    return "Ok\n"; // TODO: Broadcast response
 }
 
 QByteArray ItemDB::network_modifyLayer(QMap<QString, QString> data)
 {
     QString layerName = data.value("Layer");
-    Layer* layer = getLayerByName(layerName);
-    if ((layer == NULL) || (layer == topLevelLayer))
-        return "Error: Layer does not exist. Unable to modify it.\n";
+    Layer *layer = findLayerByName(layerName);
+    if (!layer || layer == m_rootLayer)
+        return "Error: Layer does not exists. Unable to modify it.\n";
 
     QByteArray answer;
     bool repaintNeeded = false;
 
-    if (data.contains("pen"))
-    {
-        QColor color_pen;
-        color_pen = QColor(data.value("pen"));
-        layer->pen.setColor(color_pen);
+    if (data.contains("pen")) {
+        QColor color = QColor(data.value("pen"));
+        layer->pen.setColor(color);
         repaintNeeded = true;
     }
-    if (data.contains("brush"))
-    {
-        QColor color_brush;
-        color_brush = QColor(data.value("brush"));
-        layer->brush.setColor(color_brush);
+    if (data.contains("brush")) {
+        QColor color = QColor(data.value("brush"));
+        layer->brush.setColor(color);
         repaintNeeded = true;
     }
-    if (data.contains("lineWidth"))
-    {
-        layer->width = data.value("lineWidth").toInt();
+    if (data.contains("lineWidth")) {
+        layer->lineWidth = data.value("lineWidth").toInt();
         repaintNeeded = true;
     }
-    if (data.contains("lineType"))
-    {
+    if (data.contains("lineType")) {
         layer->lineType = (Layer::LineType)data.value("lineType").toInt();
         repaintNeeded = true;
     }
-    if (data.contains("name"))
-    {
+    if (data.contains("name")) {
         bool result = renameLayer(layer, data.value("name"));
-        if (result == false)
+        if (!result)
             answer += "Error: Unable to rename Layer.\n";
     }
 
-    emit signal_layerChanged(layer);
+    signal_layerChanged(layer);
     if (repaintNeeded)
         emit signal_repaintNeeded();
 
@@ -1394,52 +1459,53 @@ QByteArray ItemDB::network_modifyLayer(QMap<QString, QString> data)
         answer = "Ok\n";
 
     return answer;
+
 }
 
 QByteArray ItemDB::network_moveLayer(QMap<QString, QString> data)
 {
     QString layerName = data.value("Layer");
-    Layer* layer = getLayerByName(layerName);
+    Layer *layer = findLayerByName(layerName);
     if (layer == NULL)
-        return "Error: Layer does not exist. Unable to delete it.\n";
+        return "Error: Layer does not exist. Unable to move it.\n";
 
     QString newParentLayerName = data.value("newParent");
     quint32 pos = data.value("Pos").toUInt();
 
     bool result = moveLayer(layerName, newParentLayerName, pos);
-    if (result == false)
+    if (!result)
         return "Error: Unable to move layer.\n";
-    else
-        return "Ok\n";  // tbd: Broadcast response
+
+    return "Ok\n"; // TODO: broadcast response
 }
 
 QByteArray ItemDB::network_deleteLayer(QMap<QString, QString> data)
 {
     QString layerName = data.value("Layer");
-    Layer* layer = getLayerByName(layerName);
-    if (layer == NULL)
+    Layer *layer = findLayerByName(layerName);
+    if (!layer)
         return "Error: Layer does not exist. Unable to delete it.\n";
 
     bool result = deleteLayer(layer);
-    if (result == false)
-        return "Error: Unable to delete layer. May be it is not empty.\n";
-    else
-        return "Ok\n";  // tbd: Broadcast response
+    if (!result)
+        return "Error: Unable to delete layer. Maybe it's not empty.\n";
+
+    return "Ok\n"; // TODO: broadcast response
 }
 
 QByteArray ItemDB::network_getAll()
 {
     QByteArray answer;
 
-    network_getAll_processLayers(this->layers, &answer);
+    network_getAll_processLayers(getLayerList(), &answer);
 
     return answer;
 }
 
 QByteArray ItemDB::network_getItem(quint64 id)
 {
-    CADitem* item = getItemById(id);
-    if (item == NULL)
+    CADitem *item = getItemById(id);
+    if (!item)
         return "Error in network_getItem(" + QByteArray().setNum(id) + ")\n";
 
     QByteArray answer;
@@ -1454,17 +1520,17 @@ QByteArray ItemDB::network_getItem(quint64 id)
 
 QByteArray ItemDB::network_newItem(quint32 type, QMap<QString, QString> data)
 {
-    QString layerName;
-    layerName = data.value("Layer");
-    CADitem* newItem = drawItem(layerName, (CADitemTypes::ItemType) type);
+    QString layerName = data.value("Layer");
+    CADitem *newItem = drawItem(layerName, (CADitemTypes::ItemType)type);
 
-    if (newItem == NULL)
+    if (!newItem)
         return "Error in network_newItem()\n";
 
     data.remove("Layer");
     network_modifyItem(newItem->id, data);
-    QByteArray answer;
-    answer = "N id " + QByteArray().setNum(newItem->id) + "\n";
+
+    QByteArray answer = "N id " + QByteArray::number(newItem->id) + "\n";
+
     return answer;
 }
 
@@ -1472,14 +1538,14 @@ QByteArray ItemDB::network_modifyItem(quint64 id, QMap<QString, QString> data)
 {
     QByteArray answer;
 
-    QList<QString> keys = data.keys();
+    QMapIterator<QString, QString> it = QMapIterator<QString, QString>(data);
 
-    foreach (QString key, keys)
-    {
-        QString value = data.value(key);
-        bool result = modifyItem(id, key, value);
-        if (result == false)
-            answer += "Error in modifyItem(" + QByteArray().setNum(id) + " " + key.toUtf8() + " " + value.toUtf8() + ")\n";
+    while (it.hasNext()) {
+        it.next();
+
+        bool result = modifyItem(id, it.key(), it.value());
+        if (!result)
+            answer += "Error in modifyItem(" + QByteArray().setNum(id) + " " + it.key().toUtf8() + " " + it.value().toUtf8() + ")\n";
     }
 
     emit signal_repaintNeeded();
@@ -1494,98 +1560,92 @@ QByteArray ItemDB::network_changeLayerOfItem(quint64 id, QMap<QString, QString> 
 {
     QString newLayerName = data.value("newLayer");
     bool result = changeLayerOfItem(id, newLayerName);
-    if (result == true)
-        return "Ok\n";  // tbd: Broadcast response
+    if (result)
+        return "Ok\n"; // TODO: broadcast response
     else
-        return QByteArray("Error in changeLayerOfItem(" + QByteArray().setNum(id) + ", " + newLayerName.toUtf8() + ")\n");
+        return "Error in changeLayerOfItem(" + QByteArray().setNum(id) + ", " + newLayerName.toUtf8() + ")\n";
 }
 
 QByteArray ItemDB::network_deleteItem(quint64 id)
 {
     bool result = deleteItem(id);
-    if (result == true)
-    {
+    if (result) {
         emit signal_repaintNeeded();
         return "Ok\n";
     }
-    else
-        return QByteArray("Error while deleting item ") + QByteArray().setNum(id) + "\n";
+
+    return "Error while deleting item " + QByteArray().setNum(id) + "\n";
 }
 
-bool ItemDB::file_storeDB(QString filename, QMatrix4x4 matrix_projection, QMatrix4x4 matrix_glSelect, QMatrix4x4 matrix_modelview, QMatrix4x4 matrix_rotation)
+bool ItemDB::file_storeDB(const QString filename, QMatrix4x4 projectionMatrix, QMatrix4x4 glSelectMatrix, QMatrix4x4 modelviewMatrix, QMatrix4x4 rotationMatrix)
 {
-    QDomDocument document;
-    QDomElement root = document.createElement("SmeitemdbProject");
-    document.appendChild(root);
-    root.setAttribute("Version", QString("Build ") + QString(__DATE__) + " " + QString(__TIME__));
+    QDomDocument doc;
+    QDomElement root = doc.createElement("SmePowerCadProject");
+    doc.appendChild(root);
+    root.setAttribute("Version", QString("Build %1 %2").arg(QString(__DATE__)).arg(QString(__TIME__)));
 
     // Store item [type <-> description] list
-    QDomElement element_itemTypeList = document.createElement("ItemTypeList");
-    root.appendChild(element_itemTypeList);
+    QDomElement elem_itemTypeList = doc.createElement("ItemTypeList");
+    root.appendChild(elem_itemTypeList);
 
-    int numberOfItemTypes = this->getNumberOfItemTypes();
-    for (int i = 1; i < numberOfItemTypes; i++)
-    {
-        QString description = this->getItemDescriptionByItemType((CADitemTypes::ItemType) i);
-        QDomElement element_itemType = document.createElement("ItemType");
-        element_itemTypeList.appendChild(element_itemType);
-        element_itemType.setAttribute("Type", QString().sprintf("I%i", i));
-        element_itemType.setAttribute("Description", description);
+    int numberOfItemTypes = getNumberOfItemTypes();
+    for (int i = 0; i < numberOfItemTypes; i++) {
+        QString desc = getItemDescriptionByItemType((CADitemTypes::ItemType)i);
+        QDomElement elem_itemType = doc.createElement("ItemType");
+        elem_itemTypeList.appendChild(elem_itemType);
+        elem_itemType.setAttribute("Type", QString().sprintf("I%i", i));
+        elem_itemType.setAttribute("Description", desc);
     }
 
-    //store matrices
-    QDomElement element_matrix_projection = document.createElement("MatrixProjection");
-    root.appendChild(element_matrix_projection);
-    for(int i = 0; i < 4;i++)
-    {
-        QDomElement element_column = document.createElement("Column" + QString::number(i));
-        element_matrix_projection.appendChild(element_column);
-        element_column.setAttribute("x", matrix_projection.column(i).x());
-        element_column.setAttribute("y", matrix_projection.column(i).y());
-        element_column.setAttribute("z", matrix_projection.column(i).z());
-        element_column.setAttribute("w", matrix_projection.column(i).w());
+    // store matrices
+    QDomElement elem_matrixProjection = doc.createElement("MatrixProjection");
+    root.appendChild(elem_matrixProjection);
+    for (int i = 0; i < 4;i++) {
+        QDomElement element_column = doc.createElement("Column" + QString::number(i));
+        elem_matrixProjection.appendChild(element_column);
+        element_column.setAttribute("x", projectionMatrix.column(i).x());
+        element_column.setAttribute("y", projectionMatrix.column(i).y());
+        element_column.setAttribute("z", projectionMatrix.column(i).z());
+        element_column.setAttribute("w", projectionMatrix.column(i).w());
     }
 
-    QDomElement element_matrix_glselect = document.createElement("MatrixGLSelect");
-    root.appendChild(element_matrix_glselect);
-    for(int i = 0; i < 4;i++)
-    {
-        QDomElement element_column = document.createElement("Column" + QString::number(i));
-        element_matrix_glselect.appendChild(element_column);
-        element_column.setAttribute("x", matrix_glSelect.column(i).x());
-        element_column.setAttribute("y", matrix_glSelect.column(i).y());
-        element_column.setAttribute("z", matrix_glSelect.column(i).z());
-        element_column.setAttribute("w", matrix_glSelect.column(i).w());
+    QDomElement elem_matrixGlselect = doc.createElement("MatrixGLSelect");
+    root.appendChild(elem_matrixGlselect);
+    for (int i = 0; i < 4;i++) {
+        QDomElement element_column = doc.createElement("Column" + QString::number(i));
+        elem_matrixGlselect.appendChild(element_column);
+        element_column.setAttribute("x", glSelectMatrix.column(i).x());
+        element_column.setAttribute("y", glSelectMatrix.column(i).y());
+        element_column.setAttribute("z", glSelectMatrix.column(i).z());
+        element_column.setAttribute("w", glSelectMatrix.column(i).w());
     }
 
-    QDomElement element_matrix_modelview = document.createElement("MatrixModelview");
-    root.appendChild(element_matrix_modelview);
-    for(int i = 0; i < 4;i++)
-    {
-        QDomElement element_column = document.createElement("Column" + QString::number(i));
-        element_matrix_modelview.appendChild(element_column);
-        element_column.setAttribute("x", matrix_modelview.column(i).x());
-        element_column.setAttribute("y", matrix_modelview.column(i).y());
-        element_column.setAttribute("z", matrix_modelview.column(i).z());
-        element_column.setAttribute("w", matrix_modelview.column(i).w());
+    QDomElement elem_matrixModelview = doc.createElement("MatrixModelview");
+    root.appendChild(elem_matrixModelview);
+    for (int i = 0; i < 4;i++) {
+        QDomElement element_column = doc.createElement("Column" + QString::number(i));
+        elem_matrixModelview.appendChild(element_column);
+        element_column.setAttribute("x", modelviewMatrix.column(i).x());
+        element_column.setAttribute("y", modelviewMatrix.column(i).y());
+        element_column.setAttribute("z", modelviewMatrix.column(i).z());
+        element_column.setAttribute("w", modelviewMatrix.column(i).w());
     }
 
-    QDomElement element_matrix_rotation = document.createElement("MatrixRotation");
-    root.appendChild(element_matrix_rotation);
-    for(int i = 0; i < 4;i++)
-    {
-        QDomElement element_column = document.createElement("Column" + QString::number(i));
-        element_matrix_rotation.appendChild(element_column);
-        element_column.setAttribute("x", matrix_rotation.column(i).x());
-        element_column.setAttribute("y", matrix_rotation.column(i).y());
-        element_column.setAttribute("z", matrix_rotation.column(i).z());
-        element_column.setAttribute("w", matrix_rotation.column(i).w());
+    QDomElement elem_matrixRotation = doc.createElement("MatrixRotation");
+    root.appendChild(elem_matrixRotation);
+    for (int i = 0; i < 4;i++) {
+        QDomElement element_column = doc.createElement("Column" + QString::number(i));
+        elem_matrixRotation.appendChild(element_column);
+        element_column.setAttribute("x", rotationMatrix.column(i).x());
+        element_column.setAttribute("y", rotationMatrix.column(i).y());
+        element_column.setAttribute("z", rotationMatrix.column(i).z());
+        element_column.setAttribute("w", rotationMatrix.column(i).w());
     }
 
     // Store cad data
-    QDomElement element_cad = document.createElement("CadData");
-    root.appendChild(element_cad);
-    file_storeDB_processLayers(document, element_cad, this->topLevelLayer->subLayers);
+    QDomElement elem_cad = doc.createElement("CadData");
+    root.appendChild(elem_cad);
+    file_storeDB_processLayers(doc, elem_cad, m_rootLayer->getChildLayers());
 
     QFile file(filename);
 
@@ -1593,39 +1653,287 @@ bool ItemDB::file_storeDB(QString filename, QMatrix4x4 matrix_projection, QMatri
         return false;
 
     QTextStream stream(&file);
-    document.save(stream, 1);   // Indent = 1
+    doc.save(stream, 1);   // Indent = 1
     file.close();
-    emit signal_DBstatusSafe();
+    emit signal_dbStatusSafe();
     return true;
 }
 
-void ItemDB::file_storeDB_processLayers(QDomDocument document, QDomElement parentElement, QList<Layer *> layers)
+bool ItemDB::file_loadDB(const QString filename, QString *error, QMatrix4x4 *projectionMatrix, QMatrix4x4 *glSelectMatrix, QMatrix4x4 *modelviewMatrix, QMatrix4x4 *rotationMatrix)
 {
-    foreach (Layer* layer, layers)
-    {
-        QDomElement element = document.createElement("L");
-        parentElement.appendChild(element);
+    qCDebug(itemdb) << "file_loadDB";
+    QFile file(filename);
 
-        element.setAttribute("Name", layer->name);
-        element.setAttribute("FillColor", layer->brush.color().name());
-        element.setAttribute("OutlineColor", layer->pen.color().name());
-        element.setAttribute("LineWidth", layer->width);
-        element.setAttribute("LineType", layer->lineType);
+    if (!file.open(QFile::ReadOnly)) {
+        *error = file.errorString();
+        return false;
+    }
 
-        file_storeDB_processLayers(document, element, layer->subLayers);
-        file_storeDB_processItems(document, element, layer->items);
+    QString errorString = "";
+    int errorLine = -1;
+    int errorColumn = -1;
+
+    QDomDocument doc;
+    if (!doc.setContent(&file, true, &errorString, &errorLine, &errorColumn)) {
+        file.close();
+        *error = tr("line %1, column %2:\n%3")
+                .arg(errorLine)
+                .arg(errorColumn)
+                .arg(errorString);
+        return false;
+    }
+
+    QString currentVersion = QString("Build %1 %2").arg(QString(__DATE__)).arg(QString(__TIME__));
+
+    QDomElement root = doc.documentElement();
+    if (root.tagName() != "SmePowerCadProject") {
+        file.close();
+        *error = tr("Root-Node has wrong tag name: %1").arg(root.tagName());
+        return false;
+    } else if (!root.hasAttribute("Version") || root.attribute("Version").isEmpty()) {
+        file.close();
+        *error = tr("Version attribute is missing.");
+        return false;
+    }
+
+    // Version check
+    bool mapByDescription = false;
+    if (root.attribute("Version") != currentVersion) {
+        *error = tr("Old file version: %1\nCurrent version: %2\nConverting file to current version.")
+                .arg(root.attribute("Version")).arg(currentVersion);
+        mapByDescription = true;
+    }
+
+    // Read matrices
+    QDomElement elem_column;
+    QDomElement elem_projectionMatrix = root.firstChildElement("MatrixProjection");
+    for (int i = 0; i < 4; i++) {
+        elem_column = elem_projectionMatrix.firstChildElement("Column" + QString::number(i));
+        double x = elem_column.attribute("x").toDouble();
+        double y = elem_column.attribute("y").toDouble();
+        double z = elem_column.attribute("z").toDouble();
+        double w = elem_column.attribute("w").toDouble();
+        projectionMatrix->setColumn(i, QVector4D(x, y, z, w));
+    }
+    QDomElement elem_glSelectMatrix = root.firstChildElement("MatrixGLSelect");
+    for (int i = 0; i < 4; i++) {
+        elem_column = elem_glSelectMatrix.firstChildElement("Column" + QString::number(i));
+        double x = elem_column.attribute("x").toDouble();
+        double y = elem_column.attribute("y").toDouble();
+        double z = elem_column.attribute("z").toDouble();
+        double w = elem_column.attribute("w").toDouble();
+        glSelectMatrix->setColumn(i, QVector4D(x, y, z, w));
+    }
+    QDomElement elem_modelviewMatrix = root.firstChildElement("MatrixModelview");
+    for (int i = 0; i < 4; i++) {
+        elem_column = elem_modelviewMatrix.firstChildElement("Column" + QString::number(i));
+        double x = elem_column.attribute("x").toDouble();
+        double y = elem_column.attribute("y").toDouble();
+        double z = elem_column.attribute("z").toDouble();
+        double w = elem_column.attribute("w").toDouble();
+        modelviewMatrix->setColumn(i, QVector4D(x, y, z, w));
+    }
+    QDomElement elem_rotationMatrix = root.firstChildElement("MatrixRotation");
+    for (int i = 0; i < 4; i++) {
+        elem_column = elem_rotationMatrix.firstChildElement("Column" + QString::number(i));
+        double x = elem_column.attribute("x").toDouble();
+        double y = elem_column.attribute("y").toDouble();
+        double z = elem_column.attribute("z").toDouble();
+        double w = elem_column.attribute("w").toDouble();
+        rotationMatrix->setColumn(i, QVector4D(x, y, z, w));
+    }
+    qCDebug(itemdb) << "successfully read matrices";
+
+    // Read itemTypeList from file and build map
+    QMap<int, QString> itemDescriptionByItemType;
+    QDomElement elem_itemTypeList = root.firstChildElement("ItemTypeList");
+    QDomElement elem_itemType = elem_itemTypeList.firstChildElement("ItemType");
+    while (!elem_itemType.isNull()) {
+        QString type = elem_itemType.attribute("Type");
+        QString description = elem_itemType.attribute("Description");
+        type.remove(0, 1); // Strip 'I'
+        itemDescriptionByItemType.insert(type.toInt(), description);
+        elem_itemType = elem_itemType.nextSiblingElement("ItemType");
+    }
+    qCDebug(itemdb) << "successfully read item type list";
+
+    // Read cad data from file
+    QDomElement elem_cadData = root.firstChildElement("CadData");
+    Layer *tempParentLayer = m_rootLayer;
+    while (!elem_cadData.isNull()) {
+        file_loadDB_parseDomElement(elem_cadData, tempParentLayer, mapByDescription, &itemDescriptionByItemType, error); // TODO: rootLayer may be wrong here...
+        elem_cadData = elem_cadData.nextSiblingElement();
+    }
+
+    file.close();
+    qCDebug(itemdb) << "finished reading file";
+    emit signal_layerManagerUpdateNeeded();
+    emit signal_dbStatusSafe();
+    return true;
+}
+
+void ItemDB::deriveDomainsAndItemTypes()
+{
+    CADitem *item;
+
+    int type = (int)CADitemTypes::None +1;
+
+    forever {
+        if (type == CADitemTypes::LastItem)
+            break;
+
+        item = createItem((CADitemTypes::ItemType)type);
+        if (item == NULL) {
+            QString enumName = CADitemTypes().getEnumNameOfItemType((CADitemTypes::ItemType)type);
+            qCDebug(itemdb) << "createItem returned NULL; type:" << type << enumName << "not implemented";
+            type++;
+            continue;
+        } else {
+            QString enumName = CADitemTypes().getEnumNameOfItemType((CADitemTypes::ItemType)type);
+            qCDebug(itemdb) << "deriveDomainsAndItemTypes()" << enumName;
+        }
+
+        m_itemTypesByDomain.insertMulti(item->domain(), type);
+        m_iconPathByItemType.insert(type, item->iconPath());
+        m_itemDescriptionByItemType.insert(type, item->description());
+        m_itemTypeByItemDescription.insert(item->description(), type);
+        delete item;
+        type++;
+    }
+
+    m_domains = m_itemTypesByDomain.uniqueKeys();
+
+    qCDebug(itemdb) << "Item type count:" << m_itemTypesByDomain.count();
+}
+
+Layer *ItemDB::getRootLayer()
+{
+    return m_rootLayer;
+}
+
+CADitemTypes::ItemType ItemDB::getItemTypeByItemDescription(QString description)
+{
+    return (CADitemTypes::ItemType)m_itemDescriptionByItemType.key(description);
+}
+
+CADitem *ItemDB::getItemById(quint64 id)
+{
+    return m_itemMap.value(id, NULL);
+}
+
+int ItemDB::getNumberOfItemTypes()
+{
+    return m_itemTypesByDomain.count();
+}
+
+void ItemDB::network_getAll_processLayers(LayerList layers, QByteArray *answer)
+{
+    foreach (Layer *layer, layers) {
+        layer->serialOut(answer);
+        network_getAll_processItems(layer->getItems(), answer);
+        network_getAll_processLayers(layer->getChildLayers(), answer);
     }
 }
 
-void ItemDB::file_storeDB_processItems(QDomDocument document, QDomElement parentElement, QList<CADitem *> items)
+void ItemDB::network_getAll_processItems(QList<CADitem *> items, QByteArray *answer)
 {
-    foreach (CADitem* item, items)
-    {
-        QDomElement element = document.createElement(QString().sprintf("I%d", (unsigned int)item->getType()));
-        parentElement.appendChild(element);
+    foreach (CADitem *item, items) {
+        item->serialIn(answer);
+        network_getAll_processItems(item->subItems, answer);
+    }
+}
 
-        foreach (QString key, item->wizardParams.keys())
-        {
+void ItemDB::file_loadDB_parseDomElement(QDomElement elem, Layer *layer, bool mapByDescription, QMap<int, QString> *itemDescriptionByItemType, QString *error)
+{
+    QString tagName = elem.tagName();
+    if (tagName == "L") {
+        Layer *newLayer = this->addLayer(elem.attribute("Name"), layer);
+        newLayer->brush.setColor(QColor(elem.attribute("FillColor")));
+        newLayer->pen.setColor(QColor(elem.attribute("OutlineColor")));
+        newLayer->lineWidth = elem.attribute("LineWidth").toDouble();
+        bool lineType_ok;
+        int lineType = elem.attribute("LineType").toInt(&lineType_ok);
+        if (!lineType_ok)
+            lineType = layer->metaEnum_lineType.keyToValue(qUtf8Printable(elem.attribute("LineType")), &lineType_ok);
+        if (!lineType_ok)
+            lineType = Layer::Undefined;
+        newLayer->lineType = (Layer::LineType)lineType;
+        layer = newLayer;
+    } else if (tagName.startsWith('I')) {
+        tagName.remove(0, 1); // Strip 'I'
+        int itemType = tagName.toInt();
+        if (mapByDescription) {
+            QString itemDescription = itemDescriptionByItemType->value(itemType); // get old description by in-file table
+            itemType = getItemTypeByItemDescription(itemDescription); // get current item type
+            if ((CADitemTypes::ItemType)itemType == CADitemTypes::None)
+                error->append("\n" + tr("Unable to resolve name: %1").arg(itemDescription));
+        }
+        CADitem *item = drawItem(layer, (CADitemTypes::ItemType)itemType);
+        if (!item) {
+            error->append("\n" + tr("ItemDB::file_loadDB_parseDomElement(): Got a NULL item."));
+            return;
+        }
+
+        foreach (QString key, item->wizardParams.keys()) {
+            QString elementKey = key;
+            elementKey.replace(' ', '_');
+
+            switch (item->wizardParams.value(key).type()) {
+            case QVariant::String:
+                item->wizardParams.insert(key, elem.attribute(elementKey));
+                break;
+            case QVariant::Int:
+                item->wizardParams.insert(key, elem.attribute(elementKey).toInt());
+                break;
+            case QVariant::Double:
+                item->wizardParams.insert(key, elem.attribute(elementKey).toDouble());
+                break;
+            case QVariant::StringList: {
+                QString value = elem.attribute(elementKey);
+                QStringList stringList = value.split('#');
+                item->wizardParams.insert(key, stringList);
+                break;
+            }
+            default:
+                qCDebug(itemdb) << "ItemDB::file_loadDB_parseDomElement(): Unhandled value type:" << item->wizardParams.value(key).type();
+            }
+        }
+
+        item->processWizardInput();
+        item->calculate();
+    }
+
+    QDomElement child = elem.firstChildElement();
+    while (!child.isNull()) {
+        file_loadDB_parseDomElement(child, layer, mapByDescription, itemDescriptionByItemType, error);
+        child = child.nextSiblingElement();
+    }
+}
+
+void ItemDB::file_storeDB_processLayers(QDomDocument doc, QDomElement parentElement, LayerList layers)
+{
+    foreach (Layer *layer, layers) {
+        QDomElement elem = doc.createElement("L");
+        parentElement.appendChild(elem);
+
+        elem.setAttribute("Name", layer->name);
+        elem.setAttribute("FillColor", layer->brush.color().name());
+        elem.setAttribute("OutlineColor", layer->pen.color().name());
+        elem.setAttribute("LineWidth", layer->lineWidth);
+        elem.setAttribute("LineType", layer->lineType);
+
+        file_storeDB_processLayers(doc, elem, layer->getChildLayers());
+        file_storeDB_processItems(doc, elem, layer->getItems());
+    }
+}
+
+void ItemDB::file_storeDB_processItems(QDomDocument doc, QDomElement parentElement, QList<CADitem *> items)
+{
+    foreach (CADitem *item, items) {
+        QDomElement elem = doc.createElement(QString().sprintf("I%d", (unsigned int)item->getType()));
+        parentElement.appendChild(elem);
+
+        foreach (QString key, item->wizardParams.keys()) {
             QVariant value = item->wizardParams.value(key);
             QMetaType::Type type = (QMetaType::Type)value.type();
             if (type == QMetaType::Float)
@@ -1635,225 +1943,14 @@ void ItemDB::file_storeDB_processItems(QDomDocument document, QDomElement parent
             case QVariant::String:
             case QVariant::Int:
             case QVariant::Double:
-                element.setAttribute(key.replace(' ', '_'), value.toString());
+                elem.setAttribute(key.replace(' ', '_'), value.toString());
                 break;
             case QVariant::StringList:
-                element.setAttribute(key.replace(' ', '_'), value.toStringList().join('#'));
+                elem.setAttribute(key.replace(' ', '_'), value.toStringList().join('#'));
                 break;
             }
         }
-
         // Do not store subitems as they are recovered automatically when loading the parent item
         //        file_storeDB_processItems(document, element, item->subItems);
-    }
-}
-
-bool ItemDB::file_loadDB(QString filename, QString* error, QMatrix4x4 *matrix_projection, QMatrix4x4 *matrix_glSelect, QMatrix4x4 *matrix_modelview, QMatrix4x4 *matrix_rotation)
-{
-    QFile file(filename);
-
-    if (!file.open(QIODevice::ReadOnly))
-        return false;
-
-    QString errorStr;
-    int errorLine;
-    int errorColumn;
-
-    QDomDocument document;
-    if (!document.setContent(&file, true, &errorStr, &errorLine, &errorColumn))
-    {
-        file.close();
-        *error = tr("line %1, column %2:\n%3")
-                .arg(errorLine)
-                .arg(errorColumn)
-                .arg(errorStr);
-        return false;
-    }
-
-    QString currentVersion = QString("Build ") + QString(__DATE__) + " " + QString(__TIME__);
-
-    QDomElement root = document.documentElement();
-    if (root.tagName() != "SmeitemdbProject")
-    {
-        file.close();
-        *error = tr("Root-Node has wrong tagName: ") + root.tagName();
-        return false;
-    }
-    else if (!root.hasAttribute("Version") || root.attribute("Version").isEmpty())
-    {
-        file.close();
-        *error =  tr("Version attribute is missing.");
-        return false;
-    }
-
-    // Version check
-    bool mapByDescription = false;
-    if (root.attribute("Version") != currentVersion)
-    {
-        *error = tr("Old file version: ") + root.attribute("Version") + "\n" +
-                tr("Current version: ") + currentVersion + "\n" +
-                tr("Converting file to current version.");
-        mapByDescription = true;
-    }
-
-    //Read matrices
-    QDomElement element_matrix_projection = root.firstChildElement("MatrixProjection");
-    for(int i = 0; i < 4; i++)
-    {
-        QDomElement element_column = element_matrix_projection.firstChildElement("Column" + QString::number(i));
-        double x = element_column.attribute("x").toDouble();
-        double y = element_column.attribute("y").toDouble();
-        double z = element_column.attribute("z").toDouble();
-        double w = element_column.attribute("w").toDouble();
-        matrix_projection->setColumn(i, QVector4D(x, y, z, w));
-    }
-
-    QDomElement element_matrix_glselect = root.firstChildElement("MatrixGLSelect");
-    for(int i = 0; i < 4; i++)
-    {
-        QDomElement element_column = element_matrix_glselect.firstChildElement("Column" + QString::number(i));
-        double x = element_column.attribute("x").toDouble();
-        double y = element_column.attribute("y").toDouble();
-        double z = element_column.attribute("z").toDouble();
-        double w = element_column.attribute("w").toDouble();
-        matrix_glSelect->setColumn(i, QVector4D(x, y, z, w));
-    }
-
-    QDomElement element_matrix_modelview = root.firstChildElement("MatrixModelview");
-    for(int i = 0; i < 4; i++)
-    {
-        QDomElement element_column = element_matrix_modelview.firstChildElement("Column" + QString::number(i));
-        double x = element_column.attribute("x").toDouble();
-        double y = element_column.attribute("y").toDouble();
-        double z = element_column.attribute("z").toDouble();
-        double w = element_column.attribute("w").toDouble();
-        matrix_modelview->setColumn(i, QVector4D(x, y, z, w));
-    }
-
-    QDomElement element_matrix_rotation = root.firstChildElement("MatrixRotation");
-    for(int i = 0; i < 4; i++)
-    {
-        QDomElement element_column = element_matrix_rotation.firstChildElement("Column" + QString::number(i));
-        double x = element_column.attribute("x").toDouble();
-        double y = element_column.attribute("y").toDouble();
-        double z = element_column.attribute("z").toDouble();
-        double w = element_column.attribute("w").toDouble();
-        matrix_rotation->setColumn(i, QVector4D(x, y, z, w));
-    }
-
-    // Read itemTypeList from file and build map
-    QMap <int, QString> file_itemDescriptionByItemType;
-    QDomElement element_itemTypeList = root.firstChildElement("ItemTypeList");
-    QDomElement element_itemType = element_itemTypeList.firstChildElement("ItemType");
-    while (!element_itemType.isNull())
-    {
-        QString type = element_itemType.attribute("Type");
-        QString description = element_itemType.attribute("Description");
-        type.remove(0, 1);   // Strip "I"
-        file_itemDescriptionByItemType.insert(type.toInt(), description);
-        element_itemType = element_itemType.nextSiblingElement("ItemType");
-    }
-
-    // Read cad data from file
-    QDomElement element_cadData = root.firstChildElement("CadData");
-    while (!element_cadData.isNull())
-    {
-        this->file_loadDB_parseDomElement(element_cadData, this->topLevelLayer, mapByDescription, &file_itemDescriptionByItemType, error);  // tbd. toplevellayer may be wrong here...
-        element_cadData = element_cadData.nextSiblingElement();
-    }
-
-    file.close();
-    emit signal_layerManagerUpdateNeeded();
-    emit signal_DBstatusSafe();
-    return true;
-}
-
-void ItemDB::file_loadDB_parseDomElement(QDomElement element, Layer *currentLayer, bool mapByDescription, QMap<int, QString>* file_itemDescriptionByItemType, QString* error)
-{
-    QString tagName = element.tagName();
-    if (tagName == "L")
-    {
-        Layer* newLayer = this->addLayer(element.attribute("Name"), currentLayer);
-        newLayer->brush.setColor(QColor(element.attribute("FillColor")));
-        newLayer->pen.setColor(QColor(element.attribute("OutlineColor")));
-        newLayer->width = element.attribute("LineWidth").toDouble();
-        newLayer->lineType = (Layer::LineType)element.attribute("LineType").toInt();
-        currentLayer = newLayer;
-    }
-    else if (tagName.startsWith('I'))
-    {
-        tagName.remove(0, 1);   // Strip "I"
-        int itemType = tagName.toInt();
-        if (mapByDescription)   // Get the right item type if file version is out of date (fetch item by descrition string instead of item type number which may have changed)
-        {
-            QString itemDescription = file_itemDescriptionByItemType->value(itemType);
-            itemType = this->getItemTypeByItemDescription(itemDescription);
-            if ((CADitemTypes::ItemType)itemType == CADitemTypes::None)
-                error->append("\nUnable to resolve name: " + itemDescription);
-        }
-        CADitem* item = this->drawItem(currentLayer, (CADitemTypes::ItemType)itemType);
-        if (item == NULL)
-        {
-            error->append(tr("\nItemDB::file_loadDB_parseDomElement(): Got a NULL item."));
-            return;
-        }
-        foreach (QString key, item->wizardParams.keys())
-        {
-            QString elementKey = key;
-            elementKey.replace(' ', '_');
-
-            switch (item->wizardParams.value(key).type())
-            {
-            case QVariant::String:
-                item->wizardParams.insert(key, QString(element.attribute(elementKey)));
-                break;
-            case QVariant::Int:
-                item->wizardParams.insert(key, QString(element.attribute(elementKey)).toInt());
-                break;
-            case QVariant::Double:
-                item->wizardParams.insert(key, QString(element.attribute(elementKey)).toDouble());
-                break;
-            case QVariant::StringList:
-            {
-                QString value = QString(element.attribute(elementKey));
-                QStringList stringList = value.split('#');
-                item->wizardParams.insert(key, stringList);
-                break;
-            }
-            default:
-                qCDebug(itemdb) << "ItemDB::file_loadDB_parseDomElement() Unhandled value type:" << item->wizardParams.value(key).type();
-                break;
-            }
-        }
-
-        item->processWizardInput();
-        item->calculate();
-    }
-
-
-    QDomElement child = element.firstChildElement();
-    while (!child.isNull())
-    {
-        this->file_loadDB_parseDomElement(child, currentLayer, mapByDescription, file_itemDescriptionByItemType, error);
-        child = child.nextSiblingElement();
-    }
-}
-
-void ItemDB::network_getAll_processLayers(QList<Layer *> layers, QByteArray* answer)
-{
-    foreach (Layer* layer, layers)
-    {
-        layer->serialOut(answer);
-        network_getAll_processItems(layer->items, answer);
-        network_getAll_processLayers(layer->subLayers, answer);
-    }
-}
-
-void ItemDB::network_getAll_processItems(QList<CADitem *> items, QByteArray* answer)
-{
-    foreach (CADitem* item, items)
-    {
-        item->serialOut(answer);
-        network_getAll_processItems(item->subItems, answer);
     }
 }

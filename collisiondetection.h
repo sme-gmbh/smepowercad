@@ -49,7 +49,7 @@ private:
     GeometryDisplay* geometrydisplay;
     QDateTime* datetime;
 
-    void testLayers(QList<Layer*> layers);
+    void testLayers(LayerList layers);
     void testItems(CADitem *item);
 
 private slots:

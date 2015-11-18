@@ -228,8 +228,8 @@ public:
     void setLookAt(QVector3D lookAt);
 
 private:
-    void paintContent(QList<Layer*> layers);
-    void paintLayers(QList<Layer*> layers);
+    void paintContent(LayerList layers);
+    void paintLayers(LayerList layers);
     void paintItems(QList<CADitem *> items, Layer *layer, bool checkBoundingBox = true, bool isSubItem = false);
     void paintSnapIndicator(QPainter *painter, QRect focusRect, SnapMode snapMode, bool active);
 
@@ -254,12 +254,12 @@ private:
     QOpenGLFramebufferObject* fbo_select;
     QOpenGLFramebufferObject* fbo_renderImage;
     QList<CADitem *> itemsAtPosition_v2(QPoint pos, int size_x, int size_y);
-    CADitem *itemsAtPosition_processLayers(QList<Layer*> layers, GLuint glName);
+    CADitem *itemsAtPosition_processLayers(LayerList layers, GLuint glName);
     CADitem *itemsAtPosition_processItems(QList<CADitem*> items, GLuint glName);
     void highlightItemAtPosition(QPoint pos);
     void highlightItems(QList<CADitem*> items);
     void highlightClear();
-    void highlightClear_processLayers(QList<Layer*> layers);
+    void highlightClear_processLayers(LayerList layers);
     void highlightClear_processItems(QList<CADitem*> items);
 
 // Selection
@@ -269,12 +269,12 @@ private:
     void selectionRemoveItem(CADitem* item);
     void selectionRemoveSubItems(QList<CADitem*> items);
     void selectionClear();
-    void selectionClear_processLayers(QList<Layer*> layers);
+    void selectionClear_processLayers(LayerList layers);
     void selectionClear_processItems(QList<CADitem*> items);
 
 // Zoom
     void zoom_pan_showAll();
-    void zoom_pan_showAll_processLayers(QList<Layer*> layers, M3dBoundingBox *boundingBox);
+    void zoom_pan_showAll_processLayers(LayerList layers, M3dBoundingBox *boundingBox);
     void zoom_pan_showAll_processItems(QList<CADitem*> items, M3dBoundingBox *boundingBox);
 
 signals:

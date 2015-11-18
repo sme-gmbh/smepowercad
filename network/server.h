@@ -28,14 +28,14 @@ class Server : public TcpServer
 {
     Q_OBJECT
 public:
-    explicit Server(ItemDB* m_itemDB, QObject *parent = 0);
+    explicit Server(ItemDB *m_itemDB, QObject *parent = 0);
     ~Server();
 
 protected:
     virtual void incomingConnection(qintptr descriptor);
 
 private:
-    ItemDB* m_itemDB;
+    ItemDB *m_itemDB;
 
 signals:
 

@@ -16,6 +16,8 @@
 #include "toolwidget.h"
 #include "ui_toolwidget.h"
 
+#include "logging.h"
+
 ToolWidget::ToolWidget(ItemDB *itemDB, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ToolWidget)

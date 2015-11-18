@@ -41,18 +41,18 @@ void CollisionDetection::setGeometryDisplay(GeometryDisplay *display)
 
 void CollisionDetection::run()
 {
-    testLayers(itemDB->layers);
+    testLayers(itemDB->getLayerList());
 }
 
-void CollisionDetection::testLayers(QList<Layer *> layers)
+void CollisionDetection::testLayers(LayerList layers)
 {
     foreach (Layer* layer, layers)
     {
-        foreach (CADitem* item, layer->items)
+        foreach (CADitem* item, layer->getItems())
         {
             testItems(item);
         }
-        testLayers(layer->subLayers);
+        testLayers(layer->getChildLayers());
     }
     emit signal_itemsDoNotCollide(currentItem);
 }

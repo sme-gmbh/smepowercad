@@ -55,13 +55,10 @@ HEADERS += 3Dmouse/qmagellan.h \
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    layer.cpp \
-    layermanager.cpp \
     creationinterface.cpp \
     dxflib/src/dl_writer_ascii.cpp \
     dxflib/src/dl_dxf.cpp \
     geometrydisplay.cpp \
-    itemdb.cpp \
     caditem.cpp \
     math/m3dbox.cpp \
     glwidget.cpp \
@@ -308,11 +305,12 @@ SOURCES += main.cpp\
     items/cad_cleanroom_ceilinggridfeedthrough.cpp \
     items/cad_cleanroom_floorpanelwithbushingrect.cpp \
     items/cad_cleanroom_floorpanelwithbushinground.cpp \
-    itemcatalog.cpp
+    itemcatalog.cpp \
+    itemdb.cpp \
+    layer.cpp \
+    layermanager.cpp
 
 HEADERS  += mainwindow.h \
-    layer.h \
-    layermanager.h \
     creationinterface.h \
     dxflib/src/dl_writer_ascii.h \
     dxflib/src/dl_writer.h \
@@ -326,7 +324,6 @@ HEADERS  += mainwindow.h \
     dxflib/src/dl_codes.h \
     dxflib/src/dl_attributes.h \
     geometrydisplay.h \
-    itemdb.h \
     caditem.h \
     math/m3dbox.h \
     glwidget.h \
@@ -575,10 +572,12 @@ HEADERS  += mainwindow.h \
     items/cad_cleanroom_floorpanelwithbushingrect.h \
     items/cad_cleanroom_floorpanelwithbushinground.h \
     itemcatalog.h \
-    logging.h
+    logging.h \
+    itemdb.h \
+    layer.h \
+    layermanager.h
 
 FORMS    += mainwindow.ui \
-    layermanager.ui \
     geometrydisplaytitle.ui \
     modaldialog.ui \
     settingsdialog.ui \
@@ -588,7 +587,8 @@ FORMS    += mainwindow.ui \
     printpapertemplate.ui \
     keyframeanimation.ui \
     itemwizard.ui \
-    itemcatalog.ui
+    itemcatalog.ui \
+    layermanager.ui
 
 RESOURCES += \
     icons.qrc

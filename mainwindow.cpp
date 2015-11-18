@@ -35,11 +35,10 @@ MainWindow::MainWindow(QWidget *parent) :
     current_cadline = NULL;
 
     // **** CAD Item Database *****
-    itemDB = new ItemDB(this);
-    itemDB->deriveDomainsAndItemTypes();
-    Layer* topLevelLayer = itemDB->getTopLevelLayer();
-    connect(itemDB, SIGNAL(signal_DBstatusModified()), this, SLOT(slot_fileNeedsSaving()));
-    connect(itemDB, SIGNAL(signal_DBstatusSafe()), this, SLOT(slot_fileSaved()));
+    m_itemDB = new ItemDB(this);
+    m_itemDB->deriveDomainsAndItemTypes();
+//    connect(itemDB_old, SIGNAL(signal_DBstatusModified()), this, SLOT(slot_fileNeedsSaving()));
+//    connect(itemDB_old, SIGNAL(signal_DBstatusSafe()), this, SLOT(slot_fileSaved()));
 
     // **** Settings Dialog ****
     settingsDialog = new SettingsDialog(this);
@@ -48,11 +47,11 @@ MainWindow::MainWindow(QWidget *parent) :
     itemWizard = new ItemWizard(this);
     this->addDockWidget(Qt::LeftDockWidgetArea, this->itemWizard);
     this->itemWizard->hide();
-    connect(itemWizard, SIGNAL(signal_sceneRepaintNeeded()), this, SIGNAL(signal_repaintNeeded()));
-    connect(itemDB, SIGNAL(signal_itemDeleted(CADitem*)),itemWizard, SLOT(slot_itemDeleted(CADitem*)));
+    connect(itemWizard, &ItemWizard::signal_sceneRepaintNeeded, this, &MainWindow::signal_repaintNeeded);
+    connect(m_itemDB, &ItemDB::signal_itemDeleted, itemWizard, &ItemWizard::slot_itemDeleted);
 
     // **** Item Catalog ****
-    itemCatalog = new ItemCatalog(itemDB, itemWizard, this);
+    itemCatalog = new ItemCatalog(m_itemDB, itemWizard, this);
     this->addDockWidget(Qt::LeftDockWidgetArea, this->itemCatalog);
     ui->menuFenster->addSeparator();
     QAction *action_itemCatalog = itemCatalog->toggleViewAction();
@@ -61,8 +60,8 @@ MainWindow::MainWindow(QWidget *parent) :
 //    this->itemCatalog->hide();
 
     // **** Item Grip Modifier ****
-    itemGripModifier = new ItemGripModifier(itemDB, itemWizard, this);
-    connect(itemGripModifier, SIGNAL(signal_sceneRepaintNeeded()), this, SIGNAL(signal_repaintNeeded()));
+    itemGripModifier = new ItemGripModifier(m_itemDB, itemWizard, this);
+    connect(itemGripModifier, &ItemGripModifier::signal_sceneRepaintNeeded, this, &MainWindow::signal_repaintNeeded);
 
     // **** Command prompt ****
 //    QWidget *promptTitle = new QWidget(ui->dockWidgetPrompt);
@@ -72,36 +71,36 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // **** Menubar actions ****
-    connect(ui->actionLoad,      SIGNAL(triggered()), this, SLOT(slot_file_open_action()));
-    connect(ui->actionSave,      SIGNAL(triggered()), this, SLOT(slot_file_save_action()));
-    connect(ui->actionSaveAs,    SIGNAL(triggered()), this, SLOT(slot_file_save_as_action()));
-    connect(ui->actionPlot,      SIGNAL(triggered()), this, SLOT(slot_file_print_action()));
-    connect(ui->actionPDF,       SIGNAL(triggered()), this, SLOT(slot_file_pdf_export_action()));
-    connect(ui->actionClose,     SIGNAL(triggered()), this, SLOT(slot_file_close_action()));
-    connect(ui->actionQuit,      SIGNAL(triggered()), qApp, SLOT(quit()));
-    connect(ui->actionNewWindow, SIGNAL(triggered()), this, SLOT(slot_newGeometryDisplay()));
+    connect(ui->actionLoad,      &QAction::triggered, this, &MainWindow::slot_file_open_action);
+    connect(ui->actionSave,      &QAction::triggered, this, &MainWindow::slot_file_save_action);
+    connect(ui->actionSaveAs,    &QAction::triggered, this, &MainWindow::slot_file_save_as_action);
+    connect(ui->actionPlot,      &QAction::triggered, this, &MainWindow::slot_file_print_action);
+    connect(ui->actionPDF,       &QAction::triggered, this, &MainWindow::slot_file_pdf_export_action);
+    connect(ui->actionClose,     &QAction::triggered, this, &MainWindow::slot_file_close_action);
+    connect(ui->actionQuit,      &QAction::triggered, qApp, &QApplication::quit);
+    connect(ui->actionNewWindow, &QAction::triggered, this, &MainWindow::slot_newGeometryDisplay);
 
 
     // **** Layer Manager ****
-    this->layerManager = new LayerManager(this, topLevelLayer, itemDB);
+    this->layerManager = new LayerManager(m_itemDB, this);
     QAction* action_layerManager = this->layerManager->toggleViewAction();
     action_layerManager->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
-    connect(itemDB, SIGNAL(signal_layerAdded(Layer*,Layer*)), layerManager, SLOT(slot_layerAdded(Layer*,Layer*)));
-    connect(itemDB, SIGNAL(signal_layerChanged(Layer*)), layerManager, SLOT(slot_layerChanged(Layer*)));
-    connect(itemDB, SIGNAL(signal_layerDeleted(Layer*)), layerManager, SLOT(slot_layerDeleted(Layer*)));
+    connect(m_itemDB, &ItemDB::signal_layerAdded, layerManager, &LayerManager::slot_layerAdded);
+    connect(m_itemDB, &ItemDB::signal_layerChanged, layerManager, &LayerManager::slot_layerChanged);
+    connect(m_itemDB, &ItemDB::signal_layerDeleted, layerManager, &LayerManager::slot_layerDeleted);
     ui->menuFormat->addAction(action_layerManager);
 
     // **** CAD window (2nd version) *****
-    mainGeometryDisplay = new GeometryDisplay(itemDB, itemWizard, itemGripModifier, this);
-    connect(this, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
-    connect(layerManager, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
-    connect(itemDB, SIGNAL(signal_repaintNeeded()), mainGeometryDisplay, SIGNAL(signal_repaintNeeded()));
-    connect(itemDB, SIGNAL(signal_itemDeleted(CADitem*)), mainGeometryDisplay, SIGNAL(signal_itemDeleted(CADitem*)));
-    connect(itemDB, SIGNAL(signal_layerManagerUpdateNeeded()), layerManager, SLOT(slot_updateAllLayers()));
-    connect(settingsDialog, SIGNAL(signal_settingsChanged()), mainGeometryDisplay, SIGNAL(signal_settingsChanged()));
-    connect(mainGeometryDisplay, SIGNAL(signal_highlightItem(CADitem*)), this, SLOT(slot_highlightItem(CADitem*)));
-    connect(mainGeometryDisplay, SIGNAL(signal_snapFired(QVector3D,int)), this, SLOT(slot_snapTo(QVector3D,int)));
-    connect(mainGeometryDisplay, SIGNAL(signal_selectionChanged(QList<CADitem*>)), this, SLOT(slot_selectionChanged(QList<CADitem*>)));
+    mainGeometryDisplay = new GeometryDisplay(m_itemDB, itemWizard, itemGripModifier, this);
+    connect(this, &MainWindow::signal_repaintNeeded, mainGeometryDisplay, &GeometryDisplay::signal_repaintNeeded);
+    connect(layerManager, &LayerManager::signal_repaintNeeded, mainGeometryDisplay, &GeometryDisplay::signal_repaintNeeded);
+    connect(m_itemDB, &ItemDB::signal_repaintNeeded, mainGeometryDisplay, &GeometryDisplay::signal_repaintNeeded);
+    connect(m_itemDB, &ItemDB::signal_itemDeleted, mainGeometryDisplay, &GeometryDisplay::signal_itemDeleted);
+    connect(m_itemDB, &ItemDB::signal_layerManagerUpdateNeeded, layerManager, &LayerManager::slot_updateAllLayers);
+    connect(settingsDialog, &SettingsDialog::signal_settingsChanged, mainGeometryDisplay, &GeometryDisplay::signal_settingsChanged);
+    connect(mainGeometryDisplay, &GeometryDisplay::signal_highlightItem, this, &MainWindow::slot_highlightItem);
+    connect(mainGeometryDisplay, &GeometryDisplay::signal_snapFired, this, &MainWindow::slot_snapTo);
+    connect(mainGeometryDisplay, &GeometryDisplay::signal_selectionChanged, this, &MainWindow::slot_selectionChanged);
     mainGeometryDisplay->setFeatures(QDockWidget::NoDockWidgetFeatures);
     mainGeometryDisplay->setAllowedAreas(Qt::NoDockWidgetArea);
     mainGeometryDisplay->hideButtons();
@@ -112,13 +111,12 @@ MainWindow::MainWindow(QWidget *parent) :
     QOffscreenSurface* offscreensurface = new QOffscreenSurface();
     offscreensurface->create();
     offscreensurface->setFormat(QSurfaceFormat::defaultFormat());
-    this->collisionDetection = new CollisionDetection(this->itemDB, mainGeometryDisplay, offscreensurface, this);
+    this->collisionDetection = new CollisionDetection(m_itemDB, mainGeometryDisplay, offscreensurface, this);
     offscreensurface->moveToThread(collisionDetection);
-    connect(itemDB, SIGNAL(signal_itemDeleted(CADitem*)), collisionDetection, SLOT(slot_itemDeleted(CADitem*)));
-    connect(itemDB, SIGNAL(signal_itemModified(CADitem*)), collisionDetection, SLOT(slot_testModifiedItem(CADitem*)));
-    connect(collisionDetection, SIGNAL(signal_itemsDoCollide(CADitem*,CADitem*)), this, SLOT(slot_collision_detected(CADitem*,CADitem*)));
-    connect(collisionDetection, SIGNAL(signal_itemsDoNotCollide(CADitem*)), this, SLOT(slot_no_collision_detected(CADitem*)));
-
+    connect(m_itemDB, &ItemDB::signal_itemDeleted, collisionDetection, &CollisionDetection::slot_itemDeleted);
+    connect(m_itemDB, &ItemDB::signal_itemModified, collisionDetection, &CollisionDetection::slot_testModifiedItem);
+    connect(collisionDetection, &CollisionDetection::signal_itemsDoCollide, this, &MainWindow::slot_collision_detected);
+    connect(collisionDetection, &CollisionDetection::signal_itemsDoNotCollide, this, &MainWindow::slot_no_collision_detected);
 
 
     // **** Toolbar toggles ****
@@ -126,10 +124,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menuWerkzeugleisten->addAction(ui->toolBarItems->toggleViewAction());
 
     // **** Print Widget ****
-    printwidget = new PrintWidget(this, itemDB);
+    printwidget = new PrintWidget(this, m_itemDB);
 
     // **** Keyframe Animation ****
-    this->keyframeAnimation = new KeyframeAnimation(this, itemDB);
+    this->keyframeAnimation = new KeyframeAnimation(this, m_itemDB);
     QAction* action_keyframeAnimation = this->keyframeAnimation->toggleViewAction();
     action_keyframeAnimation->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_A));
 //    action_keyframeAnimation->setChecked(false);
@@ -150,12 +148,12 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     recentFilesMenu->addSeparator();
     QAction *clear = recentFilesMenu->addAction(tr("Clear menu"));
-    connect(clear, SIGNAL(triggered()), this, SLOT(slot_clearRecentFiles()));
+    connect(clear, &QAction::triggered, this, &MainWindow::slot_clearRecentFiles);
     ui->menuDatei->actions().at(1)->setMenu(recentFilesMenu);
     updateRecentFileActions();
 
     // **** Network server ****
-    server = new Server(itemDB, this);
+    server = new Server(m_itemDB, this);
     if (server->listen(QHostAddress::Any, 16001)) {
         qCDebug(powercad) << "server listening on 0.0.0.0 port=" << 16001;
     } else {
@@ -165,7 +163,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // **** 3D mouse ****
 #ifdef USE_3D_MOUSE
     magellanThread = new QMagellanThread();
-    connect(magellanThread, SIGNAL(signal_mouseCoords(int,int,int,int,int,int)), mainGeometryDisplay, SIGNAL(signal_mouse3Dcoords(int,int,int,int,int,int)));
+    connect(megallanThread, &QMagellanThread::signal_mouseCoors, mainGeometryDisplay, &GeometryDisplay::signal_mouse3Dcoords);
     //connect(magellanThread, SIGNAL(signal_buttonPressed(int)), this, SLOT());
     //connect(magellanThread, SIGNAL(signal_buttonReleased(int)), this, SLOT());
     magellanThread->start();
@@ -182,11 +180,12 @@ MainWindow::MainWindow(QWidget *parent) :
 //    layer->lineType = "Continuous";
 //    layer->width = 1;
 
-    Layer* layerX = itemDB->addLayer("X");
+    Layer *layerX = m_itemDB->addLayer("X");
     layerX->pen.setColor(Qt::gray);
     layerX->brush.setColor(QColor(0xff, 0xff, 0xff));
     layerX->lineType = Layer::Continuous;
-    layerX->width = 1;
+    layerX->lineWidth = 1;
+
 
 //    Layer* layerY = itemDB->addLayer("Y");
 //    layerY->pen.setColor(Qt::gray);
@@ -318,13 +317,18 @@ MainWindow::MainWindow(QWidget *parent) :
 //    }
 //    qCDebug(powercad) << "Finished test anglesFromMatrix()";
 
-    itemDB->addLayer("Collision");
-    itemDB->getLayerByName("Collision")->pen.setColor(QColor(255,0,0));
-    itemDB->getLayerByName("Collision")->brush.setColor(QColor(255,0,0));
-    this->layerManager->slot_updateAllLayers();
+    // TODO: Fix
+//    itemDB->addLayer("Collision");
+//    itemDB->getLayerByName("Collision")->pen.setColor(QColor(255,0,0));
+//    itemDB->getLayerByName("Collision")->brush.setColor(QColor(255,0,0));
+    Layer *collision = m_itemDB->addLayer("Collision");
+    collision->pen.setColor(QColor(255, 0, 0));
+    collision->brush.setColor(QColor(255, 0, 0));
+    // TODO:
+//    this->layerManager->slot_updateAllLayers();
 
 
-    //    emit signal_repaintNeeded();
+//        emit signal_repaintNeeded();
 
 }
 
@@ -377,11 +381,10 @@ QString MainWindow::strippedName(QString fullName)
 
 void MainWindow::createItemToolBar()
 {
-    QList<QString> domains = itemDB->getDomains();
+    QStringList domains = m_itemDB->getDomains();
 
-    foreach(QString domain, domains)
-    {
-        ToolWidget* toolWidget = new ToolWidget(this->itemDB, ui->toolBarItems);
+    foreach(QString domain, domains) {
+        ToolWidget* toolWidget = new ToolWidget(m_itemDB, ui->toolBarItems);
         toolWidget->setDomain(domain);
         ui->toolBarItems->addWidget(toolWidget);
         connect(toolWidget, SIGNAL(signal_newItemRequested(CADitemTypes::ItemType)), this, SLOT(slot_createNewItem(CADitemTypes::ItemType)));
@@ -447,7 +450,7 @@ void MainWindow::slot_file_open_action()
 void MainWindow::slot_file_open_dxf(QString filename)
 {
     // Load DXF file into memory:
-    CreationInterface* creationInterface = new CreationInterface(this->itemDB);
+    CreationInterface* creationInterface = new CreationInterface(m_itemDB);
     DL_Dxf* dxf = new DL_Dxf();
     if (!dxf->in(filename.toStdString(), creationInterface))
     {
@@ -460,7 +463,8 @@ void MainWindow::slot_file_open_dxf(QString filename)
 
 
     setProjectFilepath(filename);
-    this->layerManager->slot_updateAllLayers();
+    // TODO:
+//    this->layerManager->slot_updateAllLayers();
     emit signal_repaintNeeded();
 }
 
@@ -480,7 +484,7 @@ void MainWindow::slot_file_open_xml(QString filename)
     QString error;
     QMatrix4x4 matrix_projection, matrix_glSelect, matrix_modelview, matrix_rotation;
     matrix_projection.setToIdentity();
-    bool ok = itemDB->file_loadDB(filename, &error, &matrix_projection, &matrix_glSelect, &matrix_modelview, &matrix_rotation);
+    bool ok = m_itemDB->file_loadDB(filename, &error, &matrix_projection, &matrix_glSelect, &matrix_modelview, &matrix_rotation);
 
     if (!ok)
     {
@@ -513,7 +517,7 @@ void MainWindow::slot_file_save_action()
     if (!filename.endsWith(".xml"))
         filename.append(".xml");
 
-    bool ok = itemDB->file_storeDB(filename, this->geometryDisplays.first()->getWidget()->getMatrix_projection(),
+    bool ok = m_itemDB->file_storeDB(filename, this->geometryDisplays.first()->getWidget()->getMatrix_projection(),
                                    this->geometryDisplays.first()->getWidget()->getMatrix_glSelect(),
                                    this->geometryDisplays.first()->getWidget()->getMatrix_modelview(),
                                    this->geometryDisplays.first()->getWidget()->getMatrix_rotation());
@@ -540,7 +544,7 @@ void MainWindow::slot_file_save_as_action()
     if (!filename.endsWith(".xml"))
         filename.append(".xml");
 
-    bool ok = itemDB->file_storeDB(filename, this->geometryDisplays.first()->getWidget()->getMatrix_projection(),
+    bool ok = m_itemDB->file_storeDB(filename, this->geometryDisplays.first()->getWidget()->getMatrix_projection(),
                                    this->geometryDisplays.first()->getWidget()->getMatrix_glSelect(),
                                    this->geometryDisplays.first()->getWidget()->getMatrix_modelview(),
                                    this->geometryDisplays.first()->getWidget()->getMatrix_rotation());
@@ -629,15 +633,15 @@ void MainWindow::slot_clearRecentFiles()
 
 void MainWindow::slot_newGeometryDisplay()
 {
-    GeometryDisplay* newGeometryDisplay = new GeometryDisplay(itemDB, itemWizard, itemGripModifier, this);
+    GeometryDisplay* newGeometryDisplay = new GeometryDisplay(m_itemDB, itemWizard, itemGripModifier, this);
     connect(newGeometryDisplay, SIGNAL(signal_aboutToClose(QAction*)), this, SLOT(slot_geometryDisplayAboutToClose(QAction*)));
     connect(newGeometryDisplay, SIGNAL(signal_highlightItem(CADitem*)), this, SLOT(slot_highlightItem(CADitem*)));
     connect(newGeometryDisplay, SIGNAL(signal_snapFired(QVector3D,int)), this, SLOT(slot_snapTo(QVector3D,int)));
     connect(newGeometryDisplay, SIGNAL(signal_selectionChanged(QList<CADitem*>)), this, SLOT(slot_selectionChanged(QList<CADitem*>)));
     connect(this, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
     connect(layerManager, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
-    connect(itemDB, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
-    connect(itemDB, SIGNAL(signal_itemDeleted(CADitem*)), newGeometryDisplay, SIGNAL(signal_itemDeleted(CADitem*)));
+    connect(m_itemDB, SIGNAL(signal_repaintNeeded()), newGeometryDisplay, SIGNAL(signal_repaintNeeded()));
+    connect(m_itemDB, SIGNAL(signal_itemDeleted(CADitem*)), newGeometryDisplay, SIGNAL(signal_itemDeleted(CADitem*)));
 #ifdef USE_3D_MOUSE
     connect(magellanThread, SIGNAL(signal_mouseCoords(int,int,int,int,int,int)), newGeometryDisplay, SIGNAL(signal_mouse3Dcoords(int,int,int,int,int,int)));
 #endif
@@ -681,30 +685,30 @@ void MainWindow::slot_selectionChanged(QList<CADitem*> selectedItems)
 
 void MainWindow::slot_createNewItem(CADitemTypes::ItemType type)
 {
-    Layer* currentLayer = this->layerManager->getCurrentLayer();
-    if (currentLayer == this->itemDB->getTopLevelLayer())
-    {
-        QMessageBox::critical(this, tr("Item creation"), tr("No layer is selected."));
-        return;
-    }
+//    LayerOld* currentLayer = this->layerManager->getCurrentLayer();
+//    if (currentLayer == this->itemDB_old->getTopLevelLayer())
+//    {
+//        QMessageBox::critical(this, tr("Item creation"), tr("No layer is selected."));
+//        return;
+//    }
 
-    if (!currentLayer->writable)
-    {
-        QMessageBox::critical(this, tr("Item creation"), tr("The current layer is not writable."));
-        return;
-    }
+//    if (!currentLayer->writable)
+//    {
+//        QMessageBox::critical(this, tr("Item creation"), tr("The current layer is not writable."));
+//        return;
+//    }
 
-    if (!currentLayer->on)
-    {
-        if (QMessageBox::question(this, tr("Item creation"), tr("The current layer is not on.\nDo you really want to insert an item?"),
-                                  tr("Abort"), tr("Proceed"), "", 1, 0)
-                == 0)
-            return;
-    }
+//    if (!currentLayer->on)
+//    {
+//        if (QMessageBox::question(this, tr("Item creation"), tr("The current layer is not on.\nDo you really want to insert an item?"),
+//                                  tr("Abort"), tr("Proceed"), "", 1, 0)
+//                == 0)
+//            return;
+//    }
 
-    itemDB->setRestorePoint();
-    CADitem* item = itemDB->drawItem_withRestorePoint(currentLayer, type, WizardParams());
-    this->itemWizard->showWizard(item, itemDB);
+//    itemDB_old->setRestorePoint();
+//    CADitem* item = itemDB_old->drawItem_withRestorePoint(currentLayer, type, WizardParams());
+//    this->itemWizard->showWizard(item, itemDB_old);
 }
 
 void MainWindow::slot_fileNeedsSaving()
@@ -798,26 +802,26 @@ void MainWindow::slot_collision_detected(CADitem *item_1, CADitem *item_2)
         item_1->setFormerLayer(item_1->layer);
 //    if(item_2->layer->name != "Collision")
 //        item_2->setFormerLayer(item_2->layer);
-    itemDB->changeLayerOfItem(item_1->id, "Collision");
+    m_itemDB->changeLayerOfItem(item_1->id, "Collision");
 //    itemDB->changeLayerOfItem(item_2->id, "Collision");
 }
 
 void MainWindow::slot_no_collision_detected(CADitem *item_1)
 {
     if(item_1->formerLayer != NULL)
-        itemDB->changeLayerOfItem(item_1->id, item_1->formerLayer->name);
+        m_itemDB->changeLayerOfItem(item_1->id, item_1->formerLayer->name);
 }
 
 void MainWindow::on_actionCollision_Detection_triggered(bool checked)
 {
     if (checked)
     {
-        connect(itemDB, SIGNAL(signal_itemModified(CADitem*)), collisionDetection, SLOT(slot_testModifiedItem(CADitem*)));
+        connect(m_itemDB, SIGNAL(signal_itemModified(CADitem*)), collisionDetection, SLOT(slot_testModifiedItem(CADitem*)));
         connect(collisionDetection, SIGNAL(signal_itemsDoCollide(CADitem*,CADitem*, QVector3D, QVector3D)), this, SLOT(slot_collision_detected(CADitem*,CADitem*, QVector3D, QVector3D)));
     }
     else
     {
-        disconnect(itemDB, SIGNAL(signal_itemModified(CADitem*)), collisionDetection, SLOT(slot_testModifiedItem(CADitem*)));
+        disconnect(m_itemDB, SIGNAL(signal_itemModified(CADitem*)), collisionDetection, SLOT(slot_testModifiedItem(CADitem*)));
         disconnect(collisionDetection, SIGNAL(signal_itemsDoCollide(CADitem*,CADitem*, QVector3D, QVector3D)), this, SLOT(slot_collision_detected(CADitem*,CADitem*, QVector3D, QVector3D)));
     }
 }
