@@ -16,48 +16,46 @@
 #include "layermanager.h"
 #include "ui_layermanager.h"
 
-#include "logging.h"
+Q_LOGGING_CATEGORY(layermanager, "powercard.layermanager")
 
-LayerManager::LayerManager(QWidget *parent, Layer* topLevelLayer, ItemDB* itemDB) :
+LayerManager::LayerManager(ItemDB *itemDb, QWidget *parent) :
     QDockWidget(parent),
-    ui(new Ui::LayerManager)
+    ui(new Ui::LayerManager),
+    m_itemDb(itemDb)
 {
-    this->itemDB = itemDB;
-    this->topLevelLayer = topLevelLayer;
-    this->currentLayer = topLevelLayer;
-    this->item_atContextMenuRequest = NULL;
     ui->setupUi(this);
-//    this->move(1920, 0);    // tbd.: move to second screen, and not in this quick and dirty way :)
 
-    // Move to right screen
     QDesktopWidget desktopWidget;
-    QRect rightScreenRect = desktopWidget.screenGeometry(desktopWidget.numScreens() - 1);
-    if (desktopWidget.screenCount() > 1)
-    {
+    QRect rightScreenRect = desktopWidget.screenGeometry(desktopWidget.numScreens() -1);
+    if (desktopWidget.screenCount() > 1) {
         this->resize(this->width(), rightScreenRect.height());
         this->move(rightScreenRect.topLeft());
     }
 
-    ui->treeWidget_layer->setColumnWidth(1, 24);
-    ui->treeWidget_layer->setColumnWidth(2, 24);
-    ui->treeWidget_layer->setColumnWidth(3, 24);
+    ui->treeView_layer->setModel(m_itemDb);
+    ui->treeView_layer->setColumnWidth(1, 24);
+    ui->treeView_layer->setColumnWidth(2, 24);
+    ui->treeView_layer->setColumnWidth(3, 24);
+    ui->treeView_layer->header()->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->treeView_layer->header()->setSectionResizeMode(1, QHeaderView::Fixed);
+    ui->treeView_layer->header()->setSectionResizeMode(2, QHeaderView::Fixed);
+    ui->treeView_layer->header()->setSectionResizeMode(3, QHeaderView::Fixed);
+    ui->treeView_layer->header()->setSectionResizeMode(4, QHeaderView::ResizeToContents);
+    ui->treeView_layer->header()->setSectionResizeMode(5, QHeaderView::ResizeToContents);
+    ui->treeView_layer->header()->setSectionResizeMode(6, QHeaderView::ResizeToContents);
+    ui->treeView_layer->header()->setSectionResizeMode(7, QHeaderView::ResizeToContents);
 
-    icon_layerOn = QPixmap(":/ui/layermanager/icons/check.svg").scaledToWidth(24, Qt::SmoothTransformation);
-    icon_layerOff = QPixmap(":/ui/layermanager/icons/hide_layer.svg").scaledToWidth(24, Qt::SmoothTransformation);
-    icon_pencilOn = QPixmap(":/ui/layermanager/icons/pencil.svg").scaledToWidth(24, Qt::SmoothTransformation);
-    icon_pencilOff = QPixmap(":/ui/layermanager/icons/pencil_off.svg").scaledToWidth(24, Qt::SmoothTransformation);
+    m_menuNoItem = new QMenu(this);
+    m_menuNoItem->addAction(tr("New layer"), this, SLOT(slot_appendNewLayer()));
 
-    menu_noItem = new QMenu(this);
-    menu_noItem->addAction(QIcon(), tr("New layer"), this, SLOT(slot_appendNewLayer()));
-
-    menu_onItem = new QMenu(this);
-    menu_onItem->addAction(QIcon(), tr("Edit name"), this, SLOT(slot_edit_layerName()));
-    menu_onItem->addAction(QIcon(), tr("Edit line width"), this, SLOT(slot_edit_layerLineWidth()));
-    menu_onItem->addAction(QIcon(), tr("Edit line type"), this, SLOT(slot_edit_layerLineType()));
-    menu_onItem->addSeparator();
-    menu_onItem->addAction(QIcon(), tr("Append new Layer"), this, SLOT(slot_appendNewLayer()));
-    menu_onItem->addAction(QIcon(), tr("Append new layer as child"), this, SLOT(slot_appendNewLayerAsChild()));
-    menu_onItem->addAction(QIcon(), tr("Delete layer"), this, SLOT(slot_deleteLayer()));
+    m_menuOnItem = new QMenu(this);
+    m_menuOnItem->addAction(tr("Edit name"), this, SLOT(slot_editLayerName()));
+    m_menuOnItem->addAction(tr("Edit line width"), this, SLOT(slot_editLayerLineWidth()));
+    m_menuOnItem->addAction(tr("Edit line type"), this, SLOT(slot_editLayerLineType()));
+    m_menuOnItem->addSeparator();
+    m_menuOnItem->addAction(tr("Append new Layer"), this, SLOT(slot_appendNewLayer()));
+    m_menuOnItem->addAction(tr("Append new Layer as child"), this, SLOT(slot_appendNewLayerAsChild()));
+    m_menuOnItem->addAction(tr("Delete layer"), this, SLOT(slot_deleteLayer()));
 }
 
 LayerManager::~LayerManager()
@@ -65,334 +63,241 @@ LayerManager::~LayerManager()
     delete ui;
 }
 
-void LayerManager::slot_layerAdded(Layer *newLayer, Layer *parentLayer)
-{
-    QTreeWidgetItem* item;
-
-    if (parentLayer == topLevelLayer)
-    {
-        QTreeWidgetItem* parentlItem = ui->treeWidget_layer->invisibleRootItem();
-        item = new QTreeWidgetItem(parentlItem);
-        ui->treeWidget_layer->addTopLevelItem(item);
-    }
-    else
-    {
-        QTreeWidgetItem* parentlItem = layerMap.value(parentLayer);
-        item = new QTreeWidgetItem(parentlItem);
-        layerMap.value(parentLayer)->addChild(item);
-    }
-
-    item->setText(0, newLayer->name);
-
-    if (layerMap.isEmpty())
-        ui->treeWidget_layer->setCurrentItem(item);
-    layerMap.insert(newLayer, item);
-    updateLayer(newLayer);
-    ui->treeWidget_layer->resizeColumnToContents(0);
-}
-
-void LayerManager::slot_layerChanged(Layer *layer)
-{
-    // First check if we display this layer
-    QTreeWidgetItem* item = layerMap.value(layer);
-    if (item == NULL)
-        return;
-
-    // Then update Treewidget content
-    updateLayer(layer);
-}
-
-void LayerManager::slot_layerDeleted(Layer *layer)
-{
-    QTreeWidgetItem* item = layerMap.value(layer);
-    layerMap.remove(layer);
-    if (item == NULL)
-        return;
-
-    QTreeWidgetItem* parentItem = item->parent();
-    if (parentItem == NULL)
-        parentItem = ui->treeWidget_layer->invisibleRootItem();
-
-    parentItem->removeChild(item);
-    delete item;
-}
-
-void LayerManager::slot_updateAllLayers()
-{
-    foreach(Layer* layer, layerMap.keys())
-    {
-        updateLayer(layer);
-    }
-    ui->treeWidget_layer->resizeColumnToContents(0);
-}
-
 void LayerManager::updateLayer(Layer *layer)
 {
-    QTreeWidgetItem *item = layerMap.value(layer);
-    if (layer->on)
-    {
-        QLabel *label = static_cast<QLabel *>(ui->treeWidget_layer->itemWidget(item, 1));
-        if (label == NULL)
-        {
-            label = new QLabel();
-            ui->treeWidget_layer->setItemWidget(item, 1, label);
-        }
-        label->setPixmap(icon_layerOn);
-        item->setBackgroundColor(1, QColor(0, 105, 0));
-    }
-    else
-    {
-        QLabel *label = static_cast<QLabel *>(ui->treeWidget_layer->itemWidget(item, 1));
-        if (label == NULL)
-        {
-            label = new QLabel();
-            ui->treeWidget_layer->setItemWidget(item, 1, label);
-        }
-        label->setPixmap(icon_layerOff);
-        item->setBackgroundColor(1, QColor(49, 49, 41));
-    }
+//    QModelIndex index;
+//    QModelIndexList indexList = m_itemDb->match(m_itemDb->index(0, 0, QModelIndex()), Qt::DisplayRole, layer->name, 1, Qt::MatchRecursive);
+//    if (indexList.count() >= 1)
+//        index = indexList.first();
+//    else
+//        index = m_itemDb->index(0, 0, QModelIndex());
 
-    if (layer->writable)
-    {
-        QLabel *label = static_cast<QLabel *>(ui->treeWidget_layer->itemWidget(item, 2));
-        if (label == NULL)
-        {
-            label = new QLabel();
-            ui->treeWidget_layer->setItemWidget(item, 2, label);
-        }
-        label->setPixmap(icon_pencilOn);
-        item->setBackgroundColor(2, QColor(0, 105, 0));
-    }
-    else
-    {
-        QLabel *label = static_cast<QLabel *>(ui->treeWidget_layer->itemWidget(item, 2));
-        if (label == NULL)
-        {
-            label = new QLabel();
-            ui->treeWidget_layer->setItemWidget(item, 2, label);
-        }
-        label->setPixmap(icon_pencilOff);
-        item->setBackgroundColor(2, QColor(49, 49, 41));
-    }
-
-    if (layer->solo)
-    {
-        QLabel *label = static_cast<QLabel *>(ui->treeWidget_layer->itemWidget(item, 3));
-        if (label == NULL)
-        {
-            label = new QLabel();
-            ui->treeWidget_layer->setItemWidget(item, 3, label);
-        }
-        label->setPixmap(icon_layerOn);
-        item->setBackgroundColor(3, QColor(200, 200, 0));
-    }
-    else
-    {
-        QLabel *label = static_cast<QLabel *>(ui->treeWidget_layer->itemWidget(item, 3));
-        if (label == NULL)
-        {
-            label = new QLabel();
-            ui->treeWidget_layer->setItemWidget(item, 3, label);
-        }
-        label->setPixmap(icon_layerOff);
-        item->setBackgroundColor(3, QColor(49, 49, 41));
-    }
-
-    item->setText(0, layer->name);
-    item->setText(4, layer->brush.color().name());
-    QPixmap colorPixmap(16, 16);
-    colorPixmap.fill(layer->brush.color());
-    item->setIcon(4, QIcon(colorPixmap));
-    item->setText(5, layer->pen.color().name());
-    colorPixmap.fill(layer->pen.color());
-    item->setIcon(5, QIcon(colorPixmap));
-    item->setText(6, QString().sprintf("%i", layer->width));
-    item->setText(7, layer->lineType);
-}
-
-Layer *LayerManager::getCurrentLayer()
-{
-    return currentLayer;
-}
-
-bool LayerManager::isSoloActive()
-{
-    return itemDB->layerSoloActive;
+    //    emit m_itemDb->dataChanged(index, index);
 }
 
 void LayerManager::updateSoloActive()
 {
-    itemDB->layerSoloActive = false;
-    updateSoloActive_processLayers(itemDB->getTopLevelLayer()->subLayers);
-    if (itemDB->layerSoloActive)
-    {
-        this->setWindowTitle(tr("Layermanager") + " [solo active]");
-    }
-    else
-    {
-        this->setWindowTitle(tr("Layermanager"));
+    m_itemDb->layerSoloActive = false;
+    updateSoloActive_processLayers(m_itemDb->getRootLayer()->getChildLayers());
+    if (m_itemDb->layerSoloActive) {
+        setWindowTitle(tr("Layermanager [solo active]"));
+    } else {
+        setWindowTitle(tr("Layermanager"));
     }
 }
 
-void LayerManager::updateSoloActive_processLayers(QList<Layer *> layers)
+void LayerManager::updateSoloActive_processLayers(LayerList layers)
 {
-    foreach (Layer* layer, layers)
-    {
+    foreach (Layer *layer, layers) {
         if (layer->solo)
-            itemDB->layerSoloActive = true;
-        updateSoloActive_processLayers(layer->subLayers);
+            m_itemDb->layerSoloActive = true;
+        updateSoloActive_processLayers(layer->getChildLayers());
     }
 }
 
-void LayerManager::on_treeWidget_layer_itemClicked(QTreeWidgetItem *item, int column)
+void LayerManager::slot_editLayerName(Layer *layer)
 {
-    Layer* layer = layerMap.key(item);
-    if (itemDB->isLayerValid(layer) == false)
-        return;
+   if (!layer) layer = m_layerAtContextMenuRequest;
 
-    switch (column)
-    {
-    case 0:     // Layer
-    {
-        break;
-    }
-    case 1:     // Ein
-    {
-        layer->on = (!layer->on);
-        break;
-    }
-    case 2:     // R/W
-    {
-        layer->writable = (!layer->writable);
-        break;
-    }
-    case 3:
-    {
-        layer->solo = (!layer->solo);
-        this->updateSoloActive();
-        break;
-    }
-    case 4:     // Fillcolor
-    {
-        QColorDialog colorDialog(layer->brush.color(), this);
-        colorDialog.setWindowTitle(tr("Fillcolor of layer %1").arg(layer->name));
-        colorDialog.setModal(true);
-        colorDialog.setOption(QColorDialog::ShowAlphaChannel, true);
-        if (colorDialog.exec() == QDialog::Rejected)
-            return;
-        layer->brush.setColor(colorDialog.currentColor());
-        break;
-    }
-    case 5:     // Linecolor
-    {
-        QColorDialog colorDialog(layer->pen.color(), this);
-        colorDialog.setWindowTitle(tr("Linecolor of layer %1").arg(layer->name));
-        colorDialog.setModal(true);
-        colorDialog.setOption(QColorDialog::ShowAlphaChannel, true);
-        if (colorDialog.exec() == QDialog::Rejected)
-            return;
-        layer->pen.setColor(colorDialog.currentColor());
-        break;
-    }
-    case 6:     // Linewidth
-    {
-        break;
-    }
-    case 7:     // Linetype
-    {
-        break;
-    }
-    }
+   QString layerName;
+   bool ok;
+   do {
+       layerName = QInputDialog::getText(this, tr("Rename layer %1").arg(layer->name),
+                                         tr("Layer name"), QLineEdit::Normal, layer->name, &ok);
 
-    updateLayer(layer);
-    emit signal_repaintNeeded();
+       if (!ok) break;
+
+       if (layerName.isEmpty())
+           QMessageBox::warning(this, tr("New layer"), tr("Layer name cannot be empty"));
+   } while (layerName.isEmpty());
+
+   if (ok) layer->name = layerName;
 }
 
-void LayerManager::on_treeWidget_layer_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+void LayerManager::slot_editLayerLineWidth(Layer *layer)
 {
-    Q_UNUSED(previous);
-    if (current == NULL)
-    {
-        currentLayer = topLevelLayer;
-        return;
-    }
-    Layer* newCurrentLayer = itemDB->getLayerByName(current->text(0));
-    if (newCurrentLayer != NULL)
-    {
-        this->currentLayer = newCurrentLayer;
-    }
-    else
-    {
-        qCDebug(powercad) << "LayerManager::on_treeWidget_layer_currentItemChanged(): newCurrentLayer is NULL.";
-    }
+    if (!layer) layer = m_layerAtContextMenuRequest;
+
+    int lineWidth = QInputDialog::getInt(this, tr("Edit line width of layer %1").arg(layer->name),
+                                         tr("New width (pixel)"), layer->lineWidth, 1, 10);
+    layer->lineWidth = lineWidth;
 }
 
-void LayerManager::on_treeWidget_layer_customContextMenuRequested(const QPoint &pos)
+void LayerManager::slot_editLayerLineType(Layer *layer)
 {
-    this->item_atContextMenuRequest = ui->treeWidget_layer->itemAt(pos);
+    if (!layer) layer = m_layerAtContextMenuRequest;
 
-    if (this->item_atContextMenuRequest == NULL)
-    {
-        this->menu_noItem->popup(QCursor::pos());
+    QStringList items = QStringList();
+    for (int i = 0; i < layer->metaEnum_lineType.keyCount(); i++) {
+        items.append(layer->metaEnum_lineType.key(i));
     }
-    else
-    {
-        this->menu_onItem->popup(QCursor::pos());
-    }
-}
-
-void LayerManager::slot_edit_layerName()
-{
-    Layer* layer = layerMap.key(item_atContextMenuRequest);
-    QString layerName = QInputDialog::getText(this, tr("Rename Layer"), tr("Layer name"), QLineEdit::Normal, layer->name);
-    itemDB->renameLayer(layer, layerName);
-}
-
-void LayerManager::slot_edit_layerLineWidth()
-{
-    Layer* layer = layerMap.key(item_atContextMenuRequest);
-    int lineWidth = QInputDialog::getInt(this, tr("Edit line width"), tr("New width (pixel)"), layer->width, 1, 10);
-    itemDB->setLayerLineWidth(layer, lineWidth);
-}
-
-void LayerManager::slot_edit_layerLineType()
-{
-    Layer* layer = layerMap.key(item_atContextMenuRequest);
-    QString lineType = QInputDialog::getText(this, tr("Linetype of Layer"), tr("New Linetype"), QLineEdit::Normal, layer->lineType);
-    itemDB->setLayerLineType(layer, lineType);
+    Layer::LineType lineType = (Layer::LineType)items.indexOf(
+                QInputDialog::getItem(this, tr("Edit line type of layer %1").arg(layer->name),
+                                      tr("New Linetype"), items, layer->lineType, false));
+    layer->lineType = lineType;
 }
 
 void LayerManager::slot_appendNewLayer()
 {
-    QString layerName = QInputDialog::getText(this, tr("New Layer"), tr("Layer name"));
-    if (itemDB->getLayerByName(layerName) != NULL)
-    {
-        QMessageBox::warning(this, tr("New Layer"), tr("Layer name already in use! Try again and choose a different name."));
-        return;
+    QString layerName;
+    bool alreadyExists = false;
+    bool ok;
+
+    do {
+        if (alreadyExists)
+            QMessageBox::warning(this, tr("New layer"), tr("Layer name already in use! Try a different name!"));
+
+        if (layerName.isEmpty() || alreadyExists) {
+            do {
+                layerName = QInputDialog::getText(this, tr("New layer"), tr("Layer name"), QLineEdit::Normal, NULL, &ok);
+
+                if (!ok) break;
+                if (layerName.isEmpty())
+                    QMessageBox::warning(this, tr("New layer"), tr("Layer name cannot be empty"));
+            } while(layerName.isEmpty());
+        }
+
+        if (!ok) break;
+    } while (m_itemDb->findLayerByName(layerName) != NULL && (alreadyExists = true));
+
+    if (ok) {
+        m_itemDb->insertLayer(layerName, m_itemDb->parent(m_indexAtContextMenuRequest),
+                              m_layerAtContextMenuRequest->parentLayer()->childCount());
     }
-    itemDB->addLayer(layerName);
 }
 
 void LayerManager::slot_appendNewLayerAsChild()
 {
-    QString layerName = QInputDialog::getText(this, tr("New Layer"), tr("Layer name"));
-    if (itemDB->getLayerByName(layerName) != NULL)
-    {
-        QMessageBox::warning(this, tr("New Layer"), tr("Layer name already in use! Try again and choose a different name."));
-        return;
+    QString layerName;
+    bool alreadyExists = false;
+    bool ok;
+
+    do {
+        if (alreadyExists)
+            QMessageBox::warning(this, tr("New layer"), tr("Layer name already in use! Try a different name!"));
+
+        if (layerName.isEmpty() || alreadyExists) {
+            do {
+                layerName = QInputDialog::getText(this, tr("New layer"), tr("Layer name"), QLineEdit::Normal, NULL, &ok);
+
+                if (!ok) break;
+                if (layerName.isEmpty())
+                    QMessageBox::warning(this, tr("New layer"), tr("Layer name cannot be empty"));
+            } while(layerName.isEmpty());
+        }
+
+        if (!ok) break;
+    } while (m_itemDb->findLayerByName(layerName) != NULL && (alreadyExists = true));
+
+    if (ok) {
+        m_itemDb->insertLayer(layerName, m_indexAtContextMenuRequest,
+                              m_layerAtContextMenuRequest->childCount());
+        ui->treeView_layer->expand(m_indexAtContextMenuRequest);
     }
-    itemDB->addLayer(layerName, layerMap.key(item_atContextMenuRequest));
 }
 
 void LayerManager::slot_deleteLayer()
 {
-    bool success = itemDB->deleteLayer(layerMap.key(item_atContextMenuRequest));
+    int ret = QMessageBox::question(this, tr("Delete layer"),
+                                    tr("Do you want to delete layer %1").arg(m_layerAtContextMenuRequest->name),
+                                    QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+
+    if (ret != QMessageBox::Yes) return;
+
+    bool success = m_itemDb->deleteLayerAt(m_itemDb->parent(m_indexAtContextMenuRequest),
+                                           m_indexAtContextMenuRequest);
     if (!success)
-        QMessageBox::warning(this, tr("Delete Layer"), tr("Unable to delete Layer. May be it is not empty..."));
+        QMessageBox::warning(this, tr("Delete layer"), tr("Unable to delete layer. Maybe it's not empty."));
 }
 
-void LayerManager::on_treeWidget_layer_itemExpanded(QTreeWidgetItem *item)
+void LayerManager::on_treeView_layer_customContextMenuRequested(const QPoint &pos)
 {
-    Q_UNUSED(item);
-    ui->treeWidget_layer->resizeColumnToContents(0);
+    QModelIndex index = ui->treeView_layer->indexAt(pos);
+    m_indexAtContextMenuRequest = index;
+    m_layerAtContextMenuRequest = static_cast<Layer*>(index.internalPointer());
+
+    if (index.isValid()) {
+        m_menuOnItem->popup(QCursor::pos());
+    } else {
+        m_menuNoItem->popup(QCursor::pos());
+    }
+}
+
+void LayerManager::on_treeView_layer_clicked(const QModelIndex &index)
+{
+    Layer *layer = static_cast<Layer*>(index.internalPointer());
+
+    int col = index.column();
+    if (col == 1) { // Ein
+        layer->isOn = !layer->isOn;
+    } else if (col == 2) { // R/W
+        layer->isWriteable = !layer->isWriteable;
+    } else if (col == 3) { // Solo
+        layer->solo = !layer->solo;
+        updateSoloActive();
+    } else if (col == 4) { // Brush
+        QColorDialog colorDialog(layer->brush.color(), this);
+        colorDialog.setWindowTitle(tr("Fillcolor of layer %1").arg(layer->name));
+        colorDialog.setModal(true);
+        colorDialog.setOption(QColorDialog::ShowAlphaChannel, true);
+        if (colorDialog.exec() == QDialog::Rejected) {
+            return;
+        }
+        layer->brush.setColor(colorDialog.currentColor());
+    } else if (col == 5) { // Pen
+        QColorDialog colorDialog(layer->pen.color(), this);
+        colorDialog.setWindowTitle(tr("Linecolor of layer %1").arg(layer->name));
+        colorDialog.setModal(true);
+        colorDialog.setOption(QColorDialog::ShowAlphaChannel, true);
+        if (colorDialog.exec() == QDialog::Rejected) {
+            return;
+        }
+        layer->pen.setColor(colorDialog.currentColor());
+    }
+
+    emit ui->treeView_layer->dataChanged(index, index);
+
+    // TODO: updateLayer(layer);
+    emit signal_repaintNeeded();
+}
+
+void LayerManager::on_treeView_layer_doubleClicked(const QModelIndex &index)
+{
+    Layer *layer = static_cast<Layer*>(index.internalPointer());
+
+    int col = index.column();
+    if (col == 0) { // name
+        slot_editLayerName(layer);
+    } else if (col == 6) { // line width
+        slot_editLayerLineWidth(layer);
+    } else if (col == 7) { // line type
+        slot_editLayerLineType(layer);
+    }
+
+    emit ui->treeView_layer->dataChanged(index, index);
+}
+
+void LayerManager::on_treeView_layer_expanded(const QModelIndex &index)
+{
+    Q_UNUSED(index)
+    ui->treeView_layer->resizeColumnToContents(0);
+}
+
+void LayerManager::slot_updateAllLayers()
+{
+}
+
+void LayerManager::slot_layerAdded(Layer *newLayer, Layer *parentLayer)
+{
+//    updateLayer(newLayer);
+}
+
+void LayerManager::slot_layerChanged(Layer *layer)
+{
+//    updateLayer(layer);
+}
+
+void LayerManager::slot_layerDeleted(Layer *layer)
+{
+//    updateLayer(layer);
 }

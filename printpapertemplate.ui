@@ -94,7 +94,7 @@
           <enum>QPlainTextEdit::NoWrap</enum>
          </property>
          <property name="plainText">
-          <string>papersize DIN A3
+          <string notr="true">papersize DIN A3
 pencolor black
 linewidth 5
 border

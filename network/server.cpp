@@ -18,37 +18,22 @@
 Q_LOGGING_CATEGORY(server, "powercad.network.server")
 
 Server::Server(ItemDB *itemDB, QObject *parent) :
-    TcpServer(parent)
+    TcpServer(parent),
+    m_itemDB(itemDB)
 {
-    this->itemDB = itemDB;
-
-//    connect(&tcpServer, SIGNAL(newConnection()),  this, SLOT(slot_new_connection()));
-//    tcpServer.listen(QHostAddress::Any, 16001);
 }
 
 Server::~Server()
 {
-
 }
 
 void Server::incomingConnection(qintptr descriptor)
 {
     qCDebug(server) << this << "incoming connection:" << descriptor;
-    SPCPConnection *connection = new SPCPConnection();
+    SPCPConnection *connection = new SPCPConnection(this->m_itemDB);
+    connect(connection, &SPCPConnection::broadcast, this, &Server::slot_broadcast);
 
     accept(descriptor, connection);
-}
-
-void Server::slot_new_connection()
-{
-    QTcpSocket* newSocket = tcpServer.nextPendingConnection();
-    this->socket_list.append(newSocket);
-
-    ClientHandler* clientHandler = new ClientHandler(this, newSocket, this->itemDB);
-    connect(clientHandler, SIGNAL(signal_broadcast(QTcpSocket*,QByteArray)),
-            this, SLOT(slot_broadcast(QTcpSocket*,QByteArray)));
-    connect(clientHandler, SIGNAL(signal_connectionClosed(QTcpSocket*,ClientHandler*)),
-            this, SLOT(slot_connectionClosed(QTcpSocket*,ClientHandler*)));
 }
 
 void Server::slot_broadcast(QTcpSocket *fromClient, QByteArray data)
@@ -57,11 +42,4 @@ void Server::slot_broadcast(QTcpSocket *fromClient, QByteArray data)
         if (socket != fromClient)
             socket->write(data);
     }
-}
-
-void Server::slot_connectionClosed(QTcpSocket *socket, ClientHandler *clientHandler)
-{
-    this->socket_list.removeOne(socket);
-    //delete socket;
-    delete clientHandler;
 }

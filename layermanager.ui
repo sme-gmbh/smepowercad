@@ -22,7 +22,7 @@
   <property name="minimumSize">
    <size>
     <width>200</width>
-    <height>105</height>
+    <height>184</height>
    </size>
   </property>
   <property name="styleSheet">
@@ -99,6 +99,10 @@ QTreeView {
 	color: rgb(255, 255, 255);
 }
 
+QTreeView::item {
+	padding: 0 5px;
+}
+
 </string>
   </property>
   <property name="floating">
@@ -125,150 +129,30 @@ QTreeView {
      <number>0</number>
     </property>
     <item row="0" column="0">
-     <widget class="QTreeWidget" name="treeWidget_layer">
+     <widget class="QTreeView" name="treeView_layer">
       <property name="focusPolicy">
        <enum>Qt::NoFocus</enum>
       </property>
       <property name="contextMenuPolicy">
        <enum>Qt::CustomContextMenu</enum>
       </property>
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="showDropIndicator" stdset="0">
-       <bool>false</bool>
-      </property>
-      <property name="selectionMode">
-       <enum>QAbstractItemView::SingleSelection</enum>
-      </property>
-      <property name="animated">
+      <property name="dragEnabled">
        <bool>true</bool>
       </property>
-      <attribute name="headerHighlightSections">
+      <property name="dragDropMode">
+       <enum>QAbstractItemView::InternalMove</enum>
+      </property>
+      <property name="defaultDropAction">
+       <enum>Qt::MoveAction</enum>
+      </property>
+      <attribute name="headerStretchLastSection">
        <bool>false</bool>
       </attribute>
-      <column>
-       <property name="text">
-        <string>Layer</string>
-       </property>
-       <property name="toolTip">
-        <string>Name of the layer</string>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="toolTip">
-        <string>Visibility of the Layer</string>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
-       </property>
-       <property name="icon">
-        <iconset resource="icons.qrc">
-         <normaloff>:/ui/layermanager/icons/layerOnHeader.svg</normaloff>:/ui/layermanager/icons/layerOnHeader.svg</iconset>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="toolTip">
-        <string>Permission to edit objects contained by the layer</string>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
-       </property>
-       <property name="icon">
-        <iconset resource="icons.qrc">
-         <normaloff>:/ui/layermanager/icons/layerLockHeader.svg</normaloff>:/ui/layermanager/icons/layerLockHeader.svg</iconset>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>S</string>
-       </property>
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Solo: Only the layers marked as solo are shown when at least one layer is solo&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Fill color</string>
-       </property>
-       <property name="toolTip">
-        <string>Fill color inside of outlined objects, e.g. rectangles</string>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Outline color</string>
-       </property>
-       <property name="toolTip">
-        <string>Outline color for objects, e.g. rectangles,
-Color of line objects</string>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Line width</string>
-       </property>
-       <property name="toolTip">
-        <string>Default width for lines and outlines</string>
-       </property>
-       <property name="font">
-        <font>
-         <family>Cantarell</family>
-         <pointsize>9</pointsize>
-        </font>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Line type</string>
-       </property>
-       <property name="toolTip">
-        <string>Pattern of lines or outlines</string>
-       </property>
-       <property name="font">
-        <font>
-         <family>Cantarell</family>
-         <pointsize>9</pointsize>
-        </font>
-       </property>
-      </column>
      </widget>
     </item>
    </layout>
   </widget>
  </widget>
- <resources>
-  <include location="icons.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

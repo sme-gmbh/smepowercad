@@ -138,7 +138,7 @@ void CAD_basic_polyline::paint(GLWidget *glwidget)
             qreal penWidth = 1.0;
             if (widthByLayer)
             {
-                penWidth = layer->width / 100.0;
+                penWidth = layer->lineWidth / 100.0;
             }
             else if (widthByBlock)
             {

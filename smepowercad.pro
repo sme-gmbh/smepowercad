@@ -55,13 +55,10 @@ HEADERS += 3Dmouse/qmagellan.h \
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    layer.cpp \
-    layermanager.cpp \
     creationinterface.cpp \
     dxflib/src/dl_writer_ascii.cpp \
     dxflib/src/dl_dxf.cpp \
     geometrydisplay.cpp \
-    itemdb.cpp \
     caditem.cpp \
     math/m3dbox.cpp \
     glwidget.cpp \
@@ -313,11 +310,12 @@ SOURCES += main.cpp\
     items/cad_steel_beamz.cpp \
     items/cad_steel_beamt.cpp \
     items/cad_steel_beamu.cpp \
-    items/cad_steel_beami.cpp
+    items/cad_steel_beami.cpp \
+    itemdb.cpp \
+    layer.cpp \
+    layermanager.cpp
 
 HEADERS  += mainwindow.h \
-    layer.h \
-    layermanager.h \
     creationinterface.h \
     dxflib/src/dl_writer_ascii.h \
     dxflib/src/dl_writer.h \
@@ -331,7 +329,6 @@ HEADERS  += mainwindow.h \
     dxflib/src/dl_codes.h \
     dxflib/src/dl_attributes.h \
     geometrydisplay.h \
-    itemdb.h \
     caditem.h \
     math/m3dbox.h \
     glwidget.h \
@@ -585,10 +582,12 @@ HEADERS  += mainwindow.h \
     items/cad_steel_beamz.h \
     items/cad_steel_beamt.h \
     items/cad_steel_beamu.h \
-    items/cad_steel_beami.h
+    items/cad_steel_beami.h \
+    itemdb.h \
+    layer.h \
+    layermanager.h
 
 FORMS    += mainwindow.ui \
-    layermanager.ui \
     geometrydisplaytitle.ui \
     modaldialog.ui \
     settingsdialog.ui \
@@ -598,17 +597,19 @@ FORMS    += mainwindow.ui \
     printpapertemplate.ui \
     keyframeanimation.ui \
     itemwizard.ui \
-    itemcatalog.ui
+    itemcatalog.ui \
+    layermanager.ui
 
 RESOURCES += \
-    icons.qrc
+    icons.qrc \
+    translations.qrc
+
+TRANSLATIONS += \
+    lang/powercad-de_DE.ts \
+    lang/powercad-ru_RU.ts
 
 OTHER_FILES += \
     todo.txt \
-    lang/powercad-de_DE.ts \
-    lang/powercad-ru_RU.ts \
-    lang/powercad-de_DE.qm \
-    lang/powercad-ru_RU.qm \
     settings.xml \
     shaders/shader_1.vert \
     shaders/shader_1_triangles.geom \

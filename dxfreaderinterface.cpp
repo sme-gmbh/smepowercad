@@ -15,7 +15,6 @@
 
 #include "dxfreaderinterface.h"
 
-#include "layer.h"
 #include "logging.h"
 
 DxfReaderInterface::DxfReaderInterface(ItemDB *itemDB)

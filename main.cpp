@@ -17,6 +17,7 @@
 #include <QSettings>
 #include <QSurfaceFormat>
 #include <QTranslator>
+#include <QLibraryInfo>
 
 #include "mainwindow.h"
 #include "logging.h"
@@ -35,7 +36,7 @@ int main(int argc, char *argv[])
     QLoggingCategory::setFilterRules("*.debug=true\n"
                                      "qt.qpa.input*.debug=false\n"
                                      "qt.widgets.gestures*.debug=false\n");
-    qSetMessagePattern("[%{time yyyyMMdd h:mm:ss.zzz}] %{if-debug}D%{endif}%{if-info}I%{endif}%{if-warning}W%{endif}%{if-critical}C%{endif}%{if-fatal}F%{endif} (%{qthreadptr}) %{file}:%{line} - %{message}");
+    qSetMessagePattern("[%{time yyyyMMdd h:mm:ss.zzz}] %{if-debug}D%{endif}%{if-info}I%{endif}%{if-warning}W%{endif}%{if-critical}C%{endif}%{if-fatal}F%{endif} (%{qthreadptr}|%{threadid}) %{message} [%{category}->%{function}]");
 
     // Qt 5 specific opengl settings
     QSurfaceFormat format;
@@ -54,8 +55,12 @@ int main(int argc, char *argv[])
     QSettings settings;
     QString lang = settings.value("environment_general_language", "de_DE").toString();
 
+    qCDebug(powercad) << "Using language" << lang;
+    QTranslator qtTranslator;
+    qtTranslator.load("qt_" + lang, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    a.installTranslator(&qtTranslator);
     QTranslator translator;
-    translator.load("powercad-" + lang);
+    translator.load("powercad-" + lang, ":/lang/");
     a.installTranslator(&translator);
 
     MainWindow w;

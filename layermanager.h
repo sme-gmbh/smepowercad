@@ -16,19 +16,20 @@
 #ifndef LAYERMANAGER_H
 #define LAYERMANAGER_H
 
-#include <QColorDialog>
-#include <QDesktopWidget>
+#include <QLoggingCategory>
 #include <QDockWidget>
+#include <QDesktopWidget>
 #include <QInputDialog>
+#include <QColorDialog>
 #include <QLabel>
 #include <QMap>
 #include <QMenu>
 #include <QMessageBox>
-#include <QTreeWidget>
-#include <QTreeWidgetItem>
 
 #include "layer.h"
 #include "itemdb.h"
+
+Q_DECLARE_LOGGING_CATEGORY(layermanager)
 
 namespace Ui {
 class LayerManager;
@@ -39,51 +40,39 @@ class LayerManager : public QDockWidget
     Q_OBJECT
 
 public:
-    explicit LayerManager(QWidget *parent, Layer *topLevelLayer, ItemDB *itemDB);
+    explicit LayerManager(ItemDB *itemDb, QWidget *parent = 0);
     ~LayerManager();
-    void updateLayer(Layer* layer);
-    Layer* getCurrentLayer();
-    bool isSoloActive();
 
 private:
     Ui::LayerManager *ui;
-    ItemDB* itemDB;
-    Layer* topLevelLayer;
-    Layer* currentLayer;
-    QMap<Layer*, QTreeWidgetItem*> layerMap;
+    ItemDB *m_itemDb;
 
-    QPixmap icon_layerOn;
-    QPixmap icon_layerOff;
-    QPixmap icon_pencilOn;
-    QPixmap icon_pencilOff;
+    QMenu *m_menuNoItem;
+    QMenu *m_menuOnItem;
+    QModelIndex m_indexAtContextMenuRequest;
+    Layer *m_layerAtContextMenuRequest;
 
-    QMenu* menu_noItem;
-    QMenu* menu_onItem;
-    QTreeWidgetItem* item_atContextMenuRequest;
-
+    void updateLayer(Layer *layer);
     void updateSoloActive();
-    void updateSoloActive_processLayers(QList<Layer*> layers);
+    void updateSoloActive_processLayers(LayerList layers);
 
-public slots:
-    void slot_updateAllLayers();
-    void slot_layerAdded(Layer* newLayer, Layer* parentLayer);
-    void slot_layerChanged(Layer* layer);
-    void slot_layerDeleted(Layer* layer);
 private slots:
-    void on_treeWidget_layer_itemClicked(QTreeWidgetItem *item, int column);
-
-    void on_treeWidget_layer_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
-
-    void on_treeWidget_layer_customContextMenuRequested(const QPoint &pos);
-
-    void slot_edit_layerName();
-    void slot_edit_layerLineWidth();
-    void slot_edit_layerLineType();
+    void slot_editLayerName(Layer *layer = 0);
+    void slot_editLayerLineWidth(Layer *layer = 0);
+    void slot_editLayerLineType(Layer *layer = 0);
     void slot_appendNewLayer();
     void slot_appendNewLayerAsChild();
     void slot_deleteLayer();
+    void on_treeView_layer_customContextMenuRequested(const QPoint &pos);
+    void on_treeView_layer_clicked(const QModelIndex &index);
+    void on_treeView_layer_doubleClicked(const QModelIndex &index);
+    void on_treeView_layer_expanded(const QModelIndex &index);
 
-    void on_treeWidget_layer_itemExpanded(QTreeWidgetItem *item);
+public slots:
+    void slot_updateAllLayers();
+    void slot_layerAdded(Layer *newLayer, Layer *parentLayer);
+    void slot_layerChanged(Layer *layer);
+    void slot_layerDeleted(Layer *layer);
 
 signals:
     void signal_repaintNeeded();

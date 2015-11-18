@@ -18,12 +18,6 @@
 
 #include <QLoggingCategory>
 #include <QObject>
-#include <QtNetwork>
-#include <QTcpServer>
-#include <QTcpSocket>
-#include <QList>
-#include <iostream>
-#include "clienthandler.h"
 #include "../itemdb.h"
 #include "spcpconnection.h"
 #include "tcpserver.h"
@@ -34,25 +28,21 @@ class Server : public TcpServer
 {
     Q_OBJECT
 public:
-    explicit Server(ItemDB* itemDB, QObject *parent = 0);
+    explicit Server(ItemDB *m_itemDB, QObject *parent = 0);
     ~Server();
 
 protected:
     virtual void incomingConnection(qintptr descriptor);
 
 private:
-    QTcpServer tcpServer;
-    QList<QTcpSocket*> socket_list;
-    ItemDB* itemDB;
+    ItemDB *m_itemDB;
 
 signals:
 
 public slots:
 
 private slots:
-    void slot_new_connection();
-    void slot_broadcast(QTcpSocket* fromClient, QByteArray data);
-    void slot_connectionClosed(QTcpSocket* socket, ClientHandler* clientHandler);
+    void slot_broadcast(QTcpSocket *fromClient, QByteArray data);
 };
 
 #endif // SERVER_H

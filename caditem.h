@@ -62,7 +62,7 @@ public:
     virtual QMatrix4x4 rotationOfFlange(quint8 num) {Q_UNUSED(num); return QMatrix4x4();}
     QColor getColorPen();
     QColor getColorBrush();
-    void setLayer(Layer* layer);
+    void setLayer(Layer *layer);
     void setFormerLayer(Layer *layer);
     void setID(quint64 id);
     void serialOut(QByteArray *out);

@@ -37,7 +37,7 @@ class PrintWidget : public QDockWidget
     Q_OBJECT
 
 public:
-    explicit PrintWidget(QWidget *parent, ItemDB* itemDB);
+    explicit PrintWidget(QWidget *parent, ItemDB *itemDB);
     ~PrintWidget();
 
 private slots:

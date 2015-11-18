@@ -82,7 +82,7 @@ private:
 #ifdef USE_3D_MOUSE
     QMagellanThread *magellanThread;
 #endif
-    ItemDB* itemDB;
+    ItemDB *m_itemDB;
     ItemCatalog* itemCatalog;
     LayerManager* layerManager;
     CollisionDetection* collisionDetection;

@@ -16,41 +16,70 @@
 #ifndef LAYER_H
 #define LAYER_H
 
-#include <QBrush>
-#include <QColor>
-#include <QPen>
+#include <QLoggingCategory>
 #include <QObject>
 #include <QString>
+#include <QPen>
+#include <QBrush>
+#include <QMetaEnum>
 
 #include "caditem.h"
+
+Q_DECLARE_LOGGING_CATEGORY(layer)
+
+class Layer;
+typedef QList<Layer*> LayerList;
 
 class Layer : public QObject
 {
     Q_OBJECT
 public:
-    explicit Layer(QObject *parent = 0);
+    enum LineType { Undefined, Continuous, Dashed, Dotted };
+    Q_ENUMS(LineType)
+
+    explicit Layer(Layer *parentLayer = 0, QObject *parent = 0);
+    ~Layer();
+
+    // Model sutff
+    void appendChild(Layer *childLayer);
+    void insertChild(quint32 position, Layer *layer);
+    bool removeChild(Layer *childLayer);
+    Layer *child(int row);
+    int childCount() const;
+    int columnCount() const;
+    QVariant data(int column) const;
+    int row() const;
+    Layer *parentLayer();
+    LayerList getChildLayers();
+
+    LayerList getAllLayers();
+
     bool isEmpty();
 
     QString name;
     QPen pen;
     QBrush brush;
-    bool on;
+    bool isOn;
     bool solo;
-    bool writable;
-    int width;
-    QString lineType;
-    QList<CADitem*> items;
-    QList<Layer*> subLayers;
-    Layer* parentLayer;
+    bool isWriteable;
+    int lineWidth;
+    LineType lineType;
+    QMetaEnum metaEnum_lineType;
 
     void serialOut(QByteArray *out);
     void serialIn(QByteArray *in);
 
+    Layer* findByName(QString name);
 
-signals:
+    void addItem(CADitem *item);
+    void removeItem(CADitem *item);
+    QList<CADitem*> getItems();
 
-public slots:
+private:
+    LayerList m_childLayers;
+    Layer *m_parentLayer;
 
+    QList<CADitem*> m_items;
 };
 
 #endif // LAYER_H

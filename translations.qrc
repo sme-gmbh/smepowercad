@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>lang/powercad-de_DE.qm</file>
+        <file>lang/powercad-ru_RU.qm</file>
+    </qresource>
+</RCC>
