@@ -145,7 +145,7 @@ void LayerManager::slot_appendNewLayer()
 
     do {
         if (alreadyExists)
-            QMessageBox::warning(this, tr("New layer"), tr("Layer name already in use! Try a different name,"));
+            QMessageBox::warning(this, tr("New layer"), tr("Layer name already in use! Try a different name!"));
 
         if (layerName.isEmpty() || alreadyExists) {
             do {
@@ -174,7 +174,7 @@ void LayerManager::slot_appendNewLayerAsChild()
 
     do {
         if (alreadyExists)
-            QMessageBox::warning(this, tr("New layer"), tr("Layer name already in use! Try a different name,"));
+            QMessageBox::warning(this, tr("New layer"), tr("Layer name already in use! Try a different name!"));
 
         if (layerName.isEmpty() || alreadyExists) {
             do {

@@ -1,5 +1,5 @@
-graphicTest.pro.user*
-graphicTest.pro.user
-smepowercad.pro.user*
-smepowercad.pro.user
+lang/*.qm
+*.pro.user*
+*.pro.user
 *~
+

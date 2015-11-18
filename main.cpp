@@ -17,6 +17,7 @@
 #include <QSettings>
 #include <QSurfaceFormat>
 #include <QTranslator>
+#include <QLibraryInfo>
 
 #include "mainwindow.h"
 #include "logging.h"
@@ -54,8 +55,12 @@ int main(int argc, char *argv[])
     QSettings settings;
     QString lang = settings.value("environment_general_language", "de_DE").toString();
 
+    qCDebug(powercad) << "Using language" << lang;
+    QTranslator qtTranslator;
+    qtTranslator.load("qt_" + lang, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    a.installTranslator(&qtTranslator);
     QTranslator translator;
-    translator.load("powercad-" + lang);
+    translator.load("powercad-" + lang, ":/lang/");
     a.installTranslator(&translator);
 
     MainWindow w;
