@@ -276,7 +276,7 @@ glxinfo | grep version</translation>
     <message>
         <location filename="../itemcatalog.ui" line="181"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pull takes the latest changes from the remote server and merges these changes into the local directory. This can only be done if no changes were made locally or all local changes have been committed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pull  holt die neusten Änderungen vom entfernten Server und führt diese Änderungen mit dem lokalen Verzeichnis zusammen. Dies kann nur durchgeführt werden, wenn kein lokalen Änderungen gemacht wurden, oder alle lokalen Änderungen &lt;i&gt;commited&lt;i&gt; wurden&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pull  holt die neusten Änderungen vom entfernten Server und führt diese Änderungen mit dem lokalen Verzeichnis zusammen. Dies kann nur durchgeführt werden, wenn kein lokalen Änderungen gemacht wurden, oder alle lokalen Änderungen &lt;i&gt;commited&lt;/i&gt; wurden&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../itemcatalog.ui" line="184"/>
@@ -316,7 +316,7 @@ glxinfo | grep version</translation>
     <message>
         <location filename="../itemcatalog.ui" line="233"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Commit includes the changes that have been made in the local directory to a version history point. You might want to do this after you changed something. After committing you can give your changes away to a server (origin) by executing Push.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Commit fügt die Änderungen, die im lokalen Verzeichnis gemacht wurden, zu einem Versionshistorie Punkt zusammen. Wahrscheinlich möchten Sie dies tun, nachdem Sie etwas geändert haben. Nach dem &lt;i&gt;Commit&lt;i&gt; können Sie Ihre Änderungen an den Server (origin) senden, indem Sie einen &lt;i&gt;Push&lt;i&gt; ausfüren.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Commit fügt die Änderungen, die im lokalen Verzeichnis gemacht wurden, zu einem Versionshistorie Punkt zusammen. Wahrscheinlich möchten Sie dies tun, nachdem Sie etwas geändert haben. Nach dem &lt;i&gt;Commit&lt;/i&gt; können Sie Ihre Änderungen an den Server (origin) senden, indem Sie einen &lt;i&gt;Push&lt;/i&gt; ausfüren.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../itemcatalog.ui" line="236"/>
@@ -326,7 +326,7 @@ glxinfo | grep version</translation>
     <message>
         <location filename="../itemcatalog.ui" line="246"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Push saves all your committed changes to a server (origin). You must call Pull before Push if somebody else made changes on the server in the meantime. This will automatically merge your changes and the changes somebody else made.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Push senden alle Änderungen die Sie mit einem &lt;i&gt;Commit&lt;/i&gt; vorgemerkt haben zum Server (origin). Vor einem &lt;i&gt;Push&lt;i&gt; müssen Sie, falls irgendjemand anderes in der Zwischenzeit Änderungen durchgeführt hat, einen &lt;i&gt;Pull&lt;i&gt; ausführen. Ihre Änderungen werden so automatisch mit den Änderungen der Anderen zusammengeführt.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Push senden alle Änderungen die Sie mit einem &lt;i&gt;Commit&lt;/i&gt; vorgemerkt haben zum Server (origin). Vor einem &lt;i&gt;Push&lt;/i&gt; müssen Sie, falls irgendjemand anderes in der Zwischenzeit Änderungen durchgeführt hat, einen &lt;i&gt;Pull&lt;/i&gt; ausführen. Ihre Änderungen werden so automatisch mit den Änderungen der Anderen zusammengeführt.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../itemcatalog.ui" line="249"/>
