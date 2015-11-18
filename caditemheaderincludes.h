@@ -280,4 +280,10 @@
 #include "items/cad_sprinkler_wetalarmvalve.h"
 #include "items/cad_sprinkler_zonecheck.h"
 
+#include "items/cad_steel_beami.h"
+#include "items/cad_steel_beaml.h"
+#include "items/cad_steel_beamt.h"
+#include "items/cad_steel_beamu.h"
+#include "items/cad_steel_beamz.h"
+
 #endif // CADITEMHEADERINCLUDES_H

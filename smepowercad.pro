@@ -308,7 +308,12 @@ SOURCES += main.cpp\
     items/cad_cleanroom_ceilinggridfeedthrough.cpp \
     items/cad_cleanroom_floorpanelwithbushingrect.cpp \
     items/cad_cleanroom_floorpanelwithbushinground.cpp \
-    itemcatalog.cpp
+    itemcatalog.cpp \
+    items/cad_steel_beaml.cpp \
+    items/cad_steel_beamz.cpp \
+    items/cad_steel_beamt.cpp \
+    items/cad_steel_beamu.cpp \
+    items/cad_steel_beami.cpp
 
 HEADERS  += mainwindow.h \
     layer.h \
@@ -575,7 +580,12 @@ HEADERS  += mainwindow.h \
     items/cad_cleanroom_floorpanelwithbushingrect.h \
     items/cad_cleanroom_floorpanelwithbushinground.h \
     itemcatalog.h \
-    logging.h
+    logging.h \
+    items/cad_steel_beaml.h \
+    items/cad_steel_beamz.h \
+    items/cad_steel_beamt.h \
+    items/cad_steel_beamu.h \
+    items/cad_steel_beami.h
 
 FORMS    += mainwindow.ui \
     layermanager.ui \

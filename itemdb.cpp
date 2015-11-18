@@ -87,7 +87,9 @@ QList<QString> ItemDB::getDomains()
 
 QList<int> ItemDB::getItemTypesByDomain(QString domain)
 {
-    return itemTypesByDomain.values(domain);
+    QList<int> values = itemTypesByDomain.values(domain);
+    qSort(values);
+    return values;
 }
 
 QString ItemDB::getItemDescriptionByItemType(CADitemTypes::ItemType type)
@@ -1063,6 +1065,24 @@ CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
     case CADitemTypes::Sprinkler_PipeReducer:
         newItem = new CAD_sprinkler_pipeReducer();
         break;
+
+        // Steel
+    case CADitemTypes::Steel_BeamI:
+        newItem = new CAD_Steel_BeamI();
+        break;
+    case CADitemTypes::Steel_BeamL:
+        newItem = new CAD_Steel_BeamL();
+        break;
+    case CADitemTypes::Steel_BeamT:
+        newItem = new CAD_Steel_BeamT();
+        break;
+    case CADitemTypes::Steel_BeamU:
+        newItem = new CAD_Steel_BeamU();
+        break;
+    case CADitemTypes::Steel_BeamZ:
+        newItem = new CAD_Steel_BeamZ();
+        break;
+
 
     default:
     {

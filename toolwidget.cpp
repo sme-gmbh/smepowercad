@@ -16,6 +16,8 @@
 #include "toolwidget.h"
 #include "ui_toolwidget.h"
 
+Q_LOGGING_CATEGORY(toolwidget, "powercad.toolwidget")
+
 ToolWidget::ToolWidget(ItemDB *itemDB, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ToolWidget)
@@ -72,6 +74,7 @@ void ToolWidget::displayItemButtons()
         return;
 
     QList<int> items = itemDB->getItemTypesByDomain(this->domain);
+    qCDebug(toolwidget) << items;
 
     int columnCount = 15;
     int column = 0;
@@ -96,7 +99,7 @@ void ToolWidget::displayItemButtons()
         connect(button, SIGNAL(clicked()), this, SLOT(slot_button_clicked()));
         connect(button, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slot_button_rightClicked()));
 
-
+        qCDebug(toolwidget) << "Inserting button at" << row << "," << column << ", desc:" << description;
         ui->gridLayout->addWidget(button, row, column);
         column++;
         if (column == columnCount)

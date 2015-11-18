@@ -263,6 +263,12 @@ public:
         Sprinkler_WetAlarmValve,                // Nassalarmventil
         Sprinkler_ZoneCheck,                    // Zone-Check
 
+        Steel_BeamI,                            // I-Profilstahl
+        Steel_BeamL,                            // L-Profilstahl
+        Steel_BeamT,                            // T-Profilstahl
+        Steel_BeamU,                            // U-Profilstahl
+        Steel_BeamZ,                            // Z-Profilstahl
+
         LastItem
     };
 

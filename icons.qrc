@@ -415,6 +415,16 @@
         <file>icons/cad_cleanroom/cad_cleanroom_floorpanelwithbushinground.svg</file>
         <file>itemGraphic/cad_cleanroom_floorpanelwithbushinground.png</file>
         <file>itemGraphic/cad_cleanroom_wallstiffenerdiagonal.png</file>
+        <file>icons/cad_steel/cad_steel_beami.svg</file>
+        <file>icons/cad_steel/cad_steel_beaml.svg</file>
+        <file>icons/cad_steel/cad_steel_beamz.svg</file>
+        <file>icons/cad_steel/cad_steel_beamt.svg</file>
+        <file>icons/cad_steel/cad_steel_beamu.svg</file>
+        <file>itemGraphic/cad_steel_beaml.png</file>
+        <file>itemGraphic/cad_steel_beamu.png</file>
+        <file>itemGraphic/cad_steel_beamz.png</file>
+        <file>itemGraphic/cad_steel_beamt.png</file>
+        <file>itemGraphic/cad_steel_beami.png</file>
     </qresource>
     <qresource prefix="/ui/layermanager">
         <file>icons/check.svg</file>

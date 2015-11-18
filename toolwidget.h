@@ -24,6 +24,8 @@
 
 #include "itemdb.h"
 
+Q_DECLARE_LOGGING_CATEGORY(toolwidget)
+
 namespace Ui {
 class ToolWidget;
 }
