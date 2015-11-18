@@ -2750,42 +2750,42 @@ void GLWidget::initializeGL()
     painter.setFont(font_big);
     painter.drawText(textImage.rect(), Qt::AlignCenter, "Z+");
     painter.setFont(font_small);
-    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking up");
+    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, tr("looking up"));
     texture_cube1->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
 
     textImage.fill(Qt::black);
     painter.setFont(font_big);
     painter.drawText(textImage.rect(), Qt::AlignCenter, "Z-");
     painter.setFont(font_small);
-    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking down");
+    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, tr("looking down"));
     texture_cube2->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
 
     textImage.fill(Qt::black);
     painter.setFont(font_big);
     painter.drawText(textImage.rect(), Qt::AlignCenter, "Y-");
     painter.setFont(font_small);
-    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking south");
+    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, tr("looking south"));
     texture_cube3->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
 
     textImage.fill(Qt::black);
     painter.setFont(font_big);
     painter.drawText(textImage.rect(), Qt::AlignCenter, "Y+");
     painter.setFont(font_small);
-    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking north");
+    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, tr("looking north"));
     texture_cube4->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
 
     textImage.fill(Qt::black);
     painter.setFont(font_big);
     painter.drawText(textImage.rect(), Qt::AlignCenter, "X+");
     painter.setFont(font_small);
-    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking east");
+    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, tr("looking east"));
     texture_cube5->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
 
     textImage.fill(Qt::black);
     painter.setFont(font_big);
     painter.drawText(textImage.rect(), Qt::AlignCenter, "X-");
     painter.setFont(font_small);
-    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, "looking west");
+    painter.drawText(textImage.rect(), Qt::AlignHCenter | Qt::AlignBottom, tr("looking west"));
     texture_cube6->setData(textImage, QOpenGLTexture::DontGenerateMipMaps);
 
     painter.end();

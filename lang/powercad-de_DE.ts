@@ -184,6 +184,36 @@ Läuft die korrekte Qt-Version? Prüfen Sie die Umgebungsvariable LD_LIBRARY_PAT
 Prüfen Sie die openGL Version gegen die Mindestanforderungen:
 glxinfo | grep version</translation>
     </message>
+    <message>
+        <location filename="../glwidget.cpp" line="2753"/>
+        <source>looking up</source>
+        <translation>Richtung Oben</translation>
+    </message>
+    <message>
+        <location filename="../glwidget.cpp" line="2760"/>
+        <source>looking down</source>
+        <translation>Richtung Unten</translation>
+    </message>
+    <message>
+        <location filename="../glwidget.cpp" line="2767"/>
+        <source>looking south</source>
+        <translation>Richtung Süden</translation>
+    </message>
+    <message>
+        <location filename="../glwidget.cpp" line="2774"/>
+        <source>looking north</source>
+        <translation>Richtung Norden</translation>
+    </message>
+    <message>
+        <location filename="../glwidget.cpp" line="2781"/>
+        <source>looking east</source>
+        <translation>Richtung Osten</translation>
+    </message>
+    <message>
+        <location filename="../glwidget.cpp" line="2788"/>
+        <source>looking west</source>
+        <translation>Richtung Westen</translation>
+    </message>
 </context>
 <context>
     <name>GeometryDisplay</name>
@@ -1663,76 +1693,6 @@ Diese Aktion kann nicht rückgängig gemacht werden!</translation>
         <location filename="../printpapertemplate.ui" line="61"/>
         <source>Script</source>
         <translation>Skript</translation>
-    </message>
-    <message>
-        <location filename="../printpapertemplate.ui" line="97"/>
-        <source>papersize DIN A3
-pencolor black
-linewidth 5
-border
-foldMarking
-
-##Drawing title
-anchor bottom right
-translate -10mm, -10mm
-pencolor black
-linewidth 5
-
-#Copyright rect
-translate -170mm, 0mm
-rect 0mm, 0mm, 45mm, -27mm
-fontsize 5mm
-textline 5mm, -5mm, copyleft cc
-
-#Footer rect
-save
-translate 45mm, 0mm
-rect 0mm, 0mm, 125mm, -27mm
-textbox 0mm, 0mm, 125mm, -27mm, AlignCenter, SME PowerCad Demo Sheet
-restore
-
-#Plan info rect
-pencolor red
-translate 0mm, -27mm
-rect 0mm, 0mm, 45mm, -35mm
-
-#Customer rect
-save
-translate 45mm, 0mm
-rect 0mm, 0mm, 125mm, -35mm
-restore
-
-#Change Info rect
-translate 0mm, -35mm
-brushcolor #30ffff00
-rect 0mm, 0mm, 170mm, -35mm
-fontsize 8mm
-pencolor #20a040
-textbox 0mm, 0mm, 170mm, -35mm, AlignCenter, This is a small demo sheet\n with openGL tile-rendered scene
-
-#Preliminary info
-pencolor #40ff0000
-fontsize 32mm
-translate 80mm, 0mm
-rotate -45
-translate -80mm, 0mm
-textbox 0mm, 0mm, 170mm, -35mm, AlignCenter, Preliminary
-
-#Drawing
-reset
-anchor top left
-pencolor blue
-linewidth 0.5mm
-#brushcolor #50c0ffff
-brushcolor transparent
-scene 30mm, 15mm, 200mm, 260mm
-rect 30mm, 15mm, 200mm, 260mm
-#fontname URW Chancery L
-#fontsize 24mm
-#textbox 20mm, 5mm, 600mm, 560mm, AlignCenter, Here could be some drawing
-
-</source>
-        <translation></translation>
     </message>
     <message>
         <location filename="../printpapertemplate.ui" line="170"/>

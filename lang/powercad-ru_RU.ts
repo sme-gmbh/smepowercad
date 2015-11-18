@@ -171,6 +171,36 @@ Check openGL Version against system requirements:
 glxinfo | grep version</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../glwidget.cpp" line="2753"/>
+        <source>looking up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../glwidget.cpp" line="2760"/>
+        <source>looking down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../glwidget.cpp" line="2767"/>
+        <source>looking south</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../glwidget.cpp" line="2774"/>
+        <source>looking north</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../glwidget.cpp" line="2781"/>
+        <source>looking east</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../glwidget.cpp" line="2788"/>
+        <source>looking west</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>GeometryDisplay</name>
