@@ -25,8 +25,8 @@ ItemWizard::ItemWizard(QWidget *parent) :
 {
     ui->setupUi(this);
     this->widgetLastFocus = NULL;
-//    connect(this, SIGNAL(rejected()), this, SLOT(slot_rejected()));
-//    connect(this, SIGNAL(accepted()), this, SLOT(slot_accepted()));
+
+    this->setStyleSheet(StylesheetProvider::getInstance()->getStylesheet("ItemWizard"));
 }
 
 ItemWizard::~ItemWizard()

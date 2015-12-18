@@ -21,7 +21,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QMainWindow {
-	background-color: rgb(49, 49, 41);
+	background-color: rgb(55, 55, 55);
 }
 
 QMainWindow::separator {
@@ -97,7 +97,7 @@ QMenu::icon {
 }
 
 QDockWidget {
-	background-color: rgb(49, 49, 41);
+	background-color: rgb(55, 55, 55);
 	color: white;
 	border: 1px solid rgb(200, 200, 200);
 	titlebar-close-icon: url(:/ui/dockwidget/icons/close.svg);

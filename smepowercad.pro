@@ -315,7 +315,8 @@ SOURCES += main.cpp\
     itemdb.cpp \
     layer.cpp \
     layermanager.cpp \
-    equationsolver.cpp
+    equationsolver.cpp \
+    stylesheetprovider.cpp
 
 HEADERS  += mainwindow.h \
     creationinterface.h \
@@ -588,7 +589,8 @@ HEADERS  += mainwindow.h \
     itemdb.h \
     layer.h \
     layermanager.h \
-    equationsolver.h
+    equationsolver.h \
+    stylesheetprovider.h
 
 FORMS    += mainwindow.ui \
     geometrydisplaytitle.ui \

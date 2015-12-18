@@ -29,6 +29,7 @@
 #include "caditem.h"
 #include "itemdb.h"
 #include "calculatinglineedit.h"
+#include "stylesheetprovider.h"
 
 namespace Ui {
 class ItemWizard;

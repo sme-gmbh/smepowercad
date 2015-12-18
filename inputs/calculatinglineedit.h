@@ -18,8 +18,8 @@
 
 #include <QLineEdit>
 #include <QToolButton>
-#include <QFile>
 #include "equationsolver.h"
+#include "stylesheetprovider.h"
 
 class CalculatingLineEdit : public QLineEdit
 {

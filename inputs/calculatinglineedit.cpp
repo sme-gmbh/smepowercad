@@ -14,16 +14,14 @@
 **********************************************************************/
 
 #include "calculatinglineedit.h"
-#include "logging.h"
 
 CalculatingLineEdit::CalculatingLineEdit(QWidget *parent)
     : QLineEdit(parent),
       m_einheit("")
 {
     connect(this, &CalculatingLineEdit::editingFinished, this, &CalculatingLineEdit::on_editingFinished);
-    QFile stylesheet(":/styles/CalculatingLineEdit.css");
-    if (stylesheet.open(QFile::ReadOnly))
-        this->setStyleSheet(QString::fromUtf8(stylesheet.readAll()).remove("\n").simplified());
+
+    this->setStyleSheet(StylesheetProvider::getInstance()->getStylesheet("CalculatingLineEdit"));
 
     this->setFixedWidth(150);
 
