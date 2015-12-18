@@ -17,8 +17,8 @@
 #define CALCULATINGLINEEDIT_H
 
 #include <QLineEdit>
-#include <QLayout>
 #include <QToolButton>
+#include <QFile>
 #include "equationsolver.h"
 
 class CalculatingLineEdit : public QLineEdit

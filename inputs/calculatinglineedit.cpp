@@ -14,20 +14,17 @@
 **********************************************************************/
 
 #include "calculatinglineedit.h"
+#include "logging.h"
 
 CalculatingLineEdit::CalculatingLineEdit(QWidget *parent)
     : QLineEdit(parent),
       m_einheit("")
 {
     connect(this, &CalculatingLineEdit::editingFinished, this, &CalculatingLineEdit::on_editingFinished);
-    this->setStyleSheet("CalculatingLineEdit {"
-                        "background-color: rgb(38, 38, 38);"
-                        "border: 1px solid rgb(59, 59, 59);"
-                        "border-radius: 3px;"
-                        "font-size: 12pt;"
-                        "color: rgb(165, 165, 165);"
-                        "padding-right: 10px;"
-                        "}");
+    QFile stylesheet(":/styles/CalculatingLineEdit.css");
+    if (stylesheet.open(QFile::ReadOnly))
+        this->setStyleSheet(QString::fromUtf8(stylesheet.readAll()).remove("\n").simplified());
+
     this->setFixedWidth(150);
 
     QToolButton *btnUp = new QToolButton(this);

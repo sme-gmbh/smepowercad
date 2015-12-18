@@ -605,7 +605,8 @@ FORMS    += mainwindow.ui \
 
 RESOURCES += \
     icons.qrc \
-    translations.qrc
+    translations.qrc \
+    styles.qrc
 
 TRANSLATIONS += \
     lang/powercad-de_DE.ts \

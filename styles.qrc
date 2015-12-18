@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>styles/ItemWizard.css</file>
+        <file>styles/CalculatingLineEdit.css</file>
+    </qresource>
+</RCC>
