@@ -28,7 +28,7 @@
 
 #include "caditem.h"
 #include "itemdb.h"
-#include "itemwizard_doublespinbox.h"
+#include "calculatinglineedit.h"
 
 namespace Ui {
 class ItemWizard;

@@ -60,27 +60,20 @@ void ItemWizard::showWizard(CADitem *item, ItemDB* itemDB)
     {
         QWidget *wdg;
         QVariant value = item->wizardParams.value(i);
-//        QVariant value = item->wizardParams.value(key);       // DEBUG TEST
         switch (value.type())
         {
         case QVariant::String:
             wdg = new QLineEdit(value.toString(), this);
             break;
         case QVariant::Int:
-            wdg = new QSpinBox(this);
-            ((QSpinBox*)wdg)->setMaximum(INT_MAX);
-            ((QSpinBox*)wdg)->setMinimum(INT_MIN);
-            ((QSpinBox*)wdg)->setValue(value.toInt());
-            break;
         case QVariant::Double:
-            wdg = new ItemWizard_DoubleSpinBox(this);
-//            ((ItemWizard_DoubleSpinBox*)wdg)->setMaximum(10e+20);
-//            ((ItemWizard_DoubleSpinBox*)wdg)->setMinimum(-10e+20);
-            ((ItemWizard_DoubleSpinBox*)wdg)->setValue(value.toDouble());
-//            wdg = new QDoubleSpinBox(this);
-//            ((QDoubleSpinBox*)wdg)->setMaximum(10e+20);
-//            ((QDoubleSpinBox*)wdg)->setMinimum(-10e+20);
-//            ((QDoubleSpinBox*)wdg)->setValue(value.toDouble());
+            wdg = new CalculatingLineEdit(this);
+            if (key.contains("angle", Qt::CaseInsensitive)) {
+                ((CalculatingLineEdit*)wdg)->setEinheit("°");
+            } else {
+                ((CalculatingLineEdit*)wdg)->setEinheit("mm");
+            }
+            ((CalculatingLineEdit*)wdg)->setValue(value.toFloat());
             break;
         case QVariant::StringList:
             wdg = new QComboBox(this);
@@ -97,7 +90,6 @@ void ItemWizard::showWizard(CADitem *item, ItemDB* itemDB)
             break;
         }
         wdg->setObjectName(key);
-
 
         ui->formLayout->addRow(key, wdg);
         i++;
@@ -147,7 +139,7 @@ void ItemWizard::save()
             val = ((int)((QSpinBox*)wdg)->value());
             break;
         case QVariant::Double:
-            val = ((double)((ItemWizard_DoubleSpinBox*)wdg)->value());
+            val = ((CalculatingLineEdit*)wdg)->getValue();
 //            val = ((double)((QDoubleSpinBox*)wdg)->value());
             break;
         case QVariant::StringList:
@@ -215,18 +207,18 @@ void ItemWizard::leaveEvent(QEvent *event)
 
 void ItemWizard::keyPressEvent(QKeyEvent *event)
 {
-    switch (event->key())
-    {
-    case Qt::Key_Return:
-    case Qt::Key_Enter:
-        this->slot_accepted();
-        break;
-    case Qt::Key_Escape:
-        this->slot_rejected();
-        break;
-    default:
-        break;
-    }
+//    switch (event->key())
+//    {
+//    case Qt::Key_Return:
+//    case Qt::Key_Enter:
+//        this->slot_accepted();
+//        break;
+//    case Qt::Key_Escape:
+//        this->slot_rejected();
+//        break;
+//    default:
+//        break;
+//    }
     event->accept();
 }
 

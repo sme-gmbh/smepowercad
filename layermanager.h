@@ -43,6 +43,8 @@ public:
     explicit LayerManager(ItemDB *itemDb, QWidget *parent = 0);
     ~LayerManager();
 
+    Layer* getCurrentLayer();
+
 private:
     Ui::LayerManager *ui;
     ItemDB *m_itemDb;
@@ -51,6 +53,7 @@ private:
     QMenu *m_menuOnItem;
     QModelIndex m_indexAtContextMenuRequest;
     Layer *m_layerAtContextMenuRequest;
+    Layer *m_currentLayer;
 
     void updateLayer(Layer *layer);
     void updateSoloActive();
@@ -64,9 +67,10 @@ private slots:
     void slot_appendNewLayerAsChild();
     void slot_deleteLayer();
     void on_treeView_layer_customContextMenuRequested(const QPoint &pos);
+    void on_treeView_layer_activated(const QModelIndex &index);
     void on_treeView_layer_clicked(const QModelIndex &index);
     void on_treeView_layer_doubleClicked(const QModelIndex &index);
-    void on_treeView_layer_expanded(const QModelIndex &index);
+    void on_treeView_layer_expanded(const QModelIndex &index);    
 
 public slots:
     void slot_updateAllLayers();

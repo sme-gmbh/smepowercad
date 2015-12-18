@@ -36,6 +36,7 @@ LIBS += -lGLU -lX11 -ldxfrw
 
 # Include subprojects
 include($$PWD/network/network.pri)
+include($$PWD/inputs/inputs.pri)
 
 
 TRANSLATIONS =  lang/powercad-de_DE.ts \
@@ -313,7 +314,8 @@ SOURCES += main.cpp\
     items/cad_steel_beami.cpp \
     itemdb.cpp \
     layer.cpp \
-    layermanager.cpp
+    layermanager.cpp \
+    equationsolver.cpp
 
 HEADERS  += mainwindow.h \
     creationinterface.h \
@@ -585,7 +587,8 @@ HEADERS  += mainwindow.h \
     items/cad_steel_beami.h \
     itemdb.h \
     layer.h \
-    layermanager.h
+    layermanager.h \
+    equationsolver.h
 
 FORMS    += mainwindow.ui \
     geometrydisplaytitle.ui \

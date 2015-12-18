@@ -136,14 +136,17 @@ QTreeView::item {
       <property name="contextMenuPolicy">
        <enum>Qt::CustomContextMenu</enum>
       </property>
+      <property name="showDropIndicator" stdset="0">
+       <bool>false</bool>
+      </property>
       <property name="dragEnabled">
-       <bool>true</bool>
+       <bool>false</bool>
       </property>
       <property name="dragDropMode">
-       <enum>QAbstractItemView::InternalMove</enum>
+       <enum>QAbstractItemView::NoDragDrop</enum>
       </property>
       <property name="defaultDropAction">
-       <enum>Qt::MoveAction</enum>
+       <enum>Qt::IgnoreAction</enum>
       </property>
       <attribute name="headerStretchLastSection">
        <bool>false</bool>

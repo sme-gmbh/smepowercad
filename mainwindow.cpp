@@ -685,30 +685,31 @@ void MainWindow::slot_selectionChanged(QList<CADitem*> selectedItems)
 
 void MainWindow::slot_createNewItem(CADitemTypes::ItemType type)
 {
-//    LayerOld* currentLayer = this->layerManager->getCurrentLayer();
-//    if (currentLayer == this->itemDB_old->getTopLevelLayer())
-//    {
-//        QMessageBox::critical(this, tr("Item creation"), tr("No layer is selected."));
-//        return;
-//    }
+    Layer* currentLayer = this->layerManager->getCurrentLayer();
 
-//    if (!currentLayer->writable)
-//    {
-//        QMessageBox::critical(this, tr("Item creation"), tr("The current layer is not writable."));
-//        return;
-//    }
+    if (currentLayer == this->m_itemDB->getRootLayer())
+    {
+        QMessageBox::critical(this, tr("Item creation"), tr("No layer is selected."));
+        return;
+    }
 
-//    if (!currentLayer->on)
-//    {
-//        if (QMessageBox::question(this, tr("Item creation"), tr("The current layer is not on.\nDo you really want to insert an item?"),
-//                                  tr("Abort"), tr("Proceed"), "", 1, 0)
-//                == 0)
-//            return;
-//    }
+    if (!currentLayer->isWriteable)
+    {
+        QMessageBox::critical(this, tr("Item creation"), tr("The current layer is not writable."));
+        return;
+    }
 
-//    itemDB_old->setRestorePoint();
-//    CADitem* item = itemDB_old->drawItem_withRestorePoint(currentLayer, type, WizardParams());
-//    this->itemWizard->showWizard(item, itemDB_old);
+    if (!currentLayer->isOn)
+    {
+        if (QMessageBox::question(this, tr("Item creation"), tr("The current layer is not on.\nDo you really want to insert an item?"),
+                                  tr("Abort"), tr("Proceed"), "", 1, 0)
+                == 0)
+            return;
+    }
+
+    m_itemDB->setRestorePoint();
+    CADitem* item = m_itemDB->drawItem_withRestorePoint(currentLayer, type, WizardParams());
+    this->itemWizard->showWizard(item, m_itemDB);
 }
 
 void MainWindow::slot_fileNeedsSaving()
