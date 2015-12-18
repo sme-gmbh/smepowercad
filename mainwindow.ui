@@ -436,7 +436,7 @@ QTabBar::tab:hover:!selected:!top {
      <x>0</x>
      <y>0</y>
      <width>1061</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="nativeMenuBar">
@@ -513,14 +513,13 @@ QTabBar::tab:hover:!selected:!top {
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>true</bool>
+    <bool>false</bool>
    </attribute>
   </widget>
   <action name="actionLoad">
    <property name="icon">
     <iconset theme="document-open">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Load...</string>
@@ -532,8 +531,7 @@ QTabBar::tab:hover:!selected:!top {
   <action name="actionSave">
    <property name="icon">
     <iconset theme="document-save">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Save</string>
@@ -548,8 +546,7 @@ QTabBar::tab:hover:!selected:!top {
   <action name="actionSaveAs">
    <property name="icon">
     <iconset theme="document-save-as">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Save as...</string>
@@ -561,8 +558,7 @@ QTabBar::tab:hover:!selected:!top {
   <action name="actionPlot">
    <property name="icon">
     <iconset theme="document-print">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Plot...</string>
@@ -574,8 +570,7 @@ QTabBar::tab:hover:!selected:!top {
   <action name="actionPDF">
    <property name="icon">
     <iconset theme="gnome-mime-application-pdf">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Pdf...</string>
@@ -587,8 +582,7 @@ QTabBar::tab:hover:!selected:!top {
   <action name="actionClose">
    <property name="icon">
     <iconset theme="window-close">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Close drawing</string>
@@ -603,8 +597,7 @@ QTabBar::tab:hover:!selected:!top {
   <action name="actionQuit">
    <property name="icon">
     <iconset theme="gtk-quit">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Quit</string>

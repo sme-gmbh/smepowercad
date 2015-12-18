@@ -17,7 +17,8 @@
 #define CALCULATINGLINEEDIT_H
 
 #include <QLineEdit>
-#include <QRegExpValidator>
+#include <QLayout>
+#include <QToolButton>
 #include "equationsolver.h"
 
 class CalculatingLineEdit : public QLineEdit
@@ -36,8 +37,13 @@ public:
 private:
     QString m_einheit;
 
+public slots:
+    void setText(const QString &text);
+
 private slots:
     void on_editingFinished();
+    void on_buttonUp_clicked();
+    void on_buttonDown_clicked();
 };
 
 #endif // CALCULATINGLINEEDIT_H

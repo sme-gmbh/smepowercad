@@ -20,6 +20,36 @@ CalculatingLineEdit::CalculatingLineEdit(QWidget *parent)
       m_einheit("")
 {
     connect(this, &CalculatingLineEdit::editingFinished, this, &CalculatingLineEdit::on_editingFinished);
+    this->setStyleSheet("CalculatingLineEdit {"
+                        "background-color: rgb(38, 38, 38);"
+                        "border: 1px solid rgb(59, 59, 59);"
+                        "border-radius: 3px;"
+                        "font-size: 12pt;"
+                        "color: rgb(165, 165, 165);"
+                        "padding-right: 10px;"
+                        "}");
+    this->setFixedWidth(150);
+
+    QToolButton *btnUp = new QToolButton(this);
+    btnUp->setIcon(QIcon(":/ui/CalculatingLineEdit/icons/arrow-up.png"));
+    btnUp->setIconSize(QSize(6, 12));
+    btnUp->setCursor(Qt::ArrowCursor);
+    btnUp->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    btnUp->setStyleSheet("QToolButton { border: 0px; background: 0; padding: 0px; }");
+    btnUp->setFixedHeight(12);
+    btnUp->setFixedWidth(12);
+    btnUp->move(this->rect().width() - 15, 0);
+    QToolButton *btnDown = new QToolButton(this);
+    btnDown->setIcon(QIcon(":/ui/CalculatingLineEdit/icons/arrow-down.png"));
+    btnDown->setIconSize(QSize(6, 12));
+    btnDown->setCursor(Qt::ArrowCursor);
+    btnDown->setStyleSheet("QToolButton { border: 0px; background: 0; padding: 0px; }");
+    btnDown->setFixedHeight(12);
+    btnDown->setFixedWidth(12);
+    btnDown->move(this->rect().width() - 15, this->rect().height() - 20);
+
+    connect(btnUp, &QToolButton::clicked, this, &CalculatingLineEdit::on_buttonUp_clicked);
+    connect(btnDown, &QToolButton::clicked, this, &CalculatingLineEdit::on_buttonDown_clicked);
 }
 
 CalculatingLineEdit::~CalculatingLineEdit()
@@ -44,19 +74,24 @@ float CalculatingLineEdit::getValue() const
 
 void CalculatingLineEdit::setValue(const float &value)
 {
-    QString text = QString::number(value);
+    this->setText(QString::number(value));
+}
+
+void CalculatingLineEdit::setText(const QString &text)
+{
+    QString val = text;
 
     if (!m_einheit.isEmpty()) {
-        text.append(" " + m_einheit);
+        val.append(" " + m_einheit);
     }
 
-    this->setText(text);
+    QLineEdit::setText(val);
 }
 
 void CalculatingLineEdit::on_editingFinished()
 {
     // validate input & calculate
-    QString text = this->text();
+    QString text = this->text().remove(m_einheit).trimmed();
 
     // replace all ',' with '.'
     text.replace(',', '.');
@@ -73,10 +108,20 @@ void CalculatingLineEdit::on_editingFinished()
         }
     }
 
-    if (!m_einheit.isEmpty()) {
-        text.append(" " + m_einheit);
-    }
-
     this->setText(text);
     this->clearFocus();
+}
+
+void CalculatingLineEdit::on_buttonUp_clicked()
+{
+    float val = this->text().remove(m_einheit).trimmed().toFloat();
+    val = val + 1.0;
+    this->setText(QString::number(val));
+}
+
+void CalculatingLineEdit::on_buttonDown_clicked()
+{
+    float val = this->text().remove(m_einheit).trimmed().toFloat();
+    val = val - 1.0;
+    this->setText(QString::number(val));
 }
