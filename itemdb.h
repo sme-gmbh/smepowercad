@@ -107,10 +107,10 @@ public:
     Layer* getRootLayer();
 
 private:
-    QPixmap m_iconLayerOn;
-    QPixmap m_iconLayerOff;
-    QPixmap m_iconPencilOn;
-    QPixmap m_iconPencilOff;
+    QIcon m_iconLayerOn;
+    QIcon m_iconLayerOff;
+    QIcon m_iconPencilOn;
+    QIcon m_iconPencilOff;
     QPixmap m_layerManagerColorIconBG;
 
     QStringList m_domains;

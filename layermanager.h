@@ -25,9 +25,12 @@
 #include <QMap>
 #include <QMenu>
 #include <QMessageBox>
+#include <QItemDelegate>
+#include <QObject>
 
 #include "layer.h"
 #include "itemdb.h"
+#include "stylesheetprovider.h"
 
 Q_DECLARE_LOGGING_CATEGORY(layermanager)
 
@@ -80,6 +83,23 @@ public slots:
 
 signals:
     void signal_repaintNeeded();
+};
+
+class BackgroundItemDelegate: public QItemDelegate
+{
+public:
+  BackgroundItemDelegate(QObject* parent = 0) : QItemDelegate(parent) {}
+
+    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+    {
+        QStyleOptionViewItem viewOption(option);
+
+        QColor itemBgColor = index.data(Qt::BackgroundRole).value<QColor>();
+        if (itemBgColor.isValid()) {
+            viewOption.palette.setColor(QPalette::Highlight, itemBgColor);
+        }
+        QItemDelegate::paint(painter, viewOption, index);
+    }
 };
 
 #endif // LAYERMANAGER_H

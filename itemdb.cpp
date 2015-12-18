@@ -25,10 +25,22 @@ ItemDB::ItemDB(QObject *parent)
     m_rootLayer->solo = true;
     layerSoloActive = false;
 
-    m_iconLayerOn = QPixmap(":/ui/layermanager/icons/check.svg").scaledToWidth(20, Qt::SmoothTransformation);
-    m_iconLayerOff = QPixmap(":/ui/layermanager/icons/hide_layer.svg").scaledToWidth(20, Qt::SmoothTransformation);
-    m_iconPencilOn = QPixmap(":/ui/layermanager/icons/pencil.svg").scaledToWidth(20, Qt::SmoothTransformation);
-    m_iconPencilOff = QPixmap(":/ui/layermanager/icons/pencil_off.svg").scaledToWidth(20, Qt::SmoothTransformation);
+    QPixmap pm = QPixmap(":/ui/layermanager/icons/check.svg").scaledToWidth(20, Qt::SmoothTransformation);
+    m_iconLayerOn.addPixmap(pm, QIcon::Normal);
+    m_iconLayerOn.addPixmap(pm, QIcon::Selected);
+
+    pm = QPixmap(":/ui/layermanager/icons/hide_layer.svg").scaledToWidth(20, Qt::SmoothTransformation);
+    m_iconLayerOff.addPixmap(pm, QIcon::Normal);
+    m_iconLayerOff.addPixmap(pm, QIcon::Selected);
+
+    pm = QPixmap(":/ui/layermanager/icons/pencil.svg").scaledToWidth(20, Qt::SmoothTransformation);
+    m_iconPencilOn.addPixmap(pm, QIcon::Normal);
+    m_iconPencilOn.addPixmap(pm, QIcon::Selected);
+
+    pm = QPixmap(":/ui/layermanager/icons/pencil_off.svg").scaledToWidth(20, Qt::SmoothTransformation);
+    m_iconPencilOff.addPixmap(pm, QIcon::Normal);
+    m_iconPencilOff.addPixmap(pm, QIcon::Selected);
+
     m_layerManagerColorIconBG = QPixmap(18, 18);
     m_layerManagerColorIconBG.fill(Qt::white);
     m_currentItemId = 0;
@@ -62,16 +74,22 @@ QVariant ItemDB::data(const QModelIndex &index, int role) const
             p.setBrush(QBrush(layer->brush.color()));
             p.drawRect(1, 1, 15, 15);
             p.end();
-            return pm;
+            QIcon ic;
+            ic.addPixmap(pm, QIcon::Normal);
+            ic.addPixmap(pm, QIcon::Selected);
+            return ic;
         } else if (col == 5) {
             QPixmap pm = m_layerManagerColorIconBG.copy();
             QPainter p(&pm);
             p.setBrush(QBrush(layer->pen.color()));
             p.drawRect(1, 1, 15, 15);
             p.end();
-            return pm;
+            QIcon ic;
+            ic.addPixmap(pm, QIcon::Normal);
+            ic.addPixmap(pm, QIcon::Selected);
+            return ic;
         }
-    } else if (role == Qt::BackgroundColorRole) {
+    } else if (role == Qt::BackgroundRole) {
         bool on = layer->data(col).toBool();
 
         if (col == 1) return (on ? QColor(0, 105, 0) : QColor(49, 49, 41));

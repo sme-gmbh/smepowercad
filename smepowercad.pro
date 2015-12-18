@@ -627,4 +627,5 @@ DISTFILES += \
     shaders/shader_1.frag \
     itemGraphic/cad_sprinkler_flange.dxf \
     itemGraphic/cad_cleanroom_floorpanelwithbushingrect.png \
-    itemGraphic/cad_cleanroom_floorpanelwithbushingrect.dxf
+    itemGraphic/cad_cleanroom_floorpanelwithbushingrect.dxf \
+    styles/LayerManager.css

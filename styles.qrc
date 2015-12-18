@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>styles/ItemWizard.css</file>
         <file>styles/CalculatingLineEdit.css</file>
+        <file>styles/LayerManager.css</file>
     </qresource>
 </RCC>

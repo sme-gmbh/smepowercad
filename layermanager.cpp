@@ -26,6 +26,8 @@ LayerManager::LayerManager(ItemDB *itemDb, QWidget *parent) :
 {
     ui->setupUi(this);
 
+    this->setStyleSheet(StylesheetProvider::getInstance()->getStylesheet("LayerManager"));
+
     QDesktopWidget desktopWidget;
     QRect rightScreenRect = desktopWidget.screenGeometry(desktopWidget.numScreens() -1);
     if (desktopWidget.screenCount() > 1) {
@@ -33,6 +35,7 @@ LayerManager::LayerManager(ItemDB *itemDb, QWidget *parent) :
         this->move(rightScreenRect.topLeft());
     }
 
+    ui->treeView_layer->setItemDelegate(new BackgroundItemDelegate(this));
     ui->treeView_layer->setModel(m_itemDb);
     ui->treeView_layer->setColumnWidth(1, 24);
     ui->treeView_layer->setColumnWidth(2, 24);
