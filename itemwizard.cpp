@@ -21,7 +21,8 @@
 
 ItemWizard::ItemWizard(QWidget *parent) :
     QDockWidget(parent),
-    ui(new Ui::ItemWizard)
+    ui(new Ui::ItemWizard),
+    m_itemParametersWidget(NULL)
 {
     ui->setupUi(this);
     this->widgetLastFocus = NULL;
@@ -36,64 +37,25 @@ ItemWizard::~ItemWizard()
 
 void ItemWizard::showWizard(CADitem *item, ItemDB* itemDB)
 {
-    if (item == NULL)
-    {
-        qCDebug(powercad) << "CADitem is NULL";
+    if (item == NULL) {
+        qCWarning(powercad) << "CADitem is NULL";
         return;
     }
     this->itemDB = itemDB;
 
     // Do not show an empty wizard
-    if(item->wizardParams.isEmpty())
-    {
+    if(item->wizardParams.isEmpty()) {
         item->calculate();
         emit signal_sceneRepaintNeeded();
         return;
     }
 
-    deleteWdgs();
+    clear();
+    m_currentItem = item;
 
-    currentItem = item;
-
-    int i = 0;
-    foreach(QString key, item->wizardParams.keys())
-    {
-        QWidget *wdg;
-        QVariant value = item->wizardParams.value(i);
-        switch (value.type())
-        {
-        case QVariant::String:
-            wdg = new QLineEdit(value.toString(), this);
-            break;
-        case QVariant::Int:
-        case QVariant::Double:
-            wdg = new CalculatingLineEdit(this);
-            if (key.contains("angle", Qt::CaseInsensitive)) {
-                ((CalculatingLineEdit*)wdg)->setEinheit("°");
-            } else {
-                ((CalculatingLineEdit*)wdg)->setEinheit("mm");
-            }
-            ((CalculatingLineEdit*)wdg)->setValue(value.toFloat());
-            break;
-        case QVariant::StringList:
-            wdg = new QComboBox(this);
-            if (value.toStringList().size() == 2)
-            {
-                ((QComboBox*)wdg)->addItems(value.toStringList().at(0).split('*'));
-                ((QComboBox*)wdg)->setCurrentText(value.toStringList().at(1));
-            }
-            else
-                qCDebug(powercad) << "ItemWizard::showWizard() StringList has invalid size:" << value.toStringList().size() << ";Key:" << key;
-            break;
-        default:
-            qCDebug(powercad) << "ItemWizard::showWizard() Unhandled value type:" << value.type();
-            break;
-        }
-        wdg->setObjectName(key);
-
-        ui->formLayout->addRow(key, wdg);
-        i++;
-    }
+    m_itemParametersWidget = new ItemParametersWidget(item, itemDB, this);
+    connect(m_itemParametersWidget, &ItemParametersWidget::sceneRepaintNeeded, this, &ItemWizard::signal_sceneRepaintNeeded);
+    ui->verticalLayout->insertWidget(1, m_itemParametersWidget);
 
     this->widgetLastFocus = qApp->focusWidget();
     this->setWindowTitle(tr("Item Wizard: %1").arg(item->description()));
@@ -103,12 +65,11 @@ void ItemWizard::showWizard(CADitem *item, ItemDB* itemDB)
 
     this->show();
     this->setFocus();
-//    this->activateWindow();
 }
 
 void ItemWizard::slot_rejected()
 {
-    this->deleteWdgs();
+    this->clear();
     this->hide();
     this->giveFocusBack();
 }
@@ -116,72 +77,25 @@ void ItemWizard::slot_rejected()
 void ItemWizard::slot_accepted()
 {
     this->save();
-    this->deleteWdgs();
+    this->clear();
     this->hide();
     this->giveFocusBack();
 }
 
 void ItemWizard::save()
 {
-    WizardParams params;
-    QVariant val;
-    QWidget *wdg;
-    for (int r = 0; r < ui->formLayout->rowCount(); r++)
-    {
-        wdg = ui->formLayout->itemAt(r, QFormLayout::FieldRole)->widget();
+    WizardParams params = m_itemParametersWidget->getParameters();
 
-        switch (currentItem->wizardParams.value(wdg->objectName()).type())
-        {
-        case QVariant::String:
-            val = (((QLineEdit*)wdg)->text());
-            break;
-        case QVariant::Int:
-            val = ((int)((QSpinBox*)wdg)->value());
-            break;
-        case QVariant::Double:
-            val = ((CalculatingLineEdit*)wdg)->getValue();
-//            val = ((double)((QDoubleSpinBox*)wdg)->value());
-            break;
-        case QVariant::StringList:
-        {
-            QComboBox* box = (QComboBox*)wdg;
-            QStringList stringList;
-            stringList.append(this->currentItem->wizardParams.value(r).toStringList().at(0));   // Insert available texts of ComboBox
-            stringList.append(box->currentText());                                              // Insert current text of ComboBox
-            val = stringList;
-            break;
-        }
-        default:
-            break;
-        }
-
-        params.insert(wdg->objectName(), val);
-    }
-
-    this->itemDB->modifyItem_withRestorePoint(currentItem, params);
-//    currentItem->wizardParams = params;
-//    currentItem->processWizardInput();
-//    currentItem->calculate();
+    this->itemDB->modifyItem_withRestorePoint(m_currentItem, params);
     emit signal_sceneRepaintNeeded();
 }
 
-void ItemWizard::deleteWdgs()
+void ItemWizard::clear()
 {
-    QLayoutItem *item;
-    while (ui->formLayout->count() > 0)
-    {
-        item = ui->formLayout->takeAt(0);
-        if (item->widget()) {
-            delete item->widget();
-        }
-        delete item;
-    }
-    ui->gridLayout->removeItem(ui->formLayout);
-    delete ui->formLayout;
-    ui->formLayout = new QFormLayout();
-    ui->gridLayout->addLayout(ui->formLayout, 1, 0, 1, 4);
-
-    // Remove itemGraphic
+    delete m_itemParametersWidget;
+    QLayoutItem *item = ui->verticalLayout->itemAt(1);
+    ui->verticalLayout->removeItem(ui->verticalLayout->itemAt(1));
+    delete item;
     ui->label_itemGraphic->clear();
 }
 
@@ -207,6 +121,7 @@ void ItemWizard::leaveEvent(QEvent *event)
 
 void ItemWizard::keyPressEvent(QKeyEvent *event)
 {
+    // TODO: different approach for closing dialog, maybe leave it open all the time
 //    switch (event->key())
 //    {
 //    case Qt::Key_Return:
@@ -251,6 +166,6 @@ void ItemWizard::on_pushButton_cancel_clicked()
 
 void ItemWizard::slot_itemDeleted(CADitem *item)
 {
-    if (currentItem == item)
+    if (m_currentItem == item)
         this->slot_rejected();
 }

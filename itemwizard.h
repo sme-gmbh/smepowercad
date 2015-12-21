@@ -28,6 +28,7 @@
 
 #include "caditem.h"
 #include "itemdb.h"
+#include "itemparameterswidget.h"
 #include "calculatinglineedit.h"
 #include "stylesheetprovider.h"
 
@@ -61,12 +62,13 @@ public slots:
 
 private:
     Ui::ItemWizard *ui;
+    ItemParametersWidget *m_itemParametersWidget;
 
-    CADitem *currentItem;
+    CADitem *m_currentItem;
     ItemDB* itemDB;
     QWidget* widgetLastFocus;   // The widget that had the focus before ItemWizard got focus
     void save();
-    void deleteWdgs();
+    void clear();
     void giveFocusBack();
 
 protected:
