@@ -64,7 +64,7 @@ void CalculatingLineEdit::setEinheit(const QString &einheit)
 
 float CalculatingLineEdit::getValue() const
 {
-    return this->text().toFloat();
+    return this->text().remove(m_einheit).trimmed().toFloat();
 }
 
 void CalculatingLineEdit::setValue(const float &value)
