@@ -412,7 +412,7 @@ glxinfo | grep version</translation>
     <message>
         <location filename="../itemcatalog.ui" line="301"/>
         <source>Domain</source>
-        <translation>Domäne</translation>
+        <translation>Gewerk</translation>
     </message>
     <message>
         <location filename="../itemcatalog.ui" line="308"/>
