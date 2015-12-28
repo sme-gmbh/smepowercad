@@ -247,19 +247,6 @@ QComboBox QAbstractItemView {
 	background-color: rgb(59, 59, 51);
 }
 
-QLineEdit{
-	border: 3px;
-	color: rgb(255, 255, 255);
-	background-color: rgb(80, 80, 80);
-	width: 400px;
-	height: 20px;
-}
-
-QTextEdit, QPlainTextEdit, QListWidget {
-	background-color: rgb(70, 70, 70);
-	color: rgb(60, 255, 60);
-}
-
 QGroupBox {
     background-color: rgb(49, 49, 41);
 	color: rgb(0, 200, 255);
