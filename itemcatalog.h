@@ -21,14 +21,22 @@
 #include <QFile>
 #include <QInputDialog>
 #include <QList>
+#include <QStringList>
 #include <QMessageBox>
 #include <QProcess>
 #include <QRegExp>
 #include <QString>
 #include <QStringList>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QUrl>
 
 #include "itemdb.h"
 #include "itemwizard.h"
+
+#define JSON_KEY_PARAMETERS "parameters"
+#define JSON_KEY_DESCRIPTION "description"
 
 namespace Ui {
 class ItemCatalog;
@@ -39,7 +47,7 @@ class ItemCatalog : public QDockWidget
     Q_OBJECT
 
 public:
-    explicit ItemCatalog(ItemDB* itemDB,  ItemWizard* itemWizard, QWidget *parent = 0);
+    explicit ItemCatalog(ItemDB* m_itemdb,  ItemWizard* itemWizard, QWidget *parent = 0);
     ~ItemCatalog();
 
 private slots:
@@ -47,41 +55,42 @@ private slots:
     void slot_processGit_finished(int exitCode ,QProcess::ExitStatus exitStatus);
     void slot_processGit_readyRead();
     void slot_processGit_error(QProcess::ProcessError error);
-    void on_comboBox_domain_activated(const QString &arg1);
 
-    void on_comboBox_vendor_activated(const QString &arg1);
+
+    void on_comboBox_domain_currentIndexChanged(const QString &arg1);
+    void on_comboBox_itemType_currentIndexChanged(const QString &arg1);
+    void on_comboBox_vendor_currentIndexChanged(const QString &arg1);
+    void on_comboBox_model_currentIndexChanged(const QString &arg1);
 
     void on_toolButton_addVendor_clicked();
-
     void on_toolButton_removeVendor_clicked();
-
-    void on_comboBox_model_activated(const QString &arg1);
-
     void on_toolButton_addModel_clicked();
-
     void on_toolButton_removeModel_clicked();
 
     void on_pushButton_db_gitClone_clicked();
-
     void on_pushButton_db_gitStatus_clicked();
-
     void on_pushButton_db_gitLog_clicked();
-
     void on_pushButton_db_gitPull_clicked();
-
     void on_pushButton_db_gitCommit_clicked();
-
     void on_pushButton_db_gitPush_clicked();
-
     void on_lineEdit_db_gitUserName_editingFinished();
-
     void on_lineEdit_db_gitUserEmail_editingFinished();
+
+    void on_pushButton_save_clicked();
+
+    void on_pushButton_cancel_clicked();
 
 private:
     Ui::ItemCatalog *ui;
-    ItemDB* itemDB;
+    ItemDB* m_itemdb;
     ItemWizard* itemWizard;
-    QDir catalogDir;
+    QDir m_catalogDir;
+    QDir m_currentDomainDir;
+    QDir m_currentItemDir;
+    QDir m_currentVendorDir;
+    CADitem *m_currentItem;
+    ItemParametersWidget *m_itemParametersWidget;
+    QList<int> m_currentDomainItemTypes;
     QProcess process_git;
     QString git_Output;
 
@@ -89,6 +98,13 @@ private:
     bool setupLocalDirectory();
     bool setupGitProcess();
     void getGitConfig();
+
+    QStringList toPercentEncoding(QStringList list);
+    QStringList fromPercentEncoding(QStringList list);
+
+    QJsonObject readDataFromModelFile(QString filename);
+    bool saveModelFile(QString filename, CADitem *item, QString description);
+    void showModelData(CADitem *item, QString name, QString description);
 };
 
 #endif // ITEMCATALOG_H

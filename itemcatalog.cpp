@@ -16,18 +16,31 @@
 #include "itemcatalog.h"
 #include "ui_itemcatalog.h"
 
+#include "logging.h"
+
 ItemCatalog::ItemCatalog(ItemDB* itemDB,  ItemWizard* itemWizard, QWidget *parent) :
     QDockWidget(parent),
-    ui(new Ui::ItemCatalog)
+    ui(new Ui::ItemCatalog),
+    m_currentItem(Q_NULLPTR),
+    m_itemParametersWidget(Q_NULLPTR)
 {
+    this->setStyleSheet(StylesheetProvider::getStylesheet("QLineEdit+QTextEdit"));
     ui->setupUi(this);
-    this->itemDB = itemDB;
+
+    this->m_itemdb = itemDB;
     this->itemWizard = itemWizard;
     if (!setupLocalDirectory())
         return;
     setupGitProcess();
     getGitConfig();
     initialize();
+
+    ui->comboBox_vendor->setInsertPolicy(QComboBox::InsertAlphabetically);
+    ui->comboBox_model->setInsertPolicy(QComboBox::InsertAlphabetically);
+
+    QPixmap pm = QPixmap(ui->label_hairline->width(), 1);
+    pm.fill(Qt::white);
+    ui->label_hairline->setPixmap(pm);
 }
 
 ItemCatalog::~ItemCatalog()
@@ -37,34 +50,29 @@ ItemCatalog::~ItemCatalog()
 
 void ItemCatalog::initialize()
 {
-    QList<QString> domains = this->itemDB->getDomains();
+    QStringList domains = this->m_itemdb->getDomains();
     ui->comboBox_domain->addItems(domains);
 
-    if (domains.size() > 0)
-    {
-        on_comboBox_domain_activated(domains.first());
-    }
+//    if (domains.size() > 0) {
+//        on_comboBox_domain_activated(domains.first());
+//    }
 }
 
 bool ItemCatalog::setupLocalDirectory()
 {
-    catalogDir = QDir::home();
-    if (!catalogDir.cd(".smepowercad/catalog"))     // local catalog directory does not exist
-    {
-        if (catalogDir.mkpath(".smepowercad/catalog"))
+    m_catalogDir = QDir::home();
+    if (!m_catalogDir.cd(".smepowercad/catalog")) {    // local catalog directory does not exist
+        if (m_catalogDir.mkpath(".smepowercad/catalog"))
             ui->textEdit_terminalOutput->append(tr("The local directory .smepowercad/catalog did not exist and has been created."));
-        else
-        {
+        else {
             ui->textEdit_terminalOutput->append(tr("The local directory .smepowercad/catalog could not be created!"));
             return false;
         }
-    }
-    else
-    {
+    } else {
         ui->textEdit_terminalOutput->append(tr("The local directory .smepowercad/catalog does exist."));
     }
 
-    ui->lineEdit_db_localDirectory->setText(catalogDir.canonicalPath());
+    ui->lineEdit_db_localDirectory->setText(m_catalogDir.canonicalPath());
     return true;
 }
 
@@ -73,7 +81,7 @@ bool ItemCatalog::setupGitProcess()
     process_git.setProgram("git");
     process_git.setProcessChannelMode(QProcess::MergedChannels);
     process_git.setTextModeEnabled(true);
-    process_git.setWorkingDirectory(catalogDir.canonicalPath());
+    process_git.setWorkingDirectory(m_catalogDir.canonicalPath());
 
     QStringList args;
     args << "--version";
@@ -86,6 +94,8 @@ bool ItemCatalog::setupGitProcess()
     process_git.start();
     process_git.waitForStarted(1000);
     process_git.waitForFinished(30000);
+
+    return true;
 }
 
 void ItemCatalog::getGitConfig()
@@ -121,6 +131,67 @@ void ItemCatalog::getGitConfig()
     }
 
     this->git_Output.clear();
+}
+
+QStringList ItemCatalog::toPercentEncoding(QStringList list)
+{
+    for (int i = 0; i < list.length(); i++) {
+        list.replace(i, QUrl::toPercentEncoding(list.at(i)));
+    }
+
+    return list;
+}
+
+QStringList ItemCatalog::fromPercentEncoding(QStringList list)
+{
+    for (int i = 0; i < list.length(); i++) {
+        list.replace(i, QUrl::fromPercentEncoding(list.at(i).toUtf8()));
+    }
+
+    return list;
+}
+
+QJsonObject ItemCatalog::readDataFromModelFile(QString filename)
+{
+    QFile file(filename);
+    if (!file.open(QFile::ReadOnly)) {
+        QMessageBox::warning(this, tr("Load model"), tr("Could not load model from disk!"));
+        return QJsonObject();
+    }
+
+    QJsonDocument d = QJsonDocument::fromJson(file.readAll());
+    return d.object();
+}
+
+bool ItemCatalog::saveModelFile(QString filename, CADitem *item, QString description)
+{
+    QJsonDocument d = QJsonDocument();
+    QJsonObject o = QJsonObject();
+    item->wizardParams = m_itemParametersWidget->getParameters();
+    o.insert(JSON_KEY_PARAMETERS, item->wizardParams.serialize());
+    o.insert(JSON_KEY_DESCRIPTION, QJsonValue::fromVariant(description));
+    d.setObject(o);
+
+    QFile file(filename);
+    if (!file.open(QFile::WriteOnly)) {
+        return false;
+    }
+    file.write(d.toJson());
+    file.close();
+
+    return true;
+}
+
+void ItemCatalog::showModelData(CADitem *item, QString name, QString description)
+{
+    delete m_itemParametersWidget;
+    m_itemParametersWidget = new ItemParametersWidget(item, m_itemdb, this);
+    QLayoutItem *layoutItem = ui->verticalLayoutContent->itemAt(3);
+    ui->verticalLayoutContent->removeItem(layoutItem);
+    delete layoutItem;
+    ui->verticalLayoutContent->insertWidget(3, m_itemParametersWidget);
+    ui->lineEdit_modelName->setText(name);
+    ui->textEdit_modelDescription->setText(description);
 }
 
 void ItemCatalog::slot_processGit_started()
@@ -189,26 +260,67 @@ void ItemCatalog::slot_processGit_error(QProcess::ProcessError error)
     }
 }
 
-void ItemCatalog::on_comboBox_domain_activated(const QString &arg1)
+void ItemCatalog::on_comboBox_domain_currentIndexChanged(const QString &arg1)
 {
     ui->comboBox_itemType->clear();
     ui->comboBox_vendor->clear();
 
     QString domain = arg1;
-    QList<int> items = itemDB->getItemTypesByDomain(domain);
+    m_currentDomainItemTypes = m_itemdb->getItemTypesByDomain(domain);
 
-    foreach(int type, items)
-    {
-        QIcon icon = itemDB->getIconByItemType((CADitemTypes::ItemType)type, QSize(64, 64));
-        QString description = itemDB->getItemDescriptionByItemType((CADitemTypes::ItemType)type).remove(QRegExp(".+\\|"));
+    QString dir = QUrl::toPercentEncoding(domain);
+    m_currentDomainDir = m_catalogDir;
+    if (!m_currentDomainDir.exists(dir)) {
+        m_currentDomainDir.mkpath(dir);
+    }
+    m_currentDomainDir.cd(dir);
+
+    foreach(int type, m_currentDomainItemTypes) {
+        QIcon icon = m_itemdb->getIconByItemType((CADitemTypes::ItemType)type, QSize(64, 64));
+        QString description = m_itemdb->getItemDescriptionByItemType((CADitemTypes::ItemType)type).remove(QRegExp(".+\\|"));
 
         ui->comboBox_itemType->addItem(icon, description, QVariant(type));
     }
 }
 
-void ItemCatalog::on_comboBox_vendor_activated(const QString &arg1)
+void ItemCatalog::on_comboBox_itemType_currentIndexChanged(const QString &arg1)
 {
+    ui->comboBox_vendor->clear();
 
+    // user selected an CADitem -> look for vendors
+    QString dir = QUrl::toPercentEncoding(arg1);
+    m_currentItemDir = m_currentDomainDir;
+    if (!m_currentItemDir.exists(dir)) {
+        m_currentItemDir.mkpath(dir);
+    }
+    m_currentItemDir.cd(dir);
+
+    QStringList dirs = fromPercentEncoding(m_currentItemDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name));
+    ui->comboBox_vendor->addItems(dirs);
+}
+
+void ItemCatalog::on_comboBox_vendor_currentIndexChanged(const QString &arg1)
+{
+    // TODO: clear model pointers
+    ui->comboBox_model->clear();
+    // user selected a vendor -> look for models
+    QString dir = QUrl::toPercentEncoding(arg1);
+    m_currentVendorDir = m_currentItemDir;
+    m_currentVendorDir.cd(dir);
+
+    QStringList files = fromPercentEncoding(m_currentVendorDir.entryList(QDir::Files, QDir::Name));
+    files.replaceInStrings(".json", "");
+    ui->comboBox_model->addItems(files);
+}
+
+void ItemCatalog::on_comboBox_model_currentIndexChanged(const QString &arg1)
+{
+    QJsonObject o = readDataFromModelFile(m_currentVendorDir.absoluteFilePath(arg1 + ".json"));
+    delete m_currentItem;
+    m_currentItem = m_itemdb->createItem((CADitemTypes::ItemType)ui->comboBox_itemType->currentData().toInt());
+    m_currentItem->wizardParams.deserialize(o.value(JSON_KEY_PARAMETERS).toArray());
+
+    showModelData(m_currentItem, arg1, o.value(JSON_KEY_DESCRIPTION).toString());
 }
 
 void ItemCatalog::on_toolButton_addVendor_clicked()
@@ -217,6 +329,14 @@ void ItemCatalog::on_toolButton_addVendor_clicked()
     QString newVendor = QInputDialog::getText(this, tr("Add Vendor"), tr("Enter Vendor Name"), QLineEdit::Normal, QString(), &ok);
     if (!ok)
         return;
+
+    if (!m_currentItemDir.mkpath(QUrl::toPercentEncoding(newVendor))) {
+        QMessageBox::warning(this, tr("Add Vendor"), tr("Could not add new vendor!"));
+        return;
+    }
+
+    ui->comboBox_vendor->addItem(newVendor);
+    ui->comboBox_vendor->setCurrentText(newVendor);
 }
 
 void ItemCatalog::on_toolButton_removeVendor_clicked()
@@ -225,25 +345,39 @@ void ItemCatalog::on_toolButton_removeVendor_clicked()
     if (vendor.isEmpty())
         return;
 
+    if (ui->comboBox_model->count() > 0) {
+        QMessageBox::warning(this, tr("Remove Vendor"), tr("Model list for vendor is not empty! Could not delete vendor."));
+        return;
+    }
+
     if (QMessageBox::question(this, tr("Remove Vendor"), tr("You are going to delete the vendor %1.").arg(vendor),
-                              tr("Abort"), tr("Proceed"), "", 1, 0)
-            == 0)
-    return;
+                              tr("Abort"), tr("Proceed"), "", 1, 0) == 0) {
+        return;
+    }
 
-
-}
-
-void ItemCatalog::on_comboBox_model_activated(const QString &arg1)
-{
-
+    m_currentItemDir.rmdir(QUrl::toPercentEncoding(vendor));
+    ui->comboBox_vendor->removeItem(ui->comboBox_vendor->currentIndex());
 }
 
 void ItemCatalog::on_toolButton_addModel_clicked()
 {
     bool ok;
-    QString newModel = QInputDialog::getText(this, tr("Add Model"), tr("Enter Model Description"), QLineEdit::Normal, QString(), &ok);
+    QString newModel = QInputDialog::getText(this, tr("Add Model"), tr("Enter Model name"), QLineEdit::Normal, QString(), &ok);
     if (!ok)
         return;
+
+    // add new model file
+    CADitem *item = m_itemdb->createItem((CADitemTypes::ItemType)ui->comboBox_itemType->currentData().toInt());
+    showModelData(item, newModel, "");
+    if (!saveModelFile(m_currentVendorDir.absoluteFilePath(QUrl::toPercentEncoding(newModel) + ".json"),
+                  item,
+                  "")) {
+        QMessageBox::warning(this, tr("Add Model"), tr("Could not store model!"));
+    }
+    delete item;
+
+    ui->comboBox_model->addItem(newModel);
+    ui->comboBox_model->setCurrentText(newModel);
 }
 
 void ItemCatalog::on_toolButton_removeModel_clicked()
@@ -253,11 +387,12 @@ void ItemCatalog::on_toolButton_removeModel_clicked()
         return;
 
     if (QMessageBox::question(this, tr("Remove Model"), tr("You are going to delete the model %1.").arg(model),
-                              tr("Abort"), tr("Proceed"), "", 1, 0)
-            == 0)
-    return;
+                              tr("Abort"), tr("Proceed"), "", 1, 0) == 0) {
+        return;
+    }
 
-
+    QFile::remove(m_currentVendorDir.absoluteFilePath(QUrl::toPercentEncoding(model) + ".json"));
+    ui->comboBox_model->removeItem(ui->comboBox_model->currentIndex());
 }
 
 void ItemCatalog::on_pushButton_db_gitClone_clicked()
@@ -372,4 +507,18 @@ void ItemCatalog::on_lineEdit_db_gitUserEmail_editingFinished()
     process_git.setArguments(args);
     process_git.start();
     process_git.waitForStarted(1000);
+}
+
+void ItemCatalog::on_pushButton_save_clicked()
+{
+    if (!saveModelFile(m_currentVendorDir.absoluteFilePath(ui->comboBox_model->currentText() + ".json"),
+                       m_currentItem,
+                       ui->textEdit_modelDescription->toPlainText())) {
+        QMessageBox::warning(this, tr("Save Model"), tr("Could not save model!"));
+    }
+}
+
+void ItemCatalog::on_pushButton_cancel_clicked()
+{
+
 }
