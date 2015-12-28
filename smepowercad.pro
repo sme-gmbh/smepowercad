@@ -300,7 +300,6 @@ SOURCES += main.cpp\
     items/cad_gas_compressor.cpp \
     keyframeanimation.cpp \
     items/cad_arch_stairs.cpp \
-    itemwizard_doublespinbox.cpp \
     items/cad_electrical_luminairerail.cpp \
     items/cad_cleanroom_ceilinggrid.cpp \
     items/cad_cleanroom_ceilinggridfeedthrough.cpp \
@@ -574,7 +573,6 @@ HEADERS  += mainwindow.h \
     items/cad_gas_compressor.h \
     keyframeanimation.h \
     items/cad_arch_stairs.h \
-    itemwizard_doublespinbox.h \
     items/cad_electrical_luminairerail.h \
     items/cad_cleanroom_ceilinggrid.h \
     items/cad_cleanroom_ceilinggridfeedthrough.h \
