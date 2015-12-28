@@ -3,5 +3,6 @@
         <file>styles/ItemWizard.css</file>
         <file>styles/CalculatingLineEdit.css</file>
         <file>styles/LayerManager.css</file>
+        <file>styles/QLineEdit+QTextEdit.css</file>
     </qresource>
 </RCC>
