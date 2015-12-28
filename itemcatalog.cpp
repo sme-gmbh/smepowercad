@@ -301,7 +301,6 @@ void ItemCatalog::on_comboBox_itemType_currentIndexChanged(const QString &arg1)
 
 void ItemCatalog::on_comboBox_vendor_currentIndexChanged(const QString &arg1)
 {
-    // TODO: clear model pointers
     ui->comboBox_model->clear();
     // user selected a vendor -> look for models
     QString dir = QUrl::toPercentEncoding(arg1);
@@ -520,5 +519,5 @@ void ItemCatalog::on_pushButton_save_clicked()
 
 void ItemCatalog::on_pushButton_cancel_clicked()
 {
-
+    // TODO
 }
