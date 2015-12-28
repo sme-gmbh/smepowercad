@@ -18,7 +18,6 @@
 #include "logging.h"
 
 
-//QList<QString> WizardParams::globalKeys;
 
 WizardParams::WizardParams()
 {
@@ -262,4 +261,30 @@ bool WizardParams::isEmpty()
         return false;
 
     return true;
+}
+
+QJsonArray WizardParams::serialize()
+{
+    QJsonArray ret = QJsonArray();
+
+    int i = 0;
+    foreach (QString key, this->keys()) {
+        QVariant value = this->value(i);
+        QJsonObject o = QJsonObject();
+        o.insert("key", key);
+        o.insert("value", QJsonValue::fromVariant(value));
+        ret.append(o);
+        i++;
+    }
+
+    return ret;
+}
+
+void WizardParams::deserialize(QJsonArray data)
+{
+    foreach (QJsonValue v, data) {
+        QJsonObject o = v.toObject();
+
+        this->insert(o.value("key").toString(), o.value("value").toVariant());
+    }
 }

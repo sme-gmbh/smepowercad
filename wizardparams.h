@@ -19,6 +19,8 @@
 #include <QString>
 #include <QStringList>
 #include <QVariant>
+#include <QJsonArray>
+#include <QJsonObject>
 
 class WizardParams
 {
@@ -40,6 +42,9 @@ public:
     QList<QString> keys();
     QList<QVariant> values();
     bool isEmpty();
+
+    QJsonArray serialize();
+    void deserialize(QJsonArray data);
 
 
 private:
