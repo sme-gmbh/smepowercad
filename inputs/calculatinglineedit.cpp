@@ -21,7 +21,7 @@ CalculatingLineEdit::CalculatingLineEdit(QWidget *parent)
 {
     connect(this, &CalculatingLineEdit::editingFinished, this, &CalculatingLineEdit::on_editingFinished);
 
-    this->setStyleSheet(StylesheetProvider::getInstance()->getStylesheet("CalculatingLineEdit"));
+    this->setStyleSheet(StylesheetProvider::getStylesheet("CalculatingLineEdit"));
 
     this->setFixedWidth(150);
 

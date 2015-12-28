@@ -27,7 +27,7 @@ ItemWizard::ItemWizard(QWidget *parent) :
     ui->setupUi(this);
     this->widgetLastFocus = NULL;
 
-    this->setStyleSheet(StylesheetProvider::getInstance()->getStylesheet("ItemWizard"));
+    this->setStyleSheet(StylesheetProvider::getStylesheet("ItemWizard"));
 }
 
 ItemWizard::~ItemWizard()
