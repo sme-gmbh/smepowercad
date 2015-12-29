@@ -40,12 +40,12 @@ include($$PWD/inputs/inputs.pri)
 
 # Language database build
 system(lrelease smepowercad.pro)
-lang_update.commands = cd $$PWD; lupdate $$PWD/smepowercad.pro
+lang_update.commands = cd $$PWD; $$[QT_INSTALL_BINS]/lupdate $$PWD/smepowercad.pro
 lang_update.depends = $$SOURCES $$HEADERS $$FORMS $$TRANSLATIONS
-lang_update.CONFIG += no_link target_predeps
-lang_release.commands = cd $$PWD; lrelease $$PWD/smepowercad.pro
+lang_update.CONFIG += no_link
+lang_release.commands = cd $$PWD; $$[QT_INSTALL_BINS]/lrelease $$PWD/smepowercad.pro
 lang_release.depends = $$TRANSLATIONS
-lang_release.CONFIG += no_link target_predeps
+lang_release.CONFIG += no_link
 QMAKE_EXTRA_TARGETS += lang_update lang_release
 PRE_TARGETDEPS += lang_release
 
@@ -60,9 +60,6 @@ unix {
     INSTALLS += shortcutfiles
     INSTALLS += icon
 }
-
-TRANSLATIONS =  lang/powercad-de_DE.ts \
-                lang/powercad-ru_RU.ts
 
 # Uncomment to enable 3D Mouse Driver Compilation
 #CONFIG += 3D_MOUSE

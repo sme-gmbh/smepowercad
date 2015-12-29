@@ -469,159 +469,159 @@ glxinfo | grep version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="214"/>
+        <location filename="../itemcatalog.cpp" line="222"/>
         <source>Git finished successfully.
 
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="216"/>
+        <location filename="../itemcatalog.cpp" line="224"/>
         <source>Git finished unsuccessfully with exit code %1.
 
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="219"/>
+        <location filename="../itemcatalog.cpp" line="227"/>
         <source>Git crashed, exit code %1.
 
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="243"/>
+        <location filename="../itemcatalog.cpp" line="251"/>
         <source>Git failed to start!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="246"/>
+        <location filename="../itemcatalog.cpp" line="254"/>
         <source>Git crashed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="249"/>
+        <location filename="../itemcatalog.cpp" line="257"/>
         <source>Git timed out!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="252"/>
+        <location filename="../itemcatalog.cpp" line="260"/>
         <source>Git process write error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="255"/>
+        <location filename="../itemcatalog.cpp" line="263"/>
         <source>Git process read error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="258"/>
+        <location filename="../itemcatalog.cpp" line="266"/>
         <source>Git unknown error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="328"/>
-        <location filename="../itemcatalog.cpp" line="333"/>
+        <location filename="../itemcatalog.cpp" line="336"/>
+        <location filename="../itemcatalog.cpp" line="341"/>
         <source>Add Vendor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="328"/>
+        <location filename="../itemcatalog.cpp" line="336"/>
         <source>Enter Vendor Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="333"/>
+        <location filename="../itemcatalog.cpp" line="341"/>
         <source>Could not add new vendor!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="348"/>
-        <location filename="../itemcatalog.cpp" line="352"/>
+        <location filename="../itemcatalog.cpp" line="356"/>
+        <location filename="../itemcatalog.cpp" line="360"/>
         <source>Remove Vendor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="348"/>
+        <location filename="../itemcatalog.cpp" line="356"/>
         <source>Model list for vendor is not empty! Could not delete vendor.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="352"/>
+        <location filename="../itemcatalog.cpp" line="360"/>
         <source>You are going to delete the vendor %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="353"/>
-        <location filename="../itemcatalog.cpp" line="389"/>
+        <location filename="../itemcatalog.cpp" line="361"/>
+        <location filename="../itemcatalog.cpp" line="397"/>
         <source>Abort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="353"/>
-        <location filename="../itemcatalog.cpp" line="389"/>
+        <location filename="../itemcatalog.cpp" line="361"/>
+        <location filename="../itemcatalog.cpp" line="397"/>
         <source>Proceed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="364"/>
-        <location filename="../itemcatalog.cpp" line="374"/>
+        <location filename="../itemcatalog.cpp" line="372"/>
+        <location filename="../itemcatalog.cpp" line="382"/>
         <source>Add Model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="364"/>
+        <location filename="../itemcatalog.cpp" line="372"/>
         <source>Enter Model name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="374"/>
+        <location filename="../itemcatalog.cpp" line="382"/>
         <source>Could not store model!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="516"/>
+        <location filename="../itemcatalog.cpp" line="525"/>
         <source>Save Model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="516"/>
+        <location filename="../itemcatalog.cpp" line="525"/>
         <source>Could not save model!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="388"/>
+        <location filename="../itemcatalog.cpp" line="396"/>
         <source>Remove Model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="388"/>
+        <location filename="../itemcatalog.cpp" line="396"/>
         <source>You are going to delete the model %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="402"/>
+        <location filename="../itemcatalog.cpp" line="410"/>
         <source>Git Clone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="402"/>
+        <location filename="../itemcatalog.cpp" line="410"/>
         <source>You cannot clone without remote origin!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="449"/>
-        <location filename="../itemcatalog.cpp" line="454"/>
+        <location filename="../itemcatalog.cpp" line="457"/>
+        <location filename="../itemcatalog.cpp" line="462"/>
         <source>Git Commit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="449"/>
+        <location filename="../itemcatalog.cpp" line="457"/>
         <source>Enter commit message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="454"/>
+        <location filename="../itemcatalog.cpp" line="462"/>
         <source>Committing without message is not allowed!
  Commit aborted.</source>
         <translation type="unfinished"></translation>

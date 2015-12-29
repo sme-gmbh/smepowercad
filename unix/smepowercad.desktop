@@ -13,4 +13,3 @@ StartupNotify=true
 X-GIO-NoFuse=true
 Keywords=CAD;Computer Aided Design;building;
 InitialPreference=5
-Name[de_DE]=smepowercad
