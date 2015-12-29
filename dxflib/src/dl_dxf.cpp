@@ -107,7 +107,7 @@ DL_Dxf::~DL_Dxf() {
  * @retval true If \p file could be opened.
  * @retval false If \p file could not be opened.
  */
-bool DL_Dxf::in(const std::string& file, DL_CreationInterface* creationInterface) {
+bool DL_Dxf::in(const std::string file, DL_CreationInterface* creationInterface) {
     FILE *fp;
     firstCall = true;
     currentObjectType = DL_UNKNOWN;

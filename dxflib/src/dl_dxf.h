@@ -116,7 +116,7 @@ public:
     DL_Dxf();
     ~DL_Dxf();
 
-    bool in(const std::string& file,
+    bool in(const std::__cxx11::string file,
             DL_CreationInterface* creationInterface);
     bool readDxfGroups(FILE* fp,
                        DL_CreationInterface* creationInterface);

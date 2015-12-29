@@ -1,0 +1,16 @@
+[Desktop Entry]
+Terminal=false
+Categories=Development;Graphics
+Comment=CAD for industrial building design
+Comment[de]=CAD für Gebäudeplanung in der Industrie
+Exec=smepowercad
+GenericName=SME PowerCAD
+GenericName[de]=SME PowerCAD
+Icon=smepowercad
+Name=SME PowerCAD
+Type=Application
+StartupNotify=true
+X-GIO-NoFuse=true
+Keywords=CAD;Computer Aided Design;building;
+InitialPreference=5
+Name[de_DE]=smepowercad

@@ -38,6 +38,28 @@ LIBS += -lGLU -lX11 -ldxfrw
 include($$PWD/network/network.pri)
 include($$PWD/inputs/inputs.pri)
 
+# Language database build
+system(lrelease smepowercad.pro)
+lang_update.commands = cd $$PWD; lupdate $$PWD/smepowercad.pro
+lang_update.depends = $$SOURCES $$HEADERS $$FORMS $$TRANSLATIONS
+lang_update.CONFIG += no_link target_predeps
+lang_release.commands = cd $$PWD; lrelease $$PWD/smepowercad.pro
+lang_release.depends = $$TRANSLATIONS
+lang_release.CONFIG += no_link target_predeps
+QMAKE_EXTRA_TARGETS += lang_update lang_release
+PRE_TARGETDEPS += lang_release
+
+# make install / make uninstall target
+unix {
+    target.path = /usr/bin/
+    shortcutfiles.files += unix/smepowercad.desktop
+    shortcutfiles.path = /usr/share/applications/
+    icon.files += icons/smepowercad.png
+    icon.path = /usr/share/pixmaps/
+    INSTALLS += target
+    INSTALLS += shortcutfiles
+    INSTALLS += icon
+}
 
 TRANSLATIONS =  lang/powercad-de_DE.ts \
                 lang/powercad-ru_RU.ts
@@ -620,11 +642,9 @@ OTHER_FILES += \
     shaders/shader_1.vert \
     shaders/shader_1_triangles.geom \
     shaders/shader_1_lines.geom \
+    shaders/shader_1.frag \
     shaders/shader_2.frag \
     shaders/shader_2.vert
 
 DISTFILES += \
-    shaders/shader_1.frag \
-    itemGraphic/cad_sprinkler_flange.dxf \
-    itemGraphic/cad_cleanroom_floorpanelwithbushingrect.png \
-    itemGraphic/cad_cleanroom_floorpanelwithbushingrect.dxf
+    unix/smepowercad.desktop
