@@ -16,7 +16,7 @@
 #include "modaldialog.h"
 #include "ui_modaldialog.h"
 
-ModalDialog::ModalDialog(QString title, QStringList data, QWidget *parent) :
+ModalDialog::ModalDialog(QString title, QStringList data, QImage image, QWidget *parent) :
     QDialog(parent, Qt::FramelessWindowHint),
     ui(new Ui::ModalDialog)
 {
@@ -29,11 +29,18 @@ ModalDialog::ModalDialog(QString title, QStringList data, QWidget *parent) :
     ui->labelTitle->setText(title);
 
     if (data.length() % 2 != 0) return;
-    for (int i = 0; i < data.length(); i = i+2)
-    {
+    for (int i = 0; i < data.length(); i = i+2) {
         QLabel *labelVal = new QLabel(data.at(i+1), this);
         ui->formLayout->addRow(data.at(i), labelVal);
     }
+
+    if (!image.isNull()) {
+        ui->labelIcon->setPixmap(QPixmap::fromImage(image));
+    } else {
+        ui->labelIcon->setFixedHeight(0);
+    }
+
+
     this->adjustSize();
 }
 

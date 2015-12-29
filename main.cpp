@@ -25,7 +25,7 @@ Q_LOGGING_CATEGORY(powercad, "powercad")
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setOrganizationName("SME GmbH");
+    QCoreApplication::setOrganizationName("Smart Micro Engineering GmbH");
     QCoreApplication::setOrganizationDomain("sme-gmbh.net");
     QCoreApplication::setApplicationName("SME PowerCAD");
 

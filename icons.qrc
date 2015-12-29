@@ -454,4 +454,7 @@
         <file>icons/arrow-down.png</file>
         <file>icons/arrow-up.png</file>
     </qresource>
+    <qresource prefix="/ui">
+        <file>icons/smepowercad.png</file>
+    </qresource>
 </RCC>
