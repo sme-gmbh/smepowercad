@@ -29,8 +29,10 @@ class ModalDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ModalDialog(QString title, QStringList data, QWidget *parent = 0);
+    ModalDialog(QString title, QStringList data, QImage image = QImage(), QWidget *parent = 0);
     ~ModalDialog();
+
+protected:
     virtual void paintEvent(QPaintEvent *event);
 
 private:

@@ -738,7 +738,7 @@ void MainWindow::slot_fileSaved()
 
 void MainWindow::on_actionAbout_OpenGL_triggered()
 {
-    ModalDialog *dialog = new ModalDialog(tr("About %1").arg("OpenGL"), mainGeometryDisplay->getOpenGLinfo(), this);
+    ModalDialog *dialog = new ModalDialog(tr("About %1").arg("OpenGL"), mainGeometryDisplay->getOpenGLinfo(), QImage(), this);
     dialog->exec();
     delete dialog;
 }
@@ -748,14 +748,18 @@ void MainWindow::on_actionAbout_triggered()
     QStringList about;
     about << tr("Authors") << "Peter Diener, Moritz Sternemann, Sebastian Wolf";
     about << "Build" << QString(__DATE__) + " " + QString(__TIME__);
-    about << QCoreApplication::organizationName() << "Rudolf-Diesel-Str. 17";
+    about << "" << QCoreApplication::organizationName();
+    about << "" << "Rudolf-Diesel-Str. 17";
     about << "" << "82205 Gilching";
-    about << tr("Tel.") << "+49 8105 2713 -0";
+    about << tr("Phone") << "+49 8105 2713 -0";
     about << "Email" << "diener.git@sme-gmbh.com";
-    about << "Email" << "sternemann.git@sme-gmbh.com";
-    about << "Email" << "wolf.git@sme-gmbh.com";
+    about << "" << "sternemann.git@sme-gmbh.com";
+    about << "" << "wolf.git@sme-gmbh.com";
 
-    ModalDialog *dialog = new ModalDialog(tr("About %1").arg(QCoreApplication::applicationName()), about, this);
+    ModalDialog *dialog = new ModalDialog(tr("About %1").arg(QCoreApplication::applicationName()),
+                                          about,
+                                          QImage(":/ui/icons/smepowercad.png"),
+                                          this);
     dialog->exec();
     delete dialog;
 }

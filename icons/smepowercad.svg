@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="128px" height="128px" viewBox="0 0 128 128" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.4.4 (17249) - http://www.bohemiancoding.com/sketch -->
+    <title>smepowercad</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <radialGradient cx="50%" cy="68.5743139%" fx="50%" fy="68.5743139%" r="66.6741823%" id="radialGradient-1">
+            <stop stop-color="#3CB19F" offset="0%"></stop>
+            <stop stop-color="#34A6B3" offset="100%"></stop>
+        </radialGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="smepowercad" sketch:type="MSArtboardGroup">
+            <path d="M4.5,60.0546821 C4.5,59.4995074 4.87698269,58.7908717 5.32613432,58.4827923 L27.6738657,43.1541722 C28.1301271,42.8412161 28.5,43.0347511 28.5,43.5912192 L28.5,56.5275333 C28.5,57.0818637 28.8634959,57.2843291 29.322274,56.9726994 L49.677726,43.1460531 C50.1318554,42.8375811 50.5,43.0347511 50.5,43.5912192 L50.5,56.5275333 C50.5,57.0818637 50.8634959,57.2843291 51.322274,56.9726994 L71.677726,43.1460531 C72.1318554,42.8375811 72.5,43.0347511 72.5,43.5912192 L72.5,56.5275333 C72.5,57.0818637 72.8634959,57.2843291 73.322274,56.9726994 L93.677726,43.1460531 C94.1318554,42.8375811 94.5,43.0295979 94.5,43.5826511 L94.5,57.5006879 C94.5,58.0502863 94.955761,58.4958239 95.5024733,58.4958239 L105.497527,58.4958239 C106.051177,58.4958239 106.5,58.0430613 106.5,57.4978138 L106.5,13.7480061 C106.5,13.1968203 106.954709,12.749996 107.49996,12.749996 L122.50004,12.749996 C123.052303,12.749996 123.5,13.202495 123.5,13.7545075 L123.5,113.23845 C123.5,113.793227 123.045135,114.242989 122.506981,114.243021 L5.49301892,114.250064 C4.94458972,114.250097 4.5,113.805789 4.5,113.244891 L4.5,60.0546821 Z" id="Fabrik" stroke="#BF8282" stroke-width="2" stroke-linecap="round" fill="url(#radialGradient-1)" sketch:type="MSShapeGroup"></path>
+            <g id="Target" sketch:type="MSLayerGroup" transform="translate(-222.000000, -230.000000)">
+                <g id="Lines" stroke="#FFFFFF" stroke-width="5" stroke-linecap="square" sketch:type="MSShapeGroup">
+                    <path d="M318.5,309.5 L618.5,309.5" id="Line-Right"></path>
+                    <path d="M300.5,309.5 L0.5,309.5" id="Line-Left"></path>
+                    <path d="M309.5,318.5 L309.5,618.5" id="Line-Bottom"></path>
+                    <path d="M309.5,300.5 L309.5,0.5" id="Line-Top"></path>
+                </g>
+                <rect id="Outer" stroke="#FFFFFF" stroke-width="5" sketch:type="MSShapeGroup" x="298" y="298" width="23" height="23"></rect>
+                <rect id="Inner" fill="#FFFFFF" sketch:type="MSShapeGroup" x="307" y="307" width="5" height="5"></rect>
+            </g>
+        </g>
+    </g>
+</svg>
