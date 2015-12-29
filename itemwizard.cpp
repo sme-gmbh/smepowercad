@@ -92,11 +92,15 @@ void ItemWizard::save()
 
 void ItemWizard::clear()
 {
-    delete m_itemParametersWidget;
-    QLayoutItem *item = ui->verticalLayout->itemAt(1);
-    ui->verticalLayout->removeItem(ui->verticalLayout->itemAt(1));
-    delete item;
-    ui->label_itemGraphic->clear();
+    if (m_itemParametersWidget != NULL)
+    {
+        delete m_itemParametersWidget;
+        m_itemParametersWidget = NULL;
+        QLayoutItem *item = ui->verticalLayout->itemAt(1);
+        ui->verticalLayout->removeItem(ui->verticalLayout->itemAt(1));
+        delete item;
+        ui->label_itemGraphic->clear();
+    }
 }
 
 void ItemWizard::giveFocusBack()
