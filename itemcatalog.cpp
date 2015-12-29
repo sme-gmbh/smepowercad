@@ -38,7 +38,7 @@ ItemCatalog::ItemCatalog(ItemDB* itemDB,  ItemWizard* itemWizard, QWidget *paren
     ui->comboBox_vendor->setInsertPolicy(QComboBox::InsertAlphabetically);
     ui->comboBox_model->setInsertPolicy(QComboBox::InsertAlphabetically);
 
-    QPixmap pm = QPixmap(ui->label_hairline->width(), 1);
+    QPixmap pm = QPixmap(this->width() - 50, 1);
     pm.fill(Qt::white);
     ui->label_hairline->setPixmap(pm);
 }
@@ -163,7 +163,7 @@ QJsonObject ItemCatalog::readDataFromModelFile(QString filename)
     return d.object();
 }
 
-bool ItemCatalog::saveModelFile(QString filename, CADitem *item, QString description)
+bool ItemCatalog::saveModelFile(QString filename, CADitem *item, QString description, QString newFilename)
 {
     QJsonDocument d = QJsonDocument();
     QJsonObject o = QJsonObject();
@@ -178,6 +178,14 @@ bool ItemCatalog::saveModelFile(QString filename, CADitem *item, QString descrip
     }
     file.write(d.toJson());
     file.close();
+    if (!newFilename.isEmpty() && newFilename != filename) {
+        if (!file.rename(newFilename)) return false;
+
+        ui->comboBox_model->removeItem(ui->comboBox_model->currentIndex());
+        QString readableName = QUrl::fromPercentEncoding(QFileInfo(newFilename).baseName().toUtf8());
+        ui->comboBox_model->addItem(readableName);
+        ui->comboBox_model->setCurrentText(readableName);
+    }
 
     return true;
 }
@@ -510,9 +518,10 @@ void ItemCatalog::on_lineEdit_db_gitUserEmail_editingFinished()
 
 void ItemCatalog::on_pushButton_save_clicked()
 {
-    if (!saveModelFile(m_currentVendorDir.absoluteFilePath(ui->comboBox_model->currentText() + ".json"),
+    if (!saveModelFile(m_currentVendorDir.absoluteFilePath(QUrl::toPercentEncoding(ui->comboBox_model->currentText()) + ".json"),
                        m_currentItem,
-                       ui->textEdit_modelDescription->toPlainText())) {
+                       ui->textEdit_modelDescription->toPlainText(),
+                       m_currentVendorDir.absoluteFilePath(QUrl::toPercentEncoding(ui->lineEdit_modelName->text()) + ".json"))) {
         QMessageBox::warning(this, tr("Save Model"), tr("Could not save model!"));
     }
 }

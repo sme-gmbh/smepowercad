@@ -77,7 +77,6 @@ private slots:
     void on_lineEdit_db_gitUserEmail_editingFinished();
 
     void on_pushButton_save_clicked();
-
     void on_pushButton_cancel_clicked();
 
 private:
@@ -103,7 +102,7 @@ private:
     QStringList fromPercentEncoding(QStringList list);
 
     QJsonObject readDataFromModelFile(QString filename);
-    bool saveModelFile(QString filename, CADitem *item, QString description);
+    bool saveModelFile(QString filename, CADitem *item, QString description, QString newFilename = QString());
     void showModelData(CADitem *item, QString name, QString description);
 };
 
