@@ -412,22 +412,22 @@ glxinfo | grep version</translation>
     <message>
         <location filename="../itemcatalog.ui" line="514"/>
         <source>Model Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Modell Bezeichnung</translation>
     </message>
     <message>
         <location filename="../itemcatalog.ui" line="531"/>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschreibung</translation>
     </message>
     <message>
         <location filename="../itemcatalog.ui" line="569"/>
         <source>Cancel</source>
-        <translation type="unfinished">Abbrechen</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <location filename="../itemcatalog.ui" line="576"/>
         <source>Save</source>
-        <translation type="unfinished">Speichern</translation>
+        <translation>Speichern</translation>
     </message>
     <message>
         <location filename="../itemcatalog.ui" line="274"/>
@@ -474,12 +474,12 @@ glxinfo | grep version</translation>
     <message>
         <location filename="../itemcatalog.cpp" line="158"/>
         <source>Load model</source>
-        <translation type="unfinished"></translation>
+        <translation>Modell laden</translation>
     </message>
     <message>
         <location filename="../itemcatalog.cpp" line="158"/>
         <source>Could not load model from disk!</source>
-        <translation type="unfinished"></translation>
+        <translation>Konnte Modell nicht laden!</translation>
     </message>
     <message>
         <location filename="../itemcatalog.cpp" line="222"/>
@@ -548,7 +548,7 @@ glxinfo | grep version</translation>
     <message>
         <location filename="../itemcatalog.cpp" line="341"/>
         <source>Could not add new vendor!</source>
-        <translation type="unfinished"></translation>
+        <translation>Hersteller konnte nicht hinzugefügt werden!</translation>
     </message>
     <message>
         <location filename="../itemcatalog.cpp" line="356"/>
@@ -559,7 +559,7 @@ glxinfo | grep version</translation>
     <message>
         <location filename="../itemcatalog.cpp" line="356"/>
         <source>Model list for vendor is not empty! Could not delete vendor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modell Liste des Herstellers ist nicht leer! Hersteller konnte nicht gelöscht werden.</translation>
     </message>
     <message>
         <location filename="../itemcatalog.cpp" line="360"/>
@@ -587,22 +587,22 @@ glxinfo | grep version</translation>
     <message>
         <location filename="../itemcatalog.cpp" line="372"/>
         <source>Enter Model name</source>
-        <translation type="unfinished"></translation>
+        <translation>Modell Name eingeben</translation>
     </message>
     <message>
         <location filename="../itemcatalog.cpp" line="382"/>
         <source>Could not store model!</source>
-        <translation type="unfinished"></translation>
+        <translation>Modell konnte nicht gespeichert werden!</translation>
     </message>
     <message>
         <location filename="../itemcatalog.cpp" line="525"/>
         <source>Save Model</source>
-        <translation type="unfinished"></translation>
+        <translation>Modell Speichern</translation>
     </message>
     <message>
         <location filename="../itemcatalog.cpp" line="525"/>
         <source>Could not save model!</source>
-        <translation type="unfinished"></translation>
+        <translation>Modell konnte nicht gespeichert werden!</translation>
     </message>
     <message>
         <source>Enter Model Description</source>
@@ -1053,7 +1053,7 @@ Default width for lines and outlines</oldsource>
         <location filename="../layermanager.cpp" line="160"/>
         <location filename="../layermanager.cpp" line="189"/>
         <source>Layer name already in use! Try a different name!</source>
-        <translation>Ebenen Name wird bereits verwendet! Bitte benutzen Sie einen anderen Namen.</translation>
+        <translation>Ebenen Name wird bereits verwendet! Bitte benutzen Sie einen anderen Namen!</translation>
     </message>
     <message>
         <location filename="../layermanager.cpp" line="214"/>
@@ -1196,7 +1196,7 @@ Default width for lines and outlines</oldsource>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="646"/>
-        <location filename="../mainwindow.cpp" line="800"/>
+        <location filename="../mainwindow.cpp" line="804"/>
         <source>Collision Detection</source>
         <translation>Kollisionserkennung</translation>
     </message>
@@ -1512,37 +1512,38 @@ Default width for lines and outlines</oldsource>
         <location filename="../mainwindow.cpp" line="700"/>
         <location filename="../mainwindow.cpp" line="706"/>
         <source>Item creation</source>
-        <translation type="unfinished"></translation>
+        <translation>Neues Teil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="694"/>
         <source>No layer is selected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Ebene ausgewählt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="700"/>
         <source>The current layer is not writable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die ausgewählte Ebene ist gesperrt.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="706"/>
         <source>The current layer is not on.
 Do you really want to insert an item?</source>
-        <translation type="unfinished"></translation>
+        <translation>Die ausgewählte Ebene ist nicht an.
+Soll wirklich ein Teil eingefügt werden?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="707"/>
         <source>Abort</source>
-        <translation type="unfinished">Abbrechen</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="707"/>
         <source>Proceed</source>
-        <translation type="unfinished">Fortfahren</translation>
+        <translation>Fortfahren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="741"/>
-        <location filename="../mainwindow.cpp" line="758"/>
+        <location filename="../mainwindow.cpp" line="759"/>
         <source>About %1</source>
         <translation>Über %1</translation>
     </message>
@@ -1552,12 +1553,16 @@ Do you really want to insert an item?</source>
         <translation>Entwickler</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="753"/>
-        <source>Tel.</source>
-        <translation>Tel.</translation>
+        <location filename="../mainwindow.cpp" line="754"/>
+        <source>Phone</source>
+        <translation>Telefon</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="800"/>
+        <source>Tel.</source>
+        <translation type="vanished">Tel.</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="804"/>
         <source>There has been a collision between
 </source>
         <translation>Es wurde eine Kollision gefunden!</translation>

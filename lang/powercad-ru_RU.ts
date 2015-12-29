@@ -1100,7 +1100,7 @@ Converting file to current version.</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="646"/>
-        <location filename="../mainwindow.cpp" line="800"/>
+        <location filename="../mainwindow.cpp" line="804"/>
         <source>Collision Detection</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1218,7 +1218,7 @@ Do you really want to insert an item?</source>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="741"/>
-        <location filename="../mainwindow.cpp" line="758"/>
+        <location filename="../mainwindow.cpp" line="759"/>
         <source>About %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1228,12 +1228,12 @@ Do you really want to insert an item?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="753"/>
-        <source>Tel.</source>
+        <location filename="../mainwindow.cpp" line="754"/>
+        <source>Phone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="800"/>
+        <location filename="../mainwindow.cpp" line="804"/>
         <source>There has been a collision between
 </source>
         <translation type="unfinished"></translation>
