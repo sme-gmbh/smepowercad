@@ -114,38 +114,6 @@ QLabel {
 	color: rgb(240, 250, 240);
 }
 
-QPushButton, QToolButton {
-	color: rgb(240, 250, 240);
-	background-color: rgb(59, 59, 51);
-	border: 0;
-	border: 1px solid rgb(200, 200, 200);
-	padding: 2px;
-	padding-left: 3px;
-	padding-right: 3px;
-	/*border-right: 1px solid rgb(200, 200, 200);*/
-	height: 16px;
-}
-/*QPushButton#pushButtonSolid {
-	border-right: 1px solid rgb(200, 200, 200);
-}*/
-QPushButton:hover, QToolButton:hover {
-	background-color: rgb(110, 110, 95);
-}
-QPushButton:pressed, QToolButton:pressed {
-	background-color: rgb(150, 150, 130);
-}
-QPushButton:checked, QToolButton:checked {
-	background-color: rgb(19, 156, 39);
-}
-QPushButton:focus, QToolButton:focus {
-	background-color: rgb(5, 90, 11);
-	outline: none;
-}
-QPushButton:focus:hover, QToolButton:focus:hover {
-	background-color: rgb(9, 177, 21);
-	outline: none;
-}
-
 QSpinBox, QDoubleSpinBox {
 	color: white;
 	padding-right: 20px;

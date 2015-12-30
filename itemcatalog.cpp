@@ -24,7 +24,7 @@ ItemCatalog::ItemCatalog(ItemDB* itemDB,  ItemWizard* itemWizard, QWidget *paren
     m_currentItem(Q_NULLPTR),
     m_itemParametersWidget(Q_NULLPTR)
 {
-    this->setStyleSheet(StylesheetProvider::getStylesheet("QLineEdit+QTextEdit"));
+    this->setStyleSheet(StylesheetProvider::getStylesheet("Button,QLineEdit+QTextEdit"));
     ui->setupUi(this);
 
     this->m_itemdb = itemDB;

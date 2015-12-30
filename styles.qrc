@@ -4,5 +4,6 @@
         <file>styles/CalculatingLineEdit.css</file>
         <file>styles/LayerManager.css</file>
         <file>styles/QLineEdit+QTextEdit.css</file>
+        <file>styles/Button.css</file>
     </qresource>
 </RCC>
