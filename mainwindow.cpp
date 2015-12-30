@@ -22,7 +22,6 @@
 #include "dxflib/src/dl_creationadapter.h"
 #include "dxfreaderinterface.h"
 #include "logging.h"
-#include "toolwidget.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
