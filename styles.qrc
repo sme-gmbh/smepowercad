@@ -5,5 +5,7 @@
         <file>styles/LayerManager.css</file>
         <file>styles/QLineEdit+QTextEdit.css</file>
         <file>styles/Button.css</file>
+        <file>styles/ExpandableToolButton.css</file>
+        <file>styles/Toolbar.css</file>
     </qresource>
 </RCC>

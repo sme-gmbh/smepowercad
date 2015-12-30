@@ -383,14 +383,44 @@ QString MainWindow::strippedName(QString fullName)
 
 void MainWindow::createItemToolBar()
 {
-    QStringList domains = m_itemDB->getDomains();
+//    QStringList domains = m_itemDB->getDomains();
 
+//    foreach(QString domain, domains) {
+//        ToolWidget* toolWidget = new ToolWidget(m_itemDB, ui->toolBarItems);
+//        toolWidget->setDomain(domain);
+//        ui->toolBarItems->addWidget(toolWidget);
+//        connect(toolWidget, SIGNAL(signal_newItemRequested(CADitemTypes::ItemType)), this, SLOT(slot_createNewItem(CADitemTypes::ItemType)));
+//    }
+
+    ui->toolBarItems->setStyleSheet(StylesheetProvider::getStylesheet("Toolbar"));
+    QWidget *w = new QWidget(ui->toolBarItems);
+    QHBoxLayout *layout = new QHBoxLayout(w);
+    layout->setSpacing(0);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setMargin(2);
+
+    QStringList domains = m_itemDB->getDomains();
+    QList<ItemTypeToolButton*> buttons = QList<ItemTypeToolButton*>();
     foreach(QString domain, domains) {
-        ToolWidget* toolWidget = new ToolWidget(m_itemDB, ui->toolBarItems);
-        toolWidget->setDomain(domain);
-        ui->toolBarItems->addWidget(toolWidget);
-        connect(toolWidget, SIGNAL(signal_newItemRequested(CADitemTypes::ItemType)), this, SLOT(slot_createNewItem(CADitemTypes::ItemType)));
+        ItemTypeToolButton *btn = new ItemTypeToolButton(m_itemDB, ui->toolBarItems);
+        btn->setDomain(domain);
+        layout->addWidget(btn);
+        buttons.append(btn);
+        connect(btn, &ItemTypeToolButton::newItemRequested, this, &MainWindow::slot_createNewItem);
     }
+
+    foreach (ItemTypeToolButton *btn1, buttons) {
+        foreach (ItemTypeToolButton *btn2, buttons) {
+            if (btn1 != btn2)
+                connect(btn1, &ItemTypeToolButton::showingSubbuttons, btn2, &ItemTypeToolButton::hideSubbuttons);
+        }
+    }
+
+    layout->itemAt(0)->widget()->setObjectName("first-of-type");
+    layout->itemAt(layout->count() -1)->widget()->setObjectName("last-of-type");
+
+    ui->toolBarItems->setLayout(layout);
+    ui->toolBarItems->addWidget(w);
 }
 
 void MainWindow::setProjectFilepath(QString filepath)

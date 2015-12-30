@@ -59,6 +59,7 @@
 #include "printwidget.h"
 #include "keyframeanimation.h"
 #include "itemcatalog.h"
+#include "itemtypetoolbutton.h"
 
 #include "network/server.h"
 

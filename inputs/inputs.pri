@@ -14,9 +14,14 @@
 #*********************************************************************/
 
 INCLUDEPATH += $$PWD
+DEPENDPATH += $$PWD
 
 HEADERS += \
-    $$PWD/calculatinglineedit.h
+    $$PWD/calculatinglineedit.h \
+    $$PWD/expandabletoolbutton.h \
+    $$PWD/itemtypetoolbutton.h
 
 SOURCES += \
-    $$PWD/calculatinglineedit.cpp
+    $$PWD/calculatinglineedit.cpp \
+    $$PWD/expandabletoolbutton.cpp \
+    $$PWD/itemtypetoolbutton.cpp
