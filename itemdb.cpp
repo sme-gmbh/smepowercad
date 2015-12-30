@@ -1798,7 +1798,7 @@ bool ItemDB::file_loadDB(const QString filename, QString *error, QMatrix4x4 *pro
     QDomElement elem_cadData = root.firstChildElement("CadData");
     Layer *tempParentLayer = m_rootLayer;
     while (!elem_cadData.isNull()) {
-        file_loadDB_parseDomElement(elem_cadData, tempParentLayer, mapByDescription, &itemDescriptionByItemType, error); // TODO: rootLayer may be wrong here...
+        file_loadDB_parseDomElement(elem_cadData, tempParentLayer, mapByDescription, &itemDescriptionByItemType, error);
         elem_cadData = elem_cadData.nextSiblingElement();
     }
 
