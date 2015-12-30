@@ -188,7 +188,6 @@ SOURCES += main.cpp\
     items/cad_basic_face.cpp \
     itemgripmodifier.cpp \
     items/cad_air_pipebranch.cpp \
-    toolwidget.cpp \
     caditemtypes.cpp \
     wizardparams.cpp \
     items/cad_air_lineardiffuser.cpp \
@@ -460,7 +459,6 @@ HEADERS  += mainwindow.h \
     items/cad_basic_face.h \
     itemgripmodifier.h \
     items/cad_air_pipebranch.h \
-    toolwidget.h \
     caditemheaderincludes.h \
     caditemtypes.h \
     wizardparams.h \
@@ -616,7 +614,6 @@ FORMS    += mainwindow.ui \
     modaldialog.ui \
     settingsdialog.ui \
     itemgripmodifier.ui \
-    toolwidget.ui \
     printwidget.ui \
     printpapertemplate.ui \
     keyframeanimation.ui \
