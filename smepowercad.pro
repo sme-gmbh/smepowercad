@@ -39,7 +39,7 @@ include($$PWD/network/network.pri)
 include($$PWD/inputs/inputs.pri)
 
 # Language database build
-system(lrelease smepowercad.pro)
+system(lrelease-qt5 smepowercad.pro)
 lang_update.commands = cd $$PWD; $$[QT_INSTALL_BINS]/lupdate $$PWD/smepowercad.pro
 lang_update.depends = $$SOURCES $$HEADERS $$FORMS $$TRANSLATIONS
 lang_update.CONFIG += no_link
