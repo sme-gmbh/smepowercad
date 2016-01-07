@@ -17,6 +17,7 @@
 #define ITEMCATALOG_H
 
 #include <QDir>
+#include <QDirIterator>
 #include <QDockWidget>
 #include <QFile>
 #include <QInputDialog>
@@ -104,6 +105,8 @@ private:
     QJsonObject readDataFromModelFile(QString filename);
     bool saveModelFile(QString filename, CADitem *item, QString description, QString newFilename = QString());
     void showModelData(CADitem *item, QString name, QString description);
+
+    bool removeDir(const QString &dirName);
 };
 
 #endif // ITEMCATALOG_H

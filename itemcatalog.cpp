@@ -34,6 +34,7 @@ ItemCatalog::ItemCatalog(ItemDB* itemDB,  ItemWizard* itemWizard, QWidget *paren
     setupGitProcess();
     getGitConfig();
     initialize();
+//    loadItemCatalogFromDisk();
 
     ui->comboBox_vendor->setInsertPolicy(QComboBox::InsertAlphabetically);
     ui->comboBox_model->setInsertPolicy(QComboBox::InsertAlphabetically);
@@ -52,19 +53,16 @@ void ItemCatalog::initialize()
 {
     QStringList domains = this->m_itemdb->getDomains();
     ui->comboBox_domain->addItems(domains);
-
-//    if (domains.size() > 0) {
-//        on_comboBox_domain_activated(domains.first());
-//    }
 }
 
 bool ItemCatalog::setupLocalDirectory()
 {
     m_catalogDir = QDir::home();
     if (!m_catalogDir.cd(".smepowercad/catalog")) {    // local catalog directory does not exist
-        if (m_catalogDir.mkpath(".smepowercad/catalog"))
+        if (m_catalogDir.mkpath(".smepowercad/catalog")) {
+            m_catalogDir.cd(".smepowercad/catalog");
             ui->textEdit_terminalOutput->append(tr("The local directory .smepowercad/catalog did not exist and has been created."));
-        else {
+        } else {
             ui->textEdit_terminalOutput->append(tr("The local directory .smepowercad/catalog could not be created!"));
             return false;
         }
@@ -234,6 +232,12 @@ void ItemCatalog::slot_processGit_finished(int exitCode, QProcess::ExitStatus ex
     ui->pushButton_db_gitPull->setEnabled(true);
     ui->pushButton_db_gitPush->setEnabled(true);
     ui->pushButton_db_gitStatus->setEnabled(true);
+
+    QString finishedProcess = process_git.arguments().first();
+    if (finishedProcess == "clone" || finishedProcess == "pull") {
+        // reload vendors and models...
+        on_comboBox_itemType_currentIndexChanged(ui->comboBox_itemType->currentText());
+    }
 }
 
 void ItemCatalog::slot_processGit_readyRead()
@@ -272,6 +276,7 @@ void ItemCatalog::on_comboBox_domain_currentIndexChanged(const QString &arg1)
 {
     ui->comboBox_itemType->clear();
     ui->comboBox_vendor->clear();
+    ui->comboBox_model->clear();
 
     QString domain = arg1;
     m_currentDomainItemTypes = m_itemdb->getItemTypesByDomain(domain);
@@ -294,6 +299,7 @@ void ItemCatalog::on_comboBox_domain_currentIndexChanged(const QString &arg1)
 void ItemCatalog::on_comboBox_itemType_currentIndexChanged(const QString &arg1)
 {
     ui->comboBox_vendor->clear();
+    ui->comboBox_model->clear();
 
     // user selected an CADitem -> look for vendors
     QString dir = QUrl::toPercentEncoding(arg1);
@@ -405,10 +411,22 @@ void ItemCatalog::on_toolButton_removeModel_clicked()
 void ItemCatalog::on_pushButton_db_gitClone_clicked()
 {
     QString remote = ui->lineEdit_db_gitRemote->text();
-    if (remote.isEmpty())
-    {
+    if (remote.isEmpty()) {
         QMessageBox::critical(this, tr("Git Clone"), tr("You cannot clone without remote origin!"));
         return;
+    }
+
+    // check if destination folder is empty
+    QDirIterator it(m_catalogDir.absolutePath(), QStringList() << "*.json", QDir::Files, QDirIterator::Subdirectories);
+    if (it.hasNext()) {
+        // destination is not empty
+        QMessageBox::critical(this, tr("Git Clone"), tr("Cannot clone into an non-empty folder!"));
+        return;
+    } else {
+        // destination folder may have subfolders but no files
+        foreach (QString dir, m_catalogDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
+            removeDir(m_catalogDir.absoluteFilePath(dir));
+        }
     }
 
     this->git_Output.clear();
@@ -529,4 +547,28 @@ void ItemCatalog::on_pushButton_save_clicked()
 void ItemCatalog::on_pushButton_cancel_clicked()
 {
     // TODO
+}
+
+bool ItemCatalog::removeDir(const QString &dirName)
+{
+    bool result = true;
+    QDir dir(dirName);
+
+    if (dir.exists(dirName)) {
+        foreach (QFileInfo info, dir.entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs)) {
+            if (info.isDir()) {
+                result = removeDir(info.absoluteFilePath());
+            } else {
+                result = QFile::remove(info.absoluteFilePath());
+            }
+
+            if (!result) {
+                return result;
+            }
+        }
+
+        result = dir.rmdir(dirName);
+    }
+
+    return result;
 }
