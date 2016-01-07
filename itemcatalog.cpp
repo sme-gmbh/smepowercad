@@ -34,14 +34,9 @@ ItemCatalog::ItemCatalog(ItemDB* itemDB,  ItemWizard* itemWizard, QWidget *paren
     setupGitProcess();
     getGitConfig();
     initialize();
-//    loadItemCatalogFromDisk();
 
     ui->comboBox_vendor->setInsertPolicy(QComboBox::InsertAlphabetically);
     ui->comboBox_model->setInsertPolicy(QComboBox::InsertAlphabetically);
-
-    QPixmap pm = QPixmap(this->width() - 50, 1);
-    pm.fill(Qt::white);
-    ui->label_hairline->setPixmap(pm);
 }
 
 ItemCatalog::~ItemCatalog()
@@ -192,10 +187,10 @@ void ItemCatalog::showModelData(CADitem *item, QString name, QString description
 {
     delete m_itemParametersWidget;
     m_itemParametersWidget = new ItemParametersWidget(item, m_itemdb, this);
-    QLayoutItem *layoutItem = ui->verticalLayoutContent->itemAt(3);
+    QLayoutItem *layoutItem = ui->verticalLayoutContent->itemAt(4);
     ui->verticalLayoutContent->removeItem(layoutItem);
     delete layoutItem;
-    ui->verticalLayoutContent->insertWidget(3, m_itemParametersWidget);
+    ui->verticalLayoutContent->insertWidget(4, m_itemParametersWidget);
     ui->lineEdit_modelName->setText(name);
     ui->textEdit_modelDescription->setText(description);
 }
@@ -308,6 +303,10 @@ void ItemCatalog::on_comboBox_itemType_currentIndexChanged(const QString &arg1)
         m_currentItemDir.mkpath(dir);
     }
     m_currentItemDir.cd(dir);
+
+    CADitem *item = m_itemdb->createItem((CADitemTypes::ItemType)ui->comboBox_itemType->currentData().toInt());
+    ui->label_itemGraphic->setPixmap(QPixmap().fromImage(item->wizardImage().scaledToWidth(400, Qt::SmoothTransformation)));
+    delete item;
 
     QStringList dirs = fromPercentEncoding(m_currentItemDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name));
     ui->comboBox_vendor->addItems(dirs);

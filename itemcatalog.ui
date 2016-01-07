@@ -487,24 +487,9 @@
          </layout>
         </item>
         <item>
-         <widget class="QLabel" name="label_hairline">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>11</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>11</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">margin: 5px 0;</string>
-          </property>
-          <property name="text">
-           <string/>
+         <widget class="Line" name="line">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
           </property>
          </widget>
         </item>
@@ -514,6 +499,9 @@
            <string>Model Name</string>
           </property>
          </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_itemGraphic"/>
         </item>
         <item>
          <widget class="QWidget" name="widgetItemParameters" native="true">
