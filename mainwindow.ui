@@ -575,7 +575,7 @@ QTabBar::tab:hover:!selected:!top {
     <string>New window</string>
    </property>
    <property name="shortcut">
-    <string>Q</string>
+    <string>W</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>
