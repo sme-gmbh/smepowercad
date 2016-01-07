@@ -289,12 +289,12 @@ glxinfo | grep version</translation>
     <message>
         <location filename="../geometrydisplaytitle.ui" line="875"/>
         <source>Draw wireframes</source>
-        <translation>Wireframes zeichen</translation>
+        <translation>Wireframes anzeigen</translation>
     </message>
     <message>
         <location filename="../geometrydisplaytitle.ui" line="916"/>
         <source>Draw solid</source>
-        <translation>Flächen zeichnen</translation>
+        <translation>Flächen anzeigen</translation>
     </message>
     <message>
         <location filename="../geometrydisplaytitle.ui" line="986"/>
