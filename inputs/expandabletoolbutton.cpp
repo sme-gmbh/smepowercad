@@ -25,7 +25,7 @@ ExpandableToolButton::ExpandableToolButton(QWidget *parent) :
     currentRow(0),
     currentColumn(0)
 {
-//    this->setStyleSheet(StylesheetProvider::getStylesheet("Button,ExpandableToolButton"));
+//    this->setStyleSheet(StylesheetProvider::getStylesheet("ExpandableToolButton"));
     m_subwidget->setStyleSheet(StylesheetProvider::getStylesheet("ExpandableToolButton"));
 
     m_layout->setSpacing(0);

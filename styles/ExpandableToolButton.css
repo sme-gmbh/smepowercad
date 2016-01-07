@@ -6,6 +6,7 @@ QToolButton {
     border: 0;
     border-left: 1px solid rgb(132, 132, 132);
     border-bottom: 1px solid rgb(132, 132, 132);
+    border-radius: 0px;
 }
 
 QToolButton#first-column {

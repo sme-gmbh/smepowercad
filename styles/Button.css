@@ -2,8 +2,9 @@ QPushButton, QToolButton {
     color: rgb(240, 250, 240);
     background-color: rgb(59, 59, 51);
     border: 0;
-    border: 1px solid rgb(200, 200, 200);
+    border: 1px solid rgb(132, 132, 132);
     padding: 2px 5px;
+    border-radius: 3px;
     /*height: 16px;*/
 }
 QPushButton:hover, QToolButton:hover {

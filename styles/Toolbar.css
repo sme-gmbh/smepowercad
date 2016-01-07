@@ -1,6 +1,7 @@
 QToolBar QToolButton {
     border: 1px solid rgb(132, 132, 132);
     border-left: 0;
+    border-radius: 0px;
 }
 
 QToolBar QToolButton#first-of-type {
