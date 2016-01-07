@@ -77,6 +77,7 @@ private slots:
     void on_lineEdit_db_gitUserName_editingFinished();
     void on_lineEdit_db_gitUserEmail_editingFinished();
 
+    void on_pushButton_insert_clicked();
     void on_pushButton_save_clicked();
     void on_pushButton_cancel_clicked();
 
@@ -107,6 +108,9 @@ private:
     void showModelData(CADitem *item, QString name, QString description);
 
     bool removeDir(const QString &dirName);
+
+signals:
+    void insertItem(CADitemTypes::ItemType type, WizardParams wizardParams);
 };
 
 #endif // ITEMCATALOG_H

@@ -59,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menuFenster->addAction(action_itemCatalog);
     ui->menuFenster->addSeparator();
     this->itemCatalog->hide();
+    connect(itemCatalog, &ItemCatalog::insertItem, this, &MainWindow::slot_createNewItemWithWizardParams);
 
     // **** Item Grip Modifier ****
     itemGripModifier = new ItemGripModifier(m_itemDB, itemWizard, this);
@@ -382,15 +383,6 @@ QString MainWindow::strippedName(QString fullName)
 
 void MainWindow::createItemToolBar()
 {
-//    QStringList domains = m_itemDB->getDomains();
-
-//    foreach(QString domain, domains) {
-//        ToolWidget* toolWidget = new ToolWidget(m_itemDB, ui->toolBarItems);
-//        toolWidget->setDomain(domain);
-//        ui->toolBarItems->addWidget(toolWidget);
-//        connect(toolWidget, SIGNAL(signal_newItemRequested(CADitemTypes::ItemType)), this, SLOT(slot_createNewItem(CADitemTypes::ItemType)));
-//    }
-
     ui->toolBarItems->setStyleSheet(StylesheetProvider::getStylesheet("Toolbar"));
     QWidget *w = new QWidget(ui->toolBarItems);
     QHBoxLayout *layout = new QHBoxLayout(w);
@@ -740,6 +732,35 @@ void MainWindow::slot_createNewItem(CADitemTypes::ItemType type)
 
     m_itemDB->setRestorePoint();
     CADitem* item = m_itemDB->drawItem_withRestorePoint(currentLayer, type, WizardParams());
+    this->itemWizard->showWizard(item, m_itemDB);
+}
+
+void MainWindow::slot_createNewItemWithWizardParams(CADitemTypes::ItemType type, WizardParams wizardParams)
+{
+    Layer* currentLayer = this->layerManager->getCurrentLayer();
+
+    if (currentLayer == this->m_itemDB->getRootLayer())
+    {
+        QMessageBox::critical(this, tr("Item creation"), tr("No layer is selected."));
+        return;
+    }
+
+    if (!currentLayer->isWriteable)
+    {
+        QMessageBox::critical(this, tr("Item creation"), tr("The current layer is not writable."));
+        return;
+    }
+
+    if (!currentLayer->isOn)
+    {
+        if (QMessageBox::question(this, tr("Item creation"), tr("The current layer is not on.\nDo you really want to insert an item?"),
+                                  tr("Abort"), tr("Proceed"), "", 1, 0)
+                == 0)
+            return;
+    }
+
+    m_itemDB->setRestorePoint();
+    CADitem* item = m_itemDB->drawItem_withRestorePoint(currentLayer, type, wizardParams);
     this->itemWizard->showWizard(item, m_itemDB);
 }
 

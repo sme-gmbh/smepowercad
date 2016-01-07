@@ -140,6 +140,7 @@ public slots:
     void slot_selectionChanged(QList<CADitem*> selectedItems);
 
     void slot_createNewItem(CADitemTypes::ItemType type);
+    void slot_createNewItemWithWizardParams(CADitemTypes::ItemType type, WizardParams wizardParams);
     void slot_fileNeedsSaving();
     void slot_fileSaved();
 

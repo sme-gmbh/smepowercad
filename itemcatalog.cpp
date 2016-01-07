@@ -533,6 +533,11 @@ void ItemCatalog::on_lineEdit_db_gitUserEmail_editingFinished()
     process_git.waitForStarted(1000);
 }
 
+void ItemCatalog::on_pushButton_insert_clicked()
+{
+    emit insertItem(m_currentItem->getType(), m_currentItem->wizardParams);
+}
+
 void ItemCatalog::on_pushButton_save_clicked()
 {
     if (!saveModelFile(m_currentVendorDir.absoluteFilePath(QUrl::toPercentEncoding(ui->comboBox_model->currentText()) + ".json"),
