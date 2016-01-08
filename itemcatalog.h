@@ -78,6 +78,7 @@ private slots:
     void on_lineEdit_db_gitUserEmail_editingFinished();
 
     void on_pushButton_insert_clicked();
+    void on_pushButton_insert_customContextMenuRequested(const QPoint &pos);
     void on_pushButton_save_clicked();
     void on_pushButton_cancel_clicked();
 
