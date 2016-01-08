@@ -397,22 +397,27 @@ glxinfo | grep version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.ui" line="514"/>
+        <location filename="../itemcatalog.ui" line="499"/>
         <source>Model Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.ui" line="531"/>
+        <location filename="../itemcatalog.ui" line="512"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.ui" line="569"/>
+        <location filename="../itemcatalog.ui" line="537"/>
+        <source>Insert</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../itemcatalog.ui" line="557"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.ui" line="576"/>
+        <location filename="../itemcatalog.ui" line="564"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
@@ -444,184 +449,190 @@ glxinfo | grep version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="66"/>
+        <location filename="../itemcatalog.cpp" line="59"/>
         <source>The local directory .smepowercad/catalog did not exist and has been created.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="68"/>
+        <location filename="../itemcatalog.cpp" line="61"/>
         <source>The local directory .smepowercad/catalog could not be created!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="72"/>
+        <location filename="../itemcatalog.cpp" line="65"/>
         <source>The local directory .smepowercad/catalog does exist.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="158"/>
+        <location filename="../itemcatalog.cpp" line="151"/>
         <source>Load model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="158"/>
+        <location filename="../itemcatalog.cpp" line="151"/>
         <source>Could not load model from disk!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="222"/>
+        <location filename="../itemcatalog.cpp" line="227"/>
         <source>Git finished successfully.
 
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="224"/>
+        <location filename="../itemcatalog.cpp" line="229"/>
         <source>Git finished unsuccessfully with exit code %1.
 
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="227"/>
+        <location filename="../itemcatalog.cpp" line="232"/>
         <source>Git crashed, exit code %1.
 
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="251"/>
+        <location filename="../itemcatalog.cpp" line="262"/>
         <source>Git failed to start!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="254"/>
+        <location filename="../itemcatalog.cpp" line="265"/>
         <source>Git crashed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="257"/>
+        <location filename="../itemcatalog.cpp" line="268"/>
         <source>Git timed out!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="260"/>
+        <location filename="../itemcatalog.cpp" line="271"/>
         <source>Git process write error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="263"/>
+        <location filename="../itemcatalog.cpp" line="274"/>
         <source>Git process read error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="266"/>
+        <location filename="../itemcatalog.cpp" line="277"/>
         <source>Git unknown error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="336"/>
-        <location filename="../itemcatalog.cpp" line="341"/>
+        <location filename="../itemcatalog.cpp" line="360"/>
+        <location filename="../itemcatalog.cpp" line="365"/>
         <source>Add Vendor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="336"/>
+        <location filename="../itemcatalog.cpp" line="360"/>
         <source>Enter Vendor Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="341"/>
+        <location filename="../itemcatalog.cpp" line="365"/>
         <source>Could not add new vendor!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="356"/>
-        <location filename="../itemcatalog.cpp" line="360"/>
+        <location filename="../itemcatalog.cpp" line="380"/>
+        <location filename="../itemcatalog.cpp" line="384"/>
         <source>Remove Vendor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="356"/>
+        <location filename="../itemcatalog.cpp" line="380"/>
         <source>Model list for vendor is not empty! Could not delete vendor.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="360"/>
+        <location filename="../itemcatalog.cpp" line="384"/>
         <source>You are going to delete the vendor %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="361"/>
-        <location filename="../itemcatalog.cpp" line="397"/>
+        <location filename="../itemcatalog.cpp" line="385"/>
+        <location filename="../itemcatalog.cpp" line="421"/>
         <source>Abort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="361"/>
-        <location filename="../itemcatalog.cpp" line="397"/>
+        <location filename="../itemcatalog.cpp" line="385"/>
+        <location filename="../itemcatalog.cpp" line="421"/>
         <source>Proceed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="372"/>
-        <location filename="../itemcatalog.cpp" line="382"/>
+        <location filename="../itemcatalog.cpp" line="396"/>
+        <location filename="../itemcatalog.cpp" line="406"/>
         <source>Add Model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="372"/>
+        <location filename="../itemcatalog.cpp" line="396"/>
         <source>Enter Model name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="382"/>
+        <location filename="../itemcatalog.cpp" line="406"/>
         <source>Could not store model!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="525"/>
+        <location filename="../itemcatalog.cpp" line="441"/>
+        <source>Cannot clone into an non-empty folder!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../itemcatalog.cpp" line="572"/>
         <source>Save Model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="525"/>
+        <location filename="../itemcatalog.cpp" line="572"/>
         <source>Could not save model!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="396"/>
+        <location filename="../itemcatalog.cpp" line="420"/>
         <source>Remove Model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="396"/>
+        <location filename="../itemcatalog.cpp" line="420"/>
         <source>You are going to delete the model %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="410"/>
+        <location filename="../itemcatalog.cpp" line="433"/>
+        <location filename="../itemcatalog.cpp" line="441"/>
         <source>Git Clone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="410"/>
+        <location filename="../itemcatalog.cpp" line="433"/>
         <source>You cannot clone without remote origin!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="457"/>
-        <location filename="../itemcatalog.cpp" line="462"/>
+        <location filename="../itemcatalog.cpp" line="493"/>
+        <location filename="../itemcatalog.cpp" line="498"/>
         <source>Git Commit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="457"/>
+        <location filename="../itemcatalog.cpp" line="493"/>
         <source>Enter commit message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="462"/>
+        <location filename="../itemcatalog.cpp" line="498"/>
         <source>Committing without message is not allowed!
  Commit aborted.</source>
         <translation type="unfinished"></translation>
@@ -790,6 +801,19 @@ Converting file to current version.</source>
     </message>
 </context>
 <context>
+    <name>ItemParametersWidget</name>
+    <message>
+        <location filename="../itemparameterswidget.cpp" line="99"/>
+        <source>Position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../itemparameterswidget.cpp" line="103"/>
+        <source>Angle</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ItemWizard</name>
     <message>
         <location filename="../itemwizard.ui" line="20"/>
@@ -817,7 +841,7 @@ Converting file to current version.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemwizard.cpp" line="61"/>
+        <location filename="../itemwizard.cpp" line="60"/>
         <source>Item Wizard: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1009,128 +1033,128 @@ Converting file to current version.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="434"/>
+        <location filename="../mainwindow.ui" line="402"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="451"/>
+        <location filename="../mainwindow.ui" line="419"/>
         <source>Format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="456"/>
+        <location filename="../mainwindow.ui" line="424"/>
         <source>Window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="462"/>
+        <location filename="../mainwindow.ui" line="430"/>
         <source>Toolbars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="467"/>
+        <location filename="../mainwindow.ui" line="435"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="474"/>
+        <location filename="../mainwindow.ui" line="442"/>
         <source>System</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="491"/>
+        <location filename="../mainwindow.ui" line="459"/>
         <source>Item Creation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="512"/>
+        <location filename="../mainwindow.ui" line="486"/>
         <source>Load...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="524"/>
+        <location filename="../mainwindow.ui" line="498"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="527"/>
+        <location filename="../mainwindow.ui" line="501"/>
         <source>Ctrl+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="539"/>
+        <location filename="../mainwindow.ui" line="513"/>
         <source>Save as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="551"/>
+        <location filename="../mainwindow.ui" line="525"/>
         <source>Plot...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="563"/>
+        <location filename="../mainwindow.ui" line="537"/>
         <source>Pdf...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="575"/>
+        <location filename="../mainwindow.ui" line="549"/>
         <source>Close drawing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="578"/>
+        <location filename="../mainwindow.ui" line="552"/>
         <source>Ctrl+W</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="590"/>
+        <location filename="../mainwindow.ui" line="564"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="593"/>
+        <location filename="../mainwindow.ui" line="567"/>
         <source>Ctrl+Q</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="635"/>
+        <location filename="../mainwindow.ui" line="578"/>
+        <source>W</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="609"/>
         <source>Server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="646"/>
-        <location filename="../mainwindow.cpp" line="804"/>
+        <location filename="../mainwindow.ui" line="620"/>
+        <location filename="../mainwindow.cpp" line="854"/>
         <source>Collision Detection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="601"/>
+        <location filename="../mainwindow.ui" line="575"/>
         <source>New window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="604"/>
-        <source>Q</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="612"/>
+        <location filename="../mainwindow.ui" line="586"/>
         <source>Recent projects</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="617"/>
+        <location filename="../mainwindow.ui" line="591"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="622"/>
+        <location filename="../mainwindow.ui" line="596"/>
         <source>About OpenGL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="627"/>
+        <location filename="../mainwindow.ui" line="601"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1140,100 +1164,108 @@ Converting file to current version.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="439"/>
+        <location filename="../mainwindow.cpp" line="460"/>
         <source>Load project or drawing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="439"/>
+        <location filename="../mainwindow.cpp" line="460"/>
         <source>XML File (*.xml);;DXF File (*.dxf)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="493"/>
+        <location filename="../mainwindow.cpp" line="514"/>
         <source>Error while loading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="493"/>
+        <location filename="../mainwindow.cpp" line="514"/>
         <source>Unable to open or parse file. Error:
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="498"/>
+        <location filename="../mainwindow.cpp" line="519"/>
         <source>Information while loading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="512"/>
-        <location filename="../mainwindow.cpp" line="541"/>
+        <location filename="../mainwindow.cpp" line="533"/>
+        <location filename="../mainwindow.cpp" line="562"/>
         <source>Save project as file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="533"/>
-        <location filename="../mainwindow.cpp" line="560"/>
+        <location filename="../mainwindow.cpp" line="554"/>
+        <location filename="../mainwindow.cpp" line="581"/>
         <source>Error while saving</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="533"/>
-        <location filename="../mainwindow.cpp" line="560"/>
+        <location filename="../mainwindow.cpp" line="554"/>
+        <location filename="../mainwindow.cpp" line="581"/>
         <source>Unable to write file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="694"/>
-        <location filename="../mainwindow.cpp" line="700"/>
-        <location filename="../mainwindow.cpp" line="706"/>
+        <location filename="../mainwindow.cpp" line="715"/>
+        <location filename="../mainwindow.cpp" line="721"/>
+        <location filename="../mainwindow.cpp" line="727"/>
+        <location filename="../mainwindow.cpp" line="744"/>
+        <location filename="../mainwindow.cpp" line="750"/>
+        <location filename="../mainwindow.cpp" line="756"/>
         <source>Item creation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="694"/>
+        <location filename="../mainwindow.cpp" line="715"/>
+        <location filename="../mainwindow.cpp" line="744"/>
         <source>No layer is selected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="700"/>
+        <location filename="../mainwindow.cpp" line="721"/>
+        <location filename="../mainwindow.cpp" line="750"/>
         <source>The current layer is not writable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="706"/>
+        <location filename="../mainwindow.cpp" line="727"/>
+        <location filename="../mainwindow.cpp" line="756"/>
         <source>The current layer is not on.
 Do you really want to insert an item?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="707"/>
+        <location filename="../mainwindow.cpp" line="728"/>
+        <location filename="../mainwindow.cpp" line="757"/>
         <source>Abort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="707"/>
+        <location filename="../mainwindow.cpp" line="728"/>
+        <location filename="../mainwindow.cpp" line="757"/>
         <source>Proceed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="741"/>
-        <location filename="../mainwindow.cpp" line="759"/>
+        <location filename="../mainwindow.cpp" line="791"/>
+        <location filename="../mainwindow.cpp" line="809"/>
         <source>About %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="749"/>
+        <location filename="../mainwindow.cpp" line="799"/>
         <source>Authors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="754"/>
+        <location filename="../mainwindow.cpp" line="804"/>
         <source>Phone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="804"/>
+        <location filename="../mainwindow.cpp" line="854"/>
         <source>There has been a collision between
 </source>
         <translation type="unfinished"></translation>
@@ -1417,19 +1449,6 @@ Do you really want to insert an item?</source>
         <location filename="../settingsdialog.cpp" line="182"/>
         <source>Do you really want to reset all Settings?
 This action can not be undone!</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ToolWidget</name>
-    <message>
-        <location filename="../toolwidget.ui" line="29"/>
-        <source>ToolWidget</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../toolwidget.ui" line="93"/>
-        <source>TextLabel</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
