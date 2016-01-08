@@ -34,8 +34,12 @@ public:
     float getValue() const;
     void setValue(const float &value);
 
+    void resizeEvent(QResizeEvent *event);
+
 private:
     QString m_einheit;
+    QToolButton *m_btnUp;
+    QToolButton *m_btnDown;
 
 public slots:
     void setText(const QString &text);

@@ -14,6 +14,7 @@
 **********************************************************************/
 
 #include "calculatinglineedit.h"
+#include "logging.h"
 
 CalculatingLineEdit::CalculatingLineEdit(QWidget *parent)
     : QLineEdit(parent),
@@ -22,29 +23,28 @@ CalculatingLineEdit::CalculatingLineEdit(QWidget *parent)
     connect(this, &CalculatingLineEdit::editingFinished, this, &CalculatingLineEdit::on_editingFinished);
 
     this->setStyleSheet(StylesheetProvider::getStylesheet("CalculatingLineEdit"));
+    this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
-    this->setFixedWidth(150);
+    m_btnUp = new QToolButton(this);
+    m_btnUp->setIcon(QIcon(":/ui/CalculatingLineEdit/icons/arrow-up.png"));
+    m_btnUp->setIconSize(QSize(6, 12));
+    m_btnUp->setCursor(Qt::ArrowCursor);
+    m_btnUp->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    m_btnUp->setStyleSheet("QToolButton { border: 0px; background: 0; padding: 0px; }");
+    m_btnUp->setFixedHeight(12);
+    m_btnUp->setFixedWidth(12);
+    m_btnUp->move(this->rect().width() - 15, 0);
+    m_btnDown = new QToolButton(this);
+    m_btnDown->setIcon(QIcon(":/ui/CalculatingLineEdit/icons/arrow-down.png"));
+    m_btnDown->setIconSize(QSize(6, 12));
+    m_btnDown->setCursor(Qt::ArrowCursor);
+    m_btnDown->setStyleSheet("QToolButton { border: 0px; background: 0; padding: 0px; }");
+    m_btnDown->setFixedHeight(12);
+    m_btnDown->setFixedWidth(12);
+    m_btnDown->move(this->rect().width() - 15, this->rect().height() - 18);
 
-    QToolButton *btnUp = new QToolButton(this);
-    btnUp->setIcon(QIcon(":/ui/CalculatingLineEdit/icons/arrow-up.png"));
-    btnUp->setIconSize(QSize(6, 12));
-    btnUp->setCursor(Qt::ArrowCursor);
-    btnUp->setToolButtonStyle(Qt::ToolButtonIconOnly);
-    btnUp->setStyleSheet("QToolButton { border: 0px; background: 0; padding: 0px; }");
-    btnUp->setFixedHeight(12);
-    btnUp->setFixedWidth(12);
-    btnUp->move(this->rect().width() - 15, 0);
-    QToolButton *btnDown = new QToolButton(this);
-    btnDown->setIcon(QIcon(":/ui/CalculatingLineEdit/icons/arrow-down.png"));
-    btnDown->setIconSize(QSize(6, 12));
-    btnDown->setCursor(Qt::ArrowCursor);
-    btnDown->setStyleSheet("QToolButton { border: 0px; background: 0; padding: 0px; }");
-    btnDown->setFixedHeight(12);
-    btnDown->setFixedWidth(12);
-    btnDown->move(this->rect().width() - 15, this->rect().height() - 20);
-
-    connect(btnUp, &QToolButton::clicked, this, &CalculatingLineEdit::on_buttonUp_clicked);
-    connect(btnDown, &QToolButton::clicked, this, &CalculatingLineEdit::on_buttonDown_clicked);
+    connect(m_btnUp, &QToolButton::clicked, this, &CalculatingLineEdit::on_buttonUp_clicked);
+    connect(m_btnDown, &QToolButton::clicked, this, &CalculatingLineEdit::on_buttonDown_clicked);
 }
 
 CalculatingLineEdit::~CalculatingLineEdit()
@@ -70,6 +70,14 @@ float CalculatingLineEdit::getValue() const
 void CalculatingLineEdit::setValue(const float &value)
 {
     this->setText(QString::number(value));
+}
+
+void CalculatingLineEdit::resizeEvent(QResizeEvent *event)
+{
+    Q_UNUSED(event)
+
+    m_btnUp->move(this->rect().width() - 15, 0);
+    m_btnDown->move(this->rect().width() - 15, this->rect().height() - 12);
 }
 
 void CalculatingLineEdit::setText(const QString &text)
