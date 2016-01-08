@@ -632,6 +632,7 @@ TRANSLATIONS += \
 
 OTHER_FILES += \
     todo.txt \
+    agenda.txt \
     settings.xml \
     shaders/shader_1.vert \
     shaders/shader_1_triangles.geom \
