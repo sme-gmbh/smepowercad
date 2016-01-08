@@ -575,7 +575,8 @@ void ItemCatalog::on_pushButton_save_clicked()
 
 void ItemCatalog::on_pushButton_cancel_clicked()
 {
-    // TODO
+    // reload file
+    on_comboBox_model_currentIndexChanged(ui->comboBox_model->currentText());
 }
 
 bool ItemCatalog::removeDir(const QString &dirName)
