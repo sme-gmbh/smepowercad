@@ -19,8 +19,10 @@
 #include <QLoggingCategory>
 #include <QWidget>
 #include <QComboBox>
-#include <QSpinBox>
+#include <QLabel>
 #include <QFormLayout>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 
 #include "itemdb.h"
 #include "caditem.h"
@@ -32,7 +34,11 @@ class ItemParametersWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ItemParametersWidget(CADitem *item, ItemDB *itemdb, QWidget *parent = 0);
+    explicit ItemParametersWidget(CADitem *item,
+                                  ItemDB *itemdb,
+                                  bool showPosition = true,
+                                  bool showAngle = true,
+                                  QWidget *parent = 0);
     ~ItemParametersWidget();
 
     WizardParams getParameters();
@@ -40,7 +46,11 @@ public:
 private:
     ItemDB *m_itemdb;
     CADitem *m_item;
-    QFormLayout *m_layout;
+    QVBoxLayout *m_layout;
+    bool m_showPosition;
+    bool m_showAngle;
+
+    QList<QWidget*> getWidgets(QLayout *layout);
 
 signals:
     void sceneRepaintNeeded();

@@ -17,10 +17,12 @@
 
 Q_LOGGING_CATEGORY(itemparameterswidget, "itemparameterswidget")
 
-ItemParametersWidget::ItemParametersWidget(CADitem *item, ItemDB *itemdb, QWidget *parent)
+ItemParametersWidget::ItemParametersWidget(CADitem *item, ItemDB *itemdb, bool showPosition, bool showAngle, QWidget *parent)
     : QWidget(parent),
       m_itemdb(itemdb),
-      m_item(item)
+      m_item(item),
+      m_showPosition(showPosition),
+      m_showAngle(showAngle)
 {
     if (!item) {
         qWarning(itemparameterswidget) << "CADitem is NULL";
@@ -33,8 +35,11 @@ ItemParametersWidget::ItemParametersWidget(CADitem *item, ItemDB *itemdb, QWidge
         return;
     }
 
-    m_layout = new QFormLayout(this);
+    m_layout = new QVBoxLayout(this);
     this->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
+
+    QFormLayout *posLayout = new QFormLayout();
+    QFormLayout *angLayout = new QFormLayout();
 
     int i = 0;
     foreach(QString key, item->wizardParams.keys()) {
@@ -47,10 +52,11 @@ ItemParametersWidget::ItemParametersWidget(CADitem *item, ItemDB *itemdb, QWidge
         case QVariant::Int:
         case QVariant::Double:
             wdg = new CalculatingLineEdit(this);
-            if (key.contains("angle", Qt::CaseInsensitive)) {
+            if (key.contains("angle", Qt::CaseInsensitive)
+                    || key.contains("alpha", Qt::CaseInsensitive)) {
                 ((CalculatingLineEdit*)wdg)->setEinheit("°");
             } else {
-                ((CalculatingLineEdit*)wdg)->setEinheit("mm");
+                ((CalculatingLineEdit*)wdg)->setEinheit("mm"); // WARNING: Not always right
             }
             ((CalculatingLineEdit*)wdg)->setValue(value.toFloat());
             break;
@@ -69,9 +75,40 @@ ItemParametersWidget::ItemParametersWidget(CADitem *item, ItemDB *itemdb, QWidge
         }
         wdg->setObjectName(key);
 
-        m_layout->addRow(key, wdg);
+        if (key.startsWith("Position")) {
+            QString k = key.remove("Position").trimmed().toUpper();
+            posLayout->addRow(k, wdg);
+            if (!showPosition) wdg->hide();
+        } else if (key.startsWith("Angle")) {
+            QString k = key.remove("Angle").trimmed().toUpper();
+            angLayout->addRow(k, wdg);
+            if (!showAngle) wdg->hide();
+        } else {
+            QHBoxLayout *layout = new QHBoxLayout();
+            QLabel *lbl = new QLabel(key);
+            lbl->setFixedWidth(50);
+            layout->addWidget(lbl);
+            layout->addWidget(wdg, 1);
+            m_layout->addLayout(layout);
+        }
+
         i++;
     }
+
+    QVBoxLayout *posVLayout = new QVBoxLayout();
+    posVLayout->addWidget(new QLabel(tr("Position")));
+    posVLayout->addLayout(posLayout);
+
+    QVBoxLayout *angVLayout = new QVBoxLayout();
+    angVLayout->addWidget(new QLabel(tr("Angle")));
+    angVLayout->addLayout(angLayout);
+
+    QHBoxLayout *coreHLayout = new QHBoxLayout();
+    if (showPosition) coreHLayout->addLayout(posVLayout, 1);
+    if (showPosition && showAngle) coreHLayout->addSpacing(10);
+    if (showAngle) coreHLayout->addLayout(angVLayout, 1);
+
+    if (showPosition || showAngle) m_layout->insertLayout(0, coreHLayout);
 
     this->setLayout(m_layout);
 }
@@ -93,9 +130,12 @@ WizardParams ItemParametersWidget::getParameters()
 {
     WizardParams params;
     QVariant val;
-    QWidget *wdg;
-    for (int r = 0; r < m_layout->rowCount(); r++) {
-        wdg = m_layout->itemAt(r, QFormLayout::FieldRole)->widget();
+    QList<QWidget*> widgets = getWidgets(m_layout);
+
+    foreach (QWidget *wdg, widgets) {
+        if (wdg->objectName().isEmpty()) continue;
+        if (wdg->objectName().startsWith("Position") && !m_showPosition) continue;
+        if (wdg->objectName().startsWith("Angle") && !m_showAngle) continue;
 
         switch (m_item->wizardParams.value(wdg->objectName()).type()) {
         case QVariant::String:
@@ -108,8 +148,8 @@ WizardParams ItemParametersWidget::getParameters()
         case QVariant::StringList: {
             QComboBox* box = (QComboBox*)wdg;
             QStringList stringList;
-            stringList.append(m_item->wizardParams.value(r).toStringList().at(0));   // Insert available texts of ComboBox
-            stringList.append(box->currentText());                                              // Insert current text of ComboBox
+            stringList.append(m_item->wizardParams.value(wdg->objectName()).toStringList().at(0));   // Insert available texts of ComboBox
+            stringList.append(box->currentText());                                                   // Insert current text of ComboBox
             val = stringList;
             break;
         }
@@ -121,5 +161,23 @@ WizardParams ItemParametersWidget::getParameters()
     }
 
     return params;
+}
+
+QList<QWidget*> ItemParametersWidget::getWidgets(QLayout *layout)
+{
+    QList<QWidget*> widgets = QList<QWidget*>();
+
+    QLayoutItem *item;
+    for (int i = 0; i < layout->count(); i++) {
+        item = layout->itemAt(i);
+
+        if (item->layout() != 0) {
+            widgets.append(getWidgets(item->layout()));
+        } else if (item->widget()) {
+            widgets.append(item->widget());
+        }
+    }
+
+    return widgets;
 }
 
