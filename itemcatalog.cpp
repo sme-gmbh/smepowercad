@@ -21,11 +21,11 @@
 ItemCatalog::ItemCatalog(ItemDB* itemDB,  ItemWizard* itemWizard, QWidget *parent) :
     QDockWidget(parent),
     ui(new Ui::ItemCatalog),
-    m_currentItem(Q_NULLPTR),
-    m_itemParametersWidget(Q_NULLPTR)
+    m_currentItem(Q_NULLPTR)
 {
     this->setStyleSheet(StylesheetProvider::getStylesheet("Button,QLineEdit+QTextEdit"));
     ui->setupUi(this);
+    m_currentWidget = ui->widgetParametersPlaceholder;
 
     this->m_itemdb = itemDB;
     this->itemWizard = itemWizard;
@@ -160,7 +160,8 @@ bool ItemCatalog::saveModelFile(QString filename, CADitem *item, QString descrip
 {
     QJsonDocument d = QJsonDocument();
     QJsonObject o = QJsonObject();
-    item->wizardParams = m_itemParametersWidget->getParameters();
+    ItemParametersWidget *wdg = qobject_cast<ItemParametersWidget*>(m_currentWidget);
+    item->wizardParams = wdg->getParameters();
     o.insert(JSON_KEY_PARAMETERS, item->wizardParams.serialize());
     o.insert(JSON_KEY_DESCRIPTION, QJsonValue::fromVariant(description));
     d.setObject(o);
@@ -185,14 +186,25 @@ bool ItemCatalog::saveModelFile(QString filename, CADitem *item, QString descrip
 
 void ItemCatalog::showModelData(CADitem *item, QString name, QString description)
 {
-    delete m_itemParametersWidget;
-    m_itemParametersWidget = new ItemParametersWidget(item, m_itemdb, this);
-    QLayoutItem *layoutItem = ui->verticalLayoutContent->itemAt(4);
-    ui->verticalLayoutContent->removeItem(layoutItem);
-    delete layoutItem;
-    ui->verticalLayoutContent->insertWidget(4, m_itemParametersWidget);
+    QWidget *wdg = new ItemParametersWidget(item, m_itemdb, false, false, this);
+    ui->contentLayout->replaceWidget(m_currentWidget, wdg);
+    delete m_currentWidget;
+    m_currentWidget = wdg;
+
     ui->lineEdit_modelName->setText(name);
     ui->textEdit_modelDescription->setText(description);
+    this->adjustSize();
+}
+
+void ItemCatalog::clearModelData()
+{
+    QWidget *wdg = new QWidget();
+    ui->contentLayout->replaceWidget(m_currentWidget, wdg);
+    delete m_currentWidget;
+    m_currentWidget = wdg;
+
+    ui->lineEdit_modelName->setText("");
+    ui->textEdit_modelDescription->setText("");
 }
 
 void ItemCatalog::slot_processGit_started()
@@ -293,6 +305,8 @@ void ItemCatalog::on_comboBox_domain_currentIndexChanged(const QString &arg1)
 
 void ItemCatalog::on_comboBox_itemType_currentIndexChanged(const QString &arg1)
 {
+    if (arg1.isEmpty()) return;
+
     ui->comboBox_vendor->clear();
     ui->comboBox_model->clear();
 
@@ -327,6 +341,11 @@ void ItemCatalog::on_comboBox_vendor_currentIndexChanged(const QString &arg1)
 
 void ItemCatalog::on_comboBox_model_currentIndexChanged(const QString &arg1)
 {
+    if (arg1.isEmpty()) {
+        clearModelData();
+        return;
+    }
+
     QJsonObject o = readDataFromModelFile(m_currentVendorDir.absoluteFilePath(arg1 + ".json"));
     delete m_currentItem;
     m_currentItem = m_itemdb->createItem((CADitemTypes::ItemType)ui->comboBox_itemType->currentData().toInt());

@@ -90,7 +90,7 @@ private:
     QDir m_currentItemDir;
     QDir m_currentVendorDir;
     CADitem *m_currentItem;
-    ItemParametersWidget *m_itemParametersWidget;
+    QWidget *m_currentWidget;
     QList<int> m_currentDomainItemTypes;
     QProcess process_git;
     QString git_Output;
@@ -106,6 +106,7 @@ private:
     QJsonObject readDataFromModelFile(QString filename);
     bool saveModelFile(QString filename, CADitem *item, QString description, QString newFilename = QString());
     void showModelData(CADitem *item, QString name, QString description);
+    void clearModelData();
 
     bool removeDir(const QString &dirName);
 

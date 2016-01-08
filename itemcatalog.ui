@@ -259,7 +259,7 @@
        <attribute name="title">
         <string>Content</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayoutContent">
+       <layout class="QVBoxLayout" name="contentLayout" stretch="0,0,0,0,0,1,0,0">
         <item>
          <layout class="QFormLayout" name="formLayout">
           <item row="0" column="0">
@@ -504,14 +504,7 @@
          <widget class="QLabel" name="label_itemGraphic"/>
         </item>
         <item>
-         <widget class="QWidget" name="widgetItemParameters" native="true">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
+         <widget class="QWidget" name="widgetParametersPlaceholder" native="true"/>
         </item>
         <item>
          <widget class="QTextEdit" name="textEdit_modelDescription">

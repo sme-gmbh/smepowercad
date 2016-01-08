@@ -52,7 +52,7 @@ void ItemWizard::showWizard(CADitem *item, ItemDB* itemDB)
     clear();
     m_currentItem = item;
 
-    m_itemParametersWidget = new ItemParametersWidget(item, itemDB, this);
+    m_itemParametersWidget = new ItemParametersWidget(item, itemDB, true, true, this);
     connect(m_itemParametersWidget, &ItemParametersWidget::sceneRepaintNeeded, this, &ItemWizard::signal_sceneRepaintNeeded);
     ui->verticalLayout->insertWidget(1, m_itemParametersWidget);
 
