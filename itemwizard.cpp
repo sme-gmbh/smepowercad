@@ -91,8 +91,7 @@ void ItemWizard::save()
 
 void ItemWizard::clear()
 {
-    if (m_itemParametersWidget != NULL)
-    {
+    if (m_itemParametersWidget != NULL) {
         delete m_itemParametersWidget;
         m_itemParametersWidget = NULL;
         QLayoutItem *item = ui->verticalLayout->itemAt(1);

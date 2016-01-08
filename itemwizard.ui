@@ -20,7 +20,7 @@
    <string>New %1</string>
   </property>
   <widget class="QWidget" name="dockWidgetContents">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,1,0">
     <item>
      <widget class="QLabel" name="label_itemGraphic">
       <property name="sizePolicy">
@@ -54,6 +54,9 @@
      <spacer name="verticalSpacer">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::MinimumExpanding</enum>
       </property>
       <property name="sizeHint" stdset="0">
        <size>

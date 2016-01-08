@@ -36,6 +36,7 @@ ItemParametersWidget::ItemParametersWidget(CADitem *item, ItemDB *itemdb, bool s
     }
 
     m_layout = new QVBoxLayout(this);
+    m_layout->setSpacing(4);
     this->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
 
     QFormLayout *posLayout = new QFormLayout();
@@ -96,19 +97,29 @@ ItemParametersWidget::ItemParametersWidget(CADitem *item, ItemDB *itemdb, bool s
     }
 
     QVBoxLayout *posVLayout = new QVBoxLayout();
-    posVLayout->addWidget(new QLabel(tr("Position")));
+    posVLayout->setSpacing(0);
+    posLayout->setSpacing(4);
+    QLabel *lblPosition = new QLabel(tr("Position"));
+    lblPosition->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    posVLayout->addWidget(lblPosition);
     posVLayout->addLayout(posLayout);
 
     QVBoxLayout *angVLayout = new QVBoxLayout();
-    angVLayout->addWidget(new QLabel(tr("Angle")));
+    angVLayout->setSpacing(0);
+    angLayout->setSpacing(4);
+    QLabel *lblAngle = new QLabel(tr("Angle"));
+    lblAngle->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    angVLayout->addWidget(lblAngle);
     angVLayout->addLayout(angLayout);
 
     QHBoxLayout *coreHLayout = new QHBoxLayout();
     if (showPosition) coreHLayout->addLayout(posVLayout, 1);
     if (showPosition && showAngle) coreHLayout->addSpacing(10);
     if (showAngle) coreHLayout->addLayout(angVLayout, 1);
+    coreHLayout->setMargin(0);
+    coreHLayout->setContentsMargins(0, 0, 0, 0);
 
-    if (showPosition || showAngle) m_layout->insertLayout(0, coreHLayout);
+    if (showPosition || showAngle) m_layout->insertLayout(0, coreHLayout, 0);
 
     this->setLayout(m_layout);
 }
