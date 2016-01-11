@@ -12,41 +12,13 @@
 ** You should have received a copy of the GNU General Public License
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
+#include "buttongridwidget.h"
 
-QToolBar {
-    background: rgb(55, 55, 55);
-    border: 0;
-    spacing: 4px;
-}
+ButtonGridWidget::ButtonGridWidget(QWidget *parent)
+    : QWidget(parent) {}
 
-QToolBar::handle {
-    background-color: grey;
-}
-
-QToolBar QToolButton {
-    border: 1px solid rgb(32, 32, 32);
-    border-right: 1px solid rgb(71, 71, 71);
-    border-left: 0;
-    border-radius: 0px;
-    background-color: rgb(88, 88, 88);
-}
-
-QToolBar QToolButton:hover {
-    background-color: rgb(114, 114, 114);
-}
-
-QToolBar QToolButton:pressed, QToolBar QToolButton[active="true"] {
-    background-color: rgb(133, 163, 211);
-}
-
-QToolBar QToolButton#first-of-type {
-    border-left: 1px solid rgb(32, 32, 32);
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-}
-
-QToolBar QToolButton#last-of-type {
-    border-right: 1px solid rgb(32, 32, 32);
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
+void ButtonGridWidget::focusOutEvent(QFocusEvent *event)
+{
+    Q_UNUSED(event)
+    emit focusOut();
 }

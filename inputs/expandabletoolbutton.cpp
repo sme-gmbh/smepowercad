@@ -19,13 +19,12 @@
 
 ExpandableToolButton::ExpandableToolButton(QWidget *parent) :
     QToolButton(parent),
-    m_subwidget(new QWidget(Q_NULLPTR)),
+    m_subwidget(new ButtonGridWidget(Q_NULLPTR)),
     m_layout(new QGridLayout(m_subwidget)),
     isShowingSubbuttons(false),
     currentRow(0),
     currentColumn(0)
 {
-//    this->setStyleSheet(StylesheetProvider::getStylesheet("ExpandableToolButton"));
     m_subwidget->setStyleSheet(StylesheetProvider::getStylesheet("ExpandableToolButton"));
 
     m_layout->setSpacing(0);
@@ -35,7 +34,8 @@ ExpandableToolButton::ExpandableToolButton(QWidget *parent) :
     m_subwidget->setContentsMargins(2, 2, 2, 2);
     m_subwidget->hide();
 
-    connect(this, &ExpandableToolButton::clicked, this, &ExpandableToolButton::toggleShowSubbuttons);
+    connect(this, &ExpandableToolButton::pressed, this, &ExpandableToolButton::toggleShowSubbuttons);
+    connect(m_subwidget, &ButtonGridWidget::focusOut, this, &ExpandableToolButton::hideSubbuttons);
 }
 
 ExpandableToolButton::~ExpandableToolButton()
@@ -81,14 +81,24 @@ void ExpandableToolButton::showSubbuttons()
 {
     emit showingSubbuttons();
     m_subwidget->show();
+    m_subwidget->setFocus();
     m_subwidget->move(this->mapToGlobal(this->rect().bottomLeft()));
     isShowingSubbuttons = true;
+    this->setActive(true);
 }
 
 void ExpandableToolButton::hideSubbuttons()
 {
     m_subwidget->hide();
     isShowingSubbuttons = false;
+    this->setActive(false);
+}
+
+void ExpandableToolButton::setActive(bool active)
+{
+    this->setProperty("active", active);
+    style()->unpolish(this);
+    style()->polish(this);
 }
 
 void ExpandableToolButton::toggleShowSubbuttons()

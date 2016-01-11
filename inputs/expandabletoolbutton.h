@@ -18,8 +18,10 @@
 
 #include <QToolButton>
 #include <QGridLayout>
+#include <QStyle>
 
 #include "stylesheetprovider.h"
+#include "buttongridwidget.h"
 
 #define BUTTONS_PER_ROW 5
 
@@ -36,9 +38,11 @@ public:
     void hideSubbuttons();
 
 protected:
-    QWidget *m_subwidget;
+    ButtonGridWidget *m_subwidget;
     QGridLayout *m_layout;
     bool isShowingSubbuttons;
+
+    void setActive(bool active);
 
 protected slots:
     void toggleShowSubbuttons();

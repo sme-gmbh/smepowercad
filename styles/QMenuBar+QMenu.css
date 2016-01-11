@@ -13,40 +13,48 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************/
 
-QToolBar {
-    background: rgb(55, 55, 55);
+QMenuBar {
+    background-color: rgb(55, 55, 55);
+    font-size: 14px;
+}
+
+QMenuBar::item {
+    spacing: 0px;
+    padding: 1px 5px;
+    background: transparent;
+    color: rgb(193, 193, 193);
+}
+
+QMenuBar::item:selected {   /* :hover */
+    background-color: rgb(78, 78, 78);
+}
+
+QMenuBar::item:pressed {    /* :clicked */
+    background-color: rgb(134, 134, 134);
+}
+
+QMenu {
+    background-color: rgb(55, 55, 55);
+    color: rgb(193, 193, 193);
+    border: 1px solid rgb(38, 38, 38);
+    font-size: 14px;
+}
+
+QMenu::separator {
+    height: 1px;
+    background: rgb(38, 38, 38);
+    padding: 0px 15px;
+}
+
+QMenu::item {
+    padding: 2px 6px 2px 26px;
     border: 0;
-    spacing: 4px;
 }
 
-QToolBar::handle {
-    background-color: grey;
+QMenu::item:selected {
+    background-color: rgb(134, 134, 134); /* :hover */
 }
 
-QToolBar QToolButton {
-    border: 1px solid rgb(32, 32, 32);
-    border-right: 1px solid rgb(71, 71, 71);
-    border-left: 0;
-    border-radius: 0px;
-    background-color: rgb(88, 88, 88);
-}
-
-QToolBar QToolButton:hover {
-    background-color: rgb(114, 114, 114);
-}
-
-QToolBar QToolButton:pressed, QToolBar QToolButton[active="true"] {
-    background-color: rgb(133, 163, 211);
-}
-
-QToolBar QToolButton#first-of-type {
-    border-left: 1px solid rgb(32, 32, 32);
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-}
-
-QToolBar QToolButton#last-of-type {
-    border-right: 1px solid rgb(32, 32, 32);
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
+QMenu::icon {
+    margin: 0px 5px;
 }

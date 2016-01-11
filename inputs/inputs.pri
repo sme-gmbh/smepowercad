@@ -19,9 +19,11 @@ DEPENDPATH += $$PWD
 HEADERS += \
     $$PWD/calculatinglineedit.h \
     $$PWD/expandabletoolbutton.h \
-    $$PWD/itemtypetoolbutton.h
+    $$PWD/itemtypetoolbutton.h \
+    $$PWD/buttongridwidget.h
 
 SOURCES += \
     $$PWD/calculatinglineedit.cpp \
     $$PWD/expandabletoolbutton.cpp \
-    $$PWD/itemtypetoolbutton.cpp
+    $$PWD/itemtypetoolbutton.cpp \
+    $$PWD/buttongridwidget.cpp
