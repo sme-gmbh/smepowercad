@@ -7,5 +7,6 @@
         <file>styles/Button.css</file>
         <file>styles/ExpandableToolButton.css</file>
         <file>styles/Toolbar.css</file>
+        <file>styles/QMenuBar+QMenu.css</file>
     </qresource>
 </RCC>

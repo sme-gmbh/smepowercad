@@ -30,72 +30,6 @@ QMainWindow::separator {
 	height: 2px;
 }
 
-QToolBar {
-	background: black;
-	border: 0;
-	spacing: 2px;
-}
-
-QToolBar::handle {
-	background-color: grey;
-}
-
-QMenuBar {
-	background-color: black;
-}
-
-QMenuBar::item {
-	spacing: 0px;
-	padding: 0px;
-	padding-left: 10px;
-	padding-right: 10px;
-	background: transparent;
-	color: white;
-}
-
-QMenuBar::item:selected {	/* this is also active if item is hovered */
-	background-color: rgb(110, 110, 95);
-	border-top-left-radius: 8px;
-	border-top-right-radius: 8px;
-}
-
-QMenuBar::item:pressed {		/* this is active iv menu is open */
-/*	background-color: rgb(19, 156, 39); */
-	background: transparent;
-	border: 2px solid rgb(100, 255, 100);
-	border-bottom: 0;
-}
-
-QMenu {
-	background-color: black;
-	color: white;
-	border-left: 3px solid rgb(100, 255, 100);
-	border-bottom: 3px solid rgb(100, 255, 100);
-	border-right: 0px;
-	border-top: 0px;
-	margin: -1px;
-}
-
-QMenu::separator {
-	height: 2px;
-	background: rgb(100, 255, 100);
-	margin-right: 15px;
-}
-
-QMenu::item {
-	padding: 2px 15px 2px 28px;
-	border: 0;
-}
-
-QMenu::item:selected {
-	background-color: rgb(19, 156, 39);
-}
-
-QMenu::icon {
-	margin-left: 7px;
-	margin-right: 5px;
-}
-
 QDockWidget {
 	background-color: rgb(55, 55, 55);
 	color: white;
@@ -394,7 +328,7 @@ QTabBar::tab:hover:!selected:!top {
      <x>0</x>
      <y>0</y>
      <width>1061</width>
-     <height>20</height>
+     <height>26</height>
     </rect>
    </property>
    <property name="nativeMenuBar">

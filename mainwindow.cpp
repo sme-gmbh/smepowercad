@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowFlags(Qt::FramelessWindowHint);
 
-    this->setStyleSheet(this->styleSheet() + StylesheetProvider::getStylesheet("Button,QLineEdit+QTextEdit"));
+    this->setStyleSheet(this->styleSheet() + StylesheetProvider::getStylesheet("Button,QLineEdit+QTextEdit,QMenuBar+QMenu"));
 
     // **** Global Variables ****
     current_cadline = NULL;
