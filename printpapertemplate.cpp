@@ -24,6 +24,7 @@ PrintPaperTemplate::PrintPaperTemplate(QWidget *parent, GLWidget *glWidget, Item
     glWidget(glWidget),
     m_itemDB(itemDB)
 {
+    this->setStyleSheet(StylesheetProvider::getStylesheet("Button"));
     ui->setupUi(this);
 
     ui->comboBox_printscripts->setInsertPolicy(QComboBox::InsertAlphabetically);
