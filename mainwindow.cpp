@@ -127,6 +127,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // **** Print Widget ****
     printwidget = new PrintWidget(this, m_itemDB);
+    printwidget->hide();
 
     // **** Keyframe Animation ****
     this->keyframeAnimation = new KeyframeAnimation(this, m_itemDB);

@@ -15,17 +15,18 @@
 
 #include "printwidget.h"
 #include "ui_printwidget.h"
+#include "logging.h"
 
 PrintWidget::PrintWidget(QWidget *parent, ItemDB *itemDB) :
     QDockWidget(parent),
     ui(new Ui::PrintWidget)
 {
+    this->setStyleSheet(StylesheetProvider::getStylesheet("Button"));
+    ui->setupUi(this);
     this->printer = NULL;
     this->itemDB = itemDB;
     this->glWidget = new GLWidget(this, itemDB);
-    ui->setupUi(this);
-    QVBoxLayout* layout = new QVBoxLayout(ui->graphicWidget);
-    layout->addWidget(this->glWidget);
+    ui->verticalLayout->replaceWidget(ui->placeholderWidget, glWidget);
     this->printPaperTemplate = new PrintPaperTemplate(this, this->glWidget);
 }
 
