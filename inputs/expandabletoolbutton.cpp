@@ -34,7 +34,7 @@ ExpandableToolButton::ExpandableToolButton(QWidget *parent) :
     m_subwidget->setContentsMargins(2, 2, 2, 2);
     m_subwidget->hide();
 
-    connect(this, &ExpandableToolButton::pressed, this, &ExpandableToolButton::toggleShowSubbuttons);
+    connect(this, &ExpandableToolButton::pressed, this, &ExpandableToolButton::showSubbuttons);
     connect(m_subwidget, &ButtonGridWidget::focusOut, this, &ExpandableToolButton::hideSubbuttons);
 }
 
@@ -59,11 +59,11 @@ void ExpandableToolButton::addSubbuttons(QList<QToolButton*> buttons)
         int currentCount = (currentRow * BUTTONS_PER_ROW + currentColumn);
 
         if (currentColumn == 0 && (currentCount >= lastRow)) {
-            btn->setObjectName("first-column-last-row");
+            btn->setProperty("styleModifier", "first-column-last-row");
         } else if (currentColumn == 0) {
-            btn->setObjectName("first-column");
+            btn->setProperty("styleModifier", "first-column");
         } else if (currentCount >= lastRow) {
-            btn->setObjectName("last-row");
+            btn->setProperty("styleModifier", "last-row");
         }
 
         if (currentColumn == BUTTONS_PER_ROW -1) {
@@ -79,7 +79,9 @@ void ExpandableToolButton::addSubbuttons(QList<QToolButton*> buttons)
 
 void ExpandableToolButton::showSubbuttons()
 {
+    // BUG: Subbuttons opening after click (and focus out of subbuttons) on <this>
     emit showingSubbuttons();
+    disconnect(this, &ExpandableToolButton::pressed, this, &ExpandableToolButton::showSubbuttons);
     m_subwidget->show();
     m_subwidget->setFocus();
     m_subwidget->move(this->mapToGlobal(this->rect().bottomLeft()));
@@ -99,15 +101,6 @@ void ExpandableToolButton::setActive(bool active)
     this->setProperty("active", active);
     style()->unpolish(this);
     style()->polish(this);
-}
-
-void ExpandableToolButton::toggleShowSubbuttons()
-{
-    if (isShowingSubbuttons) {
-        hideSubbuttons();
-    } else {
-        showSubbuttons();
-    }
 }
 
 void ExpandableToolButton::subbuttonLeftClicked()

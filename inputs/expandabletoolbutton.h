@@ -19,6 +19,7 @@
 #include <QToolButton>
 #include <QGridLayout>
 #include <QStyle>
+#include <QThread>
 
 #include "stylesheetprovider.h"
 #include "buttongridwidget.h"
@@ -45,8 +46,6 @@ protected:
     void setActive(bool active);
 
 protected slots:
-    void toggleShowSubbuttons();
-
     virtual void subbuttonLeftClicked();
     virtual void subbuttonRightClicked();
 

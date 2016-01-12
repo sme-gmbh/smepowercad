@@ -25,9 +25,11 @@ public:
 
 protected:
     void focusOutEvent(QFocusEvent *event);
+    void hideEvent(QHideEvent *event);
 
 signals:
     void focusOut();
+    void hidden();
 };
 
 #endif // BUTTONGRIDWIDGET_H

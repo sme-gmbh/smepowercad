@@ -22,3 +22,9 @@ void ButtonGridWidget::focusOutEvent(QFocusEvent *event)
     Q_UNUSED(event)
     emit focusOut();
 }
+
+void ButtonGridWidget::hideEvent(QHideEvent *event)
+{
+    Q_UNUSED(event)
+    emit hidden();
+}

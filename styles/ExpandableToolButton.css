@@ -24,15 +24,15 @@ QToolButton { /* button in ExpandableToolButton */
     border-radius: 0px;
 }
 
-QToolButton#first-column {
+QToolButton[styleModifier="first-column"] {
     border-left: 0;
 }
 
-QToolButton#last-row {
+QToolButton[styleModifier="last-row"] {
     border-bottom: 0;
 }
 
-QToolButton#first-column-last-row {
+QToolButton[styleModifier="first-column-last-row"] {
     border-left: 0;
     border-bottom: 0;
 }
