@@ -412,7 +412,6 @@ void MainWindow::createItemToolBar()
     layout->itemAt(0)->widget()->setObjectName("first-of-type");
     layout->itemAt(layout->count() -1)->widget()->setObjectName("last-of-type");
 
-    ui->toolBarItems->setLayout(layout);
     ui->toolBarItems->addWidget(w);
 }
 
