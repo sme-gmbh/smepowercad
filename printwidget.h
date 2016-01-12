@@ -53,6 +53,9 @@ private:
     PrintPaperTemplate* printPaperTemplate;
     ItemDB* itemDB;
     GLWidget* glWidget;
+
+signals:
+    void printscriptsUpdateNeeded();
 };
 
 #endif // PRINTWIDGET_H

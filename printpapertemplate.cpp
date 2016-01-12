@@ -16,12 +16,18 @@
 #include "printpapertemplate.h"
 #include "ui_printpapertemplate.h"
 
-PrintPaperTemplate::PrintPaperTemplate(QWidget *parent, GLWidget *glWidget) :
+#include "logging.h"
+
+PrintPaperTemplate::PrintPaperTemplate(QWidget *parent, GLWidget *glWidget, ItemDB *itemDB) :
     QDialog(parent),
-    ui(new Ui::printPaperTemplate)
+    ui(new Ui::printPaperTemplate),
+    glWidget(glWidget),
+    m_itemDB(itemDB)
 {
     ui->setupUi(this);
-    this->glWidget = glWidget;
+
+    ui->comboBox_printscripts->setInsertPolicy(QComboBox::InsertAlphabetically);
+    onPrintscriptsUpdate();
 }
 
 PrintPaperTemplate::~PrintPaperTemplate()
@@ -259,6 +265,12 @@ void PrintPaperTemplate::setDrawingVariables(QMap<QString, QString> drawingVaria
     this->drawingVariables = drawingVariables;
 }
 
+void PrintPaperTemplate::onPrintscriptsUpdate()
+{
+    ui->comboBox_printscripts->clear();
+    ui->comboBox_printscripts->addItems(m_itemDB->getPrintscriptNames());
+}
+
 void PrintPaperTemplate::paintSetLineWidth(QPainter* painter, QString arguments)
 {
     pen.setWidthF(this->text_to_pixel(arguments));
@@ -454,4 +466,44 @@ void PrintPaperTemplate::on_pushButton_preview_clicked()
     this->parseScript(&painter);
     painter.end();
     ui->label_preview->setPixmap(QPixmap::fromImage(image_preview.scaled(ui->label_preview->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+}
+
+void PrintPaperTemplate::on_pushButton_addPrintscript_clicked()
+{
+    QString text = QInputDialog::getText(this, tr("Add Printscript"), tr("Printscript name"));
+    if (text.isEmpty()) return;
+
+    if (m_itemDB->getPrintscriptNames().contains(text)) {
+        QMessageBox::warning(this, tr("Add Printscript"), tr("A printscript with this name alreay exists!"));
+        return;
+    }
+
+    m_itemDB->addPrintscript(text, QString());
+    ui->comboBox_printscripts->addItem(text);
+    ui->plainTextEdit_script->clear();
+}
+
+void PrintPaperTemplate::on_pushButton_removePrintscript_clicked()
+{
+    if (ui->comboBox_printscripts->currentIndex() < 0) return;
+
+    int ret = QMessageBox::question(this,
+                          tr("Remove Printscript"),
+                          tr("Do you want to remove the printscript %1?").arg(ui->comboBox_printscripts->currentText()),
+                          QMessageBox::No, QMessageBox::Yes);
+
+    if (ret != QMessageBox::Yes) return;
+
+    m_itemDB->removePrintscript(ui->comboBox_printscripts->currentText());
+}
+
+void PrintPaperTemplate::on_plainTextEdit_script_textChanged()
+{
+    qCDebug(powercad) << "text changed";
+    m_itemDB->addPrintscript(ui->comboBox_printscripts->currentText(), ui->plainTextEdit_script->document()->toPlainText());
+}
+
+void PrintPaperTemplate::on_comboBox_printscripts_currentIndexChanged(const QString &arg1)
+{
+    ui->plainTextEdit_script->setPlainText(m_itemDB->getPrintscript(arg1));
 }

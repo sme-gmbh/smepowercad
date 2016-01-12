@@ -18,7 +18,8 @@
 Q_LOGGING_CATEGORY(itemdb, "powercad.itemdb")
 
 ItemDB::ItemDB(QObject *parent)
-    : QAbstractItemModel(parent)
+    : QAbstractItemModel(parent),
+      m_printscripts(QMap<QString,QString>())
 {
     m_rootLayer = new Layer();
     m_rootLayer->name = "$$ToplevelLayer";
@@ -1440,6 +1441,28 @@ void ItemDB::restore_redo()
     }
 }
 
+QString ItemDB::getPrintscript(const QString name) const
+{
+    return m_printscripts.value(name);
+}
+
+void ItemDB::addPrintscript(const QString name, const QString data)
+{
+    m_printscripts.insert(name, data);
+}
+
+void ItemDB::removePrintscript(const QString name)
+{
+    m_printscripts.remove(name);
+}
+
+QStringList ItemDB::getPrintscriptNames() const
+{
+    QStringList ret = m_printscripts.keys();
+    qSort(ret);
+    return ret;
+}
+
 QByteArray ItemDB::network_newLayer(QMap<QString, QString> data)
 {
     QString newLayerName = data.value("newLayer");
@@ -1679,6 +1702,18 @@ bool ItemDB::file_storeDB(const QString filename, QMatrix4x4 projectionMatrix, Q
         element_column.setAttribute("w", rotationMatrix.column(i).w());
     }
 
+    // Store printscripts
+    QDomElement elem_printscripts = doc.createElement("Printscripts");
+    root.appendChild(elem_printscripts);
+    QMapIterator<QString,QString> it(m_printscripts);
+    while (it.hasNext() && (it.next() != NULL)) {
+        QDomElement elem_ps = doc.createElement("Printscript");
+        elem_printscripts.appendChild(elem_ps);
+        elem_ps.setAttribute("name", it.key());
+        QDomText psVal = doc.createTextNode(it.value());
+        elem_ps.appendChild(psVal);
+    }
+
     // Store cad data
     QDomElement elem_cad = doc.createElement("CadData");
     root.appendChild(elem_cad);
@@ -1698,6 +1733,8 @@ bool ItemDB::file_storeDB(const QString filename, QMatrix4x4 projectionMatrix, Q
 
 bool ItemDB::file_loadDB(const QString filename, QString *error, QMatrix4x4 *projectionMatrix, QMatrix4x4 *glSelectMatrix, QMatrix4x4 *modelviewMatrix, QMatrix4x4 *rotationMatrix)
 {
+    m_printscripts.clear();
+
     qCDebug(itemdb) << "file_loadDB";
     QFile file(filename);
 
@@ -1781,6 +1818,14 @@ bool ItemDB::file_loadDB(const QString filename, QString *error, QMatrix4x4 *pro
     }
     qCDebug(itemdb) << "successfully read matrices";
 
+    // read Printscripts
+    QDomElement elem_printscripts = root.firstChildElement("Printscripts");
+    QDomNodeList printscriptsList = elem_printscripts.childNodes();
+    for (int i = 0; i < printscriptsList.count(); i++) {
+        QDomElement elem = printscriptsList.at(i).toElement();
+        m_printscripts.insert(elem.attribute("name"), elem.firstChild().toText().data());
+    }
+
     // Read itemTypeList from file and build map
     QMap<int, QString> itemDescriptionByItemType;
     QDomElement elem_itemTypeList = root.firstChildElement("ItemTypeList");
@@ -1806,6 +1851,7 @@ bool ItemDB::file_loadDB(const QString filename, QString *error, QMatrix4x4 *pro
     qCDebug(itemdb) << "finished reading file";
     emit signal_layerManagerUpdateNeeded();
     emit signal_dbStatusSafe();
+    emit finishedReadingFile();
     return true;
 }
 

@@ -43,7 +43,7 @@ class PrintPaperTemplate : public QDialog
     Q_OBJECT
 
 public:
-    explicit PrintPaperTemplate(QWidget *parent, GLWidget* glWidget);
+    explicit PrintPaperTemplate(QWidget *parent, GLWidget* glWidget, ItemDB *itemDB);
     ~PrintPaperTemplate();
 
     void parseScript(QPainter* painter);
@@ -54,12 +54,21 @@ public:
     QMap<QString,QString> getDrawingVariables();
     void setDrawingVariables(QMap<QString,QString> drawingVariables);
 
+public slots:
+    void onPrintscriptsUpdate();
 
 private slots:
     void on_pushButton_preview_clicked();
+    void on_pushButton_addPrintscript_clicked();
+    void on_pushButton_removePrintscript_clicked();
+
+    void on_plainTextEdit_script_textChanged();
+
+    void on_comboBox_printscripts_currentIndexChanged(const QString &arg1);
 
 private:
     Ui::printPaperTemplate *ui;
+    ItemDB *m_itemDB;
     GLWidget* glWidget;
     QSizeF paperSize;
     QString script;

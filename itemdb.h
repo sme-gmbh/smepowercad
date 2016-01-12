@@ -89,6 +89,11 @@ public:
     void restore_undo();
     void restore_redo();
 
+    QStringList getPrintscriptNames() const;
+    QString getPrintscript(const QString name) const;
+    void addPrintscript(const QString name, const QString data);
+    void removePrintscript(const QString name);
+
     QByteArray network_newLayer(QMap<QString, QString> data);
     QByteArray network_modifyLayer(QMap<QString, QString> data);
     QByteArray network_moveLayer(QMap<QString, QString> data);
@@ -123,6 +128,8 @@ private:
     CADitemTypes::ItemType m_activeDrawCommandType;
     quint64 m_currentItemId;
 
+    QMap<QString,QString> m_printscripts;
+
 
     CADitemTypes::ItemType getItemTypeByItemDescription(QString description);
     CADitem* getItemById(quint64 id);
@@ -150,6 +157,7 @@ signals:
     void signal_itemModified(CADitem *item);
     void signal_dbStatusModified();
     void signal_dbStatusSafe();
+    void finishedReadingFile();
 };
 
 #endif // ITEMDB_H
