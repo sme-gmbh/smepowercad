@@ -334,7 +334,10 @@ SOURCES += main.cpp\
     layermanager.cpp \
     equationsolver.cpp \
     stylesheetprovider.cpp \
-    itemparameterswidget.cpp
+    itemparameterswidget.cpp \
+    printscript/printscript.cpp \
+    printscript/printscripttreeitem.cpp \
+    printscript/printscripttreemodel.cpp
 
 HEADERS  += mainwindow.h \
     creationinterface.h \
@@ -607,7 +610,10 @@ HEADERS  += mainwindow.h \
     layermanager.h \
     equationsolver.h \
     stylesheetprovider.h \
-    itemparameterswidget.h
+    itemparameterswidget.h \
+    printscript/printscript.h \
+    printscript/printscripttreeitem.h \
+    printscript/printscripttreemodel.h
 
 FORMS    += mainwindow.ui \
     geometrydisplaytitle.ui \

@@ -19,7 +19,7 @@ Q_LOGGING_CATEGORY(itemdb, "powercad.itemdb")
 
 ItemDB::ItemDB(QObject *parent)
     : QAbstractItemModel(parent),
-      m_printscripts(QMap<QString,QString>())
+      m_printscriptTreeModel(new PrintscriptTreeModel(this))
 {
     m_rootLayer = new Layer();
     m_rootLayer->name = "$$ToplevelLayer";
@@ -1441,28 +1441,6 @@ void ItemDB::restore_redo()
     }
 }
 
-QString ItemDB::getPrintscript(const QString name) const
-{
-    return m_printscripts.value(name);
-}
-
-void ItemDB::addPrintscript(const QString name, const QString data)
-{
-    m_printscripts.insert(name, data);
-}
-
-void ItemDB::removePrintscript(const QString name)
-{
-    m_printscripts.remove(name);
-}
-
-QStringList ItemDB::getPrintscriptNames() const
-{
-    QStringList ret = m_printscripts.keys();
-    qSort(ret);
-    return ret;
-}
-
 QByteArray ItemDB::network_newLayer(QMap<QString, QString> data)
 {
     QString newLayerName = data.value("newLayer");
@@ -1705,14 +1683,7 @@ bool ItemDB::file_storeDB(const QString filename, QMatrix4x4 projectionMatrix, Q
     // Store printscripts
     QDomElement elem_printscripts = doc.createElement("Printscripts");
     root.appendChild(elem_printscripts);
-    QMapIterator<QString,QString> it(m_printscripts);
-    while (it.hasNext() && (it.next() != NULL)) {
-        QDomElement elem_ps = doc.createElement("Printscript");
-        elem_printscripts.appendChild(elem_ps);
-        elem_ps.setAttribute("name", it.key());
-        QDomText psVal = doc.createTextNode(it.value());
-        elem_ps.appendChild(psVal);
-    }
+    file_storeDB_processPrintscriptItem(doc, elem_printscripts, m_printscriptTreeModel->getRootItem()->getChildItems());
 
     // Store cad data
     QDomElement elem_cad = doc.createElement("CadData");
@@ -1733,7 +1704,7 @@ bool ItemDB::file_storeDB(const QString filename, QMatrix4x4 projectionMatrix, Q
 
 bool ItemDB::file_loadDB(const QString filename, QString *error, QMatrix4x4 *projectionMatrix, QMatrix4x4 *glSelectMatrix, QMatrix4x4 *modelviewMatrix, QMatrix4x4 *rotationMatrix)
 {
-    m_printscripts.clear();
+    m_printscriptTreeModel->clear();
 
     qCDebug(itemdb) << "file_loadDB";
     QFile file(filename);
@@ -1818,12 +1789,13 @@ bool ItemDB::file_loadDB(const QString filename, QString *error, QMatrix4x4 *pro
     }
     qCDebug(itemdb) << "successfully read matrices";
 
-    // read Printscripts
+    // Read Printscripts
     QDomElement elem_printscripts = root.firstChildElement("Printscripts");
-    QDomNodeList printscriptsList = elem_printscripts.childNodes();
-    for (int i = 0; i < printscriptsList.count(); i++) {
-        QDomElement elem = printscriptsList.at(i).toElement();
-        m_printscripts.insert(elem.attribute("name"), elem.firstChild().toText().data());
+    QDomNodeList printscriptGroupsList = elem_printscripts.childNodes();
+    PrintscriptTreeItem *tempRootPrintscriptItem = m_printscriptTreeModel->getRootItem();
+    for (int i = 0; i < printscriptGroupsList.count(); i++) {
+        QDomElement elem_group = printscriptGroupsList.at(i).toElement();
+        file_loadDB_parsePrintscript(elem_group, tempRootPrintscriptItem);
     }
 
     // Read itemTypeList from file and build map
@@ -1892,6 +1864,11 @@ void ItemDB::deriveDomainsAndItemTypes()
 Layer *ItemDB::getRootLayer()
 {
     return m_rootLayer;
+}
+
+PrintscriptTreeModel *ItemDB::getPrintscriptTreeModel() const
+{
+    return m_printscriptTreeModel;
 }
 
 CADitemTypes::ItemType ItemDB::getItemTypeByItemDescription(QString description)
@@ -1993,6 +1970,23 @@ void ItemDB::file_loadDB_parseDomElement(QDomElement elem, Layer *layer, bool ma
     }
 }
 
+void ItemDB::file_loadDB_parsePrintscript(QDomElement elem, PrintscriptTreeItem *parentItem)
+{
+    QString name = elem.attribute("name");
+
+    if (elem.firstChild().isText()) {   // node is Printscript
+        QString printscript = elem.firstChild().toText().data();
+        new Printscript(name, printscript, parentItem, this);
+    } else {                            // node is a PrintscriptGroup
+        PrintscriptTreeItem *item = new PrintscriptTreeItem(name, parentItem, this);
+
+        QDomNodeList children = elem.childNodes();
+        for (int i = 0; i < children.count(); i++) {
+            file_loadDB_parsePrintscript(children.at(i).toElement(), item);
+        }
+    }
+}
+
 void ItemDB::file_storeDB_processLayers(QDomDocument doc, QDomElement parentElement, LayerList layers)
 {
     foreach (Layer *layer, layers) {
@@ -2035,5 +2029,22 @@ void ItemDB::file_storeDB_processItems(QDomDocument doc, QDomElement parentEleme
         }
         // Do not store subitems as they are recovered automatically when loading the parent item
         //        file_storeDB_processItems(document, element, item->subItems);
+    }
+}
+
+void ItemDB::file_storeDB_processPrintscriptItem(QDomDocument &doc, QDomElement &parentElement, QList<PrintscriptTreeItem*> items)
+{
+    foreach (PrintscriptTreeItem *item, items) {
+        QDomElement elem = doc.createElement("PrintscriptItem");
+        parentElement.appendChild(elem);
+        elem.setAttribute("name", item->name);
+
+        Printscript *ps = dynamic_cast<Printscript*>(item);
+        if (ps != NULL) { // object is Printscript
+            QDomText psValue = doc.createTextNode(ps->script);
+            elem.appendChild(psValue);
+        } else {
+            file_storeDB_processPrintscriptItem(doc, elem, item->getChildItems());
+        }
     }
 }

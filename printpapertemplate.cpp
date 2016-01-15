@@ -21,13 +21,15 @@
 PrintPaperTemplate::PrintPaperTemplate(QWidget *parent, GLWidget *glWidget, ItemDB *itemDB) :
     QDialog(parent),
     ui(new Ui::printPaperTemplate),
+    m_itemDB(itemDB),
     glWidget(glWidget),
-    m_itemDB(itemDB)
+    m_treeWidgetItems(QList<QTreeWidgetItem*>())
 {
     this->setStyleSheet(StylesheetProvider::getStylesheet("Button"));
     ui->setupUi(this);
 
-    ui->comboBox_printscripts->setInsertPolicy(QComboBox::InsertAlphabetically);
+    ui->treeView_printscripts->setModel(m_itemDB->getPrintscriptTreeModel());
+
     onPrintscriptsUpdate();
 }
 
@@ -268,8 +270,15 @@ void PrintPaperTemplate::setDrawingVariables(QMap<QString, QString> drawingVaria
 
 void PrintPaperTemplate::onPrintscriptsUpdate()
 {
-    ui->comboBox_printscripts->clear();
-    ui->comboBox_printscripts->addItems(m_itemDB->getPrintscriptNames());
+//    ui->treeWidget_printscripts->clear();
+//    qDeleteAll(m_treeWidgetItems);
+//    m_treeWidgetItems.clear();
+
+//    foreach (QString group, m_itemDB->getPrintscriptGroups()) {
+//        m_treeWidgetItems.append(new QTreeWidgetItem(QStringList(group)));
+//    }
+
+//    ui->treeWidget_printscripts->addTopLevelItems(m_treeWidgetItems);
 }
 
 void PrintPaperTemplate::paintSetLineWidth(QPainter* painter, QString arguments)
@@ -459,7 +468,8 @@ void PrintPaperTemplate::on_pushButton_preview_clicked()
     this->script = ui->plainTextEdit_script->toPlainText();
     this->parseScript(NULL);
     // Now constuct the image and the corresponding painter
-    QImage image_preview = QImage(this->mm_to_pixel(this->paperSize.width()), this->mm_to_pixel(this->paperSize.height()), QImage::Format_ARGB32_Premultiplied);
+    QSize imgSize = QSize(this->mm_to_pixel(this->paperSize.width()), this->mm_to_pixel(this->paperSize.height()));
+    QImage image_preview = QImage(imgSize, QImage::Format_ARGB32_Premultiplied);
     image_preview.fill(Qt::white);
     QPainter painter(&image_preview);
 
@@ -469,42 +479,16 @@ void PrintPaperTemplate::on_pushButton_preview_clicked()
     ui->label_preview->setPixmap(QPixmap::fromImage(image_preview.scaled(ui->label_preview->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 }
 
-void PrintPaperTemplate::on_pushButton_addPrintscript_clicked()
-{
-    QString text = QInputDialog::getText(this, tr("Add Printscript"), tr("Printscript name"));
-    if (text.isEmpty()) return;
-
-    if (m_itemDB->getPrintscriptNames().contains(text)) {
-        QMessageBox::warning(this, tr("Add Printscript"), tr("A printscript with this name alreay exists!"));
-        return;
-    }
-
-    m_itemDB->addPrintscript(text, QString());
-    ui->comboBox_printscripts->addItem(text);
-    ui->plainTextEdit_script->clear();
-}
-
-void PrintPaperTemplate::on_pushButton_removePrintscript_clicked()
-{
-    if (ui->comboBox_printscripts->currentIndex() < 0) return;
-
-    int ret = QMessageBox::question(this,
-                          tr("Remove Printscript"),
-                          tr("Do you want to remove the printscript %1?").arg(ui->comboBox_printscripts->currentText()),
-                          QMessageBox::No, QMessageBox::Yes);
-
-    if (ret != QMessageBox::Yes) return;
-
-    m_itemDB->removePrintscript(ui->comboBox_printscripts->currentText());
-}
-
 void PrintPaperTemplate::on_plainTextEdit_script_textChanged()
 {
     qCDebug(powercad) << "text changed";
-    m_itemDB->addPrintscript(ui->comboBox_printscripts->currentText(), ui->plainTextEdit_script->document()->toPlainText());
+//    m_itemDB->addPrintscript(ui->comboBox_printscripts->currentText(), ui->plainTextEdit_script->document()->toPlainText());
 }
 
-void PrintPaperTemplate::on_comboBox_printscripts_currentIndexChanged(const QString &arg1)
+void PrintPaperTemplate::on_treeView_printscripts_clicked(const QModelIndex &index)
 {
-    ui->plainTextEdit_script->setPlainText(m_itemDB->getPrintscript(arg1));
+    QString ps = m_itemDB->getPrintscriptTreeModel()->data(index, Qt::UserRole +0).toString();
+    if (!ps.isEmpty()) {
+        ui->plainTextEdit_script->setPlainText(ps);
+    }
 }

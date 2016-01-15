@@ -31,6 +31,7 @@
 #include "caditemheaderincludes.h"
 #include "caditemtypes.h"
 #include "restorepoint.h"
+#include "printscript/printscripttreemodel.h"
 
 Q_DECLARE_LOGGING_CATEGORY(itemdb)
 
@@ -89,10 +90,11 @@ public:
     void restore_undo();
     void restore_redo();
 
-    QStringList getPrintscriptNames() const;
-    QString getPrintscript(const QString name) const;
-    void addPrintscript(const QString name, const QString data);
-    void removePrintscript(const QString name);
+    QStringList getPrintscriptGroups() const;
+    QString getPrintscript(const QString &group, const QString &name) const;
+
+//    void addPrintscript(const QString name, const QString data);
+//    void removePrintscript(const QString name);
 
     QByteArray network_newLayer(QMap<QString, QString> data);
     QByteArray network_modifyLayer(QMap<QString, QString> data);
@@ -111,6 +113,8 @@ public:
 
     Layer* getRootLayer();
 
+    PrintscriptTreeModel* getPrintscriptTreeModel() const;
+
 private:
     QIcon m_iconLayerOn;
     QIcon m_iconLayerOff;
@@ -128,7 +132,7 @@ private:
     CADitemTypes::ItemType m_activeDrawCommandType;
     quint64 m_currentItemId;
 
-    QMap<QString,QString> m_printscripts;
+    PrintscriptTreeModel *m_printscriptTreeModel;
 
 
     CADitemTypes::ItemType getItemTypeByItemDescription(QString description);
@@ -140,8 +144,10 @@ private:
     void network_getAll_processItems(QList<CADitem*> items, QByteArray *answer);
 
     void file_loadDB_parseDomElement(QDomElement elem, Layer *layer, bool mapByDescription, QMap<int, QString> *itemDescriptionByItemType, QString *error);
+    void file_loadDB_parsePrintscript(QDomElement elem, PrintscriptTreeItem *parentItem);
     void file_storeDB_processLayers(QDomDocument doc, QDomElement parentElement, LayerList layers);
     void file_storeDB_processItems(QDomDocument doc, QDomElement parentElement, QList<CADitem*> items);
+    void file_storeDB_processPrintscriptItem(QDomDocument &doc, QDomElement &parentElement, QList<PrintscriptTreeItem*> items);
 
     Layer *m_rootLayer;
 

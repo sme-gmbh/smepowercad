@@ -30,6 +30,7 @@
 #include <QRegExp>
 #include <QSizeF>
 #include <QTextStream>
+#include <QTreeWidgetItem>
 #include <qmath.h>
 
 #include "glwidget.h"
@@ -59,12 +60,9 @@ public slots:
 
 private slots:
     void on_pushButton_preview_clicked();
-    void on_pushButton_addPrintscript_clicked();
-    void on_pushButton_removePrintscript_clicked();
-
     void on_plainTextEdit_script_textChanged();
 
-    void on_comboBox_printscripts_currentIndexChanged(const QString &arg1);
+    void on_treeView_printscripts_clicked(const QModelIndex &index);
 
 private:
     Ui::printPaperTemplate *ui;
@@ -76,6 +74,7 @@ private:
     QBrush brush;
     QFont font;
     QMap<QString,QString> drawingVariables;
+    QList<QTreeWidgetItem*> m_treeWidgetItems;
 
     void paintSetPaperSize(QString arguments);
     void paintBorder(QPainter* painter);
