@@ -173,8 +173,11 @@ void LayerManager::slot_appendNewLayer()
     } while (m_itemDb->findLayerByName(layerName) != NULL && (alreadyExists = true));
 
     if (ok) {
-        m_itemDb->insertLayer(layerName, m_itemDb->parent(m_indexAtContextMenuRequest),
-                              m_layerAtContextMenuRequest->parentLayer()->childCount());
+        int at = 0;
+        if (m_layerAtContextMenuRequest)
+            at = m_layerAtContextMenuRequest->parentLayer()->childCount();
+
+        m_itemDb->insertLayer(layerName, m_itemDb->parent(m_indexAtContextMenuRequest), at);
     }
 }
 
