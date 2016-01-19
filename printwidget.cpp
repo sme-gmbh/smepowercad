@@ -28,7 +28,6 @@ PrintWidget::PrintWidget(QWidget *parent, ItemDB *itemDB) :
     this->glWidget = new GLWidget(this, itemDB);
     ui->verticalLayout->replaceWidget(ui->placeholderWidget, glWidget);
     this->printPaperTemplate = new PrintPaperTemplate(this, this->glWidget, itemDB);
-    connect(this, &PrintWidget::printscriptsUpdateNeeded, printPaperTemplate, &PrintPaperTemplate::onPrintscriptsUpdate);
 }
 
 PrintWidget::~PrintWidget()

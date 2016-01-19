@@ -278,19 +278,6 @@ void PrintPaperTemplate::setDrawingVariables(QMap<QString, QString> drawingVaria
     this->drawingVariables = drawingVariables;
 }
 
-void PrintPaperTemplate::onPrintscriptsUpdate()
-{
-//    ui->treeWidget_printscripts->clear();
-//    qDeleteAll(m_treeWidgetItems);
-//    m_treeWidgetItems.clear();
-
-//    foreach (QString group, m_itemDB->getPrintscriptGroups()) {
-//        m_treeWidgetItems.append(new QTreeWidgetItem(QStringList(group)));
-//    }
-
-//    ui->treeWidget_printscripts->addTopLevelItems(m_treeWidgetItems);
-}
-
 void PrintPaperTemplate::paintSetLineWidth(QPainter* painter, QString arguments)
 {
     pen.setWidthF(this->text_to_pixel(arguments));
