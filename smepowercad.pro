@@ -639,8 +639,7 @@ TRANSLATIONS += \
     lang/powercad-ru_RU.ts
 
 OTHER_FILES += \
-    todo.txt \
-    agenda.txt \
+    TODO.md
     settings.xml \
     shaders/shader_1.vert \
     shaders/shader_1_triangles.geom \
