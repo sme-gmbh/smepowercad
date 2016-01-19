@@ -34,6 +34,7 @@ public:
     PrintscriptTreeItem *parentItem();
     int getChildIndex(PrintscriptTreeItem *childItem) const;
     QList<PrintscriptTreeItem*> getChildItems() const;
+    PrintscriptTreeItem* findByName(const QString &name) const;
 
     QString name;
 

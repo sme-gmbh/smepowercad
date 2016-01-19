@@ -22,15 +22,24 @@ PrintPaperTemplate::PrintPaperTemplate(QWidget *parent, GLWidget *glWidget, Item
     QDialog(parent),
     ui(new Ui::printPaperTemplate),
     m_itemDB(itemDB),
-    glWidget(glWidget),
-    m_treeWidgetItems(QList<QTreeWidgetItem*>())
+    m_model(itemDB->getPrintscriptTreeModel()),
+    glWidget(glWidget)
 {
     this->setStyleSheet(StylesheetProvider::getStylesheet("Button"));
     ui->setupUi(this);
 
     ui->treeView_printscripts->setModel(m_itemDB->getPrintscriptTreeModel());
 
-    onPrintscriptsUpdate();
+    m_menuNoItem = new QMenu(this);
+    m_menuNoItem->addAction(tr("New group"), this, SLOT(newGroup()));
+
+    m_menuOnGroup = new QMenu(this);
+    m_menuOnGroup->addAction(tr("New group"), this, SLOT(newGroup()));
+    m_menuOnGroup->addAction(tr("New printscript"), this, SLOT(newPrintscript()));
+    m_menuOnGroup->addAction(tr("Rename"), this, SLOT(rename()));
+
+    m_menuOnPrintscript = new QMenu(this);
+    m_menuOnPrintscript->addAction(tr("Rename"), this, SLOT(rename()));
 }
 
 PrintPaperTemplate::~PrintPaperTemplate()
@@ -487,8 +496,120 @@ void PrintPaperTemplate::on_plainTextEdit_script_textChanged()
 
 void PrintPaperTemplate::on_treeView_printscripts_clicked(const QModelIndex &index)
 {
-    QString ps = m_itemDB->getPrintscriptTreeModel()->data(index, Qt::UserRole +0).toString();
+    QString ps = m_model->data(index, Qt::UserRole +0).toString();
     if (!ps.isEmpty()) {
         ui->plainTextEdit_script->setPlainText(ps);
     }
+}
+
+void PrintPaperTemplate::on_treeView_printscripts_customContextMenuRequested(const QPoint &pos)
+{
+    qCDebug(powercad) << "customContextMenu";
+    QModelIndex index = ui->treeView_printscripts->indexAt(pos);
+    m_indexAtContextMenuRequest = index;
+    m_printscriptItemAtContextMenuRequest = static_cast<PrintscriptTreeItem*>(index.internalPointer());
+
+    Printscript *ps = dynamic_cast<Printscript*>(m_printscriptItemAtContextMenuRequest);
+
+    if (index.isValid()) {
+        if (ps != NULL)
+            m_menuOnPrintscript->popup(QCursor::pos());
+        else
+            m_menuOnGroup->popup(QCursor::pos());
+    } else {
+        m_menuNoItem->popup(QCursor::pos());
+    }
+}
+
+void PrintPaperTemplate::newGroup()
+{
+    QString groupName;
+    bool alreadyExists = false;
+    bool ok;
+
+    do {
+        if (alreadyExists)
+            QMessageBox::warning(this, tr("New group"), tr("Group name already in use! Try a different name!"));
+
+        if (groupName.isEmpty() || alreadyExists) {
+            do {
+                groupName = QInputDialog::getText(this, tr("New group"), tr("Group name"), QLineEdit::Normal, NULL, &ok);
+
+                if (!ok) break;
+                if (groupName.isEmpty())
+                    QMessageBox::warning(this, tr("New group"), tr("Group name cannot be empty"));
+            } while(groupName.isEmpty());
+        }
+
+        if (!ok) break;
+    } while (m_model->findItemByName(groupName) != NULL && (alreadyExists = true));
+
+    if (!ok) return;
+
+    int at = 0;
+    QModelIndex parent;
+    if (m_printscriptItemAtContextMenuRequest) {
+        at = m_printscriptItemAtContextMenuRequest->parentItem()->childCount();
+        parent = m_indexAtContextMenuRequest;
+    } else {
+        parent = m_model->parent(m_indexAtContextMenuRequest);
+    }
+
+    m_model->insertGroup(groupName, parent, at);
+}
+
+void PrintPaperTemplate::rename()
+{
+    PrintscriptTreeItem *item = m_printscriptItemAtContextMenuRequest;
+    QString itemName;
+    bool ok;
+    do {
+        itemName = QInputDialog::getText(this, tr("Rename item %1").arg(item->name),
+                                          tr("Item name"), QLineEdit::Normal, item->name, &ok);
+
+        if (!ok) break;
+
+        if (itemName.isEmpty())
+            QMessageBox::warning(this, tr("Rename item"), tr("Item name cannot be empty"));
+    } while (itemName.isEmpty());
+
+    if (ok)
+        m_printscriptItemAtContextMenuRequest->name = itemName;
+}
+
+void PrintPaperTemplate::newPrintscript()
+{
+    QString psName;
+    bool alreadyExists = false;
+    bool ok;
+
+    do {
+        if (alreadyExists)
+            QMessageBox::warning(this, tr("New printscript"), tr("Printscript name already in use! Try a different name!"));
+
+        if (psName.isEmpty() || alreadyExists) {
+            do {
+                psName = QInputDialog::getText(this, tr("New printscript"), tr("Printscript name"), QLineEdit::Normal, NULL, &ok);
+
+                if (!ok) break;
+                if (psName.isEmpty())
+                    QMessageBox::warning(this, tr("New printscript"), tr("Printscript name cannot be empty"));
+            } while(psName.isEmpty());
+        }
+
+        if (!ok) break;
+    } while (m_model->findItemByName(psName) != NULL && (alreadyExists = true));
+
+    if (!ok) return;
+
+    int at = 0;
+    QModelIndex parent;
+    if (m_printscriptItemAtContextMenuRequest) {
+        at = m_printscriptItemAtContextMenuRequest->parentItem()->childCount();
+        parent = m_indexAtContextMenuRequest;
+    } else {
+        parent = m_model->parent(m_indexAtContextMenuRequest);
+    }
+
+    m_model->insertPrintscript(psName, parent, at);
 }

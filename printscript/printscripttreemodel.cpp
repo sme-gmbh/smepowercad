@@ -115,6 +115,76 @@ int PrintscriptTreeModel::columnCount(const QModelIndex &parent) const
     return 1;
 }
 
+PrintscriptTreeItem *PrintscriptTreeModel::findItemByName(const QString &name) const
+{
+    return m_rootItem->findByName(name);
+}
+
+PrintscriptTreeItem *PrintscriptTreeModel::addGroup(QString name, QString parentItemName)
+{
+    PrintscriptTreeItem *parentItem = m_rootItem->findByName(parentItemName);
+    if (!parentItem)
+        parentItem = m_rootItem;
+
+    return addGroup(name, parentItem);
+}
+
+PrintscriptTreeItem *PrintscriptTreeModel::addGroup(QString name, PrintscriptTreeItem *parentItem)
+{
+    if (!parentItem) return NULL;
+
+    PrintscriptTreeItem *item = m_rootItem->findByName(name);
+    if (item)
+        return item;
+
+    QModelIndex parentIndex;
+    QModelIndexList indexList = this->match(index(0, 0, QModelIndex()), Qt::DisplayRole, parentItem->name, 1, Qt::MatchRecursive);
+    if (indexList.count() >= 1)
+        parentIndex = indexList.first();
+    else
+        parentIndex = index(0, 0, QModelIndex());
+
+    beginInsertRows(QModelIndex(), parentItem->childCount(), parentItem->childCount());
+    PrintscriptTreeItem *newItem = new PrintscriptTreeItem(name, parentItem);
+    endInsertRows();
+
+    this->resetInternalData();
+    return newItem;
+}
+
+Printscript *PrintscriptTreeModel::addPrintscript(QString name, QString parentItemName)
+{
+    PrintscriptTreeItem *parentItem = m_rootItem->findByName(parentItemName);
+    if (!parentItem)
+        parentItem = m_rootItem;
+
+    return addPrintscript(name, parentItem);
+}
+
+Printscript *PrintscriptTreeModel::addPrintscript(QString name, PrintscriptTreeItem *parentItem)
+{
+    if (!parentItem) return NULL;
+    if (dynamic_cast<Printscript*>(parentItem) != NULL) return NULL;
+
+    Printscript *item = dynamic_cast<Printscript*>(m_rootItem->findByName(name));
+    if (item != NULL)
+        return item;
+
+    QModelIndex parentIndex;
+    QModelIndexList indexList = this->match(index(0, 0, QModelIndex()), Qt::DisplayRole, parentItem->name, 1, Qt::MatchRecursive);
+    if (indexList.count() >= 1)
+        parentIndex = indexList.first();
+    else
+        parentIndex = index(0, 0, QModelIndex());
+
+    beginInsertRows(QModelIndex(), parentItem->childCount(), parentItem->childCount());
+    Printscript *newItem = new Printscript(name, QString(), parentItem);
+    endInsertRows();
+
+    this->resetInternalData();
+    return newItem;
+}
+
 void PrintscriptTreeModel::clear()
 {
     if (m_rootItem)
@@ -126,4 +196,38 @@ void PrintscriptTreeModel::clear()
 PrintscriptTreeItem* PrintscriptTreeModel::getRootItem() const
 {
     return m_rootItem;
+}
+
+PrintscriptTreeItem *PrintscriptTreeModel::insertGroup(const QString &name, const QModelIndex &parent, int position)
+{
+    PrintscriptTreeItem *parentItem = static_cast<PrintscriptTreeItem*>(parent.internalPointer());
+
+    PrintscriptTreeItem *newItem;
+    beginInsertRows(parent, position, 1);
+
+    if (!parent.isValid())
+        newItem = addGroup(name);
+    else
+        newItem = addGroup(name, parentItem);
+
+    endInsertRows();
+
+    return newItem;
+}
+
+Printscript *PrintscriptTreeModel::insertPrintscript(const QString &name, const QModelIndex &parent, int position)
+{
+    PrintscriptTreeItem *parentItem = static_cast<PrintscriptTreeItem*>(parent.internalPointer());
+
+    Printscript *newItem;
+    beginInsertRows(parent, position, 1);
+
+    if (!parent.isValid())
+        newItem = addPrintscript(name);
+    else
+        newItem = addPrintscript(name, parentItem);
+
+    endInsertRows();
+
+    return newItem;
 }

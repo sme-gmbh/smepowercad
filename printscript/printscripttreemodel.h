@@ -33,9 +33,18 @@ public:
     QModelIndex parent(const QModelIndex &child) const;
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
+    PrintscriptTreeItem* findItemByName(const QString &name) const;
+
+    PrintscriptTreeItem *addGroup(QString name, QString parentItemName = QString());
+    PrintscriptTreeItem *addGroup(QString name, PrintscriptTreeItem *parentItem);
+    Printscript *addPrintscript(QString name, QString parentItemName = QString());
+    Printscript *addPrintscript(QString name, PrintscriptTreeItem *parentItem);
 
     void clear();
     PrintscriptTreeItem *getRootItem() const;
+
+    PrintscriptTreeItem* insertGroup(const QString &name, const QModelIndex &parent, int position);
+    Printscript* insertPrintscript(const QString &name, const QModelIndex &parent, int position);
 
 private:
     PrintscriptTreeItem *m_rootItem;

@@ -30,7 +30,7 @@
 #include <QRegExp>
 #include <QSizeF>
 #include <QTextStream>
-#include <QTreeWidgetItem>
+#include <QMenu>
 #include <qmath.h>
 
 #include "glwidget.h"
@@ -63,10 +63,16 @@ private slots:
     void on_plainTextEdit_script_textChanged();
 
     void on_treeView_printscripts_clicked(const QModelIndex &index);
+    void on_treeView_printscripts_customContextMenuRequested(const QPoint &pos);
+
+    void newGroup();
+    void rename();
+    void newPrintscript();
 
 private:
     Ui::printPaperTemplate *ui;
     ItemDB *m_itemDB;
+    PrintscriptTreeModel *m_model;
     GLWidget* glWidget;
     QSizeF paperSize;
     QString script;
@@ -74,7 +80,11 @@ private:
     QBrush brush;
     QFont font;
     QMap<QString,QString> drawingVariables;
-    QList<QTreeWidgetItem*> m_treeWidgetItems;
+    QMenu *m_menuOnGroup;
+    QMenu *m_menuOnPrintscript;
+    QMenu *m_menuNoItem;
+    QModelIndex m_indexAtContextMenuRequest;
+    PrintscriptTreeItem *m_printscriptItemAtContextMenuRequest;
 
     void paintSetPaperSize(QString arguments);
     void paintBorder(QPainter* painter);

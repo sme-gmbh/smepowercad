@@ -18,6 +18,9 @@
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QTreeView" name="treeView_printscripts">
+       <property name="contextMenuPolicy">
+        <enum>Qt::CustomContextMenu</enum>
+       </property>
        <property name="sortingEnabled">
         <bool>true</bool>
        </property>

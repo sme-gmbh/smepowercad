@@ -71,6 +71,19 @@ QList<PrintscriptTreeItem *> PrintscriptTreeItem::getChildItems() const
     return m_childItems;
 }
 
+PrintscriptTreeItem *PrintscriptTreeItem::findByName(const QString &name) const
+{
+    PrintscriptTreeItem *ret = NULL;
+
+    foreach (PrintscriptTreeItem *item, m_childItems) {
+        if (item->name == name) return item;
+
+        ret = item->findByName(name);
+    }
+
+    return ret;
+}
+
 int PrintscriptTreeItem::getChildIndex(PrintscriptTreeItem *childItem) const
 {
     return m_childItems.indexOf(childItem);
