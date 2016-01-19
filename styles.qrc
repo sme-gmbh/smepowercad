@@ -8,5 +8,6 @@
         <file>styles/ExpandableToolButton.css</file>
         <file>styles/Toolbar.css</file>
         <file>styles/QMenuBar+QMenu.css</file>
+        <file>styles/QTreeView.css</file>
     </qresource>
 </RCC>

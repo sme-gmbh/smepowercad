@@ -16,6 +16,7 @@
 #define PRINTSCRIPTTREEMODEL_H
 
 #include <QAbstractItemModel>
+#include <QPixmap>
 #include "printscripttreeitem.h"
 #include "printscript.h"
 

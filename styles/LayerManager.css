@@ -21,27 +21,6 @@ QDockWidget {
     titlebar-normal-icon: url(:/ui/dockwidget/icons/float.svg);
 }
 
-QHeaderView::section {
-    background-color: rgb(89, 89, 81);
-    color: white;
-    padding-left: 4px;
-    border: 0;
-    border-left: 1px solid rgb(200, 200, 200);
-    padding: 2px 5px;
-}
-QHeaderView::section:first {
-    border-left: 0;
-}
-
-/* style the sort indicator */
-QHeaderView::down-arrow {
-   image: url(:/ui/3Dcontrols/icons/arrow_down.svg);
-}
-
-QHeaderView::up-arrow {
-   image: url(:/ui/3Dcontrols/icons/arrow_up.svg);
-}
-
 QDockWidget::title {
     text-align: left; /* align the text to the left */
     background: rgb(49, 49, 41);
@@ -78,12 +57,4 @@ QDockWidget::close-button:hover, QDockWidget::float-button:hover {
 
 QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
     background-color: rgb(150, 150, 130);
-}
-
-QTreeView {
-    border: 0;
-    background-color: rgb(55, 55, 55);
-    color: rgb(255, 255, 255);
-    selection-color: rgb(255, 150, 28);
-    selection-background-color: rgba(255, 255, 255, 0);
 }

@@ -25,17 +25,17 @@ PrintPaperTemplate::PrintPaperTemplate(QWidget *parent, GLWidget *glWidget, Item
     m_model(itemDB->getPrintscriptTreeModel()),
     glWidget(glWidget)
 {
-    this->setStyleSheet(StylesheetProvider::getStylesheet("Button"));
+    this->setStyleSheet(StylesheetProvider::getStylesheet("QTreeView,Button"));
     ui->setupUi(this);
 
     ui->treeView_printscripts->setModel(m_itemDB->getPrintscriptTreeModel());
 
     m_menuNoItem = new QMenu(this);
-    m_menuNoItem->addAction(tr("New group"), this, SLOT(newGroup()));
+    m_menuNoItem->addAction(QIcon(":/ui/printscript/icons/printscript-group-add.png"), tr("New group"), this, SLOT(newGroup()));
 
     m_menuOnGroup = new QMenu(this);
-    m_menuOnGroup->addAction(tr("New group"), this, SLOT(newGroup()));
-    m_menuOnGroup->addAction(tr("New printscript"), this, SLOT(newPrintscript()));
+    m_menuOnGroup->addAction(QIcon(":/ui/printscript/icons/printscript-group-add.png"), tr("New group"), this, SLOT(newGroup()));
+    m_menuOnGroup->addAction(QIcon(":/ui/printscript/icons/printscript-add.png"), tr("New printscript"), this, SLOT(newPrintscript()));
     m_menuOnGroup->addAction(tr("Rename"), this, SLOT(rename()));
 
     m_menuOnPrintscript = new QMenu(this);

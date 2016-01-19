@@ -457,4 +457,10 @@
     <qresource prefix="/ui">
         <file>icons/smepowercad.png</file>
     </qresource>
+    <qresource prefix="/ui/printscript">
+        <file>icons/printscript.png</file>
+        <file>icons/printscript-add.png</file>
+        <file>icons/printscript-group.png</file>
+        <file>icons/printscript-group-add.png</file>
+    </qresource>
 </RCC>

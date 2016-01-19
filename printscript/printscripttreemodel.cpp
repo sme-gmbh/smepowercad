@@ -36,6 +36,12 @@ QVariant PrintscriptTreeModel::data(const QModelIndex &index, int role) const
     if (role == Qt::DisplayRole) {
         if (index.column() == 0)
             return item->name;
+    } else if (role == Qt::DecorationRole) {
+        if (dynamic_cast<Printscript*>(item) != NULL) {
+            return QPixmap(":/ui/printscript/icons/printscript.png").scaledToHeight(16);
+        } else {
+            return QPixmap(":/ui/printscript/icons/printscript-group.png").scaledToHeight(16);
+        }
     } else if (role == Qt::UserRole +0) {
         Printscript *ps = dynamic_cast<Printscript*>(item);
         if (ps) {

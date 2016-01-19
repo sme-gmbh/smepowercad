@@ -26,7 +26,7 @@ LayerManager::LayerManager(ItemDB *itemDb, QWidget *parent) :
 {
     ui->setupUi(this);
 
-    this->setStyleSheet(StylesheetProvider::getStylesheet("LayerManager"));
+    this->setStyleSheet(StylesheetProvider::getStylesheet("QTreeView,LayerManager"));
 
     QDesktopWidget desktopWidget;
     QRect rightScreenRect = desktopWidget.screenGeometry(desktopWidget.numScreens() -1);
