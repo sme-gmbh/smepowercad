@@ -491,21 +491,23 @@ void PrintPaperTemplate::on_pushButton_preview_clicked()
 
 void PrintPaperTemplate::on_plainTextEdit_script_textChanged()
 {
-    qCDebug(powercad) << "text changed";
-//    m_itemDB->addPrintscript(ui->comboBox_printscripts->currentText(), ui->plainTextEdit_script->document()->toPlainText());
+    PrintscriptTreeItem *item = static_cast<PrintscriptTreeItem*>(ui->treeView_printscripts->currentIndex().internalPointer());
+    Printscript *ps = dynamic_cast<Printscript*>(item);
+    if (ps == NULL) return;
+    ps->script = ui->plainTextEdit_script->document()->toPlainText();
 }
 
 void PrintPaperTemplate::on_treeView_printscripts_clicked(const QModelIndex &index)
 {
-    QString ps = m_model->data(index, Qt::UserRole +0).toString();
-    if (!ps.isEmpty()) {
-        ui->plainTextEdit_script->setPlainText(ps);
-    }
+    PrintscriptTreeItem *item = static_cast<PrintscriptTreeItem*>(index.internalPointer());
+    Printscript *ps = dynamic_cast<Printscript*>(item);
+    if (ps == NULL) return;
+
+    ui->plainTextEdit_script->setPlainText(ps->script);
 }
 
 void PrintPaperTemplate::on_treeView_printscripts_customContextMenuRequested(const QPoint &pos)
 {
-    qCDebug(powercad) << "customContextMenu";
     QModelIndex index = ui->treeView_printscripts->indexAt(pos);
     m_indexAtContextMenuRequest = index;
     m_printscriptItemAtContextMenuRequest = static_cast<PrintscriptTreeItem*>(index.internalPointer());
