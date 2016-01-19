@@ -34,6 +34,7 @@
 #include <qmath.h>
 
 #include "glwidget.h"
+#include "treeviewitemdelegate.h"
 
 namespace Ui {
 class printPaperTemplate;

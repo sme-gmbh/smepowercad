@@ -35,7 +35,7 @@ LayerManager::LayerManager(ItemDB *itemDb, QWidget *parent) :
         this->move(rightScreenRect.topLeft());
     }
 
-    ui->treeView_layer->setItemDelegate(new BackgroundItemDelegate(this));
+    ui->treeView_layer->setItemDelegate(new TreeViewItemDelegate(this));
     ui->treeView_layer->setModel(m_itemDb);
     ui->treeView_layer->setColumnWidth(1, 24);
     ui->treeView_layer->setColumnWidth(2, 24);

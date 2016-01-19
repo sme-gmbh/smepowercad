@@ -28,6 +28,7 @@ PrintPaperTemplate::PrintPaperTemplate(QWidget *parent, GLWidget *glWidget, Item
     this->setStyleSheet(StylesheetProvider::getStylesheet("QTreeView,Button"));
     ui->setupUi(this);
 
+    ui->treeView_printscripts->setItemDelegate(new TreeViewItemDelegate(this));
     ui->treeView_printscripts->setModel(m_itemDB->getPrintscriptTreeModel());
 
     m_menuNoItem = new QMenu(this);

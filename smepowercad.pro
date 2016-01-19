@@ -337,7 +337,8 @@ SOURCES += main.cpp\
     itemparameterswidget.cpp \
     printscript/printscript.cpp \
     printscript/printscripttreeitem.cpp \
-    printscript/printscripttreemodel.cpp
+    printscript/printscripttreemodel.cpp \
+    treeviewitemdelegate.cpp
 
 HEADERS  += mainwindow.h \
     creationinterface.h \
@@ -613,7 +614,8 @@ HEADERS  += mainwindow.h \
     itemparameterswidget.h \
     printscript/printscript.h \
     printscript/printscripttreeitem.h \
-    printscript/printscripttreemodel.h
+    printscript/printscripttreemodel.h \
+    treeviewitemdelegate.h
 
 FORMS    += mainwindow.ui \
     geometrydisplaytitle.ui \
