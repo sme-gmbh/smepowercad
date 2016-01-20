@@ -84,6 +84,11 @@ PrintscriptTreeItem *PrintscriptTreeItem::findByName(const QString &name) const
     return ret;
 }
 
+bool PrintscriptTreeItem::isEmpty() const
+{
+    return m_childItems.isEmpty();
+}
+
 int PrintscriptTreeItem::getChildIndex(PrintscriptTreeItem *childItem) const
 {
     return m_childItems.indexOf(childItem);
