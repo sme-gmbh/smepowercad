@@ -38,9 +38,13 @@ PrintPaperTemplate::PrintPaperTemplate(QWidget *parent, GLWidget *glWidget, Item
     m_menuOnGroup->addAction(QIcon(":/ui/printscript/icons/printscript-group-add.png"), tr("New group"), this, SLOT(newGroup()));
     m_menuOnGroup->addAction(QIcon(":/ui/printscript/icons/printscript-add.png"), tr("New printscript"), this, SLOT(newPrintscript()));
     m_menuOnGroup->addAction(tr("Rename"), this, SLOT(rename()));
+    m_menuOnGroup->addSeparator();
+    m_menuOnGroup->addAction(tr("Remove"), this, SLOT(remove()));
 
     m_menuOnPrintscript = new QMenu(this);
     m_menuOnPrintscript->addAction(tr("Rename"), this, SLOT(rename()));
+    m_menuOnPrintscript->addSeparator();
+    m_menuOnPrintscript->addAction(tr("Remove"), this, SLOT(remove()));
 }
 
 PrintPaperTemplate::~PrintPaperTemplate()
@@ -318,7 +322,8 @@ void PrintPaperTemplate::paintLine(QPainter* painter, QString arguments)
 
 void PrintPaperTemplate::paintCircle(QPainter* painter, QString arguments)
 {
-
+    Q_UNUSED(painter)
+    Q_UNUSED(arguments)
 }
 
 void PrintPaperTemplate::paintRect(QPainter* painter, QString arguments)
@@ -602,4 +607,17 @@ void PrintPaperTemplate::newPrintscript()
     }
 
     m_model->insertPrintscript(psName, parent, at);
+}
+
+void PrintPaperTemplate::remove()
+{
+    if (!m_printscriptItemAtContextMenuRequest) return;
+
+    int ret = QMessageBox::question(this, tr("Remove item"), tr("Do you want to remove item %1?").arg(m_printscriptItemAtContextMenuRequest->name), QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+    if (ret != QMessageBox::Yes) return;
+
+    bool success = m_model->removeItemAt(m_model->parent(m_indexAtContextMenuRequest), m_indexAtContextMenuRequest);
+
+    if (!success)
+        QMessageBox::warning(this, tr("Delete item"), tr("Unable to delete item. Maybe it has child items."));
 }

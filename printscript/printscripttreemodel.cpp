@@ -191,6 +191,48 @@ Printscript *PrintscriptTreeModel::addPrintscript(QString name, PrintscriptTreeI
     return newItem;
 }
 
+bool PrintscriptTreeModel::removeItem(PrintscriptTreeItem *item)
+{
+    PrintscriptTreeItem *parentItem = item->parentItem();
+    if (!parentItem)
+        return false;
+
+    if (!item->isEmpty())
+        return false;
+
+    if (parentItem->removeChild(item)) {
+        delete item;
+
+        return true;
+    }
+
+    return false;
+}
+
+bool PrintscriptTreeModel::removeItemAt(const QModelIndex &parent, const QModelIndex &index)
+{
+    if (!index.isValid())
+        return false;
+
+    PrintscriptTreeItem *item = static_cast<PrintscriptTreeItem*>(index.internalPointer());
+    PrintscriptTreeItem *parentItem = item->parentItem();
+    if (!parentItem)
+        return false;
+
+    if (!item->isEmpty())
+        return false;
+
+    beginRemoveRows(parent, index.row(), index.row());
+    if (parentItem->removeChild(item)) {
+        delete item;
+        endRemoveRows();
+        return true;
+    }
+    endRemoveRows();
+
+    return false;
+}
+
 void PrintscriptTreeModel::clear()
 {
     if (m_rootItem)

@@ -40,6 +40,8 @@ public:
     PrintscriptTreeItem *addGroup(QString name, PrintscriptTreeItem *parentItem);
     Printscript *addPrintscript(QString name, QString parentItemName = QString());
     Printscript *addPrintscript(QString name, PrintscriptTreeItem *parentItem);
+    bool removeItem(PrintscriptTreeItem *item);
+    bool removeItemAt(const QModelIndex &parent, const QModelIndex &index);
 
     void clear();
     PrintscriptTreeItem *getRootItem() const;

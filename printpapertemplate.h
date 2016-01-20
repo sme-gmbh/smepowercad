@@ -68,6 +68,7 @@ private slots:
     void newGroup();
     void rename();
     void newPrintscript();
+    void remove();
 
 private:
     Ui::printPaperTemplate *ui;
