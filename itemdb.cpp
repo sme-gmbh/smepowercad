@@ -328,7 +328,6 @@ bool ItemDB::deleteLayer(Layer *layer)
 
 bool ItemDB::deleteLayerAt(const QModelIndex &parent, const QModelIndex &index)
 {
-    qCDebug(itemdb) << parent << index;
     if (!index.isValid())
         return false;
 
