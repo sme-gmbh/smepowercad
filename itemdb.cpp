@@ -19,7 +19,8 @@ Q_LOGGING_CATEGORY(itemdb, "powercad.itemdb")
 
 ItemDB::ItemDB(QObject *parent)
     : QAbstractItemModel(parent),
-      m_printscriptTreeModel(new PrintscriptTreeModel(this))
+      m_printscriptTreeModel(new PrintscriptTreeModel(this)),
+      m_globalPrintscriptVariables(QMap<QString,QString>())
 {
     m_rootLayer = new Layer();
     m_rootLayer->name = "$$ToplevelLayer";
@@ -1684,6 +1685,18 @@ bool ItemDB::file_storeDB(const QString filename, QMatrix4x4 projectionMatrix, Q
     root.appendChild(elem_printscripts);
     file_storeDB_processPrintscriptItem(doc, elem_printscripts, m_printscriptTreeModel->getRootItem()->getChildItems());
 
+    // Store printscript variables
+    QDomElement elem_printscriptVars = doc.createElement("PrintscriptVariables");
+    root.appendChild(elem_printscriptVars);
+    QMapIterator<QString,QString> it(m_globalPrintscriptVariables);
+    while (it.hasNext() && (it.next() != NULL)) {
+        QDomElement elemVar = doc.createElement("PrintscriptVariable");
+        elem_printscriptVars.appendChild(elemVar);
+        elemVar.setAttribute("key", it.key());
+        elemVar.setAttribute("value", it.value());
+    }
+
+
     // Store cad data
     QDomElement elem_cad = doc.createElement("CadData");
     root.appendChild(elem_cad);
@@ -1797,6 +1810,14 @@ bool ItemDB::file_loadDB(const QString filename, QString *error, QMatrix4x4 *pro
         file_loadDB_parsePrintscript(elem_group, tempRootPrintscriptItem);
     }
 
+    // Read global printscript variables
+    QDomNodeList elemVars = root.firstChildElement("PrintscriptVariables").childNodes();
+    m_globalPrintscriptVariables.clear();
+    for (int i = 0; i < elemVars.count(); i++) {
+        QDomElement elemVar = elemVars.at(i).toElement();
+        m_globalPrintscriptVariables.insert(elemVar.attribute("key"), elemVar.attribute("value"));
+    }
+
     // Read itemTypeList from file and build map
     QMap<int, QString> itemDescriptionByItemType;
     QDomElement elem_itemTypeList = root.firstChildElement("ItemTypeList");
@@ -1868,6 +1889,11 @@ Layer *ItemDB::getRootLayer()
 PrintscriptTreeModel *ItemDB::getPrintscriptTreeModel() const
 {
     return m_printscriptTreeModel;
+}
+
+QMap<QString, QString> ItemDB::getGlobalPrintscriptVariables() const
+{
+    return m_globalPrintscriptVariables;
 }
 
 CADitemTypes::ItemType ItemDB::getItemTypeByItemDescription(QString description)
@@ -1973,9 +1999,17 @@ void ItemDB::file_loadDB_parsePrintscript(QDomElement elem, PrintscriptTreeItem 
 {
     QString name = elem.attribute("name");
 
-    if (elem.firstChild().isText()) {   // node is Printscript
-        QString printscript = elem.firstChild().toText().data();
-        new Printscript(name, printscript, parentItem, this);
+    QDomElement elemPrintscriptContent = elem.firstChildElement("PrintscriptContent");
+    if (!elemPrintscriptContent.isNull()) {   // node is Printscript
+        QString printscript = elemPrintscriptContent.firstChild().toText().data();
+        Printscript *ps = new Printscript(name, printscript, parentItem, this);
+        QDomNodeList elemVars = elem.firstChildElement("PrintscriptVariables").childNodes();
+        QMap<QString,QString> vars = QMap<QString,QString>();
+        for (int i = 0; i < elemVars.count(); i++) {
+            QDomElement elemVar = elemVars.at(i).toElement();
+            vars.insert(elemVar.attribute("key"), elemVar.attribute("value"));
+        }
+        ps->insertVariables(vars);
     } else {                            // node is a PrintscriptGroup
         PrintscriptTreeItem *item = new PrintscriptTreeItem(name, parentItem, this);
 
@@ -2026,8 +2060,6 @@ void ItemDB::file_storeDB_processItems(QDomDocument doc, QDomElement parentEleme
                 break;
             }
         }
-        // Do not store subitems as they are recovered automatically when loading the parent item
-        //        file_storeDB_processItems(document, element, item->subItems);
     }
 }
 
@@ -2040,8 +2072,20 @@ void ItemDB::file_storeDB_processPrintscriptItem(QDomDocument &doc, QDomElement 
 
         Printscript *ps = dynamic_cast<Printscript*>(item);
         if (ps != NULL) { // object is Printscript
+            QDomElement elemPrintscriptCont = doc.createElement("PrintscriptContent");
             QDomText psValue = doc.createTextNode(ps->script);
-            elem.appendChild(psValue);
+            elemPrintscriptCont.appendChild(psValue);
+            elem.appendChild(elemPrintscriptCont);
+
+            QDomElement elemPrintscriptVars = doc.createElement("PrintscriptVariables");
+            elem.appendChild(elemPrintscriptVars);
+            QMapIterator<QString,QString> it(ps->getVariables());
+            while (it.hasNext() && (it.next() != NULL)) {
+                QDomElement elemVar = doc.createElement("PrintscriptVariable");
+                elemPrintscriptVars.appendChild(elemVar);
+                elemVar.setAttribute("key", it.key());
+                elemVar.setAttribute("value", it.value());
+            }
         } else {
             file_storeDB_processPrintscriptItem(doc, elem, item->getChildItems());
         }

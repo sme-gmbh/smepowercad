@@ -16,6 +16,7 @@
 #define PRINTSCRIPT_H
 
 #include <QString>
+#include <QMap>
 #include "printscripttreeitem.h"
 
 class Printscript : public PrintscriptTreeItem
@@ -25,6 +26,12 @@ public:
     Printscript(const QString &name, const QString &script, PrintscriptTreeItem *parentItem = 0, QObject *parent = 0);
 
     QString script;
+
+    void insertVariables(const QMap<QString,QString> variables);
+    QMap<QString,QString> getVariables() const;
+
+private:
+    QMap<QString,QString> m_variables;
 };
 
 #endif // PRINTSCRIPT_H

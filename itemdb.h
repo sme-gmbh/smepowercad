@@ -26,6 +26,7 @@
 #include <QFile>
 #include <QPainter>
 #include <QSvgRenderer>
+#include <QMap>
 
 #include "layer.h"
 #include "caditemheaderincludes.h"
@@ -114,6 +115,7 @@ public:
     Layer* getRootLayer();
 
     PrintscriptTreeModel* getPrintscriptTreeModel() const;
+    QMap<QString,QString> getGlobalPrintscriptVariables() const;
 
 private:
     QIcon m_iconLayerOn;
@@ -133,6 +135,7 @@ private:
     quint64 m_currentItemId;
 
     PrintscriptTreeModel *m_printscriptTreeModel;
+    QMap<QString,QString> m_globalPrintscriptVariables;
 
 
     CADitemTypes::ItemType getItemTypeByItemDescription(QString description);

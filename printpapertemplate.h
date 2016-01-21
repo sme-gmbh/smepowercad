@@ -57,6 +57,7 @@ public:
     void setDrawingVariables(QMap<QString,QString> drawingVariables);
 
 public slots:
+    void onFinishedReadingProjectFile();
 
 private slots:
     void on_pushButton_preview_clicked();

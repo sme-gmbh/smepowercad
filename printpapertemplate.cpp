@@ -282,6 +282,20 @@ void PrintPaperTemplate::setDrawingVariables(QMap<QString, QString> drawingVaria
     this->drawingVariables = drawingVariables;
 }
 
+void PrintPaperTemplate::onFinishedReadingProjectFile()
+{
+    ui->tableWidget_projectVariables->clearContents();
+
+    QMap<QString,QString> vars = m_itemDB->getGlobalPrintscriptVariables();
+    QStringList keys = vars.keys();
+    QStringList values = vars.values();
+    ui->tableWidget_projectVariables->setRowCount(vars.count());
+    for (int i = 0; i < vars.count(); i++) {
+        ui->tableWidget_projectVariables->setItem(i, 0, new QTableWidgetItem(keys.at(i)));
+        ui->tableWidget_projectVariables->setItem(i, 1, new QTableWidgetItem(values.at(i)));
+    }
+}
+
 void PrintPaperTemplate::paintSetLineWidth(QPainter* painter, QString arguments)
 {
     pen.setWidthF(this->text_to_pixel(arguments));
@@ -496,6 +510,16 @@ void PrintPaperTemplate::on_treeView_printscripts_clicked(const QModelIndex &ind
     if (ps == NULL) return;
 
     ui->plainTextEdit_script->setPlainText(ps->script);
+
+    ui->tableWidget_psVariables->clearContents();
+    QMap<QString,QString> vars = ps->getVariables();
+    QStringList keys = vars.keys();
+    QStringList values = vars.values();
+    ui->tableWidget_psVariables->setRowCount(vars.count());
+    for (int i = 0; i < vars.count(); i++) {
+        ui->tableWidget_psVariables->setItem(i, 0, new QTableWidgetItem(keys.at(i)));
+        ui->tableWidget_psVariables->setItem(i, 1, new QTableWidgetItem(values.at(i)));
+    }
 }
 
 void PrintPaperTemplate::on_treeView_printscripts_customContextMenuRequested(const QPoint &pos)

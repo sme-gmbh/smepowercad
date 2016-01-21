@@ -16,6 +16,20 @@
 
 Printscript::Printscript(const QString &name, const QString &script, PrintscriptTreeItem *parentItem, QObject *parent)
     : PrintscriptTreeItem(name, parentItem, parent),
-      script(script)
+      script(script),
+      m_variables(QMap<QString,QString>())
 {
+}
+
+void Printscript::insertVariables(const QMap<QString, QString> variables)
+{
+    QMapIterator<QString,QString> it(variables);
+    while (it.hasNext() && (it.next() != NULL)) {
+        m_variables.insert(it.key(), it.value());
+    }
+}
+
+QMap<QString, QString> Printscript::getVariables() const
+{
+    return m_variables;
 }
