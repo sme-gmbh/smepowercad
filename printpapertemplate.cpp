@@ -294,6 +294,8 @@ void PrintPaperTemplate::onFinishedReadingProjectFile()
         ui->tableWidget_projectVariables->setItem(i, 0, new QTableWidgetItem(keys.at(i)));
         ui->tableWidget_projectVariables->setItem(i, 1, new QTableWidgetItem(values.at(i)));
     }
+
+    ui->treeView_printscripts->reset();
 }
 
 void PrintPaperTemplate::paintSetLineWidth(QPainter* painter, QString arguments)
