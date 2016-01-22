@@ -27,8 +27,10 @@ public:
 
     QString script;
 
+    void insertVariable(const QString &key, const QString &value);
     void insertVariables(const QMap<QString,QString> variables);
     QMap<QString,QString> getVariables() const;
+    void removeVariable(const QString &key);
 
 private:
     QMap<QString,QString> m_variables;

@@ -21,6 +21,11 @@ Printscript::Printscript(const QString &name, const QString &script, Printscript
 {
 }
 
+void Printscript::insertVariable(const QString &key, const QString &value)
+{
+    m_variables.insert(key, value);
+}
+
 void Printscript::insertVariables(const QMap<QString, QString> variables)
 {
     QMapIterator<QString,QString> it(variables);
@@ -32,4 +37,9 @@ void Printscript::insertVariables(const QMap<QString, QString> variables)
 QMap<QString, QString> Printscript::getVariables() const
 {
     return m_variables;
+}
+
+void Printscript::removeVariable(const QString &key)
+{
+    m_variables.remove(key);
 }

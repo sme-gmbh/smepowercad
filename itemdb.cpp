@@ -1896,6 +1896,16 @@ QMap<QString, QString> ItemDB::getGlobalPrintscriptVariables() const
     return m_globalPrintscriptVariables;
 }
 
+void ItemDB::removePrintscriptVariable(const QString &key)
+{
+    m_globalPrintscriptVariables.remove(key);
+}
+
+void ItemDB::insertPrintscriptVariable(const QString &key, const QString &value)
+{
+    m_globalPrintscriptVariables.insert(key, value);
+}
+
 CADitemTypes::ItemType ItemDB::getItemTypeByItemDescription(QString description)
 {
     return (CADitemTypes::ItemType)m_itemDescriptionByItemType.key(description);

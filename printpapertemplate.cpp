@@ -478,6 +478,44 @@ qreal PrintPaperTemplate::text_to_pixel(QString text)
     return pixel;
 }
 
+Printscript *PrintPaperTemplate::getCurrentPrintscript() const
+{
+    PrintscriptTreeItem *item = static_cast<PrintscriptTreeItem*>(ui->treeView_printscripts->currentIndex().internalPointer());
+
+    if (item == NULL) return NULL;
+
+    return dynamic_cast<Printscript*>(item);
+}
+
+QString PrintPaperTemplate::newPrintscriptVariable(const QTableWidget *wdg)
+{
+    QString name;
+    bool alreadyExists = false;
+    bool ok;
+
+    do {
+        if (alreadyExists)
+            QMessageBox::warning(this, tr("Add variable"), tr("A variable with the name %1 already exists. Choose a different name.").arg(name));
+
+        if (name.isEmpty() || alreadyExists) {
+            do {
+                name = QInputDialog::getText(this, tr("Add variable"), tr("Variable name"), QLineEdit::Normal, NULL, &ok);
+
+                if (!ok) break;
+                if (name.isEmpty())
+                    QMessageBox::warning(this, tr("Add variable"), tr("Variable name cannot be empty!"));
+            } while (name.isEmpty());
+        }
+
+        if (!ok) break;
+
+    } while (wdg->findItems(name, Qt::MatchExactly).count() > 0 && (alreadyExists = true));
+
+    if (ok) return name;
+
+    return QString();
+}
+
 void PrintPaperTemplate::on_pushButton_preview_clicked()
 {
     // First dummy-parse the script to get the papersize, so we know how large the image will be
@@ -644,4 +682,51 @@ void PrintPaperTemplate::remove()
 
     if (!success)
         QMessageBox::warning(this, tr("Delete item"), tr("Unable to delete item. Maybe it has child items."));
+}
+
+void PrintPaperTemplate::on_btnProjectVarDel_clicked()
+{
+    int row = ui->tableWidget_projectVariables->currentRow();
+
+    if (row < 0) return;
+
+    m_itemDB->removePrintscriptVariable(ui->tableWidget_projectVariables->itemAt(0, row)->text());
+    ui->tableWidget_projectVariables->removeRow(row);
+}
+
+void PrintPaperTemplate::on_btnProjectVarAdd_clicked()
+{
+    QString name = newPrintscriptVariable(ui->tableWidget_projectVariables);
+    // TODO: only add if project is openend
+
+    if (!name.isEmpty()) {
+        int row = ui->tableWidget_projectVariables->rowCount();
+        ui->tableWidget_projectVariables->setRowCount(row +1);
+        ui->tableWidget_projectVariables->setItem(row, 0, new QTableWidgetItem(name));
+        m_itemDB->insertPrintscriptVariable(name, QString());
+    }
+}
+
+void PrintPaperTemplate::on_btnPrintscriptVarDel_clicked()
+{
+    int row = ui->tableWidget_psVariables->currentRow();
+
+    if (row < 0) return;
+
+    Printscript *ps = static_cast<Printscript*>(ui->treeView_printscripts->currentIndex().internalPointer());
+    ps->removeVariable(ui->tableWidget_psVariables->itemAt(0, row)->text());
+    ui->tableWidget_psVariables->removeRow(row);
+}
+
+void PrintPaperTemplate::on_btnPrintscriptVarAdd_clicked()
+{
+    QString name = newPrintscriptVariable(ui->tableWidget_psVariables);
+    Printscript *ps = getCurrentPrintscript();
+
+    if (!name.isEmpty() && ps) {
+        int row = ui->tableWidget_psVariables->rowCount();
+        ui->tableWidget_psVariables->setRowCount(row +1);
+        ui->tableWidget_psVariables->setItem(row, 0, new QTableWidgetItem(name));
+        ps->insertVariable(name, QString());
+    }
 }

@@ -116,6 +116,8 @@ public:
 
     PrintscriptTreeModel* getPrintscriptTreeModel() const;
     QMap<QString,QString> getGlobalPrintscriptVariables() const;
+    void removePrintscriptVariable(const QString &key);
+    void insertPrintscriptVariable(const QString &key, const QString &value);
 
 private:
     QIcon m_iconLayerOn;

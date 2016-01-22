@@ -31,6 +31,7 @@
 #include <QSizeF>
 #include <QTextStream>
 #include <QMenu>
+#include <QTableWidget>
 #include <qmath.h>
 
 #include "glwidget.h"
@@ -70,6 +71,11 @@ private slots:
     void rename();
     void newPrintscript();
     void remove();
+
+    void on_btnProjectVarDel_clicked();
+    void on_btnProjectVarAdd_clicked();
+    void on_btnPrintscriptVarDel_clicked();
+    void on_btnPrintscriptVarAdd_clicked();
 
 private:
     Ui::printPaperTemplate *ui;
@@ -111,6 +117,9 @@ private:
 
     int mm_to_pixel(double mm);
     qreal text_to_pixel(QString text);
+
+    Printscript *getCurrentPrintscript() const;
+    QString newPrintscriptVariable(const QTableWidget *wdg);
 };
 
 #endif // PRINTPAPERTEMPLATE_H
