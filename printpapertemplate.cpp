@@ -562,6 +562,14 @@ void PrintPaperTemplate::on_treeView_printscripts_clicked(const QModelIndex &ind
     }
 }
 
+
+
+void PrintPaperTemplate::on_treeView_printscripts_doubleClicked(const QModelIndex &index)
+{
+    on_treeView_printscripts_clicked(index);
+    ui->tabWidget->setCurrentIndex(1);
+}
+
 void PrintPaperTemplate::on_treeView_printscripts_customContextMenuRequested(const QPoint &pos)
 {
     QModelIndex index = ui->treeView_printscripts->indexAt(pos);

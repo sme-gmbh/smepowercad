@@ -65,6 +65,7 @@ private slots:
     void on_plainTextEdit_script_textChanged();
 
     void on_treeView_printscripts_clicked(const QModelIndex &index);
+    void on_treeView_printscripts_doubleClicked(const QModelIndex &index);
     void on_treeView_printscripts_customContextMenuRequested(const QPoint &pos);
 
     void newGroup();
