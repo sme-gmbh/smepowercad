@@ -69,8 +69,11 @@ private slots:
     void on_treeView_printscripts_customContextMenuRequested(const QPoint &pos);
 
     void newGroup();
-    void rename();
     void newPrintscript();
+    void copy();
+    void cut();
+    void paste();
+    void rename();
     void remove();
 
     void on_btnProjectVarDel_clicked();
@@ -94,6 +97,9 @@ private:
     QMenu *m_menuNoItem;
     QModelIndex m_indexAtContextMenuRequest;
     PrintscriptTreeItem *m_printscriptItemAtContextMenuRequest;
+    bool m_isRenderingForPreview;
+
+    PrintscriptTreeItem *m_copyItem;
 
     void paintSetPaperSize(QString arguments);
     void paintBorder(QPainter* painter);

@@ -21,6 +21,13 @@ Printscript::Printscript(const QString &name, const QString &script, Printscript
 {
 }
 
+Printscript::Printscript(Printscript *item)
+    : PrintscriptTreeItem(item),
+      script(item->script),
+      m_variables(item->getVariables())
+{
+}
+
 void Printscript::insertVariable(const QString &key, const QString &value)
 {
     m_variables.insert(key, value);

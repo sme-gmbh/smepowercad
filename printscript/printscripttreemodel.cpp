@@ -226,6 +226,7 @@ bool PrintscriptTreeModel::removeItemAt(const QModelIndex &parent, const QModelI
     if (parentItem->removeChild(item)) {
         delete item;
         endRemoveRows();
+
         return true;
     }
     endRemoveRows();
@@ -278,4 +279,14 @@ Printscript *PrintscriptTreeModel::insertPrintscript(const QString &name, const 
     endInsertRows();
 
     return newItem;
+}
+
+void PrintscriptTreeModel::insertItem(PrintscriptTreeItem *item, const QModelIndex &parent, int position)
+{
+    PrintscriptTreeItem *parentItem = static_cast<PrintscriptTreeItem*>(parent.internalPointer());
+    item->setParentItem(parentItem);
+
+    beginInsertRows(parent, position, position);
+    parentItem->insertChild(position, item);
+    endInsertRows();
 }

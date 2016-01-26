@@ -23,7 +23,8 @@ PrintPaperTemplate::PrintPaperTemplate(QWidget *parent, GLWidget *glWidget, Item
     ui(new Ui::printPaperTemplate),
     m_itemDB(itemDB),
     m_model(itemDB->getPrintscriptTreeModel()),
-    glWidget(glWidget)
+    glWidget(glWidget),
+    m_isRenderingForPreview(false)
 {
     this->setStyleSheet(StylesheetProvider::getStylesheet("QTreeView,Button"));
     ui->setupUi(this);
@@ -37,11 +38,19 @@ PrintPaperTemplate::PrintPaperTemplate(QWidget *parent, GLWidget *glWidget, Item
     m_menuOnGroup = new QMenu(this);
     m_menuOnGroup->addAction(QIcon(":/ui/printscript/icons/printscript-group-add.png"), tr("New group"), this, SLOT(newGroup()));
     m_menuOnGroup->addAction(QIcon(":/ui/printscript/icons/printscript-add.png"), tr("New printscript"), this, SLOT(newPrintscript()));
+    m_menuOnGroup->addSeparator();
+    m_menuOnGroup->addAction(tr("Copy"), this, SLOT(copy()));
+    m_menuOnGroup->addAction(tr("Cut"), this, SLOT(cut()));
+    m_menuOnGroup->addAction(tr("Paste"), this, SLOT(paste()));
+    m_menuOnGroup->addSeparator();
     m_menuOnGroup->addAction(tr("Rename"), this, SLOT(rename()));
     m_menuOnGroup->addSeparator();
     m_menuOnGroup->addAction(tr("Remove"), this, SLOT(remove()));
 
     m_menuOnPrintscript = new QMenu(this);
+    m_menuOnPrintscript->addAction(tr("Copy"), this, SLOT(copy()));
+    m_menuOnPrintscript->addAction(tr("Cut"), this, SLOT(cut()));
+    m_menuOnPrintscript->addSeparator();
     m_menuOnPrintscript->addAction(tr("Rename"), this, SLOT(rename()));
     m_menuOnPrintscript->addSeparator();
     m_menuOnPrintscript->addAction(tr("Remove"), this, SLOT(remove()));
@@ -465,8 +474,12 @@ void PrintPaperTemplate::paintScene(QPainter *painter, QString arguments)
 
 int PrintPaperTemplate::mm_to_pixel(double mm)
 {
+    double dpi = 600.0;
+
+    if (m_isRenderingForPreview) dpi = 300.0;
+
     // Always 600 dpi printing
-    return (600.0 * mm / 25.4);
+    return (dpi * mm / 25.4);
 }
 
 qreal PrintPaperTemplate::text_to_pixel(QString text)
@@ -520,6 +533,7 @@ QString PrintPaperTemplate::newPrintscriptVariable(const QTableWidget *wdg)
 
 void PrintPaperTemplate::on_pushButton_preview_clicked()
 {
+    m_isRenderingForPreview = true;
     // First dummy-parse the script to get the papersize, so we know how large the image will be
     this->script = ui->plainTextEdit_script->toPlainText();
     this->parseScript(NULL);
@@ -532,6 +546,8 @@ void PrintPaperTemplate::on_pushButton_preview_clicked()
     // Production of graphic content
     this->parseScript(&painter);
     painter.end();
+    m_isRenderingForPreview = false;
+
     ui->label_preview->setPixmap(QPixmap::fromImage(image_preview.scaled(ui->label_preview->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 }
 
@@ -679,6 +695,47 @@ void PrintPaperTemplate::newPrintscript()
     }
 
     m_model->insertPrintscript(psName, parent, at);
+}
+
+void PrintPaperTemplate:: copy()
+{
+    if (!m_printscriptItemAtContextMenuRequest) return;
+
+    Printscript *ps = dynamic_cast<Printscript*>(m_printscriptItemAtContextMenuRequest);
+    if (ps)
+        m_copyItem = new Printscript(ps);
+    else
+        m_copyItem = new PrintscriptTreeItem(m_printscriptItemAtContextMenuRequest);
+}
+
+void PrintPaperTemplate::cut()
+{
+    if (!m_printscriptItemAtContextMenuRequest) return;
+
+    Printscript *ps = dynamic_cast<Printscript*>(m_printscriptItemAtContextMenuRequest);
+    if (ps)
+        m_copyItem = new Printscript(ps);
+    else
+        m_copyItem = new PrintscriptTreeItem(m_printscriptItemAtContextMenuRequest);
+
+    bool success = m_model->removeItemAt(m_model->parent(m_indexAtContextMenuRequest), m_indexAtContextMenuRequest);
+
+    if (!success) m_copyItem = NULL;
+}
+
+void PrintPaperTemplate::paste()
+{
+    if (!m_copyItem) return;
+
+    int at = 0;
+    QModelIndex parent;
+    if (m_printscriptItemAtContextMenuRequest) {
+        at = m_printscriptItemAtContextMenuRequest->parentItem()->childCount();
+        parent = m_indexAtContextMenuRequest;
+    } else {
+        parent = m_model->parent(m_indexAtContextMenuRequest);
+    }
+    m_model->insertItem(m_copyItem, parent, at);
 }
 
 void PrintPaperTemplate::remove()

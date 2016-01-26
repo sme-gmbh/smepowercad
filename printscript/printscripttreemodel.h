@@ -48,6 +48,7 @@ public:
 
     PrintscriptTreeItem* insertGroup(const QString &name, const QModelIndex &parent, int position);
     Printscript* insertPrintscript(const QString &name, const QModelIndex &parent, int position);
+    void insertItem(PrintscriptTreeItem *item, const QModelIndex &parent, int position);
 
 private:
     PrintscriptTreeItem *m_rootItem;

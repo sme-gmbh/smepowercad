@@ -23,6 +23,13 @@ PrintscriptTreeItem::PrintscriptTreeItem(const QString &name, PrintscriptTreeIte
     if (parentItem) parentItem->appendChild(this);
 }
 
+PrintscriptTreeItem::PrintscriptTreeItem(PrintscriptTreeItem *item)
+    : name(item->name),
+      m_childItems(item->getChildItems()),
+      m_parentItem(item->getParentItem())
+{
+}
+
 PrintscriptTreeItem::~PrintscriptTreeItem()
 {
     qDeleteAll(m_childItems);
@@ -87,6 +94,16 @@ PrintscriptTreeItem *PrintscriptTreeItem::findByName(const QString &name) const
 bool PrintscriptTreeItem::isEmpty() const
 {
     return m_childItems.isEmpty();
+}
+
+void PrintscriptTreeItem::setParentItem(PrintscriptTreeItem *item)
+{
+    m_parentItem = item;
+}
+
+PrintscriptTreeItem *PrintscriptTreeItem::getParentItem() const
+{
+    return m_parentItem;
 }
 
 int PrintscriptTreeItem::getChildIndex(PrintscriptTreeItem *childItem) const

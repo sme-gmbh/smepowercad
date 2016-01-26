@@ -23,7 +23,8 @@ class Printscript : public PrintscriptTreeItem
 {
     Q_OBJECT
 public:
-    Printscript(const QString &name, const QString &script, PrintscriptTreeItem *parentItem = 0, QObject *parent = 0);
+    Printscript(const QString &name, const QString &script, PrintscriptTreeItem *parentItem = Q_NULLPTR, QObject *parent = Q_NULLPTR);
+    Printscript(Printscript *item);
 
     QString script;
 

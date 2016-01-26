@@ -22,6 +22,7 @@ class PrintscriptTreeItem : public QObject
     Q_OBJECT
 public:
     PrintscriptTreeItem(const QString &name, PrintscriptTreeItem *parentItem = 0, QObject *parent = 0);
+    PrintscriptTreeItem(PrintscriptTreeItem *item);
     ~PrintscriptTreeItem();
 
     // Model stuff
@@ -38,6 +39,9 @@ public:
     bool isEmpty() const;
 
     QString name;
+
+    void setParentItem(PrintscriptTreeItem *item);
+    PrintscriptTreeItem* getParentItem() const;
 
 private:
     QList<PrintscriptTreeItem*> m_childItems;
