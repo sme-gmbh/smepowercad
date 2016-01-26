@@ -1246,7 +1246,7 @@ CADitem *ItemDB::drawItem(QString layerName, CADitemTypes::ItemType type)
     if (!layer)
         layer = m_rootLayer;
 
-    drawItem(layer, type);
+    return drawItem(layer, type);
 }
 
 CADitem *ItemDB::drawItem_withRestorePoint(Layer *layer, CADitemTypes::ItemType type, WizardParams wizardParams)
@@ -2067,6 +2067,8 @@ void ItemDB::file_storeDB_processItems(QDomDocument doc, QDomElement parentEleme
                 break;
             case QVariant::StringList:
                 elem.setAttribute(key.replace(' ', '_'), value.toStringList().join('#'));
+                break;
+            default:
                 break;
             }
         }
