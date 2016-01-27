@@ -462,5 +462,6 @@
         <file>icons/printscript-add.png</file>
         <file>icons/printscript-group.png</file>
         <file>icons/printscript-group-add.png</file>
+        <file>icons/printscript-load-template.png</file>
     </qresource>
 </RCC>
