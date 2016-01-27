@@ -661,54 +661,54 @@ Commit abgebrochen.</translation>
 <context>
     <name>ItemDB</name>
     <message>
-        <location filename="../itemdb.cpp" line="116"/>
+        <location filename="../itemdb.cpp" line="118"/>
         <source>Layer</source>
         <translation>Ebene</translation>
     </message>
     <message>
-        <location filename="../itemdb.cpp" line="118"/>
+        <location filename="../itemdb.cpp" line="120"/>
         <source>S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../itemdb.cpp" line="120"/>
+        <location filename="../itemdb.cpp" line="122"/>
         <source>Fill color</source>
         <translation>Füllfarbe</translation>
     </message>
     <message>
-        <location filename="../itemdb.cpp" line="122"/>
+        <location filename="../itemdb.cpp" line="124"/>
         <source>Outline color</source>
         <translation>Linienfarbe</translation>
     </message>
     <message>
-        <location filename="../itemdb.cpp" line="124"/>
+        <location filename="../itemdb.cpp" line="126"/>
         <source>Line width</source>
         <translation>Linienstärke</translation>
     </message>
     <message>
-        <location filename="../itemdb.cpp" line="126"/>
+        <location filename="../itemdb.cpp" line="128"/>
         <source>Line type</source>
         <translation>Linientyp</translation>
     </message>
     <message>
-        <location filename="../itemdb.cpp" line="1716"/>
+        <location filename="../itemdb.cpp" line="1736"/>
         <source>line %1, column %2:
 %3</source>
         <translation>Zeile %1, Spalte %2:
 %3</translation>
     </message>
     <message>
-        <location filename="../itemdb.cpp" line="1728"/>
+        <location filename="../itemdb.cpp" line="1748"/>
         <source>Root-Node has wrong tag name: %1</source>
         <translation>Der Hauptknoten hat den falschen Tag-Namen: %1</translation>
     </message>
     <message>
-        <location filename="../itemdb.cpp" line="1732"/>
+        <location filename="../itemdb.cpp" line="1752"/>
         <source>Version attribute is missing.</source>
         <translation>Versions-Attribut fehlt.</translation>
     </message>
     <message>
-        <location filename="../itemdb.cpp" line="1739"/>
+        <location filename="../itemdb.cpp" line="1759"/>
         <source>Old file version: %1
 Current version: %2
 Converting file to current version.</source>
@@ -717,12 +717,12 @@ Aktuelle Version: %2
 Kovertiere Datei zu aktueller Version.</translation>
     </message>
     <message>
-        <location filename="../itemdb.cpp" line="1906"/>
+        <location filename="../itemdb.cpp" line="1964"/>
         <source>Unable to resolve name: %1</source>
         <translation>Konnte Namen nicht auflösen: %1</translation>
     </message>
     <message>
-        <location filename="../itemdb.cpp" line="1910"/>
+        <location filename="../itemdb.cpp" line="1968"/>
         <source>ItemDB::file_loadDB_parseDomElement(): Got a NULL item.</source>
         <translation>ItemDB::file_loadDB_parseDomElement(): NULL item erhalten.</translation>
     </message>
@@ -826,12 +826,12 @@ Kovertiere Datei zu aktueller Version.</translation>
 <context>
     <name>ItemParametersWidget</name>
     <message>
-        <location filename="../itemparameterswidget.cpp" line="99"/>
+        <location filename="../itemparameterswidget.cpp" line="102"/>
         <source>Position</source>
         <translation>Position</translation>
     </message>
     <message>
-        <location filename="../itemparameterswidget.cpp" line="103"/>
+        <location filename="../itemparameterswidget.cpp" line="110"/>
         <source>Angle</source>
         <translation>Winkel</translation>
     </message>
@@ -849,17 +849,17 @@ Kovertiere Datei zu aktueller Version.</translation>
         <translation>Teil Grafik</translation>
     </message>
     <message>
-        <location filename="../itemwizard.ui" line="91"/>
+        <location filename="../itemwizard.ui" line="94"/>
         <source>Apply</source>
         <translation>Übernehmen</translation>
     </message>
     <message>
-        <location filename="../itemwizard.ui" line="84"/>
+        <location filename="../itemwizard.ui" line="87"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../itemwizard.ui" line="98"/>
+        <location filename="../itemwizard.ui" line="101"/>
         <source>Ok</source>
         <translation>Ok</translation>
     </message>
@@ -991,9 +991,9 @@ Default width for lines and outlines</oldsource>
         <location filename="../layermanager.cpp" line="160"/>
         <location filename="../layermanager.cpp" line="164"/>
         <location filename="../layermanager.cpp" line="168"/>
-        <location filename="../layermanager.cpp" line="189"/>
-        <location filename="../layermanager.cpp" line="193"/>
-        <location filename="../layermanager.cpp" line="197"/>
+        <location filename="../layermanager.cpp" line="192"/>
+        <location filename="../layermanager.cpp" line="196"/>
+        <location filename="../layermanager.cpp" line="200"/>
         <source>New layer</source>
         <translation>Neue Ebene</translation>
     </message>
@@ -1024,8 +1024,8 @@ Default width for lines and outlines</oldsource>
     </message>
     <message>
         <location filename="../layermanager.cpp" line="62"/>
-        <location filename="../layermanager.cpp" line="213"/>
-        <location filename="../layermanager.cpp" line="222"/>
+        <location filename="../layermanager.cpp" line="216"/>
+        <location filename="../layermanager.cpp" line="225"/>
         <source>Delete layer</source>
         <translation>Ebene löschen</translation>
     </message>
@@ -1042,14 +1042,14 @@ Default width for lines and outlines</oldsource>
     <message>
         <location filename="../layermanager.cpp" line="118"/>
         <location filename="../layermanager.cpp" line="164"/>
-        <location filename="../layermanager.cpp" line="193"/>
+        <location filename="../layermanager.cpp" line="196"/>
         <source>Layer name</source>
         <translation>Ebenen Name</translation>
     </message>
     <message>
         <location filename="../layermanager.cpp" line="123"/>
         <location filename="../layermanager.cpp" line="168"/>
-        <location filename="../layermanager.cpp" line="197"/>
+        <location filename="../layermanager.cpp" line="200"/>
         <source>Layer name cannot be empty</source>
         <translation>Ebenen Name darf nicht leer sein</translation>
     </message>
@@ -1075,27 +1075,27 @@ Default width for lines and outlines</oldsource>
     </message>
     <message>
         <location filename="../layermanager.cpp" line="160"/>
-        <location filename="../layermanager.cpp" line="189"/>
+        <location filename="../layermanager.cpp" line="192"/>
         <source>Layer name already in use! Try a different name!</source>
         <translation>Ebenen Name wird bereits verwendet! Bitte benutzen Sie einen anderen Namen!</translation>
     </message>
     <message>
-        <location filename="../layermanager.cpp" line="214"/>
+        <location filename="../layermanager.cpp" line="217"/>
         <source>Do you want to delete layer %1</source>
         <translation>Wollen Sie die Ebene %1 löschen?</translation>
     </message>
     <message>
-        <location filename="../layermanager.cpp" line="222"/>
+        <location filename="../layermanager.cpp" line="225"/>
         <source>Unable to delete layer. Maybe it&apos;s not empty.</source>
         <translation>Ebene konnte nicht gelöscht werden. Vielleicht ist sie nicht leer.</translation>
     </message>
     <message>
-        <location filename="../layermanager.cpp" line="258"/>
+        <location filename="../layermanager.cpp" line="261"/>
         <source>Fillcolor of layer %1</source>
         <translation>Füllfarbe für Ebene %1</translation>
     </message>
     <message>
-        <location filename="../layermanager.cpp" line="267"/>
+        <location filename="../layermanager.cpp" line="270"/>
         <source>Linecolor of layer %1</source>
         <translation>Linienfarbe für Ebene %1</translation>
     </message>
@@ -1108,7 +1108,7 @@ Default width for lines and outlines</oldsource>
         <translation>SME PowerCAD</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="402"/>
+        <location filename="../mainwindow.ui" line="339"/>
         <source>File</source>
         <translation>Datei</translation>
     </message>
@@ -1117,22 +1117,22 @@ Default width for lines and outlines</oldsource>
         <translation type="obsolete">Zeichnen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="419"/>
+        <location filename="../mainwindow.ui" line="356"/>
         <source>Format</source>
         <translation>Format</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="424"/>
+        <location filename="../mainwindow.ui" line="361"/>
         <source>Window</source>
         <translation>Fenster</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="430"/>
+        <location filename="../mainwindow.ui" line="367"/>
         <source>Toolbars</source>
         <translation>Werkzeugleisten</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="435"/>
+        <location filename="../mainwindow.ui" line="372"/>
         <source>Help</source>
         <translation>Hilfe</translation>
     </message>
@@ -1154,78 +1154,78 @@ Default width for lines and outlines</oldsource>
         <translation type="vanished">Grundobjekte</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="442"/>
+        <location filename="../mainwindow.ui" line="379"/>
         <source>System</source>
         <translation>System</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="459"/>
+        <location filename="../mainwindow.ui" line="396"/>
         <source>Item Creation</source>
         <translation>Teile Erzeugung</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="486"/>
+        <location filename="../mainwindow.ui" line="423"/>
         <source>Load...</source>
         <translation>Laden...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="498"/>
+        <location filename="../mainwindow.ui" line="435"/>
         <source>Save</source>
         <translation>Speichern</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="501"/>
+        <location filename="../mainwindow.ui" line="438"/>
         <source>Ctrl+S</source>
         <translation>Strg+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="513"/>
+        <location filename="../mainwindow.ui" line="450"/>
         <source>Save as...</source>
         <translation>Speichern unter...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="525"/>
+        <location filename="../mainwindow.ui" line="462"/>
         <source>Plot...</source>
         <translation>Plotten...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="537"/>
+        <location filename="../mainwindow.ui" line="474"/>
         <source>Pdf...</source>
         <translation>Pdf...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="549"/>
+        <location filename="../mainwindow.ui" line="486"/>
         <source>Close drawing</source>
         <translation>Zeichnung schließen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="552"/>
+        <location filename="../mainwindow.ui" line="489"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="564"/>
+        <location filename="../mainwindow.ui" line="501"/>
         <source>Quit</source>
         <translation>Beenden</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="567"/>
+        <location filename="../mainwindow.ui" line="504"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="578"/>
+        <location filename="../mainwindow.ui" line="515"/>
         <source>W</source>
         <translation>W</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="609"/>
+        <location filename="../mainwindow.ui" line="546"/>
         <source>Server</source>
         <translation>Server</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="620"/>
-        <location filename="../mainwindow.cpp" line="854"/>
+        <location filename="../mainwindow.ui" line="557"/>
+        <location filename="../mainwindow.cpp" line="855"/>
         <source>Collision Detection</source>
         <translation>Kollisionserkennung</translation>
     </message>
@@ -1254,7 +1254,7 @@ Default width for lines and outlines</oldsource>
         <translation type="vanished">K</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="575"/>
+        <location filename="../mainwindow.ui" line="512"/>
         <source>New window</source>
         <translation>Neues schnittfenster</translation>
     </message>
@@ -1439,7 +1439,7 @@ Default width for lines and outlines</oldsource>
         <translation type="vanished">Aussparung</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="586"/>
+        <location filename="../mainwindow.ui" line="523"/>
         <source>Recent projects</source>
         <translation>Zuletzt verwendete Projekte</translation>
     </message>
@@ -1464,22 +1464,22 @@ Default width for lines and outlines</oldsource>
         <translation type="vanished">Kugel</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="591"/>
+        <location filename="../mainwindow.ui" line="528"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="596"/>
+        <location filename="../mainwindow.ui" line="533"/>
         <source>About OpenGL</source>
         <translation>Über OpenGL</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="601"/>
+        <location filename="../mainwindow.ui" line="538"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="152"/>
+        <location filename="../mainwindow.cpp" line="154"/>
         <source>Clear menu</source>
         <translation>Menü leeren</translation>
     </message>
@@ -1492,104 +1492,104 @@ Default width for lines and outlines</oldsource>
         <translation type="vanished">dxf-Datei (*.dxf)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="460"/>
+        <location filename="../mainwindow.cpp" line="461"/>
         <source>Load project or drawing</source>
         <translation>Projekt oder Zeichnung laden</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="460"/>
+        <location filename="../mainwindow.cpp" line="461"/>
         <source>XML File (*.xml);;DXF File (*.dxf)</source>
         <translation>XML Datei (*.xml);;DXF Datei (*.dxf)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="514"/>
+        <location filename="../mainwindow.cpp" line="515"/>
         <source>Error while loading</source>
         <translation>Fehler beim Laden</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="514"/>
+        <location filename="../mainwindow.cpp" line="515"/>
         <source>Unable to open or parse file. Error:
 </source>
         <translation>Konnte Datei nicht öffnen oder parsen. Fehler:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="519"/>
+        <location filename="../mainwindow.cpp" line="520"/>
         <source>Information while loading</source>
         <translation>Information beim Laden</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="533"/>
-        <location filename="../mainwindow.cpp" line="562"/>
+        <location filename="../mainwindow.cpp" line="534"/>
+        <location filename="../mainwindow.cpp" line="563"/>
         <source>Save project as file</source>
         <translation>Projekt als Datei speichern</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="554"/>
-        <location filename="../mainwindow.cpp" line="581"/>
+        <location filename="../mainwindow.cpp" line="555"/>
+        <location filename="../mainwindow.cpp" line="582"/>
         <source>Error while saving</source>
         <translation>Fehler beim Speichern</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="554"/>
-        <location filename="../mainwindow.cpp" line="581"/>
+        <location filename="../mainwindow.cpp" line="555"/>
+        <location filename="../mainwindow.cpp" line="582"/>
         <source>Unable to write file.</source>
         <translation>Konnte Datei nicht schreiben.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="715"/>
-        <location filename="../mainwindow.cpp" line="721"/>
-        <location filename="../mainwindow.cpp" line="727"/>
-        <location filename="../mainwindow.cpp" line="744"/>
-        <location filename="../mainwindow.cpp" line="750"/>
-        <location filename="../mainwindow.cpp" line="756"/>
+        <location filename="../mainwindow.cpp" line="716"/>
+        <location filename="../mainwindow.cpp" line="722"/>
+        <location filename="../mainwindow.cpp" line="728"/>
+        <location filename="../mainwindow.cpp" line="745"/>
+        <location filename="../mainwindow.cpp" line="751"/>
+        <location filename="../mainwindow.cpp" line="757"/>
         <source>Item creation</source>
         <translation>Neues Teil</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="715"/>
-        <location filename="../mainwindow.cpp" line="744"/>
+        <location filename="../mainwindow.cpp" line="716"/>
+        <location filename="../mainwindow.cpp" line="745"/>
         <source>No layer is selected.</source>
         <translation>Keine Ebene ausgewählt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="721"/>
-        <location filename="../mainwindow.cpp" line="750"/>
+        <location filename="../mainwindow.cpp" line="722"/>
+        <location filename="../mainwindow.cpp" line="751"/>
         <source>The current layer is not writable.</source>
         <translation>Die ausgewählte Ebene ist gesperrt.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="727"/>
-        <location filename="../mainwindow.cpp" line="756"/>
+        <location filename="../mainwindow.cpp" line="728"/>
+        <location filename="../mainwindow.cpp" line="757"/>
         <source>The current layer is not on.
 Do you really want to insert an item?</source>
         <translation>Die ausgewählte Ebene ist nicht an.
 Soll wirklich ein Teil eingefügt werden?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="728"/>
-        <location filename="../mainwindow.cpp" line="757"/>
+        <location filename="../mainwindow.cpp" line="729"/>
+        <location filename="../mainwindow.cpp" line="758"/>
         <source>Abort</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="728"/>
-        <location filename="../mainwindow.cpp" line="757"/>
+        <location filename="../mainwindow.cpp" line="729"/>
+        <location filename="../mainwindow.cpp" line="758"/>
         <source>Proceed</source>
         <translation>Fortfahren</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="791"/>
-        <location filename="../mainwindow.cpp" line="809"/>
+        <location filename="../mainwindow.cpp" line="792"/>
+        <location filename="../mainwindow.cpp" line="810"/>
         <source>About %1</source>
         <translation>Über %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="799"/>
+        <location filename="../mainwindow.cpp" line="800"/>
         <source>Authors</source>
         <translation>Entwickler</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="804"/>
+        <location filename="../mainwindow.cpp" line="805"/>
         <source>Phone</source>
         <translation>Telefon</translation>
     </message>
@@ -1598,7 +1598,7 @@ Soll wirklich ein Teil eingefügt werden?</translation>
         <translation type="vanished">Tel.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="854"/>
+        <location filename="../mainwindow.cpp" line="855"/>
         <source>There has been a collision between
 </source>
         <translation>Es wurde eine Kollision gefunden!</translation>
@@ -1621,30 +1621,171 @@ Soll wirklich ein Teil eingefügt werden?</translation>
     </message>
 </context>
 <context>
+    <name>PrintPaperTemplate</name>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="36"/>
+        <location filename="../printpapertemplate.cpp" line="39"/>
+        <location filename="../printpapertemplate.cpp" line="615"/>
+        <location filename="../printpapertemplate.cpp" line="619"/>
+        <location filename="../printpapertemplate.cpp" line="623"/>
+        <source>New group</source>
+        <translation>Neue Gruppe</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="40"/>
+        <location filename="../printpapertemplate.cpp" line="671"/>
+        <location filename="../printpapertemplate.cpp" line="675"/>
+        <location filename="../printpapertemplate.cpp" line="679"/>
+        <source>New printscript</source>
+        <translation>Neues Druckskript</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="42"/>
+        <location filename="../printpapertemplate.cpp" line="51"/>
+        <source>Copy</source>
+        <translation>Kopieren</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="43"/>
+        <location filename="../printpapertemplate.cpp" line="52"/>
+        <source>Cut</source>
+        <translation>Ausschneiden</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="44"/>
+        <source>Paste</source>
+        <translation>Einfügen</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="46"/>
+        <location filename="../printpapertemplate.cpp" line="54"/>
+        <source>Rename</source>
+        <translation>Umbenennen</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="48"/>
+        <location filename="../printpapertemplate.cpp" line="56"/>
+        <source>Remove</source>
+        <translation>Löschen</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="513"/>
+        <location filename="../printpapertemplate.cpp" line="517"/>
+        <location filename="../printpapertemplate.cpp" line="521"/>
+        <source>Add variable</source>
+        <translation>Variable hinzufügen</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="513"/>
+        <source>A variable with the name %1 already exists. Choose a different name.</source>
+        <translation>Einen Variable mit dem Namen %1 existiert bereits. Bitte einen anderen Namen wählen.</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="517"/>
+        <source>Variable name</source>
+        <translation>Variablenname</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="521"/>
+        <source>Variable name cannot be empty!</source>
+        <translation>Variablenname darf nicht leer sein!</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="615"/>
+        <source>Group name already in use! Try a different name!</source>
+        <translation>Gruppenbezeichnung wird schon verwendet! Bitte eine andere Bezeichnung wählen!</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="619"/>
+        <source>Group name</source>
+        <translation>Gruppenbezeichnung</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="623"/>
+        <source>Group name cannot be empty</source>
+        <translation>Gruppenbezeichnung darf nicht leer sein!</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="650"/>
+        <source>Rename item %1</source>
+        <translation>Element %1 umbenennen</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="651"/>
+        <source>Item name</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="656"/>
+        <source>Rename item</source>
+        <translation>Element umbenennen</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="656"/>
+        <source>Item name cannot be empty</source>
+        <translation>Name darf nicht leer sein!</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="671"/>
+        <source>Printscript name already in use! Try a different name!</source>
+        <translation>Druckskriptname wird schonverwendet! Bitte einene anderen Namen wählen!</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="675"/>
+        <source>Printscript name</source>
+        <translation>Druckskriptname</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="679"/>
+        <source>Printscript name cannot be empty</source>
+        <translation>Druckskriptname darf nicht leer sein!</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="745"/>
+        <source>Remove item</source>
+        <translation>Element entfernen</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="745"/>
+        <source>Do you want to remove item %1?</source>
+        <translation>Soll das Element %1 wirklich entfernt werden?</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="751"/>
+        <source>Delete item</source>
+        <translation>Element löschen</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="751"/>
+        <source>Unable to delete item. Maybe it has child items.</source>
+        <translation>Element konnte nicht gelöscht werden. Bitte erst alle unterelement entfernen.</translation>
+    </message>
+</context>
+<context>
     <name>PrintWidget</name>
     <message>
-        <location filename="../printwidget.ui" line="33"/>
-        <location filename="../printwidget.ui" line="40"/>
+        <location filename="../printwidget.ui" line="20"/>
+        <location filename="../printwidget.ui" line="46"/>
         <source>Print</source>
         <translation>Drucken</translation>
     </message>
     <message>
-        <location filename="../printwidget.ui" line="50"/>
+        <location filename="../printwidget.ui" line="39"/>
         <source>Layout</source>
         <translation>Layout</translation>
     </message>
     <message>
-        <location filename="../printwidget.ui" line="57"/>
+        <location filename="../printwidget.ui" line="29"/>
         <source>Printer</source>
         <translation>Drucker</translation>
     </message>
     <message>
-        <location filename="../printwidget.cpp" line="53"/>
+        <location filename="../printwidget.cpp" line="55"/>
         <source>Print/Plot</source>
         <translation>Drucken/Plotten</translation>
     </message>
     <message>
-        <location filename="../printwidget.cpp" line="53"/>
+        <location filename="../printwidget.cpp" line="55"/>
         <source>There is no printer selected...</source>
         <translation>Es wurde kein Drucker ausgewählt...</translation>
     </message>
@@ -1849,28 +1990,49 @@ Diese Aktion kann nicht rückgängig gemacht werden!</translation>
         <translation>Papier Vorgabe</translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.ui" line="61"/>
         <source>Script</source>
-        <translation>Skript</translation>
+        <translation type="vanished">Skript</translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.ui" line="170"/>
+        <location filename="../printpapertemplate.ui" line="32"/>
+        <source>Scripts</source>
+        <translation>Skripte</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.ui" line="67"/>
+        <source>Edit</source>
+        <translation>Bearbeiten</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.ui" line="176"/>
         <source>Variables</source>
         <translation>Variablen</translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.ui" line="207"/>
+        <location filename="../printpapertemplate.ui" line="197"/>
+        <source>Printscript</source>
+        <translation>Druckskript</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.ui" line="293"/>
+        <location filename="../printpapertemplate.ui" line="402"/>
         <source>Key</source>
         <translation>Schlüssel</translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.ui" line="212"/>
+        <location filename="../printpapertemplate.ui" line="298"/>
+        <location filename="../printpapertemplate.ui" line="407"/>
         <source>Value</source>
         <translation>Wert</translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.ui" line="235"/>
-        <location filename="../printpapertemplate.ui" line="251"/>
+        <location filename="../printpapertemplate.ui" line="306"/>
+        <source>Project</source>
+        <translation>Projekt</translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.ui" line="427"/>
+        <location filename="../printpapertemplate.ui" line="478"/>
         <source>Preview</source>
         <translation>Vorschau</translation>
     </message>

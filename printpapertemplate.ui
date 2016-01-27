@@ -25,7 +25,7 @@
         </sizepolicy>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="tab_tree">
         <attribute name="title">
@@ -234,7 +234,7 @@ rect 30mm, 15mm, 200mm, 260mm
               </size>
              </property>
              <property name="text">
-              <string>+</string>
+              <string notr="true">+</string>
              </property>
             </widget>
            </item>
@@ -259,7 +259,7 @@ rect 30mm, 15mm, 200mm, 260mm
               </size>
              </property>
              <property name="text">
-              <string>-</string>
+              <string notr="true">-</string>
              </property>
             </widget>
            </item>
@@ -343,7 +343,7 @@ rect 30mm, 15mm, 200mm, 260mm
               </size>
              </property>
              <property name="text">
-              <string>+</string>
+              <string notr="true">+</string>
              </property>
             </widget>
            </item>
@@ -368,7 +368,7 @@ rect 30mm, 15mm, 200mm, 260mm
               </size>
              </property>
              <property name="text">
-              <string>-</string>
+              <string notr="true">-</string>
              </property>
             </widget>
            </item>
