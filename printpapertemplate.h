@@ -81,6 +81,8 @@ private slots:
     void on_btnPrintscriptVarDel_clicked();
     void on_btnPrintscriptVarAdd_clicked();
 
+    void on_btnLoadTemplate_clicked();
+
 private:
     Ui::printPaperTemplate *ui;
     ItemDB *m_itemDB;
@@ -98,6 +100,7 @@ private:
     QModelIndex m_indexAtContextMenuRequest;
     PrintscriptTreeItem *m_printscriptItemAtContextMenuRequest;
     bool m_isRenderingForPreview;
+    QToolButton *m_btnLoadTemplate;
 
     PrintscriptTreeItem *m_copyItem;
 
@@ -121,6 +124,8 @@ private:
     void paintTextLine(QPainter* painter, QString arguments);
     void paintTextBox(QPainter* painter, QString arguments);
     void paintScene(QPainter* painter, QString arguments);
+
+    void resizeEvent(QResizeEvent *event);
 
     int mm_to_pixel(double mm);
     qreal text_to_pixel(QString text);

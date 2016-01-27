@@ -26,7 +26,7 @@ PrintPaperTemplate::PrintPaperTemplate(QWidget *parent, GLWidget *glWidget, Item
     glWidget(glWidget),
     m_isRenderingForPreview(false)
 {
-    this->setStyleSheet(StylesheetProvider::getStylesheet("QTreeView,Button"));
+    this->setStyleSheet(StylesheetProvider::getStylesheet("QTreeView,Button,QLineEdit+QTextEdit"));
     ui->setupUi(this);
 
     ui->treeView_printscripts->setItemDelegate(new TreeViewItemDelegate(this));
@@ -54,6 +54,18 @@ PrintPaperTemplate::PrintPaperTemplate(QWidget *parent, GLWidget *glWidget, Item
     m_menuOnPrintscript->addAction(tr("Rename"), this, SLOT(rename()));
     m_menuOnPrintscript->addSeparator();
     m_menuOnPrintscript->addAction(tr("Remove"), this, SLOT(remove()));
+
+    m_btnLoadTemplate = new QToolButton(ui->plainTextEdit_script);
+    m_btnLoadTemplate->setToolTip(tr("Load template printscript"));
+    m_btnLoadTemplate->setIcon(QIcon(":/ui/printscript/icons/printscript-load-template.png"));
+    m_btnLoadTemplate->setIconSize(QSize(16, 22));
+    m_btnLoadTemplate->setCursor(Qt::ArrowCursor);
+    m_btnLoadTemplate->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    m_btnLoadTemplate->setStyleSheet("QToolButton { border: 0px; background: 0; padding: 0px; }");
+    m_btnLoadTemplate->setFixedHeight(22);
+    m_btnLoadTemplate->setFixedWidth(22);
+    m_btnLoadTemplate->move(ui->plainTextEdit_script->rect().width() - 22 - 15, 5);
+    connect(m_btnLoadTemplate, &QToolButton::clicked, this, &PrintPaperTemplate::on_btnLoadTemplate_clicked);
 }
 
 PrintPaperTemplate::~PrintPaperTemplate()
@@ -472,6 +484,13 @@ void PrintPaperTemplate::paintScene(QPainter *painter, QString arguments)
     this->glWidget->render_image(painter, x1, y1, w, h, matrix_modelview, matrix_rotation);
 }
 
+void PrintPaperTemplate::resizeEvent(QResizeEvent *event)
+{
+    Q_UNUSED(event)
+
+    m_btnLoadTemplate->move(ui->plainTextEdit_script->rect().width() - 22 - 15, 5);
+}
+
 int PrintPaperTemplate::mm_to_pixel(double mm)
 {
     double dpi = 600.0;
@@ -796,4 +815,9 @@ void PrintPaperTemplate::on_btnPrintscriptVarAdd_clicked()
         ui->tableWidget_psVariables->setItem(row, 0, new QTableWidgetItem(name));
         ps->insertVariable(name, QString());
     }
+}
+
+void PrintPaperTemplate::on_btnLoadTemplate_clicked()
+{
+
 }
