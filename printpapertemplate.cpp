@@ -28,6 +28,7 @@ PrintPaperTemplate::PrintPaperTemplate(QWidget *parent, GLWidget *glWidget, Item
 {
     this->setStyleSheet(StylesheetProvider::getStylesheet("QTreeView,Button,QLineEdit+QTextEdit"));
     ui->setupUi(this);
+    m_printscriptTemplate = ui->plainTextEdit_script->document()->toPlainText();
 
     ui->treeView_printscripts->setItemDelegate(new TreeViewItemDelegate(this));
     ui->treeView_printscripts->setModel(m_itemDB->getPrintscriptTreeModel());
@@ -56,7 +57,7 @@ PrintPaperTemplate::PrintPaperTemplate(QWidget *parent, GLWidget *glWidget, Item
     m_menuOnPrintscript->addAction(tr("Remove"), this, SLOT(remove()));
 
     m_btnLoadTemplate = new QToolButton(ui->plainTextEdit_script);
-    m_btnLoadTemplate->setToolTip(tr("Load template printscript"));
+    m_btnLoadTemplate->setToolTip(tr("Load printscript template"));
     m_btnLoadTemplate->setIcon(QIcon(":/ui/printscript/icons/printscript-load-template.png"));
     m_btnLoadTemplate->setIconSize(QSize(16, 22));
     m_btnLoadTemplate->setCursor(Qt::ArrowCursor);
@@ -819,5 +820,8 @@ void PrintPaperTemplate::on_btnPrintscriptVarAdd_clicked()
 
 void PrintPaperTemplate::on_btnLoadTemplate_clicked()
 {
+    int ret = QMessageBox::question(this, tr("Load printscript template"), tr("Do you want to load the printscript template and overwrite your current printscript?"));
+    if (ret != QMessageBox::Yes) return;
 
+    ui->plainTextEdit_script->setPlainText(m_printscriptTemplate);
 }

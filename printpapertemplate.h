@@ -101,6 +101,7 @@ private:
     PrintscriptTreeItem *m_printscriptItemAtContextMenuRequest;
     bool m_isRenderingForPreview;
     QToolButton *m_btnLoadTemplate;
+    QString m_printscriptTemplate;
 
     PrintscriptTreeItem *m_copyItem;
 
