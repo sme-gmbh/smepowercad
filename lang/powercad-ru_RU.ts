@@ -1282,141 +1282,152 @@ Do you really want to insert an item?</source>
 <context>
     <name>PrintPaperTemplate</name>
     <message>
-        <location filename="../printpapertemplate.cpp" line="36"/>
-        <location filename="../printpapertemplate.cpp" line="39"/>
-        <location filename="../printpapertemplate.cpp" line="615"/>
-        <location filename="../printpapertemplate.cpp" line="619"/>
-        <location filename="../printpapertemplate.cpp" line="623"/>
+        <location filename="../printpapertemplate.cpp" line="37"/>
+        <location filename="../printpapertemplate.cpp" line="40"/>
+        <location filename="../printpapertemplate.cpp" line="635"/>
+        <location filename="../printpapertemplate.cpp" line="639"/>
+        <location filename="../printpapertemplate.cpp" line="643"/>
         <source>New group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="40"/>
-        <location filename="../printpapertemplate.cpp" line="671"/>
-        <location filename="../printpapertemplate.cpp" line="675"/>
-        <location filename="../printpapertemplate.cpp" line="679"/>
+        <location filename="../printpapertemplate.cpp" line="41"/>
+        <location filename="../printpapertemplate.cpp" line="691"/>
+        <location filename="../printpapertemplate.cpp" line="695"/>
+        <location filename="../printpapertemplate.cpp" line="699"/>
         <source>New printscript</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../printpapertemplate.cpp" line="42"/>
-        <location filename="../printpapertemplate.cpp" line="51"/>
-        <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../printpapertemplate.cpp" line="43"/>
         <location filename="../printpapertemplate.cpp" line="52"/>
-        <source>Cut</source>
+        <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../printpapertemplate.cpp" line="44"/>
+        <location filename="../printpapertemplate.cpp" line="53"/>
+        <source>Cut</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="45"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="46"/>
-        <location filename="../printpapertemplate.cpp" line="54"/>
+        <location filename="../printpapertemplate.cpp" line="47"/>
+        <location filename="../printpapertemplate.cpp" line="55"/>
         <source>Rename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="48"/>
-        <location filename="../printpapertemplate.cpp" line="56"/>
+        <location filename="../printpapertemplate.cpp" line="49"/>
+        <location filename="../printpapertemplate.cpp" line="57"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="513"/>
-        <location filename="../printpapertemplate.cpp" line="517"/>
-        <location filename="../printpapertemplate.cpp" line="521"/>
+        <location filename="../printpapertemplate.cpp" line="60"/>
+        <location filename="../printpapertemplate.cpp" line="823"/>
+        <source>Load printscript template</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="533"/>
+        <location filename="../printpapertemplate.cpp" line="537"/>
+        <location filename="../printpapertemplate.cpp" line="541"/>
         <source>Add variable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="513"/>
+        <location filename="../printpapertemplate.cpp" line="533"/>
         <source>A variable with the name %1 already exists. Choose a different name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="517"/>
+        <location filename="../printpapertemplate.cpp" line="537"/>
         <source>Variable name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="521"/>
+        <location filename="../printpapertemplate.cpp" line="541"/>
         <source>Variable name cannot be empty!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="615"/>
+        <location filename="../printpapertemplate.cpp" line="635"/>
         <source>Group name already in use! Try a different name!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="619"/>
+        <location filename="../printpapertemplate.cpp" line="639"/>
         <source>Group name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="623"/>
+        <location filename="../printpapertemplate.cpp" line="643"/>
         <source>Group name cannot be empty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="650"/>
+        <location filename="../printpapertemplate.cpp" line="670"/>
         <source>Rename item %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="651"/>
+        <location filename="../printpapertemplate.cpp" line="671"/>
         <source>Item name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="656"/>
+        <location filename="../printpapertemplate.cpp" line="676"/>
         <source>Rename item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="656"/>
+        <location filename="../printpapertemplate.cpp" line="676"/>
         <source>Item name cannot be empty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="671"/>
+        <location filename="../printpapertemplate.cpp" line="691"/>
         <source>Printscript name already in use! Try a different name!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="675"/>
+        <location filename="../printpapertemplate.cpp" line="695"/>
         <source>Printscript name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="679"/>
+        <location filename="../printpapertemplate.cpp" line="699"/>
         <source>Printscript name cannot be empty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="745"/>
+        <location filename="../printpapertemplate.cpp" line="765"/>
         <source>Remove item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="745"/>
+        <location filename="../printpapertemplate.cpp" line="765"/>
         <source>Do you want to remove item %1?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="751"/>
+        <location filename="../printpapertemplate.cpp" line="771"/>
         <source>Delete item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="751"/>
+        <location filename="../printpapertemplate.cpp" line="771"/>
         <source>Unable to delete item. Maybe it has child items.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="823"/>
+        <source>Do you want to load the printscript template and overwrite your current printscript?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1601,46 +1612,50 @@ This action can not be undone!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.ui" line="32"/>
+        <location filename="../printpapertemplate.ui" line="30"/>
         <source>Scripts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.ui" line="67"/>
+        <location filename="../printpapertemplate.ui" line="65"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.ui" line="176"/>
+        <location filename="../printpapertemplate.ui" line="174"/>
         <source>Variables</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.ui" line="197"/>
+        <location filename="../printpapertemplate.ui" line="195"/>
         <source>Printscript</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.ui" line="293"/>
-        <location filename="../printpapertemplate.ui" line="402"/>
+        <location filename="../printpapertemplate.ui" line="291"/>
+        <location filename="../printpapertemplate.ui" line="400"/>
         <source>Key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.ui" line="298"/>
-        <location filename="../printpapertemplate.ui" line="407"/>
+        <location filename="../printpapertemplate.ui" line="296"/>
+        <location filename="../printpapertemplate.ui" line="405"/>
         <source>Value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.ui" line="306"/>
+        <location filename="../printpapertemplate.ui" line="304"/>
         <source>Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.ui" line="427"/>
-        <location filename="../printpapertemplate.ui" line="478"/>
+        <location filename="../printpapertemplate.ui" line="428"/>
         <source>Preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.ui" line="446"/>
+        <source>Update Preview</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
