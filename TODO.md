@@ -3,25 +3,27 @@
 ## Todo
 
 - [x] QFramebuffeerObject::toImage() holt von der GPU einen geränderten Buffer
-- [ ] Der Tessellation Shader kennt ein Dreieck, und die daran angrenzenden Dreiecke. Das kann man sich für das Smooth-Shading merken.
+- [ ] Der Tessellation Shader kennt ein Dreieck, und die daran angrenzenden Dreiecke. Das kann man sich für das Smooth-Shading merken. (Peter)
 
-- [ ] Maintenance Area / Gebiete, die blockiert werden (z.B. unter einem Sprinklerkopf), in die Collision Detection aufnehmen.
+- [ ] Maintenance Area / Gebiete, die blockiert werden (z.B. unter einem Sprinklerkopf), in die Collision Detection aufnehmen. (Sebi)
 
-- [ ] Fedora Entwickler werden
+- [ ] Fedora Entwickler werden (Peter)
 
 - [ ] Diff
 
-- [ ] Dxf Im- und Export
+- [ ] Dxf Im- und Export (Peter)
 
-- [ ] Selection (Bug?)
+- [ ] Selection (Bug?) (Peter)
 
 - [ ] Image-Video
+
+- [ ] Tools
 
 ### Netzwerk
 - [ ] Netzwerk
 
 ### Items
-- [ ] GroupItem
+- [ ] GroupItem (Peter)
 
 #### Arch
 - [ ] Foundation
