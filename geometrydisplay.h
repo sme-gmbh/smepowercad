@@ -69,9 +69,10 @@ private:
     ItemWizard *itemWizard;
     ItemGripModifier* itemGripModifier;
 
-
-
     GLWidget *glwidget;
+
+    bool m_showTitleOnlyOnHover;
+    bool m_cursorInWindow;
 
 public slots:
     void slot_changeCuttingplane(QString directionOfView);

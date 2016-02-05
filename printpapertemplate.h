@@ -32,14 +32,30 @@
 #include <QTextStream>
 #include <QMenu>
 #include <QTableWidget>
+#include <QStringList>
 #include <qmath.h>
 
 #include "glwidget.h"
+#include "geometrydisplay.h"
 #include "treeviewitemdelegate.h"
 
 namespace Ui {
 class printPaperTemplate;
 }
+
+struct PrintSceneItem {
+    qreal x;
+    qreal y;
+    qreal w;
+    qreal h;
+
+    QMatrix4x4 modelview;
+    QMatrix4x4 rotation;
+
+    GeometryDisplay *widget;
+
+    int printscriptRow;
+};
 
 class PrintPaperTemplate : public QDialog
 {
@@ -100,10 +116,16 @@ private:
     QModelIndex m_indexAtContextMenuRequest;
     PrintscriptTreeItem *m_printscriptItemAtContextMenuRequest;
     bool m_isRenderingForPreview;
+    qreal m_previewScalingFactor;
+    QSize m_previewImageSize;
     QToolButton *m_btnLoadTemplate;
     QString m_printscriptTemplate;
 
     PrintscriptTreeItem *m_copyItem;
+
+    QMatrix4x4 m_tempModelview;
+    QMatrix4x4 m_tempRotation;
+    QList<PrintSceneItem> m_sceneItems;
 
     void paintSetPaperSize(QString arguments);
     void paintBorder(QPainter* painter);
@@ -124,7 +146,10 @@ private:
     void paintFontSize(QPainter* painter, QString arguments);
     void paintTextLine(QPainter* painter, QString arguments);
     void paintTextBox(QPainter* painter, QString arguments);
-    void paintScene(QPainter* painter, QString arguments);
+    void paintScene(QPainter* painter, QString arguments, int row);
+    void readMatrix(QString arguments);
+
+    void updateSceneItems();
 
     void resizeEvent(QResizeEvent *event);
 

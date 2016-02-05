@@ -333,7 +333,7 @@ void GLWidget::setMatrices(QMatrix4x4 matrix_projection, QMatrix4x4 matrix_glSel
     this->matrix_rotation = matrix_rotation;
 // Why is that needed?
     QSize sizeShadow = this->size();
-    this->resize(500,500);
+    this->resize(500, 500);
     this->resize(sizeShadow);
     this->updateMatrixAll();
     this->slot_repaint();

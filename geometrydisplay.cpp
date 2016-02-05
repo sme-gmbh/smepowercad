@@ -18,12 +18,11 @@
 #include "logging.h"
 
 GeometryDisplay::GeometryDisplay(ItemDB *itemDB, ItemWizard *itemWizard, ItemGripModifier *itemGripModifier, QWidget *parent) :
-    QDockWidget(parent)
+    QDockWidget(parent),
+    itemDB(itemDB),
+    itemWizard(itemWizard),
+    itemGripModifier(itemGripModifier)
 {
-    this->itemDB = itemDB;
-    this->itemWizard = itemWizard;
-    this->itemGripModifier = itemGripModifier;
-
     titleWidget = new GeometryDisplayTitle(this);
     connect(this, SIGNAL(signal_sceneCoordinateChanged(QVector3D)), titleWidget, SLOT(slot_sceneCoordinatesChanged(QVector3D)));
     connect(titleWidget, SIGNAL(signal_float()), this, SLOT(slot_float()));
@@ -88,6 +87,17 @@ GLWidget *GeometryDisplay::getWidget()
 {
     return this->glwidget;
 }
+
+//void GeometryDisplay::mouseMoveEvent(QMouseEvent *event)
+//{
+//    qCDebug(powercad) << "mouseMove";
+//    if (rect().contains(event->pos()) && !m_cursorInWindow) {
+//        emit hover(true);
+//    } else if (m_cursorInWindow) {
+//        emit hover(false);
+//        m_cursorInWindow = false;
+//    }
+//}
 
 void GeometryDisplay::paintEvent(QPaintEvent *event)
 {
