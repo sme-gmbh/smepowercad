@@ -88,6 +88,13 @@ GLWidget *GeometryDisplay::getWidget()
     return this->glwidget;
 }
 
+void GeometryDisplay::clearTitleWidget()
+{
+    QWidget *wdg = new QWidget(this);
+    wdg->setFixedSize(0, 0);
+    this->setTitleBarWidget(wdg);
+}
+
 //void GeometryDisplay::mouseMoveEvent(QMouseEvent *event)
 //{
 //    qCDebug(powercad) << "mouseMove";

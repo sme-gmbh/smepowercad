@@ -33,6 +33,8 @@
 #include <QMenu>
 #include <QTableWidget>
 #include <QStringList>
+#include <QString>
+#include <QScrollBar>
 #include <qmath.h>
 
 #include "glwidget.h"
@@ -44,15 +46,20 @@ class printPaperTemplate;
 }
 
 struct PrintSceneItem {
+    int sceneNumber;
+
     qreal x;
     qreal y;
     qreal w;
     qreal h;
 
+    QMatrix4x4 projection;
+    QMatrix4x4 glselect;
     QMatrix4x4 modelview;
     QMatrix4x4 rotation;
 
     GeometryDisplay *widget;
+    GLWidget *glWidget;
 
     int printscriptRow;
 };
@@ -99,6 +106,8 @@ private slots:
 
     void on_btnLoadTemplate_clicked();
 
+    void on_pushButton_saveState_clicked();
+
 private:
     Ui::printPaperTemplate *ui;
     ItemDB *m_itemDB;
@@ -123,9 +132,11 @@ private:
 
     PrintscriptTreeItem *m_copyItem;
 
-    QMatrix4x4 m_tempModelview;
-    QMatrix4x4 m_tempRotation;
-    QList<PrintSceneItem> m_sceneItems;
+    QMatrix4x4 m_tempMtxProjection;
+    QMatrix4x4 m_tempMtxGLSelect;
+    QMatrix4x4 m_tempMtxModelview;
+    QMatrix4x4 m_tempMtxRotation;
+    QMap<int,PrintSceneItem> m_sceneItems;
 
     void paintSetPaperSize(QString arguments);
     void paintBorder(QPainter* painter);
@@ -158,6 +169,10 @@ private:
 
     Printscript *getCurrentPrintscript() const;
     QString newPrintscriptVariable(const QTableWidget *wdg);
+
+    PrintSceneItem &getPrintSceneItem(GLWidget *glWidget);
+
+    QString serializeMatrix4x4(const QMatrix4x4 &mtx) const;
 };
 
 #endif // PRINTPAPERTEMPLATE_H

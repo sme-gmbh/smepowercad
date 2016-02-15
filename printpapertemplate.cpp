@@ -25,7 +25,7 @@ PrintPaperTemplate::PrintPaperTemplate(QWidget *parent, GLWidget *glWidget, Item
     m_model(itemDB->getPrintscriptTreeModel()),
     glWidget(glWidget),
     m_isRenderingForPreview(false),
-    m_sceneItems(QList<PrintSceneItem>())
+    m_sceneItems(QMap<int,PrintSceneItem>())
 {
     this->setStyleSheet(StylesheetProvider::getStylesheet("QTreeView,Button,QLineEdit+QTextEdit"));
     ui->setupUi(this);
@@ -225,9 +225,10 @@ void PrintPaperTemplate::parseScript(QPainter* painter)
 
     QTextStream stream(&this->script);
 
-    int row = 0;
+    int row = -1;
     while (!stream.atEnd())
     {
+        row++;
         QString line = stream.readLine();
 
         QString command = line.left(line.indexOf(' '));
@@ -286,8 +287,6 @@ void PrintPaperTemplate::parseScript(QPainter* painter)
             this->readMatrix(arguments);
         else if (command == "scene")
             this->paintScene(painter, arguments, row);
-
-        row++;
     }
 }
 
@@ -470,37 +469,38 @@ void PrintPaperTemplate::paintTextBox(QPainter *painter, QString arguments)
 
 void PrintPaperTemplate::paintScene(QPainter *painter, QString arguments, int row)
 {
-//    QString text = arguments;
-//    text.remove(QRegExp("^(\\S+\\s+){5}"));
-//    text.replace(QRegExp("\\\\n"), "\n"); // Convert "\n" to newline
-    QStringList coordStrings = arguments.split(',');
-    if (coordStrings.size() < 4)
+    QRegExp rx("(\\d+).(\\d+mm),(\\d+mm),(\\d+mm),(\\d+mm)");
+    rx.indexIn(arguments.trimmed());
+
+    QStringList list = rx.capturedTexts();
+    list.removeFirst();
+    if (list.length() != 5)
         return;
 
-    qreal x1 = this->text_to_pixel(coordStrings.at(0));
-    qreal y1 = this->text_to_pixel(coordStrings.at(1));
-    qreal w  = this->text_to_pixel(coordStrings.at(2));
-    qreal h  = this->text_to_pixel(coordStrings.at(3));
-    if (h < 0.0)
-    {
+    bool ok;
+    int sceneNumber = list.first().toInt(&ok);
+    if (!ok) return;
+
+    qreal x1 = this->text_to_pixel(list.at(1));
+    qreal y1 = this->text_to_pixel(list.at(2));
+    qreal w  = this->text_to_pixel(list.at(3));
+    qreal h  = this->text_to_pixel(list.at(4));
+    if (h < 0.0) {
         y1 += h;
         h = -h;
     }
-    if (w < 0.0)
-    {
+    if (w < 0.0) {
         x1 += w;
         w = -w;
     }
 
     if (m_isRenderingForPreview) {
-        PrintSceneItem item;
+        PrintSceneItem &item = m_sceneItems[sceneNumber];
         item.printscriptRow = row;
         item.x = x1;
         item.y = y1;
         item.w = w;
         item.h = h;
-        item.modelview = m_tempModelview;
-        item.rotation = m_tempRotation;
 
         x1 *= m_previewScalingFactor;
         y1 *= m_previewScalingFactor;
@@ -515,8 +515,10 @@ void PrintPaperTemplate::paintScene(QPainter *painter, QString arguments, int ro
 
         GeometryDisplay *sceneWdg = new GeometryDisplay(m_itemDB, NULL, NULL, ui->label_preview);
         sceneWdg->hideButtons();
+        sceneWdg->clearTitleWidget();
         item.widget = sceneWdg;
-        m_sceneItems.append(item);
+        item.glWidget = sceneWdg->getWidget();
+        item.glWidget->setMatrices(item.projection, item.glselect, item.modelview, item.rotation);
 
         sceneWdg->setFixedSize(w, h);
         sceneWdg->show();
@@ -527,15 +529,18 @@ void PrintPaperTemplate::paintScene(QPainter *painter, QString arguments, int ro
         QMatrix4x4 matrix_rotation = this->glWidget->getMatrix_rotation();
         this->glWidget->render_image(painter, x1, y1, w, h, matrix_modelview, matrix_rotation);
     }
-
-    m_tempModelview = QMatrix4x4();
-    m_tempRotation = QMatrix4x4();
 }
 
 void PrintPaperTemplate::readMatrix(QString arguments)
 {
     QStringList split = arguments.split(' ');
-    if (split.size() != 2) return;
+    if (split.size() != 3) return;
+
+    bool ok;
+    int sceneNumber = split.first().toInt(&ok);
+    if (!ok) return;
+
+    qCDebug(powercad) << "scene number found";
 
     QStringList vals = split.last().split(',');
     if (vals.size() != 16) return;
@@ -544,14 +549,27 @@ void PrintPaperTemplate::readMatrix(QString arguments)
     QVector4D v;
     int col = 0;
     for (int i = 0; i < 16; i = i+4) {
-        v = QVector4D(vals.at(i).toFloat(), vals.at(i+1).toFloat(), vals.at(i+2).toFloat(), vals.at(i+3).toFloat());
+        int r = col * 4;
+        v = QVector4D(vals.at(r).toFloat(), vals.at(r+1).toFloat(), vals.at(r+2).toFloat(), vals.at(r+3).toFloat());
         mtx.setColumn(col++, v);
     }
 
-    if (split.first() == "modelview")
-        m_tempModelview = mtx;
-    else if (split.first() == "rotation")
-        m_tempRotation = mtx;
+    if (!m_sceneItems.contains(sceneNumber)) {
+        PrintSceneItem item;
+        item.sceneNumber = sceneNumber;
+        m_sceneItems.insert(sceneNumber, item);
+    }
+
+    PrintSceneItem &item = m_sceneItems[sceneNumber];
+
+    if (split.at(1) == "projection")
+        item.projection = mtx;
+    else if (split.at(1) == "glselect")
+        item.glselect = mtx;
+    else if (split.at(1) == "modelview")
+        item.modelview = mtx;
+    else if (split.at(1) == "rotation")
+        item.rotation = mtx;
 }
 
 void PrintPaperTemplate::updateSceneItems()
@@ -654,6 +672,33 @@ QString PrintPaperTemplate::newPrintscriptVariable(const QTableWidget *wdg)
     if (ok) return name;
 
     return QString();
+}
+
+PrintSceneItem &PrintPaperTemplate::getPrintSceneItem(GLWidget *glWidget)
+{
+    QList<int> keys = m_sceneItems.keys();
+    for (int i = 0; i < m_sceneItems.count(); i++) {
+        PrintSceneItem &item = m_sceneItems[keys.at(i)];
+        if (item.glWidget == glWidget) return item;
+    }
+
+    return m_sceneItems[keys.at(0)];
+}
+
+QString PrintPaperTemplate::serializeMatrix4x4(const QMatrix4x4 &mtx) const
+{
+    QStringList parts = QStringList();
+    QVector4D v;
+    int col = 0;
+    for (int i = 0; i < 16; i = i+4) {
+        v = mtx.column(col++);
+        parts.append(QString::number(v.x()));
+        parts.append(QString::number(v.y()));
+        parts.append(QString::number(v.z()));
+        parts.append(QString::number(v.w()));
+    }
+
+    return parts.join(',');
 }
 
 void PrintPaperTemplate::on_pushButton_preview_clicked()
@@ -939,4 +984,71 @@ void PrintPaperTemplate::on_btnLoadTemplate_clicked()
     if (ret != QMessageBox::Yes) return;
 
     ui->plainTextEdit_script->setPlainText(m_printscriptTemplate);
+}
+
+void PrintPaperTemplate::on_pushButton_saveState_clicked()
+{
+    int scroll = ui->plainTextEdit_script->verticalScrollBar()->value();
+
+    QList<int> keys = m_sceneItems.keys();
+    for (int i = 0; i < m_sceneItems.count(); i++) {
+        PrintSceneItem &item = m_sceneItems[keys.at(i)];
+
+        int row = item.printscriptRow;
+
+        // find matrix lines in script
+        QString script = ui->plainTextEdit_script->toPlainText();
+        QStringList lines = script.split('\n');
+        bool foundProjection = false, foundGLSelect = false, foundModelview = false, foundRotation = false;
+
+        QString &lineP = lines[row -4];
+        if (lineP.contains("projection")) {
+            lineP = QString("matrix %1 projection %2")
+                    .arg(item.sceneNumber)
+                    .arg(serializeMatrix4x4(item.glWidget->getMatrix_projection()));
+            foundProjection = true;
+        }
+        QString &lineG = lines[row -3];
+        if (lineG.contains("glselect")) {
+            lineG = QString("matrix %1 glselect %2")
+                    .arg(item.sceneNumber)
+                    .arg(serializeMatrix4x4(item.glWidget->getMatrix_glSelect()));
+            foundGLSelect = true;
+        }
+        QString &lineM = lines[row -2];
+        if (lineM.contains("modelview")) {
+            lineM = QString("matrix %1 modelview %2")
+                    .arg(item.sceneNumber)
+                    .arg(serializeMatrix4x4(item.glWidget->getMatrix_modelview()));
+            foundModelview = true;
+        }
+        QString &lineR = lines[row -1];
+        if (lineR.contains("rotation")) {
+            lineR = QString("matrix %1 rotation %2")
+                    .arg(item.sceneNumber)
+                    .arg(serializeMatrix4x4(item.glWidget->getMatrix_rotation()));
+            foundRotation = true;
+        }
+
+        if (!foundRotation)
+            lines.insert(row, QString("matrix %1 rotation %2")
+                         .arg(item.sceneNumber)
+                         .arg(serializeMatrix4x4(item.glWidget->getMatrix_rotation())));
+        if (!foundModelview)
+            lines.insert(row, QString("matrix %1 modelview %2")
+                         .arg(item.sceneNumber)
+                         .arg(serializeMatrix4x4(item.glWidget->getMatrix_modelview())));
+        if (!foundGLSelect)
+            lines.insert(row, QString("matrix %1 glselect %2")
+                         .arg(item.sceneNumber)
+                         .arg(serializeMatrix4x4(item.glWidget->getMatrix_glSelect())));
+        if (!foundProjection)
+            lines.insert(row, QString("matrix %1 projection %2")
+                         .arg(item.sceneNumber)
+                         .arg(serializeMatrix4x4(item.glWidget->getMatrix_projection())));
+
+        ui->plainTextEdit_script->setPlainText(lines.join('\n'));
+    }
+
+    ui->plainTextEdit_script->verticalScrollBar()->setValue(scroll);
 }

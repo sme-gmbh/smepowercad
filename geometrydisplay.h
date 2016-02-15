@@ -63,6 +63,8 @@ public:
     QOpenGLContext *getContext();
     GLWidget* getWidget();
 
+    void clearTitleWidget();
+
 private:
     GeometryDisplayTitle *titleWidget;
     ItemDB* itemDB;

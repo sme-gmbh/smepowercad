@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>778</width>
+    <width>832</width>
     <height>642</height>
    </rect>
   </property>
@@ -157,12 +157,11 @@ pencolor blue
 linewidth 0.5mm
 #brushcolor #50c0ffff
 brushcolor transparent
-scene 30mm, 15mm, 200mm, 260mm
+scene 0 30mm,15mm,200mm,260mm
 rect 30mm, 15mm, 200mm, 260mm
 #fontname URW Chancery L
 #fontsize 24mm
 #textbox 20mm, 5mm, 600mm, 560mm, AlignCenter, Here could be some drawing
-
 </string>
          </property>
         </widget>
@@ -444,6 +443,13 @@ color: white;</string>
        </property>
        <property name="text">
         <string>Update Preview</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_saveState">
+       <property name="text">
+        <string>Save Scene state</string>
        </property>
       </widget>
      </item>
