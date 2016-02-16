@@ -540,8 +540,6 @@ void PrintPaperTemplate::readMatrix(QString arguments)
     int sceneNumber = split.first().toInt(&ok);
     if (!ok) return;
 
-    qCDebug(powercad) << "scene number found";
-
     QStringList vals = split.last().split(',');
     if (vals.size() != 16) return;
 
@@ -995,57 +993,70 @@ void PrintPaperTemplate::on_pushButton_saveState_clicked()
         PrintSceneItem &item = m_sceneItems[keys.at(i)];
 
         int row = item.printscriptRow;
+        int sceneNumber = item.sceneNumber;
 
         // find matrix lines in script
         QString script = ui->plainTextEdit_script->toPlainText();
         QStringList lines = script.split('\n');
-        bool foundProjection = false, foundGLSelect = false, foundModelview = false, foundRotation = false;
 
-        QString &lineP = lines[row -4];
-        if (lineP.contains("projection")) {
-            lineP = QString("matrix %1 projection %2")
-                    .arg(item.sceneNumber)
-                    .arg(serializeMatrix4x4(item.glWidget->getMatrix_projection()));
-            foundProjection = true;
+        int lineProjection = -1, lineGLSelect = -1, lineModelview = -1, lineRotation = -1;
+
+        for (int l = 0; l < lines.count(); l++) {
+            QString &line = lines[l];
+
+            if (line.startsWith(QString("matrix %1 projection").arg(sceneNumber)))
+                lineProjection = l;
+            else if (line.startsWith(QString("matrix %1 glselect").arg(sceneNumber)))
+                lineGLSelect = l;
+            else if (line.startsWith(QString("matrix %1 modelview").arg(sceneNumber)))
+                lineModelview = l;
+            else if (line.startsWith(QString("matrix %1 rotation").arg(sceneNumber)))
+                lineRotation = l;
         }
-        QString &lineG = lines[row -3];
-        if (lineG.contains("glselect")) {
-            lineG = QString("matrix %1 glselect %2")
-                    .arg(item.sceneNumber)
-                    .arg(serializeMatrix4x4(item.glWidget->getMatrix_glSelect()));
-            foundGLSelect = true;
-        }
-        QString &lineM = lines[row -2];
-        if (lineM.contains("modelview")) {
-            lineM = QString("matrix %1 modelview %2")
-                    .arg(item.sceneNumber)
-                    .arg(serializeMatrix4x4(item.glWidget->getMatrix_modelview()));
-            foundModelview = true;
-        }
-        QString &lineR = lines[row -1];
-        if (lineR.contains("rotation")) {
-            lineR = QString("matrix %1 rotation %2")
+
+        if (lineRotation > -1) {
+            QString &line = lines[lineRotation];
+            line = QString("matrix %1 rotation %2")
                     .arg(item.sceneNumber)
                     .arg(serializeMatrix4x4(item.glWidget->getMatrix_rotation()));
-            foundRotation = true;
-        }
-
-        if (!foundRotation)
+        } else {
             lines.insert(row, QString("matrix %1 rotation %2")
                          .arg(item.sceneNumber)
                          .arg(serializeMatrix4x4(item.glWidget->getMatrix_rotation())));
-        if (!foundModelview)
+        }
+
+        if (lineModelview > -1) {
+            QString &line = lines[lineModelview];
+            line = QString("matrix %1 modelview %2")
+                    .arg(item.sceneNumber)
+                    .arg(serializeMatrix4x4(item.glWidget->getMatrix_modelview()));
+        } else {
             lines.insert(row, QString("matrix %1 modelview %2")
                          .arg(item.sceneNumber)
                          .arg(serializeMatrix4x4(item.glWidget->getMatrix_modelview())));
-        if (!foundGLSelect)
+        }
+
+        if (lineGLSelect > -1) {
+            QString &line = lines[lineGLSelect];
+            line = QString("matrix %1 glselect %2")
+                    .arg(item.sceneNumber)
+                    .arg(serializeMatrix4x4(item.glWidget->getMatrix_glSelect()));
+        } else {
             lines.insert(row, QString("matrix %1 glselect %2")
                          .arg(item.sceneNumber)
                          .arg(serializeMatrix4x4(item.glWidget->getMatrix_glSelect())));
-        if (!foundProjection)
+        }
+
+        if (lineProjection > -1) {
+            QString &line = lines[lineProjection];
+            line = QString("matrix %1 projection %2")
+                    .arg(item.sceneNumber)
+                    .arg(serializeMatrix4x4(item.glWidget->getMatrix_projection()));
+        } else {
             lines.insert(row, QString("matrix %1 projection %2")
                          .arg(item.sceneNumber)
-                         .arg(serializeMatrix4x4(item.glWidget->getMatrix_projection())));
+                         .arg(serializeMatrix4x4(item.glWidget->getMatrix_rotation())));
+        }
 
         ui->plainTextEdit_script->setPlainText(lines.join('\n'));
     }
