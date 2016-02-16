@@ -1015,8 +1015,7 @@ void PrintPaperTemplate::on_pushButton_saveState_clicked()
         }
 
         if (lineRotation > -1) {
-            QString &line = lines[lineRotation];
-            line = QString("matrix %1 rotation %2")
+            lines[lineRotation] = QString("matrix %1 rotation %2")
                     .arg(item.sceneNumber)
                     .arg(serializeMatrix4x4(item.glWidget->getMatrix_rotation()));
         } else {
@@ -1026,8 +1025,7 @@ void PrintPaperTemplate::on_pushButton_saveState_clicked()
         }
 
         if (lineModelview > -1) {
-            QString &line = lines[lineModelview];
-            line = QString("matrix %1 modelview %2")
+            lines[lineModelview] = QString("matrix %1 modelview %2")
                     .arg(item.sceneNumber)
                     .arg(serializeMatrix4x4(item.glWidget->getMatrix_modelview()));
         } else {
@@ -1037,8 +1035,7 @@ void PrintPaperTemplate::on_pushButton_saveState_clicked()
         }
 
         if (lineGLSelect > -1) {
-            QString &line = lines[lineGLSelect];
-            line = QString("matrix %1 glselect %2")
+            lines[lineGLSelect] = QString("matrix %1 glselect %2")
                     .arg(item.sceneNumber)
                     .arg(serializeMatrix4x4(item.glWidget->getMatrix_glSelect()));
         } else {
@@ -1048,8 +1045,7 @@ void PrintPaperTemplate::on_pushButton_saveState_clicked()
         }
 
         if (lineProjection > -1) {
-            QString &line = lines[lineProjection];
-            line = QString("matrix %1 projection %2")
+            lines[lineProjection] = QString("matrix %1 projection %2")
                     .arg(item.sceneNumber)
                     .arg(serializeMatrix4x4(item.glWidget->getMatrix_projection()));
         } else {
