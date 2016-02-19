@@ -85,6 +85,10 @@ public slots:
 
 private slots:
     void on_pushButton_preview_clicked();
+    void on_pushButton_previewPrint_clicked();
+
+    void on_pushButton_saveState_clicked();
+
     void on_plainTextEdit_script_textChanged();
 
     void on_treeView_printscripts_clicked(const QModelIndex &index);
@@ -106,8 +110,6 @@ private slots:
 
     void on_btnLoadTemplate_clicked();
 
-    void on_pushButton_saveState_clicked();
-
 private:
     Ui::printPaperTemplate *ui;
     ItemDB *m_itemDB;
@@ -125,6 +127,7 @@ private:
     QModelIndex m_indexAtContextMenuRequest;
     PrintscriptTreeItem *m_printscriptItemAtContextMenuRequest;
     bool m_isRenderingForPreview;
+    bool m_isRenderingForPrintPreview;
     qreal m_previewScalingFactor;
     QSize m_previewImageSize;
     QToolButton *m_btnLoadTemplate;

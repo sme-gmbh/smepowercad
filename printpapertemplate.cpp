@@ -25,6 +25,7 @@ PrintPaperTemplate::PrintPaperTemplate(QWidget *parent, GLWidget *glWidget, Item
     m_model(itemDB->getPrintscriptTreeModel()),
     glWidget(glWidget),
     m_isRenderingForPreview(false),
+    m_isRenderingForPrintPreview(false),
     m_sceneItems(QMap<int,PrintSceneItem>())
 {
     this->setStyleSheet(StylesheetProvider::getStylesheet("QTreeView,Button,QLineEdit+QTextEdit"));
@@ -219,7 +220,8 @@ void PrintPaperTemplate::parseScript(QPainter* painter)
 
     // clear scene items
     foreach (PrintSceneItem item, m_sceneItems) {
-        delete item.widget;
+        if (item.widget != NULL)
+            delete item.widget;
     }
     m_sceneItems.clear();
 
@@ -502,32 +504,33 @@ void PrintPaperTemplate::paintScene(QPainter *painter, QString arguments, int ro
         item.w = w;
         item.h = h;
 
-        x1 *= m_previewScalingFactor;
-        y1 *= m_previewScalingFactor;
-        w *= m_previewScalingFactor;
-        h *= m_previewScalingFactor;
+        if (!m_isRenderingForPrintPreview) {
+            x1 *= m_previewScalingFactor;
+            y1 *= m_previewScalingFactor;
+            w *= m_previewScalingFactor;
+            h *= m_previewScalingFactor;
 
-        int wDiff = (ui->label_preview->width() - m_previewImageSize.width()) / 2;
-        int hDiff = (ui->label_preview->height() - m_previewImageSize.height()) / 2;
+            int wDiff = (ui->label_preview->width() - m_previewImageSize.width()) / 2;
+            int hDiff = (ui->label_preview->height() - m_previewImageSize.height()) / 2;
 
-        x1 += (qreal)wDiff;
-        y1 += (qreal)hDiff +1.0;
+            x1 += (qreal)wDiff;
+            y1 += (qreal)hDiff +1.0;
 
-        GeometryDisplay *sceneWdg = new GeometryDisplay(m_itemDB, NULL, NULL, ui->label_preview);
-        sceneWdg->hideButtons();
-        sceneWdg->clearTitleWidget();
-        item.widget = sceneWdg;
-        item.glWidget = sceneWdg->getWidget();
-        item.glWidget->setMatrices(item.projection, item.glselect, item.modelview, item.rotation);
+            GeometryDisplay *sceneWdg = new GeometryDisplay(m_itemDB, NULL, NULL, ui->label_preview);
+            sceneWdg->hideButtons();
+            sceneWdg->clearTitleWidget();
+            item.widget = sceneWdg;
+            item.glWidget = sceneWdg->getWidget();
+            item.glWidget->setMatrices(item.projection, item.glselect, item.modelview, item.rotation);
 
-        sceneWdg->setFixedSize(w, h);
-        sceneWdg->show();
-        sceneWdg->move(x1, y1);
-    } else {
-        // TODO
-        QMatrix4x4 matrix_modelview = this->glWidget->getMatrix_modelview();
-        QMatrix4x4 matrix_rotation = this->glWidget->getMatrix_rotation();
-        this->glWidget->render_image(painter, x1, y1, w, h, matrix_modelview, matrix_rotation);
+            sceneWdg->setFixedSize(w, h);
+            sceneWdg->show();
+            sceneWdg->move(x1, y1);
+        } else {
+            item.widget = NULL;
+            // BUG: positioning
+            this->glWidget->render_image(painter, x1, y1, w, h, item.modelview, item.rotation);
+        }
     }
 }
 
@@ -701,7 +704,7 @@ QString PrintPaperTemplate::serializeMatrix4x4(const QMatrix4x4 &mtx) const
 
 void PrintPaperTemplate::on_pushButton_preview_clicked()
 {
-    // Set is rendering for preview bool to halve resolution (QImage size limit)
+    // Set is rendering for preview bool to halve resolution (workaround for QImage size limit)
     m_isRenderingForPreview = true;
 
     // First dummy-parse the script to get the papersize, so we know how large the image will be
@@ -724,6 +727,38 @@ void PrintPaperTemplate::on_pushButton_preview_clicked()
     // Production of graphic content
     this->parseScript(&painter);
     painter.end();
+    m_isRenderingForPreview = false;
+
+    ui->label_preview->setPixmap(QPixmap::fromImage(image_preview.scaled(ui->label_preview->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+}
+
+void PrintPaperTemplate::on_pushButton_previewPrint_clicked()
+{
+    // Set is rendering for preview bool to halve resolution (workaround for QImage size limit)
+    m_isRenderingForPreview = true;
+    m_isRenderingForPrintPreview = true;
+
+    // First dummy-parse the script to get the papersize, so we know how large the image will be
+    this->script = ui->plainTextEdit_script->toPlainText();
+    this->parseScript(NULL);
+
+    // Now constuct the image and the corresponding painter
+    int w = mm_to_pixel(paperSize.width());
+    int h = mm_to_pixel(paperSize.height());
+    QSize imgSize = QSize(w, h);
+    QImage image_preview = QImage(imgSize, QImage::Format_ARGB32_Premultiplied);
+    image_preview.fill(Qt::white);
+    QPainter painter(&image_preview);
+
+    // Calculate scaling factor to the preview label, so we can scale the glwidget
+    QSize newSize = imgSize.scaled(ui->label_preview->size(), Qt::KeepAspectRatio);
+    m_previewScalingFactor = (qreal)newSize.width() / (qreal)imgSize.width();
+    m_previewImageSize = newSize;
+
+    // Production of graphic content
+    this->parseScript(&painter);
+    painter.end();
+    m_isRenderingForPrintPreview = false;
     m_isRenderingForPreview = false;
 
     ui->label_preview->setPixmap(QPixmap::fromImage(image_preview.scaled(ui->label_preview->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
