@@ -34,7 +34,7 @@ ExpandableToolButton::ExpandableToolButton(QWidget *parent) :
     m_subwidget->setContentsMargins(2, 2, 2, 2);
     m_subwidget->hide();
 
-    connect(this, &ExpandableToolButton::pressed, this, &ExpandableToolButton::showSubbuttons);
+    connect(this, &ExpandableToolButton::pressed, this, &ExpandableToolButton::clicked);
     connect(m_subwidget, &ButtonGridWidget::focusOut, this, &ExpandableToolButton::hideSubbuttons);
 }
 
@@ -81,18 +81,18 @@ void ExpandableToolButton::showSubbuttons()
 {
     // BUG: Subbuttons opening after click (and focus out of subbuttons) on <this>
     emit showingSubbuttons();
-    disconnect(this, &ExpandableToolButton::pressed, this, &ExpandableToolButton::showSubbuttons);
+//    disconnect(this, &ExpandableToolButton::pressed, this, &ExpandableToolButton::showSubbuttons);
     m_subwidget->show();
     m_subwidget->setFocus();
     m_subwidget->move(this->mapToGlobal(this->rect().bottomLeft()));
-    isShowingSubbuttons = true;
+//    isShowingSubbuttons = true;
     this->setActive(true);
 }
 
 void ExpandableToolButton::hideSubbuttons()
 {
     m_subwidget->hide();
-    isShowingSubbuttons = false;
+//    isShowingSubbuttons = false;
     this->setActive(false);
 }
 
@@ -101,6 +101,19 @@ void ExpandableToolButton::setActive(bool active)
     this->setProperty("active", active);
     style()->unpolish(this);
     style()->polish(this);
+}
+
+void ExpandableToolButton::clicked()
+{
+    qDebug() << "click" << isShowingSubbuttons;
+    if(isShowingSubbuttons) {
+        hideSubbuttons();
+        isShowingSubbuttons = false;
+    }
+    else {
+        showSubbuttons();
+        isShowingSubbuttons = true;
+    }
 }
 
 void ExpandableToolButton::subbuttonLeftClicked()
