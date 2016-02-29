@@ -1423,7 +1423,7 @@ void ItemDB::restore_redo()
         case RestorePoint::Restore_WizardParams: {
             CADitem *item = getItemById(restorePoint->itemID);
             if (!item) continue;
-            item->wizardParams.insert(restorePoint->wizardParamsBefore);
+            item->wizardParams.insert(restorePoint->wizardParamsAfter);
             item->processWizardInput();
             item->calculate();
         }

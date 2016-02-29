@@ -94,10 +94,11 @@ void ItemWizard::clear()
     if (m_itemParametersWidget != NULL) {
         delete m_itemParametersWidget;
         m_itemParametersWidget = NULL;
-        QLayoutItem *item = ui->verticalLayout->itemAt(1);
-        ui->verticalLayout->removeItem(ui->verticalLayout->itemAt(1));
-        delete item;
-        ui->label_itemGraphic->clear();
+//        qDebug() << ui->verticalLayout->count();
+//        QLayoutItem *item = ui->verticalLayout->itemAt(1);
+//        ui->verticalLayout->removeItem(item);
+//        delete item;
+//        ui->label_itemGraphic->clear();
     }
 }
 
