@@ -40,6 +40,8 @@ public:
     CAD_basic_arc *arc;
     CAD_basic_line *tilt_arrow_1, *tilt_arrow_2;
     CAD_basic_line *swing_arrow_1, *swing_arrow_2;
+    bool tilt;
+    bool turn;
 };
 
 #endif // CAD_ARCH_WINDOW_H

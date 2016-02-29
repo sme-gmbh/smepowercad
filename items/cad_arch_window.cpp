@@ -50,10 +50,10 @@ CAD_arch_window::CAD_arch_window() : CADitem(CADitemTypes::Arch_Window)
     this->subItems.append(box_low);
     this->subItems.append(window);
     this->subItems.append(arc);
-    this->subItems.append(swing_arrow_1);
-    this->subItems.append(swing_arrow_2);
-    this->subItems.append(tilt_arrow_1);
-    this->subItems.append(tilt_arrow_2);
+    //    this->subItems.append(swing_arrow_1);
+    //    this->subItems.append(swing_arrow_2);
+    //    this->subItems.append(tilt_arrow_1);
+    //    this->subItems.append(tilt_arrow_2);
 
     processWizardInput();
     calculate();
@@ -150,6 +150,7 @@ void CAD_arch_window::calculate()
     box_up->wizardParams.insert("l", (l - 2 * s2));
     box_up->wizardParams.insert("b", (b));
     box_up->wizardParams.insert("a", (s1));
+    wizardParams.insertComboBox("Opening Type", QStringList() << "None" << "Tilt only" << "Turn only" << "Tilt and Turn", "Turn only");
     box_up->layer = this->layer;
     box_up->processWizardInput();
     box_up->calculate();
@@ -171,17 +172,23 @@ void CAD_arch_window::calculate()
     qreal window_width = 0.1 * b;
     QVector3D position_window;
     QVector3D position_arc;
-    if(alpha < 0.0)
+    if(turn)
     {
-        QMatrix4x4 matrix_window;
-        matrix_window.setToIdentity();
-        matrix_window.rotate(alpha, 0.0, 0.0, 1.0);
-        position_window = position + matrix_rotation * (QVector3D(s2, -b/2 , 0.0) + matrix_window * QVector3D(l/2 - s2, 0.0, a/2));
-        position_arc = position + matrix_rotation * QVector3D(s2, -b/2, s1 + 0.02 * a);
-
-        //paint arrow tips for swinging
-        if(true)
+        this->subItems.append(swing_arrow_1);
+        this->subItems.append(swing_arrow_2);
+        this->subItems.append(window);
+        this->subItems.append(arc);
+        if(alpha < 0.0)
         {
+            QMatrix4x4 matrix_window;
+            matrix_window.setToIdentity();
+            matrix_window.rotate(alpha, 0.0, 0.0, 1.0);
+            position_window = position + matrix_rotation * (QVector3D(s2, -b/2 , 0.0) + matrix_window * QVector3D(l/2 - s2, 0.0, a/2));
+            position_arc = position + matrix_rotation * QVector3D(s2, -b/2, s1 + 0.02 * a);
+
+            wizardParams.insertComboBox("Opening Type", QStringList() << "None" << "Tilt only" << "Turn only" << "Tilt and Turn", "Turn only");
+            //paint arrow tips for swinging
+
             QVector3D pos_start_1 = position + matrix_rotation * QVector3D(s2, 0.0, a - s1);
             QVector3D pos_end_1 = position + matrix_rotation * QVector3D(l - s2, 0.0,  0.5 * a - s1);
             swing_arrow_1->wizardParams.insert("Position x1", pos_start_1.x());
@@ -207,18 +214,15 @@ void CAD_arch_window::calculate()
             swing_arrow_2->calculate();
             swing_arrow_2->layer = this->layer;
         }
-    }
-    else
-    {
-        QMatrix4x4 matrix_window;
-        matrix_window.setToIdentity();
-        matrix_window.rotate(alpha, 0.0, 0.0, 1.0);
-        position_window = position + matrix_rotation * (QVector3D(l - s2, -b/2, 0.0) + matrix_window * QVector3D(-l/2 + s2, 0.0, a/2));
-        position_arc = position + matrix_rotation * QVector3D(l - s2, -b/2, s1 + 0.02 * a);
-
-        //paint arrow tips for swinging
-        if(true)
+        else
         {
+            QMatrix4x4 matrix_window;
+            matrix_window.setToIdentity();
+            matrix_window.rotate(alpha, 0.0, 0.0, 1.0);
+            position_window = position + matrix_rotation * (QVector3D(l - s2, -b/2, 0.0) + matrix_window * QVector3D(-l/2 + s2, 0.0, a/2));
+            position_arc = position + matrix_rotation * QVector3D(l - s2, -b/2, s1 + 0.02 * a);
+
+            //paint arrow tips for swinging
             QVector3D pos_start_1 = position + matrix_rotation * QVector3D(l - s2, 0.0, a - s1);
             QVector3D pos_end_1 = position + matrix_rotation * QVector3D(s2, 0.0,  0.5 * a - s1);
             swing_arrow_1->wizardParams.insert("Position x1", pos_start_1.x());
@@ -244,42 +248,55 @@ void CAD_arch_window::calculate()
             swing_arrow_2->calculate();
             swing_arrow_2->layer = this->layer;
         }
+
+        window->wizardParams.insert("Position x", position_window.x());
+        window->wizardParams.insert("Position y", position_window.y());
+        window->wizardParams.insert("Position z", position_window.z());
+        window->wizardParams.insert("Angle x", angle_x);
+        window->wizardParams.insert("Angle y", angle_y);
+        window->wizardParams.insert("Angle z", angle_z + alpha);
+
+        window->wizardParams.insert("l", l - 2*s2);
+        window->wizardParams.insert("b", window_width);
+        window->wizardParams.insert("a", a - 2*s1);
+        window->layer = this->layer;
+        window->layer = this->layer;
+        window->processWizardInput();
+        window->calculate();
+
+        arc->wizardParams.insert("Position x", position_arc.x());
+        arc->wizardParams.insert("Position y", position_arc.y());
+        arc->wizardParams.insert("Position z", position_arc.z());
+        arc->wizardParams.insert("Angle x", angle_x);
+        arc->wizardParams.insert("Angle y", angle_y);
+        arc->wizardParams.insert("Angle z", angle_z);
+        arc->wizardParams.insert("r", l - 2*s2);
+        arc->wizardParams.insert("alpha", alpha);
+        arc->layer = this->layer;
+        arc->processWizardInput();
+        if(alpha < 0.0)
+            arc->rotateAroundAxis(-90 + alpha, QVector3D(0.0, 0.0, 1.0), angle_x, angle_y, angle_z);
+        else
+            arc->rotateAroundAxis(-270.0 + alpha, QVector3D(0.0, 0.0, 1.0), angle_x, angle_y, angle_z);
+        arc->calculate();
+
+    }
+    else
+    {
+        this->subItems.removeOne(swing_arrow_1);
+        this->subItems.removeOne(swing_arrow_2);
+        this->subItems.removeOne(window);
+        this->subItems.removeOne(arc);
+
     }
 
-    window->wizardParams.insert("Position x", position_window.x());
-    window->wizardParams.insert("Position y", position_window.y());
-    window->wizardParams.insert("Position z", position_window.z());
-    window->wizardParams.insert("Angle x", angle_x);
-    window->wizardParams.insert("Angle y", angle_y);
-    window->wizardParams.insert("Angle z", angle_z + alpha);
 
-    window->wizardParams.insert("l", l - 2*s2);
-    window->wizardParams.insert("b", window_width);
-    window->wizardParams.insert("a", a - 2*s1);
-    window->layer = this->layer;
-    window->layer = this->layer;
-    window->processWizardInput();
-    window->calculate();
-
-    arc->wizardParams.insert("Position x", position_arc.x());
-    arc->wizardParams.insert("Position y", position_arc.y());
-    arc->wizardParams.insert("Position z", position_arc.z());
-    arc->wizardParams.insert("Angle x", angle_x);
-    arc->wizardParams.insert("Angle y", angle_y);
-    arc->wizardParams.insert("Angle z", angle_z);
-    arc->wizardParams.insert("r", l - 2*s2);
-    arc->wizardParams.insert("alpha", alpha);
-    arc->layer = this->layer;
-    arc->processWizardInput();
-    if(alpha < 0.0)
-        arc->rotateAroundAxis(-90 + alpha, QVector3D(0.0, 0.0, 1.0), angle_x, angle_y, angle_z);
-    else
-        arc->rotateAroundAxis(-270.0 + alpha, QVector3D(0.0, 0.0, 1.0), angle_x, angle_y, angle_z);
-    arc->calculate();
 
     //paint arrows for tilting
-    if(true)
+    if(tilt)
     {
+        this->subItems.append(tilt_arrow_1);
+        this->subItems.append(tilt_arrow_2);
         QVector3D pos_start_1 = position + matrix_rotation * QVector3D(s2, 0.0, s1);
         QVector3D pos_end_1 = position + matrix_rotation * QVector3D(l/2, 0.0,  a - s1);
         tilt_arrow_1->wizardParams.insert("Position x1", pos_start_1.x());
@@ -304,6 +321,11 @@ void CAD_arch_window::calculate()
         tilt_arrow_2->processWizardInput();
         tilt_arrow_2->calculate();
         tilt_arrow_2->layer = this->layer;
+    }
+    else
+    {
+        this->subItems.removeOne(tilt_arrow_1);
+        this->subItems.removeOne(tilt_arrow_2);
     }
 
     this->boundingBox.enterVertices(box_left->boundingBox.getVertices());
@@ -341,6 +363,17 @@ void CAD_arch_window::processWizardInput()
     s1 = wizardParams.value("s1").toDouble();
     s2 = wizardParams.value("s2").toDouble();
     alpha = wizardParams.value("alpha").toDouble();
+
+    QString tiltturn = wizardParams.value("Opening Type").toStringList().last();
+    tilt = false;
+    turn = false;
+    if(tiltturn.contains("Tilt"))
+        tilt = true;
+    if(tiltturn.contains("Turn"))
+        turn = true;
+
+
+    wizardParams.insertComboBox("Opening Type", QStringList() << "None" << "Tilt only" << "Turn only" << "Tilt and Turn", "Turn only");
 
     matrix_rotation.setToIdentity();
     matrix_rotation.rotate(angle_x, 1.0, 0.0, 0.0);
