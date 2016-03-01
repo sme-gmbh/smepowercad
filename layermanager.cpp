@@ -22,7 +22,8 @@ LayerManager::LayerManager(ItemDB *itemDb, QWidget *parent) :
     QDockWidget(parent),
     ui(new Ui::LayerManager),
     m_itemDb(itemDb),
-    m_currentLayer(NULL)
+    m_currentLayer(NULL),
+    m_clipboardIndex()
 {
     ui->setupUi(this);
 
@@ -60,6 +61,12 @@ LayerManager::LayerManager(ItemDB *itemDb, QWidget *parent) :
     m_menuOnItem->addAction(tr("Append new Layer"), this, SLOT(slot_appendNewLayer()));
     m_menuOnItem->addAction(tr("Append new Layer as child"), this, SLOT(slot_appendNewLayerAsChild()));
     m_menuOnItem->addAction(tr("Delete layer"), this, SLOT(slot_deleteLayer()));
+    m_menuOnItem->addSeparator();
+    m_actionCut = m_menuOnItem->addAction(tr("Cut"), this, SLOT(slot_cutLayer()));
+    m_actionPasteHere = m_menuOnItem->addAction(tr("Paste here"), this, SLOT(slot_pasteLayerHere()));
+    m_actionPasteAsChild = m_menuOnItem->addAction(tr("Paste as child"), this, SLOT(slot_pasteLayerAsChild()));
+    m_actionPasteHere->setDisabled(true);
+    m_actionPasteAsChild->setDisabled(true);
 }
 
 LayerManager::~LayerManager()
@@ -225,6 +232,35 @@ void LayerManager::slot_deleteLayer()
         QMessageBox::warning(this, tr("Delete layer"), tr("Unable to delete layer. Maybe it's not empty."));
 }
 
+void LayerManager::slot_cutLayer()
+{
+    m_clipboardIndex = m_indexAtContextMenuRequest;
+}
+
+void LayerManager::slot_pasteLayerHere()
+{
+    QModelIndex index_destination = m_itemDb->parent(m_indexAtContextMenuRequest);
+
+    quint32 position = m_indexAtContextMenuRequest.row() + 1;
+
+    m_itemDb->moveLayer(m_clipboardIndex, index_destination, position);
+
+    m_actionPasteHere->setDisabled(true);
+    m_actionPasteAsChild->setDisabled(true);
+    m_clipboardIndex = QModelIndex();
+}
+
+void LayerManager::slot_pasteLayerAsChild()
+{
+    QModelIndex index_destination = m_indexAtContextMenuRequest;
+
+    m_itemDb->moveLayer(m_clipboardIndex, index_destination, 0);
+
+    m_actionPasteHere->setDisabled(true);
+    m_actionPasteAsChild->setDisabled(true);
+    m_clipboardIndex = QModelIndex();
+}
+
 void LayerManager::on_treeView_layer_customContextMenuRequested(const QPoint &pos)
 {
     QModelIndex index = ui->treeView_layer->indexAt(pos);
@@ -232,6 +268,19 @@ void LayerManager::on_treeView_layer_customContextMenuRequested(const QPoint &po
     m_layerAtContextMenuRequest = static_cast<Layer*>(index.internalPointer());
 
     if (index.isValid()) {
+        if (m_itemDb->isChildOfLayer(static_cast<Layer*>(m_clipboardIndex.internalPointer()), m_layerAtContextMenuRequest))
+        {
+            m_actionPasteHere->setDisabled(true);
+            m_actionPasteAsChild->setDisabled(true);
+        }
+        else
+        {
+            if (m_clipboardIndex.isValid())
+            {
+                m_actionPasteHere->setEnabled(true);
+                m_actionPasteAsChild->setEnabled(true);
+            }
+        }
         m_menuOnItem->popup(QCursor::pos());
     } else {
         m_menuNoItem->popup(QCursor::pos());
@@ -304,21 +353,3 @@ void LayerManager::on_treeView_layer_expanded(const QModelIndex &index)
     ui->treeView_layer->resizeColumnToContents(0);
 }
 
-void LayerManager::slot_updateAllLayers()
-{
-}
-
-void LayerManager::slot_layerAdded(Layer *newLayer, Layer *parentLayer)
-{
-//    updateLayer(newLayer);
-}
-
-void LayerManager::slot_layerChanged(Layer *layer)
-{
-//    updateLayer(layer);
-}
-
-void LayerManager::slot_layerDeleted(Layer *layer)
-{
-//    updateLayer(layer);
-}

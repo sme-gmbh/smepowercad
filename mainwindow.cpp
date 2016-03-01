@@ -87,9 +87,10 @@ MainWindow::MainWindow(QWidget *parent) :
     this->layerManager = new LayerManager(m_itemDB, this);
     QAction* action_layerManager = this->layerManager->toggleViewAction();
     action_layerManager->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
-    connect(m_itemDB, &ItemDB::signal_layerAdded, layerManager, &LayerManager::slot_layerAdded);
-    connect(m_itemDB, &ItemDB::signal_layerChanged, layerManager, &LayerManager::slot_layerChanged);
-    connect(m_itemDB, &ItemDB::signal_layerDeleted, layerManager, &LayerManager::slot_layerDeleted);
+    // Not needed anymore
+//    connect(m_itemDB, &ItemDB::signal_layerAdded, layerManager, &LayerManager::slot_layerAdded);
+//    connect(m_itemDB, &ItemDB::signal_layerChanged, layerManager, &LayerManager::slot_layerChanged);
+//    connect(m_itemDB, &ItemDB::signal_layerDeleted, layerManager, &LayerManager::slot_layerDeleted);
     ui->menuFormat->addAction(action_layerManager);
 
     // **** CAD window (2nd version) *****
@@ -98,7 +99,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(layerManager, &LayerManager::signal_repaintNeeded, mainGeometryDisplay, &GeometryDisplay::signal_repaintNeeded);
     connect(m_itemDB, &ItemDB::signal_repaintNeeded, mainGeometryDisplay, &GeometryDisplay::signal_repaintNeeded);
     connect(m_itemDB, &ItemDB::signal_itemDeleted, mainGeometryDisplay, &GeometryDisplay::signal_itemDeleted);
-    connect(m_itemDB, &ItemDB::signal_layerManagerUpdateNeeded, layerManager, &LayerManager::slot_updateAllLayers);
+    // Not needed anymore
+//    connect(m_itemDB, &ItemDB::signal_layerManagerUpdateNeeded, layerManager, &LayerManager::slot_updateAllLayers);
     connect(settingsDialog, &SettingsDialog::signal_settingsChanged, mainGeometryDisplay, &GeometryDisplay::signal_settingsChanged);
     connect(mainGeometryDisplay, &GeometryDisplay::signal_highlightItem, this, &MainWindow::slot_highlightItem);
     connect(mainGeometryDisplay, &GeometryDisplay::signal_snapFired, this, &MainWindow::slot_snapTo);

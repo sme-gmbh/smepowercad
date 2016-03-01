@@ -252,9 +252,8 @@ Layer* ItemDB::insertLayer(QString name, const QModelIndex &parent, int at)
     return newLayer;
 }
 
-bool ItemDB::moveLayer(QString layerName, QString newParentLayerName, quint32 position)
+bool ItemDB::moveLayer(Layer *layer, Layer *newParentLayer, quint32 position)
 {
-    Layer *layer = findLayerByName(layerName);
     if (!layer)
         return false;
 
@@ -265,12 +264,95 @@ bool ItemDB::moveLayer(QString layerName, QString newParentLayerName, quint32 po
     if (!oldParentLayer)
         return false;
 
-    Layer *newParentLayer = findLayerByName(newParentLayerName);
     if (!newParentLayer)
         return false;
 
+    // Search ModelIndices
+    QModelIndex topLevelIndex = this->index(0, 0, QModelIndex());
+
+    QModelIndex index = this->getIndexByLayerPointer(layer, topLevelIndex);
+    QModelIndex newParentIndex = this->getIndexByLayerPointer(newParentLayer, topLevelIndex);
+
+    // Do the movement
+    return this->moveLayer(index, newParentIndex, position);
+}
+
+QModelIndex ItemDB::getIndexByLayerPointer(Layer *layer, QModelIndex parent)
+{
+    QModelIndex foundIndex = QModelIndex();
+
+    for (int row = 0; this->rowCount(parent); row++)
+    {
+        QModelIndex currentIndex = parent.child(row, 0);
+        Layer *currentLayer = static_cast<Layer*>(currentIndex.internalPointer());
+
+        if (currentLayer == layer)
+            return currentIndex;
+        else
+        {
+            foundIndex = this->getIndexByLayerPointer(layer, currentIndex);
+            if (foundIndex.isValid())
+                return foundIndex;
+        }
+    }
+
+    return foundIndex;
+}
+
+bool ItemDB::moveLayer(QString layerName, QString newParentLayerName, quint32 position)
+{
+    Layer *layer = findLayerByName(layerName);
+//    if (!layer)
+//        return false;
+
+//    if (layer == m_rootLayer)
+//        return false;
+
+//    Layer *oldParentLayer = layer->parentLayer();
+//    if (!oldParentLayer)
+//        return false;
+
+    Layer *newParentLayer = findLayerByName(newParentLayerName);
+//    if (!newParentLayer)
+//        return false;
+
+//    oldParentLayer->removeChild(layer);
+//    newParentLayer->insertChild(position, layer);
+
+//    emit signal_layerMoved(layer);
+//    emit signal_dbStatusModified();
+
+//    return true;
+    return this->moveLayer(layer, newParentLayer, position);
+}
+
+bool ItemDB::moveLayer(const QModelIndex &index, QModelIndex newParentIndex, quint32 position)
+{
+    Layer *layer = static_cast<Layer*>(index.internalPointer());
+    Layer *newParentLayer = static_cast<Layer*>(newParentIndex.internalPointer());
+
+    if (layer == NULL)
+        return false;
+
+    if (!newParentIndex.isValid()) {
+        newParentLayer = m_rootLayer;   // An invalid index means "root index", so set the root layer in that case.
+        newParentIndex = QModelIndex();
+    }
+
+    Layer *oldParentLayer = layer->parentLayer();
+    if (!oldParentLayer)
+        return false;
+
+    if (oldParentLayer == newParentLayer && index.row() == (qint32)position)
+        return false;
+
+    beginMoveRows(index.parent(), index.row(), index.row(), newParentIndex, position);
+    if (oldParentLayer == newParentLayer && index.row() < (qint32)position)
+        position--;
+
     oldParentLayer->removeChild(layer);
     newParentLayer->insertChild(position, layer);
+    endMoveRows();
 
     emit signal_layerMoved(layer);
     emit signal_dbStatusModified();
@@ -394,6 +476,23 @@ QStringList ItemDB::getDomains()
 Layer *ItemDB::findLayerByName(QString name)
 {
     return m_rootLayer->findByName(name);
+}
+
+bool ItemDB::isChildOfLayer(Layer *upperLayer, Layer *lowerLayer)
+{
+    Layer *currentLayer = lowerLayer;
+
+    if (upperLayer == NULL || lowerLayer == NULL)
+        return false;
+
+    while (currentLayer != upperLayer)
+    {
+        currentLayer = currentLayer->parentLayer();
+        if (currentLayer == m_rootLayer)
+            return false;
+    }
+
+    return true;
 }
 
 void ItemDB::addItem(CADitem *item, Layer *layer)

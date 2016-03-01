@@ -39,11 +39,13 @@ Layer::~Layer()
 
 void Layer::appendChild(Layer *childLayer)
 {
+    childLayer->m_parentLayer = this;
     m_childLayers.append(childLayer);
 }
 
 void Layer::insertChild(quint32 position, Layer *layer)
 {
+    layer->m_parentLayer = this;
     m_childLayers.insert(position, layer);
 }
 

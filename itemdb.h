@@ -55,7 +55,10 @@ public:
     Layer* addLayer(QString name, QString parentLayerName = QString());
     Layer* addLayer(QString name, Layer *parentLayer);
     Layer* insertLayer(QString name, const QModelIndex &parent, int at);
+    bool moveLayer(Layer *layer, Layer *newParentLayer, quint32 position);
+    QModelIndex getIndexByLayerPointer(Layer *layer, QModelIndex parent);
     bool moveLayer(QString layerName, QString newParentLayerName, quint32 position);
+    bool moveLayer(const QModelIndex &index, QModelIndex newParentIndex, quint32 position);
     bool renameLayer(QString layerName, QString newLayerName);
     bool renameLayer(Layer *layer, QString newLayerName);
     bool deleteLayer(Layer *layer);
@@ -67,6 +70,8 @@ public:
     QStringList getDomains();
 
     Layer* findLayerByName(QString name);
+
+    bool isChildOfLayer(Layer *upperLayer, Layer *lowerLayer);
 
     QList<RestorePoint*> restorePoints_undo;
     QList<RestorePoint*> restorePoints_redo;

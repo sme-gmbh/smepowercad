@@ -58,6 +58,11 @@ private:
     Layer *m_layerAtContextMenuRequest;
     Layer *m_currentLayer;
 
+    QAction *m_actionCut;
+    QAction *m_actionPasteHere;
+    QAction *m_actionPasteAsChild;
+    QModelIndex m_clipboardIndex;
+
     void updateLayer(Layer *layer);
     void updateSoloActive();
     void updateSoloActive_processLayers(LayerList layers);
@@ -69,17 +74,14 @@ private slots:
     void slot_appendNewLayer();
     void slot_appendNewLayerAsChild();
     void slot_deleteLayer();
+    void slot_cutLayer();
+    void slot_pasteLayerHere();
+    void slot_pasteLayerAsChild();
     void on_treeView_layer_customContextMenuRequested(const QPoint &pos);
     void on_treeView_layer_activated(const QModelIndex &index);
     void on_treeView_layer_clicked(const QModelIndex &index);
     void on_treeView_layer_doubleClicked(const QModelIndex &index);
-    void on_treeView_layer_expanded(const QModelIndex &index);    
-
-public slots:
-    void slot_updateAllLayers();
-    void slot_layerAdded(Layer *newLayer, Layer *parentLayer);
-    void slot_layerChanged(Layer *layer);
-    void slot_layerDeleted(Layer *layer);
+    void on_treeView_layer_expanded(const QModelIndex &index);
 
 signals:
     void signal_repaintNeeded();
