@@ -48,8 +48,8 @@ CAD_arch_window::CAD_arch_window() : CADitem(CADitemTypes::Arch_Window)
     this->subItems.append(box_up);
     this->subItems.append(box_right);
     this->subItems.append(box_low);
-    this->subItems.append(window);
-    this->subItems.append(arc);
+//    this->subItems.append(window);
+    //    this->subItems.append(arc);
     //    this->subItems.append(swing_arrow_1);
     //    this->subItems.append(swing_arrow_2);
     //    this->subItems.append(tilt_arrow_1);
@@ -111,6 +111,12 @@ void CAD_arch_window::calculate()
     this->snap_vertices.clear();
 
     this->snap_basepoint = (position);
+
+    this->subItems.clear();
+    this->subItems.append(box_left);
+    this->subItems.append(box_up);
+    this->subItems.append(box_right);
+    this->subItems.append(box_low);
 
     QVector3D pos_left = (matrix_rotation * QVector3D(s2/2.0, 0.0, a/2.0)) + position;
     box_left->wizardParams.insert("Position x", (pos_left.x()));
@@ -281,14 +287,6 @@ void CAD_arch_window::calculate()
         arc->calculate();
 
     }
-    else
-    {
-        this->subItems.removeOne(swing_arrow_1);
-        this->subItems.removeOne(swing_arrow_2);
-        this->subItems.removeOne(window);
-        this->subItems.removeOne(arc);
-
-    }
 
 
 
@@ -321,11 +319,6 @@ void CAD_arch_window::calculate()
         tilt_arrow_2->processWizardInput();
         tilt_arrow_2->calculate();
         tilt_arrow_2->layer = this->layer;
-    }
-    else
-    {
-        this->subItems.removeOne(tilt_arrow_1);
-        this->subItems.removeOne(tilt_arrow_2);
     }
 
     this->boundingBox.enterVertices(box_left->boundingBox.getVertices());
