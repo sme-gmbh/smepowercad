@@ -37,7 +37,7 @@ public:
 
     void showSubbuttons();
     void hideSubbuttons();
-    void clicked();
+    void button_pressed();
 
 protected:
     ButtonGridWidget *m_subwidget;
