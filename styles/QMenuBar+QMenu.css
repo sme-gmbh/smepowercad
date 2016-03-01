@@ -51,6 +51,10 @@ QMenu::item {
     border: 0;
 }
 
+QMenu::item:disabled {
+    color: rgb(124, 124, 124);
+}
+
 QMenu::item:selected {
     background-color: rgb(134, 134, 134); /* :hover */
 }
