@@ -57,9 +57,9 @@ public:
     Layer* insertLayer(QString name, const QModelIndex &parent, int at);
     bool moveLayer(Layer *layer, Layer *newParentLayer, quint32 position);
     QModelIndex getIndexByLayerPointer(Layer *layer, QModelIndex parent);
-    bool moveLayer(QString layerName, QString newParentLayerName, quint32 position);
+    bool moveLayer(QString layerPath, QString newParentLayerPath, quint32 position);
     bool moveLayer(const QModelIndex &index, QModelIndex newParentIndex, quint32 position);
-    bool renameLayer(QString layerName, QString newLayerName);
+    bool renameLayer(QString layerPath, QString newLayerName);
     bool renameLayer(Layer *layer, QString newLayerName);
     bool deleteLayer(Layer *layer);
     bool deleteLayerAt(const QModelIndex &parent, const QModelIndex &index);
@@ -70,6 +70,7 @@ public:
     QStringList getDomains();
 
     Layer* findLayerByName(QString name);
+    Layer* findLayerByPath(QString path);
 
     bool isChildOfLayer(Layer *upperLayer, Layer *lowerLayer);
 
@@ -89,7 +90,7 @@ public:
     bool changeLayerOfItems_withRestorePoint(QList<CADitem*> items, Layer *layer);
     CADitem* createItem(CADitemTypes::ItemType type);
     CADitem* drawItem(Layer *layer, CADitemTypes::ItemType type);
-    CADitem* drawItem(QString layerName, CADitemTypes::ItemType type);
+    CADitem* drawItem(QString layerPath, CADitemTypes::ItemType type);
     CADitem *drawItem_withRestorePoint(Layer *layer, CADitemTypes::ItemType type, WizardParams wizardParams);
     bool modifyItem(quint64 &id, QString key, QString value);
     void modifyItem_withRestorePoint(CADitem *item, WizardParams newParams);

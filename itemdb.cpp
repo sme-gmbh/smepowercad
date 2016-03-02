@@ -199,9 +199,9 @@ LayerList ItemDB::getLayerList()
     return m_rootLayer->getAllLayers();
 }
 
-Layer* ItemDB::addLayer(QString name, QString parentLayerName)
+Layer* ItemDB::addLayer(QString name, QString parentLayerPath)
 {
-    Layer *parentLayer = m_rootLayer->findByName(parentLayerName);
+    Layer *parentLayer = findLayerByPath(parentLayerPath);
     if (!parentLayer)
         parentLayer = m_rootLayer;
 
@@ -214,7 +214,7 @@ Layer* ItemDB::addLayer(QString name, Layer *parentLayer)
     if (!parentLayer) return NULL;
 
     // First check if layer already exists
-    Layer *layer = m_rootLayer->findByName(name);
+    Layer *layer = findLayerByPath(parentLayer->path(name));
     if (layer)
         return layer;
 
@@ -241,7 +241,7 @@ Layer* ItemDB::insertLayer(QString name, const QModelIndex &parent, int at)
     Layer *parentLayer = static_cast<Layer*>(parent.internalPointer());
 
     Layer *newLayer;
-    beginInsertRows(parent, at, 1);
+    beginInsertRows(parent, at, at);
 
     if (!parent.isValid())
         newLayer = addLayer(name);
@@ -300,9 +300,9 @@ QModelIndex ItemDB::getIndexByLayerPointer(Layer *layer, QModelIndex parent)
     return foundIndex;
 }
 
-bool ItemDB::moveLayer(QString layerName, QString newParentLayerName, quint32 position)
+bool ItemDB::moveLayer(QString layerPath, QString newParentLayerPath, quint32 position)
 {
-    Layer *layer = findLayerByName(layerName);
+    Layer *layer = findLayerByPath(layerPath);
 //    if (!layer)
 //        return false;
 
@@ -313,7 +313,7 @@ bool ItemDB::moveLayer(QString layerName, QString newParentLayerName, quint32 po
 //    if (!oldParentLayer)
 //        return false;
 
-    Layer *newParentLayer = findLayerByName(newParentLayerName);
+    Layer *newParentLayer = findLayerByPath(newParentLayerPath);
 //    if (!newParentLayer)
 //        return false;
 
@@ -361,9 +361,9 @@ bool ItemDB::moveLayer(const QModelIndex &index, QModelIndex newParentIndex, qui
     return true;
 }
 
-bool ItemDB::renameLayer(QString layerName, QString newLayerName)
+bool ItemDB::renameLayer(QString layerPath, QString newLayerName)
 {
-    Layer *layer = findLayerByName(layerName);
+    Layer *layer = findLayerByPath(layerPath);
     if (!layer)
         return false;
 
@@ -479,6 +479,11 @@ Layer *ItemDB::findLayerByName(QString name)
     return m_rootLayer->findByName(name);
 }
 
+Layer *ItemDB::findLayerByPath(QString path)
+{
+    return m_rootLayer->findByPath(path);
+}
+
 bool ItemDB::isChildOfLayer(Layer *upperLayer, Layer *lowerLayer)
 {
     Layer *currentLayer = lowerLayer;
@@ -512,9 +517,9 @@ void ItemDB::addItem(CADitem *item, Layer *layer)
     emit signal_dbStatusModified();
 }
 
-void ItemDB::addItem(CADitem *item, QString layerName)
+void ItemDB::addItem(CADitem *item, QString layerPath)
 {
-    Layer *layer = findLayerByName(layerName);
+    Layer *layer = findLayerByPath(layerPath);
     if (!layer)
         layer = m_rootLayer;
 
@@ -589,10 +594,10 @@ bool ItemDB::changeLayerOfItem(CADitem *item, Layer *newLayer)
     return true;
 }
 
-bool ItemDB::changeLayerOfItem(quint64 id, QString newLayerName)
+bool ItemDB::changeLayerOfItem(quint64 id, QString newLayerPath)
 {
     CADitem *item = getItemById(id);
-    Layer *newLayer = findLayerByName(newLayerName);
+    Layer *newLayer = findLayerByPath(newLayerPath);
 
     return changeLayerOfItem(item, newLayer);
 }
@@ -1354,9 +1359,9 @@ CADitem *ItemDB::drawItem(Layer *layer, CADitemTypes::ItemType type)
     return newItem;
 }
 
-CADitem *ItemDB::drawItem(QString layerName, CADitemTypes::ItemType type)
+CADitem *ItemDB::drawItem(QString layerPath, CADitemTypes::ItemType type)
 {
-    Layer *layer = findLayerByName(layerName);
+    Layer *layer = findLayerByPath(layerPath);
     if (!layer)
         layer = m_rootLayer;
 
@@ -1573,13 +1578,13 @@ void ItemDB::restore_redo()
 
 QByteArray ItemDB::network_newLayer(QMap<QString, QString> data)
 {
-    QString newLayerName = data.value("newLayer");
-    if (findLayerByName(newLayerName))
+    QString newLayerPath = data.value("newLayer");
+    if (findLayerByPath(newLayerPath))
         return "Error: Layer already exists.\n";
 
     QString parentLayerName = data.value("parentLayer");
 
-    Layer *layer = addLayer(newLayerName, parentLayerName);
+    Layer *layer = addLayer(newLayerPath, parentLayerName);
     // TODO: set layer properties
 
     return "Ok\n"; // TODO: Broadcast response
@@ -1587,8 +1592,8 @@ QByteArray ItemDB::network_newLayer(QMap<QString, QString> data)
 
 QByteArray ItemDB::network_modifyLayer(QMap<QString, QString> data)
 {
-    QString layerName = data.value("Layer");
-    Layer *layer = findLayerByName(layerName);
+    QString layerPath = data.value("Layer");
+    Layer *layer = findLayerByPath(layerPath);
     if (!layer || layer == m_rootLayer)
         return "Error: Layer does not exists. Unable to modify it.\n";
 
@@ -1632,15 +1637,15 @@ QByteArray ItemDB::network_modifyLayer(QMap<QString, QString> data)
 
 QByteArray ItemDB::network_moveLayer(QMap<QString, QString> data)
 {
-    QString layerName = data.value("Layer");
-    Layer *layer = findLayerByName(layerName);
+    QString layerPath = data.value("Layer");
+    Layer *layer = findLayerByPath(layerPath);
     if (layer == NULL)
         return "Error: Layer does not exist. Unable to move it.\n";
 
     QString newParentLayerName = data.value("newParent");
     quint32 pos = data.value("Pos").toUInt();
 
-    bool result = moveLayer(layerName, newParentLayerName, pos);
+    bool result = moveLayer(layerPath, newParentLayerName, pos);
     if (!result)
         return "Error: Unable to move layer.\n";
 
@@ -1649,8 +1654,8 @@ QByteArray ItemDB::network_moveLayer(QMap<QString, QString> data)
 
 QByteArray ItemDB::network_deleteLayer(QMap<QString, QString> data)
 {
-    QString layerName = data.value("Layer");
-    Layer *layer = findLayerByName(layerName);
+    QString layerPath = data.value("Layer");
+    Layer *layer = findLayerByPath(layerPath);
     if (!layer)
         return "Error: Layer does not exist. Unable to delete it.\n";
 

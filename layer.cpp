@@ -148,6 +148,19 @@ Layer *Layer::findByName(QString name)
     return ret;
 }
 
+Layer *Layer::findByPath(QString path)
+{
+    Layer *ret = NULL;
+
+    foreach (Layer *layer, m_childLayers) {
+        if (layer->path() == path) return layer;
+
+        ret = layer->findByPath(path);
+    }
+
+    return ret;
+}
+
 void Layer::addItem(CADitem *item)
 {
     m_items.append(item);
@@ -165,7 +178,21 @@ QList<CADitem*> Layer::getItems()
 
 QString Layer::path() const
 {
-    if (!m_parentLayer->parentLayer()) return name;
+    QString path = name;
 
-    return QString(name).prepend(m_parentLayer->path() + " • ");
+    if (m_parentLayer) {
+        if (!m_parentLayer->parentLayer()) return name;
+
+        path.prepend(m_parentLayer->path() + " • ");
+    }
+
+    return path;
+}
+
+QString Layer::path(QString name) const
+{
+    QString path = name;
+    if (m_parentLayer) path.prepend(this->path() + " • ");
+
+    return path;
 }

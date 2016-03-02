@@ -850,8 +850,8 @@ void MainWindow::slot_collision_detected(CADitem *item_1, CADitem *item_2)
 //    }
 
     QMessageBox::information(this, tr("Collision Detection"), tr("There has been a collision between\n")
-                             + item_1->description() + " on " + item_1->layer->name + pos_1 + "\nand\n"
-                             + item_2->description() + " on " + item_2->layer->name + pos_2 + ".");
+                             + item_1->description() + " on " + item_1->layer->path() + pos_1 + "\nand\n"
+                             + item_2->description() + " on " + item_2->layer->path() + pos_2 + ".");
 
     if(item_1->layer->name != "Collision")
         item_1->setFormerLayer(item_1->layer);

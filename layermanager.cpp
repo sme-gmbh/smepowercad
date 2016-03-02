@@ -153,6 +153,8 @@ void LayerManager::slot_appendNewLayer()
     bool alreadyExists = false;
     bool ok;
 
+    QString path;
+
     do {
         if (alreadyExists)
             QMessageBox::warning(this, tr("New layer"), tr("Layer name already in use! Try a different name!"));
@@ -166,9 +168,13 @@ void LayerManager::slot_appendNewLayer()
                     QMessageBox::warning(this, tr("New layer"), tr("Layer name cannot be empty"));
             } while(layerName.isEmpty());
         }
+        if (m_layerAtContextMenuRequest == NULL)
+            path = layerName;
+        else
+            path = m_layerAtContextMenuRequest->parentLayer()->path(layerName);
 
         if (!ok) break;
-    } while (m_itemDb->findLayerByName(layerName) != NULL && (alreadyExists = true));
+    } while (m_itemDb->findLayerByPath(path) != NULL && (alreadyExists = true));
 
     if (ok) {
         int at = 0;
@@ -185,6 +191,8 @@ void LayerManager::slot_appendNewLayerAsChild()
     bool alreadyExists = false;
     bool ok;
 
+    QString path;
+
     do {
         if (alreadyExists)
             QMessageBox::warning(this, tr("New layer"), tr("Layer name already in use! Try a different name!"));
@@ -198,9 +206,10 @@ void LayerManager::slot_appendNewLayerAsChild()
                     QMessageBox::warning(this, tr("New layer"), tr("Layer name cannot be empty"));
             } while(layerName.isEmpty());
         }
+        path = m_layerAtContextMenuRequest->path(layerName);
 
         if (!ok) break;
-    } while (m_itemDb->findLayerByName(layerName) != NULL && (alreadyExists = true));
+    } while (m_itemDb->findLayerByPath(path) != NULL && (alreadyExists = true));
 
     if (ok) {
         m_itemDb->insertLayer(layerName, m_indexAtContextMenuRequest,

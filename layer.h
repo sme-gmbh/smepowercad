@@ -70,12 +70,14 @@ public:
     void serialIn(QByteArray *in);
 
     Layer* findByName(QString name);
+    Layer *findByPath(QString path);
 
     void addItem(CADitem *item);
     void removeItem(CADitem *item);
     QList<CADitem*> getItems();
 
     QString path() const;
+    QString path(QString name) const;
 
 private:
     LayerList m_childLayers;
