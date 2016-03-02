@@ -29,6 +29,8 @@ EquationSolver::EquationSolver(QString s)
     // add sentinel operation ~
     s.append('~');
 
+    if(s.at(0) == '+' || s.at(0) == '-')
+        s.prepend('0');
     bool foundNumbers = false;
     QVector<Token> tokens = QVector<Token>();
     QString buffer = QString();
