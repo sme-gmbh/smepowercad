@@ -22,7 +22,6 @@ LayerManager::LayerManager(ItemDB *itemDb, QWidget *parent) :
     QDockWidget(parent),
     ui(new Ui::LayerManager),
     m_itemDb(itemDb),
-    m_currentLayer(NULL),
     m_clipboardIndex()
 {
     ui->setupUi(this);
@@ -72,14 +71,6 @@ LayerManager::LayerManager(ItemDB *itemDb, QWidget *parent) :
 LayerManager::~LayerManager()
 {
     delete ui;
-}
-
-Layer* LayerManager::getCurrentLayer()
-{
-    if (!m_currentLayer)
-        return m_itemDb->getRootLayer();
-
-    return m_currentLayer;
 }
 
 void LayerManager::updateLayer(Layer *layer)
@@ -289,13 +280,13 @@ void LayerManager::on_treeView_layer_customContextMenuRequested(const QPoint &po
 
 void LayerManager::on_treeView_layer_activated(const QModelIndex &index)
 {
-    m_currentLayer = static_cast<Layer*>(index.internalPointer());
+    m_itemDb->setCurrentLayer(static_cast<Layer*>(index.internalPointer()));
 }
 
 void LayerManager::on_treeView_layer_clicked(const QModelIndex &index)
 {
     Layer *layer = static_cast<Layer*>(index.internalPointer());
-    m_currentLayer = layer;
+    m_itemDb->setCurrentLayer(layer);
 
     int col = index.column();
     if (col == 1) { // Ein

@@ -86,7 +86,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // **** Layer Manager ****
     this->layerManager = new LayerManager(m_itemDB, this);
     QAction* action_layerManager = this->layerManager->toggleViewAction();
-    action_layerManager->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
+//    action_layerManager->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
     // Not needed anymore
 //    connect(m_itemDB, &ItemDB::signal_layerAdded, layerManager, &LayerManager::slot_layerAdded);
 //    connect(m_itemDB, &ItemDB::signal_layerChanged, layerManager, &LayerManager::slot_layerChanged);
@@ -180,17 +180,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // ***** Spielwiese *****
 
-//    Layer* layer = itemDB->addLayer("Testlayer");
-//    layer->pen.setColor(Qt::gray);
-//    layer->brush.setColor(Qt::white);
-//    layer->lineType = "Continuous";
-//    layer->width = 1;
-
-    Layer *layerX = m_itemDB->addLayer("X");
-    layerX->pen.setColor(Qt::gray);
-    layerX->brush.setColor(QColor(0xff, 0xff, 0xff));
-    layerX->lineType = Layer::Continuous;
-    layerX->lineWidth = 1;
+    Layer *layer0 = m_itemDB->addLayer("0");
+    layer0->pen.setColor(Qt::gray);
+    layer0->brush.setColor(QColor(0xff, 0xff, 0xff));
+    layer0->lineType = Layer::Continuous;
+    layer0->lineWidth = 1;
+    m_itemDB->setCurrentLayer(layer0);
 
 
 //    Layer* layerY = itemDB->addLayer("Y");
@@ -711,7 +706,7 @@ void MainWindow::slot_selectionChanged(QList<CADitem*> selectedItems)
 
 void MainWindow::slot_createNewItem(CADitemTypes::ItemType type)
 {
-    Layer* currentLayer = this->layerManager->getCurrentLayer();
+    Layer* currentLayer = this->m_itemDB->getCurrentLayer();
 
     if (currentLayer == this->m_itemDB->getRootLayer())
     {
@@ -740,7 +735,7 @@ void MainWindow::slot_createNewItem(CADitemTypes::ItemType type)
 
 void MainWindow::slot_createNewItemWithWizardParams(CADitemTypes::ItemType type, WizardParams wizardParams)
 {
-    Layer* currentLayer = this->layerManager->getCurrentLayer();
+    Layer* currentLayer = this->m_itemDB->getCurrentLayer();
 
     if (currentLayer == this->m_itemDB->getRootLayer())
     {

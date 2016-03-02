@@ -85,6 +85,8 @@ public:
     void deleteItems_withRestorePoint(QList<CADitem*> items);
     bool changeLayerOfItem(CADitem *item, Layer *newLayer);
     bool changeLayerOfItem(quint64 id, QString newLayerName);
+    bool changeLayerOfItem_withRestorePoint(CADitem *item, Layer *newLayer);
+    bool changeLayerOfItems_withRestorePoint(QList<CADitem*> items, Layer *layer);
     CADitem* createItem(CADitemTypes::ItemType type);
     CADitem* drawItem(Layer *layer, CADitemTypes::ItemType type);
     CADitem* drawItem(QString layerName, CADitemTypes::ItemType type);
@@ -124,6 +126,9 @@ public:
     void removePrintscriptVariable(const QString &key);
     void insertPrintscriptVariable(const QString &key, const QString &value);
 
+    Layer *getCurrentLayer() const;
+    void setCurrentLayer(Layer *currentLayer);
+
 private:
     QIcon m_iconLayerOn;
     QIcon m_iconLayerOff;
@@ -160,6 +165,7 @@ private:
     void file_storeDB_processPrintscriptItem(QDomDocument &doc, QDomElement &parentElement, QList<PrintscriptTreeItem*> items);
 
     Layer *m_rootLayer;
+    Layer *m_currentLayer;
 
 signals:
     void signal_layerAdded(Layer *layer, Layer *parentLayer);

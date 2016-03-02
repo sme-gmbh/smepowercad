@@ -24,7 +24,7 @@ ItemWizard::ItemWizard(QWidget *parent) :
     ui(new Ui::ItemWizard),
     m_itemParametersWidget(NULL)
 {
-    this->setStyleSheet(StylesheetProvider::getStylesheet("ItemWizard,Button"));
+    this->setStyleSheet(StylesheetProvider::getStylesheet("ItemWizard,Button,QLineEdit+QTextEdit"));
     ui->setupUi(this);
     this->widgetLastFocus = NULL;
 }
@@ -40,7 +40,7 @@ void ItemWizard::showWizard(CADitem *item, ItemDB* itemDB)
         qCWarning(powercad) << "CADitem is NULL";
         return;
     }
-    this->itemDB = itemDB;
+    this->m_itemDB = itemDB;
 
     // Do not show an empty wizard
     if(item->wizardParams.isEmpty()) {
@@ -54,13 +54,14 @@ void ItemWizard::showWizard(CADitem *item, ItemDB* itemDB)
 
     m_itemParametersWidget = new ItemParametersWidget(item, itemDB, true, true, this);
     connect(m_itemParametersWidget, &ItemParametersWidget::sceneRepaintNeeded, this, &ItemWizard::signal_sceneRepaintNeeded);
-    ui->verticalLayout->insertWidget(1, m_itemParametersWidget);
+    ui->verticalLayout->insertWidget(2, m_itemParametersWidget);
 
     this->widgetLastFocus = qApp->focusWidget();
     this->setWindowTitle(tr("Item Wizard: %1").arg(item->description()));
 
     // Show item graphic description
     ui->label_itemGraphic->setPixmap(QPixmap::fromImage(this->wizardImage(item)));
+    ui->lineEdit_layer->setText(item->layer->path());
 
     this->show();
     this->setFocus();
@@ -85,7 +86,8 @@ void ItemWizard::save()
 {
     WizardParams params = m_itemParametersWidget->getParameters();
 
-    this->itemDB->modifyItem_withRestorePoint(m_currentItem, params);
+    this->m_itemDB->setRestorePoint();
+    this->m_itemDB->modifyItem_withRestorePoint(m_currentItem, params);
     emit signal_sceneRepaintNeeded();
 }
 
@@ -171,4 +173,11 @@ void ItemWizard::slot_itemDeleted(CADitem *item)
 {
     if (m_currentItem == item)
         this->slot_rejected();
+}
+
+void ItemWizard::on_pushButton_setToCurrentLayer_clicked()
+{
+    m_itemDB->setRestorePoint();
+    m_itemDB->changeLayerOfItem_withRestorePoint(m_currentItem, m_itemDB->getCurrentLayer());
+    ui->lineEdit_layer->setText(m_currentItem->layer->path());
 }

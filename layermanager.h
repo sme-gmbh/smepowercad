@@ -46,8 +46,6 @@ public:
     explicit LayerManager(ItemDB *itemDb, QWidget *parent = 0);
     ~LayerManager();
 
-    Layer* getCurrentLayer();
-
 private:
     Ui::LayerManager *ui;
     ItemDB *m_itemDb;
@@ -56,7 +54,6 @@ private:
     QMenu *m_menuOnItem;
     QModelIndex m_indexAtContextMenuRequest;
     Layer *m_layerAtContextMenuRequest;
-    Layer *m_currentLayer;
 
     QAction *m_actionCut;
     QAction *m_actionPasteHere;

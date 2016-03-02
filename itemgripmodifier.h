@@ -53,7 +53,7 @@ public:
         Grip_Rotate_X,
         Grip_Rotate_Y,
         Grip_Rotate_Z,
-        Grip_Rotate_aroundPoint,
+        Grip_Rotate_aroundPoint
     };
 
     void setItem(CADitem* item);

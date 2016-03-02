@@ -57,6 +57,8 @@ private slots:
 
     void on_pushButton_cancel_clicked();
 
+    void on_pushButton_setToCurrentLayer_clicked();
+
 public slots:
     void slot_itemDeleted(CADitem* item);
 
@@ -65,7 +67,7 @@ private:
     ItemParametersWidget *m_itemParametersWidget;
 
     CADitem *m_currentItem;
-    ItemDB* itemDB;
+    ItemDB* m_itemDB;
     QWidget* widgetLastFocus;   // The widget that had the focus before ItemWizard got focus
     void save();
     void clear();

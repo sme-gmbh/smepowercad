@@ -20,7 +20,8 @@ Q_LOGGING_CATEGORY(itemdb, "powercad.itemdb")
 ItemDB::ItemDB(QObject *parent)
     : QAbstractItemModel(parent),
       m_printscriptTreeModel(new PrintscriptTreeModel(this)),
-      m_globalPrintscriptVariables(QMap<QString,QString>())
+      m_globalPrintscriptVariables(QMap<QString,QString>()),
+      m_currentLayer(NULL)
 {
     m_rootLayer = new Layer();
     m_rootLayer->name = "$$ToplevelLayer";
@@ -594,6 +595,20 @@ bool ItemDB::changeLayerOfItem(quint64 id, QString newLayerName)
     Layer *newLayer = findLayerByName(newLayerName);
 
     return changeLayerOfItem(item, newLayer);
+}
+
+bool ItemDB::changeLayerOfItem_withRestorePoint(CADitem *item, Layer *newLayer)
+{
+    restorePoints_undo.append(new RestorePoint(RestorePoint::Restore_ItemLayerChange,
+                                               item->id,
+                                               item->layer,
+                                               newLayer));
+    return changeLayerOfItem(item, newLayer);
+}
+
+bool ItemDB::changeLayerOfItems_withRestorePoint(QList<CADitem *> items, Layer *layer)
+{
+
 }
 
 CADitem *ItemDB::createItem(CADitemTypes::ItemType type)
@@ -1454,7 +1469,7 @@ void ItemDB::restore_undo()
         case RestorePoint::Restore_ItemDeletion: {
             quint64 currentItemId_shadow = m_currentItemId;
             m_currentItemId = restorePoint->itemID;
-            CADitem *newItem = drawItem(restorePoint->layer, restorePoint->itemType);
+            CADitem *newItem = drawItem(restorePoint->layerBefore, restorePoint->itemType);
             m_currentItemId = currentItemId_shadow;
 
             newItem->wizardParams = restorePoint->wizardParamsBefore;
@@ -1463,7 +1478,12 @@ void ItemDB::restore_undo()
         }
             break;
 
-        case RestorePoint::Restore_ItemLayerChange:
+        case RestorePoint::Restore_ItemLayerChange: {
+            CADitem *item = getItemById(restorePoint->itemID);
+            if(!item)
+                continue;
+            changeLayerOfItem(item, restorePoint->layerBefore);
+        }
             break;
 
         case RestorePoint::Restore_WizardParams: {
@@ -1486,6 +1506,7 @@ void ItemDB::restore_undo()
 
 void ItemDB::restore_redo()
 {
+
     RestorePoint *restorePoint;
     emit signal_dbStatusModified();
 
@@ -1502,7 +1523,7 @@ void ItemDB::restore_redo()
         case RestorePoint::Restore_ItemCreation: {
             quint64 currentItemId_shadow = m_currentItemId;
             m_currentItemId = restorePoint->itemID;
-            CADitem *newItem = drawItem(restorePoint->layer, restorePoint->itemType);
+            CADitem *newItem = drawItem(restorePoint->layerBefore, restorePoint->itemType);
             m_currentItemId = currentItemId_shadow;
 
             newItem->wizardParams = restorePoint->wizardParamsBefore;
@@ -1516,7 +1537,12 @@ void ItemDB::restore_redo()
         }
             break;
 
-        case RestorePoint::Restore_ItemLayerChange:
+        case RestorePoint::Restore_ItemLayerChange: {
+            CADitem *item = getItemById(restorePoint->itemID);
+            if(!item)
+                continue;
+            changeLayerOfItem(item, restorePoint->layerAfter);
+        }
             break;
 
         case RestorePoint::Restore_WizardParams: {
@@ -2201,4 +2227,14 @@ void ItemDB::file_storeDB_processPrintscriptItem(QDomDocument &doc, QDomElement 
             file_storeDB_processPrintscriptItem(doc, elem, item->getChildItems());
         }
     }
+}
+
+Layer *ItemDB::getCurrentLayer() const
+{
+    return m_currentLayer;
+}
+
+void ItemDB::setCurrentLayer(Layer *currentLayer)
+{
+    m_currentLayer = currentLayer;
 }

@@ -36,9 +36,11 @@ public:
     RestorePoint(RestorePoint &restorePoint);
     RestorePoint(RestoreType type);
     RestorePoint(RestoreType type, Layer *layer, quint64 itemID, CADitemTypes::ItemType itemType, WizardParams wizardParamsBefore, WizardParams wizardParamsAfter);
+    RestorePoint(RestoreType type, quint64 itemID, Layer *layerBefore, Layer *layerAfter);
     ~RestorePoint();
 
-    Layer* layer;
+    Layer *layerBefore;
+    Layer *layerAfter;
     CADitemTypes::ItemType itemType;
     quint64 itemID;
     WizardParams wizardParamsBefore;

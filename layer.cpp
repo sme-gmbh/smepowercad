@@ -162,3 +162,10 @@ QList<CADitem*> Layer::getItems()
 {
     return m_items;
 }
+
+QString Layer::path() const
+{
+    if (!m_parentLayer->parentLayer()) return name;
+
+    return QString(name).prepend(m_parentLayer->path() + " • ");
+}

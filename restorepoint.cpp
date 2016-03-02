@@ -22,7 +22,7 @@ RestorePoint::RestorePoint()
 
 RestorePoint::RestorePoint(RestorePoint &restorePoint)
 {
-    this->layer = restorePoint.layer;
+    this->layerBefore = restorePoint.layerBefore;
     this->itemType = restorePoint.itemType;
     this->itemID = restorePoint.itemID;
     this->wizardParamsBefore = restorePoint.wizardParamsBefore;
@@ -37,12 +37,21 @@ RestorePoint::RestorePoint(RestoreType type)
 
 RestorePoint::RestorePoint(RestorePoint::RestoreType type, Layer* layer, quint64 itemID, CADitemTypes::ItemType itemType, WizardParams wizardParamsBefore, WizardParams wizardParamsAfter)
 {
-    this->layer = layer;
+    this->layerBefore = layer;
+    this->layerAfter = layer;
     this->restoreType = type;
     this->itemID = itemID;
     this->itemType = itemType;
     this->wizardParamsBefore = wizardParamsBefore;
     this->wizardParamsAfter = wizardParamsAfter;
+}
+
+RestorePoint::RestorePoint(RestorePoint::RestoreType type, quint64 itemID, Layer *layerBefore, Layer *layerAfter)
+{
+    this->layerBefore = layerBefore;
+    this->layerAfter = layerAfter;
+    this->restoreType = type;
+    this->itemID = itemID;
 }
 
 RestorePoint::~RestorePoint()

@@ -75,6 +75,8 @@ public:
     void removeItem(CADitem *item);
     QList<CADitem*> getItems();
 
+    QString path() const;
+
 private:
     LayerList m_childLayers;
     Layer *m_parentLayer;

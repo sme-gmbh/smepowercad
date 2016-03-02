@@ -20,7 +20,7 @@
    <string>New %1</string>
   </property>
   <widget class="QWidget" name="dockWidgetContents">
-   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,1,0">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,1,0">
     <item>
      <widget class="QLabel" name="label_itemGraphic">
       <property name="sizePolicy">
@@ -33,6 +33,27 @@
        <string>Item Graphic</string>
       </property>
      </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0">
+      <item>
+       <widget class="QLineEdit" name="lineEdit_layer">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+        <property name="placeholderText">
+         <string>Layer</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_setToCurrentLayer">
+        <property name="text">
+         <string>Move to current layer</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
      <widget class="QWidget" name="widgetItemWizardParameters" native="true">
