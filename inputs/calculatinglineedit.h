@@ -48,6 +48,9 @@ private slots:
     void on_editingFinished();
     void on_buttonUp_clicked();
     void on_buttonDown_clicked();
+
+signals:
+    void lastEditFinished();
 };
 
 #endif // CALCULATINGLINEEDIT_H

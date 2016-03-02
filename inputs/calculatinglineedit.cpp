@@ -87,7 +87,6 @@ void CalculatingLineEdit::setText(const QString &text)
     if (!m_einheit.isEmpty()) {
         val.append(" " + m_einheit);
     }
-
     QLineEdit::setText(val);
 }
 
@@ -113,6 +112,7 @@ void CalculatingLineEdit::on_editingFinished()
 
     this->setText(text);
     this->clearFocus();
+    emit lastEditFinished();
 }
 
 void CalculatingLineEdit::on_buttonUp_clicked()
