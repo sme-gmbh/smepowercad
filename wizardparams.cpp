@@ -178,7 +178,7 @@ void WizardParams::insert(WizardParams newParams)
     }
 }
 
-QVariant WizardParams::value(QString key)
+QVariant WizardParams::value(QString key) const
 {
 //    qCDebug(powercad) << "WizardParams::value() key =" << key;
     int index_double     = keys_double.indexOf(key);
@@ -202,7 +202,7 @@ QVariant WizardParams::value(QString key)
     return QVariant();
 }
 
-QVariant WizardParams::value(int index)
+QVariant WizardParams::value(int index) const
 {
 //    qCDebug(powercad) << "WizardParams::value(int)";
     if (index < values_double.count())
@@ -217,7 +217,7 @@ QVariant WizardParams::value(int index)
     return QVariant();
 }
 
-QList<QString> WizardParams::keys()
+QList<QString> WizardParams::keys() const
 {
 //    qCDebug(powercad) << "WizardParams::keys()";
     QList<QString> keys;
@@ -230,7 +230,7 @@ QList<QString> WizardParams::keys()
     return keys;
 }
 
-QList<QVariant> WizardParams::values()
+QList<QVariant> WizardParams::values() const
 {
 //    qCDebug(powercad) << "WizardParams::values()";
     QList<QVariant> values;
@@ -247,7 +247,7 @@ QList<QVariant> WizardParams::values()
     return values;
 }
 
-bool WizardParams::isEmpty()
+bool WizardParams::isEmpty() const
 {
 //    qCDebug(powercad) << "WizardParams::isEmpty()";
 
@@ -263,7 +263,7 @@ bool WizardParams::isEmpty()
     return true;
 }
 
-QJsonArray WizardParams::serialize()
+QJsonArray WizardParams::serialize() const
 {
     QJsonArray ret = QJsonArray();
 
@@ -287,4 +287,25 @@ void WizardParams::deserialize(QJsonArray data)
 
         this->insert(o.value("key").toString(), o.value("value").toVariant());
     }
+}
+
+bool WizardParams::operator==(const WizardParams &toBeCompared)
+{
+    bool ret = true;
+
+    foreach(QString key, this->keys())
+    {
+        QVariant value_this = this->value(key);
+        QVariant value_tbc = toBeCompared.value(key);
+        ret &= (value_this == value_tbc);
+    }
+
+    foreach(QString key, toBeCompared.keys())
+    {
+        QVariant value_this = this->value(key);
+        QVariant value_tbc = toBeCompared.value(key);
+        ret &= (value_this == value_tbc);
+    }
+
+    return ret;
 }

@@ -37,14 +37,16 @@ public:
                                                     // StringList = {String1*String2*...*Stringn}{activeString}
     void insertComboBox(QString key, QStringList texts_available, QString currentText);
     void insert(WizardParams newParams);
-    QVariant value(QString key);
-    QVariant value(int index);
-    QList<QString> keys();
-    QList<QVariant> values();
-    bool isEmpty();
+    QVariant value(QString key) const;
+    QVariant value(int index) const;
+    QList<QString> keys() const;
+    QList<QVariant> values() const;
+    bool isEmpty() const;
 
-    QJsonArray serialize();
+    QJsonArray serialize() const;
     void deserialize(QJsonArray data);
+
+    bool operator==(const WizardParams &toBeCompared);
 
 
 private:

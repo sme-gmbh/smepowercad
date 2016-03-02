@@ -49,6 +49,7 @@ ItemParametersWidget::ItemParametersWidget(CADitem *item, ItemDB *itemdb, bool s
         switch (value.type()) {
         case QVariant::String:
             wdg = new QLineEdit(value.toString(), this);
+            connect((QLineEdit *)wdg, &QLineEdit::editingFinished, this, &ItemParametersWidget::parameterChanged);
             break;
         case QVariant::Int:
         case QVariant::Double:
@@ -60,6 +61,7 @@ ItemParametersWidget::ItemParametersWidget(CADitem *item, ItemDB *itemdb, bool s
                 ((CalculatingLineEdit*)wdg)->setEinheit("mm"); // WARNING: Not always right
             }
             ((CalculatingLineEdit*)wdg)->setValue(value.toFloat());
+            connect((CalculatingLineEdit *)wdg, &CalculatingLineEdit::lastEditFinished, this, &ItemParametersWidget::parameterChanged);
             break;
         case QVariant::StringList:
             wdg = new QComboBox(this);
@@ -69,6 +71,7 @@ ItemParametersWidget::ItemParametersWidget(CADitem *item, ItemDB *itemdb, bool s
             }
             else
                 qCDebug(itemparameterswidget) << "StringList has invalid size:" << value.toStringList().size() << ";Key:" << key;
+            connect((QComboBox *)wdg, static_cast<void (QComboBox::*) (int)>(&QComboBox::currentIndexChanged), this, &ItemParametersWidget::parameterChangedComboBox);
             break;
         default:
             qCDebug(itemparameterswidget) << "Unhandled value type:" << value.type();

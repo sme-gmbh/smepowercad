@@ -54,6 +54,8 @@ private:
 
 signals:
     void sceneRepaintNeeded();
+    void parameterChanged();
+    void parameterChangedComboBox(int index = 0);
 };
 
 #endif // ITEMPARAMETERSWIDGET_H

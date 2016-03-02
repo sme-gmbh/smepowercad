@@ -1370,14 +1370,14 @@ CADitem *ItemDB::drawItem_withRestorePoint(Layer *layer, CADitemTypes::ItemType 
         return NULL;
 
     item->wizardParams.insert(wizardParams);
+    item->processWizardInput();
+    item->calculate();
     restorePoints_undo.append(new RestorePoint(RestorePoint::Restore_ItemCreation,
                                                item->layer,
                                                item->id,
                                                item->getType(),
-                                               wizardParams, wizardParams));
+                                               item->wizardParams, item->wizardParams));
 
-    item->processWizardInput();
-    item->calculate();
     emit signal_dbStatusModified();
 
     return item;
@@ -1506,9 +1506,14 @@ void ItemDB::restore_undo()
 
 void ItemDB::restore_redo()
 {
-
     RestorePoint *restorePoint;
     emit signal_dbStatusModified();
+
+    if(!restorePoints_redo.isEmpty())
+    {
+        restorePoint = restorePoints_redo.takeFirst();
+        restorePoints_undo.append(restorePoint);
+    }
 
     forever {
         if (restorePoints_redo.isEmpty()) {

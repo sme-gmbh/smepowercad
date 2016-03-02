@@ -46,10 +46,34 @@ public:
     WizardParams wizardParamsBefore;
     WizardParams wizardParamsAfter;
 
-    RestoreType getType();
+    RestoreType getType() const;
 
 private:
     RestoreType restoreType;
 };
+
+inline QDebug operator<<(QDebug dbg, const RestorePoint &restorePoint)
+{
+    switch(restorePoint.getType())
+    {
+    case RestorePoint::Restore_Stoppoint:
+        dbg.nospace() << "Restore Stoppoint";
+        break;
+    case RestorePoint::Restore_WizardParams:
+        dbg.nospace() << "Restore WizardParams";
+        break;
+    case RestorePoint::Restore_ItemDeletion:
+        dbg.nospace() << "Restore ItemDeletion";
+        break;
+    case RestorePoint::Restore_ItemCreation:
+        dbg.nospace() << "Restore ItemCreation";
+        break;
+    case RestorePoint::Restore_ItemLayerChange:
+        dbg.nospace() << "Restore ItemLayerChange";
+        break;
+    }
+
+    return dbg.maybeSpace();
+}
 
 #endif // RESTOREPOINT_H

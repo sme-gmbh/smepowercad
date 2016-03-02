@@ -51,9 +51,12 @@ void ItemWizard::showWizard(CADitem *item, ItemDB* itemDB)
 
     clear();
     m_currentItem = item;
+    this->oldParams = m_currentItem->wizardParams;
 
     m_itemParametersWidget = new ItemParametersWidget(item, itemDB, true, true, this);
     connect(m_itemParametersWidget, &ItemParametersWidget::sceneRepaintNeeded, this, &ItemWizard::signal_sceneRepaintNeeded);
+    connect(m_itemParametersWidget, &ItemParametersWidget::parameterChanged, this, &ItemWizard::slot_parameterChanged);
+    connect(m_itemParametersWidget, &ItemParametersWidget::parameterChangedComboBox, this, &ItemWizard::slot_parameterChanged);
     ui->verticalLayout->insertWidget(2, m_itemParametersWidget);
 
     this->widgetLastFocus = qApp->focusWidget();
@@ -67,28 +70,29 @@ void ItemWizard::showWizard(CADitem *item, ItemDB* itemDB)
     this->setFocus();
 }
 
-void ItemWizard::slot_rejected()
-{
-    this->clear();
-    this->hide();
-    this->giveFocusBack();
-}
 
-void ItemWizard::slot_accepted()
+void ItemWizard::slot_parameterChanged()
 {
-    this->save();
-    this->clear();
-    this->hide();
-    this->giveFocusBack();
+    m_currentItem->wizardParams.insert(m_itemParametersWidget->getParameters());
+    m_currentItem->processWizardInput();
+    m_currentItem->calculate();
+    emit m_itemDB->signal_itemModified(m_currentItem);
+    emit m_itemDB->signal_repaintNeeded();
 }
 
 void ItemWizard::save()
 {
     WizardParams params = m_itemParametersWidget->getParameters();
 
-    this->m_itemDB->setRestorePoint();
-    this->m_itemDB->modifyItem_withRestorePoint(m_currentItem, params);
-    emit signal_sceneRepaintNeeded();
+    if(!(params == oldParams))
+    {
+        m_currentItem->wizardParams.insert(oldParams);
+        m_currentItem->processWizardInput();
+        m_currentItem->calculate();
+        this->m_itemDB->setRestorePoint();
+        this->m_itemDB->modifyItem_withRestorePoint(m_currentItem, params);
+        emit signal_sceneRepaintNeeded();
+    }
 }
 
 void ItemWizard::clear()
@@ -96,11 +100,6 @@ void ItemWizard::clear()
     if (m_itemParametersWidget != NULL) {
         delete m_itemParametersWidget;
         m_itemParametersWidget = NULL;
-//        qDebug() << ui->verticalLayout->count();
-//        QLayoutItem *item = ui->verticalLayout->itemAt(1);
-//        ui->verticalLayout->removeItem(item);
-//        delete item;
-//        ui->label_itemGraphic->clear();
     }
 }
 
@@ -119,60 +118,20 @@ void ItemWizard::enterEvent(QEvent *event)
     event->accept();
 }
 
-void ItemWizard::leaveEvent(QEvent *event)
-{
-    event->accept();
-}
-
-void ItemWizard::keyPressEvent(QKeyEvent *event)
-{
-    // TODO: different approach for closing dialog, maybe leave it open all the time
-//    switch (event->key())
-//    {
-//    case Qt::Key_Return:
-//    case Qt::Key_Enter:
-//        this->slot_accepted();
-//        break;
-//    case Qt::Key_Escape:
-//        this->slot_rejected();
-//        break;
-//    default:
-//        break;
-//    }
-    event->accept();
-}
-
-void ItemWizard::mousePressEvent(QMouseEvent *event)
-{
-    if (event->buttons() & Qt::RightButton)
-        this->slot_accepted();
-    event->accept();
-}
 
 QImage ItemWizard::wizardImage(CADitem *item)
 {
     return item->wizardImage().scaledToWidth(400, Qt::SmoothTransformation);
 }
 
-void ItemWizard::on_pushButton_ok_clicked()
-{
-    this->slot_accepted();
-}
-
-void ItemWizard::on_pushButton_apply_clicked()
-{
-    this->save();
-}
-
-void ItemWizard::on_pushButton_cancel_clicked()
-{
-    this->slot_rejected();
-}
-
 void ItemWizard::slot_itemDeleted(CADitem *item)
 {
     if (m_currentItem == item)
-        this->slot_rejected();
+    {
+        this->clear();
+        this->hide();
+        this->giveFocusBack();
+    }
 }
 
 void ItemWizard::on_pushButton_setToCurrentLayer_clicked()
@@ -180,4 +139,25 @@ void ItemWizard::on_pushButton_setToCurrentLayer_clicked()
     m_itemDB->setRestorePoint();
     m_itemDB->changeLayerOfItem_withRestorePoint(m_currentItem, m_itemDB->getCurrentLayer());
     ui->lineEdit_layer->setText(m_currentItem->layer->path());
+}
+
+void ItemWizard::on_pushButton_cancel_clicked()
+{
+    if(m_currentItem)
+    {
+        m_currentItem->wizardParams.insert(this->oldParams);
+        m_currentItem->processWizardInput();
+        m_currentItem->calculate();
+    }
+    this->clear();
+    this->hide();
+    this->giveFocusBack();
+}
+
+void ItemWizard::on_pushButton_ok_clicked()
+{
+    this->save();
+    this->clear();
+    this->hide();
+    this->giveFocusBack();
 }

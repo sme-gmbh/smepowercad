@@ -59,10 +59,11 @@ RestorePoint::~RestorePoint()
 
 }
 
-RestorePoint::RestoreType RestorePoint::getType()
+RestorePoint::RestoreType RestorePoint::getType() const
 {
     return this->restoreType;
 }
+
 
 
 

@@ -1012,7 +1012,6 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
         {
             if (this->itemWizard != NULL)
             {
-                itemDB->setRestorePoint();
                 this->itemWizard->showWizard(item_lastHighlight, itemDB);
             }
         }

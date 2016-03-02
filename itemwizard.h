@@ -48,16 +48,11 @@ public:
     static QImage wizardImage(CADitem *item);
 
 private slots:
-    void slot_rejected();
-    void slot_accepted();
-
-    void on_pushButton_ok_clicked();
-
-    void on_pushButton_apply_clicked();
-
-    void on_pushButton_cancel_clicked();
+    void slot_parameterChanged();
 
     void on_pushButton_setToCurrentLayer_clicked();
+    void on_pushButton_cancel_clicked();
+    void on_pushButton_ok_clicked();
 
 public slots:
     void slot_itemDeleted(CADitem* item);
@@ -69,15 +64,16 @@ private:
     CADitem *m_currentItem;
     ItemDB* m_itemDB;
     QWidget* widgetLastFocus;   // The widget that had the focus before ItemWizard got focus
+    WizardParams oldParams;
     void save();
     void clear();
     void giveFocusBack();
 
 protected:
     virtual void enterEvent(QEvent *event);
-    virtual void leaveEvent(QEvent *event);
-    virtual void keyPressEvent(QKeyEvent *event);
-    virtual void mousePressEvent(QMouseEvent *event);
+//    virtual void leaveEvent(QEvent *event);
+//    virtual void keyPressEvent(QKeyEvent *event);
+//    virtual void mousePressEvent(QMouseEvent *event);
 
 signals:
     void signal_sceneRepaintNeeded();
