@@ -126,6 +126,11 @@ void ItemCatalog::getGitConfig()
     this->git_Output.clear();
 }
 
+QString ItemCatalog::toPercentEncoding(QString arg)
+{
+    return QUrl::toPercentEncoding(arg);
+}
+
 QStringList ItemCatalog::toPercentEncoding(QStringList list)
 {
     for (int i = 0; i < list.length(); i++) {
@@ -133,6 +138,11 @@ QStringList ItemCatalog::toPercentEncoding(QStringList list)
     }
 
     return list;
+}
+
+QString ItemCatalog::fromPercentEncoding(QString arg)
+{
+    return QUrl::fromPercentEncoding(arg.toUtf8());
 }
 
 QStringList ItemCatalog::fromPercentEncoding(QStringList list)
@@ -346,7 +356,7 @@ void ItemCatalog::on_comboBox_model_currentIndexChanged(const QString &arg1)
         return;
     }
 
-    QJsonObject o = readDataFromModelFile(m_currentVendorDir.absoluteFilePath(arg1 + ".json"));
+    QJsonObject o = readDataFromModelFile(m_currentVendorDir.absoluteFilePath(toPercentEncoding(arg1) + ".json"));
     delete m_currentItem;
     m_currentItem = m_itemdb->createItem((CADitemTypes::ItemType)ui->comboBox_itemType->currentData().toInt());
     m_currentItem->wizardParams.deserialize(o.value(JSON_KEY_PARAMETERS).toArray());
