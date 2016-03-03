@@ -37,6 +37,7 @@ LIBS += -lGLU -lX11 -ldxfrw
 # Include subprojects
 include($$PWD/network/network.pri)
 include($$PWD/inputs/inputs.pri)
+include($$PWD/management/management.pri)
 
 # Language database build
 system(lrelease-qt5 smepowercad.pro)

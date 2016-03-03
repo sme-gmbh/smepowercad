@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/management">
+        <file>html/login.html</file>
+    </qresource>
+</RCC>

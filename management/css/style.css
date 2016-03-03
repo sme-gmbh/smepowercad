@@ -1,0 +1,200 @@
+.u-layout-horizontal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.u-flex-placeholder-50 {
+  width: 50px;
+  flex-basis: 50px;
+  margin: 0 15px;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+html, body {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  font-family: 'Open Sans', sans-serif;
+  cursor: pointer;
+  border: 0;
+  background: 0;
+}
+
+html {
+  width: 800px;
+  height: 600px;
+}
+
+body, .content-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+  color: #e4e4e4;
+}
+
+.content-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background: radial-gradient(circle, rgb(106, 106, 106) 0%, rgb(78, 78, 78) 80%);
+}
+
+.content-wrapper > * {
+  flex-grow: 1;
+}
+
+.content-wrapper h1 {
+  font-size: 48px;
+  padding: 0;
+  margin: 0;
+}
+
+.buttons-right {
+  float: right;
+}
+
+.window-controls {
+  width: 100%;
+}
+
+.window-controls button {
+  border: 0;
+  font-size: 24px;
+  font-weight: normal;
+  line-height: 1;
+  padding: 3px 10px;
+  float: left;
+}
+
+.window-controls .button-about {
+  background: rgb(137, 137, 137);
+  color: rgb(206, 206, 206);
+}
+
+.window-controls .button-quit {
+  background: rgb(219, 87, 77);
+  color: rgb(255, 140, 120);
+  font-size: 36px;
+  padding: 0px 15px;
+  line-height: 30px;
+  font-weight: 100;
+}
+
+input[type="text"], input[type="password"] {
+  background: rgb(106, 106, 106);
+  border: 1px solid rgb(145, 145, 145);
+  border-radius: 2px;
+  padding: 5px;
+  color: #e4e4e4;
+}
+input[type="text"]:hover, input[type="password"]:hover,
+input[type="text"]:focus, input[type="password"]:focus {
+  border-color: rgb(52, 152, 219);
+  outline: 0;
+}
+
+input[type="password"] {
+  font-size: 1em;
+  width: 150px;
+  height: 30px;
+}
+
+.input-group {
+  margin-top: 30px;
+}
+
+.input-group input, .input-group button {
+  margin: 0 5px;
+}
+
+.button-login {
+  background: transparent;
+  border: 1px solid rgb(145, 145, 145);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+.button-login:hover {
+  border-color: rgb(52, 152, 219);
+}
+
+.button-login img {
+  margin-top: 5px;
+}
+
+form {
+  margin-bottom: 30px;
+}
+
+.faces-face {
+  cursor: pointer;
+  padding: 0 15px;
+}
+
+.faces-face-img {
+  border: 2px solid rgb(145, 145, 145);
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+}
+.faces-face-img:hover {
+  border-color: rgb(52, 152, 219);
+}
+
+.faces-face-img img {
+  border-radius: 50%;
+  width: 96px;
+  height: 96px;
+}
+
+.faces-face-name {
+  text-align: center;
+  font-size: 14px;
+  color: rgb(218, 218, 218);
+  margin-top: 5px;
+}
+
+.face-small .faces-face-img {
+  width: 50px;
+  height: 50px;
+  position: relative;
+}
+
+.face-small .faces-face-img img {
+  width: 26px;
+  height: auto;
+  border-radius: 0;
+  position: relative;
+  top: 10px;
+  left: 10px;
+}
+
+.face-small .faces-face-name {
+  font-size: 12px;
+}
+
+.icon-bar {
+  height: 50px;
+  max-height: 50px;
+  width: 100%;
+}
+
+.icon-bar button {
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
+}
