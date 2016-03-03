@@ -101,7 +101,9 @@ private:
     bool setupGitProcess();
     void getGitConfig();
 
+    QString toPercentEncoding(QString arg);
     QStringList toPercentEncoding(QStringList list);
+    QString fromPercentEncoding(QString arg);
     QStringList fromPercentEncoding(QStringList list);
 
     QJsonObject readDataFromModelFile(QString filename);
