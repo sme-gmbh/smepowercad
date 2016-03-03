@@ -273,5 +273,6 @@ void CAD_Basic_Flume::paint(GLWidget *glwidget)
 
 QMatrix4x4 CAD_Basic_Flume::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

@@ -220,5 +220,6 @@ void CAD_Basic_Torus::paint(GLWidget *glwidget)
 
 QMatrix4x4 CAD_Basic_Torus::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

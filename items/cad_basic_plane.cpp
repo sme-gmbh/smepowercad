@@ -185,5 +185,6 @@ void CAD_basic_plane::paint(GLWidget *glwidget)
 
 QMatrix4x4 CAD_basic_plane::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

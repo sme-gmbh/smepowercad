@@ -195,5 +195,6 @@ void CAD_basic_circle::paint(GLWidget *glwidget)
 
 QMatrix4x4 CAD_basic_circle::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

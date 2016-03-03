@@ -152,6 +152,7 @@ void CAD_Basic_Triangle::processWizardInput()
 
 QMatrix4x4 CAD_Basic_Triangle::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }
 

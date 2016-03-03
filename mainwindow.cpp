@@ -491,6 +491,7 @@ void MainWindow::slot_file_open_dxf(QString filename)
 
 void MainWindow::slot_file_open_dxf_with_libdxfrw(QString filename)
 {
+    Q_UNUSED(filename)
 //    QByteArray filename_array = filename.toUtf8();
 //    char* filename_data = filename_array.data();
 //    dxfRW reader(filename_data);

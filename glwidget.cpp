@@ -533,6 +533,9 @@ void GLWidget::slot_itemDeleted(CADitem *item)
 
 void GLWidget::slot_mouse3Dmoved(int x, int y, int z, int a, int b, int c)
 {
+    Q_UNUSED(a)
+    Q_UNUSED(b)
+    Q_UNUSED(c)
     if (!cursorShown)
         return;
 
@@ -1898,7 +1901,6 @@ void GLWidget::paintContent(LayerList layers)
 
     glName = 1;
 
-    qCDebug(glwidget) << "start painting";
     if (render_outline)
     {
         render_solid = false;
@@ -1953,7 +1955,6 @@ void GLWidget::paintLayers(LayerList layers)
             glLineWidth(1);
         //tbd: set line type
 
-        qCDebug(glwidget) << layer->name << layer->isOn << layer->solo;
         if(itemDB->layerSoloActive)
         {
             if(layer->solo)
@@ -1980,7 +1981,6 @@ void GLWidget::paintLayersSoloActive(LayerList layers)
 {
     foreach (Layer* layer, layers)
     {
-        qCDebug(glwidget) << layer->name << layer->isOn << layer->solo;
         // Set line width
         if (render_outline)
             glLineWidth(layer->lineWidth);

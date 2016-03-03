@@ -190,5 +190,6 @@ void CAD_Basic_Gauge90Degree::processWizardInput()
 
 QMatrix4x4 CAD_Basic_Gauge90Degree::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

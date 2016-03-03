@@ -104,10 +104,11 @@ void CAD_basic_face::processWizardInput()
 
 void CAD_basic_face::paint(GLWidget *glwidget)
 {
-
+    Q_UNUSED(glwidget)
 }
 
 QMatrix4x4 CAD_basic_face::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

@@ -276,5 +276,6 @@ void CAD_Basic_PipeReducer::paint(GLWidget *glwidget)
 
 QMatrix4x4 CAD_Basic_PipeReducer::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }
