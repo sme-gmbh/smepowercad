@@ -424,7 +424,9 @@ void GLWidget::render_image(QPainter* painter, int x, int y, int size_x, int siz
             glClearColor(1.0, 1.0, 1.0, 1.0);   // white background
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            paintContent(itemDB->getLayerList());
+            LayerList l = LayerList();
+            l.append(itemDB->getRootLayer());
+            paintContent(l);
             QImage image_tile = fbo_renderImage->toImage(true);
 
             painter->drawImage(x + tile_pos_x, y + tile_pos_y, image_tile);
@@ -1243,7 +1245,9 @@ void GLWidget::paintGL()
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_ALPHA_TEST);
 
-    paintContent(itemDB->getLayerList());   // After this: TRIANGLE SHADER IS ACTIVE!
+    LayerList l =  LayerList();
+    l.append(itemDB->getRootLayer());
+    paintContent(l);   // After this: TRIANGLE SHADER IS ACTIVE!
     // Overlay
     shaderProgram = shaderProgram_overlay;
     shaderProgram->bind();
@@ -1894,6 +1898,7 @@ void GLWidget::paintContent(LayerList layers)
 
     glName = 1;
 
+    qCDebug(glwidget) << "start painting";
     if (render_outline)
     {
         render_solid = false;
@@ -1941,12 +1946,41 @@ void GLWidget::paintLayers(LayerList layers)
 {
     foreach (Layer* layer, layers)
     {
-        if ((itemDB->layerSoloActive) && (!layer->solo))
-            continue;
+        // Set line width
+        if (render_outline)
+            glLineWidth(layer->lineWidth);
+        else
+            glLineWidth(1);
+        //tbd: set line type
 
-        if ((!layer->isOn) && (!layer->solo))
-            continue;
+        qCDebug(glwidget) << layer->name << layer->isOn << layer->solo;
+        if(itemDB->layerSoloActive)
+        {
+            if(layer->solo)
+            {
+                paintItems(layer->getItems(), layer);
+                paintLayersSoloActive(layer->getChildLayers());
+            }
+            else
+                paintLayers(layer->getChildLayers());
+        }
+        else
+        {
+            if (!layer->isOn)
+                continue;
 
+            paintItems(layer->getItems(), layer);
+            paintLayers(layer->getChildLayers());
+        }
+    }
+}
+
+//once we have reached a layer in the hirarchy, that is active, all sublayers are consequently painted.
+void GLWidget::paintLayersSoloActive(LayerList layers)
+{
+    foreach (Layer* layer, layers)
+    {
+        qCDebug(glwidget) << layer->name << layer->isOn << layer->solo;
         // Set line width
         if (render_outline)
             glLineWidth(layer->lineWidth);
@@ -1954,11 +1988,11 @@ void GLWidget::paintLayers(LayerList layers)
             glLineWidth(1);
 
         // tbd.: Set line type
-
         paintItems(layer->getItems(), layer);
-        paintLayers(layer->getChildLayers());
+        paintLayersSoloActive(layer->getChildLayers());
     }
 }
+
 
 void GLWidget::paintItems(QList<CADitem*> items, Layer* layer, bool checkBoundingBox, bool isSubItem)
 {

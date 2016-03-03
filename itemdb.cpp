@@ -25,7 +25,7 @@ ItemDB::ItemDB(QObject *parent)
 {
     m_rootLayer = new Layer();
     m_rootLayer->name = "$$ToplevelLayer";
-    m_rootLayer->solo = true;
+    m_rootLayer->solo = false;
     layerSoloActive = false;
 
     QPixmap pm = QPixmap(":/ui/layermanager/icons/check.svg").scaledToWidth(20, Qt::SmoothTransformation);

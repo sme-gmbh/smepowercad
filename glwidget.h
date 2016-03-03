@@ -230,6 +230,7 @@ public:
 private:
     void paintContent(LayerList layers);
     void paintLayers(LayerList layers);
+    void paintLayersSoloActive(LayerList layers);
     void paintItems(QList<CADitem *> items, Layer *layer, bool checkBoundingBox = true, bool isSubItem = false);
     void paintSnapIndicator(QPainter *painter, QRect focusRect, SnapMode snapMode, bool active);
 
