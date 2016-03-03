@@ -385,7 +385,7 @@ QMatrix4x4 CAD_arch_window::rotationOfFlange(quint8 num)
         return matrix_rotation * m;
     }
 
-    else if (num == 2 || num == 4)
+    else //if (num == 2 || num == 4)
     {
         return matrix_rotation;
     }

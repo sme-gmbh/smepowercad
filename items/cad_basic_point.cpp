@@ -90,11 +90,13 @@ void CAD_basic_point::processWizardInput()
 
 QMatrix4x4 CAD_basic_point::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }
 
 void CAD_basic_point::paint(GLWidget *glwidget)
 {
+    Q_UNUSED(glwidget)
     return;
 }
 

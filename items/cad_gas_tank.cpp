@@ -115,6 +115,7 @@ void CAD_Gas_Tank::processWizardInput()
 
 QMatrix4x4 CAD_Gas_Tank::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }
 

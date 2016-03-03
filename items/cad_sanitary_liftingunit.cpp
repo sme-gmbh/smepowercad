@@ -146,5 +146,6 @@ void CAD_Sanitary_LiftingUnit::processWizardInput()
 
 QMatrix4x4 CAD_Sanitary_LiftingUnit::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

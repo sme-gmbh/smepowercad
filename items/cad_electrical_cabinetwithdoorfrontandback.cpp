@@ -435,5 +435,6 @@ void CAD_Electrical_CabinetWithDoorFrontAndBack::processWizardInput()
 
 QMatrix4x4 CAD_Electrical_CabinetWithDoorFrontAndBack::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

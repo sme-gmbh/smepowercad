@@ -146,5 +146,6 @@ void CAD_Sanitary_EmergencyEyeShower::processWizardInput()
 
 QMatrix4x4 CAD_Sanitary_EmergencyEyeShower::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

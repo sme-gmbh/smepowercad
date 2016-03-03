@@ -173,5 +173,6 @@ void CAD_Electrical_LuminaireEscapeLighting::processWizardInput()
 
 QMatrix4x4 CAD_Electrical_LuminaireEscapeLighting::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

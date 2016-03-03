@@ -144,5 +144,6 @@ void CAD_Cleanroom_TagElectricalGrounding::processWizardInput()
 
 QMatrix4x4 CAD_Cleanroom_TagElectricalGrounding::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

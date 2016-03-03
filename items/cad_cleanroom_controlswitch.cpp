@@ -144,5 +144,6 @@ void CAD_Cleanroom_ControlSwitch::processWizardInput()
 
 QMatrix4x4 CAD_Cleanroom_ControlSwitch::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

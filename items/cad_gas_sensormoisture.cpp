@@ -115,6 +115,7 @@ void CAD_Gas_SensorMoisture::processWizardInput()
 
 QMatrix4x4 CAD_Gas_SensorMoisture::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }
 

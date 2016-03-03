@@ -144,5 +144,6 @@ void CAD_Cleanroom_ControlEmergencySwitch::processWizardInput()
 
 QMatrix4x4 CAD_Cleanroom_ControlEmergencySwitch::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

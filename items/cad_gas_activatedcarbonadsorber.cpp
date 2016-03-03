@@ -115,6 +115,7 @@ void CAD_Gas_ActivatedCarbonAdsorber::processWizardInput()
 
 QMatrix4x4 CAD_Gas_ActivatedCarbonAdsorber::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }
 

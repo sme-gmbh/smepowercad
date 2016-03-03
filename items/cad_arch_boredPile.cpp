@@ -126,5 +126,6 @@ void CAD_arch_boredPile::processWizardInput()
 
 QMatrix4x4 CAD_arch_boredPile::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

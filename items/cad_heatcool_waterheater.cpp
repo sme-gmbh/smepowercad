@@ -133,5 +133,6 @@ void CAD_heatcool_waterHeater::processWizardInput()
 
 QMatrix4x4 CAD_heatcool_waterHeater::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

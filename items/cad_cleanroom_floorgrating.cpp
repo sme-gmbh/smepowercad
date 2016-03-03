@@ -173,5 +173,6 @@ void CAD_Cleanroom_FloorGrating::processWizardInput()
 
 QMatrix4x4 CAD_Cleanroom_FloorGrating::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

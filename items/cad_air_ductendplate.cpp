@@ -173,6 +173,7 @@ void CAD_air_ductEndPlate::processWizardInput()
 
 QMatrix4x4 CAD_air_ductEndPlate::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     QMatrix4x4 m;
     m.setToIdentity();
     m.rotate(180.0, 0.0, 0.0, 1.0);

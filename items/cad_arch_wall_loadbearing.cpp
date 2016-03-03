@@ -152,7 +152,7 @@ QMatrix4x4 CAD_arch_wall_loadBearing::rotationOfFlange(quint8 num)
     {
         return matrix_rotation;
     }
-    else if (num == 5 || num == 6)
+    else //if (num == 5 || num == 6)
     {
         QMatrix4x4 m;
         m.setToIdentity();

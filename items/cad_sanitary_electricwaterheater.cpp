@@ -147,5 +147,6 @@ void CAD_Sanitary_ElectricWaterHeater::processWizardInput()
 
 QMatrix4x4 CAD_Sanitary_ElectricWaterHeater::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

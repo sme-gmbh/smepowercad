@@ -133,5 +133,6 @@ void CAD_air_equipmentFrame::processWizardInput()
 
 QMatrix4x4 CAD_air_equipmentFrame::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

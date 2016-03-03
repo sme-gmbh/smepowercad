@@ -173,5 +173,6 @@ void CAD_Cleanroom_WallStiffenerDiagonal::processWizardInput()
 
 QMatrix4x4 CAD_Cleanroom_WallStiffenerDiagonal::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

@@ -173,5 +173,6 @@ void CAD_Cleanroom_FloorPanelPerforated::processWizardInput()
 
 QMatrix4x4 CAD_Cleanroom_FloorPanelPerforated::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

@@ -133,5 +133,6 @@ void CAD_heatcool_sensor::processWizardInput()
 
 QMatrix4x4 CAD_heatcool_sensor::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

@@ -144,5 +144,6 @@ void CAD_Cleanroom_TagFireDetector::processWizardInput()
 
 QMatrix4x4 CAD_Cleanroom_TagFireDetector::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

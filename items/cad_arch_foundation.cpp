@@ -97,5 +97,6 @@ void CAD_arch_foundation::processWizardInput()
 
 QMatrix4x4 CAD_arch_foundation::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

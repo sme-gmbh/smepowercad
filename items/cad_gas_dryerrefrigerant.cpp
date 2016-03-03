@@ -115,6 +115,7 @@ void CAD_Gas_DryerRefrigerant::processWizardInput()
 
 QMatrix4x4 CAD_Gas_DryerRefrigerant::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }
 

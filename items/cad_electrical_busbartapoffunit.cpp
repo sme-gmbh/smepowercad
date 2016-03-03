@@ -144,5 +144,6 @@ void CAD_Electrical_BusbarTapOffUnit::processWizardInput()
 
 QMatrix4x4 CAD_Electrical_BusbarTapOffUnit::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

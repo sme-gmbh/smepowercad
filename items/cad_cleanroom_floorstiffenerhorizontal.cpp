@@ -171,5 +171,6 @@ void CAD_Cleanroom_FloorStiffenerHorizontal::processWizardInput()
 
 QMatrix4x4 CAD_Cleanroom_FloorStiffenerHorizontal::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

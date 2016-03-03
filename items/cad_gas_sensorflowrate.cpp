@@ -115,6 +115,7 @@ void CAD_Gas_SensorFlowrate::processWizardInput()
 
 QMatrix4x4 CAD_Gas_SensorFlowrate::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }
 

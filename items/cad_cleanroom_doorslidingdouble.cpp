@@ -542,5 +542,6 @@ void CAD_Cleanroom_DoorSlidingDouble::processWizardInput()
 
 QMatrix4x4 CAD_Cleanroom_DoorSlidingDouble::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

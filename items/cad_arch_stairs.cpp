@@ -262,6 +262,7 @@ void CAD_Arch_Stairs::processWizardInput()
 
 QMatrix4x4 CAD_Arch_Stairs::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }
 

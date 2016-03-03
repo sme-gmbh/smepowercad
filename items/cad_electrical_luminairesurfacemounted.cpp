@@ -177,5 +177,6 @@ void CAD_Electrical_LuminaireSurfaceMounted::processWizardInput()
 
 QMatrix4x4 CAD_Electrical_LuminaireSurfaceMounted::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

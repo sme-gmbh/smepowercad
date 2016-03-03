@@ -173,5 +173,6 @@ void CAD_Cleanroom_CeilingGrating::processWizardInput()
 
 QMatrix4x4 CAD_Cleanroom_CeilingGrating::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

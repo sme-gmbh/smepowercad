@@ -196,7 +196,7 @@ QMatrix4x4 CAD_Cleanroom_WallPost::rotationOfFlange(quint8 num)
     }
     else if (num == 3)
         return matrix_rotation;
-    else if (num == 4)
+    else //if (num == 4)
     {
         QMatrix4x4 m;
         m.setToIdentity();

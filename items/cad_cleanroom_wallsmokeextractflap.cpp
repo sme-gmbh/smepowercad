@@ -242,5 +242,6 @@ void CAD_Cleanroom_WallSmokeExtractFlap::processWizardInput()
 
 QMatrix4x4 CAD_Cleanroom_WallSmokeExtractFlap::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

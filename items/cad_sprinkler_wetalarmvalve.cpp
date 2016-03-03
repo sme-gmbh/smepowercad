@@ -104,5 +104,6 @@ void CAD_sprinkler_wetAlarmValve::processWizardInput()
 
 QMatrix4x4 CAD_sprinkler_wetAlarmValve::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

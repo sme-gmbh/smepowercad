@@ -227,5 +227,6 @@ void CAD_Cleanroom_FloorPanelWithBushingRect::processWizardInput()
 
 QMatrix4x4 CAD_Cleanroom_FloorPanelWithBushingRect::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

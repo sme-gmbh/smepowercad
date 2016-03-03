@@ -179,6 +179,7 @@ void CAD_HeatCool_RadiatorValve::processWizardInput()
 
 QMatrix4x4 CAD_HeatCool_RadiatorValve::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     QMatrix4x4 m;
     m.setToIdentity();
     m.rotate(90.0, 0.0, 0.0, 1.0);

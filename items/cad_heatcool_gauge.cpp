@@ -170,5 +170,6 @@ void CAD_HeatCool_Gauge::processWizardInput()
 
 QMatrix4x4 CAD_HeatCool_Gauge::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

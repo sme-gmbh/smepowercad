@@ -138,5 +138,6 @@ void CAD_heatcool_controlvalve::processWizardInput()
 
 QMatrix4x4 CAD_heatcool_controlvalve::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }

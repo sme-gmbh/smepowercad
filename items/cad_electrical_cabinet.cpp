@@ -294,5 +294,6 @@ void CAD_electrical_cabinet::processWizardInput()
 
 QMatrix4x4 CAD_electrical_cabinet::rotationOfFlange(quint8 num)
 {
+    Q_UNUSED(num)
     return matrix_rotation;
 }
