@@ -21,6 +21,7 @@
 
 #include "mainwindow.h"
 #include "logging.h"
+#include "loginview.h"
 Q_LOGGING_CATEGORY(powercad, "powercad")
 
 int main(int argc, char *argv[])
@@ -63,8 +64,10 @@ int main(int argc, char *argv[])
     translator.load("powercad-" + lang, ":/lang/");
     a.installTranslator(&translator);
 
-    MainWindow w;
-    w.showMaximized();
+    LoginView v;
+    v.show();
+//    MainWindow w;
+//    w.showMaximized();
 //    w.showFullScreen();
 
 

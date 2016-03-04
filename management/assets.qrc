@@ -1,5 +1,15 @@
 <RCC>
     <qresource prefix="/management">
         <file>html/login.html</file>
+        <file>css/style.css</file>
+        <file>images/arrow.png</file>
+        <file>images/face1.jpg</file>
+        <file>images/face2.jpg</file>
+        <file>images/face3.jpg</file>
+        <file>images/face-nobody.png</file>
+        <file>images/server.png</file>
+        <file>fonts/OpenSans-Bold.woff2</file>
+        <file>fonts/OpenSans-Light.woff2</file>
+        <file>fonts/OpenSans-Normal.woff2</file>
     </qresource>
 </RCC>
