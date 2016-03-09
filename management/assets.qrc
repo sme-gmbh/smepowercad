@@ -8,8 +8,10 @@
         <file>images/face3.jpg</file>
         <file>images/face-nobody.png</file>
         <file>images/server.png</file>
-        <file>fonts/OpenSans-Bold.woff2</file>
-        <file>fonts/OpenSans-Light.woff2</file>
-        <file>fonts/OpenSans-Normal.woff2</file>
+        <file>LoginView.qml</file>
+        <file>Face.qml</file>
+        <file>LineEdit.qml</file>
+        <file>fonts/OpenSans-Regular.ttf</file>
+        <file>CustomButton.qml</file>
     </qresource>
 </RCC>

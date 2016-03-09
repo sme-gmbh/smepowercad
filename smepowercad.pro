@@ -19,7 +19,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl svg xml network printsupport multimedia
+QT       += core gui opengl svg xml network printsupport multimedia qml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 #greaterThan(QT_MAJOR_VERSION, 4): QT -= opengl

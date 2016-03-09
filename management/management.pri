@@ -1,15 +1,17 @@
 INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
-QT += webkitwidgets
-
 RESOURCES += \
     $$PWD/assets.qrc
 
-HEADERS += \
-    $$PWD/loginview.h
+HEADERS +=
 
-SOURCES += \
-    $$PWD/loginview.cpp
+SOURCES +=
+
+DISTFILES += \
+    $$PWD/LoginView.qml \
+    $$PWD/Face.qml \
+    $$PWD/LineEdit.qml \
+    $$PWD/CustomButton.qml
 
 

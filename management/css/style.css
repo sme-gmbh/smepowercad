@@ -35,6 +35,8 @@
 * {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
+  outline: 0;
+  -webkit-user-select: none;
 }
 
 html, body {
