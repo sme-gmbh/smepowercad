@@ -20,6 +20,7 @@
 #include <QLibraryInfo>
 
 #include "mainwindow.h"
+#include "loginhandler.h"
 #include "logging.h"
 Q_LOGGING_CATEGORY(powercad, "powercad")
 
@@ -35,7 +36,8 @@ int main(int argc, char *argv[])
 
     QLoggingCategory::setFilterRules("*.debug=true\n"
                                      "qt.qpa.input*.debug=false\n"
-                                     "qt.widgets.gestures*.debug=false\n");
+                                     "qt.widgets.gestures*.debug=false\n"
+                                     "qt.scenegraph.*=false\n");
     qSetMessagePattern("[%{time yyyyMMdd h:mm:ss.zzz}] %{if-debug}D%{endif}%{if-info}I%{endif}%{if-warning}W%{endif}%{if-critical}C%{endif}%{if-fatal}F%{endif} (%{qthreadptr}|%{threadid}) %{message} [%{category}->%{function}]");
 
     // Qt 5 specific opengl settings
@@ -63,8 +65,10 @@ int main(int argc, char *argv[])
     translator.load("powercad-" + lang, ":/lang/");
     a.installTranslator(&translator);
 
-    MainWindow w;
-    w.showMaximized();
+    LoginHandler *h = new LoginHandler();
+
+//    MainWindow w;
+//    w.showMaximized();
 //    w.showFullScreen();
 
 

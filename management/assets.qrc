@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/management">
+        <file>html/login.html</file>
+        <file>css/style.css</file>
+        <file>images/arrow.png</file>
+        <file>images/face1.jpg</file>
+        <file>images/face2.jpg</file>
+        <file>images/face3.jpg</file>
+        <file>images/face-nobody.png</file>
+        <file>images/server.png</file>
+        <file>LoginView.qml</file>
+        <file>Face.qml</file>
+        <file>LineEdit.qml</file>
+        <file>fonts/OpenSans-Regular.ttf</file>
+        <file>CustomButton.qml</file>
+    </qresource>
+</RCC>

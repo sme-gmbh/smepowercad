@@ -19,7 +19,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl svg xml network printsupport multimedia
+QT       += core gui opengl svg xml network printsupport multimedia qml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 #greaterThan(QT_MAJOR_VERSION, 4): QT -= opengl
@@ -37,6 +37,7 @@ LIBS += -lGLU -lX11 -ldxfrw
 # Include subprojects
 include($$PWD/network/network.pri)
 include($$PWD/inputs/inputs.pri)
+include($$PWD/management/management.pri)
 
 # Language database build
 system(lrelease-qt5 smepowercad.pro)
