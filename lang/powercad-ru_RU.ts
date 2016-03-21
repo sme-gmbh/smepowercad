@@ -30,7 +30,7 @@ Copy aborted.</source>
     <message>
         <location filename="../glwidget.cpp" line="886"/>
         <location filename="../glwidget.cpp" line="892"/>
-        <location filename="../glwidget.cpp" line="1051"/>
+        <location filename="../glwidget.cpp" line="1050"/>
         <source>Moving items</source>
         <translation type="unfinished"></translation>
     </message>
@@ -49,7 +49,7 @@ Movement aborted.</source>
     <message>
         <location filename="../glwidget.cpp" line="900"/>
         <location filename="../glwidget.cpp" line="906"/>
-        <location filename="../glwidget.cpp" line="1077"/>
+        <location filename="../glwidget.cpp" line="1076"/>
         <source>Rotating items</source>
         <translation type="unfinished"></translation>
     </message>
@@ -86,7 +86,7 @@ Rotation aborted.</source>
     <message>
         <location filename="../glwidget.cpp" line="936"/>
         <location filename="../glwidget.cpp" line="942"/>
-        <location filename="../glwidget.cpp" line="1191"/>
+        <location filename="../glwidget.cpp" line="1190"/>
         <source>Deleting items</source>
         <translation type="unfinished"></translation>
     </message>
@@ -114,93 +114,93 @@ Deletion aborted.</source>
     </message>
     <message>
         <location filename="../glwidget.cpp" line="985"/>
-        <location filename="../glwidget.cpp" line="1052"/>
-        <location filename="../glwidget.cpp" line="1079"/>
-        <location filename="../glwidget.cpp" line="1192"/>
+        <location filename="../glwidget.cpp" line="1051"/>
+        <location filename="../glwidget.cpp" line="1078"/>
+        <location filename="../glwidget.cpp" line="1191"/>
         <source>Abort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../glwidget.cpp" line="985"/>
-        <location filename="../glwidget.cpp" line="1052"/>
-        <location filename="../glwidget.cpp" line="1079"/>
-        <location filename="../glwidget.cpp" line="1192"/>
+        <location filename="../glwidget.cpp" line="1051"/>
+        <location filename="../glwidget.cpp" line="1078"/>
+        <location filename="../glwidget.cpp" line="1191"/>
         <source>Proceed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../glwidget.cpp" line="1029"/>
+        <location filename="../glwidget.cpp" line="1028"/>
         <source>Rotate flanged item around flange</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../glwidget.cpp" line="1029"/>
+        <location filename="../glwidget.cpp" line="1028"/>
         <source>Angle [degrees]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../glwidget.cpp" line="1051"/>
+        <location filename="../glwidget.cpp" line="1050"/>
         <source>You are going to move %1 item(s).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../glwidget.cpp" line="1078"/>
+        <location filename="../glwidget.cpp" line="1077"/>
         <source>You are going to rotate %1 item(s).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../glwidget.cpp" line="1191"/>
+        <location filename="../glwidget.cpp" line="1190"/>
         <source>You are going to delete %1 item(s).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../glwidget.cpp" line="1577"/>
+        <location filename="../glwidget.cpp" line="1576"/>
         <source>Move %1%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../glwidget.cpp" line="1579"/>
-        <location filename="../glwidget.cpp" line="1589"/>
+        <location filename="../glwidget.cpp" line="1578"/>
+        <location filename="../glwidget.cpp" line="1588"/>
         <source>to</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../glwidget.cpp" line="1587"/>
+        <location filename="../glwidget.cpp" line="1586"/>
         <source>Copy %1%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../glwidget.cpp" line="1634"/>
+        <location filename="../glwidget.cpp" line="1633"/>
         <source>Basepoint</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../glwidget.cpp" line="1638"/>
+        <location filename="../glwidget.cpp" line="1637"/>
         <source>Flange</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../glwidget.cpp" line="1644"/>
+        <location filename="../glwidget.cpp" line="1643"/>
         <source>Endpoint/Vertex</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../glwidget.cpp" line="1647"/>
+        <location filename="../glwidget.cpp" line="1646"/>
         <source>Center</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../glwidget.cpp" line="1655"/>
+        <location filename="../glwidget.cpp" line="1654"/>
         <source>of</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../glwidget.cpp" line="2596"/>
+        <location filename="../glwidget.cpp" line="2595"/>
         <source>Critical error in GLWidget::initializeGL()</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../glwidget.cpp" line="2596"/>
+        <location filename="../glwidget.cpp" line="2595"/>
         <source>initializeOpenGLFunctions() returned false.
 Running the correct Qt-version? Check env variable LD_LIBRARY_PATH!
 Check openGL Version against system requirements: 
@@ -208,32 +208,32 @@ glxinfo | grep version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../glwidget.cpp" line="2753"/>
+        <location filename="../glwidget.cpp" line="2752"/>
         <source>looking up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../glwidget.cpp" line="2760"/>
+        <location filename="../glwidget.cpp" line="2759"/>
         <source>looking down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../glwidget.cpp" line="2767"/>
+        <location filename="../glwidget.cpp" line="2766"/>
         <source>looking south</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../glwidget.cpp" line="2774"/>
+        <location filename="../glwidget.cpp" line="2773"/>
         <source>looking north</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../glwidget.cpp" line="2781"/>
+        <location filename="../glwidget.cpp" line="2780"/>
         <source>looking east</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../glwidget.cpp" line="2788"/>
+        <location filename="../glwidget.cpp" line="2787"/>
         <source>looking west</source>
         <translation type="unfinished"></translation>
     </message>
@@ -241,7 +241,7 @@ glxinfo | grep version</source>
 <context>
     <name>GeometryDisplay</name>
     <message>
-        <location filename="../geometrydisplay.cpp" line="34"/>
+        <location filename="../geometrydisplay.cpp" line="33"/>
         <source>Drawing %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -464,175 +464,175 @@ glxinfo | grep version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="151"/>
+        <location filename="../itemcatalog.cpp" line="161"/>
         <source>Load model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="151"/>
+        <location filename="../itemcatalog.cpp" line="161"/>
         <source>Could not load model from disk!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="227"/>
+        <location filename="../itemcatalog.cpp" line="237"/>
         <source>Git finished successfully.
 
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="229"/>
+        <location filename="../itemcatalog.cpp" line="239"/>
         <source>Git finished unsuccessfully with exit code %1.
 
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="232"/>
+        <location filename="../itemcatalog.cpp" line="242"/>
         <source>Git crashed, exit code %1.
 
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="262"/>
+        <location filename="../itemcatalog.cpp" line="272"/>
         <source>Git failed to start!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="265"/>
+        <location filename="../itemcatalog.cpp" line="275"/>
         <source>Git crashed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="268"/>
+        <location filename="../itemcatalog.cpp" line="278"/>
         <source>Git timed out!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="271"/>
+        <location filename="../itemcatalog.cpp" line="281"/>
         <source>Git process write error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="274"/>
+        <location filename="../itemcatalog.cpp" line="284"/>
         <source>Git process read error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="277"/>
+        <location filename="../itemcatalog.cpp" line="287"/>
         <source>Git unknown error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="360"/>
-        <location filename="../itemcatalog.cpp" line="365"/>
+        <location filename="../itemcatalog.cpp" line="370"/>
+        <location filename="../itemcatalog.cpp" line="375"/>
         <source>Add Vendor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="360"/>
+        <location filename="../itemcatalog.cpp" line="370"/>
         <source>Enter Vendor Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="365"/>
+        <location filename="../itemcatalog.cpp" line="375"/>
         <source>Could not add new vendor!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="380"/>
-        <location filename="../itemcatalog.cpp" line="384"/>
+        <location filename="../itemcatalog.cpp" line="390"/>
+        <location filename="../itemcatalog.cpp" line="394"/>
         <source>Remove Vendor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="380"/>
+        <location filename="../itemcatalog.cpp" line="390"/>
         <source>Model list for vendor is not empty! Could not delete vendor.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="384"/>
+        <location filename="../itemcatalog.cpp" line="394"/>
         <source>You are going to delete the vendor %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="385"/>
-        <location filename="../itemcatalog.cpp" line="421"/>
+        <location filename="../itemcatalog.cpp" line="395"/>
+        <location filename="../itemcatalog.cpp" line="431"/>
         <source>Abort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="385"/>
-        <location filename="../itemcatalog.cpp" line="421"/>
+        <location filename="../itemcatalog.cpp" line="395"/>
+        <location filename="../itemcatalog.cpp" line="431"/>
         <source>Proceed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="396"/>
         <location filename="../itemcatalog.cpp" line="406"/>
+        <location filename="../itemcatalog.cpp" line="416"/>
         <source>Add Model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="396"/>
+        <location filename="../itemcatalog.cpp" line="406"/>
         <source>Enter Model name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="406"/>
+        <location filename="../itemcatalog.cpp" line="416"/>
         <source>Could not store model!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="441"/>
+        <location filename="../itemcatalog.cpp" line="451"/>
         <source>Cannot clone into an non-empty folder!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="572"/>
+        <location filename="../itemcatalog.cpp" line="582"/>
         <source>Save Model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="572"/>
+        <location filename="../itemcatalog.cpp" line="582"/>
         <source>Could not save model!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="420"/>
+        <location filename="../itemcatalog.cpp" line="430"/>
         <source>Remove Model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="420"/>
+        <location filename="../itemcatalog.cpp" line="430"/>
         <source>You are going to delete the model %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="433"/>
-        <location filename="../itemcatalog.cpp" line="441"/>
+        <location filename="../itemcatalog.cpp" line="443"/>
+        <location filename="../itemcatalog.cpp" line="451"/>
         <source>Git Clone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="433"/>
+        <location filename="../itemcatalog.cpp" line="443"/>
         <source>You cannot clone without remote origin!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="493"/>
-        <location filename="../itemcatalog.cpp" line="498"/>
+        <location filename="../itemcatalog.cpp" line="503"/>
+        <location filename="../itemcatalog.cpp" line="508"/>
         <source>Git Commit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="493"/>
+        <location filename="../itemcatalog.cpp" line="503"/>
         <source>Enter commit message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemcatalog.cpp" line="498"/>
+        <location filename="../itemcatalog.cpp" line="508"/>
         <source>Committing without message is not allowed!
  Commit aborted.</source>
         <translation type="unfinished"></translation>
@@ -641,65 +641,65 @@ glxinfo | grep version</source>
 <context>
     <name>ItemDB</name>
     <message>
-        <location filename="../itemdb.cpp" line="118"/>
+        <location filename="../itemdb.cpp" line="119"/>
         <source>Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemdb.cpp" line="120"/>
+        <location filename="../itemdb.cpp" line="121"/>
         <source>S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemdb.cpp" line="122"/>
+        <location filename="../itemdb.cpp" line="123"/>
         <source>Fill color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemdb.cpp" line="124"/>
+        <location filename="../itemdb.cpp" line="125"/>
         <source>Outline color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemdb.cpp" line="126"/>
+        <location filename="../itemdb.cpp" line="127"/>
         <source>Line width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemdb.cpp" line="128"/>
+        <location filename="../itemdb.cpp" line="129"/>
         <source>Line type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemdb.cpp" line="1736"/>
+        <location filename="../itemdb.cpp" line="1871"/>
         <source>line %1, column %2:
 %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemdb.cpp" line="1748"/>
+        <location filename="../itemdb.cpp" line="1883"/>
         <source>Root-Node has wrong tag name: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemdb.cpp" line="1752"/>
+        <location filename="../itemdb.cpp" line="1887"/>
         <source>Version attribute is missing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemdb.cpp" line="1759"/>
+        <location filename="../itemdb.cpp" line="1894"/>
         <source>Old file version: %1
 Current version: %2
 Converting file to current version.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemdb.cpp" line="1964"/>
+        <location filename="../itemdb.cpp" line="2099"/>
         <source>Unable to resolve name: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemdb.cpp" line="1968"/>
+        <location filename="../itemdb.cpp" line="2103"/>
         <source>ItemDB::file_loadDB_parseDomElement(): Got a NULL item.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -803,12 +803,12 @@ Converting file to current version.</source>
 <context>
     <name>ItemParametersWidget</name>
     <message>
-        <location filename="../itemparameterswidget.cpp" line="102"/>
+        <location filename="../itemparameterswidget.cpp" line="105"/>
         <source>Position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemparameterswidget.cpp" line="110"/>
+        <location filename="../itemparameterswidget.cpp" line="113"/>
         <source>Angle</source>
         <translation type="unfinished"></translation>
     </message>
@@ -826,22 +826,27 @@ Converting file to current version.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemwizard.ui" line="94"/>
-        <source>Apply</source>
+        <location filename="../itemwizard.ui" line="45"/>
+        <source>Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemwizard.ui" line="87"/>
+        <location filename="../itemwizard.ui" line="52"/>
+        <source>Move to current layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../itemwizard.ui" line="115"/>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../itemwizard.ui" line="108"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../itemwizard.ui" line="101"/>
-        <source>Ok</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../itemwizard.cpp" line="60"/>
+        <location filename="../itemwizard.cpp" line="63"/>
         <source>Item Wizard: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -905,20 +910,19 @@ Converting file to current version.</source>
 <context>
     <name>LayerManager</name>
     <message>
-        <location filename="../layermanager.ui" line="35"/>
-        <location filename="../layermanager.cpp" line="97"/>
+        <location filename="../layermanager.cpp" line="95"/>
         <source>Layermanager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../layermanager.cpp" line="53"/>
-        <location filename="../layermanager.cpp" line="123"/>
+        <location filename="../layermanager.cpp" line="121"/>
         <location filename="../layermanager.cpp" line="160"/>
         <location filename="../layermanager.cpp" line="164"/>
         <location filename="../layermanager.cpp" line="168"/>
-        <location filename="../layermanager.cpp" line="192"/>
-        <location filename="../layermanager.cpp" line="196"/>
-        <location filename="../layermanager.cpp" line="200"/>
+        <location filename="../layermanager.cpp" line="198"/>
+        <location filename="../layermanager.cpp" line="202"/>
+        <location filename="../layermanager.cpp" line="206"/>
         <source>New layer</source>
         <translation type="unfinished"></translation>
     </message>
@@ -949,79 +953,99 @@ Converting file to current version.</source>
     </message>
     <message>
         <location filename="../layermanager.cpp" line="62"/>
-        <location filename="../layermanager.cpp" line="216"/>
-        <location filename="../layermanager.cpp" line="225"/>
+        <location filename="../layermanager.cpp" line="223"/>
+        <location filename="../layermanager.cpp" line="232"/>
         <source>Delete layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../layermanager.cpp" line="95"/>
+        <location filename="../layermanager.cpp" line="64"/>
+        <source>Cut</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../layermanager.cpp" line="65"/>
+        <source>Paste here</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../layermanager.cpp" line="66"/>
+        <source>Paste as child</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../layermanager.cpp" line="93"/>
         <source>Layermanager [solo active]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../layermanager.cpp" line="117"/>
+        <location filename="../layermanager.cpp" line="115"/>
         <source>Rename layer %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../layermanager.cpp" line="118"/>
+        <location filename="../layermanager.cpp" line="116"/>
         <location filename="../layermanager.cpp" line="164"/>
-        <location filename="../layermanager.cpp" line="196"/>
+        <location filename="../layermanager.cpp" line="202"/>
         <source>Layer name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../layermanager.cpp" line="123"/>
+        <location filename="../layermanager.cpp" line="121"/>
         <location filename="../layermanager.cpp" line="168"/>
-        <location filename="../layermanager.cpp" line="200"/>
+        <location filename="../layermanager.cpp" line="206"/>
         <source>Layer name cannot be empty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../layermanager.cpp" line="133"/>
+        <location filename="../layermanager.cpp" line="131"/>
         <source>Edit line width of layer %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../layermanager.cpp" line="134"/>
+        <location filename="../layermanager.cpp" line="132"/>
         <source>New width (pixel)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../layermanager.cpp" line="147"/>
+        <location filename="../layermanager.cpp" line="145"/>
         <source>Edit line type of layer %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../layermanager.cpp" line="148"/>
+        <location filename="../layermanager.cpp" line="146"/>
         <source>New Linetype</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../layermanager.cpp" line="160"/>
-        <location filename="../layermanager.cpp" line="192"/>
+        <location filename="../layermanager.cpp" line="198"/>
         <source>Layer name already in use! Try a different name!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../layermanager.cpp" line="217"/>
+        <location filename="../layermanager.cpp" line="224"/>
         <source>Do you want to delete layer %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../layermanager.cpp" line="225"/>
+        <location filename="../layermanager.cpp" line="232"/>
         <source>Unable to delete layer. Maybe it&apos;s not empty.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../layermanager.cpp" line="261"/>
+        <location filename="../layermanager.cpp" line="310"/>
         <source>Fillcolor of layer %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../layermanager.cpp" line="270"/>
+        <location filename="../layermanager.cpp" line="319"/>
         <source>Linecolor of layer %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../layermanager.ui" line="35"/>
+        <source>&amp;Layermanager</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1129,7 +1153,7 @@ Converting file to current version.</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="557"/>
-        <location filename="../mainwindow.cpp" line="855"/>
+        <location filename="../mainwindow.cpp" line="852"/>
         <source>Collision Detection</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1159,113 +1183,113 @@ Converting file to current version.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="154"/>
+        <location filename="../mainwindow.cpp" line="156"/>
         <source>Clear menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="461"/>
+        <location filename="../mainwindow.cpp" line="458"/>
         <source>Load project or drawing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="461"/>
+        <location filename="../mainwindow.cpp" line="458"/>
         <source>XML File (*.xml);;DXF File (*.dxf)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="515"/>
+        <location filename="../mainwindow.cpp" line="512"/>
         <source>Error while loading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="515"/>
+        <location filename="../mainwindow.cpp" line="512"/>
         <source>Unable to open or parse file. Error:
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="520"/>
+        <location filename="../mainwindow.cpp" line="517"/>
         <source>Information while loading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="534"/>
-        <location filename="../mainwindow.cpp" line="563"/>
+        <location filename="../mainwindow.cpp" line="531"/>
+        <location filename="../mainwindow.cpp" line="560"/>
         <source>Save project as file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="555"/>
-        <location filename="../mainwindow.cpp" line="582"/>
+        <location filename="../mainwindow.cpp" line="552"/>
+        <location filename="../mainwindow.cpp" line="579"/>
         <source>Error while saving</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="555"/>
-        <location filename="../mainwindow.cpp" line="582"/>
+        <location filename="../mainwindow.cpp" line="552"/>
+        <location filename="../mainwindow.cpp" line="579"/>
         <source>Unable to write file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="716"/>
-        <location filename="../mainwindow.cpp" line="722"/>
-        <location filename="../mainwindow.cpp" line="728"/>
-        <location filename="../mainwindow.cpp" line="745"/>
-        <location filename="../mainwindow.cpp" line="751"/>
-        <location filename="../mainwindow.cpp" line="757"/>
+        <location filename="../mainwindow.cpp" line="713"/>
+        <location filename="../mainwindow.cpp" line="719"/>
+        <location filename="../mainwindow.cpp" line="725"/>
+        <location filename="../mainwindow.cpp" line="742"/>
+        <location filename="../mainwindow.cpp" line="748"/>
+        <location filename="../mainwindow.cpp" line="754"/>
         <source>Item creation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="716"/>
-        <location filename="../mainwindow.cpp" line="745"/>
+        <location filename="../mainwindow.cpp" line="713"/>
+        <location filename="../mainwindow.cpp" line="742"/>
         <source>No layer is selected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="722"/>
-        <location filename="../mainwindow.cpp" line="751"/>
+        <location filename="../mainwindow.cpp" line="719"/>
+        <location filename="../mainwindow.cpp" line="748"/>
         <source>The current layer is not writable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="728"/>
-        <location filename="../mainwindow.cpp" line="757"/>
+        <location filename="../mainwindow.cpp" line="725"/>
+        <location filename="../mainwindow.cpp" line="754"/>
         <source>The current layer is not on.
 Do you really want to insert an item?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="729"/>
-        <location filename="../mainwindow.cpp" line="758"/>
+        <location filename="../mainwindow.cpp" line="726"/>
+        <location filename="../mainwindow.cpp" line="755"/>
         <source>Abort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="729"/>
-        <location filename="../mainwindow.cpp" line="758"/>
+        <location filename="../mainwindow.cpp" line="726"/>
+        <location filename="../mainwindow.cpp" line="755"/>
         <source>Proceed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="792"/>
-        <location filename="../mainwindow.cpp" line="810"/>
+        <location filename="../mainwindow.cpp" line="789"/>
+        <location filename="../mainwindow.cpp" line="807"/>
         <source>About %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="800"/>
+        <location filename="../mainwindow.cpp" line="797"/>
         <source>Authors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="805"/>
+        <location filename="../mainwindow.cpp" line="802"/>
         <source>Phone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="855"/>
+        <location filename="../mainwindow.cpp" line="852"/>
         <source>There has been a collision between
 </source>
         <translation type="unfinished"></translation>
@@ -1282,151 +1306,151 @@ Do you really want to insert an item?</source>
 <context>
     <name>PrintPaperTemplate</name>
     <message>
-        <location filename="../printpapertemplate.cpp" line="37"/>
-        <location filename="../printpapertemplate.cpp" line="40"/>
-        <location filename="../printpapertemplate.cpp" line="635"/>
-        <location filename="../printpapertemplate.cpp" line="639"/>
-        <location filename="../printpapertemplate.cpp" line="643"/>
+        <location filename="../printpapertemplate.cpp" line="39"/>
+        <location filename="../printpapertemplate.cpp" line="42"/>
+        <location filename="../printpapertemplate.cpp" line="828"/>
+        <location filename="../printpapertemplate.cpp" line="832"/>
+        <location filename="../printpapertemplate.cpp" line="836"/>
         <source>New group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="41"/>
-        <location filename="../printpapertemplate.cpp" line="691"/>
-        <location filename="../printpapertemplate.cpp" line="695"/>
-        <location filename="../printpapertemplate.cpp" line="699"/>
+        <location filename="../printpapertemplate.cpp" line="43"/>
+        <location filename="../printpapertemplate.cpp" line="884"/>
+        <location filename="../printpapertemplate.cpp" line="888"/>
+        <location filename="../printpapertemplate.cpp" line="892"/>
         <source>New printscript</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="43"/>
-        <location filename="../printpapertemplate.cpp" line="52"/>
+        <location filename="../printpapertemplate.cpp" line="45"/>
+        <location filename="../printpapertemplate.cpp" line="54"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="44"/>
-        <location filename="../printpapertemplate.cpp" line="53"/>
+        <location filename="../printpapertemplate.cpp" line="46"/>
+        <location filename="../printpapertemplate.cpp" line="55"/>
         <source>Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="45"/>
-        <source>Paste</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../printpapertemplate.cpp" line="47"/>
-        <location filename="../printpapertemplate.cpp" line="55"/>
-        <source>Rename</source>
+        <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../printpapertemplate.cpp" line="49"/>
         <location filename="../printpapertemplate.cpp" line="57"/>
+        <source>Rename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.cpp" line="51"/>
+        <location filename="../printpapertemplate.cpp" line="59"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="60"/>
-        <location filename="../printpapertemplate.cpp" line="823"/>
+        <location filename="../printpapertemplate.cpp" line="62"/>
+        <location filename="../printpapertemplate.cpp" line="1016"/>
         <source>Load printscript template</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="533"/>
-        <location filename="../printpapertemplate.cpp" line="537"/>
-        <location filename="../printpapertemplate.cpp" line="541"/>
+        <location filename="../printpapertemplate.cpp" line="657"/>
+        <location filename="../printpapertemplate.cpp" line="661"/>
+        <location filename="../printpapertemplate.cpp" line="665"/>
         <source>Add variable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="533"/>
+        <location filename="../printpapertemplate.cpp" line="657"/>
         <source>A variable with the name %1 already exists. Choose a different name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="537"/>
+        <location filename="../printpapertemplate.cpp" line="661"/>
         <source>Variable name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="541"/>
+        <location filename="../printpapertemplate.cpp" line="665"/>
         <source>Variable name cannot be empty!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="635"/>
+        <location filename="../printpapertemplate.cpp" line="828"/>
         <source>Group name already in use! Try a different name!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="639"/>
+        <location filename="../printpapertemplate.cpp" line="832"/>
         <source>Group name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="643"/>
+        <location filename="../printpapertemplate.cpp" line="836"/>
         <source>Group name cannot be empty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="670"/>
+        <location filename="../printpapertemplate.cpp" line="863"/>
         <source>Rename item %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="671"/>
+        <location filename="../printpapertemplate.cpp" line="864"/>
         <source>Item name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="676"/>
+        <location filename="../printpapertemplate.cpp" line="869"/>
         <source>Rename item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="676"/>
+        <location filename="../printpapertemplate.cpp" line="869"/>
         <source>Item name cannot be empty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="691"/>
+        <location filename="../printpapertemplate.cpp" line="884"/>
         <source>Printscript name already in use! Try a different name!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="695"/>
+        <location filename="../printpapertemplate.cpp" line="888"/>
         <source>Printscript name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="699"/>
+        <location filename="../printpapertemplate.cpp" line="892"/>
         <source>Printscript name cannot be empty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="765"/>
+        <location filename="../printpapertemplate.cpp" line="958"/>
         <source>Remove item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="765"/>
+        <location filename="../printpapertemplate.cpp" line="958"/>
         <source>Do you want to remove item %1?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="771"/>
+        <location filename="../printpapertemplate.cpp" line="964"/>
         <source>Delete item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="771"/>
+        <location filename="../printpapertemplate.cpp" line="964"/>
         <source>Unable to delete item. Maybe it has child items.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.cpp" line="823"/>
+        <location filename="../printpapertemplate.cpp" line="1016"/>
         <source>Do you want to load the printscript template and overwrite your current printscript?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1622,40 +1646,50 @@ This action can not be undone!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.ui" line="174"/>
+        <location filename="../printpapertemplate.ui" line="173"/>
         <source>Variables</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.ui" line="195"/>
+        <location filename="../printpapertemplate.ui" line="194"/>
         <source>Printscript</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.ui" line="291"/>
-        <location filename="../printpapertemplate.ui" line="400"/>
+        <location filename="../printpapertemplate.ui" line="290"/>
+        <location filename="../printpapertemplate.ui" line="399"/>
         <source>Key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.ui" line="296"/>
-        <location filename="../printpapertemplate.ui" line="405"/>
+        <location filename="../printpapertemplate.ui" line="295"/>
+        <location filename="../printpapertemplate.ui" line="404"/>
         <source>Value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.ui" line="304"/>
+        <location filename="../printpapertemplate.ui" line="303"/>
         <source>Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.ui" line="428"/>
+        <location filename="../printpapertemplate.ui" line="427"/>
         <source>Preview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../printpapertemplate.ui" line="446"/>
-        <source>Update Preview</source>
+        <location filename="../printpapertemplate.ui" line="445"/>
+        <source>Generate Draft Preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.ui" line="458"/>
+        <source>Generate Print Preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../printpapertemplate.ui" line="465"/>
+        <source>Save Scene state</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
