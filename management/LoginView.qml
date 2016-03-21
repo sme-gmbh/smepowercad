@@ -21,11 +21,14 @@ import QtQuick.Controls 1.4
 Window {
     id: window
     visible: true
+    title: "SME PowerCAD • Login"
 
     width: 800
     height: 600
     x: Screen.width / 2 - width / 2
     y: Screen.height / 2 - height / 2
+
+    signal loginTriggered(string username, string password)
 
     FontLoader {
         source: "fonts/OpenSans-Regular.ttf"
@@ -53,6 +56,7 @@ Window {
     ExclusiveGroup {
         id: facesGroup
         onCurrentChanged: {
+            username.text = current.username
             if (current == faceOther) {
                 username.visible = true
                 username.focus = true
@@ -71,22 +75,25 @@ Window {
         Face {
             id: face1
             exclusiveGroup: facesGroup
-            name: "Roland Dierks"
-            image: "images/face1.jpg"
+            name: LoginHandler.getName(0)
+            username: LoginHandler.getUsername(0)
+            image: "image://login/0"
         }
 
         Face {
             id: face2
             exclusiveGroup: facesGroup
-            name: "Scott Summers"
-            image: "images/face2.jpg"
+            name: LoginHandler.getName(1)
+            username: LoginHandler.getUsername(1)
+            image: "image://login/1"
         }
 
         Face {
             id: face3
             exclusiveGroup: facesGroup
-            name: "Ryan Hause"
-            image: "images/face3.jpg"
+            name: LoginHandler.getName(2)
+            username: LoginHandler.getUsername(2)
+            image: "image://login/2"
         }
     }
 
@@ -123,6 +130,9 @@ Window {
         placeholderText: qsTr("Password")
         echoMode: TextInput.Password
         width: 150
+        onTextChanged: {
+            loginButton.visible = (text.length > 0)
+        }
     }
     CustomButton {
         id: loginButton
@@ -134,6 +144,8 @@ Window {
         height: 36
         border.width: 1
         radius: width * 0.5
+        visible: false
+        onClicked: window.loginTriggered(username.text, password.text)
     }
 
     CustomButton {

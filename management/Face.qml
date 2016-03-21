@@ -22,6 +22,7 @@ Item {
     width: 100
     height: width
 
+    property string username: ""
     property bool checked: false
     property ExclusiveGroup exclusiveGroup: null
 

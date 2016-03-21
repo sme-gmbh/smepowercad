@@ -18,9 +18,9 @@
 #include <QSurfaceFormat>
 #include <QTranslator>
 #include <QLibraryInfo>
-#include <QtQml>
 
 #include "mainwindow.h"
+#include "loginhandler.h"
 #include "logging.h"
 Q_LOGGING_CATEGORY(powercad, "powercad")
 
@@ -65,9 +65,8 @@ int main(int argc, char *argv[])
     translator.load("powercad-" + lang, ":/lang/");
     a.installTranslator(&translator);
 
-    QUrl source(QStringLiteral("qrc:/management/LoginView.qml"));
-    QQmlApplicationEngine engine;
-    engine.load(source);
+    LoginHandler *h = new LoginHandler();
+
 //    MainWindow w;
 //    w.showMaximized();
 //    w.showFullScreen();

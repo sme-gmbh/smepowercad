@@ -1,12 +1,16 @@
 INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
+QT += quick
+
 RESOURCES += \
     $$PWD/assets.qrc
 
-HEADERS +=
+HEADERS += \
+    $$PWD/loginhandler.h
 
-SOURCES +=
+SOURCES += \
+    $$PWD/loginhandler.cpp
 
 DISTFILES += \
     $$PWD/LoginView.qml \
